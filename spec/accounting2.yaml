@@ -1278,6 +1278,27 @@ paths:
         - $ref: '#/parameters/If-Modified-Since'
         - $ref: '#/parameters/where'
         - $ref: '#/parameters/order'
+    put:
+      tags:
+        - "Currencies"
+      summary: Add currencies to the organisation
+      parameters:  
+        - in: body
+          name: Currencies
+          schema:
+            $ref: '#/definitions/Currency'
+          required: true
+        - $ref: '#/parameters/summarizeErrors'
+      responses:
+        '200':
+          $ref: '#/responses/CurrenciesResponse'
+        '400':
+          $ref: '#/responses/400ErrorResponse'
+        '500':
+          $ref: '#/responses/500ErrorResponse'
+      produces:
+        - application/xml
+        - application/json
   /Employees:
     x-related-model: Employee
     get:
@@ -6034,6 +6055,11 @@ definitions:
       IsCompound:
         description: Boolean to describe if Tax rate is compounded.Learn more
         type: boolean
+        default: false
+      IsNonRecoverable:
+        description: Determines if this tax component can be recovered
+        type: boolean
+        default: false
   TrackingCategory:
     type: object
     properties:
@@ -7250,4 +7276,4 @@ responses:
         Users:
           type: array
           items:
-            $ref: '#/definitions/User' 
+            $ref: '#/definitions/User'
