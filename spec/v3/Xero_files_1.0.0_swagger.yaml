@@ -1,0 +1,194 @@
+openapi: 3.0.0
+info:
+  version: "1.0.0"
+  title: Xero Files API
+  description: This the Xero Files API 
+  contact: 
+    name: Xero API team
+    email: api@xero.com
+  license:
+    name: MIT 
+    url: 'https://github.com/XeroAPI/Xero-OpenAPI/blob/master/LICENSE'
+servers:
+# Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/Xero/files/1.0.0
+  - description: Xero Files API
+    url: https://api.xero.com/files.xro/1.0/
+tags:
+  - name: Files
+    description: Operations available to regular developers
+paths:
+  /Files:
+    get:
+      tags:
+        - Files
+      summary: searches files
+      operationId: getFiles
+      description: |
+        By passing in the appropriate options, you can search for
+        available inventory in the system
+      parameters:
+        - in: query
+          name: pagesize
+          description: pass an optional page size value
+          schema:
+            type: integer
+            maximum: 100
+            example: 50
+        - in: query
+          name: page
+          description: number of records to skip for pagination
+          schema:
+            type: integer
+            minimum: 1
+            example: 2
+        - in: query
+          name: sort
+          description: values to sort by
+          schema:
+            type: string
+            enum: [Name,Size,CreatedDateUTC]
+            example: "CreatedDateUTC DESC"
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Files'
+        '400':
+          description: bad input parameter
+    post:
+      tags:
+        - Files
+      summary: upload an File
+      operationId: createFile
+      description: Adds an File to the Xero
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            image/png:
+              schema:
+                type: string
+                format: binary
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        '400':
+          description: 'invalid input, object invalid'
+        '409':
+          description: an existing item already exists
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/File'
+        description: File to add
+  /Files/{FileId}/Content:
+    get:
+      tags:
+        - Files
+      summary: searches files
+      operationId: getFileContent
+      description: |
+        By passing in the appropriate options, 
+      parameters: 
+        - name: FileId
+          in: path
+          required: true
+          description: File id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: xxxx
+      security:
+       - apiKey: []
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            image/png:
+              schema:
+                type: string
+                format: binary
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+components:
+  schemas:
+    Files:
+      type: object
+      properties:
+        TotalCount:
+          type: integer
+          example: 2
+        Page:
+          type: integer
+          example: 1
+        PerPage: 
+          type: integer
+          example: 50
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/File'
+    File:
+      type: object
+      required:
+        - id
+        - name
+        - manufacturer
+        - releaseDate
+      properties:
+        Name:
+          type: string
+          example: File2.jpg
+        MimeType:
+          type: string
+          example: image/jpeg 
+        Size:
+          type: integer
+          example: 3615   
+        CreatedDateUtc:
+          type: string
+          format: int32
+          example: '2014-12-04T23:08:14.0630000'
+        UpdatedDateUtc:
+          type: string
+          format: int32
+          example: '2014-12-04T23:08:14.0630000'
+        User:
+          $ref: '#/components/schemas/User'
+        Id:
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        FolderId:
+          type: string
+          format: uuid
+          example: 0f8ccf21-7267-4268-9167-a1e2c40c84c8
+    User:
+      required:
+        - name
+      properties:
+        Name:
+          type: string
+          example: a.user@email.com
+        FirstName:
+          type: string
+          example: A
+        LastName:
+          type: string
+          example: User
+        FullName:
+          type: string
+          example: A User
+        Id:
+          type: string
+          format: uuid
+          example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+      type: object

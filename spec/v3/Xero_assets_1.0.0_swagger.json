@@ -1,0 +1,509 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "version" : "1.0.0",
+    "title" : "Xero Assets API",
+    "description" : "This the Xero Assets API",
+    "contact" : {
+      "name" : "Xero API team",
+      "email" : "api@xero.com"
+    },
+    "license" : {
+      "name" : "MIT",
+      "url" : "https://github.com/XeroAPI/Xero-OpenAPI/blob/master/LICENSE"
+    }
+  },
+  "servers" : [ {
+    "description" : "SwaggerHub API Auto Mocking",
+    "url" : "https://virtserver.swaggerhub.com/Xero/assets/1.0.0"
+  }, {
+    "description" : "Xero API servers",
+    "url" : "https://api.xero.com/assets.xro/1.0/"
+  } ],
+  "paths" : {
+    "/Assets" : {
+      "get" : {
+        "tags" : [ "Asset" ],
+        "summary" : "searches fixed asset",
+        "operationId" : "getAssets",
+        "description" : "By passing in the appropriate options, you can search for\navailable fixed asset in the system\n",
+        "parameters" : [ {
+          "name" : "status",
+          "in" : "query",
+          "description" : "Required when retrieving a collection of assets. See Asset Status Codes",
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "Draft", "Registered", "Disposed" ],
+            "example" : "Draft"
+          }
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "description" : "Results are paged. This specifies which page of the results to return. The default page is 1.",
+          "schema" : {
+            "type" : "integer",
+            "example" : 1
+          }
+        }, {
+          "name" : "pageSize",
+          "in" : "query",
+          "description" : "The number of records returned per page. By default the number of records returned is 10.",
+          "schema" : {
+            "type" : "integer",
+            "example" : 5
+          }
+        }, {
+          "name" : "orderBy",
+          "in" : "query",
+          "description" : "Requests can be ordered by AssetType, AssetName, AssetNumber, PurchaseDate and PurchasePrice. If the asset status is DISPOSED it also allows DisposalDate and DisposalPrice.",
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "AssetType", "AssetName", "AssetNumber", "PurchaseDate", "PurchasePrice", "DisposalDate", "DisposalPrice" ],
+            "example" : "AssetName"
+          }
+        }, {
+          "name" : "sortDirection",
+          "in" : "query",
+          "description" : "ASC or DESC",
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "asc", "desc" ],
+            "example" : "ASC"
+          }
+        }, {
+          "name" : "filterBy",
+          "in" : "query",
+          "description" : "A string that can be used to filter the list to only return assets containing the text. Checks it against the AssetName, AssetNumber, Description and AssetTypeName fields.",
+          "schema" : {
+            "type" : "string",
+            "example" : "Draft"
+          }
+        } ],
+        "security" : [ {
+          "apiKey" : [ ]
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "search results matching criteria",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Assets"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "bad input parameter"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Asset" ],
+        "summary" : "adds a fixed asset",
+        "operationId" : "createAsset",
+        "description" : "Adds an asset to the system",
+        "security" : [ {
+          "apiKey" : [ ]
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "search results matching criteria",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Asset"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "invalid input, object invalid"
+          }
+        },
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Asset"
+              }
+            }
+          },
+          "description" : "Fixed asset to add"
+        }
+      }
+    },
+    "/Assets/{id}" : {
+      "get" : {
+        "tags" : [ "Asset" ],
+        "summary" : "retrieves fixed asset by id",
+        "operationId" : "getAssetById",
+        "description" : "By passing in the appropriate asset id, you can search for\na specific fixed asset in the system\n",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "description" : "fixed asset id for single object",
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid",
+            "example" : "xxxx"
+          }
+        } ],
+        "security" : [ {
+          "apiKey" : [ ]
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "search results matching criteria",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Asset"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "bad input parameter"
+          }
+        }
+      }
+    },
+    "/AssetTypes" : {
+      "get" : {
+        "tags" : [ "Asset" ],
+        "summary" : "searches fixed asset types",
+        "operationId" : "getAssetTypes",
+        "description" : "By passing in the appropriate options, you can search for\navailable fixed asset types in the system\n",
+        "security" : [ {
+          "apiKey" : [ ]
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "search results matching criteria",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/AssetType"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "bad input parameter"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Asset" ],
+        "summary" : "adds a fixed asset type",
+        "operationId" : "createAssetType",
+        "description" : "Adds an fixed asset type to the system",
+        "security" : [ {
+          "apiKey" : [ ]
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "search results matching criteria",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/AssetType"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "invalid input, object invalid"
+          },
+          "409" : {
+            "description" : "an existing type already exists"
+          }
+        },
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/AssetType"
+              }
+            }
+          },
+          "description" : "Asset type to add"
+        }
+      }
+    },
+    "/Settings" : {
+      "get" : {
+        "tags" : [ "Asset" ],
+        "summary" : "searches fixed asset settings",
+        "operationId" : "getAssetSettings",
+        "description" : "By passing in the appropriate options, you can search for\navailable fixed asset types in the system\n",
+        "security" : [ {
+          "apiKey" : [ ]
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "search results matching criteria",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Setting"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "bad input parameter"
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "securitySchemes" : {
+      "ApiKeyAuth" : {
+        "type" : "apiKey",
+        "in" : "header",
+        "name" : "X-API-Key"
+      }
+    },
+    "schemas" : {
+      "Assets" : {
+        "type" : "object",
+        "properties" : {
+          "pagination" : {
+            "$ref" : "#/components/schemas/Pagination"
+          },
+          "items" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Asset"
+            }
+          }
+        }
+      },
+      "Pagination" : {
+        "properties" : {
+          "page" : {
+            "type" : "integer",
+            "example" : 1
+          },
+          "pageSize" : {
+            "type" : "integer",
+            "example" : 10
+          },
+          "pageCount" : {
+            "type" : "integer",
+            "example" : 1
+          },
+          "itemCount" : {
+            "type" : "integer",
+            "example" : 2
+          }
+        }
+      },
+      "Asset" : {
+        "type" : "object",
+        "required" : [ "assetId", "assetName", "bookDepreciationSetting" ],
+        "properties" : {
+          "assetId" : {
+            "type" : "string",
+            "format" : "uuid",
+            "example" : "3b5b3a38-5649-495f-87a1-14a4e5918634"
+          },
+          "assetName" : {
+            "type" : "string",
+            "example" : "Awesome Truck 3"
+          },
+          "assetNumber" : {
+            "type" : "string",
+            "format" : "string",
+            "example" : "FA-0013"
+          },
+          "purchaseDate" : {
+            "type" : "string",
+            "format" : "date",
+            "example" : "2015-07-01T00:00:00"
+          },
+          "purchasePrice" : {
+            "type" : "integer",
+            "example" : "1000"
+          },
+          "disposalPrice" : {
+            "type" : "integer",
+            "example" : 0
+          },
+          "assetStatus" : {
+            "type" : "string",
+            "example" : "Draft"
+          },
+          "warrantyExpiryDate" : {
+            "type" : "string",
+            "format" : "string",
+            "example" : "ca4c6b39-4f4f-43e8-98da-5e1f350a6694"
+          },
+          "serialNumber" : {
+            "type" : "string",
+            "format" : "string",
+            "example" : "ca4c6b39-4f4f-43e8-98da-5e1f350a6694"
+          },
+          "bookDepreciationSetting" : {
+            "$ref" : "#/components/schemas/BookDepreciationSetting"
+          },
+          "bookDepreciationDetail" : {
+            "$ref" : "#/components/schemas/BookDepreciationDetail"
+          },
+          "canRollBack" : {
+            "type" : "boolean",
+            "example" : true
+          },
+          "AccountingBookValue" : {
+            "type" : "integer",
+            "example" : 0
+          }
+        }
+      },
+      "AssetType" : {
+        "type" : "object",
+        "required" : [ "assetTypeId", "assetTypeName", "bookDepreciationSetting" ],
+        "properties" : {
+          "assetTypeId" : {
+            "type" : "string",
+            "format" : "uuid",
+            "example" : "5da209c5-5e19-4a43-b925-71b776c49ced"
+          },
+          "assetTypeName" : {
+            "type" : "string",
+            "example" : "Computer Equipment"
+          },
+          "fixedAssetAccountId" : {
+            "type" : "string",
+            "format" : "string",
+            "example" : "24e260f1-bfc4-4766-ad7f-8a8ce01de879"
+          },
+          "depreciationExpenseAccountId" : {
+            "type" : "string",
+            "format" : "string",
+            "example" : "b23fc79b-d66b-44b0-a240-e138e086fcbc"
+          },
+          "accumulatedDepreciationAccountId" : {
+            "type" : "string",
+            "format" : "string",
+            "example" : "ca4c6b39-4f4f-43e8-98da-5e1f350a6694"
+          },
+          "bookDepreciationSetting" : {
+            "$ref" : "#/components/schemas/BookDepreciationSetting"
+          },
+          "locks" : {
+            "type" : "integer",
+            "example" : 33
+          }
+        }
+      },
+      "BookDepreciationSetting" : {
+        "required" : [ "name" ],
+        "properties" : {
+          "depreciationMethod" : {
+            "type" : "string",
+            "enum" : [ "NoDepreciation", "StraightLine", "DiminishingValue100", "DiminishingValue150", "DiminishingValue200", "FullDepreciation" ],
+            "example" : "StraightLine"
+          },
+          "averagingMethod" : {
+            "type" : "string",
+            "enum" : [ "FullMonth", "ActualDays" ],
+            "example" : "ActualDays"
+          },
+          "depreciationRate" : {
+            "type" : "integer",
+            "example" : 33
+          },
+          "effectiveLifeYears" : {
+            "type" : "integer",
+            "example" : 5
+          },
+          "depreciationCalculationMethod" : {
+            "type" : "string",
+            "enum" : [ "Rate", "Life", "None" ],
+            "example" : "None"
+          }
+        }
+      },
+      "BookDepreciationDetail" : {
+        "required" : [ "name" ],
+        "properties" : {
+          "currentCapitalGain" : {
+            "type" : "integer",
+            "example" : 0
+          },
+          "currentGainLoss" : {
+            "type" : "integer",
+            "example" : 0
+          },
+          "depreciationStartDate" : {
+            "type" : "string",
+            "example" : "2015-07-01T00:00:00"
+          },
+          "costLimit" : {
+            "type" : "integer",
+            "example" : 100000
+          },
+          "residualValue" : {
+            "type" : "integer",
+            "example" : 10000
+          },
+          "priorAccumDepreciationAmount" : {
+            "type" : "integer",
+            "example" : 0
+          },
+          "currentAccumDepreciationAmount" : {
+            "type" : "integer",
+            "example" : 0
+          }
+        }
+      },
+      "Setting" : {
+        "required" : [ "name" ],
+        "properties" : {
+          "assetNumberPrefix" : {
+            "type" : "string",
+            "example" : "StraightLine"
+          },
+          "assetNumberSequence" : {
+            "type" : "integer",
+            "example" : "StraightLine"
+          },
+          "assetStartDate" : {
+            "type" : "string",
+            "example" : "StraightLine"
+          },
+          "lastDepreciationDate" : {
+            "type" : "string",
+            "example" : "StraightLine"
+          },
+          "defaultGainOnDisposalAccountId" : {
+            "type" : "string",
+            "example" : "StraightLine"
+          },
+          "defaultLossOnDisposalAccountId" : {
+            "type" : "string",
+            "example" : "StraightLine"
+          },
+          "defaultCapitalGainOnDisposalAccount" : {
+            "type" : "string",
+            "example" : "StraightLine"
+          },
+          "optInForTax" : {
+            "type" : "boolean",
+            "example" : false
+          }
+        },
+        "type" : "object"
+      }
+    }
+  }
+}
