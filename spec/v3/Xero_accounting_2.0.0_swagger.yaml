@@ -4,6 +4,11 @@ servers:
 info:
   title: Accounting API
   version: "2.0.0"
+  termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
+  contact:
+    name: "Xero Platform Team"
+    email: "api@xero.com"
+    url: "https://developer.xero.com"
 paths:
   /Accounts:
     get:
@@ -484,7 +489,7 @@ paths:
           name: page
           description: e.g. page=1 – Up to 100 bank transactions will be returned in a single API call with line items shown for each bank transaction
           schema:
-            type: number
+            type: integer
     put:
       tags:
         - Accounting
@@ -1299,7 +1304,7 @@ paths:
           name: page
           description: e.g. page=1 - Up to 100 contacts will be returned in a single API call.
           schema:
-            type: number
+            type: integer
         - in: query
           name: includeArchived
           description: e.g. includeArchived=true - Contacts with a status of ARCHIVED will be included in the response
@@ -1876,7 +1881,7 @@ paths:
           name: page
           description: e.g. page=1 – Up to 100 credit notes will be returned in a single API call with line items shown for each credit note
           schema:
-            type: number
+            type: integer
     put:
       tags:
         - Accounting
@@ -2660,7 +2665,7 @@ paths:
           name: page
           description: e.g. page=1 – Up to 100 invoices will be returned in a single API call with line items shown for each invoice
           schema:
-            type: number
+            type: integer
         - in: query
           name: includeArchived
           description: e.g. includeArchived=true - Contacts with a status of ARCHIVED will be included in the response
@@ -3317,7 +3322,7 @@ paths:
         - in: query
           name: offset
           schema:
-            type: number
+            type: integer
         - in: query
           name: paymentsOnly
           schema:
@@ -3368,7 +3373,7 @@ paths:
           name: page
           description: Up to 100 linked transactions will be returned in a single API call. Use the page parameter to specify the page to be returned e.g. page=1.
           schema:
-            type: number
+            type: integer
         - in: query
           name: LinkedTransactionID
           description: The Xero identifier for an Linked Transaction
@@ -3529,7 +3534,7 @@ paths:
           name: page
           description: e.g. page=1 – Up to 100 manual journals will be returned in a single API call with line items shown for each overpayment
           schema:
-            type: number
+            type: integer
     put:
       tags:
         - Accounting
@@ -3884,7 +3889,7 @@ paths:
           name: page
           description: e.g. page=1 – Up to 100 overpayments will be returned in a single API call with line items shown for each overpayment
           schema:
-            type: number
+            type: integer
   '/Overpayments/{OverpaymentID}':
     x-related-model: Overpayment
     get:
@@ -4238,7 +4243,7 @@ paths:
           name: page
           description: e.g. page=1 – Up to 100 prepayments will be returned in a single API call with line items shown for each overpayment
           schema:
-            type: number
+            type: integer
     put:
       tags:
         - Accounting
@@ -4366,7 +4371,7 @@ paths:
           name: page
           description: To specify a page, append the page parameter to the URL e.g. ?page=1. If there are 100 records in the response you will need to check if there is any more data by fetching the next page e.g ?page=2 and continuing this process until no more results are returned.
           schema:
-            type: number
+            type: integer
     put:
       tags:
         - Accounting
@@ -5287,12 +5292,12 @@ paths:
         - in: query
           name: periods
           schema:
-            type: number
+            type: integer
         - in: query
           name: timeframe
           description: The period size to compare to (1=month, 3=quarter, 12=year)
           schema:
-            type: number
+            type: integer
         - in: query
           name: trackingOptionID1
           schema:
@@ -5336,12 +5341,12 @@ paths:
           name: period
           description: The number of periods to compare (integer between 1 and 12)
           schema:
-            type: number
+            type: integer
         - in: query
           name: timeframe
           description: The period size to compare to (1=month, 3=quarter, 12=year)
           schema:
-            type: number
+            type: integer
   '/Reports':
     x-related-model: Report
     get:
@@ -5435,12 +5440,16 @@ paths:
           name: periods
           description: The number of periods to compare (integer between 1 and 12)
           schema:
-            type: number
+            type: integer
         - in: query
           name: timeframe
           description: The period size to compare to (1=month, 3=quarter, 12=year)
           schema:
-            type: number
+            type: string
+            enum:
+            - MONTH
+            - QUARTER
+            - YEAR
         - in: query
           name: trackingCategoryID
           schema:
@@ -6124,6 +6133,7 @@ components:
             user-defined rate (preference) or the XE.com day rate will be used.
             Setting currency is only supported on overpayments.
           type: number
+          format: float
         Url:
           description: URL link to a source document – shown as “Go to App Name”
           type: string
@@ -6141,15 +6151,15 @@ components:
         SubTotal:
           description: Total of bank transaction excluding taxes
           type: number
-          
+          format: float
         TotalTax:
           description: Total tax on bank transaction
           type: number
-       
+          format: float
         Total:
           description: Total of bank transaction tax inclusive
           type: number
-          
+          format: float
         BankTransactionID:
           description: Xero generated unique identifier for bank transaction
           readOnly: true
@@ -6202,10 +6212,12 @@ components:
           type: string
         Quantity:
           description: LineItem Quantity
-          type: string
+          type: number
+          format: float
         UnitAmount:
           description: LineItem Unit Amount
           type: number
+          format: float
         ItemCode:
           description: See Items
           type: string
@@ -6223,6 +6235,7 @@ components:
             (see below) based on the tax rate. This value can be overriden if
             the calculated <TaxAmount> is not correct.
           type: number
+          format: float
         LineAmount:
           description: >-
             If you wish to omit either of the <Quantity> or <UnitAmount> you can
@@ -6231,6 +6244,7 @@ components:
             has been used . i.e LineAmount = Quantity * Unit Amount * ((100 –
             DiscountRate)/100)
           type: number
+          format: float
         Tracking:
           description: >-
             Optional Tracking Category – see Tracking.  Any LineItem can have a
@@ -6377,6 +6391,7 @@ components:
             The amount of the payment. Must be less than or equal to the
             outstanding amount owing on the invoice e.g. 200.00
           type: number
+          format: float
         Payments:
           type: array
           items:
@@ -6424,8 +6439,7 @@ components:
           description: >-
             Integer – ranked order of branding theme. The default branding theme
             has a value of 0
-          type: number
-          format: double
+          type: integer
         CreatedDateUTC:
           description: UTC timestamp of creation date of branding theme
           type: string
@@ -6675,7 +6689,7 @@ components:
           type: boolean
         Rate:
           description: CIS Deduction rate for the contact if he is a subcontractor. If the contact is not CISEnabled, then the rate is not returned
-          type: number
+          type: integer
     ContactPerson:
       externalDocs:
         url: 'http://developer.xero.com/documentation/api/contacts/'
@@ -6874,6 +6888,7 @@ components:
         Amount:
           description: the amount being applied to the invoice
           type: number
+          format: float
         Date:
           description: >-
             the date the prepayment is applied YYYY-MM-DD (read-only). This will
@@ -7324,6 +7339,7 @@ components:
             decimal places. You can use 4 decimal places by adding the unitdp=4
             querystring parameter to your request.
           type: number
+          format: float
         AccountCode:
           description: >-
             Default account code to be used for purchased/sale. Not applicable
@@ -7878,11 +7894,13 @@ components:
             Exchange rate when payment is received. Only used for non base
             currency invoices and credit notes e.g. 0.7500
           type: number
+          format: float
         Amount:
           description: >-
             The amount of the payment. Must be less than or equal to the
             outstanding amount owing on the invoice e.g. 200.00
           type: number
+          format: float
         Reference:
           description: An optional description for the payment e.g. Direct Debit
           type: string
@@ -8497,8 +8515,7 @@ components:
       properties:
         Period:
           description: 'Integer used with the unit e.g. 1 (every 1 week), 2 (every 2 months)'
-          type: number
-          format: double
+          type: integer
         Unit:
           description: 'One of the following : WEEKLY or MONTHLY'
           type: string
@@ -8506,8 +8523,7 @@ components:
           description: >-
             Integer used with due date type e.g 20 (of following month), 31 (of
             current month)
-          type: number
-          format: double
+          type: integer
         DueDateType:
           allOf:
             - description: See Payment Terms
@@ -8659,10 +8675,12 @@ components:
           description: Tax Rate (decimal to 4dp) e.g 12.5000
           readOnly: true
           type: number
+          format: float
         EffectiveRate:
           description: Effective Tax Rate (decimal to 4dp) e.g 12.5000
           readOnly: true
           type: number
+          format: float
       required:
         - ReportTaxType
       type: object
@@ -8676,6 +8694,7 @@ components:
         Rate:
           description: Tax Rate (up to 4dp)
           type: number
+          format: float
         IsCompound:
           description: Boolean to describe if Tax rate is compounded.
           type: boolean
@@ -8788,7 +8807,7 @@ components:
       properties:
         ErrorNumber:
           description: Exception number
-          type: number
+          type: integer
         Type:
           description: Exception type
           type: string

@@ -10,7 +10,6 @@ OpenAPI spec 3.0
 * [Fixed Assets API - yaml](https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/oas3/spec/v3/Xero_assets_1.0.0_swagger.yaml)
 * [Fixed Assets API - json](https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/oas3/spec/v3/Xero_assets_1.0.0_swagger.json)
 
-
 OpenAPI spec 2.0 (Swagger)
 * [Accounting API - yaml](https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/oas3/spec/v2/accounting2.yaml)
 * [Accounting API - json](https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/oas3/spec/v2/accounting2.json)

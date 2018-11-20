@@ -3,16 +3,15 @@ info:
   version: "1.0.0"
   title: Xero Assets API
   description: This the Xero Assets API 
-  contact: 
-    name: Xero API team
-    email: api@xero.com
+  termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
+  contact:
+    name: "Xero Platform Team"
+    email: "api@xero.com"
+    url: "https://developer.xero.com"
   license:
     name: MIT 
     url: 'https://github.com/XeroAPI/Xero-OpenAPI/blob/master/LICENSE'
 servers:
-# Added by API Auto Mocking Plugin
-  - description: SwaggerHub API Auto Mocking
-    url: https://virtserver.swaggerhub.com/Xero/assets/1.0.0
   - description: Xero API servers
     url: https://api.xero.com/assets.xro/1.0/
 paths:
@@ -22,8 +21,7 @@ paths:
         - Asset
       summary: searches fixed asset 
       operationId: getAssets
-      description: |
-        By passing in the appropriate options, you can search for
+      description: By passing in the appropriate options, you can search for
         available fixed asset in the system
       parameters: 
         - name: status
@@ -31,8 +29,12 @@ paths:
           description: Required when retrieving a collection of assets. See Asset Status Codes
           schema: 
             type: string
-            enum: [Draft,Registered,Disposed]
+            enum: 
+            - Draft
+            - Registered
+            - Disposed
             example: Draft
+          required: true
         - name: page
           in: query
           description: Results are paged. This specifies which page of the results to return. The default page is 1.
@@ -50,14 +52,23 @@ paths:
           description: Requests can be ordered by AssetType, AssetName, AssetNumber, PurchaseDate and PurchasePrice. If the asset status is DISPOSED it also allows DisposalDate and DisposalPrice.
           schema: 
             type: string
-            enum: [AssetType, AssetName,AssetNumber,PurchaseDate, PurchasePrice,DisposalDate,DisposalPrice]
+            enum: 
+            - AssetType
+            - AssetName
+            - AssetNumber
+            - PurchaseDate
+            - PurchasePrice
+            - DisposalDate
+            - DisposalPrice
             example: AssetName
         - name: sortDirection
           in: query
           description: ASC or DESC
           schema: 
             type: string
-            enum: [asc, desc]
+            enum: 
+            - asc
+            - desc
             example: ASC
         - name: filterBy
           in: query
@@ -65,8 +76,11 @@ paths:
           schema: 
             type: string
             example: Draft
-      security:
-       - apiKey: []
+            enum:
+            - AssetName
+            - AssetNumber
+            - Description
+            - AssetTypeName
       responses:
         '200':
           description: search results matching criteria
@@ -82,11 +96,9 @@ paths:
       summary: adds a fixed asset
       operationId: createAsset
       description: Adds an asset to the system
-      security:
-       - apiKey: []
       responses:
         '200':
-          description: search results matching criteria
+          description: return single object - create new asset
           content:
             application/json:
               schema:
@@ -117,9 +129,7 @@ paths:
           schema: 
             type: string
             format: uuid
-            example: xxxx
-      security:
-       - apiKey: []
+            example: "4f7bcdcb-5ec1-4258-9558-19f662fccdfe"
       responses:
         '200':
           description: search results matching criteria
@@ -135,11 +145,8 @@ paths:
         - Asset
       summary: searches fixed asset types
       operationId: getAssetTypes
-      description: |
-        By passing in the appropriate options, you can search for
+      description: By passing in the appropriate options, you can search for
         available fixed asset types in the system
-      security:
-       - apiKey: []
       responses:
         '200':
           description: search results matching criteria
@@ -157,11 +164,9 @@ paths:
       summary: adds a fixed asset type
       operationId: createAssetType
       description: Adds an fixed asset type to the system
-      security:
-       - apiKey: []
       responses:
         '200':
-          description: search results matching criteria
+          description: results single object -  created fixed type
           content:
             application/json:
               schema:
@@ -169,7 +174,7 @@ paths:
         '400':
           description: 'invalid input, object invalid'
         '409':
-          description: an existing type already exists
+          description: a type already exists
       requestBody:
         content:
           application/json:
@@ -182,11 +187,8 @@ paths:
         - Asset
       summary: searches fixed asset settings
       operationId: getAssetSettings
-      description: |
-        By passing in the appropriate options, you can search for
+      description: By passing in the appropriate options, you can search for
         available fixed asset types in the system
-      security:
-       - apiKey: []
       responses:
         '200':
           description: search results matching criteria
@@ -197,11 +199,6 @@ paths:
         '400':
           description: bad input parameter
 components:
-  securitySchemes:
-    ApiKeyAuth:
-      type: apiKey
-      in: header
-      name: X-API-Key
   schemas:
     Assets:
       type: object
@@ -236,34 +233,44 @@ components:
         assetId:
           type: string
           format: uuid
+          description: "The Xero-generated Id for the asset"
           example: "3b5b3a38-5649-495f-87a1-14a4e5918634"
         assetName:
           type: string
+          description: "The name of the asset"
           example: "Awesome Truck 3"
         assetNumber:
           type: string
-          format: string
+          description: "Must be unique."
           example: "FA-0013"
         purchaseDate:
           type: string
           format: date
+          description: "The date the asset was purchased YYYY-MM-DD"
           example: "2015-07-01T00:00:00"
         purchasePrice:
           type: integer
+          description: "The purchase price of the asset"
           example: "1000"
         disposalPrice:
           type: integer
+          description: "The price the asset was disposed at"
           example: 0
         assetStatus:
           type: string
+          description: "See Asset Status Codes."
           example: "Draft"
+          enum:
+          - Draft  
+          - Registered  
+          - Disposed
         warrantyExpiryDate:
           type: string
-          format: string
+          description: "The date the asset’s warranty expires (if needed) YYYY-MM-DD"
           example: "ca4c6b39-4f4f-43e8-98da-5e1f350a6694"
         serialNumber:
           type: string
-          format: string
+          description: "The asset's serial number"
           example: "ca4c6b39-4f4f-43e8-98da-5e1f350a6694"
         bookDepreciationSetting:
           $ref: '#/components/schemas/BookDepreciationSetting'
@@ -271,9 +278,11 @@ components:
           $ref: '#/components/schemas/BookDepreciationDetail'
         canRollBack:
           type: boolean
+          description: "Boolean to indicate whether depreciation can be rolled back for this asset individually. This is true if it doesn't have 'legacy' journal entries and if there is no lock period that would prevent this asset from rolling back."
           example: true
         AccountingBookValue:
           type: integer
+          description: "The accounting value of the asset"
           example: 0
     AssetType:
       type: object
@@ -286,48 +295,71 @@ components:
           type: string
           format: uuid
           example: "5da209c5-5e19-4a43-b925-71b776c49ced"
+          description: "Xero generated unique identifier for asset types"
         assetTypeName:
           type: string
           example: "Computer Equipment"
+          description: "The name of the asset type"
         fixedAssetAccountId:
           type: string
-          format: string
+          format: uuid
           example: "24e260f1-bfc4-4766-ad7f-8a8ce01de879"
+          description: "The asset account for fixed assets of this type"
         depreciationExpenseAccountId:
           type: string
-          format: string
+          format: uuid
           example: "b23fc79b-d66b-44b0-a240-e138e086fcbc"
+          description: "The expense account for the depreciation of fixed assets of this type"
         accumulatedDepreciationAccountId:
           type: string
-          format: string
+          format: uuid
           example: "ca4c6b39-4f4f-43e8-98da-5e1f350a6694"
+          description: "The account for accumulated depreciation of fixed assets of this type"
         bookDepreciationSetting:
           $ref: '#/components/schemas/BookDepreciationSetting'
         locks:
           type: integer
           example: 33
+          description: "All asset types that have accumulated depreciation for any assets that use them are deemed ‘locked’ and cannot be removed."
     BookDepreciationSetting:
       required:
         - name
       properties:
         depreciationMethod:
           type: string
-          enum: [NoDepreciation,StraightLine,DiminishingValue100,DiminishingValue150,DiminishingValue200,FullDepreciation]
+          enum: 
+          - NoDepreciation
+          - StraightLine
+          - DiminishingValue100
+          - DiminishingValue150
+          - DiminishingValue200
+          - FullDepreciation
           example: "StraightLine"
+          description: "The method of depreciation applied to this asset. See Depreciation Methods"
         averagingMethod:
           type: string
-          enum: [FullMonth,ActualDays]
+          enum: 
+          - FullMonth
+          - ActualDays
           example: "ActualDays"
+          description: "The method of averaging applied to this asset. See Averaging Methods"
         depreciationRate:
-          type: integer
-          example: 33
+          type: number
+          format: float
+          example: 0.05
+          description: "The rate of depreciation (e.g. 0.05)"
         effectiveLifeYears:
           type: integer
           example: 5
+          description: "Effective life of the asset in years (e.g. 5)"
         depreciationCalculationMethod:
           type: string
-          enum: [Rate,Life,None]
+          enum: 
+          - Rate
+          - Life
+          - None
           example: "None"
+          description: "See Depreciation Calculation Methods"
     BookDepreciationDetail:
       required:
         - name
@@ -335,50 +367,71 @@ components:
         currentCapitalGain:
           type: integer
           example: 0
+          description: "When an asset is disposed, this will be the sell price minus the purchase price if a profit was made."
         currentGainLoss:
           type: integer
           example: 0
+          description: "When an asset is disposed, this will be the lowest one of sell price or purchase price, minus the current book value."
         depreciationStartDate:
           type: string
+          format: date
           example: "2015-07-01T00:00:00"
+          description: "YYYY-MM-DD"
         costLimit:
           type: integer
           example: 100000
+          description: "The value of the asset you want to depreciate, if this is less than the cost of the asset."
         residualValue:
           type: integer
           example: 10000
+          description: "The value of the asset remaining when you've fully depreciated it."
         priorAccumDepreciationAmount:
           type: integer
           example: 0
+          description: "All depreciation prior to the current financial year."
         currentAccumDepreciationAmount:
           type: integer
           example: 0
+          description: "All depreciation occurring in the current financial year."
     Setting:
       required:
        - name
       properties:
         assetNumberPrefix:
           type: string
-          example: "StraightLine"
+          example: "FA-"
+          description: "The prefix used for fixed asset numbers (“FA-” by default)"
         assetNumberSequence:
-          type: integer
-          example: "StraightLine"
+          type: string
+          example: "0022"
+          description: "The next available sequence number"
         assetStartDate:
           type: string
-          example: "StraightLine"
+          format: date
+          example: "2015-07-31T00:00:00"
+          description: "The date depreciation calculations started on registered fixed assets in Xero"
         lastDepreciationDate:
           type: string
-          example: "StraightLine"
+          format: date
+          example: "2015-07-01T00:00:00"
+          description: "The last depreciation date"
         defaultGainOnDisposalAccountId:
           type: string
-          example: "StraightLine"
+          format: uuid
+          example: "346ddb97-739a-4274-b43b-66aa3218d17c"
+          description: "Default account that gains are posted to"
         defaultLossOnDisposalAccountId:
           type: string
-          example: "StraightLine"
-        defaultCapitalGainOnDisposalAccount:
+          format: uuid
+          example: "1b798541-24e2-4855-9309-c023a0b576f3"
+          description: "Default account that losses are posted to"
+        defaultCapitalGainOnDisposalAccountId:
           type: string
-          example: "StraightLine"
+          format: uuid
+          example: "6d6a0bdb-e118-45d8-a023-2ad617ec1cb7"
+          description: "Default account that capital gains are posted to"
         optInForTax:
           type: boolean
+          description: "opt in for tax calculation"
           example: false
       type: object
