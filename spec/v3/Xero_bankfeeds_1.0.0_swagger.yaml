@@ -386,6 +386,18 @@ paths:
                           "status": 413,
                           "detail": "Request size of 3500000 bytes exceeds the limit of 3000000 bytes."
                         }
+        '422':
+          description: Unprocessable Entity
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Statements'
+              example:  {
+                          "type": "invalid-end-balance",
+                          "title": "Invalid End Balance",
+                          "status": 422,
+                          "detail": "End balance does not match start balance +/- statement line amounts."
+                        }
         '500':
           description: Intermittent Xero Error
           content:
@@ -681,7 +693,15 @@ components:
           example: "The application has not been configured to use these API endpoints."
         type:
           type: string
-          enum: ["invalid-request","invalid-application","invalid-feed-connection","duplicate-statement","internal-error"]
+          enum: 
+          - "invalid-request"
+          - "invalid-application"
+          - "invalid-feed-connection"
+          - "duplicate-statement"
+          - "invalid-end-balance"
+          - "invalid-start-and-end-date"
+          - "invalid-start-date"
+          - "internal-error"
           example: "invalid-application"
     CreditDebitIndicator:
       type: string
