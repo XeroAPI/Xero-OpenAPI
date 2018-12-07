@@ -1,7 +1,7 @@
 {
   "openapi" : "3.0.0",
   "servers" : [ {
-    "url" : "https://api.xero.com/api.xro"
+    "url" : "https://api.xero.com/api.xro/2.0"
   } ],
   "info" : {
     "title" : "Accounting API",
@@ -7465,19 +7465,22 @@
           "in" : "query",
           "name" : "date",
           "schema" : {
-            "type" : "string"
+            "type" : "string",
+            "format" : "date"
           }
         }, {
           "in" : "query",
           "name" : "fromDate",
           "schema" : {
-            "type" : "string"
+            "type" : "string",
+            "format" : "date"
           }
         }, {
           "in" : "query",
           "name" : "toDate",
           "schema" : {
-            "type" : "string"
+            "type" : "string",
+            "format" : "date"
           }
         } ]
       }
@@ -7921,11 +7924,6 @@
           "200" : {
             "description" : "A successful request",
             "content" : {
-              "text/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/TaxRates"
-                }
-              },
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/TaxRates"
@@ -8472,6 +8470,11 @@
             "maxLength" : 150,
             "type" : "string"
           },
+          "AccountID" : {
+            "description" : "The Xero identifier for an account – specified as a string following  the endpoint name   e.g. /297c2dc5-cc47-4afd-8ec8-74990b8761e9",
+            "type" : "string",
+            "format" : "uuid"
+          },
           "Type" : {
             "description" : "See Account Types",
             "type" : "string",
@@ -8484,11 +8487,10 @@
           "Status" : {
             "description" : "Accounts with a status of ACTIVE can be updated to ARCHIVED. See Account Status Codes",
             "type" : "string",
-            "enum" : [ "ACTIVE", "ARCHIVED" ]
+            "enum" : [ "ACTIVE", "ARCHIVED", "DELETED" ]
           },
           "Description" : {
             "description" : "Description of the Account. Valid for all types of accounts except bank accounts (max length = 4000)",
-            "maxLength" : 4000,
             "type" : "string"
           },
           "BankAccountType" : {
@@ -8511,11 +8513,6 @@
           "ShowInExpenseClaims" : {
             "description" : "Boolean – describes whether account code is available for use with expense claims",
             "type" : "boolean"
-          },
-          "AccountID" : {
-            "description" : "The Xero identifier for an account – specified as a string following the endpoint name\ne.g. /297c2dc5-cc47-4afd-8ec8-74990b8761e9",
-            "type" : "string",
-            "format" : "uuid"
           },
           "Class" : {
             "description" : "See Account Class Types",
@@ -8547,7 +8544,8 @@
           "UpdatedDateUTC" : {
             "description" : "Last modified date UTC format",
             "readOnly" : true,
-            "type" : "string"
+            "type" : "string",
+            "format" : "date-time"
           }
         }
       },
@@ -8617,11 +8615,7 @@
             "enum" : [ "RECEIVE", "RECEIVE-OVERPAYMENT", "RECEIVE-PREPAYMENT", "SPEND", "SPEND-OVERPAYMENT", "SPEND-PREPAYMENT", "RECEIVE-TRANSFER", "SPEND-TRANSFER" ]
           },
           "Contact" : {
-            "allOf" : [ {
-              "description" : "See Contacts"
-            }, {
-              "$ref" : "#/components/schemas/Contact"
-            } ]
+            "$ref" : "#/components/schemas/Contact"
           },
           "Lineitems" : {
             "description" : "See LineItems",
@@ -8631,11 +8625,7 @@
             }
           },
           "BankAccount" : {
-            "allOf" : [ {
-              "description" : "Bank account for transaction. See BankAccount"
-            }, {
-              "$ref" : "#/components/schemas/BankAccount"
-            } ]
+            "$ref" : "#/components/schemas/Account"
           },
           "IsReconciled" : {
             "description" : "Boolean to show if transaction is reconciled",
@@ -8643,7 +8633,8 @@
           },
           "Date" : {
             "description" : "Date of transaction – YYYY-MM-DD",
-            "type" : "string"
+            "type" : "string",
+            "format" : "date"
           },
           "Reference" : {
             "description" : "Reference for the transaction. Only supported for SPEND and RECEIVE transactions.",
@@ -8707,7 +8698,8 @@
           "UpdatedDateUTC" : {
             "description" : "Last modified date UTC format",
             "readOnly" : true,
-            "type" : "string"
+            "type" : "string",
+            "format" : "date-time"
           },
           "HasAttachments" : {
             "description" : "Boolean to indicate if a bank transaction has an attachment",
@@ -8783,28 +8775,6 @@
         },
         "type" : "object"
       },
-      "BankAccount" : {
-        "externalDocs" : {
-          "url" : "http://developer.xero.com/documentation/api/bank-transfers/"
-        },
-        "properties" : {
-          "Code" : {
-            "description" : "The Account Code of the Bank Account",
-            "type" : "string"
-          },
-          "AccountID" : {
-            "description" : "The ID of the Bank Account",
-            "type" : "string",
-            "format" : "uuid"
-          },
-          "Name" : {
-            "description" : "The Name Bank Account",
-            "readOnly" : true,
-            "type" : "string"
-          }
-        },
-        "type" : "object"
-      },
       "BankTransfers" : {
         "type" : "object",
         "properties" : {
@@ -8822,26 +8792,19 @@
         },
         "properties" : {
           "FromBankAccount" : {
-            "allOf" : [ {
-              "description" : "See FromBankAccount"
-            }, {
-              "$ref" : "#/components/schemas/BankAccount"
-            } ]
+            "$ref" : "#/components/schemas/Account"
           },
           "ToBankAccount" : {
-            "allOf" : [ {
-              "description" : "See ToBankAccount"
-            }, {
-              "$ref" : "#/components/schemas/BankAccount"
-            } ]
+            "$ref" : "#/components/schemas/Account"
           },
           "Amount" : {
-            "description" : "",
+            "description" : "amount of the transaction",
             "type" : "string"
           },
           "Date" : {
             "description" : "The date of the Transfer YYYY-MM-DD",
-            "type" : "string"
+            "type" : "string",
+            "format" : "date"
           },
           "BankTransferID" : {
             "description" : "The identifier of the Bank Transfer",
@@ -8875,7 +8838,8 @@
           "CreatedDateUTC" : {
             "description" : "UTC timestamp of creation date of bank transfer",
             "readOnly" : true,
-            "type" : "string"
+            "type" : "string",
+            "format" : "date-time"
           }
         },
         "required" : [ "FromBankAccount", "ToBankAccount", "Amount" ],
@@ -8898,11 +8862,7 @@
         },
         "properties" : {
           "Account" : {
-            "allOf" : [ {
-              "description" : "ID of the account used to make the payment. This account needs to be either an account of type BANK or have enable payments to this accounts switched on"
-            }, {
-              "$ref" : "#/components/schemas/Account"
-            } ]
+            "$ref" : "#/components/schemas/Account"
           },
           "Reference" : {
             "description" : "(NZ Only) Optional references for the batch payment transaction. It will also show with the batch payment transaction in the bank reconciliation Find & Match screen. Depending on your individual bank, the detail may also show on the bank statement you import into Xero.",
@@ -8937,12 +8897,12 @@
           },
           "DateString" : {
             "description" : "Date the payment is being made (YYYY-MM-DD) e.g. 2009-09-06",
-            "type" : "string",
-            "format" : "date"
+            "type" : "string"
           },
           "Date" : {
             "description" : "Date the payment is being made (YYYY-MM-DD) e.g. 2009-09-06",
-            "type" : "string"
+            "type" : "string",
+            "format" : "date"
           },
           "Amount" : {
             "description" : "The amount of the payment. Must be less than or equal to the outstanding amount owing on the invoice e.g. 200.00",
@@ -8973,7 +8933,8 @@
           "UpdatedDateUTC" : {
             "description" : "UTC timestamp of last update to the payment",
             "readOnly" : true,
-            "type" : "string"
+            "type" : "string",
+            "format" : "date-time"
           },
           "IsReconciled" : {
             "description" : "Booelan that tells you if the batch payment has been reconciled (read-only)",
@@ -9014,7 +8975,8 @@
           },
           "CreatedDateUTC" : {
             "description" : "UTC timestamp of creation date of branding theme",
-            "type" : "string"
+            "type" : "string",
+            "format" : "date-time"
           }
         },
         "type" : "object"
@@ -9203,15 +9165,12 @@
             "type" : "string"
           },
           "PaymentTerms" : {
-            "allOf" : [ {
-              "description" : "The default payment terms for the contact – see Payment Terms"
-            }, {
-              "$ref" : "#/components/schemas/PaymentTerm"
-            } ]
+            "$ref" : "#/components/schemas/PaymentTerm"
           },
           "UpdatedDateUTC" : {
             "description" : "UTC timestamp of last update to contact",
-            "type" : "string"
+            "type" : "string",
+            "format" : "date-time"
           },
           "ContactGroups" : {
             "description" : "Displays which contact groups a contact is included in",
@@ -9226,12 +9185,7 @@
             "type" : "string"
           },
           "BrandingTheme" : {
-            "allOf" : [ {
-              "description" : "Default branding theme for contact (read only) – see Branding Themes",
-              "readOnly" : true
-            }, {
-              "$ref" : "#/components/schemas/BrandingTheme"
-            } ]
+            "$ref" : "#/components/schemas/BrandingTheme"
           },
           "BatchPayments" : {
             "description" : "batch payment details for contact (read only)",
@@ -9245,11 +9199,7 @@
             "format" : "float"
           },
           "Balances" : {
-            "allOf" : [ {
-              "description" : "See Balances"
-            }, {
-              "$ref" : "#/components/schemas/Balances"
-            } ]
+            "$ref" : "#/components/schemas/Balances"
           },
           "HasAttachments" : {
             "description" : "A boolean to indicate if a contact has an attachment",
@@ -9366,7 +9316,7 @@
         },
         "properties" : {
           "Name" : {
-            "description" : "The Name of the contact group. Required when creating a new contact group",
+            "description" : "The Name of the contact group. Required when creating a new contact  group",
             "type" : "string"
           },
           "Status" : {
@@ -9375,7 +9325,7 @@
             "enum" : [ "ACTIVE", "DELETED" ]
           },
           "ContactGroupID" : {
-            "description" : "The Xero identifier for an contact group – specified as a string following the endpoint name.\ne.g. /297c2dc5-cc47-4afd-8ec8-74990b8761e9",
+            "description" : "The Xero identifier for an contact group – specified as a string following the endpoint name. e.g. /297c2dc5-cc47-4afd-8ec8-74990b8761e9",
             "type" : "string",
             "format" : "uuid"
           },
@@ -9434,11 +9384,7 @@
             "enum" : [ "ACCPAYCREDIT", "ACCRECCREDIT" ]
           },
           "Contact" : {
-            "allOf" : [ {
-              "description" : "See Contacts"
-            }, {
-              "$ref" : "#/components/schemas/Contact"
-            } ]
+            "$ref" : "#/components/schemas/Contact"
           },
           "Date" : {
             "description" : "The date the credit note is issued YYYY-MM-DD. If the Date element is not specified then it will default to the current date based on the timezone setting of the organisation",
@@ -9477,7 +9423,8 @@
           },
           "UpdatedDateUTC" : {
             "description" : "UTC timestamp of last update to the credit note",
-            "type" : "string"
+            "type" : "string",
+            "format" : "date-time"
           },
           "CurrencyCode" : {
             "description" : "Currency used for the Credit Note",
@@ -9485,7 +9432,8 @@
           },
           "FullyPaidOnDate" : {
             "description" : "Date when credit note was fully paid(UTC format)",
-            "type" : "string"
+            "type" : "string",
+            "format" : "date"
           },
           "CreditNoteID" : {
             "description" : "Xero generated unique identifier",
@@ -9501,7 +9449,7 @@
             "type" : "string"
           },
           "SentToContact" : {
-            "description" : "boolean to indicate if a credit note has been sent to a contact via the Xero app (currently read only)",
+            "description" : "boolean to indicate if a credit note has been sent to a contact via  the Xero app (currently read only)",
             "readOnly" : true,
             "type" : "boolean"
           },
@@ -9558,8 +9506,9 @@
             "format" : "float"
           },
           "Date" : {
-            "description" : "the date the prepayment is applied YYYY-MM-DD (read-only). This will be the latter of the invoice date and the prepayment date.",
-            "type" : "string"
+            "description" : "the date the prepayment is applied YYYY-MM-DD (read-only). This will   be the latter of the invoice date and the prepayment date.",
+            "type" : "string",
+            "format" : "date"
           }
         },
         "type" : "object"
@@ -9608,7 +9557,7 @@
         },
         "properties" : {
           "EmployeeID" : {
-            "description" : "The Xero identifier for an employee\ne.g. 297c2dc5-cc47-4afd-8ec8-74990b8761e9",
+            "description" : "The Xero identifier for an employee e.g. 297c2dc5-cc47-4afd-8ec8-74990b8761e9",
             "type" : "string",
             "format" : "uuid"
           },
@@ -9648,41 +9597,38 @@
           "url" : "http://developer.xero.com/documentation/api/expense-claims/"
         },
         "properties" : {
-          "User" : {
-            "allOf" : [ {
-              "description" : "See Users"
-            }, {
-              "$ref" : "#/components/schemas/User"
-            } ]
-          },
-          "Receipts" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/Receipt"
-            }
-          },
           "ExpenseClaimID" : {
             "description" : "Xero generated unique identifier for an expense claim",
             "type" : "string",
             "format" : "uuid"
-          },
-          "Payments" : {
-            "description" : "See Payments",
-            "readOnly" : true,
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/components/schemas/Payment"
-            }
           },
           "Status" : {
             "description" : "Current status of an expense claim – see status types",
             "type" : "string",
             "enum" : [ "SUBMITTED", "AUTHORISED", "PAID", "VOIDED" ]
           },
+          "Payments" : {
+            "description" : "See Payments",
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Payment"
+            }
+          },
+          "User" : {
+            "$ref" : "#/components/schemas/User"
+          },
+          "Receipts" : {
+            "type" : "array",
+            "nullable" : true,
+            "items" : {
+              "$ref" : "#/components/schemas/Receipt"
+            }
+          },
           "UpdatedDateUTC" : {
             "description" : "Last modified date UTC format",
             "readOnly" : true,
-            "type" : "string"
+            "type" : "string",
+            "format" : "date-time"
           },
           "Total" : {
             "description" : "The total of an expense claim being paid",
@@ -9705,20 +9651,23 @@
           "PaymentDueDate" : {
             "description" : "The date when the expense claim is due to be paid YYYY-MM-DD",
             "readOnly" : true,
-            "type" : "string"
+            "nullable" : true,
+            "type" : "string",
+            "format" : "date"
           },
           "ReportingDate" : {
             "description" : "The date the expense claim will be reported in Xero YYYY-MM-DD",
             "readOnly" : true,
-            "type" : "string"
+            "type" : "string",
+            "format" : "date"
           },
           "ReceiptID" : {
-            "description" : "The Xero identifier for the Receipt e.g. e59a2c7f-1306-4078-a0f3-73537afcbba9",
+            "description" : "The Xero identifier for the Receipt e.g.  e59a2c7f-1306-4078-a0f3-73537afcbba9",
             "type" : "string",
+            "nullable" : true,
             "format" : "uuid"
           }
         },
-        "required" : [ "User", "Receipts", "ReceiptID" ],
         "type" : "object"
       },
       "HistoryRecords" : {
@@ -9751,7 +9700,8 @@
           },
           "DateUTC" : {
             "description" : "UTC timestamp of creation date of branding theme",
-            "type" : "string"
+            "type" : "string",
+            "format" : "date-time"
           }
         },
         "type" : "object"
@@ -9778,11 +9728,7 @@
             "enum" : [ "ACCREC", "ACCPAY" ]
           },
           "Contact" : {
-            "allOf" : [ {
-              "description" : "See Contacts"
-            }, {
-              "$ref" : "#/components/schemas/Contact"
-            } ]
+            "$ref" : "#/components/schemas/Contact"
           },
           "LineItems" : {
             "description" : "See LineItems",
@@ -9793,11 +9739,13 @@
           },
           "Date" : {
             "description" : "Date invoice was issued – YYYY-MM-DD. If the Date element is not specified it will default to the current date based on the timezone setting of the organisation",
-            "type" : "string"
+            "type" : "string",
+            "format" : "date"
           },
           "DueDate" : {
             "description" : "Date invoice is due – YYYY-MM-DD",
-            "type" : "string"
+            "type" : "string",
+            "format" : "date"
           },
           "LineAmountTypes" : {
             "description" : "Line amounts are exclusive of tax by default if you don’t specify this element. See Line Amount Types",
@@ -9843,11 +9791,13 @@
           },
           "ExpectedPaymentDate" : {
             "description" : "Shown on sales invoices (Accounts Receivable) when this has been set",
-            "type" : "string"
+            "type" : "string",
+            "format" : "date"
           },
           "PlannedPaymentDate" : {
             "description" : "Shown on bills (Accounts Payable) when this has been set",
-            "type" : "string"
+            "type" : "string",
+            "format" : "date"
           },
           "SubTotal" : {
             "description" : "Total of invoice excluding taxes",
@@ -9922,7 +9872,8 @@
           "FullyPaidOnDate" : {
             "description" : "The date the invoice was fully paid. Only returned on fully paid invoices",
             "readOnly" : true,
-            "type" : "string"
+            "type" : "string",
+            "format" : "date"
           },
           "AmountCredited" : {
             "description" : "Sum of all credit notes, over-payments and pre-payments applied to invoice",
@@ -9933,7 +9884,8 @@
           "UpdatedDateUTC" : {
             "description" : "Last modified date UTC format",
             "readOnly" : true,
-            "type" : "string"
+            "type" : "string",
+            "format" : "date-time"
           },
           "CreditNotes" : {
             "description" : "Details of credit notes that have been applied to an invoice",
@@ -10061,7 +10013,8 @@
           },
           "UpdatedDateUTC" : {
             "description" : "Last modified date in UTC format",
-            "type" : "string"
+            "type" : "string",
+            "format" : "date-time"
           },
           "ItemID" : {
             "description" : "The Xero identifier for an Item",
@@ -10120,7 +10073,8 @@
           },
           "JournalDate" : {
             "description" : "Date the journal was posted",
-            "type" : "string"
+            "type" : "string",
+            "format" : "date"
           },
           "JournalNumber" : {
             "description" : "Xero generated journal number",
@@ -10128,10 +10082,12 @@
           },
           "CreatedDateUTC" : {
             "description" : "Created date UTC format",
-            "type" : "string"
+            "type" : "string",
+            "format" : "date-time",
+            "readOnly" : true
           },
           "Reference" : {
-            "description" : " ",
+            "description" : "reference field for additional indetifying information",
             "type" : "string"
           },
           "SourceID" : {
@@ -10223,12 +10179,12 @@
             "format" : "uuid"
           },
           "TargetTransactionID" : {
-            "description" : "Filter by the TargetTransactionID. Get all the linked transactions allocated to a particular ACCREC invoice",
+            "description" : "Filter by the TargetTransactionID. Get all the linked transactions  allocated to a particular ACCREC invoice",
             "type" : "string",
             "format" : "uuid"
           },
           "TargetLineItemID" : {
-            "description" : "The line item identifier from the target transaction. It is possible to link multiple billable expenses to the same TargetLineItemID.",
+            "description" : "The line item identifier from the target transaction. It is possible  to link multiple billable expenses to the same TargetLineItemID.",
             "type" : "string",
             "format" : "uuid"
           },
@@ -10247,7 +10203,8 @@
           },
           "UpdatedDateUTC" : {
             "description" : "The last modified date in UTC format",
-            "type" : "string"
+            "type" : "string",
+            "format" : "date-time"
           },
           "SourceTransactionTypeCode" : {
             "description" : "The Type of the source tranasction. This will be ACCPAY if the linked transaction was created from an invoice and SPEND if it was created from a bank transaction.",
@@ -10286,7 +10243,8 @@
           },
           "Date" : {
             "description" : "Date journal was posted – YYYY-MM-DD",
-            "type" : "string"
+            "type" : "string",
+            "format" : "date"
           },
           "LineAmountTypes" : {
             "description" : "NoTax by default if you don’t specify this element. See Line Amount Types",
@@ -10313,7 +10271,8 @@
           "UpdatedDateUTC" : {
             "description" : "Last modified date UTC format",
             "readOnly" : true,
-            "type" : "string"
+            "type" : "string",
+            "format" : "date-time"
           },
           "ManualJournalID" : {
             "description" : "The Xero identifier for a Manual Journal",
@@ -10392,19 +10351,21 @@
           },
           "FinancialYearEndDay" : {
             "description" : "Calendar day e.g. 0-31",
-            "type" : "string"
+            "type" : "integer"
           },
           "FinancialYearEndMonth" : {
             "description" : "Calendar Month e.g. 1-12",
-            "type" : "string"
+            "type" : "integer"
           },
           "SalesTaxBasis" : {
             "description" : "The accounting basis used for tax returns. See Sales Tax Basis",
-            "type" : "string"
+            "type" : "string",
+            "enum" : [ "PAYMENTS", "INVOICE", "NONE", "CASH", "ACCRUAL", "FLATRATECASH", "FLATRATEACCRUAL", "ACCRUALS" ]
           },
           "SalesTaxPeriod" : {
             "description" : "The frequency with which tax returns are processed. See Sales Tax Period",
-            "type" : "string"
+            "type" : "string",
+            "enum" : [ "MONTHLY", "QUARTERLY1", "QUARTERLY2", "QUARTERLY3", "ANNUALLY", "ONEMONTHS", "TWOMONTHS", "SIXMONTHS", "1MONTHLY", "2MONTHLY", "3MONTHLY", "6MONTHLY", "QUARTERLY", "YEARLY" ]
           },
           "DefaultSalesTax" : {
             "description" : "The default for LineAmountTypes on sales transactions",
@@ -10416,15 +10377,18 @@
           },
           "PeriodLockDate" : {
             "description" : "Shown if set. See lock dates",
-            "type" : "string"
+            "type" : "string",
+            "format" : "date"
           },
           "EndOfYearLockDate" : {
             "description" : "Shown if set. See lock dates",
-            "type" : "string"
+            "type" : "string",
+            "format" : "date"
           },
           "CreatedDateUTC" : {
             "description" : "Timestamp when the organisation was created in Xero",
-            "type" : "string"
+            "type" : "string",
+            "format" : "date-time"
           },
           "Timezone" : {
             "description" : "Timezone specifications",
@@ -10470,11 +10434,7 @@
             }
           },
           "PaymentTerms" : {
-            "allOf" : [ {
-              "description" : "Default payment terms for the organisation if set – See Payment Terms below"
-            }, {
-              "$ref" : "#/components/schemas/PaymentTerm"
-            } ]
+            "$ref" : "#/components/schemas/PaymentTerm"
           }
         },
         "type" : "object"
@@ -10485,18 +10445,10 @@
         },
         "properties" : {
           "Bills" : {
-            "allOf" : [ {
-              "description" : "Default payment terms for bills (accounts payable) – see Payment Terms"
-            }, {
-              "$ref" : "#/components/schemas/Bill"
-            } ]
+            "$ref" : "#/components/schemas/Bill"
           },
           "Sales" : {
-            "allOf" : [ {
-              "description" : "Default payment terms for sales invoices(accounts receivable) – see Payment Terms"
-            }, {
-              "$ref" : "#/components/schemas/PaymentTerm"
-            } ]
+            "$ref" : "#/components/schemas/Bill"
           }
         },
         "type" : "object"
@@ -10528,11 +10480,12 @@
         "properties" : {
           "Day" : {
             "description" : "Day of Month (0-31)",
-            "type" : "string"
+            "type" : "integer"
           },
           "Type" : {
             "description" : "One of the following values OFFOLLOWINGMONTH/DAYSAFTERBILLDATE/OFCURRENTMONTH",
-            "type" : "string"
+            "type" : "string",
+            "enum" : [ "OFFOLLOWINGMONTH", "DAYSAFTERBILLDATE", "OFCURRENTMONTH" ]
           }
         },
         "type" : "object"
@@ -10555,18 +10508,16 @@
         "properties" : {
           "Type" : {
             "description" : "See Overpayment Types",
-            "type" : "string"
+            "type" : "string",
+            "enum" : [ "RECEIVE-OVERPAYMENT", "SPEND-OVERPAYMENT" ]
           },
           "Contact" : {
-            "allOf" : [ {
-              "description" : "See Contacts"
-            }, {
-              "$ref" : "#/components/schemas/Contact"
-            } ]
+            "$ref" : "#/components/schemas/Contact"
           },
           "Date" : {
             "description" : "The date the overpayment is created YYYY-MM-DD",
-            "type" : "string"
+            "type" : "string",
+            "format" : "date"
           },
           "Status" : {
             "description" : "See Overpayment Status Codes",
@@ -10601,7 +10552,8 @@
           },
           "UpdatedDateUTC" : {
             "description" : "UTC timestamp of last update to the overpayment",
-            "type" : "string"
+            "type" : "string",
+            "format" : "date-time"
           },
           "CurrencyCode" : {
             "description" : "Currency used for the overpayment",
@@ -10659,32 +10611,16 @@
         },
         "properties" : {
           "Invoice" : {
-            "allOf" : [ {
-              "description" : ""
-            }, {
-              "$ref" : "#/components/schemas/Invoice"
-            } ]
+            "$ref" : "#/components/schemas/Invoice"
           },
           "CreditNote" : {
-            "allOf" : [ {
-              "description" : ""
-            }, {
-              "$ref" : "#/components/schemas/CreditNote"
-            } ]
+            "$ref" : "#/components/schemas/CreditNote"
           },
           "Prepayment" : {
-            "allOf" : [ {
-              "description" : ""
-            }, {
-              "$ref" : "#/components/schemas/Prepayment"
-            } ]
+            "$ref" : "#/components/schemas/Prepayment"
           },
           "Overpayment" : {
-            "allOf" : [ {
-              "description" : ""
-            }, {
-              "$ref" : "#/components/schemas/Overpayment"
-            } ]
+            "$ref" : "#/components/schemas/Overpayment"
           },
           "InvoiceNumber" : {
             "description" : "Number of invoice or credit note you are applying payment to e.g. INV-4003",
@@ -10695,19 +10631,16 @@
             "type" : "string"
           },
           "Account" : {
-            "allOf" : [ {
-              "description" : ""
-            }, {
-              "$ref" : "#/components/schemas/Account"
-            } ]
+            "$ref" : "#/components/schemas/Account"
           },
           "Code" : {
-            "description" : "Code of account you are using to make the payment e.g. 001 (note: not all accounts have a code value)",
+            "description" : "Code of account you are using to make the payment e.g. 001 (note- not all accounts have a code value)",
             "type" : "string"
           },
           "Date" : {
             "description" : "Date the payment is being made (YYYY-MM-DD) e.g. 2009-09-06",
-            "type" : "string"
+            "type" : "string",
+            "format" : "date"
           },
           "CurrencyRate" : {
             "description" : "Exchange rate when payment is received. Only used for non base currency invoices and credit notes e.g. 0.7500",
@@ -10741,7 +10674,8 @@
           "UpdatedDateUTC" : {
             "description" : "UTC timestamp of last update to the payment",
             "readOnly" : true,
-            "type" : "string"
+            "type" : "string",
+            "format" : "date-time"
           },
           "PaymentID" : {
             "description" : "The Xero identifier for an Payment e.g. 297c2dc5-cc47-4afd-8ec8-74990b8761e9",
@@ -10785,15 +10719,12 @@
             "enum" : [ "RECEIVE-PREPAYMENT", "SPEND-PREPAYMENT" ]
           },
           "Contact" : {
-            "allOf" : [ {
-              "description" : "See Contacts"
-            }, {
-              "$ref" : "#/components/schemas/Contact"
-            } ]
+            "$ref" : "#/components/schemas/Contact"
           },
           "Date" : {
             "description" : "The date the prepayment is created YYYY-MM-DD",
-            "type" : "string"
+            "type" : "string",
+            "format" : "date"
           },
           "Status" : {
             "description" : "See Prepayment Status Codes",
@@ -10828,7 +10759,8 @@
           },
           "UpdatedDateUTC" : {
             "description" : "UTC timestamp of last update to the prepayment",
-            "type" : "string"
+            "type" : "string",
+            "format" : "date-time"
           },
           "CurrencyCode" : {
             "description" : "Currency used for the prepayment",
@@ -10846,7 +10778,8 @@
           },
           "RemainingCredit" : {
             "description" : "The remaining credit balance on the prepayment",
-            "type" : "string"
+            "type" : "number",
+            "format" : "float"
           },
           "Allocations" : {
             "description" : "See Allocations",
@@ -10879,11 +10812,7 @@
         },
         "properties" : {
           "Contact" : {
-            "allOf" : [ {
-              "description" : "The PurchaseOrders endpoint does not create new contacts. You need to provide the ContactID or ContactNumber of an existing contact. For more information on creating contacts see Contacts."
-            }, {
-              "$ref" : "#/components/schemas/Contact"
-            } ]
+            "$ref" : "#/components/schemas/Contact"
           },
           "LineItems" : {
             "description" : "See LineItems",
@@ -10894,7 +10823,8 @@
           },
           "Date" : {
             "description" : "Date purchase order was issued – YYYY-MM-DD. If the Date element is not specified then it will default to the current date based on the timezone setting of the organisation",
-            "type" : "string"
+            "type" : "string",
+            "format" : "date"
           },
           "DeliveryDate" : {
             "description" : "Date the goods are to be delivered – YYYY-MM-DD",
@@ -10958,7 +10888,7 @@
             "format" : "uuid"
           },
           "CurrencyRate" : {
-            "description" : "The currency rate for a multicurrency purchase order. As no rate can be specified, the XE.com day rate is used.",
+            "description" : "The currency rate for a multicurrency purchase order. As no rate can  be specified, the XE.com day rate is used.",
             "readOnly" : true,
             "type" : "number",
             "format" : "float"
@@ -10995,7 +10925,8 @@
           "UpdatedDateUTC" : {
             "description" : "Last modified date UTC format",
             "readOnly" : true,
-            "type" : "string"
+            "type" : "string",
+            "format" : "date-time"
           }
         },
         "required" : [ "Contact", "LineItems" ],
@@ -11019,14 +10950,11 @@
         "properties" : {
           "Date" : {
             "description" : "Date of receipt – YYYY-MM-DD",
-            "type" : "string"
+            "type" : "string",
+            "format" : "date"
           },
           "Contact" : {
-            "allOf" : [ {
-              "description" : "See Contacts"
-            }, {
-              "$ref" : "#/components/schemas/Contact"
-            } ]
+            "$ref" : "#/components/schemas/Contact"
           },
           "Lineitems" : {
             "type" : "array",
@@ -11035,11 +10963,7 @@
             }
           },
           "User" : {
-            "allOf" : [ {
-              "description" : "The user in the organisation that the expense claim receipt is for. See Users"
-            }, {
-              "$ref" : "#/components/schemas/User"
-            } ]
+            "$ref" : "#/components/schemas/User"
           },
           "Reference" : {
             "description" : "Additional reference number",
@@ -11083,7 +11007,8 @@
           "UpdatedDateUTC" : {
             "description" : "Last modified date UTC format",
             "readOnly" : true,
-            "type" : "string"
+            "type" : "string",
+            "format" : "date-time"
           },
           "HasAttachments" : {
             "description" : "boolean to indicate if a receipt has an attachment",
@@ -11117,21 +11042,14 @@
         "properties" : {
           "Type" : {
             "description" : "See Invoice Types",
-            "type" : "string"
+            "type" : "string",
+            "enum" : [ "ACCPAY", "ACCREC" ]
           },
           "Contact" : {
-            "allOf" : [ {
-              "description" : "See Contacts"
-            }, {
-              "$ref" : "#/components/schemas/Contact"
-            } ]
+            "$ref" : "#/components/schemas/Contact"
           },
           "Schedule" : {
-            "allOf" : [ {
-              "description" : "See Schedule"
-            }, {
-              "$ref" : "#/components/schemas/Schedule"
-            } ]
+            "$ref" : "#/components/schemas/Schedule"
           },
           "LineItems" : {
             "description" : "See LineItems",
@@ -11142,7 +11060,8 @@
           },
           "LineAmountTypes" : {
             "description" : "Line amounts are exclusive of tax by default if you don’t specify this element. See Line Amount Types",
-            "type" : "string"
+            "type" : "string",
+            "enum" : [ "Exclusive", "Inclusive", "NoTax" ]
           },
           "Reference" : {
             "description" : "ACCREC only – additional reference number",
@@ -11158,8 +11077,9 @@
             "type" : "string"
           },
           "Status" : {
-            "description" : "One of the following : DRAFT or AUTHORISED – See Invoice Status Codes",
-            "type" : "string"
+            "description" : "One of the following - DRAFT or AUTHORISED – See Invoice Status Codes",
+            "type" : "string",
+            "enum" : [ "DRAFT", "AUTHORISED" ]
           },
           "SubTotal" : {
             "description" : "Total of invoice excluding taxes",
@@ -11177,6 +11097,11 @@
             "format" : "float"
           },
           "RepeatingInvoiceID" : {
+            "description" : "Xero generated unique identifier for repeating invoice template",
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "ID" : {
             "description" : "Xero generated unique identifier for repeating invoice template",
             "type" : "string",
             "format" : "uuid"
@@ -11231,7 +11156,8 @@
           },
           "UpdatedDateUTC" : {
             "description" : "Updated Date",
-            "type" : "string"
+            "type" : "string",
+            "format" : "date-time"
           },
           "Rows" : {
             "type" : "array",
@@ -11369,7 +11295,8 @@
           },
           "UpdatedDateUTC" : {
             "description" : "Updated Date",
-            "type" : "string"
+            "type" : "string",
+            "format" : "date-time"
           },
           "Contacts" : {
             "type" : "array",
@@ -11481,19 +11408,18 @@
             "type" : "integer"
           },
           "Unit" : {
-            "description" : "One of the following : WEEKLY or MONTHLY",
-            "type" : "string"
+            "description" : "One of the following - WEEKLY or MONTHLY",
+            "type" : "string",
+            "enum" : [ "WEEKLY", "MONTHLY" ]
           },
           "DueDate" : {
             "description" : "Integer used with due date type e.g 20 (of following month), 31 (of current month)",
             "type" : "integer"
           },
           "DueDateType" : {
-            "allOf" : [ {
-              "description" : "See Payment Terms"
-            }, {
-              "$ref" : "#/components/schemas/PaymentTerm"
-            } ]
+            "description" : "the payment terms",
+            "type" : "string",
+            "enum" : [ "DAYSAFTERBILLDATE", "DAYSAFTERBILLMONTH", "OFCURRENTMONTH", "OFFOLLOWINGMONTH" ]
           },
           "StartDate" : {
             "description" : "Date the first invoice of the current version of the repeating schedule was generated (changes when repeating invoice is edited)",
@@ -11566,12 +11492,12 @@
             "type" : "boolean"
           },
           "CanApplyToExpenses" : {
-            "description" : "Boolean to describe if tax rate can be used for expense accounts i.e. true,false",
+            "description" : "Boolean to describe if tax rate can be used for expense accounts  i.e. true,false",
             "readOnly" : true,
             "type" : "boolean"
           },
           "CanApplyToLiabilities" : {
-            "description" : "Boolean to describe if tax rate can be used for liability accounts i.e. true,false",
+            "description" : "Boolean to describe if tax rate can be used for liability accounts  i.e. true,false",
             "readOnly" : true,
             "type" : "boolean"
           },
@@ -11649,7 +11575,8 @@
           },
           "Status" : {
             "description" : "The status of a tracking category",
-            "type" : "string"
+            "type" : "string",
+            "enum" : [ "ACTIVE", "ARCHIVED" ]
           },
           "Options" : {
             "description" : "See Tracking Options",
@@ -11689,7 +11616,8 @@
           },
           "Status" : {
             "description" : "The status of a tracking option",
-            "type" : "string"
+            "type" : "string",
+            "enum" : [ "ACTIVE", "ARCHIVED" ]
           },
           "TrackingCategoryID" : {
             "description" : "Filter by a tracking categorye.g. 297c2dc5-cc47-4afd-8ec8-74990b8761e9",
@@ -11734,7 +11662,8 @@
           },
           "UpdatedDateUTC" : {
             "description" : "Timestamp of last change to user",
-            "type" : "string"
+            "type" : "string",
+            "format" : "date-time"
           },
           "IsSubscriber" : {
             "description" : "Boolean to indicate if user is the subscriber",
