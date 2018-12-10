@@ -1270,17 +1270,13 @@ paths:
         '200':
           description: A successful response
           content:
-            text/xml:
-              schema:
-                  $ref: '#/components/schemas/Contacts'
             application/json:
               schema:
                   $ref: '#/components/schemas/Contacts'
       parameters:
         - in: header
           name: If-Modified-Since
-          description: >-
-            Only records created or modified since this timestamp will be
+          description: Only records created or modified since this timestamp will be
             returned
           schema:
             type: string
@@ -4307,12 +4303,9 @@ paths:
         '200':
           description: A successful request
           content:
-            text/xml:
-              schema:
-                $ref: '#/components/schemas/Allocation'
             application/json:
               schema:
-                $ref: '#/components/schemas/Allocation'
+                $ref: '#/components/schemas/Allocations'
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
@@ -4320,7 +4313,61 @@ paths:
         content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Allocation'
+                $ref: '#/components/schemas/Allocations'
+  '/Prepayments/{PrepaymentID}/History':
+    x-related-model: Prepayment
+    get:
+      tags:
+        - Accounting
+      operationId: getPrepaymentHistory
+      summary: Allows you to retrieve a history records of an Prepayment
+      responses:
+        '200':
+          description: A successful request
+          content:
+            text/xml:
+              schema:
+                $ref: '#/components/schemas/HistoryRecords'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HistoryRecords'
+      parameters:
+        - required: true
+          in: path
+          name: PrepaymentID
+          schema:
+            type: string
+            format: uuid
+    put:
+      tags:
+        - Accounting
+      operationId: createPrepaymentHistory
+      summary: Allows you to retrieve a history records of an Overpayment
+      responses:
+        '200':
+          description: A successful request
+          content:
+            text/xml:
+              schema:
+                $ref: '#/components/schemas/HistoryRecords'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HistoryRecords'
+        '400':
+          $ref: '#/components/responses/400Error'
+      parameters:
+        - required: true
+          in: path
+          name: PrepaymentID
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HistoryRecords'
   /PurchaseOrders:
     x-related-model: PurchaseOrder
     get:
@@ -5895,6 +5942,13 @@ components:
       externalDocs:
         url: 'http://developer.xero.com/documentation/api/types'
       properties:
+        PhoneType:
+          type: string
+          enum:
+          - DEFAULT
+          - DDI
+          - MOBILE
+          - FAX
         PhoneNumber:
           description: max length = 50
           maxLength: 50
@@ -5983,11 +6037,9 @@ components:
           - CREDITCARD
           - PAYPAL
         CurrencyCode:
-          description: For bank accounts only
-          type: string
+          $ref: '#/components/schemas/CurrencyCode'
         TaxType:
-          description: See Tax Types
-          type: string
+          $ref: '#/components/schemas/TaxType'
         EnablePaymentsToAccount:
           description: Boolean – describes whether account can have payments applied to it
           type: boolean
@@ -6120,14 +6172,9 @@ components:
             transactions.
           type: string
         CurrencyCode:
-          description: 
-            The currency that bank transaction has been raised in (see
-            Currencies). Setting currency is only supported on overpayments.
-          type: string
+          $ref: '#/components/schemas/CurrencyCode'
         CurrencyRate:
-          description: >-
-            Exchange rate to base currency when money is spent or received. e.g.
-            0.7500 Only used for bank transactions in non base currency. If this
+          description: Exchange rate to base currency when money is spent or received. e.g.0.7500 Only used for bank transactions in non base currency. If this
             isn’t specified for non base currency accounts then either the
             user-defined rate (preference) or the XE.com day rate will be used.
             Setting currency is only supported on overpayments.
@@ -6143,10 +6190,7 @@ components:
             - AUTHORISED
             - DELETED
         LineAmountTypes:
-          description: >-
-            Line amounts are exclusive of tax by default if you don’t specify
-            this element. See Line Amount Types
-          type: string
+          $ref: '#/components/schemas/LineAmountTypes'
         SubTotal:
           description: Total of bank transaction excluding taxes
           type: number
@@ -6195,6 +6239,13 @@ components:
         - Lineitems
         - BankAccount
       type: object
+    LineAmountTypes:
+      description: Line amounts are exclusive of tax by default if you don’t specify this element. See Line Amount Types
+      type: string
+      enum:
+      - Exclusive
+      - Inclusive
+      - NoTax
     LineItem:
       externalDocs:
         url: 'http://developer.xero.com/documentation/api/repeating-invoices/'
@@ -6225,42 +6276,30 @@ components:
           description: See Accounts
           type: string
         TaxType:
-          description: >-
-            Used as an override if the default Tax Code for the selected
-            <AccountCode> is not correct – see TaxTypes.
-          type: string
+          $ref: '#/components/schemas/TaxType'
         TaxAmount:
-          description: >-
-            The tax amount is auto calculated as a percentage of the line amount
-            (see below) based on the tax rate. This value can be overriden if
+          description: The tax amount is auto calculated as a percentage of the line amount (see below) based on the tax rate. This value can be overriden if
             the calculated <TaxAmount> is not correct.
           type: number
           format: float
         LineAmount:
-          description: >-
-            If you wish to omit either of the <Quantity> or <UnitAmount> you can
-            provide a LineAmount and Xero will calculate the missing amount for
+          description: If you wish to omit either of the <Quantity> or <UnitAmount> you can provide a LineAmount and Xero will calculate the missing amount for
             you. The line amount reflects the discounted price if a DiscountRate
             has been used . i.e LineAmount = Quantity * Unit Amount * ((100 –
             DiscountRate)/100)
           type: number
           format: float
         Tracking:
-          description: >-
-            Optional Tracking Category – see Tracking.  Any LineItem can have a
-            maximum of 2 <TrackingCategory> elements.
+          description: Optional Tracking Category – see Tracking.  Any LineItem can have a  maximum of 2 <TrackingCategory> elements.
           type: array
           items:
             $ref: '#/components/schemas/TrackingCategory'
         DiscountRate:
-          description: >-
-            Percentage discount being applied to a line item (only supported on
-            ACCREC invoices – ACC PAY invoices and credit notes in Xero do not
+          description: Percentage discount being applied to a line item (only supported on  ACCREC invoices – ACC PAY invoices and credit notes in Xero do not
             support discounts
           type: string
         RepeatingInvoiceID:
-          description: >-
-            The Xero identifier for a Repeating Invoicee.g.
+          description:  The Xero identifier for a Repeating Invoicee.g.
             297c2dc5-cc47-4afd-8ec8-74990b8761e9
           type: string
           format: uuid
@@ -6469,23 +6508,24 @@ components:
           type: string
           format: uuid
         ContactNumber:
-          description: >-
-            This can be updated via the API only i.e. This field is read only on
-            the Xero contact screen, used to identify contacts in external
+          description: This can be updated via the API only i.e. This field is read only on the Xero contact screen, used to identify contacts in external
             systems (max length = 50). If the Contact Number is used, this is
             displayed as Contact Code in the Contacts UI in Xero.
           readOnly: true
           maxLength: 50
           type: string
         AccountNumber:
-          description: >-
-            A user defined account number. This can be updated via the API and
+          description: A user defined account number. This can be updated via the API and
             the Xero UI (max length = 50)
           maxLength: 50
           type: string
         ContactStatus:
           description: Current status of a contact – see contact status types
           type: string
+          enum:
+          - ACTIVE
+          - ARCHIVED
+          - GDPRREQUEST
         Name:
           description: Full name of contact/organisation (max length = 255)
           maxLength: 255
@@ -6499,9 +6539,7 @@ components:
           maxLength: 255
           type: string
         EmailAddress:
-          description: >-
-            Email address of contact person (umlauts not supported) (max length
-            = 255)
+          description: Email address of contact person (umlauts not supported) (max length  = 255)
           maxLength: 255
           type: string
         SkypeUserName:
@@ -6516,19 +6554,16 @@ components:
           description: Bank account number of contact
           type: string
         TaxNumber:
-          description: >-
-            Tax number of contact – this is also known as the ABN (Australia),
+          description: Tax number of contact – this is also known as the ABN (Australia),
             GST Number (New Zealand), VAT Number (UK) or Tax ID Number (US and
             global) in the Xero UI depending on which regionalized version of
             Xero you are using (max length = 50)
           maxLength: 50
           type: string
         AccountsReceivableTaxType:
-          description: Default tax type used for contact on AR invoices
-          type: string
+          $ref: '#/components/schemas/TaxType'
         AccountsPayableTaxType:
-          description: Default tax type used for contact on AP invoices
-          type: string
+          $ref: '#/components/schemas/TaxType'
         Addresses:
           description: Store certain address types for a contact – see address types
           type: array
@@ -6540,22 +6575,18 @@ components:
           items:
             $ref: '#/components/schemas/Phone'
         IsSupplier:
-          description: >-
-            true or false – Boolean that describes if a contact that has any AP
-            invoices entered against them. Cannot be set via PUT or POST – it is
+          description: true or false – Boolean that describes if a contact that has any AP  invoices entered against them. Cannot be set via PUT or POST – it is
             automatically set when an accounts payable invoice is generated
             against this contact.
           type: boolean
         IsCustomer:
-          description: >-
-            true or false – Boolean that describes if a contact has any AR
+          description: true or false – Boolean that describes if a contact has any AR
             invoices entered against them. Cannot be set via PUT or POST – it is
             automatically set when an accounts receivable invoice is generated
             against this contact.
           type: boolean
         DefaultCurrency:
-          description: Default currency for raising invoices against contact
-          type: string
+          $ref: '#/components/schemas/CurrencyCode'
         XeroNetworkKey:
           description: Store XeroNetworkKey for contacts.
           type: string
@@ -6576,17 +6607,15 @@ components:
           items:
             $ref: '#/components/schemas/TrackingCategory'
         TrackingCategoryName:
-          description: >-
-            The name of the Tracking Category assigned to the contact under
+          description: The name of the Tracking Category assigned to the contact under
             SalesTrackingCategories and PurchasesTrackingCategories
           type: string
         TrackingCategoryOption:
-          description: >-
-            The name of the Tracking Option assigned to the contact under
+          description: The name of the Tracking Option assigned to the contact under
             SalesTrackingCategories and PurchasesTrackingCategories
           type: string
         PaymentTerms:
-          $ref: '#/components/schemas/PaymentTerm'
+          $ref: '#/components/schemas/PaymentTermType'
         UpdatedDateUTC:
           description: UTC timestamp of last update to contact
           type: string
@@ -6763,8 +6792,7 @@ components:
           - PAID  
           - VOIDED
         LineAmountTypes:
-          description: See Invoice Line Amount Types
-          type: string
+          $ref: '#/components/schemas/LineAmountTypes'
         LineItems:
           description: See Invoice Line Items
           type: array
@@ -6787,8 +6815,7 @@ components:
           type: string
           format: date-time
         CurrencyCode:
-          description: Currency used for the Credit Note
-          type: string
+          $ref: '#/components/schemas/CurrencyCode'
         FullyPaidOnDate:
           description: Date when credit note was fully paid(UTC format)
           type: string
@@ -6816,7 +6843,8 @@ components:
           format: float
         RemainingCredit:
           description: The remaining credit balance on the Credit Note
-          type: string
+          type: number
+          format: float
         Allocations:
           description: See Allocations
           type: array
@@ -6848,9 +6876,13 @@ components:
           type: number
           format: float
         Date:
-          description:   the date the prepayment is applied YYYY-MM-DD (read-only). This will   be the latter of the invoice date and the prepayment date.
+          description:   the date the allocation is applied YYYY-MM-DD. 
           type: string
           format: date
+      required:
+        - Amount
+        - Invoice
+        - Date
       type: object
     Currencies:
       type: object
@@ -6864,12 +6896,177 @@ components:
         url: 'http://developer.xero.com/documentation/api/currencies/'
       properties:
         Code:
-          description: 3 letter alpha code for the currency – see list of currency codes
-          type: string
+          $ref: '#/components/schemas/CurrencyCode'
         Description:
           description: Name of Currency
           type: string
       type: object
+    CurrencyCode:
+      description: 3 letter alpha code for the currency – see list of currency codes
+      type: string
+      enum:
+      - AED 
+      - AFN
+      - ALL
+      - AMD
+      - ANG
+      - AOA
+      - ARS
+      - AUD
+      - AWG
+      - AZN
+      - BAM
+      - BBD
+      - BDT
+      - BGN
+      - BHD
+      - BIF
+      - BMD
+      - BND
+      - BOB
+      - BRL
+      - BSD
+      - BTN
+      - BWP
+      - BYN
+      - BZD
+      - CAD
+      - CDF
+      - CHF
+      - CLP
+      - CNY
+      - COP
+      - CRC
+      - CUC
+      - CUP
+      - CVE
+      - CZK
+      - DJF
+      - DKK
+      - DOP
+      - DZD
+      - EGP
+      - ERN
+      - ETB
+      - EUR
+      - FJD
+      - FKP
+      - GBP
+      - GEL
+      - GGP
+      - GHS
+      - GIP
+      - GMD
+      - GNF
+      - GTQ
+      - GYD
+      - HKD
+      - HNL
+      - HRK
+      - HTG
+      - HUF
+      - IDR
+      - ILS
+      - IMP
+      - INR
+      - IQD
+      - IRR
+      - ISK
+      - JEP
+      - JMD
+      - JOD
+      - JPY
+      - KES
+      - KGS
+      - KHR
+      - KMF
+      - KPW
+      - KRW
+      - KWD
+      - KYD
+      - KZT
+      - LAK
+      - LBP
+      - LKR
+      - LRD
+      - LSL
+      - LYD
+      - MAD
+      - MDL
+      - MGA
+      - MKD
+      - MMK
+      - MNT
+      - MOP
+      - MRU
+      - MUR
+      - MVR
+      - MWK
+      - MXN
+      - MYR
+      - MZN
+      - NAD
+      - NGN
+      - NIO
+      - NOK
+      - NPR
+      - NZD
+      - OMR
+      - PAB
+      - PEN
+      - PGK
+      - PHP
+      - PKR
+      - PLN
+      - PYG
+      - QAR
+      - RON
+      - RSD
+      - RUB
+      - RWF
+      - SAR
+      - SBD
+      - SCR
+      - SDG
+      - SEK
+      - SGD
+      - SHP
+      - SLL
+      - SOS
+      - SPL
+      - SRD
+      - STN
+      - SVC
+      - SYP
+      - SZL
+      - THB
+      - TJS
+      - TMT
+      - TND
+      - TOP
+      - TRY
+      - TTD
+      - TVD
+      - TWD
+      - TZS
+      - UAH
+      - UGX
+      - USD
+      - UYU
+      - UZS
+      - VEF
+      - VND
+      - VUV
+      - WST
+      - XAF
+      - XCD
+      - XDR
+      - XOF
+      - XPF
+      - YER
+      - ZAR
+      - ZMW
+      - ZWD
     Employees:
       type: object
       properties:
@@ -7031,13 +7228,7 @@ components:
           type: string
           format: date
         LineAmountTypes:
-          description: Line amounts are exclusive of tax by default if you don’t specify
-            this element. See Line Amount Types
-          type: string
-          enum:
-            - Exclusive
-            - Inclusive
-            - NoTax
+          $ref: '#/components/schemas/LineAmountTypes'
         InvoiceNumber:
           description: ACCREC – Unique alpha numeric code identifying invoice (when missing will auto-generate from your Organisation Invoice Settings) (max
             length = 255)
@@ -7056,8 +7247,7 @@ components:
             Xero app
           type: string
         CurrencyCode:
-          description: The currency that invoice has been raised in (see Currencies)
-          type: string
+          $ref: '#/components/schemas/CurrencyCode'
         CurrencyRate:
           description: The currency rate for a multicurrency invoice. If no rate is
             specified, the XE.com day rate is used. (max length = [18].[6])
@@ -7255,10 +7445,12 @@ components:
         TotalCostPool:
           description: The value of the item on hand. Calculated using average cost
             accounting.
-          type: string
+          type: number
+          format: float
         QuantityOnHand:
           description: The quantity of the item on hand
-          type: string
+          type: number
+          format: float
         UpdatedDateUTC:
           description: Last modified date in UTC format
           type: string
@@ -7288,9 +7480,7 @@ components:
           description: Cost of goods sold account. Only applicable to the purchase details of tracked items.
           type: string
         TaxType:
-          description:  Used as an override if the default Tax Code for the selected
-            <AccountCode> is not correct – see TaxTypes.
-          type: string
+          $ref: '#/components/schemas/TaxType'
       type: object
     Journals:
       type: object
@@ -7330,6 +7520,32 @@ components:
           description: The journal source type. The type of transaction that created the
             journal
           type: string
+          enum:
+          - ACCREC
+          - ACCPAY
+          - ACCRECCREDIT
+          - ACCPAYCREDIT
+          - ACCRECPAYMENT
+          - ACCPAYPAYMENT
+          - ARCREDITPAYMENT
+          - APCREDITPAYMENT
+          - CASHREC
+          - CASHPAID
+          - TRANSFER
+          - ARPREPAYMENT
+          - APPREPAYMENT
+          - AROVERPAYMENT
+          - APOVERPAYMENT
+          - EXPCLAIM
+          - EXPPAYMENT
+          - MANJOURNAL
+          - PAYSLIP
+          - WAGEPAYABLE
+          - INTEGRATEDPAYROLLPE
+          - INTEGRATEDPAYROLLPT
+          - EXTERNALSPENDMONEY
+          - INTEGRATEDPAYROLLPTPAYMENT
+          - INTEGRATEDPAYROLLCN
         JournalLines:
           description: See JournalLines
           type: array
@@ -7350,9 +7566,7 @@ components:
           description: Description for journal line
           type: string
         TaxType:
-          description: Used as an override if the default Tax Code for the selected
-            <AccountCode> is not correct – see TaxTypes.
-          type: string
+          $ref: '#/components/schemas/TaxType'
         Tracking:
           description: Optional Tracking Category – see Tracking. Any JournalLine can have a maximum of 2 <TrackingCategory> elements.
           type: array
@@ -7412,10 +7626,18 @@ components:
             and have a particular status e.g. GET
             /LinkedTransactions?ContactID=4bb34b03-3378-4bb2-a0ed-6345abf3224e&Status=APPROVED.
           type: string
+          enum:
+          - APPROVED
+          - DRAFT
+          - ONDRAFT
+          - BILLED
+          - VOIDED
         Type:
           description:  This will always be BILLABLEEXPENSE. More types may be added in
             future.
           type: string
+          enum:
+          - BILLABLEEXPENSE
         UpdatedDateUTC:
           description: The last modified date in UTC format
           type: string
@@ -7425,6 +7647,9 @@ components:
             linked transaction was created from an invoice and SPEND if it was
             created from a bank transaction.
           type: string
+          enum:
+          - ACCPAY
+          - SPEND
       required:
         - SourceLineItemID
       type: object
@@ -7452,16 +7677,15 @@ components:
           type: string
           format: date
         LineAmountTypes:
-          description:  NoTax by default if you don’t specify this element. See Line Amount
-            Types
-          type: string
-          enum:
-          - Inclusive
-          - Exclusive
-          - NoTax
+          $ref: '#/components/schemas/LineAmountTypes'
         Status:
           description: See Manual Journal Status Codes
           type: string
+          enum:
+          - DRAFT
+          - POSTED
+          - DELETED
+          - VOIDED
         Url:
           description:  Url link to a source document – shown as “Go to [appName]” in the
             Xero app
@@ -7537,11 +7761,9 @@ components:
             - SOLETRADER
             - TRUST
         BaseCurrency:
-          description: Default currency for organisation. See ISO 4217 Currency Codes
-          type: string
+          $ref: '#/components/schemas/CurrencyCode'
         CountryCode:
-          description: Country code for organisation. See ISO 3166-2 Country Codes
-          type: string
+          $ref: '#/components/schemas/CountryCode'
         IsDemoCompany:
           description: Boolean to describe if organisation is a demo company.
           type: boolean
@@ -7612,8 +7834,7 @@ components:
           type: string
           format: date-time
         Timezone:
-          description: Timezone specifications
-          type: string
+          $ref: '#/components/schemas/TimeZone'
         OrganisationEntityType:
           description: Organisation Type
           type: string
@@ -7658,8 +7879,7 @@ components:
           items:
             $ref: '#/components/schemas/Phone'
         ExternalLinks:
-          description: Organisation profile links for popular services such as Facebook,
-            Twitter, GooglePlus and LinkedIn. You can also add link to your
+          description: Organisation profile links for popular services such as Facebook,Twitter, GooglePlus and LinkedIn. You can also add link to your
             website here. Shown if Organisation settings  is updated in Xero.
             See ExternalLinks below
           type: array
@@ -7668,6 +7888,360 @@ components:
         PaymentTerms:
           $ref: '#/components/schemas/PaymentTerm'
       type: object
+    CountryCode:
+      type: string
+      enum:
+      - AD
+      - AE
+      - AF
+      - AG
+      - AI
+      - AL
+      - AM
+      - AN
+      - AO
+      - AQ
+      - AR
+      - AS
+      - AT
+      - AU
+      - AW
+      - AZ
+      - BA
+      - BB
+      - BD
+      - BE
+      - BF
+      - BG
+      - BH
+      - BI
+      - BJ
+      - BL
+      - BM
+      - BN
+      - BO
+      - BR
+      - BS
+      - BT
+      - BW
+      - BY 
+      - BZ 
+      - CA
+      - CC 
+      - CD 
+      - CF 
+      - CG 
+      - CH 
+      - CI 
+      - CK 
+      - CL
+      - CM
+      - CN
+      - CO
+      - CR
+      - CU
+      - CV
+      - CW
+      - CX
+      - CY
+      - CZ
+      - DE
+      - DJ
+      - DK
+      - DM
+      - DO
+      - DZ
+      - EC
+      - EE
+      - EG
+      - EH
+      - ER
+      - ES
+      - ET
+      - FI
+      - FJ
+      - FK
+      - FM
+      - FO
+      - FR
+      - GA
+      - GB
+      - GD
+      - GE
+      - GG
+      - GH
+      - GI
+      - GL
+      - GM
+      - GN
+      - GQ
+      - GR
+      - GT
+      - GU
+      - GW
+      - GY
+      - HK
+      - HN
+      - HR
+      - HT
+      - HU
+      - ID
+      - IE
+      - IL
+      - IM
+      - IN
+      - IO
+      - IQ
+      - IR
+      - IS
+      - IT
+      - JE
+      - JM
+      - JO
+      - JP
+      - KE
+      - KG
+      - KH
+      - KI
+      - KM
+      - KN
+      - KP
+      - KR
+      - KW
+      - KY
+      - KZ
+      - LA
+      - LB
+      - LC
+      - LI
+      - LK
+      - LR
+      - LS
+      - LT
+      - LU
+      - LV
+      - LY
+      - MA
+      - MC
+      - MD
+      - ME
+      - MF
+      - MG
+      - MH
+      - MK
+      - ML
+      - MM
+      - MN
+      - MO
+      - MP
+      - MR
+      - MS
+      - MT
+      - MU
+      - MV
+      - MW
+      - MX
+      - MY
+      - MZ
+      - NA
+      - NC
+      - NE
+      - NG
+      - NI
+      - NL
+      - NO
+      - NP
+      - NR
+      - NU
+      - NZ
+      - OM
+      - PA
+      - PE
+      - PF
+      - PG
+      - PH
+      - PK
+      - PL
+      - PM
+      - PN
+      - PR
+      - PS
+      - PT
+      - PW
+      - PY
+      - QA
+      - RE
+      - RO
+      - RS
+      - RU
+      - RW
+      - SA
+      - SB
+      - SC
+      - SD
+      - SE
+      - SG
+      - SH
+      - SI
+      - SJ
+      - SK
+      - SL
+      - SM
+      - SN
+      - SO
+      - SR
+      - SS
+      - ST
+      - SV
+      - SX
+      - SY
+      - SZ
+      - TC
+      - TD
+      - TG
+      - TH
+      - TJ
+      - TK
+      - TL
+      - TM
+      - TN
+      - TO
+      - TR
+      - TT
+      - TV
+      - TW
+      - TZ
+      - UA
+      - UG
+      - US
+      - UY
+      - UZ
+      - VA
+      - VC
+      - VE
+      - VG
+      - VI
+      - VN
+      - VU
+      - WF
+      - WS
+      - XK
+      - YE
+      - YT
+      - ZA
+      - ZM
+      - ZW
+    TimeZone:
+      description: Timezone specifications
+      type: string
+      enum:
+      - MOROCCOSTANDARDTIME
+      - UTC
+      - GMTSTANDARDTIME
+      - GREENWICHSTANDARDTIME
+      - WEUROPESTANDARDTIME
+      - CENTRALEUROPESTANDARDTIME
+      - ROMANCESTANDARDTIME
+      - CENTRALEUROPEANSTANDARDTIME
+      - WCENTRALAFRICASTANDARDTIME
+      - NAMIBIASTANDARDTIME
+      - JORDANSTANDARDTIME
+      - GTBSTANDARDTIME
+      - MIDDLEEASTSTANDARDTIME
+      - EGYPTSTANDARDTIME
+      - SYRIASTANDARDTIME
+      - EEUROPESTANDARDTIME
+      - SOUTHAFRICASTANDARDTIME
+      - FLESTANDARDTIME
+      - TURKEYSTANDARDTIME
+      - ISRAELSTANDARDTIME
+      - KALININGRADSTANDARDTIME
+      - LIBYASTANDARDTIME
+      - ARABICSTANDARDTIME
+      - ARABSTANDARDTIME
+      - BELARUSSTANDARDTIME
+      - RUSSIANSTANDARDTIME
+      - EAFRICASTANDARDTIME
+      - IRANSTANDARDTIME
+      - ARABIANSTANDARDTIME
+      - AZERBAIJANSTANDARDTIME
+      - RUSSIATIMEZONE3
+      - MAURITIUSSTANDARDTIME
+      - GEORGIANSTANDARDTIME
+      - CAUCASUSSTANDARDTIME
+      - AFGHANISTANSTANDARDTIME
+      - WESTASIASTANDARDTIME
+      - EKATERINBURGSTANDARDTIME
+      - PAKISTANSTANDARDTIME
+      - INDIASTANDARDTIME
+      - SRILANKASTANDARDTIME
+      - NEPALSTANDARDTIME
+      - CENTRALASIASTANDARDTIME
+      - BANGLADESHSTANDARDTIME
+      - NCENTRALASIASTANDARDTIME
+      - MYANMARSTANDARDTIME
+      - SEASIASTANDARDTIME
+      - NORTHASIASTANDARDTIME
+      - CHINASTANDARDTIME
+      - NORTHASIAEASTSTANDARDTIME
+      - SINGAPORESTANDARDTIME
+      - WAUSTRALIASTANDARDTIME
+      - TAIPEISTANDARDTIME
+      - ULAANBAATARSTANDARDTIME
+      - TOKYOSTANDARDTIME
+      - KOREASTANDARDTIME
+      - YAKUTSKSTANDARDTIME
+      - CENAUSTRALIASTANDARDTIME
+      - AUSCENTRALSTANDARDTIME
+      - EAUSTRALIASTANDARDTIME
+      - AUSEASTERNSTANDARDTIME
+      - WESTPACIFICSTANDARDTIME
+      - TASMANIASTANDARDTIME
+      - MAGADANSTANDARDTIME
+      - VLADIVOSTOKSTANDARDTIME
+      - RUSSIATIMEZONE10
+      - CENTRALPACIFICSTANDARDTIME
+      - RUSSIATIMEZONE11
+      - NEWZEALANDSTANDARDTIME
+      - UTC+12
+      - FIJISTANDARDTIME
+      - KAMCHATKASTANDARDTIME
+      - TONGASTANDARDTIME
+      - SAMOASTANDARDTIME
+      - LINEISLANDSSTANDARDTIME
+      - AZORESSTANDARDTIME
+      - CAPEVERDESTANDARDTIME
+      - UTC02
+      - MIDATLANTICSTANDARDTIME
+      - ESOUTHAMERICASTANDARDTIME
+      - ARGENTINASTANDARDTIME
+      - SAEASTERNSTANDARDTIME
+      - GREENLANDSTANDARDTIME
+      - MONTEVIDEOSTANDARDTIME
+      - BAHIASTANDARDTIME
+      - NEWFOUNDLANDSTANDARDTIME
+      - PARAGUAYSTANDARDTIME
+      - ATLANTICSTANDARDTIME
+      - CENTRALBRAZILIANSTANDARDTIME
+      - SAWESTERNSTANDARDTIME
+      - PACIFICSASTANDARDTIME
+      - VENEZUELASTANDARDTIME
+      - SAPACIFICSTANDARDTIME
+      - EASTERNSTANDARDTIME
+      - USEASTERNSTANDARDTIME
+      - CENTRALAMERICASTANDARDTIME
+      - CENTRALSTANDARDTIME
+      - CENTRALSTANDARDTIME(MEXICO)
+      - CANADACENTRALSTANDARDTIME
+      - USMOUNTAINSTANDARDTIME
+      - MOUNTAINSTANDARDTIME(MEXICO)
+      - MOUNTAINSTANDARDTIME
+      - PACIFICSTANDARDTIME(MEXICO)
+      - PACIFICSTANDARDTIME
+      - ALASKANSTANDARDTIME
+      - HAWAIIANSTANDARDTIME
+      - UTC11
+      - DATELINESTANDARDTIME
     PaymentTerm:
       externalDocs:
         url: 'http://developer.xero.com/documentation/api/organisation/'
@@ -7677,6 +8251,13 @@ components:
         Sales:
           $ref: '#/components/schemas/Bill'
       type: object
+    PaymentTermType:
+      type: string
+      enum:
+      - DAYSAFTERBILLDATE  
+      - DAYSAFTERBILLMONTH  
+      - OFCURRENTMONTH  
+      - OFFOLLOWINGMONTH
     ExternalLink:
       externalDocs:
         url: 'http://developer.xero.com/documentation/api/organisation/'
@@ -7704,13 +8285,7 @@ components:
           description: Day of Month (0-31)
           type: integer
         Type:
-          description: One of the following values
-            OFFOLLOWINGMONTH/DAYSAFTERBILLDATE/OFCURRENTMONTH
-          type: string
-          enum:
-          - OFFOLLOWINGMONTH
-          - DAYSAFTERBILLDATE
-          - OFCURRENTMONTH
+          $ref: '#/components/schemas/PaymentTermType'
       type: object
     Overpayments:
       type: object
@@ -7743,8 +8318,7 @@ components:
             - PAID
             - VOIDED
         LineAmountTypes:
-          description: See Overpayment Line Amount Types
-          type: string
+          $ref: '#/components/schemas/LineAmountTypes'
         LineItems:
           description: See Overpayment Line Items
           type: array
@@ -7767,8 +8341,7 @@ components:
           type: string
           format: date-time
         CurrencyCode:
-          description: Currency used for the overpayment
-          type: string
+          $ref: '#/components/schemas/CurrencyCode'
         OverpaymentID:
           description: Xero generated unique identifier
           type: string
@@ -7815,18 +8388,15 @@ components:
         Overpayment:
           $ref: '#/components/schemas/Overpayment'
         InvoiceNumber:
-          description: Number of invoice or credit note you are applying payment to e.g.
-            INV-4003
+          description: Number of invoice or credit note you are applying payment to e.g.INV-4003
           type: string
         CreditNoteNumber:
-          description: Number of invoice or credit note you are applying payment to e.g.
-            INV-4003
+          description: Number of invoice or credit note you are applying payment to e.g. INV-4003
           type: string
         Account:
           $ref: '#/components/schemas/Account'
         Code:
-          description: Code of account you are using to make the payment e.g. 001 (note-
-            not all accounts have a code value)
+          description: Code of account you are using to make the payment e.g. 001 (note- not all accounts have a code value)
           type: string
         Date:
           description: Date the payment is being made (YYYY-MM-DD) e.g. 2009-09-06
@@ -7918,8 +8488,7 @@ components:
             - PAID
             - VOIDED
         LineAmountTypes:
-          description: See Prepayment Line Amount Types
-          type: string
+          $ref: '#/components/schemas/LineAmountTypes'
         LineItems:
           description: See Prepayment Line Items
           type: array
@@ -7942,8 +8511,7 @@ components:
           type: string
           format: date-time
         CurrencyCode:
-          description: Currency used for the prepayment
-          type: string
+          $ref: '#/components/schemas/CurrencyCode'
         PrepaymentID:
           description: Xero generated unique identifier
           type: string
@@ -7994,9 +8562,7 @@ components:
           type: string
           format: date
         LineAmountTypes:
-          description: Line amounts are exclusive of tax by default if you don’t specify
-            this element. See Line Amount Types
-          type: string
+          $ref: '#/components/schemas/LineAmountTypes'
         PurchaseOrderNumber:
           description: Unique alpha numeric code identifying purchase order (when missing
             will auto-generate from your Organisation Invoice Settings)
@@ -8009,8 +8575,7 @@ components:
           type: string
           format: uuid
         CurrencyCode:
-          description: The currency that purchase order has been raised in (see Currencies)
-          type: string
+          $ref: '#/components/schemas/CurrencyCode'
         Status:
           description: See Purchase Order Status Codes
           type: string
@@ -8110,12 +8675,7 @@ components:
           description: Additional reference number
           type: string
         LineAmountTypes:
-          description: See Line Amount Types
-          type: string
-          enum:
-          - Exclusive
-          - Inclusive
-          - NoTax
+          $ref: '#/components/schemas/LineAmountTypes'
         SubTotal:
           description: Total of receipt excluding taxes
           type: number
@@ -8190,12 +8750,7 @@ components:
           items:
             $ref: '#/components/schemas/LineItem'
         LineAmountTypes:
-          description: Line amounts are exclusive of tax by default if you don’t specify this element. See Line Amount Types
-          type: string
-          enum:
-          - Exclusive
-          - Inclusive  
-          - NoTax
+          $ref: '#/components/schemas/LineAmountTypes'
         Reference:
           description: ACCREC only – additional reference number
           type: string
@@ -8204,8 +8759,7 @@ components:
           type: string
           format: uuid
         CurrencyCode:
-          description: The currency that invoice has been raised in (see Currencies)
-          type: string
+          $ref: '#/components/schemas/CurrencyCode'
         Status:
           description:  One of the following - DRAFT or AUTHORISED – See Invoice Status
             Codes
@@ -8483,6 +9037,62 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/TaxRate'
+    TaxType:
+      description: See Tax Types – can only be used on update calls
+      type: string
+      enum:
+      - OUTPUT
+      - INPUT
+      - CAPEXINPUT
+      - EXEMPTEXPORT
+      - EXEMPTEXPENSES
+      - EXEMPTCAPITAL
+      - EXEMPTOUTPUT
+      - INPUTTAXED
+      - BASEXCLUDED
+      - GSTONCAPIMPORTS
+      - GSTONIMPORTS
+      - NONE
+      - INPUT2  
+      - ZERORATED
+      - OUTPUT2
+      - CAPEXINPUT2
+      - CAPEXOUTPUT
+      - CAPEXOUTPUT2
+      - CAPEXSRINPUT
+      - CAPEXSROUTPUT
+      - ECACQUISITIONS
+      - ECZRINPUT
+      - ECZROUTPUT
+      - ECZROUTPUTSERVICES
+      - EXEMPTINPUT
+      - REVERSECHARGES
+      - RRINPUT
+      - RROUTPUT
+      - SRINPUT
+      - SROUTPUT
+      - ZERORATEDINPUT
+      - ZERORATEDOUTPUT
+      - BLINPUT
+      - DSOUTPUT
+      - EPINPUT
+      - ES33OUTPUT
+      - ESN33OUTPUT
+      - IGDSINPUT2
+      - IMINPUT2
+      - MEINPUT
+      - NRINPUT
+      - OPINPUT
+      - OSOUTPUT
+      - TXESSINPUT
+      - TXN33INPUT
+      - TXPETINPUT
+      - TXREINPUT
+      - INPUT3
+      - INPUT4
+      - OUTPUT3
+      - OUTPUT4
+      - SROUTPUT2
     TaxRate:
       externalDocs:
         url: 'http://developer.xero.com/documentation/api/tax-rates/'
@@ -8491,61 +9101,7 @@ components:
           description: Name of tax rate
           type: string
         TaxType:
-          description: See Tax Types – can only be used on update calls
-          type: string
-          enum:
-          - OUTPUT
-          - INPUT
-          - CAPEXINPUT
-          - EXEMPTEXPORT
-          - EXEMPTEXPENSES
-          - EXEMPTCAPITAL
-          - EXEMPTOUTPUT
-          - INPUTTAXED
-          - BASEXCLUDED
-          - GSTONCAPIMPORTS
-          - GSTONIMPORTS
-          - NONE
-          - INPUT2  
-          - ZERORATED
-          - OUTPUT2
-          - CAPEXINPUT2
-          - CAPEXOUTPUT
-          - CAPEXOUTPUT2
-          - CAPEXSRINPUT
-          - CAPEXSROUTPUT
-          - ECACQUISITIONS
-          - ECZRINPUT
-          - ECZROUTPUT
-          - ECZROUTPUTSERVICES
-          - EXEMPTINPUT
-          - REVERSECHARGES
-          - RRINPUT
-          - RROUTPUT
-          - SRINPUT
-          - SROUTPUT
-          - ZERORATEDINPUT
-          - ZERORATEDOUTPUT
-          - BLINPUT
-          - DSOUTPUT
-          - EPINPUT
-          - ES33OUTPUT
-          - ESN33OUTPUT
-          - IGDSINPUT2
-          - IMINPUT2
-          - MEINPUT
-          - NRINPUT
-          - OPINPUT
-          - OSOUTPUT
-          - TXESSINPUT
-          - TXN33INPUT
-          - TXPETINPUT
-          - TXREINPUT
-          - INPUT3
-          - INPUT4
-          - OUTPUT3
-          - OUTPUT4
-          - SROUTPUT2
+          $ref: '#/components/schemas/TaxType'
         TaxComponents:
           description: See TaxComponents
           type: array
@@ -8673,15 +9229,12 @@ components:
         url: 'http://developer.xero.com/documentation/api/tracking-categories/'
       properties:
         TrackingOptionID:
-          description: >-
-            The Xero identifier for a tracking optione.g.
+          description:  The Xero identifier for a tracking optione.g.
             ae777a87-5ef3-4fa0-a4f0-d10e1f13073a
           type: string
           format: uuid
         Name:
-          description: >-
-            The name of the tracking option e.g. Marketing, East (max length =
-            50)
+          description:  The name of the tracking option e.g. Marketing, East (max length = 50)
           maxLength: 50
           type: string
         Status:
@@ -8729,6 +9282,13 @@ components:
         OrganisationRole:
           description: User role (see Types)
           type: string
+          enum:
+          - READONLY
+          - INVOICEONLY
+          - STANDARD
+          - FINANCIALADVISER
+          - MANAGEDCLIENT
+          - CASHBOOKCLIENT
       type: object
     Error:
       externalDocs:
