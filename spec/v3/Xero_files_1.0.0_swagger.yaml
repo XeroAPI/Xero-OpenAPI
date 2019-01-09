@@ -18,11 +18,8 @@ paths:
     get:
       tags:
         - Files
-      summary: searches files
       operationId: getFiles
-      description: |
-        By passing in the appropriate options, you can search for
-        available inventory in the system
+      summary: searches files
       parameters:
         - in: query
           name: pagesize
@@ -56,37 +53,147 @@ paths:
               schema:
                 $ref: '#/components/schemas/Files'
         '400':
-          description: bad input parameter
+          description: bad input parameter - TODO
     post:
       tags:
         - Files
       summary: upload an File
-      operationId: createFile
-      description: Adds an File to the Xero
+      operationId: uploadFile
+      parameters:
+        - in: query
+          name: folderId
+          description: pass an optional folder id to save file to specific folder
+          schema:
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
       responses:
         '200':
           description: A successful request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Files'
+                $ref: '#/components/schemas/FileObject'
         '400':
-          description: 'invalid input, object invalid'
+          description: invalid input, object invalid - TODO
         '409':
-          description: an existing item already exists
+          description: an existing item already exists - TODO
       requestBody:
         content:
-             application/octet-stream:
+          multipart/form-data:
+            schema: 
+              type: object
+              properties: 
+                body:
+                  type: string
+                  format: byte
+                name:
+                  type: string
+                filename:
+                  type: string
+                mimeType:
+                  type: string
+  /Files/{FileId}:
+    get:
+      tags:
+        - Files
+      summary: searches for file by unique id
+      operationId: getFile
+      parameters: 
+        - name: FileId
+          in: path
+          required: true
+          description: File id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+             application/json:
               schema:
-                type: string
-                format: binary
-        description: File to add
+                $ref: '#/components/schemas/FileObject'
+    put:
+      tags:
+        - Files
+      summary: Update a file 
+      operationId: updateFile
+      description:  Update properties on a single file
+      parameters: 
+        - name: FileId
+          in: path
+          required: true
+          description: File id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+      responses:
+        '200':
+          description: A successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileObject'
+      requestBody:
+        content:
+          application/json:
+              schema:
+                $ref: '#/components/schemas/FileObject'
+    delete:
+      tags:
+        - Files
+      summary: delete a file
+      operationId: deleteFile
+      description:  Delete a specific file
+      parameters: 
+        - name: FileId
+          in: path
+          required: true
+          description: File id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+      responses:
+        '204':
+          description: A successful request returns 204 empty response - populate with status property in SDK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileResponse204'
   /Files/{FileId}/Content:
     get:
       tags:
         - Files
-      summary: searches files
+      summary: searches files to retrieve the data
       operationId: getFileContent
+      description:  By passing in the appropriate options, retrieve data for specific file
+      parameters: 
+        - name: FileId
+          in: path
+          required: true
+          description: File id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+             application/octet-stream:
+              schema:
+                type: string
+                format: binary
+  /Files/{FileId}/Associations:
+    get:
+      tags:
+        - Files
+      summary: searches files
+      operationId: getFileAssociations
       description: |
         By passing in the appropriate options, 
       parameters: 
@@ -97,15 +204,103 @@ paths:
           schema: 
             type: string
             format: uuid
-            example: xxxx
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
       responses:
         '200':
           description: search results matching criteria
           content:
-             application/octet-stream:
+            application/json:
               schema:
-                type: string
-                format: binary
+                type: array
+                items:
+                  $ref: '#/components/schemas/Association'
+    post:
+      tags:
+        - Files
+      summary: create a new association
+      operationId: createFileAssociation
+      description: By passing in the appropriate options, you can create a new folder
+      parameters: 
+        - name: FileId
+          in: path
+          required: true
+          description: File id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+      responses:
+        '200':
+          description: A successful request
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/Association'
+        '400':
+          description: bad input parameter - TODO
+      requestBody:
+        content:
+          application/json:
+              schema:
+                $ref: '#/components/schemas/Association'
+  /Files/{FileId}/Associations/{ObjectId}:
+    delete:
+      tags:
+        - Files
+      summary: create a new association
+      operationId: deleteFileAssociation
+      description: By passing in the appropriate options, you can create a new folder
+      parameters: 
+        - name: FileId
+          in: path
+          required: true
+          description: File id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+        - name: ObjectId
+          in: path
+          required: true
+          description: Object id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+      responses:
+        '204':
+          description: A successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileResponse204'
+        '400':
+          description: bad input parameter - TODO
+  /Associations/{ObjectId}:
+    get:
+      tags:
+        - Files
+      summary: searches files
+      operationId: getAssociationsByObject
+      description: By passing in the appropriate options, 
+      parameters: 
+        - name: ObjectId
+          in: path
+          required: true
+          description: Object id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Association'
   /Folders:
     get:
       tags:
@@ -132,10 +327,125 @@ paths:
             application/json:
               schema:
                 type: array
-                items:
+                items: 
                   $ref: '#/components/schemas/Folder'
         '400':
-          description: bad input parameter
+          description: bad input parameter - TODO
+    post:
+      tags:
+        - Files
+      summary: create a new folder
+      operationId: createFolder
+      description: By passing in the appropriate properties, you can create a new folder
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/Folder'
+        '400':
+          description: bad input parameter - TODO
+      requestBody:
+        content:
+          application/json:
+              schema:
+                $ref: '#/components/schemas/Folder'
+  /Folders/{FolderId}:
+    get:
+      tags:
+        - Files
+      summary: searches specific folder by id
+      operationId: getFolder
+      description: By passing in the appropriate ID, you can search for specific folder
+      parameters:
+        - name: FolderId
+          in: path
+          required: true
+          description: Folder id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Folder'
+        '400':
+          description: bad input parameter - TODO
+    put:
+      tags:
+        - Files
+      summary: update folder
+      operationId: updateFolder
+      description: By passing in the appropriate ID and properties, you can update a folder
+      parameters:
+        - name: FolderId
+          in: path
+          required: true
+          description: Folder id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+      responses:
+        '200':
+          description: return the updated object
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/Folder'
+        '400':
+          description: bad input parameter - TODO
+      requestBody:
+        required: true
+        content:
+          application/json:
+              schema:
+                $ref: '#/components/schemas/Folder'
+    delete:
+      tags:
+        - Files
+      summary: delete a folder
+      operationId: deleteFolder
+      description: By passing in the appropriate ID, you can delete a folder
+      parameters:
+        - name: FolderId
+          in: path
+          required: true
+          description: Folder id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+      responses:
+        '204':
+          description: A successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileResponse204'
+        '400':
+          description: bad input parameter - TODO
+  /Inbox:
+    get:
+      tags:
+        - Files
+      summary: searches inbox folder 
+      operationId: getInbox
+      description: Search for the user inbox
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Folder'
+        '400':
+          description: bad input parameter - TODO
 components:
   schemas:
     Files:
@@ -163,50 +473,81 @@ components:
         - releaseDate
       properties:
         Name:
+          description: TODO
           type: string
           example: File2.jpg
         MimeType:
+          description: TODO
           type: string
           example: image/jpeg 
         Size:
+          description: TODO
           type: integer
           example: 3615   
-        CreatedDateUtc:
+        CreatedDateUTC:
+          description: TODO
           type: string
+          format: date-time
           example: '2014-12-04T23:08:14.0630000'
-        UpdatedDateUtc:
+        UpdatedDateUTC:
+          description: TODO
           type: string
+          format: date-time
           example: '2014-12-04T23:08:14.0630000'
         User:
           $ref: '#/components/schemas/User'
         Id:
+          description: TODO
           type: string
           format: uuid
           example: d290f1ee-6c54-4b01-90e6-d701748f0851
         FolderId:
+          description: TODO
           type: string
           format: uuid
           example: 0f8ccf21-7267-4268-9167-a1e2c40c84c8
     User:
       required:
-        - name
+        - FirstName
+        - LastName
       properties:
-        Name:
-          type: string
-          example: a.user@email.com
-        FirstName:
-          type: string
-          example: A
-        LastName:
-          type: string
-          example: User
-        FullName:
-          type: string
-          example: A User
-        Id:
+        UserID:
+          description: Xero identifier
           type: string
           format: uuid
           example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+        EmailAddress:
+          description: Email address of user
+          type: string
+          example: john.smith@mail.com
+        FirstName:
+          description: First name of user
+          type: string
+          example: John
+        LastName:
+          description: Last name of user
+          type: string
+          example: Smith
+        UpdatedDateUTC:
+          description: Last name of user
+          type: string
+          format: date-time
+          example: Date(1516230549137+0000)
+        IsSubscriber:
+          description: Boolean to indicate if user is the subscriber
+          type: boolean
+          example: true
+        OrganisationRole:
+          description: Boolean to indicate if user is the subscriber
+          type: string
+          example: STANDARD
+          enum:
+          - READONLY
+          - INVOICEONLY  
+          - STANDARD  
+          - FINANCIALADVISER  
+          - MANAGEDCLIENT  
+          - CASHBOOKCLIENT
       type: object
     Folders:
       type: object
@@ -220,23 +561,97 @@ components:
         - name
       properties:
         Name:
-          type: string
           description: The name of the folder
+          type: string
           example: assets
         FileCount:
-          type: integer
           description: The number of files in the folder
+          type: integer
           example: 5
         Email:
-          type: string
           description: The email address used to email files to the inbox. Only the inbox will have this element.
+          type: string
           example: foo@bar.com
         IsInbox:
-          type: boolean
           description:  to indicate if the folder is the Inbox. The Inbox cannot be renamed or deleted.
+          type: boolean
           example: true
         Id:
+          description:  Xero unique identifier for a folder  Files
           type: string
           format: uuid
-          description:  Xero unique identifier for a folder	Files
           example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+    Association:
+      type: object
+      properties:
+        FileId:
+          description: The unique identifier of the file  
+          type: string
+          format: uuid
+        ObjectId:  
+          description: The identifier of the object that the file is being associated with (e.g. InvoiceID, BankTransactionID, ContactID)  
+          type: string
+          format: uuid
+        ObjectGroup:
+          $ref: '#/components/schemas/ObjectGroup'
+        ObjectType:
+          $ref: '#/components/schemas/ObjectType'
+    ObjectGroup:
+      description: The Object Group that the object is in. These roughly correlate to the endpoints that can be used to retrieve the object via the core accounting API. 
+      type: string
+      enum:
+      - Account  
+      - BankTransaction
+      - Contact
+      - CreditNote
+      - Invoice
+      - Item
+      - ManualJournal
+      - Overpayment
+      - Payment  
+      - Prepayment
+      - Receipt
+    ObjectType:
+      description: The Object Type
+      type: string
+      enum:
+      - ACCOUNT  
+      - ACCPAY
+      - ACCPAYCREDIT
+      - ACCPAYPAYMENT  
+      - ACCREC
+      - ACCRECCREDIT  
+      - ACCRECPAYMENT
+      - ADJUSTMENT  
+      - APCREDITPAYMENT  
+      - APOVERPAYMENT  
+      - APOVERPAYMENTPAYMENT
+      - APOVERPAYMENTSOURCEPAYMENT
+      - APPREPAYMENT
+      - APPREPAYMENTPAYMENT  
+      - APPREPAYMENTSOURCEPAYMENT  
+      - ARCREDITPAYMENT  
+      - AROVERPAYMENT  
+      - AROVERPAYMENTPAYMENT
+      - AROVERPAYMENTSOURCEPAYMENT
+      - ARPREPAYMENT
+      - ARPREPAYMENTPAYMENT  
+      - ARPREPAYMENTSOURCEPAYMENT  
+      - CASHPAID  
+      - CASHREC  
+      - CONTACT  
+      - EXPPAYMENT  
+      - FIXEDASSET  
+      - MANUALJOURNAL
+      - PAYRUN  
+      - PRICELISTITEM  
+      - PURCHASEORDER  
+      - RECEIPT  
+      - TRANSFER
+    FileResponse204:
+      externalDocs:
+        url: 'https://developer.xero.com/documentation/files-api/files#DELETE'
+      properties:
+        Status:
+          description: Status response for 204 no content
+          type: string
