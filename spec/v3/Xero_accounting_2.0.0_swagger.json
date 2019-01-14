@@ -10351,7 +10351,7 @@
             "description" : "See JournalLines",
             "type" : "array",
             "items" : {
-              "$ref" : "#/components/schemas/JournalLine"
+              "$ref" : "#/components/schemas/ManualJournalLine"
             }
           },
           "Date" : {
@@ -10393,6 +10393,52 @@
           }
         },
         "required" : [ "Narration", "JournalLines" ],
+        "type" : "object"
+      },
+      "ManualJournalLine" : {
+        "externalDocs" : {
+          "url" : "http://developer.xero.com/documentation/api/manual-journals/"
+        },
+        "properties" : {
+          "LineAmount" : {
+            "description" : "total for line. Debits are positive, credits are negative value",
+            "type" : "number",
+            "format" : "float",
+            "example" : -2569.0
+          },
+          "AccountCode" : {
+            "description" : "See Accounts",
+            "type" : "string",
+            "example" : 720
+          },
+          "Description" : {
+            "description" : "Description for journal line",
+            "type" : "string",
+            "example" : "Coded incorrectly Office Equipment should be Computer Equipment"
+          },
+          "TaxType" : {
+            "$ref" : "#/components/schemas/TaxType"
+          },
+          "Tracking" : {
+            "description" : "Optional Tracking Category – see Tracking. Any JournalLine can have a maximum of 2 <TrackingCategory> elements.",
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/TrackingCategory"
+            }
+          },
+          "TaxAmount" : {
+            "description" : "The calculated tax amount based on the TaxType and LineAmount",
+            "readOnly" : true,
+            "type" : "number",
+            "format" : "float",
+            "example" : 0.0
+          },
+          "IsBlank" : {
+            "description" : "is the line blank",
+            "type" : "boolean",
+            "example" : false
+          }
+        },
         "type" : "object"
       },
       "Organisations" : {
