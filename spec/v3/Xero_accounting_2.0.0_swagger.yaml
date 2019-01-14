@@ -5990,31 +5990,7 @@ components:
           type: string
           format: uuid
         Type:
-          description: See Account Types
-          type: string
-          enum:
-            - BANK
-            - CURRENT
-            - CURRLIAB
-            - DEPRECIATN  
-            - DIRECTCOSTS
-            - EQUITY  
-            - EXPENSE
-            - FIXED
-            - INVENTORY
-            - LIABILITY
-            - NONCURRENT
-            - OTHERINCOME
-            - OVERHEADS
-            - PREPAYMENT
-            - REVENUE
-            - SALES
-            - TERMLIAB
-            - PAYGLIABILITY
-            - PAYG
-            - SUPERANNUATIONEXPENSE
-            - SUPERANNUATIONLIABILITY
-            - WAGESEXPENSE
+          $ref: '#/components/schemas/AccountType'
         BankAccountNumber:
           description: For bank accounts only (Account Type BANK)
           type: string
@@ -6037,6 +6013,7 @@ components:
           - BANK
           - CREDITCARD
           - PAYPAL
+          - ''
         CurrencyCode:
           $ref: '#/components/schemas/CurrencyCode'
         TaxType:
@@ -6080,6 +6057,7 @@ components:
             - UNPAIDEXPCLM
             - UNREALISEDCURRENCYGAIN
             - WAGEPAYABLES
+            - ''
         ReportingCode:
           description: Shown if set
           readOnly: true
@@ -6097,6 +6075,32 @@ components:
           readOnly: true
           type: string
           format: date-time
+    AccountType:
+      description: See Account Types
+      type: string
+      enum:
+        - BANK
+        - CURRENT
+        - CURRLIAB
+        - DEPRECIATN  
+        - DIRECTCOSTS
+        - EQUITY  
+        - EXPENSE
+        - FIXED
+        - INVENTORY
+        - LIABILITY
+        - NONCURRENT
+        - OTHERINCOME
+        - OVERHEADS
+        - PREPAYMENT
+        - REVENUE
+        - SALES
+        - TERMLIAB
+        - PAYGLIABILITY
+        - PAYG
+        - SUPERANNUATIONEXPENSE
+        - SUPERANNUATIONLIABILITY
+        - WAGESEXPENSE
     Attachments:
       type: object
       properties:
@@ -7555,32 +7559,59 @@ components:
       type: object
     JournalLine:
       externalDocs:
-        url: 'http://developer.xero.com/documentation/api/manual-journals/'
+        url: 'https://developer.xero.com/documentation/api/journals#JournalLines'
       properties:
-        LineAmount:
-          description: 'total for line. Debits are positive, credits are negative value'
+        JournalLineID:
+          description: Xero identifier for Journal
           type: string
+          format: uuid
+          example: 7be9db36-3598-4755-ba5c-c2dbc8c4a7a2
+        AccountID:  
+          description: See Accounts
+          type: string
+          format: uuid
+          example: ceef66a5-a545-413b-9312-78a53caadbc4
         AccountCode:
           description: See Accounts
           type: string
-        Description:
-          description: Description for journal line
+          example: 090
+        AccountType:
+          $ref: '#/components/schemas/AccountType'
+        AccountName:
+          description: See AccountCodes
           type: string
+          example: Checking Account
+        Description:
+          description: The description from the source transaction line item. Only returned if populated.
+          type: string
+          example: My business checking account 
+        NetAmount:
+          description: Net amount of journal line. This will be a positive value for a debit and negative for a credit
+          type: number
+          format: float
+          example: 4130.98
+        GrossAmount:
+          description: Gross amount of journal line (NetAmount + TaxAmount).
+          type: number
+          format: float
+          example: 4130.98
+        TaxAmount:
+          description: Total tax on a journal line
+          type: number
+          format: float
+          readOnly: true
+          example: 0.00
         TaxType:
           $ref: '#/components/schemas/TaxType'
-        Tracking:
+        TaxName:
+          description: see TaxRates
+          type: string
+          example: Tax Exempt
+        TrackingCategories:
           description: Optional Tracking Category – see Tracking. Any JournalLine can have a maximum of 2 <TrackingCategory> elements.
           type: array
           items:
             $ref: '#/components/schemas/TrackingCategory'
-        TaxAmount:
-          description: The calculated tax amount based on the TaxType and LineAmount
-          readOnly: true
-          type: number
-          format: float
-      required:
-        - LineAmount
-        - AccountCode
       type: object
     LinkedTransactions:
       type: object
@@ -9102,7 +9133,8 @@ components:
           description: Name of tax rate
           type: string
         TaxType:
-          $ref: '#/components/schemas/TaxType'
+          description: The tax type
+          type: string
         TaxComponents:
           description: See TaxComponents
           type: array
