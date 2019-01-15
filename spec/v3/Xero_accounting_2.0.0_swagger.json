@@ -7638,6 +7638,57 @@
         } ]
       }
     },
+    "/Reports/BankStatement" : {
+      "x-related-model" : "Report",
+      "get" : {
+        "tags" : [ "Accounting" ],
+        "operationId" : "getReportBankStatement",
+        "summary" : "Allows you to retrieve report for BankStatement",
+        "responses" : {
+          "200" : {
+            "description" : "A successful request",
+            "content" : {
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ReportWithRows"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ReportWithRows"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [ {
+          "in" : "query",
+          "required" : true,
+          "name" : "bankAccountID",
+          "description" : "Unique identifier for the bank account to get the bank statements for",
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        }, {
+          "in" : "query",
+          "name" : "fromDate",
+          "description" : "e.g. 2018-03-31",
+          "schema" : {
+            "type" : "string",
+            "format" : "date"
+          }
+        }, {
+          "in" : "query",
+          "name" : "toDate",
+          "description" : "e.g. 2018-03-31",
+          "schema" : {
+            "type" : "string",
+            "format" : "date"
+          }
+        } ]
+      }
+    },
     "/Reports/BankSummary" : {
       "x-related-model" : "Report",
       "get" : {
