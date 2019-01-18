@@ -7607,9 +7607,10 @@
         }, {
           "in" : "query",
           "name" : "timeframe",
-          "description" : "The period size to compare to (1=month, 3=quarter, 12=year)",
+          "description" : "The period size to compare to (MONTH, QUARTER, YEAR)",
           "schema" : {
-            "type" : "integer"
+            "type" : "string",
+            "enum" : [ "MONTH", "QUARTER", "YEAR" ]
           }
         }, {
           "in" : "query",
@@ -7821,7 +7822,7 @@
         }, {
           "in" : "query",
           "name" : "timeframe",
-          "description" : "The period size to compare to (1=month, 3=quarter, 12=year)",
+          "description" : "The period size to compare to (MONTH, QUARTER, YEAR)",
           "schema" : {
             "type" : "string",
             "enum" : [ "MONTH", "QUARTER", "YEAR" ]
@@ -9640,7 +9641,8 @@
           },
           "Status" : {
             "description" : "Current status of an employee – see contact status types",
-            "type" : "string"
+            "type" : "string",
+            "enum" : [ "ACTIVE", "ARCHIVED", "GDPRREQUEST" ]
           },
           "FirstName" : {
             "description" : "First name of an employee (max length = 255)",
@@ -9654,6 +9656,11 @@
           },
           "ExternalLink" : {
             "$ref" : "#/components/schemas/ExternalLink"
+          },
+          "UpdatedDateUTC" : {
+            "type" : "string",
+            "format" : "date-time",
+            "example" : "2019-11-12T00:00:00"
           }
         },
         "type" : "object"

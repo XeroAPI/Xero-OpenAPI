@@ -5327,9 +5327,13 @@ paths:
             type: integer
         - in: query
           name: timeframe
-          description: The period size to compare to (1=month, 3=quarter, 12=year)
+          description: The period size to compare to (MONTH, QUARTER, YEAR)
           schema:
-            type: integer
+            type: string
+            enum:
+            - MONTH
+            - QUARTER
+            - YEAR
         - in: query
           name: trackingOptionID1
           schema:
@@ -5475,7 +5479,7 @@ paths:
             type: integer
         - in: query
           name: timeframe
-          description: The period size to compare to (1=month, 3=quarter, 12=year)
+          description: The period size to compare to (MONTH, QUARTER, YEAR)
           schema:
             type: string
             enum:
@@ -7099,6 +7103,10 @@ components:
         Status:
           description: Current status of an employee – see contact status types
           type: string
+          enum:
+          - ACTIVE
+          - ARCHIVED
+          - GDPRREQUEST
         FirstName:
           description: First name of an employee (max length = 255)
           maxLength: 255
@@ -7109,6 +7117,10 @@ components:
           type: string
         ExternalLink:
           $ref: '#/components/schemas/ExternalLink'
+        UpdatedDateUTC:
+          type: string
+          format: date-time
+          example: 2019-11-12T00:00:00
       type: object
     ExpenseClaims:
       type: object
