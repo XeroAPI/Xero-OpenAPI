@@ -7744,6 +7744,53 @@
         } ]
       }
     },
+    "/Reports/BudgetSummary" : {
+      "x-related-model" : "Report",
+      "get" : {
+        "tags" : [ "Accounting" ],
+        "operationId" : "getReportBudgetSummary",
+        "summary" : "Allows you to retrieve report for Budget Summary",
+        "responses" : {
+          "200" : {
+            "description" : "success- return a Report with Rows object",
+            "content" : {
+              "text/xml" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ReportWithRows"
+                }
+              },
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ReportWithRows"
+                }
+              }
+            }
+          }
+        },
+        "parameters" : [ {
+          "in" : "query",
+          "name" : "date",
+          "description" : "e.g. 2018-03-31",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "in" : "query",
+          "name" : "period",
+          "description" : "The number of periods to compare (integer between 1 and 12)",
+          "schema" : {
+            "type" : "integer"
+          }
+        }, {
+          "in" : "query",
+          "name" : "timeframe",
+          "description" : "The period size to compare to (1=month, 3=quarter, 12=year)",
+          "schema" : {
+            "type" : "integer"
+          }
+        } ]
+      }
+    },
     "/Reports/ExecutiveSummary" : {
       "x-related-model" : "Report",
       "get" : {
@@ -11362,7 +11409,8 @@
         "type" : "object",
         "properties" : {
           "RowType" : {
-            "type" : "string"
+            "type" : "string",
+            "enum" : [ "HEADER", "SECTION", "ROW", "" ]
           },
           "Title" : {
             "type" : "string"
