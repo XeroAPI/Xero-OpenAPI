@@ -7842,6 +7842,11 @@ components:
       externalDocs:
         url: 'http://developer.xero.com/documentation/api/organisation/'
       properties:
+        OrganisationID:
+          description: Unique Xero identifier
+          type: string
+          format: uuid
+          example: 8be9db36-3598-4755-ba5c-c2dbc8c4a7a2
         APIKey:
           description: Display a unique key used for Xero-to-Xero transactions
           type: string
@@ -8958,7 +8963,7 @@ components:
       type: object
       properties:
         RowType:
-          type: string
+          $ref: '#/components/schemas/RowType'
         Title:
           type: string
         Cells:
@@ -8969,16 +8974,18 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ReportRow'
+    RowType:
+      type: string
+      enum:
+      - Header
+      - Section
+      - Row
+      - SummaryRow
     ReportRow:
       type: object
       properties:
         RowType:
-          type: string
-          enum:
-          - HEADER
-          - SECTION
-          - ROW
-          - ''
+          $ref: '#/components/schemas/RowType'
         Title:
           type: string
         Cells:
