@@ -237,7 +237,7 @@
         "summary" : "Allows you to retrieve Attachments on Account",
         "responses" : {
           "200" : {
-            "description" : "A successful request",
+            "description" : "Returns a binary string (ByteArray)",
             "content" : {
               "application/octet-stream" : {
                 "schema" : {
@@ -266,6 +266,7 @@
           }
         }, {
           "required" : true,
+          "description" : "The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf",
           "in" : "header",
           "name" : "contentType",
           "schema" : {
@@ -8800,7 +8801,7 @@
       },
       "LineItem" : {
         "externalDocs" : {
-          "url" : "http://developer.xero.com/documentation/api/repeating-invoices/"
+          "url" : "https://developer.xero.com/documentation/api/invoices#post"
         },
         "properties" : {
           "LineItemID" : {
@@ -8847,7 +8848,7 @@
             "description" : "Optional Tracking Category – see Tracking.  Any LineItem can have a  maximum of 2 <TrackingCategory> elements.",
             "type" : "array",
             "items" : {
-              "$ref" : "#/components/schemas/TrackingCategory"
+              "$ref" : "#/components/schemas/LineItemTracking"
             }
           },
           "DiscountRate" : {
@@ -8858,6 +8859,31 @@
             "description" : "The Xero identifier for a Repeating Invoicee.g. 297c2dc5-cc47-4afd-8ec8-74990b8761e9",
             "type" : "string",
             "format" : "uuid"
+          }
+        },
+        "type" : "object"
+      },
+      "LineItemTracking" : {
+        "externalDocs" : {
+          "url" : "https://developer.xero.com/documentation/api/invoices#post"
+        },
+        "properties" : {
+          "TrackingCategoryID" : {
+            "description" : "The Xero identifier for a tracking category",
+            "type" : "string",
+            "format" : "uuid",
+            "example" : "297c2dc5-cc47-4afd-8ec8-74990b8761e9"
+          },
+          "Name" : {
+            "description" : "The name of the tracking category",
+            "maxLength" : 100,
+            "type" : "string",
+            "example" : "Region"
+          },
+          "Option" : {
+            "description" : "See Tracking Options",
+            "type" : "string",
+            "example" : "North"
           }
         },
         "type" : "object"
