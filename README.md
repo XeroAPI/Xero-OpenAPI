@@ -5,12 +5,14 @@ An OpenAPI (Swagger) specification for the Xero API
 This repository holds the official Xero [OpenAPI](https://www.openapis.org/) descriptions.   
 
 OpenAPI spec 3.0
-* [Accounting API - yaml](https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/oas3/spec/v3/Xero_accounting_2.0.0_swagger.yaml)
-* [Accounting API - json](https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/oas3/spec/v3/Xero_accounting_2.0.0_swagger.json)
-* [Bank Feeds API - yaml](https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/oas3/spec/v3/Xero_bankfeeds_1.0.0_swagger.yaml)
-* [Bank Feeds API - json](https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/oas3/spec/v3/Xero_bankfeeds_1.0.0_swagger.json)
-* [Fixed Assets API - yaml](https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/oas3/spec/v3/Xero_assets_1.0.0_swagger.yaml)
-* [Fixed Assets API - json](https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/oas3/spec/v3/Xero_assets_1.0.0_swagger.json)
+* [Accounting API - yaml](https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/master/accounting-yaml/Xero_accounting_2.0.0_swagger.yaml)
+* [Accounting API - json](https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/master/accounting-json/Xero_accounting_2.0.0_swagger.json)
+* [Bank Feeds API - yaml](https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/master/bankfeeds-yaml/Xero_bankfeeds_1.0.0_swagger.yaml)
+* [Bank Feeds API - json](https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/master/bankfeeds-json/Xero_bankfeeds_1.0.0_swagger.json)
+* [Fixed Assets API - yaml](https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/master/assets-yaml/Xero_assets_1.0.0_swagger.yaml)
+* [Fixed Assets API - json](https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/master/assets-json/Xero_assets_1.0.0_swagger.json)
+* [Files API - yaml](https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/master/files-yaml/Xero_files_1.0.0_swagger.yaml)
+* [Files API - json](https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/master/files-json/Xero_files_1.0.0_swagger.json)
 
 OpenAPI spec 2.0 (Swagger)
 * [Accounting API - yaml](https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/oas3/spec/v2/accounting2.yaml)
