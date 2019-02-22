@@ -225,27 +225,29 @@
         "tags" : [ "Accounting" ],
         "operationId" : "getAccountAttachments",
         "summary" : "Allows you to retrieve Attachments for accounts",
-        "responses" : {
-          "200" : {
-            "description" : "A successful request",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Attachments"
-                }
-              }
-            }
-          }
-        },
         "parameters" : [ {
           "required" : true,
           "in" : "path",
           "name" : "AccountID",
+          "description" : "Unique identifier for Account object",
           "schema" : {
             "type" : "string",
             "format" : "uuid"
           }
-        } ]
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success - return response of type Attachments array of Attachment",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Attachments"
+                },
+                "example" : "{ \"Id\": \"439c1573-3cd8-4697-a9f6-81fa651ee8f3\", \"Status\": \"OK\", \"ProviderName\": \"Java Partner Example\", \"DateTimeUTC\": \"\\/Date(1550852630329)\\/\", \"Attachments\": [ { \"AttachmentID\": \"52a643be-cd5c-489f-9778-53a9fd337756\", \"FileName\": \"sample5.jpg\", \"Url\": \"https://api.xero.com/api.xro/2.0/Accounts/da962997-a8bd-4dff-9616-01cdc199283f/Attachments/sample5.jpg\", \"MimeType\": \"image/jpg\", \"ContentLength\": 2878711 } ] }"
+              }
+            }
+          }
+        }
       }
     },
     "/Accounts/{AccountID}/Attachments/{AttachmentID}" : {
@@ -253,7 +255,34 @@
       "get" : {
         "tags" : [ "Accounting" ],
         "operationId" : "getAccountAttachmentById",
-        "summary" : "Allows you to retrieve Attachments on Account",
+        "summary" : "Allows you to retrieve specific Attachment on Account",
+        "parameters" : [ {
+          "required" : true,
+          "in" : "path",
+          "name" : "AccountID",
+          "description" : "Unique identifier for Account object",
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        }, {
+          "required" : true,
+          "in" : "path",
+          "name" : "AttachmentID",
+          "description" : "Unique identifier for Attachment object",
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        }, {
+          "required" : true,
+          "in" : "header",
+          "name" : "contentType",
+          "description" : "The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
         "responses" : {
           "200" : {
             "description" : "Returns a binary string (ByteArray)",
@@ -266,40 +295,17 @@
               }
             }
           }
-        },
-        "parameters" : [ {
-          "required" : true,
-          "in" : "path",
-          "name" : "AccountID",
-          "schema" : {
-            "type" : "string",
-            "format" : "uuid"
-          }
-        }, {
-          "required" : true,
-          "in" : "path",
-          "name" : "AttachmentID",
-          "schema" : {
-            "type" : "string",
-            "format" : "uuid"
-          }
-        }, {
-          "required" : true,
-          "description" : "The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf",
-          "in" : "header",
-          "name" : "contentType",
-          "schema" : {
-            "type" : "string"
-          }
-        } ]
+        }
       },
       "post" : {
         "tags" : [ "Accounting" ],
         "operationId" : "updateAccountAttachmentById",
+        "summary" : "Allows you to update meta data on Attachment",
         "parameters" : [ {
           "required" : true,
           "in" : "path",
           "name" : "AccountID",
+          "description" : "Unique identifier for Account object",
           "schema" : {
             "type" : "string",
             "format" : "uuid"
@@ -308,6 +314,7 @@
           "required" : true,
           "in" : "path",
           "name" : "AttachmentID",
+          "description" : "Unique identifier for Attachment object",
           "schema" : {
             "type" : "string",
             "format" : "uuid"
@@ -317,11 +324,6 @@
           "200" : {
             "description" : "A successful request",
             "content" : {
-              "text/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Attachments"
-                }
-              },
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/Attachments"
@@ -330,7 +332,14 @@
             }
           },
           "400" : {
-            "$ref" : "#/components/responses/400Error"
+            "description" : "Validation Error - some data was incorrect returns response of type Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              }
+            }
           }
         },
         "requestBody" : {
@@ -339,7 +348,7 @@
             "application/octet-stream" : {
               "schema" : {
                 "type" : "string",
-                "format" : "binary"
+                "format" : "byte"
               }
             }
           }
@@ -351,7 +360,33 @@
       "get" : {
         "tags" : [ "Accounting" ],
         "operationId" : "getAccountAttachmentByFileName",
-        "summary" : "Allows you to retrieve Attachments on Account by Filename",
+        "summary" : "Allows you to retrieve Attachment on Account by Filename",
+        "parameters" : [ {
+          "required" : true,
+          "in" : "path",
+          "name" : "AccountID",
+          "description" : "Unique identifier for Account object",
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        }, {
+          "required" : true,
+          "in" : "path",
+          "name" : "FileName",
+          "description" : "Name of the attachment",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "required" : true,
+          "in" : "header",
+          "name" : "contentType",
+          "description" : "Format type of the attachment",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
         "responses" : {
           "200" : {
             "description" : "A successful request",
@@ -364,38 +399,17 @@
               }
             }
           }
-        },
-        "parameters" : [ {
-          "required" : true,
-          "in" : "path",
-          "name" : "AccountID",
-          "schema" : {
-            "type" : "string",
-            "format" : "uuid"
-          }
-        }, {
-          "required" : true,
-          "in" : "path",
-          "name" : "FileName",
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "required" : true,
-          "in" : "header",
-          "name" : "contentType",
-          "schema" : {
-            "type" : "string"
-          }
-        } ]
+        }
       },
       "post" : {
         "tags" : [ "Accounting" ],
         "operationId" : "updateAccountAttachmentByFileName",
+        "summary" : "Allows you to update Attachment on Account by Filename",
         "parameters" : [ {
           "required" : true,
           "in" : "path",
           "name" : "AccountID",
+          "description" : "Unique identifier for Account object",
           "schema" : {
             "type" : "string",
             "format" : "uuid"
@@ -404,6 +418,7 @@
           "required" : true,
           "in" : "path",
           "name" : "FileName",
+          "description" : "Name of the attachment",
           "schema" : {
             "type" : "string",
             "format" : "uuid"
@@ -413,11 +428,6 @@
           "200" : {
             "description" : "A successful request",
             "content" : {
-              "text/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Attachments"
-                }
-              },
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/Attachments"
@@ -435,7 +445,7 @@
             "application/octet-stream" : {
               "schema" : {
                 "type" : "string",
-                "format" : "binary"
+                "format" : "byte"
               }
             }
           }
@@ -444,10 +454,12 @@
       "put" : {
         "tags" : [ "Accounting" ],
         "operationId" : "createAccountAttachmentByFileName",
+        "summary" : "Allows you to create Attachment on Account",
         "parameters" : [ {
           "required" : true,
           "in" : "path",
           "name" : "AccountID",
+          "description" : "Unique identifier for Account object",
           "schema" : {
             "type" : "string",
             "format" : "uuid"
@@ -456,6 +468,7 @@
           "required" : true,
           "in" : "path",
           "name" : "FileName",
+          "description" : "Name of the attachment",
           "schema" : {
             "type" : "string"
           }
@@ -464,15 +477,11 @@
           "200" : {
             "description" : "A successful request",
             "content" : {
-              "text/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Attachments"
-                }
-              },
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/Attachments"
-                }
+                },
+                "example" : "{ \"Id\": \"724cdff5-bcd1-4c5c-977e-e864c24258e0\", \"Status\": \"OK\", \"ProviderName\": \"Xero API Partner\", \"DateTimeUTC\": \"\\/Date(1550856817769)\\/\", \"Attachments\": [ { \"AttachmentID\": \"ab95b276-9dce-4925-9077-439818ba270f\", \"FileName\": \"sample5.jpg\", \"Url\": \"https://api.xero.com/api.xro/2.0/Accounts/da962997-a8bd-4dff-9616-01cdc199283f/Attachments/sample5.jpg\", \"MimeType\": \"image/jpg\", \"ContentLength\": 2878711 } ] }"
               }
             }
           },
