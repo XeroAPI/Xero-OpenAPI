@@ -21,19 +21,6 @@
         "tags" : [ "Accounting" ],
         "operationId" : "getAccounts",
         "summary" : "Allows you to retrieve the full chart of accounts",
-        "responses" : {
-          "200" : {
-            "description" : "Success - return response of type Accounts",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Accounts"
-                },
-                "example" : "{ \"Accounts\": [{ \"AccountID\": \"ebd06280-af70-4bed-97c6-7451a454ad85\", \"Code\": \"091\", \"Name\": \"Business Savings Account\", \"Type\": \"BANK\", \"TaxType\": \"NONE\", \"EnablePaymentsToAccount\": false, \"BankAccountNumber\": \"0209087654321050\", \"BankAccountType\": \"BANK\", \"CurrencyCode\": \"NZD\" },{ \"AccountID\": \"7d05a53d-613d-4eb2-a2fc-dcb6adb80b80\", \"Code\": \"200\", \"Name\": \"Sales\", \"Type\": \"REVENUE\", \"TaxType\": \"OUTPUT2\", \"Description\": \"Income from any normal business activity\", \"EnablePaymentsToAccount\": false }] }"
-              }
-            }
-          }
-        },
         "parameters" : [ {
           "in" : "header",
           "name" : "If-Modified-Since",
@@ -56,14 +43,28 @@
           "schema" : {
             "type" : "string"
           }
-        } ]
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success - return response of type Accounts array with 0 to n Account",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Accounts"
+                },
+                "example" : "{ \"Accounts\": [{ \"AccountID\": \"ebd06280-af70-4bed-97c6-7451a454ad85\", \"Code\": \"091\", \"Name\": \"Business Savings Account\", \"Type\": \"BANK\", \"TaxType\": \"NONE\", \"EnablePaymentsToAccount\": false, \"BankAccountNumber\": \"0209087654321050\", \"BankAccountType\": \"BANK\", \"CurrencyCode\": \"NZD\" },{ \"AccountID\": \"7d05a53d-613d-4eb2-a2fc-dcb6adb80b80\", \"Code\": \"200\", \"Name\": \"Sales\", \"Type\": \"REVENUE\", \"TaxType\": \"OUTPUT2\", \"Description\": \"Income from any normal business activity\", \"EnablePaymentsToAccount\": false }] }"
+              }
+            }
+          }
+        }
       },
       "put" : {
         "tags" : [ "Accounting" ],
         "operationId" : "createAccount",
+        "summary" : "Allows you to create a new chart of accounts",
         "responses" : {
           "200" : {
-            "description" : "A successful request",
+            "description" : "Success - created new Account and return response of type Accounts array with new Account",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -74,7 +75,7 @@
             }
           },
           "400" : {
-            "description" : "A successful request",
+            "description" : "Validation Error - some data was incorrect returns response of type Error",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -91,7 +92,8 @@
             "application/json" : {
               "schema" : {
                 "$ref" : "#/components/schemas/Account"
-              }
+              },
+              "example" : "{ \"Code\":\"123456\", \"Name\":\"Foobar\", \"Type\":\"EXPENSE\", \"Description\":\"Hello World\" }"
             }
           }
         }
@@ -102,10 +104,20 @@
       "get" : {
         "tags" : [ "Accounting" ],
         "operationId" : "getAccount",
-        "summary" : "Allows you to retrieve the full chart of accounts",
+        "summary" : "Allows you to retrieve a single chart of accounts",
+        "parameters" : [ {
+          "required" : true,
+          "in" : "path",
+          "name" : "AccountID",
+          "description" : "Unique identifier for retrieving single object",
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
         "responses" : {
           "200" : {
-            "description" : "A successful request",
+            "description" : "Success - return response of type Accounts array with one Account",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -115,24 +127,17 @@
               }
             }
           }
-        },
-        "parameters" : [ {
-          "required" : true,
-          "in" : "path",
-          "name" : "AccountID",
-          "schema" : {
-            "type" : "string",
-            "format" : "uuid"
-          }
-        } ]
+        }
       },
       "post" : {
         "tags" : [ "Accounting" ],
         "operationId" : "updateAccount",
+        "summary" : "Allows you to update a chart of accounts",
         "parameters" : [ {
           "required" : true,
           "in" : "path",
           "name" : "AccountID",
+          "description" : "Unique identifier for retrieving single object",
           "schema" : {
             "type" : "string",
             "format" : "uuid"
@@ -140,7 +145,7 @@
         } ],
         "responses" : {
           "200" : {
-            "description" : "A successful request",
+            "description" : "Success - update existing Account and return response of type Accounts array with updated Account",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -151,7 +156,15 @@
             }
           },
           "400" : {
-            "$ref" : "#/components/responses/400Error"
+            "description" : "Validation Error - some data was incorrect returns response of type Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                },
+                "example" : "{ \"ErrorNumber\": 10, \"Type\": \"ValidationException\", \"Message\": \"A validation exception occurred\", \"Elements\": [ { \"AccountID\": \"00000000-0000-0000-0000-000000000000\", \"Code\": \"123456\", \"Name\": \"Foobar\", \"Type\": \"EXPENSE\", \"Description\": \"Hello World\", \"ValidationErrors\": [ { \"Message\": \"Please enter a unique Name.\" } ] } ] }"
+              }
+            }
           }
         },
         "requestBody" : {
@@ -160,7 +173,8 @@
             "application/json" : {
               "schema" : {
                 "$ref" : "#/components/schemas/Accounts"
-              }
+              },
+              "example" : "{ \"Accounts\":[ { \"Code\":\"123456\", \"Name\":\"BarFoo\", \"AccountID\":\"99ce6032-0678-4aa0-8148-240c75fee33a\", \"Type\":\"EXPENSE\", \"Description\":\"GoodBye World\", \"TaxType\":\"INPUT\", \"EnablePaymentsToAccount\":false, \"ShowInExpenseClaims\":false, \"Class\":\"EXPENSE\", \"ReportingCode\":\"EXP\", \"ReportingCodeName\":\"Expense\", \"UpdatedDateUTC\":\"2019-02-21T16:29:47.96-08:00\" } ] }"
             }
           }
         }
@@ -168,9 +182,20 @@
       "delete" : {
         "tags" : [ "Accounting" ],
         "operationId" : "deleteAccount",
+        "summary" : "Allows you to delete a chart of accounts",
+        "parameters" : [ {
+          "required" : true,
+          "in" : "path",
+          "name" : "AccountID",
+          "description" : "Unique identifier for retrieving single object",
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
         "responses" : {
           "200" : {
-            "description" : "A successful request",
+            "description" : "Success - delete existing Account and return response of type Accounts array with deleted Account",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -181,18 +206,17 @@
             }
           },
           "400" : {
-            "$ref" : "#/components/responses/400Error"
+            "description" : "Validation Error - some data was incorrect returns response of type Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                },
+                "example" : "{ \"ErrorNumber\": 10, \"Type\": \"ValidationException\", \"Message\": \"A validation exception occurred\", \"Elements\": [ { \"AccountID\": \"00000000-0000-0000-0000-000000000000\", \"Code\": \"123456\", \"Name\": \"Foobar\", \"Type\": \"EXPENSE\", \"Description\": \"Hello World\", \"ValidationErrors\": [ { \"Message\": \"Please enter a unique Name.\" } ] } ] }"
+              }
+            }
           }
-        },
-        "parameters" : [ {
-          "required" : true,
-          "in" : "path",
-          "name" : "AccountID",
-          "schema" : {
-            "type" : "string",
-            "format" : "uuid"
-          }
-        } ]
+        }
       }
     },
     "/Accounts/{AccountID}/Attachments" : {
@@ -205,11 +229,6 @@
           "200" : {
             "description" : "A successful request",
             "content" : {
-              "text/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Attachments"
-                }
-              },
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/Attachments"
