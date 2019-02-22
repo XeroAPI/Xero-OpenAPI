@@ -17,18 +17,10 @@ paths:
         - Accounting
       operationId: getAccounts
       summary: Allows you to retrieve the full chart of accounts
-      responses:
-        '200':
-          description: A successful response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Accounts'
       parameters:
         - in: header
           name: If-Modified-Since
-          description: >-
-            Only records created or modified since this timestamp will be
+          description: Only records created or modified since this timestamp will be
             returned
           schema:
             type: string
@@ -43,101 +35,312 @@ paths:
           description: Order by an any element
           schema:
             type: string
+      responses:
+        '200':
+          description: Success - return response of type Accounts array with 0 to n Account 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Accounts'
+              example: '{
+                      "Accounts": [{
+                        "AccountID": "ebd06280-af70-4bed-97c6-7451a454ad85",
+                        "Code": "091",
+                        "Name": "Business Savings Account",
+                        "Type": "BANK",
+                        "TaxType": "NONE",
+                        "EnablePaymentsToAccount": false,
+                        "BankAccountNumber": "0209087654321050",
+                        "BankAccountType": "BANK",
+                        "CurrencyCode": "NZD"
+                      },{
+                        "AccountID": "7d05a53d-613d-4eb2-a2fc-dcb6adb80b80",
+                        "Code": "200",
+                        "Name": "Sales",
+                        "Type": "REVENUE",
+                        "TaxType": "OUTPUT2",
+                        "Description": "Income from any normal business activity",
+                        "EnablePaymentsToAccount": false
+                      }]
+                    }'
+      
     put:
       tags:
         - Accounting
       operationId: createAccount
+      summary: Allows you to create a new chart of accounts
       responses:
         '200':
-          description: A successful request
+          description: Success - created new Account and return response of type Accounts array with new Account 
           content:
-            text/xml:
-              schema:
-                $ref: '#/components/schemas/Accounts'
             application/json:
               schema:
                 $ref: '#/components/schemas/Accounts'
+              example: '{
+                          "Id": "11814c9d-3b5e-492e-93b0-fad16bf3244f",
+                          "Status": "OK",
+                          "ProviderName": "Xero API Partner",
+                          "DateTimeUTC": "\/Date(1550793549392)\/",
+                          "Accounts": [
+                            {
+                              "AccountID": "66b262e2-561e-423e-8937-47d558f13442",
+                              "Code": "123456",
+                              "Name": "Foobar",
+                              "Status": "ACTIVE",
+                              "Type": "EXPENSE",
+                              "TaxType": "INPUT",
+                              "Description": "Hello World",
+                              "Class": "EXPENSE",
+                              "EnablePaymentsToAccount": false,
+                              "ShowInExpenseClaims": false,
+                              "ReportingCode": "EXP",
+                              "ReportingCodeName": "Expense",
+                              "UpdatedDateUTC": "\/Date(1550793549320+0000)\/"
+                            }
+                          ]
+                        }'
         '400':
-          $ref: '#/components/responses/400Error'
+          description: Validation Error - some data was incorrect returns response of type Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example: '{
+                          "ErrorNumber": 10,
+                          "Type": "ValidationException",
+                          "Message": "A validation exception occurred",
+                          "Elements": [
+                            {
+                              "AccountID": "00000000-0000-0000-0000-000000000000",
+                              "Code": "123456",
+                              "Name": "Foobar",
+                              "Type": "EXPENSE",
+                              "Description": "Hello World",
+                              "ValidationErrors": [
+                                {
+                                  "Message": "Please enter a unique Name."
+                                }
+                              ]
+                            }
+                          ]
+                        }'
       requestBody:
           required: true
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Account'
+              example: '{
+                          "Code":"123456",
+                          "Name":"Foobar",
+                          "Type":"EXPENSE",
+                          "Description":"Hello World"
+                        }'
   '/Accounts/{AccountID}':
     x-related-model: Account
     get:
       tags:
         - Accounting
       operationId: getAccount
-      summary: Allows you to retrieve the full chart of accounts
-      responses:
-        '200':
-          description: A successful request
-          content:
-            text/xml:
-              schema:
-                $ref: '#/components/schemas/Accounts'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Accounts'
+      summary: Allows you to retrieve a single chart of accounts
       parameters:
         - required: true
           in: path
           name: AccountID
+          description: Unique identifier for retrieving single object
           schema:
             type: string
             format: uuid
+      responses:
+        '200':
+          description: Success - return response of type Accounts array with one Account
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Accounts'
+              example: '{
+                          "Id": "323455cc-9511-4451-a873-248d2983f38e",
+                          "Status": "OK",
+                          "ProviderName": "Xero API Partner",
+                          "DateTimeUTC": "\/Date(1550797359081)\/",
+                          "Accounts": [
+                            {
+                              "AccountID": "99ce6032-0678-4aa0-8148-240c75fee33a",
+                              "Code": "123456",
+                              "Name": "FooBar",
+                              "Status": "ACTIVE",
+                              "Type": "EXPENSE",
+                              "TaxType": "INPUT",
+                              "Description": "Hello World",
+                              "Class": "EXPENSE",
+                              "EnablePaymentsToAccount": false,
+                              "ShowInExpenseClaims": false,
+                              "ReportingCode": "EXP",
+                              "ReportingCodeName": "Expense",
+                              "UpdatedDateUTC": "\/Date(1550797359120+0000)\/"
+                            }
+                          ]
+                        }'
     post:
       tags: 
         - Accounting
       operationId: updateAccount
+      summary: Allows you to update a chart of accounts
       parameters:
         - required: true
           in: path
           name: AccountID
+          description: Unique identifier for retrieving single object
           schema:
             type: string
             format: uuid
       responses:
         '200':
-          description: A successful request
+          description: Success - update existing Account and return response of type Accounts array with updated Account 
           content:
-            text/xml:
-              schema:
-                $ref: '#/components/schemas/Accounts'
             application/json:
               schema:
                 $ref: '#/components/schemas/Accounts'
+              example: '{
+                          "Id": "9012e75c-ec08-40a9-ae15-153fc1f35c4d",
+                          "Status": "OK",
+                          "ProviderName": "Java Partner Example",
+                          "DateTimeUTC": "\/Date(1550795389340)\/",
+                          "Accounts": [
+                            {
+                              "AccountID": "99ce6032-0678-4aa0-8148-240c75fee33a",
+                              "Code": "654321",
+                              "Name": "BarFoo",
+                              "Status": "ACTIVE",
+                              "Type": "EXPENSE",
+                              "TaxType": "INPUT",
+                              "Description": "Good Bye World",
+                              "Class": "EXPENSE",
+                              "EnablePaymentsToAccount": false,
+                              "ShowInExpenseClaims": false,
+                              "ReportingCode": "EXP",
+                              "ReportingCodeName": "Expense",
+                              "UpdatedDateUTC": "\/Date(1550795389333+0000)\/"
+                            }
+                          ]
+                        }'
         '400':
-          $ref: '#/components/responses/400Error'
+          description: Validation Error - some data was incorrect returns response of type Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example: '{
+                          "ErrorNumber": 10,
+                          "Type": "ValidationException",
+                          "Message": "A validation exception occurred",
+                          "Elements": [
+                            {
+                              "AccountID": "00000000-0000-0000-0000-000000000000",
+                              "Code": "123456",
+                              "Name": "Foobar",
+                              "Type": "EXPENSE",
+                              "Description": "Hello World",
+                              "ValidationErrors": [
+                                {
+                                  "Message": "Please enter a unique Name."
+                                }
+                              ]
+                            }
+                          ]
+                        }'
       requestBody:
           required: true
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Accounts'
+              example: '{  
+                         "Accounts":[  
+                            {  
+                               "Code":"123456",
+                               "Name":"BarFoo",
+                               "AccountID":"99ce6032-0678-4aa0-8148-240c75fee33a",
+                               "Type":"EXPENSE",
+                               "Description":"GoodBye World",
+                               "TaxType":"INPUT",
+                               "EnablePaymentsToAccount":false,
+                               "ShowInExpenseClaims":false,
+                               "Class":"EXPENSE",
+                               "ReportingCode":"EXP",
+                               "ReportingCodeName":"Expense",
+                               "UpdatedDateUTC":"2019-02-21T16:29:47.96-08:00"
+                            }
+                         ]
+                      }'
     delete:
       tags:
         - Accounting
       operationId: deleteAccount
-      responses:
-        '200':
-          description: A successful request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Accounts'
-        '400':
-          $ref: '#/components/responses/400Error'
+      summary: Allows you to delete a chart of accounts
       parameters:
         - required: true
           in: path
           name: AccountID
+          description: Unique identifier for retrieving single object
           schema:
             type: string
             format: uuid
+      responses:
+        '200':
+          description: Success - delete existing Account and return response of type Accounts array with deleted Account 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Accounts'
+              example: '{
+                          "Id": "76bb0543-8efe-4acc-b7f6-67dfcdec37b4",
+                          "Status": "OK",
+                          "ProviderName": "Xero API Partner",
+                          "DateTimeUTC": "\/Date(1550798217216)\/",
+                          "Accounts": [
+                            {
+                              "AccountID": "7f3c0bec-f3e7-4073-b4d6-cc56dd027ef1",
+                              "Code": "123456",
+                              "Name": "FooBar",
+                              "Status": "DELETED",
+                              "Type": "EXPENSE",
+                              "TaxType": "INPUT",
+                              "Description": "Hello World",
+                              "Class": "EXPENSE",
+                              "EnablePaymentsToAccount": false,
+                              "ShowInExpenseClaims": false,
+                              "ReportingCode": "EXP",
+                              "ReportingCodeName": "Expense",
+                              "UpdatedDateUTC": "\/Date(1550798217210+0000)\/"
+                            }
+                          ]
+                        }'
+        '400':
+          description: Validation Error - some data was incorrect returns response of type Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example: '{
+                          "ErrorNumber": 10,
+                          "Type": "ValidationException",
+                          "Message": "A validation exception occurred",
+                          "Elements": [
+                            {
+                              "AccountID": "00000000-0000-0000-0000-000000000000",
+                              "Code": "123456",
+                              "Name": "Foobar",
+                              "Type": "EXPENSE",
+                              "Description": "Hello World",
+                              "ValidationErrors": [
+                                {
+                                  "Message": "Please enter a unique Name."
+                                }
+                              ]
+                            }
+                          ]
+                        }'
   '/Accounts/{AccountID}/Attachments':
     x-related-model: Account
     get:
@@ -145,30 +348,64 @@ paths:
         - Accounting
       operationId: getAccountAttachments
       summary: Allows you to retrieve Attachments for accounts
-      responses:
-        '200':
-          description: A successful request
-          content:
-            text/xml:
-              schema:
-                $ref: '#/components/schemas/Attachments'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Attachments'
       parameters:
         - required: true
           in: path
           name: AccountID
+          description: Unique identifier for Account object
           schema:
             type: string
             format: uuid
+      responses:
+        '200':
+          description: Success - return response of type Attachments array of Attachment 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Attachments'
+              example: '{
+                          "Id": "439c1573-3cd8-4697-a9f6-81fa651ee8f3",
+                          "Status": "OK",
+                          "ProviderName": "Java Partner Example",
+                          "DateTimeUTC": "\/Date(1550852630329)\/",
+                          "Attachments": [
+                            {
+                              "AttachmentID": "52a643be-cd5c-489f-9778-53a9fd337756",
+                              "FileName": "sample5.jpg",
+                              "Url": "https://api.xero.com/api.xro/2.0/Accounts/da962997-a8bd-4dff-9616-01cdc199283f/Attachments/sample5.jpg",
+                              "MimeType": "image/jpg",
+                              "ContentLength": 2878711
+                            }
+                          ]
+                        }'
   '/Accounts/{AccountID}/Attachments/{AttachmentID}':
     x-related-model: Account
     get:
       tags:
         - Accounting
       operationId: getAccountAttachmentById
-      summary: Allows you to retrieve Attachments on Account
+      summary: Allows you to retrieve specific Attachment on Account
+      parameters:
+        - required: true
+          in: path
+          name: AccountID
+          description: Unique identifier for Account object
+          schema:
+            type: string
+            format: uuid
+        - required: true
+          in: path
+          name: AttachmentID
+          description: Unique identifier for Attachment object
+          schema:
+            type: string
+            format: uuid
+        - required: true
+          in: header
+          name: contentType
+          description: The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf 
+          schema:
+            type: string
       responses:
         '200':
           description: Returns a binary string (ByteArray)
@@ -177,39 +414,23 @@ paths:
               schema:
                 type: string
                 format: binary
-      parameters:
-        - required: true
-          in: path
-          name: AccountID
-          schema:
-            type: string
-            format: uuid
-        - required: true
-          in: path
-          name: AttachmentID
-          schema:
-            type: string
-            format: uuid
-        - required: true
-          description: The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf 
-          in: header
-          name: contentType
-          schema:
-            type: string
     post:
       tags:
         - Accounting
       operationId: updateAccountAttachmentById
+      summary: Allows you to update meta data on Attachment 
       parameters:
         - required: true
           in: path
           name: AccountID
+          description: Unique identifier for Account object
           schema:
             type: string
             format: uuid
         - required: true
           in: path
           name: AttachmentID
+          description: Unique identifier for Attachment object
           schema:
             type: string
             format: uuid
@@ -217,28 +438,49 @@ paths:
         '200':
           description: A successful request
           content:
-            text/xml:
-              schema:
-                $ref: '#/components/schemas/Attachments'
             application/json:
               schema:
                 $ref: '#/components/schemas/Attachments'
         '400':
-          $ref: '#/components/responses/400Error'
+          description: Validation Error - some data was incorrect returns response of type Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
       requestBody:
         required: true
         content:
           application/octet-stream:
             schema:
               type: string
-              format: binary
+              format: byte
   '/Accounts/{AccountID}/Attachments/{FileName}':
     x-related-model: Invoice
     get:
       tags:
         - Accounting
       operationId: getAccountAttachmentByFileName
-      summary: Allows you to retrieve Attachments on Account by Filename
+      summary: Allows you to retrieve Attachment on Account by Filename
+      parameters:
+        - required: true
+          in: path
+          name: AccountID
+          description: Unique identifier for Account object
+          schema:
+            type: string
+            format: uuid
+        - required: true
+          in: path
+          name: FileName
+          description: Name of the attachment
+          schema:
+            type: string
+        - required: true
+          in: header
+          name: contentType
+          description: Format type of the attachment
+          schema:
+            type: string
       responses:
         '200':
           description: A successful request
@@ -247,37 +489,23 @@ paths:
               schema:
                 type: string
                 format: binary
-      parameters:
-        - required: true
-          in: path
-          name: AccountID
-          schema:
-            type: string
-            format: uuid
-        - required: true
-          in: path
-          name: FileName
-          schema:
-            type: string
-        - required: true
-          in: header
-          name: contentType
-          schema:
-            type: string
     post:
       tags:
         - Accounting
       operationId: updateAccountAttachmentByFileName
+      summary: Allows you to update Attachment on Account by Filename
       parameters:
         - required: true
           in: path
           name: AccountID
+          description: Unique identifier for Account object
           schema:
             type: string
             format: uuid
         - required: true
           in: path
           name: FileName
+          description: Name of the attachment
           schema:
             type: string
             format: uuid
@@ -285,9 +513,6 @@ paths:
         '200':
           description: A successful request
           content:
-            text/xml:
-              schema:
-                $ref: '#/components/schemas/Attachments'
             application/json:
               schema:
                 $ref: '#/components/schemas/Attachments'
@@ -299,33 +524,48 @@ paths:
           application/octet-stream:
             schema:
               type: string
-              format: binary
+              format: byte
     put:
       tags:
         - Accounting
       operationId: createAccountAttachmentByFileName
+      summary: Allows you to create Attachment on Account
       parameters:
         - required: true
           in: path
           name: AccountID
+          description: Unique identifier for Account object
           schema:
             type: string
             format: uuid
         - required: true
           in: path
           name: FileName
+          description: Name of the attachment
           schema:
             type: string
       responses:
         '200':
           description: A successful request
           content:
-            text/xml:
-              schema:
-                $ref: '#/components/schemas/Attachments'
             application/json:
               schema:
                 $ref: '#/components/schemas/Attachments'
+              example: '{
+                          "Id": "724cdff5-bcd1-4c5c-977e-e864c24258e0",
+                          "Status": "OK",
+                          "ProviderName": "Xero API Partner",
+                          "DateTimeUTC": "\/Date(1550856817769)\/",
+                          "Attachments": [
+                            {
+                              "AttachmentID": "ab95b276-9dce-4925-9077-439818ba270f",
+                              "FileName": "sample5.jpg",
+                              "Url": "https://api.xero.com/api.xro/2.0/Accounts/da962997-a8bd-4dff-9616-01cdc199283f/Attachments/sample5.jpg",
+                              "MimeType": "image/jpg",
+                              "ContentLength": 2878711
+                            }
+                          ]
+                        }'
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
@@ -5904,9 +6144,6 @@ components:
     400Error:
       description: A failed request due to validation error
       content:
-        text/xml:
-          schema:
-            $ref: '#/components/schemas/Error'
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
@@ -6703,7 +6940,6 @@ components:
           $ref: '#/components/schemas/BrandingTheme'
         BatchPayments:
           $ref: '#/components/schemas/BatchPaymentDetails'
-          readOnly: true
         Discount:
           description: The default discount rate for the contact (read only)
           readOnly: true
