@@ -126,6 +126,7 @@ paths:
                         }'
       requestBody:
           required: true
+          description: Request of type Account 
           content:
             application/json:
               schema:
@@ -251,6 +252,7 @@ paths:
                         }'
       requestBody:
           required: true
+          description: Request of type Accounts array with one Account 
           content:
             application/json:
               schema:
@@ -443,7 +445,7 @@ paths:
             type: string
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of type binary 
           content:
              application/octet-stream:
               schema:
@@ -470,7 +472,7 @@ paths:
             type: string
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of type Attachments array of Attachment 
           content:
             application/json:
               schema:
@@ -498,6 +500,7 @@ paths:
                 $ref: '#/components/schemas/Error'
       requestBody:
         required: true
+        description: Request of type ByteArray
         content:
           application/octet-stream:
             schema:
@@ -524,7 +527,7 @@ paths:
             type: string
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of type Attachments array of Attachment 
           content:
             application/json:
               schema:
@@ -548,6 +551,7 @@ paths:
           $ref: '#/components/responses/400Error'
       requestBody:
         required: true
+        description: Request of type ByteArray
         content:
           application/octet-stream:
             schema:
@@ -581,11 +585,105 @@ paths:
             type: string
       responses:
         '200':
-          description: A successful response
+          description: Success - return response of type BatchPayments array of BatchPayment objects 
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/BatchPayments'
+              example: {
+                        "Id": "6ab84949-4fe5-4788-a135-4d8f690d24d7",
+                        "Status": "OK",
+                        "ProviderName": "Java Partner Example",
+                        "DateTimeUTC": "\/Date(1550866184006)\/",
+                        "BatchPayments": [
+                          {
+                            "Account": {
+                              "AccountID": "6f7594f2-f059-4d56-9e67-47ac9733bfe9"
+                            },
+                            "Reference": "OK Baby",
+                            "BatchPaymentID": "d0e9bbbf-5b8a-48b6-906a-035591fcb061",
+                            "DateString": "2017-11-28T00:00:00",
+                            "Date": "\/Date(1511827200000+0000)\/",
+                            "Payments": [
+                              {
+                                "Invoice": {
+                                  "InvoiceID": "0975dec2-0cf6-498d-9c9f-c6775b45c61d",
+                                  "Payments": [],
+                                  "CreditNotes": [],
+                                  "Prepayments": [],
+                                  "Overpayments": [],
+                                  "HasErrors": false,
+                                  "IsDiscounted": false,
+                                  "LineItems": []
+                                },
+                                "PaymentID": "97ec2ef8-f4d6-4de5-9f2a-385d41cdc2fc",
+                                "Amount": 200.00
+                              },
+                              {
+                                "Invoice": {
+                                  "InvoiceID": "600982d9-6605-4e11-afa1-d8dec2be7b52",
+                                  "Payments": [],
+                                  "CreditNotes": [],
+                                  "Prepayments": [],
+                                  "Overpayments": [],
+                                  "HasErrors": false,
+                                  "IsDiscounted": false,
+                                  "LineItems": []
+                                },
+                                "PaymentID": "e232795f-b919-4865-a754-12f6ae8402c0",
+                                "Amount": 200.00
+                              },
+                              {
+                                "Invoice": {
+                                  "InvoiceID": "99a2bd54-4ab1-413c-90bb-57f6464fe5d6",
+                                  "Payments": [],
+                                  "CreditNotes": [],
+                                  "Prepayments": [],
+                                  "Overpayments": [],
+                                  "HasErrors": false,
+                                  "IsDiscounted": false,
+                                  "LineItems": []
+                                },
+                                "PaymentID": "c2d571a5-38ff-4d37-9d43-dfadb4ad53ff",
+                                "Amount": 200.00
+                              },
+                              {
+                                "Invoice": {
+                                  "InvoiceID": "c81942c8-bfc5-4c88-a21a-b892a4a8c1c5",
+                                  "Payments": [],
+                                  "CreditNotes": [],
+                                  "Prepayments": [],
+                                  "Overpayments": [],
+                                  "HasErrors": false,
+                                  "IsDiscounted": false,
+                                  "LineItems": []
+                                },
+                                "PaymentID": "0f3c18dc-49bd-47a4-a875-03c84a29978f",
+                                "Amount": 200.00
+                              },
+                              {
+                                "Invoice": {
+                                  "InvoiceID": "6c9a1d89-8319-42f6-87d6-7690e748af85",
+                                  "Payments": [],
+                                  "CreditNotes": [],
+                                  "Prepayments": [],
+                                  "Overpayments": [],
+                                  "HasErrors": false,
+                                  "IsDiscounted": false,
+                                  "LineItems": []
+                                },
+                                "PaymentID": "43541eed-f3ac-44ac-88cb-9fe1cb7ed8b8",
+                                "Amount": 200.00
+                              }
+                            ],
+                            "Type": "RECBATCH",
+                            "Status": "AUTHORISED",
+                            "TotalAmount": 1000.00,
+                            "UpdatedDateUTC": "\/Date(1511893792820+0000)\/",
+                            "IsReconciled": false
+                          }
+                        ]
+                      }
     put:
       tags:
         - Accounting
@@ -593,19 +691,143 @@ paths:
       summary: Create one or many BatchPayments for invoices
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of type BatchPayments array of BatchPayment objects 
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/BatchPayments'
+              example: {
+                        "Id": "424745ed-6356-46ad-87d4-3585f9062fb4",
+                        "Status": "OK",
+                        "ProviderName": "Java Partner Example",
+                        "DateTimeUTC": "\/Date(1550865988111)\/",
+                        "BatchPayments": [
+                          {
+                            "Account": {
+                              "AccountID": "5ec2f302-cd60-4f8b-a915-9229dd45e6fa"
+                            },
+                            "Reference": "Foobar38515",
+                            "BatchPaymentID": "d318c343-208e-49fe-b04a-45642349bcf1",
+                            "DateString": "2019-02-22T00:00:00",
+                            "Date": "\/Date(1550793600000+0000)\/",
+                            "Payments": [
+                              {
+                                "Invoice": {
+                                  "InvoiceID": "3323652c-155e-433b-8a73-4dde7cfbf410",
+                                  "Payments": [],
+                                  "CreditNotes": [],
+                                  "Prepayments": [],
+                                  "Overpayments": [],
+                                  "HasErrors": false,
+                                  "IsDiscounted": false,
+                                  "LineItems": []
+                                },
+                                "PaymentID": "c05098fa-ae3c-4f00-80ec-0a9df07dedff",
+                                "Amount": 1.00
+                              },
+                              {
+                                "Invoice": {
+                                  "InvoiceID": "e4abafb4-1f5b-4d9f-80b3-9a7b815bc302",
+                                  "Payments": [],
+                                  "CreditNotes": [],
+                                  "Prepayments": [],
+                                  "Overpayments": [],
+                                  "HasErrors": false,
+                                  "IsDiscounted": false,
+                                  "LineItems": []
+                                },
+                                "PaymentID": "96409489-2f7d-4804-9a6d-6b939b0e038a",
+                                "Amount": 1.00
+                              },
+                              {
+                                "Invoice": {
+                                  "InvoiceID": "e6039672-b161-40cd-b07b-a0178e7186ad",
+                                  "Payments": [],
+                                  "CreditNotes": [],
+                                  "Prepayments": [],
+                                  "Overpayments": [],
+                                  "HasErrors": false,
+                                  "IsDiscounted": false,
+                                  "LineItems": []
+                                },
+                                "PaymentID": "d2796067-bf71-4f06-b386-81f1454fa866",
+                                "Amount": 1.00
+                              }
+                            ],
+                            "Type": "RECBATCH",
+                            "Status": "AUTHORISED",
+                            "TotalAmount": 3.00,
+                            "UpdatedDateUTC": "\/Date(1550865987783+0000)\/",
+                            "IsReconciled": false
+                          }
+                        ]
+                      }
+
+
+
+
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
         required: true
+        description: Request of type BatchPayments containing a Payments array with one or more Payment objects
         content:
             application/json:
               schema:
                 $ref: '#/components/schemas/BatchPayments'
+              example: {  
+                       "BatchPayments":[  
+                          {  
+                             "Account":{  
+                                "AccountID":"5ec2f302-cd60-4f8b-a915-9229dd45e6fa"
+                             },
+                             "Reference":"Foobar38515",
+                             "Date":"2019-02-22",
+                             "Amount":3.0,
+                             "Payments":[  
+                                {  
+                                   "Invoice":{  
+                                      "LineItems":[  
+
+                                      ],
+                                      "InvoiceID":"e6039672-b161-40cd-b07b-a0178e7186ad"
+                                   },
+                                   "Account":{  
+                                      "AccountID":"5ec2f302-cd60-4f8b-a915-9229dd45e6fa"
+                                   },
+                                   "Date":"2019-02-22",
+                                   "Amount":1.0
+                                },
+                                {  
+                                   "Invoice":{  
+                                      "LineItems":[  
+
+                                      ],
+                                      "InvoiceID":"e4abafb4-1f5b-4d9f-80b3-9a7b815bc302"
+                                   },
+                                   "Account":{  
+                                      "AccountID":"5ec2f302-cd60-4f8b-a915-9229dd45e6fa"
+                                   },
+                                   "Date":"2019-02-22",
+                                   "Amount":1.0
+                                },
+                                {  
+                                   "Invoice":{  
+                                      "LineItems":[  
+
+                                      ],
+                                      "InvoiceID":"3323652c-155e-433b-8a73-4dde7cfbf410"
+                                   },
+                                   "Account":{  
+                                      "AccountID":"5ec2f302-cd60-4f8b-a915-9229dd45e6fa"
+                                   },
+                                   "Date":"2019-02-22",
+                                   "Amount":1.0
+                                }
+                             ]
+                          }
+                       ]
+                    }
   '/BatchPayments/{BatchPaymentID}/History':
     x-related-model: BatchPayment
     get:
@@ -623,7 +845,7 @@ paths:
             format: uuid
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of type HistoryRecords array of HistoryRecord objects 
           content:
             application/json:
               schema:
@@ -643,7 +865,7 @@ paths:
             format: uuid
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of type HistoryRecords array of HistoryRecord objects 
           content:
             application/json:
               schema:
