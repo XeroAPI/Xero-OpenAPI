@@ -447,6 +447,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+              example: {
+                        "ErrorNumber": 10,
+                        "Type": "ValidationException",
+                        "Message": "A validation exception occurred",
+                        "Elements": [
+                          {
+                            "AttachmentID": "00000000-0000-0000-0000-000000000000",
+                            "FileName": "1ef9416c-4c6a-4664-8299-31acdd62a86c",
+                            "MimeType": "application/octet-stream",
+                            "ContentLength": 2878711,
+                            "ValidationErrors": [
+                              {
+                                "Message": "The file couldn't be uploaded because it isn't a supported file type."
+                              }
+                            ]
+                          }
+                        ]
+                      }
       requestBody:
         required: true
         content:
@@ -508,7 +526,6 @@ paths:
           description: Name of the attachment
           schema:
             type: string
-            format: uuid
       responses:
         '200':
           description: A successful request
