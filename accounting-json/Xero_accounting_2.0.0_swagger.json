@@ -88,6 +88,7 @@
         },
         "requestBody" : {
           "required" : true,
+          "description" : "Request of type Account",
           "content" : {
             "application/json" : {
               "schema" : {
@@ -151,7 +152,7 @@
                 "schema" : {
                   "$ref" : "#/components/schemas/Accounts"
                 },
-                "example" : "{ \"Id\": \"9012e75c-ec08-40a9-ae15-153fc1f35c4d\", \"Status\": \"OK\", \"ProviderName\": \"Java Partner Example\", \"DateTimeUTC\": \"\\/Date(1550795389340)\\/\", \"Accounts\": [ { \"AccountID\": \"99ce6032-0678-4aa0-8148-240c75fee33a\", \"Code\": \"654321\", \"Name\": \"BarFoo\", \"Status\": \"ACTIVE\", \"Type\": \"EXPENSE\", \"TaxType\": \"INPUT\", \"Description\": \"Good Bye World\", \"Class\": \"EXPENSE\", \"EnablePaymentsToAccount\": false, \"ShowInExpenseClaims\": false, \"ReportingCode\": \"EXP\", \"ReportingCodeName\": \"Expense\", \"UpdatedDateUTC\": \"\\/Date(1550795389333+0000)\\/\" } ] }"
+                "example" : "{ \"Id\": \"9012e75c-ec08-40a9-ae15-153fc1f35c4d\", \"Status\": \"OK\", \"ProviderName\": \"Xero API Partner\", \"DateTimeUTC\": \"\\/Date(1550795389340)\\/\", \"Accounts\": [ { \"AccountID\": \"99ce6032-0678-4aa0-8148-240c75fee33a\", \"Code\": \"654321\", \"Name\": \"BarFoo\", \"Status\": \"ACTIVE\", \"Type\": \"EXPENSE\", \"TaxType\": \"INPUT\", \"Description\": \"Good Bye World\", \"Class\": \"EXPENSE\", \"EnablePaymentsToAccount\": false, \"ShowInExpenseClaims\": false, \"ReportingCode\": \"EXP\", \"ReportingCodeName\": \"Expense\", \"UpdatedDateUTC\": \"\\/Date(1550795389333+0000)\\/\" } ] }"
               }
             }
           },
@@ -169,6 +170,7 @@
         },
         "requestBody" : {
           "required" : true,
+          "description" : "Request of type Accounts array with one Account",
           "content" : {
             "application/json" : {
               "schema" : {
@@ -243,7 +245,7 @@
                 "schema" : {
                   "$ref" : "#/components/schemas/Attachments"
                 },
-                "example" : "{ \"Id\": \"439c1573-3cd8-4697-a9f6-81fa651ee8f3\", \"Status\": \"OK\", \"ProviderName\": \"Java Partner Example\", \"DateTimeUTC\": \"\\/Date(1550852630329)\\/\", \"Attachments\": [ { \"AttachmentID\": \"52a643be-cd5c-489f-9778-53a9fd337756\", \"FileName\": \"sample5.jpg\", \"Url\": \"https://api.xero.com/api.xro/2.0/Accounts/da962997-a8bd-4dff-9616-01cdc199283f/Attachments/sample5.jpg\", \"MimeType\": \"image/jpg\", \"ContentLength\": 2878711 } ] }"
+                "example" : "{ \"Id\": \"439c1573-3cd8-4697-a9f6-81fa651ee8f3\", \"Status\": \"OK\", \"ProviderName\": \"Xero API Partner\", \"DateTimeUTC\": \"\\/Date(1550852630329)\\/\", \"Attachments\": [ { \"AttachmentID\": \"52a643be-cd5c-489f-9778-53a9fd337756\", \"FileName\": \"sample5.jpg\", \"Url\": \"https://api.xero.com/api.xro/2.0/Accounts/da962997-a8bd-4dff-9616-01cdc199283f/Attachments/sample5.jpg\", \"MimeType\": \"image/jpg\", \"ContentLength\": 2878711 } ] }"
               }
             }
           }
@@ -296,77 +298,6 @@
             }
           }
         }
-      },
-      "post" : {
-        "tags" : [ "Accounting" ],
-        "operationId" : "updateAccountAttachmentById",
-        "summary" : "Allows you to update meta data on Attachment",
-        "parameters" : [ {
-          "required" : true,
-          "in" : "path",
-          "name" : "AccountID",
-          "description" : "Unique identifier for Account object",
-          "schema" : {
-            "type" : "string",
-            "format" : "uuid"
-          }
-        }, {
-          "required" : true,
-          "in" : "path",
-          "name" : "AttachmentID",
-          "description" : "Unique identifier for Attachment object",
-          "schema" : {
-            "type" : "string",
-            "format" : "uuid"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "A successful request",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Attachments"
-                }
-              }
-            }
-          },
-          "400" : {
-            "description" : "Validation Error - some data was incorrect returns response of type Error",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Error"
-                },
-                "example" : {
-                  "ErrorNumber" : 10,
-                  "Type" : "ValidationException",
-                  "Message" : "A validation exception occurred",
-                  "Elements" : [ {
-                    "AttachmentID" : "00000000-0000-0000-0000-000000000000",
-                    "FileName" : "1ef9416c-4c6a-4664-8299-31acdd62a86c",
-                    "MimeType" : "application/octet-stream",
-                    "ContentLength" : 2878711,
-                    "ValidationErrors" : [ {
-                      "Message" : "The file couldn't be uploaded because it isn't a supported file type."
-                    } ]
-                  } ]
-                }
-              }
-            }
-          }
-        },
-        "requestBody" : {
-          "required" : true,
-          "content" : {
-            "application/octet-stream" : {
-              "schema" : {
-                "type" : "string",
-                "format" : "byte"
-              }
-            }
-          }
-        }
       }
     },
     "/Accounts/{AccountID}/Attachments/{FileName}" : {
@@ -396,14 +327,14 @@
           "required" : true,
           "in" : "header",
           "name" : "contentType",
-          "description" : "Format type of the attachment",
+          "description" : "Format type of the attachment i.e. image/jpeg",
           "schema" : {
             "type" : "string"
           }
         } ],
         "responses" : {
           "200" : {
-            "description" : "A successful request",
+            "description" : "Success - return response of type binary",
             "content" : {
               "application/octet-stream" : {
                 "schema" : {
@@ -439,21 +370,30 @@
         } ],
         "responses" : {
           "200" : {
-            "description" : "A successful request",
+            "description" : "Success - return response of type Attachments array of Attachment",
             "content" : {
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/Attachments"
-                }
+                },
+                "example" : "{ \"Id\": \"c8d6413a-1da2-4faa-9848-21f60443e906\", \"Status\": \"OK\", \"ProviderName\": \"Xero API Partner\", \"DateTimeUTC\": \"\\/Date(1550859714477)\\/\", \"Attachments\": [ { \"AttachmentID\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\", \"FileName\": \"sample5.jpg\", \"Url\": \"https://api.xero.com/api.xro/2.0/Accounts/da962997-a8bd-4dff-9616-01cdc199283f/Attachments/sample5.jpg\", \"MimeType\": \"image/jpg\", \"ContentLength\": 2878711 } ] }"
               }
             }
           },
           "400" : {
-            "$ref" : "#/components/responses/400Error"
+            "description" : "Validation Error - some data was incorrect returns response of type Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                }
+              }
+            }
           }
         },
         "requestBody" : {
           "required" : true,
+          "description" : "Request of type ByteArray",
           "content" : {
             "application/octet-stream" : {
               "schema" : {
@@ -488,7 +428,7 @@
         } ],
         "responses" : {
           "200" : {
-            "description" : "A successful request",
+            "description" : "Success - return response of type Attachments array of Attachment",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -504,6 +444,7 @@
         },
         "requestBody" : {
           "required" : true,
+          "description" : "Request of type ByteArray",
           "content" : {
             "application/octet-stream" : {
               "schema" : {
@@ -522,23 +463,6 @@
         "tags" : [ "Accounting" ],
         "operationId" : "getBatchPayments",
         "summary" : "Retrieve either one or many BatchPayments for invoices",
-        "responses" : {
-          "200" : {
-            "description" : "A successful response",
-            "content" : {
-              "text/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/BatchPayments"
-                }
-              },
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/BatchPayments"
-                }
-              }
-            }
-          }
-        },
         "parameters" : [ {
           "in" : "header",
           "name" : "If-Modified-Since",
@@ -561,24 +485,34 @@
           "schema" : {
             "type" : "string"
           }
-        } ]
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success - return response of type BatchPayments array of BatchPayment objects",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BatchPayments"
+                },
+                "example" : "{ \"Id\": \"6ab84949-4fe5-4788-a135-4d8f690d24d7\", \"Status\": \"OK\", \"ProviderName\": \"Java Partner Example\", \"DateTimeUTC\": \"\\/Date(1550866184006)\\/\", \"BatchPayments\": [ { \"Account\": { \"AccountID\": \"6f7594f2-f059-4d56-9e67-47ac9733bfe9\" }, \"Reference\": \"Hello World\", \"BatchPaymentID\": \"d0e9bbbf-5b8a-48b6-906a-035591fcb061\", \"DateString\": \"2017-11-28T00:00:00\", \"Date\": \"\\/Date(1511827200000+0000)\\/\", \"Payments\": [ { \"Invoice\": { \"InvoiceID\": \"0975dec2-0cf6-498d-9c9f-c6775b45c61d\", \"Payments\": [], \"CreditNotes\": [], \"Prepayments\": [], \"Overpayments\": [], \"HasErrors\": false, \"IsDiscounted\": false, \"LineItems\": [] }, \"PaymentID\": \"97ec2ef8-f4d6-4de5-9f2a-385d41cdc2fc\", \"Amount\": 200.00 }, { \"Invoice\": { \"InvoiceID\": \"600982d9-6605-4e11-afa1-d8dec2be7b52\", \"Payments\": [], \"CreditNotes\": [], \"Prepayments\": [], \"Overpayments\": [], \"HasErrors\": false, \"IsDiscounted\": false, \"LineItems\": [] }, \"PaymentID\": \"e232795f-b919-4865-a754-12f6ae8402c0\", \"Amount\": 200.00 }, { \"Invoice\": { \"InvoiceID\": \"99a2bd54-4ab1-413c-90bb-57f6464fe5d6\", \"Payments\": [], \"CreditNotes\": [], \"Prepayments\": [], \"Overpayments\": [], \"HasErrors\": false, \"IsDiscounted\": false, \"LineItems\": [] }, \"PaymentID\": \"c2d571a5-38ff-4d37-9d43-dfadb4ad53ff\", \"Amount\": 200.00 }, { \"Invoice\": { \"InvoiceID\": \"c81942c8-bfc5-4c88-a21a-b892a4a8c1c5\", \"Payments\": [], \"CreditNotes\": [], \"Prepayments\": [], \"Overpayments\": [], \"HasErrors\": false, \"IsDiscounted\": false, \"LineItems\": [] }, \"PaymentID\": \"0f3c18dc-49bd-47a4-a875-03c84a29978f\", \"Amount\": 200.00 }, { \"Invoice\": { \"InvoiceID\": \"6c9a1d89-8319-42f6-87d6-7690e748af85\", \"Payments\": [], \"CreditNotes\": [], \"Prepayments\": [], \"Overpayments\": [], \"HasErrors\": false, \"IsDiscounted\": false, \"LineItems\": [] }, \"PaymentID\": \"43541eed-f3ac-44ac-88cb-9fe1cb7ed8b8\", \"Amount\": 200.00 } ], \"Type\": \"RECBATCH\", \"Status\": \"AUTHORISED\", \"TotalAmount\": 1000.00, \"UpdatedDateUTC\": \"\\/Date(1511893792820+0000)\\/\", \"IsReconciled\": false } ] }"
+              }
+            }
+          }
+        }
       },
       "put" : {
         "tags" : [ "Accounting" ],
         "operationId" : "createBatchPayment",
+        "summary" : "Create one or many BatchPayments for invoices",
         "responses" : {
           "200" : {
-            "description" : "A successful request",
+            "description" : "Success - return response of type BatchPayments array of BatchPayment objects",
             "content" : {
-              "text/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/BatchPayments"
-                }
-              },
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/BatchPayments"
-                }
+                },
+                "example" : "{ \"Id\": \"424745ed-6356-46ad-87d4-3585f9062fb4\", \"Status\": \"OK\", \"ProviderName\": \"Java Partner Example\", \"DateTimeUTC\": \"\\/Date(1550865988111)\\/\", \"BatchPayments\": [ { \"Account\": { \"AccountID\": \"5ec2f302-cd60-4f8b-a915-9229dd45e6fa\" }, \"Reference\": \"Foobar123\", \"BatchPaymentID\": \"d318c343-208e-49fe-b04a-45642349bcf1\", \"DateString\": \"2019-02-22T00:00:00\", \"Date\": \"\\/Date(1550793600000+0000)\\/\", \"Payments\": [ { \"Invoice\": { \"InvoiceID\": \"3323652c-155e-433b-8a73-4dde7cfbf410\", \"Payments\": [], \"CreditNotes\": [], \"Prepayments\": [], \"Overpayments\": [], \"HasErrors\": false, \"IsDiscounted\": false, \"LineItems\": [] }, \"PaymentID\": \"c05098fa-ae3c-4f00-80ec-0a9df07dedff\", \"Amount\": 1.00 }, { \"Invoice\": { \"InvoiceID\": \"e4abafb4-1f5b-4d9f-80b3-9a7b815bc302\", \"Payments\": [], \"CreditNotes\": [], \"Prepayments\": [], \"Overpayments\": [], \"HasErrors\": false, \"IsDiscounted\": false, \"LineItems\": [] }, \"PaymentID\": \"96409489-2f7d-4804-9a6d-6b939b0e038a\", \"Amount\": 1.00 }, { \"Invoice\": { \"InvoiceID\": \"e6039672-b161-40cd-b07b-a0178e7186ad\", \"Payments\": [], \"CreditNotes\": [], \"Prepayments\": [], \"Overpayments\": [], \"HasErrors\": false, \"IsDiscounted\": false, \"LineItems\": [] }, \"PaymentID\": \"d2796067-bf71-4f06-b386-81f1454fa866\", \"Amount\": 1.00 } ], \"Type\": \"RECBATCH\", \"Status\": \"AUTHORISED\", \"TotalAmount\": 3.00, \"UpdatedDateUTC\": \"\\/Date(1550865987783+0000)\\/\", \"IsReconciled\": false } ] }"
               }
             }
           },
@@ -588,11 +522,13 @@
         },
         "requestBody" : {
           "required" : true,
+          "description" : "Request of type BatchPayments containing a Payments array with one or more Payment objects",
           "content" : {
             "application/json" : {
               "schema" : {
                 "$ref" : "#/components/schemas/BatchPayments"
-              }
+              },
+              "example" : "{ \"BatchPayments\":[ { \"Account\":{ \"AccountID\":\"5ec2f302-cd60-4f8b-a915-9229dd45e6fa\" }, \"Reference\":\"Foobar38515\", \"Date\":\"2019-02-22\", \"Amount\":3.0, \"Payments\":[ { \"Invoice\":{ \"LineItems\":[\n], \"InvoiceID\":\"e6039672-b161-40cd-b07b-a0178e7186ad\" }, \"Account\":{ \"AccountID\":\"5ec2f302-cd60-4f8b-a915-9229dd45e6fa\" }, \"Date\":\"2019-02-22\", \"Amount\":1.0 }, { \"Invoice\":{ \"LineItems\":[\n], \"InvoiceID\":\"e4abafb4-1f5b-4d9f-80b3-9a7b815bc302\" }, \"Account\":{ \"AccountID\":\"5ec2f302-cd60-4f8b-a915-9229dd45e6fa\" }, \"Date\":\"2019-02-22\", \"Amount\":1.0 }, { \"Invoice\":{ \"LineItems\":[\n], \"InvoiceID\":\"3323652c-155e-433b-8a73-4dde7cfbf410\" }, \"Account\":{ \"AccountID\":\"5ec2f302-cd60-4f8b-a915-9229dd45e6fa\" }, \"Date\":\"2019-02-22\", \"Amount\":1.0 } ] } ] }"
             }
           }
         }
@@ -604,49 +540,53 @@
         "tags" : [ "Accounting" ],
         "operationId" : "getBatchPaymentHistory",
         "summary" : "Allows you to retrieve history from a Batch Payment",
-        "responses" : {
-          "200" : {
-            "description" : "A successful request",
-            "content" : {
-              "text/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/HistoryRecords"
-                }
-              },
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/HistoryRecords"
-                }
-              }
-            }
-          }
-        },
         "parameters" : [ {
           "required" : true,
           "in" : "path",
           "name" : "BatchPaymentID",
+          "description" : "Unique identifier for BatchPayment",
           "schema" : {
             "type" : "string",
             "format" : "uuid"
           }
-        } ]
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success - return response of type HistoryRecords array of HistoryRecord objects",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/HistoryRecords"
+                },
+                "example" : "{ \"Id\": \"c58e2f9c-baad-42a4-8bb7-f32b6f88fa04\", \"Status\": \"OK\", \"ProviderName\": \"Java Partner Example\", \"DateTimeUTC\": \"\\/Date(1550898452503)\\/\", \"HistoryRecords\": [ { \"Changes\": \"Approved\", \"DateUTCString\": \"2017-11-28T18:29:52\", \"DateUTC\": \"\\/Date(1511893792813+0000)\\/\", \"User\": \"Sidney Maestre\", \"Details\": \"\" } ] }"
+              }
+            }
+          }
+        }
       },
       "put" : {
         "tags" : [ "Accounting" ],
         "operationId" : "createBatchPaymentHistoryRecord",
+        "summary" : "Allows you to create a history record for a Batch Payment",
+        "parameters" : [ {
+          "required" : true,
+          "in" : "path",
+          "name" : "BatchPaymentID",
+          "description" : "Unique identifier for BatchPayment",
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
         "responses" : {
           "200" : {
-            "description" : "A successful request",
+            "description" : "Success - return response of type HistoryRecords array of HistoryRecord objects",
             "content" : {
-              "text/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/HistoryRecords"
-                }
-              },
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/HistoryRecords"
-                }
+                },
+                "example" : "{ \"Id\": \"d7525479-3392-44c0-bb37-ff4a0b5df5bd\", \"Status\": \"OK\", \"ProviderName\": \"Java Partner Example\", \"DateTimeUTC\": \"\\/Date(1550899400362)\\/\", \"HistoryRecords\": [ { \"DateUTCString\": \"2019-02-23T05:23:20\", \"DateUTC\": \"\\/Date(1550899400362)\\/\", \"Details\": \"Hello World\", \"ValidationErrors\": [] } ] }"
               }
             }
           },
@@ -654,26 +594,13 @@
             "$ref" : "#/components/responses/400Error"
           }
         },
-        "parameters" : [ {
-          "required" : true,
-          "in" : "path",
-          "name" : "BatchPaymentID",
-          "schema" : {
-            "type" : "string",
-            "format" : "uuid"
-          }
-        } ],
         "requestBody" : {
           "content" : {
-            "text/xml" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/HistoryRecords"
-              }
-            },
             "application/json" : {
               "schema" : {
                 "$ref" : "#/components/schemas/HistoryRecords"
-              }
+              },
+              "example" : "{ \"HistoryRecords\":[ { \"Details\":\"Hello World\" } ] }"
             }
           },
           "required" : true
@@ -1697,20 +1624,16 @@
       "get" : {
         "tags" : [ "Accounting" ],
         "operationId" : "getBrandingThemes",
-        "summary" : "GET a BrandingTheme",
+        "summary" : "Allows you to retrieve all the BrandingThemes",
         "responses" : {
           "200" : {
-            "description" : "A successful response",
+            "description" : "Success - return response of type BrandingThemes",
             "content" : {
-              "text/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/BrandingThemes"
-                }
-              },
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/BrandingThemes"
-                }
+                },
+                "example" : "{ \"Id\": \"d1a1beea-bdfe-4ee4-9dbc-27226a26cd68\", \"Status\": \"OK\", \"ProviderName\": \"Java Partner Example\", \"DateTimeUTC\": \"\\/Date(1550881711906)\\/\", \"BrandingThemes\": [ { \"BrandingThemeID\": \"dabc7637-62c1-4941-8a6e-ee44fa5090e7\", \"Name\": \"Standard\", \"SortOrder\": 0, \"CreatedDateUTC\": \"\\/Date(1464967643813+0000)\\/\" } ] }"
               }
             }
           }
@@ -1722,33 +1645,30 @@
       "get" : {
         "tags" : [ "Accounting" ],
         "operationId" : "getBrandingTheme",
-        "summary" : "GET a BrandingTheme",
-        "responses" : {
-          "200" : {
-            "description" : "A successful request",
-            "content" : {
-              "text/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/BrandingThemes"
-                }
-              },
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/BrandingThemes"
-                }
-              }
-            }
-          }
-        },
+        "summary" : "Allows you to retrieve a specific BrandingThemes",
         "parameters" : [ {
           "required" : true,
           "in" : "path",
           "name" : "BrandingThemeID",
+          "description" : "Unique identifier for a Branding Theme",
           "schema" : {
             "type" : "string",
             "format" : "uuid"
           }
-        } ]
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success - return response of type BrandingThemes with one BrandingTheme",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BrandingThemes"
+                },
+                "example" : "{ \"Id\": \"df671650-cf14-4a7f-b609-4166933719bc\", \"Status\": \"OK\", \"ProviderName\": \"Java Partner Example\", \"DateTimeUTC\": \"\\/Date(1550881713071)\\/\", \"BrandingThemes\": [ { \"BrandingThemeID\": \"dabc7637-62c1-4941-8a6e-ee44fa5090e7\", \"Name\": \"Standard\", \"SortOrder\": 0, \"CreatedDateUTC\": \"\\/Date(1464967643813+0000)\\/\" } ] }"
+              }
+            }
+          }
+        }
       }
     },
     "/BrandingThemes/{BrandingThemeID}/PaymentServices" : {
@@ -1756,46 +1676,49 @@
       "get" : {
         "tags" : [ "Accounting" ],
         "operationId" : "getBrandingThemePaymentServices",
-        "summary" : "GET a BrandingTheme Payment services",
-        "responses" : {
-          "200" : {
-            "description" : "A successful request",
-            "content" : {
-              "text/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/PaymentServices"
-                }
-              },
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/PaymentServices"
-                }
-              }
-            }
-          }
-        },
+        "summary" : "Allows you to retrieve the Payment services for a Branding Theme",
         "parameters" : [ {
           "required" : true,
           "in" : "path",
           "name" : "BrandingThemeID",
+          "description" : "Unique identifier for a Branding Theme",
           "schema" : {
             "type" : "string",
             "format" : "uuid"
           }
-        } ]
-      },
-      "post" : {
-        "tags" : [ "Accounting" ],
-        "operationId" : "createBrandingThemePaymentServices",
+        } ],
         "responses" : {
           "200" : {
             "description" : "A successful request",
             "content" : {
-              "text/xml" : {
+              "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/PaymentServices"
-                }
-              },
+                },
+                "example" : ""
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Accounting" ],
+        "operationId" : "createBrandingThemePaymentServices",
+        "summary" : "Allow for the creation of new custom payment service for specified Branding Theme",
+        "parameters" : [ {
+          "required" : true,
+          "in" : "path",
+          "name" : "BrandingThemeID",
+          "description" : "Unique identifier for a Branding Theme",
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "A successful request",
+            "content" : {
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/PaymentServices"
@@ -1807,25 +1730,11 @@
             "$ref" : "#/components/responses/400Error"
           }
         },
-        "parameters" : [ {
-          "required" : true,
-          "in" : "path",
-          "name" : "BrandingThemeID",
-          "schema" : {
-            "type" : "string",
-            "format" : "uuid"
-          }
-        } ],
         "requestBody" : {
           "content" : {
-            "text/xml" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/PaymentServices"
-              }
-            },
             "application/json" : {
               "schema" : {
-                "$ref" : "#/components/schemas/PaymentServices"
+                "$ref" : "#/components/schemas/PaymentService"
               }
             }
           },
@@ -8693,19 +8602,23 @@
           "AttachmentID" : {
             "description" : "Unique ID for the file",
             "type" : "string",
-            "format" : "uuid"
+            "format" : "uuid",
+            "example" : "3fa85f64-5717-4562-b3fc-2c963f66afa6"
           },
           "FileName" : {
             "description" : "Name of the file",
-            "type" : "string"
+            "type" : "string",
+            "example" : "sample5.jpg"
           },
           "Url" : {
             "description" : "URL to the file on xero.com",
-            "type" : "string"
+            "type" : "string",
+            "example" : "https://api.xero.com/api.xro/2.0/Accounts/da962997-a8bd-4dff-9616-01cdc199283f/Attachments/sample5.jpg"
           },
           "MimeType" : {
             "description" : "Type of file",
-            "type" : "string"
+            "type" : "string",
+            "example" : "image/jpg"
           },
           "ContentLength" : {
             "description" : "Length of the file content",
