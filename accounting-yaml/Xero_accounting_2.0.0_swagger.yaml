@@ -440,7 +440,7 @@ paths:
         - required: true
           in: header
           name: contentType
-          description: Format type of the attachment
+          description: Format type of the attachment i.e. image/jpeg
           schema:
             type: string
       responses:
@@ -477,7 +477,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Attachments'
-              example: {
+              example: '{
                         "Id": "c8d6413a-1da2-4faa-9848-21f60443e906",
                         "Status": "OK",
                         "ProviderName": "Xero API Partner",
@@ -491,7 +491,7 @@ paths:
                             "ContentLength": 2878711
                           }
                         ]
-                      }
+                      }'
         '400':
           description: Validation Error - some data was incorrect returns response of type Error
           content:
@@ -590,7 +590,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/BatchPayments'
-              example: {
+              example: '{
                         "Id": "6ab84949-4fe5-4788-a135-4d8f690d24d7",
                         "Status": "OK",
                         "ProviderName": "Java Partner Example",
@@ -600,7 +600,7 @@ paths:
                             "Account": {
                               "AccountID": "6f7594f2-f059-4d56-9e67-47ac9733bfe9"
                             },
-                            "Reference": "OK Baby",
+                            "Reference": "Hello World",
                             "BatchPaymentID": "d0e9bbbf-5b8a-48b6-906a-035591fcb061",
                             "DateString": "2017-11-28T00:00:00",
                             "Date": "\/Date(1511827200000+0000)\/",
@@ -683,7 +683,7 @@ paths:
                             "IsReconciled": false
                           }
                         ]
-                      }
+                      }'
     put:
       tags:
         - Accounting
@@ -696,7 +696,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/BatchPayments'
-              example: {
+              example: '{
                         "Id": "424745ed-6356-46ad-87d4-3585f9062fb4",
                         "Status": "OK",
                         "ProviderName": "Java Partner Example",
@@ -706,7 +706,7 @@ paths:
                             "Account": {
                               "AccountID": "5ec2f302-cd60-4f8b-a915-9229dd45e6fa"
                             },
-                            "Reference": "Foobar38515",
+                            "Reference": "Foobar123",
                             "BatchPaymentID": "d318c343-208e-49fe-b04a-45642349bcf1",
                             "DateString": "2019-02-22T00:00:00",
                             "Date": "\/Date(1550793600000+0000)\/",
@@ -761,11 +761,7 @@ paths:
                             "IsReconciled": false
                           }
                         ]
-                      }
-
-
-
-
+                      }'
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
@@ -775,7 +771,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/BatchPayments'
-              example: {  
+              example: '{  
                        "BatchPayments":[  
                           {  
                              "Account":{  
@@ -827,7 +823,7 @@ paths:
                              ]
                           }
                        ]
-                    }
+                    }'
   '/BatchPayments/{BatchPaymentID}/History':
     x-related-model: BatchPayment
     get:
@@ -850,6 +846,21 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HistoryRecords'
+              example: '{
+                      "Id": "c58e2f9c-baad-42a4-8bb7-f32b6f88fa04",
+                      "Status": "OK",
+                      "ProviderName": "Java Partner Example",
+                      "DateTimeUTC": "\/Date(1550898452503)\/",
+                      "HistoryRecords": [
+                        {
+                          "Changes": "Approved",
+                          "DateUTCString": "2017-11-28T18:29:52",
+                          "DateUTC": "\/Date(1511893792813+0000)\/",
+                          "User": "Sidney Maestre",
+                          "Details": ""
+                        }
+                      ]
+                    }'
     put:
       tags:
         - Accounting
@@ -870,6 +881,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HistoryRecords'
+              example: '{
+                          "Id": "d7525479-3392-44c0-bb37-ff4a0b5df5bd",
+                          "Status": "OK",
+                          "ProviderName": "Java Partner Example",
+                          "DateTimeUTC": "\/Date(1550899400362)\/",
+                          "HistoryRecords": [
+                            {
+                              "DateUTCString": "2019-02-23T05:23:20",
+                              "DateUTC": "\/Date(1550899400362)\/",
+                              "Details": "Hello World",
+                              "ValidationErrors": []
+                            }
+                          ]
+                        }'
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
@@ -877,6 +902,13 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/HistoryRecords'
+            example: '{  
+                         "HistoryRecords":[  
+                            {  
+                               "Details":"Hello World"
+                            }
+                         ]
+                      }'
         required: true
   /BankTransactions:
     get:
@@ -1625,7 +1657,7 @@ paths:
         - required: true
           in: path
           name: BrandingThemeID
-          description: Unique identifier for a BrandingTheme         
+          description: Unique identifier for a Branding Theme         
           schema:
             type: string
             format: uuid
@@ -1656,55 +1688,50 @@ paths:
       tags:
         - Accounting
       operationId: getBrandingThemePaymentServices
-      summary: GET a BrandingTheme Payment services 
-      responses:
-        '200':
-          description: A successful request
-          content:
-            text/xml:
-              schema:
-                $ref: '#/components/schemas/PaymentServices'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PaymentServices'
+      summary: Allows you to retrieve the Payment services for a Branding Theme
       parameters:
         - required: true
           in: path
           name: BrandingThemeID
+          description: Unique identifier for a Branding Theme  
           schema:
             type: string
-            format: uuid
-    post:
-      tags:
-        - Accounting
-      operationId: createBrandingThemePaymentServices
+            format: uuid 
       responses:
         '200':
           description: A successful request
           content:
-            text/xml:
+            application/json:
               schema:
                 $ref: '#/components/schemas/PaymentServices'
+              example: ''
+    post:
+      tags:
+        - Accounting
+      operationId: createBrandingThemePaymentServices
+      summary: Allow for the creation of new custom payment service for specified Branding Theme
+      parameters:
+        - required: true
+          in: path
+          name: BrandingThemeID
+          description: Unique identifier for a Branding Theme 
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: A successful request
+          content:
             application/json:
               schema:
                 $ref: '#/components/schemas/PaymentServices'
         '400':
           $ref: '#/components/responses/400Error'
-      parameters:
-        - required: true
-          in: path
-          name: BrandingThemeID
-          schema:
-            type: string
-            format: uuid
       requestBody:
         content:
-          text/xml:
-            schema:
-              $ref: '#/components/schemas/PaymentServices'
           application/json:
             schema:
-              $ref: '#/components/schemas/PaymentServices'
+              $ref: '#/components/schemas/PaymentService'
         required: true
   /Contacts:
     x-related-model: Contact
