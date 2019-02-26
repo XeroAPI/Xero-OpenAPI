@@ -916,16 +916,6 @@ paths:
         - Accounting
       operationId: getBankTransactions
       summary: Allows you to retrieve any spend or receive money transactions
-      responses:
-        '200':
-          description: A successful response
-          content:
-            text/xml:
-              schema:
-                  $ref: '#/components/schemas/BankTransactions'
-            application/json:
-              schema:
-                  $ref: '#/components/schemas/BankTransactions'
       parameters:
         - in: header
           name: If-Modified-Since
@@ -950,78 +940,265 @@ paths:
           description: e.g. page=1 – Up to 100 bank transactions will be returned in a single API call with line items shown for each bank transaction
           schema:
             type: integer
+      responses:
+        '200':
+          description:  Success - return response of type BankTransactions array with 0 to n BankTransaction 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BankTransactions'
+              example: '{  
+                         "Id":"18e7e80c-5dca-4a57-974e-8b572cc5efe8",
+                         "Status":"OK",
+                         "ProviderName":"Xero API Partner",
+                         "DateTimeUTC":"\/Date(1551212901659)\/",
+                         "BankTransactions":[  
+                            {  
+                               "BankTransactionID":"db54aab0-ad40-4ced-bcff-0940ba20db2c",
+                               "BankAccount":{  
+                                  "AccountID":"6f7594f2-f059-4d56-9e67-47ac9733bfe9",
+                                  "Code":"088",
+                                  "Name":"Business Wells Fargo"
+                               },
+                               "Type":"RECEIVE-PREPAYMENT",
+                               "IsReconciled":false,
+                               "PrepaymentID":"cb62750f-b49c-464b-a45b-e2e2c514c8a9",
+                               "HasAttachments":true,
+                               "Contact":{  
+                                  "ContactID":"9c2c64de-12c9-4167-b503-e2c0e1aa1f49",
+                                  "Name":"sam",
+                                  "Addresses":[  
+
+                                  ],
+                                  "Phones":[  
+
+                                  ],
+                                  "ContactGroups":[  
+
+                                  ],
+                                  "ContactPersons":[  
+
+                                  ],
+                                  "HasValidationErrors":false
+                               },
+                               "DateString":"2016-10-13T00:00:00",
+                               "Date":"\/Date(1476316800000+0000)\/",
+                               "Status":"AUTHORISED",
+                               "LineAmountTypes":"Exclusive",
+                               "LineItems":[  
+
+                               ],
+                               "SubTotal":10.00,
+                               "TotalTax":0.00,
+                               "Total":10.00,
+                               "UpdatedDateUTC":"\/Date(1476389616437+0000)\/",
+                               "CurrencyCode":"USD"
+                            },
+                            {  
+                               "BankTransactionID":"29a69c45-64ca-4805-a1cc-34990de837b3",
+                               "BankAccount":{  
+                                  "AccountID":"6f7594f2-f059-4d56-9e67-47ac9733bfe9",
+                                  "Code":"088",
+                                  "Name":"Business Wells Fargo"
+                               },
+                               "Type":"SPEND-OVERPAYMENT",
+                               "IsReconciled":false,
+                               "OverpaymentID":"7d457db3-3b0a-47e9-8b79-81252a7bcdcb",
+                               "HasAttachments":false,
+                               "Contact":{  
+                                  "ContactID":"9c2c64de-12c9-4167-b503-e2c0e1aa1f49",
+                                  "Name":"sam",
+                                  "Addresses":[  
+
+                                  ],
+                                  "Phones":[  
+
+                                  ],
+                                  "ContactGroups":[  
+
+                                  ],
+                                  "ContactPersons":[  
+
+                                  ],
+                                  "HasValidationErrors":false
+                               },
+                               "DateString":"2016-10-13T00:00:00",
+                               "Date":"\/Date(1476316800000+0000)\/",
+                               "Status":"AUTHORISED",
+                               "LineAmountTypes":"NoTax",
+                               "LineItems":[  
+
+                               ],
+                               "SubTotal":9.00,
+                               "TotalTax":0.00,
+                               "Total":9.00,
+                               "UpdatedDateUTC":"\/Date(1476389930500+0000)\/",
+                               "CurrencyCode":"USD"
+                            },
+                            {  
+                               "BankTransactionID":"0b89bf5c-d40b-4514-96be-36a739fb0188",
+                               "BankAccount":{  
+                                  "AccountID":"6f7594f2-f059-4d56-9e67-47ac9733bfe9",
+                                  "Code":"088",
+                                  "Name":"Business Wells Fargo"
+                               },
+                               "Type":"SPEND-OVERPAYMENT",
+                               "IsReconciled":false,
+                               "OverpaymentID":"bf9b5f33-c0d6-4182-84a2-40848023e5a1",
+                               "HasAttachments":false,
+                               "Contact":{  
+                                  "ContactID":"9c2c64de-12c9-4167-b503-e2c0e1aa1f49",
+                                  "Name":"sam",
+                                  "Addresses":[  
+
+                                  ],
+                                  "Phones":[  
+
+                                  ],
+                                  "ContactGroups":[  
+
+                                  ],
+                                  "ContactPersons":[  
+
+                                  ],
+                                  "HasValidationErrors":false
+                               },
+                               "DateString":"2016-10-13T00:00:00",
+                               "Date":"\/Date(1476316800000+0000)\/",
+                               "Status":"AUTHORISED",
+                               "LineAmountTypes":"NoTax",
+                               "LineItems":[  
+
+                               ],
+                               "SubTotal":8.00,
+                               "TotalTax":0.00,
+                               "Total":8.00,
+                               "UpdatedDateUTC":"\/Date(1476392487037+0000)\/",
+                               "CurrencyCode":"USD"
+                            }
+                          ]
+                        }'
     put:
       tags:
         - Accounting
       operationId: createBankTransaction
-      responses:
-        '200':
-          description: A successful request
-          content:
-            text/xml:
-              schema:
-                $ref: '#/components/schemas/BankTransactions'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BankTransactions'
-        '400':
-          $ref: '#/components/responses/400Error'
+      summary: Allows you to create a spend or receive money transaction
       parameters:
         - in: query
           name: SummarizeErrors
           description: response format that shows validation errors for each bank transaction
           schema:
             type: boolean
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/BankTransactions'
-  '/BankTransactions/{BankTransactionID}':
-    get:
-      tags:
-        - Accounting
-      operationId: getBankTransaction
-      summary: Allows you to retrieve any spend or receive money transactions
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of type BankTransactions array with new BankTransaction 
           content:
-            text/xml:
-              schema:
-                $ref: '#/components/schemas/BankTransactions'
             application/json:
               schema:
                 $ref: '#/components/schemas/BankTransactions'
-      parameters:
-        - required: true
-          in: path
-          name: BankTransactionID
-          schema:
-            type: string
-            format: uuid
-    post:
-      tags:
-        - Accounting
-      operationId: updateBankTransaction
-      parameters:
-        - required: true
-          in: path
-          name: BankTransactionID
-          schema:
-            type: string
-            format: uuid
-      responses:
-        '200':
-          description: A successful request
-          content:
-            text/xml:
-              schema:
-                $ref: '#/components/schemas/BankTransactions'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BankTransactions'
+              example: '{
+                          "Id": "5bc1d776-3c7f-4fe8-9b2d-09e747077a88",
+                          "Status": "OK",
+                          "ProviderName": "Java Partner Example",
+                          "DateTimeUTC": "\/Date(1551213568047)\/",
+                          "BankTransactions": [
+                            {
+                              "BankTransactionID": "1289c190-e46d-434b-9628-463ffdb52f00",
+                              "BankAccount": {
+                                "AccountID": "6f7594f2-f059-4d56-9e67-47ac9733bfe9",
+                                "Code": "088",
+                                "Name": "Business Wells Fargo"
+                              },
+                              "Type": "SPEND",
+                              "Reference": "",
+                              "IsReconciled": false,
+                              "CurrencyRate": 1.000000,
+                              "Contact": {
+                                "ContactID": "5cc8cf28-567e-4d43-b287-687cfcaec47c",
+                                "ContactStatus": "ACTIVE",
+                                "Name": "Katherine Warren",
+                                "FirstName": "Katherine",
+                                "LastName": "Warren",
+                                "EmailAddress": "kat.warren@clampett.com",
+                                "BankAccountDetails": "",
+                                "Addresses": [
+                                  {
+                                    "AddressType": "STREET",
+                                    "City": "",
+                                    "Region": "",
+                                    "PostalCode": "",
+                                    "Country": ""
+                                  },
+                                  {
+                                    "AddressType": "POBOX",
+                                    "AddressLine1": "",
+                                    "AddressLine2": "",
+                                    "AddressLine3": "",
+                                    "AddressLine4": "",
+                                    "City": "Palo Alto",
+                                    "Region": "CA",
+                                    "PostalCode": "94020",
+                                    "Country": "United States"
+                                  }
+                                ],
+                                "Phones": [
+                                  {
+                                    "PhoneType": "DEFAULT",
+                                    "PhoneNumber": "847-1294",
+                                    "PhoneAreaCode": "(626)",
+                                    "PhoneCountryCode": ""
+                                  },
+                                  {
+                                    "PhoneType": "DDI",
+                                    "PhoneNumber": "",
+                                    "PhoneAreaCode": "",
+                                    "PhoneCountryCode": ""
+                                  },
+                                  {
+                                    "PhoneType": "FAX",
+                                    "PhoneNumber": "",
+                                    "PhoneAreaCode": "",
+                                    "PhoneCountryCode": ""
+                                  },
+                                  {
+                                    "PhoneType": "MOBILE",
+                                    "PhoneNumber": "",
+                                    "PhoneAreaCode": "",
+                                    "PhoneCountryCode": ""
+                                  }
+                                ],
+                                "UpdatedDateUTC": "\/Date(1503348544227+0000)\/",
+                                "ContactGroups": [],
+                                "ContactPersons": [],
+                                "HasValidationErrors": false
+                              },
+                              "DateString": "2019-02-26T00:00:00",
+                              "Date": "\/Date(1551139200000+0000)\/",
+                              "Status": "AUTHORISED",
+                              "LineAmountTypes": "Inclusive",
+                              "LineItems": [
+                                {
+                                  "Description": "Foobar",
+                                  "UnitAmount": 20.00,
+                                  "TaxType": "TAX001",
+                                  "TaxAmount": 1.74,
+                                  "LineAmount": 20.00,
+                                  "AccountCode": "400",
+                                  "Tracking": [],
+                                  "Quantity": 1.0000,
+                                  "LineItemID": "d2a06879-da49-4d6c-83b5-72a93a523ec6",
+                                  "ValidationErrors": []
+                                }
+                              ],
+                              "SubTotal": 18.26,
+                              "TotalTax": 1.74,
+                              "Total": 20.00,
+                              "UpdatedDateUTC": "\/Date(1551213567813+0000)\/",
+                              "CurrencyCode": "USD",
+                              "StatusAttributeString": "OK"
+                            }
+                          ]
+                        }'
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
@@ -1030,6 +1207,374 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/BankTransactions'
+            example: '{  
+                       "BankTransactions":[  
+                          {  
+                             "Type":"SPEND",
+                             "Contact":{  
+                                "ContactID":"5cc8cf28-567e-4d43-b287-687cfcaec47c"
+                             },
+                             "Lineitems":[  
+                                {  
+                                   "Description":"Foobar",
+                                   "Quantity":1.0,
+                                   "UnitAmount":20.0,
+                                   "AccountCode":"400"
+                                }
+                             ],
+                             "BankAccount":{  
+                                "Code":"088"
+                             }
+                          }
+                       ]
+                    }'
+  '/BankTransactions/{BankTransactionID}':
+    get:
+      tags:
+        - Accounting
+      operationId: getBankTransaction
+      summary: Allows you to retrieve a single spend or receive money transaction
+      parameters:
+        - required: true
+          in: path
+          name: BankTransactionID
+          description: Xero generated unique identifier for a bank transaction
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: A successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BankTransactions'
+              example: '{
+                          "Id": "612e204d-21ab-469b-ac84-afe0697b4461",
+                          "Status": "OK",
+                          "ProviderName": "Java Partner Example",
+                          "DateTimeUTC": "\/Date(1551212902962)\/",
+                          "BankTransactions": [
+                            {
+                              "BankTransactionID": "db54aab0-ad40-4ced-bcff-0940ba20db2c",
+                              "BankAccount": {
+                                "AccountID": "6f7594f2-f059-4d56-9e67-47ac9733bfe9",
+                                "Code": "088",
+                                "Name": "Business Wells Fargo"
+                              },
+                              "Type": "RECEIVE-PREPAYMENT",
+                              "IsReconciled": false,
+                              "CurrencyRate": 1.000000,
+                              "PrepaymentID": "cb62750f-b49c-464b-a45b-e2e2c514c8a9",
+                              "HasAttachments": true,
+                              "Attachments": [
+                                {
+                                  "AttachmentID": "45dd3143-9856-42d2-9a6c-53814f67a33e",
+                                  "FileName": "sample2.jpg",
+                                  "Url": "https://api.xero.com/api.xro/2.0/banktransaction/db54aab0-ad40-4ced-bcff-0940ba20db2c/Attachments/sample2.jpg",
+                                  "MimeType": "image/jpg",
+                                  "ContentLength": 2878711
+                                }
+                              ],
+                              "Contact": {
+                                "ContactID": "9c2c64de-12c9-4167-b503-e2c0e1aa1f49",
+                                "ContactStatus": "ACTIVE",
+                                "Name": "sam",
+                                "EmailAddress": "",
+                                "BankAccountDetails": "",
+                                "Addresses": [
+                                  {
+                                    "AddressType": "STREET",
+                                    "City": "",
+                                    "Region": "",
+                                    "PostalCode": "",
+                                    "Country": ""
+                                  },
+                                  {
+                                    "AddressType": "POBOX",
+                                    "City": "",
+                                    "Region": "",
+                                    "PostalCode": "",
+                                    "Country": ""
+                                  }
+                                ],
+                                "Phones": [
+                                  {
+                                    "PhoneType": "DEFAULT",
+                                    "PhoneNumber": "",
+                                    "PhoneAreaCode": "",
+                                    "PhoneCountryCode": ""
+                                  },
+                                  {
+                                    "PhoneType": "DDI",
+                                    "PhoneNumber": "",
+                                    "PhoneAreaCode": "",
+                                    "PhoneCountryCode": ""
+                                  },
+                                  {
+                                    "PhoneType": "FAX",
+                                    "PhoneNumber": "",
+                                    "PhoneAreaCode": "",
+                                    "PhoneCountryCode": ""
+                                  },
+                                  {
+                                    "PhoneType": "MOBILE",
+                                    "PhoneNumber": "",
+                                    "PhoneAreaCode": "",
+                                    "PhoneCountryCode": ""
+                                  }
+                                ],
+                                "UpdatedDateUTC": "\/Date(1518821703467+0000)\/",
+                                "ContactGroups": [],
+                                "DefaultCurrency": "USD",
+                                "ContactPersons": [],
+                                "HasValidationErrors": false
+                              },
+                              "DateString": "2016-10-13T00:00:00",
+                              "Date": "\/Date(1476316800000+0000)\/",
+                              "Status": "AUTHORISED",
+                              "LineAmountTypes": "Exclusive",
+                              "LineItems": [
+                                {
+                                  "Description": "hello",
+                                  "UnitAmount": 10.00,
+                                  "TaxType": "OUTPUT",
+                                  "TaxAmount": 0.00,
+                                  "LineAmount": 10.00,
+                                  "AccountCode": "400",
+                                  "Tracking": [],
+                                  "Quantity": 1.0000,
+                                  "LineItemID": "40bec527-a744-4149-96c5-0ab643b51158",
+                                  "ValidationErrors": []
+                                }
+                              ],
+                              "SubTotal": 10.00,
+                              "TotalTax": 0.00,
+                              "Total": 10.00,
+                              "UpdatedDateUTC": "\/Date(1476389616437+0000)\/",
+                              "CurrencyCode": "USD"
+                            }
+                          ]
+                        }'
+    post:
+      tags:
+        - Accounting
+      operationId: updateBankTransaction
+      summary: Allows you to update a single spend or receive money transaction
+      parameters:
+        - required: true
+          in: path
+          name: BankTransactionID
+          description: Xero generated unique identifier for a bank transaction
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: A successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BankTransactions'
+              example: '{
+                          "Id": "f2c7f037-96fc-49bd-8f59-d3c7bfdd4746",
+                          "Status": "OK",
+                          "ProviderName": "Java Partner Example",
+                          "DateTimeUTC": "\/Date(1551213568875)\/",
+                          "BankTransactions": [
+                            {
+                              "BankTransactionID": "1289c190-e46d-434b-9628-463ffdb52f00",
+                              "BankAccount": {
+                                "AccountID": "6f7594f2-f059-4d56-9e67-47ac9733bfe9",
+                                "Code": "088",
+                                "Name": "Business Wells Fargo"
+                              },
+                              "Type": "SPEND",
+                              "Reference": "You just updated",
+                              "IsReconciled": false,
+                              "CurrencyRate": 1.000000,
+                              "HasAttachments": false,
+                              "Attachments": [],
+                              "Contact": {
+                                "ContactID": "5cc8cf28-567e-4d43-b287-687cfcaec47c",
+                                "ContactStatus": "ACTIVE",
+                                "Name": "Katherine Warren",
+                                "FirstName": "Katherine",
+                                "LastName": "Warren",
+                                "EmailAddress": "kat.warren@clampett.com",
+                                "BankAccountDetails": "",
+                                "Addresses": [
+                                  {
+                                    "AddressType": "STREET",
+                                    "City": "",
+                                    "Region": "",
+                                    "PostalCode": "",
+                                    "Country": ""
+                                  },
+                                  {
+                                    "AddressType": "POBOX",
+                                    "AddressLine1": "",
+                                    "AddressLine2": "",
+                                    "AddressLine3": "",
+                                    "AddressLine4": "",
+                                    "City": "Palo Alto",
+                                    "Region": "CA",
+                                    "PostalCode": "94020",
+                                    "Country": "United States"
+                                  }
+                                ],
+                                "Phones": [
+                                  {
+                                    "PhoneType": "DEFAULT",
+                                    "PhoneNumber": "847-1294",
+                                    "PhoneAreaCode": "(626)",
+                                    "PhoneCountryCode": ""
+                                  },
+                                  {
+                                    "PhoneType": "DDI",
+                                    "PhoneNumber": "",
+                                    "PhoneAreaCode": "",
+                                    "PhoneCountryCode": ""
+                                  },
+                                  {
+                                    "PhoneType": "FAX",
+                                    "PhoneNumber": "",
+                                    "PhoneAreaCode": "",
+                                    "PhoneCountryCode": ""
+                                  },
+                                  {
+                                    "PhoneType": "MOBILE",
+                                    "PhoneNumber": "",
+                                    "PhoneAreaCode": "",
+                                    "PhoneCountryCode": ""
+                                  }
+                                ],
+                                "UpdatedDateUTC": "\/Date(1503348544227+0000)\/",
+                                "ContactGroups": [],
+                                "ContactPersons": [],
+                                "HasValidationErrors": false
+                              },
+                              "DateString": "2019-02-25T00:00:00",
+                              "Date": "\/Date(1551052800000+0000)\/",
+                              "Status": "AUTHORISED",
+                              "LineAmountTypes": "Inclusive",
+                              "LineItems": [
+                                {
+                                  "Description": "Foobar",
+                                  "UnitAmount": 20.00,
+                                  "TaxType": "TAX001",
+                                  "TaxAmount": 1.74,
+                                  "LineAmount": 20.00,
+                                  "AccountCode": "400",
+                                  "Tracking": [],
+                                  "Quantity": 1.0000,
+                                  "LineItemID": "d2a06879-da49-4d6c-83b5-72a93a523ec6",
+                                  "ValidationErrors": []
+                                }
+                              ],
+                              "SubTotal": 18.26,
+                              "TotalTax": 1.74,
+                              "Total": 20.00,
+                              "UpdatedDateUTC": "\/Date(1551213568733+0000)\/",
+                              "CurrencyCode": "USD"
+                            }
+                          ]
+                        }'
+        '400':
+          $ref: '#/components/responses/400Error'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BankTransactions'
+            example: '{  
+                       "BankTransactions":[  
+                          {  
+                             "Type":"SPEND",
+                             "Contact":{  
+                                "ContactID":"5cc8cf28-567e-4d43-b287-687cfcaec47c",
+                                "ContactStatus":"ACTIVE",
+                                "Name":"Katherine Warren",
+                                "FirstName":"Katherine",
+                                "LastName":"Warren",
+                                "EmailAddress":"kat.warren@clampett.com",
+                                "ContactPersons":[  
+
+                                ],
+                                "BankAccountDetails":"",
+                                "Addresses":[  
+                                   {  
+                                      "AddressType":"STREET",
+                                      "City":"",
+                                      "Region":"",
+                                      "PostalCode":"",
+                                      "Country":""
+                                   },
+                                   {  
+                                      "AddressType":"POBOX",
+                                      "AddressLine1":"",
+                                      "AddressLine2":"",
+                                      "AddressLine3":"",
+                                      "AddressLine4":"",
+                                      "City":"Palo Alto",
+                                      "Region":"CA",
+                                      "PostalCode":"94020",
+                                      "Country":"United States"
+                                   }
+                                ],
+                                "Phones":[  
+                                   {  
+                                      "PhoneType":"DEFAULT",
+                                      "PhoneNumber":"847-1294",
+                                      "PhoneAreaCode":"(626)",
+                                      "PhoneCountryCode":""
+                                   },
+                                   {  
+                                      "PhoneType":"DDI",
+                                      "PhoneNumber":"",
+                                      "PhoneAreaCode":"",
+                                      "PhoneCountryCode":""
+                                   },
+                                   {  
+                                      "PhoneType":"FAX",
+                                      "PhoneNumber":"",
+                                      "PhoneAreaCode":"",
+                                      "PhoneCountryCode":""
+                                   },
+                                   {  
+                                      "PhoneType":"MOBILE",
+                                      "PhoneNumber":"",
+                                      "PhoneAreaCode":"",
+                                      "PhoneCountryCode":""
+                                   }
+                                ],
+                                "UpdatedDateUTC":"2017-08-21T13:49:04.227-07:00",
+                                "ContactGroups":[  
+
+                                ]
+                             },
+                             "Lineitems":[  
+
+                             ],
+                             "BankAccount":{  
+                                "Code":"088",
+                                "Name":"Business Wells Fargo",
+                                "AccountID":"6f7594f2-f059-4d56-9e67-47ac9733bfe9"
+                             },
+                             "IsReconciled":false,
+                             "Date":"2019-02-25",
+                             "Reference":"You just updated",
+                             "CurrencyCode":"USD",
+                             "CurrencyRate":1.0,
+                             "Status":"AUTHORISED",
+                             "LineAmountTypes":"Inclusive",
+                             "TotalTax":1.74,
+                             "BankTransactionID":"1289c190-e46d-434b-9628-463ffdb52f00",
+                             "UpdatedDateUTC":"2019-02-26T12:39:27.813-08:00"
+                          }
+                       ]
+                    }'
   '/BankTransactions/{BankTransactionID}/Attachments':
     get:
       tags:
@@ -1704,7 +2249,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PaymentServices'
-              example: ''
+              example: '{
+                          "Id": "bfd5adbe-0e92-48f0-8c5a-39072f6c4ed3",
+                          "Status": "OK",
+                          "ProviderName": "Xero API Partner",
+                          "DateTimeUTC": "\/Date(1551139339419)\/",
+                          "PaymentServices": [
+                            {
+                              "PaymentServiceID": "8cc53aa4-ae01-45b9-b06c-69c42eeae61f",
+                              "PaymentServiceName": "Sidney Maestre",
+                              "PaymentServiceType": "PayPal"
+                            },
+                            {
+                              "PaymentServiceID": "dede7858-14e3-4a46-bf95-4d4cc491e645",
+                              "PaymentServiceName": "ACME Payment",
+                              "PaymentServiceUrl": "https://www.payupnow.com/",
+                              "PaymentServiceType": "Custom",
+                              "PayNowText": "Pay Now"
+                            }
+                          ]
+                        }'
     post:
       tags:
         - Accounting
@@ -1725,6 +2289,21 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PaymentServices'
+              example: '{  
+                         "Id":"918feecb-067a-4ed9-841b-571c04eaada3",
+                         "Status":"OK",
+                         "ProviderName":"Xero API Partner",
+                         "DateTimeUTC":"\/Date(1551139338915)\/",
+                         "PaymentServices":[  
+                            {  
+                               "PaymentServiceID":"dede7858-14e3-4a46-bf95-4d4cc491e645",
+                               "PaymentServiceName":"ACME Payments",
+                               "PaymentServiceUrl":"https://www.payupnow.com/",
+                               "PaymentServiceType":"Custom",
+                               "PayNowText":"Pay Now"
+                            }
+                         ]
+                      }'
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
@@ -1732,6 +2311,12 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/PaymentService'
+            example: '{  
+                         "PaymentServiceID":"dede7858-14e3-4a46-bf95-4d4cc491e645",
+                         "PaymentServiceName":"ACME Payments",
+                         "PaymentServiceUrl":"https://www.payupnow.com/",
+                         "PayNowText":"Pay Now"
+                      }'
         required: true
   /Contacts:
     x-related-model: Contact
@@ -6712,7 +7297,6 @@ components:
           format: float
         BankTransactionID:
           description: Xero generated unique identifier for bank transaction
-          readOnly: true
           type: string
           format: uuid
         PrepaymentID:
