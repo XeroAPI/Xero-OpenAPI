@@ -1725,6 +1725,21 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PaymentServices'
+              example: '{  
+                         "Id":"918feecb-067a-4ed9-841b-571c04eaada3",
+                         "Status":"OK",
+                         "ProviderName":"Xero API Partner",
+                         "DateTimeUTC":"\/Date(1551139338915)\/",
+                         "PaymentServices":[  
+                            {  
+                               "PaymentServiceID":"dede7858-14e3-4a46-bf95-4d4cc491e645",
+                               "PaymentServiceName":"ACME Payments",
+                               "PaymentServiceUrl":"https://www.payupnow.com/",
+                               "PaymentServiceType":"Custom",
+                               "PayNowText":"Pay Now"
+                            }
+                         ]
+                      }'
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
@@ -1732,6 +1747,12 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/PaymentService'
+            example: '{  
+                         "PaymentServiceID":"dede7858-14e3-4a46-bf95-4d4cc491e645",
+                         "PaymentServiceName":"ACME Payments",
+                         "PaymentServiceUrl":"https://www.payupnow.com/",
+                         "PayNowText":"Pay Now"
+                      }'
         required: true
   /Contacts:
     x-related-model: Contact
