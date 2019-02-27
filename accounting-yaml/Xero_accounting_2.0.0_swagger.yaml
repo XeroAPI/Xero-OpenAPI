@@ -440,7 +440,7 @@ paths:
         - required: true
           in: header
           name: contentType
-          description: Format type of the attachment i.e. image/jpeg
+          description: The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf 
           schema:
             type: string
       responses:
@@ -593,7 +593,7 @@ paths:
               example: '{
                         "Id": "6ab84949-4fe5-4788-a135-4d8f690d24d7",
                         "Status": "OK",
-                        "ProviderName": "Java Partner Example",
+                        "ProviderName": "Xero API Partner",
                         "DateTimeUTC": "\/Date(1550866184006)\/",
                         "BatchPayments": [
                           {
@@ -699,7 +699,7 @@ paths:
               example: '{
                         "Id": "424745ed-6356-46ad-87d4-3585f9062fb4",
                         "Status": "OK",
-                        "ProviderName": "Java Partner Example",
+                        "ProviderName": "Xero API Partner",
                         "DateTimeUTC": "\/Date(1550865988111)\/",
                         "BatchPayments": [
                           {
@@ -849,7 +849,7 @@ paths:
               example: '{
                       "Id": "c58e2f9c-baad-42a4-8bb7-f32b6f88fa04",
                       "Status": "OK",
-                      "ProviderName": "Java Partner Example",
+                      "ProviderName": "Xero API Partner",
                       "DateTimeUTC": "\/Date(1550898452503)\/",
                       "HistoryRecords": [
                         {
@@ -884,7 +884,7 @@ paths:
               example: '{
                           "Id": "d7525479-3392-44c0-bb37-ff4a0b5df5bd",
                           "Status": "OK",
-                          "ProviderName": "Java Partner Example",
+                          "ProviderName": "Xero API Partner",
                           "DateTimeUTC": "\/Date(1550899400362)\/",
                           "HistoryRecords": [
                             {
@@ -960,7 +960,7 @@ paths:
                                   "Code":"088",
                                   "Name":"Business Wells Fargo"
                                },
-                               "Type":"RECEIVE-PREPAYMENT",
+                               "Type":"RECEIVE",
                                "IsReconciled":false,
                                "PrepaymentID":"cb62750f-b49c-464b-a45b-e2e2c514c8a9",
                                "HasAttachments":true,
@@ -1244,7 +1244,7 @@ paths:
             format: uuid
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of type BankTransactions array with a specific BankTransaction 
           content:
             application/json:
               schema:
@@ -1262,7 +1262,7 @@ paths:
                                 "Code": "088",
                                 "Name": "Business Wells Fargo"
                               },
-                              "Type": "RECEIVE-PREPAYMENT",
+                              "Type": "RECEIVE",
                               "IsReconciled": false,
                               "CurrencyRate": 1.000000,
                               "PrepaymentID": "cb62750f-b49c-464b-a45b-e2e2c514c8a9",
@@ -1371,7 +1371,7 @@ paths:
             format: uuid
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of type BankTransactions array with updated BankTransaction 
           content:
             application/json:
               schema:
@@ -1581,92 +1581,79 @@ paths:
         - Accounting
       operationId: getBankTransactionAttachments
       summary: Allows you to retrieve any attachments to bank transactions
-      responses:
-        '200':
-          description: A successful request
-          content:
-            text/xml:
-              schema:
-                $ref: '#/components/schemas/Attachments'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Attachments'
       parameters:
         - required: true
           in: path
           name: BankTransactionID
+          description: Xero generated unique identifier for a bank transaction
           schema:
             type: string
             format: uuid
+      responses:
+        '200':
+          description: Success - return response of type Attachments array with 0 to n Attachment 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Attachments'
+              example: '{
+                          "Id": "c50798e1-29e9-4a30-a452-bb6e42e400c8",
+                          "Status": "OK",
+                          "ProviderName": "Java Partner Example",
+                          "DateTimeUTC": "\/Date(1551303999577)\/",
+                          "Attachments": [
+                            {
+                              "AttachmentID": "4508a692-e52c-4ad8-a138-2f13e22bf57b",
+                              "FileName": "sample5.jpg",
+                              "Url": "https://api.xero.com/api.xro/2.0/BankTransactions/db54aab0-ad40-4ced-bcff-0940ba20db2c/Attachments/sample5.jpg",
+                              "MimeType": "image/jpg",
+                              "ContentLength": 2878711
+                            },
+                            {
+                              "AttachmentID": "45dd3143-9856-42d2-9a6c-53814f67a33e",
+                              "FileName": "sample2.jpg",
+                              "Url": "https://api.xero.com/api.xro/2.0/BankTransactions/db54aab0-ad40-4ced-bcff-0940ba20db2c/Attachments/sample2.jpg",
+                              "MimeType": "image/jpg",
+                              "ContentLength": 2878711
+                            }
+                          ]
+                        }'
   '/BankTransactions/{BankTransactionID}/Attachments/{AttachmentID}':
     x-related-model: BankTransaction
     get:
       tags:
         - Accounting
       operationId: getBankTransactionAttachmentById
-      summary: Allows you to retrieve Attachments on BankTransaction
-      responses:
-        '200':
-          description: A successful request
-          content:
-             application/octet-stream:
-              schema:
-                type: string
-                format: binary
+      summary: Allows you to retrieve Attachments on a specific BankTransaction
       parameters:
         - required: true
           in: path
           name: BankTransactionID
+          description: Xero generated unique identifier for a bank transaction
           schema:
             type: string
             format: uuid
         - required: true
           in: path
           name: AttachmentID
+          description: Xero generated unique identifier for an attachment
           schema:
             type: string
             format: uuid
         - required: true
           in: header
           name: contentType
+          description: The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf 
           schema:
             type: string
-    post:
-      tags:
-        - Accounting
-      operationId: updateBankTransactionAttachmentById
-      parameters:
-        - required: true
-          in: path
-          name: BankTransactionID
-          schema:
-            type: string
-            format: uuid
-        - required: true
-          in: path
-          name: AttachmentID
-          schema:
-            type: string
-            format: uuid
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of attachment as binary data 
           content:
-            text/xml:
+             application/octet-stream:
               schema:
-                $ref: '#/components/schemas/Attachments'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Attachments'
-        '400':
-          $ref: '#/components/responses/400Error'
-      requestBody:
-        required: true
-        content:
-          application/octet-stream:
-            schema:
-              type: string
-              format: binary
+                type: string
+                format: binary  
   '/BankTransactions/{BankTransactionID}/Attachments/{FileName}':
     x-related-model: BankTransaction
     get:
@@ -1674,58 +1661,75 @@ paths:
         - Accounting
       operationId: getBankTransactionAttachmentByFileName
       summary: Allows you to retrieve Attachments on BankTransaction by Filename
-      responses:
-        '200':
-          description: A successful request
-          content:
-             application/octet-stream:
-              schema:
-                type: string
-                format: binary
       parameters:
         - required: true
           in: path
           name: BankTransactionID
+          description: Xero generated unique identifier for a bank transaction
           schema:
             type: string
             format: uuid
         - required: true
           in: path
           name: FileName
+          description: The name of the file being attached
           schema:
             type: string
         - required: true
           in: header
           name: contentType
+          description: The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf 
           schema:
             type: string
+      responses:
+        '200':
+          description: Success - return response of attachment as binary data 
+          content:
+             application/octet-stream:
+              schema:
+                type: string
+                format: binary
     post:
       tags:
         - Accounting
       operationId: updateBankTransactionAttachmentByFileName
+      summary: Allows you to update an Attachment on BankTransaction by Filename
       parameters:
         - required: true
           in: path
           name: BankTransactionID
+          description: Xero generated unique identifier for a bank transaction
           schema:
             type: string
             format: uuid
         - required: true
           in: path
           name: FileName
+          description: The name of the file being attached
           schema:
             type: string
-            format: uuid
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of Attachments array of Attachment 
           content:
-            text/xml:
-              schema:
-                $ref: '#/components/schemas/Attachments'
             application/json:
               schema:
                 $ref: '#/components/schemas/Attachments'
+              example: '{
+                            "Id": "572ad2fe-8c23-45aa-82f9-864485327685",
+                            "Status": "OK",
+                            "ProviderName": "Java Partner Example",
+                            "DateTimeUTC": "\/Date(1551286166630)\/",
+                            "Attachments": [
+                              {
+                                "AttachmentID": "4508a692-e52c-4ad8-a138-2f13e22bf57b",
+                                "FileName": "sample5.jpg",
+                                "Url": "https://api.xero.com/api.xro/2.0/BankTransactions/db54aab0-ad40-4ced-bcff-0940ba20db2c/Attachments/sample5.jpg",
+                                "MimeType": "image/jpg",
+                                "ContentLength": 2878711
+                              }
+                            ]
+                          }'
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
@@ -1734,33 +1738,48 @@ paths:
           application/octet-stream:
             schema:
               type: string
-              format: binary
+              format: byte
     put:
       tags:
         - Accounting
       operationId: createBankTransactionAttachmentByFileName
+      summary: Allows you to createa an Attachment on BankTransaction by Filename
       parameters:
         - required: true
           in: path
           name: BankTransactionID
+          description: Xero generated unique identifier for a bank transaction
           schema:
             type: string
             format: uuid
         - required: true
           in: path
           name: FileName
+          description: The name of the file being attached
           schema:
             type: string
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of Attachments array of Attachment 
           content:
-            text/xml:
-              schema:
-                $ref: '#/components/schemas/Attachments'
             application/json:
               schema:
                 $ref: '#/components/schemas/Attachments'
+              example: '{
+                            "Id": "572ad2fe-8c23-45aa-82f9-864485327685",
+                            "Status": "OK",
+                            "ProviderName": "Java Partner Example",
+                            "DateTimeUTC": "\/Date(1551286166630)\/",
+                            "Attachments": [
+                              {
+                                "AttachmentID": "4508a692-e52c-4ad8-a138-2f13e22bf57b",
+                                "FileName": "sample5.jpg",
+                                "Url": "https://api.xero.com/api.xro/2.0/BankTransactions/db54aab0-ad40-4ced-bcff-0940ba20db2c/Attachments/sample5.jpg",
+                                "MimeType": "image/jpg",
+                                "ContentLength": 2878711
+                              }
+                            ]
+                          }'
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
@@ -1776,52 +1795,68 @@ paths:
       tags:
         - Accounting
       operationId: getBankTransactionsHistory
-      summary: Allows you to retrieve history from a bank transfers
-      responses:
-        '200':
-          description: A successful request
-          content:
-            text/xml:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
+      summary: Allows you to retrieve history from a bank transactions
       parameters:
         - required: true
           in: path
           name: BankTransactionID
+          description: Xero generated unique identifier for a bank transaction
           schema:
             type: string
             format: uuid
+      responses:
+        '200':
+          description: Success - return response of HistoryRecords array of 0 to N HistoryRecord 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HistoryRecords'
+              example: '{
+                          "Id": "238ed37f-5636-4644-beb9-eb44380a02b8",
+                          "Status": "OK",
+                          "ProviderName": "Java Partner Example",
+                          "DateTimeUTC": "\/Date(1551214417576)\/",
+                          "HistoryRecords": [
+                            {
+                              "Changes": "Attached a file",
+                              "DateUTCString": "2018-11-08T14:51:16",
+                              "DateUTC": "\/Date(1541688676083+0000)\/",
+                              "User": "System Generated",
+                              "Details": "Attached the file sample2.jpg through the Xero API using Java Partner Example"
+                            },
+                            {
+                              "Changes": "Created",
+                              "DateUTCString": "2016-10-13T20:13:36",
+                              "DateUTC": "\/Date(1476389616423+0000)\/",
+                              "User": "Sidney Maestre",
+                              "Details": ""
+                            }
+                          ]
+                        }'
     put:
       tags:
         - Accounting
       operationId: createBankTransactionHistoryRecord
+      summary: Allows you to create history record for a bank transactions
+      parameters:
+        - required: true
+          in: path
+          name: BankTransactionID
+          description: Xero generated unique identifier for a bank transaction
+          schema:
+            type: string
+            format: uuid
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of HistoryRecords array of 0 to N HistoryRecord 
           content:
-            text/xml:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
             application/json:
               schema:
                 $ref: '#/components/schemas/HistoryRecords'
         '400':
           $ref: '#/components/responses/400Error'
-      parameters:
-        - required: true
-          in: path
-          name: BankTransactionID
-          schema:
-            type: string
-            format: uuid
       requestBody:
         content:
-          text/xml:
-            schema:
-              $ref: '#/components/schemas/HistoryRecords'
           application/json:
             schema:
               $ref: '#/components/schemas/HistoryRecords'
@@ -1966,44 +2001,9 @@ paths:
         - required: true
           in: header
           name: contentType
+          description: The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf 
           schema:
             type: string
-    post:
-      tags:
-        - Accounting
-      operationId: updateBankTransferAttachmentById
-      parameters:
-        - required: true
-          in: path
-          name: BankTransferID
-          schema:
-            type: string
-            format: uuid
-        - required: true
-          in: path
-          name: AttachmentID
-          schema:
-            type: string
-            format: uuid
-      responses:
-        '200':
-          description: A successful request
-          content:
-            text/xml:
-              schema:
-                $ref: '#/components/schemas/Attachments'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Attachments'
-        '400':
-          $ref: '#/components/responses/400Error'
-      requestBody:
-        required: true
-        content:
-          application/octet-stream:
-            schema:
-              type: string
-              format: binary
   '/BankTransfers/{BankTransferID}/Attachments/{FileName}':
     x-related-model: BankTransfer
     get:
@@ -2034,6 +2034,7 @@ paths:
         - required: true
           in: header
           name: contentType
+          description: The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf
           schema:
             type: string
     post:
@@ -2071,7 +2072,7 @@ paths:
           application/octet-stream:
             schema:
               type: string
-              format: binary
+              format: byte
     put:
       tags:
         - Accounting
@@ -2092,9 +2093,6 @@ paths:
         '200':
           description: A successful request
           content:
-            text/xml:
-              schema:
-                $ref: '#/components/schemas/Attachments'
             application/json:
               schema:
                 $ref: '#/components/schemas/Attachments'
@@ -2180,7 +2178,7 @@ paths:
               example: '{
                           "Id": "d1a1beea-bdfe-4ee4-9dbc-27226a26cd68",
                           "Status": "OK",
-                          "ProviderName": "Java Partner Example",
+                          "ProviderName": "Xero API Partner",
                           "DateTimeUTC": "\/Date(1550881711906)\/",
                           "BrandingThemes": [
                             {
@@ -2216,7 +2214,7 @@ paths:
               example: '{
                           "Id": "df671650-cf14-4a7f-b609-4166933719bc",
                           "Status": "OK",
-                          "ProviderName": "Java Partner Example",
+                          "ProviderName": "Xero API Partner",
                           "DateTimeUTC": "\/Date(1550881713071)\/",
                           "BrandingThemes": [
                             {
@@ -2494,6 +2492,7 @@ paths:
         - required: true
           in: header
           name: contentType
+          description: The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf
           schema:
             type: string
     post:
@@ -2562,6 +2561,7 @@ paths:
         - required: true
           in: header
           name: contentType
+          description: The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf
           schema:
             type: string
     post:
@@ -3069,6 +3069,7 @@ paths:
         - required: true
           in: header
           name: contentType
+          description: The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf
           schema:
             type: string
     post:
@@ -3137,6 +3138,7 @@ paths:
         - required: true
           in: header
           name: contentType
+          description: The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf
           schema:
             type: string
     post:
@@ -3235,6 +3237,7 @@ paths:
         - required: true
           in: header
           name: contentType
+          description: The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf
           schema:
             type: string
   '/CreditNotes/{CreditNoteID}/Allocations':
@@ -3833,6 +3836,7 @@ paths:
         - required: true
           in: header
           name: contentType
+          description: The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf
           schema:
             type: string
   '/Invoices/{InvoiceID}/Attachments':
@@ -3890,6 +3894,7 @@ paths:
         - required: true
           in: header
           name: contentType
+          description: The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf
           schema:
             type: string
     post:
@@ -3958,6 +3963,7 @@ paths:
         - required: true
           in: header
           name: contentType
+          description: The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf
           schema:
             type: string
     post:
@@ -4714,6 +4720,7 @@ paths:
         - required: true
           in: header
           name: contentType
+          description: The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf
           schema:
             type: string
     post:
@@ -4782,6 +4789,7 @@ paths:
         - required: true
           in: header
           name: contentType
+          description: The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf
           schema:
             type: string
     post:
@@ -5770,6 +5778,7 @@ paths:
         - required: true
           in: header
           name: contentType
+          description: The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf
           schema:
             type: string
     post:
@@ -5838,6 +5847,7 @@ paths:
         - required: true
           in: header
           name: contentType
+          description: The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf
           schema:
             type: string
     post:
@@ -6072,6 +6082,7 @@ paths:
         - required: true
           in: header
           name: contentType
+          description: The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf
           schema:
             type: string
     post:
@@ -6140,6 +6151,7 @@ paths:
         - required: true
           in: header
           name: contentType
+          description: The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf
           schema:
             type: string
     post:
