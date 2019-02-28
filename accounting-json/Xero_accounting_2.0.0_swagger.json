@@ -1070,24 +1070,7 @@
       "get" : {
         "tags" : [ "Accounting" ],
         "operationId" : "getBankTransfers",
-        "summary" : "Allows you to retrieve any bank transfers",
-        "responses" : {
-          "200" : {
-            "description" : "A successful response",
-            "content" : {
-              "text/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/BankTransfers"
-                }
-              },
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/BankTransfers"
-                }
-              }
-            }
-          }
-        },
+        "summary" : "Allows you to retrieve all bank transfers",
         "parameters" : [ {
           "in" : "header",
           "name" : "If-Modified-Since",
@@ -1110,24 +1093,34 @@
           "schema" : {
             "type" : "string"
           }
-        } ]
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success - return response of BankTransfers array of 0 to N BankTransfer",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BankTransfers"
+                },
+                "example" : "{ \"Id\": \"dfc0d130-9007-4a98-a5ef-6f01700f18e2\", \"Status\": \"OK\", \"ProviderName\": \"Java Partner Example\", \"DateTimeUTC\": \"\\/Date(1551311318988)\\/\", \"BankTransfers\": [ { \"BankTransferID\": \"6221458a-ef7a-4d5f-9b1c-1b96ce03833c\", \"CreatedDateUTCString\": \"2016-10-17T20:46:01\", \"CreatedDateUTC\": \"\\/Date(1476737161140+0000)\\/\", \"DateString\": \"2016-11-12T21:10:00\", \"Date\": \"\\/Date(1478985000000+0000)\\/\", \"FromBankAccount\": { \"AccountID\": \"6f7594f2-f059-4d56-9e67-47ac9733bfe9\", \"Name\": \"Business Wells Fargo\" }, \"ToBankAccount\": { \"AccountID\": \"7e5e243b-9fcd-4aef-8e3a-c70be1e39bfa\", \"Name\": \"My Savings\" }, \"Amount\": 20.00, \"FromBankTransactionID\": \"a3eca480-bc04-4292-9bbd-5c57b8ba12b4\", \"ToBankTransactionID\": \"4ca13f40-f3a0-4530-a442-a600f5696118\", \"HasAttachments\": true }, { \"BankTransferID\": \"9f0153d5-617c-4903-887b-3875807aa27a\", \"CreatedDateUTCString\": \"2016-10-21T23:28:42\", \"CreatedDateUTC\": \"\\/Date(1477092522333+0000)\\/\", \"DateString\": \"2016-10-19T20:10:00\", \"Date\": \"\\/Date(1476907800000+0000)\\/\", \"FromBankAccount\": { \"AccountID\": \"6f7594f2-f059-4d56-9e67-47ac9733bfe9\", \"Name\": \"Business Wells Fargo\" }, \"ToBankAccount\": { \"AccountID\": \"7e5e243b-9fcd-4aef-8e3a-c70be1e39bfa\", \"Name\": \"My Savings\" }, \"Amount\": 20.00, \"FromBankTransactionID\": \"cb74287e-5682-4973-b354-93e2c7a836d3\", \"ToBankTransactionID\": \"4c48ba6c-f318-4405-aee6-b5efa2c70f55\", \"HasAttachments\": false } ] }"
+              }
+            }
+          }
+        }
       },
       "put" : {
         "tags" : [ "Accounting" ],
         "operationId" : "createBankTransfer",
+        "summary" : "Allows you to create a bank transfers",
         "responses" : {
           "200" : {
-            "description" : "A successful request",
+            "description" : "Success - return response of BankTransfers array of one BankTransfer",
             "content" : {
-              "text/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/BankTransfers"
-                }
-              },
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/BankTransfers"
-                }
+                },
+                "example" : "{ \"Id\": \"ae767b68-affd-4e17-bac0-83eaf1854dcd\", \"Status\": \"OK\", \"ProviderName\": \"Java Partner Example\", \"DateTimeUTC\": \"\\/Date(1551311317475)\\/\", \"BankTransfers\": [ { \"BankTransferID\": \"76eea4b6-f026-464c-b6f3-5fb39a196145\", \"DateString\": \"2019-02-27T00:00:00\", \"Date\": \"\\/Date(1551225600000+0000)\\/\", \"FromBankAccount\": { \"AccountID\": \"7e5e243b-9fcd-4aef-8e3a-c70be1e39bfa\", \"Code\": \"090\", \"Name\": \"My Savings\" }, \"ToBankAccount\": { \"AccountID\": \"6f7594f2-f059-4d56-9e67-47ac9733bfe9\", \"Code\": \"088\", \"Name\": \"Business Wells Fargo\" }, \"Amount\": 50.00, \"FromBankTransactionID\": \"e4059952-5acb-4a56-b076-53fad85f2930\", \"ToBankTransactionID\": \"88e4ac17-293b-4e5a-8d8b-3ce3a0b1ee17\", \"CurrencyRate\": 1.000000, \"ValidationErrors\": [] } ] }"
               }
             }
           },
@@ -1137,15 +1130,11 @@
         },
         "requestBody" : {
           "content" : {
-            "text/xml" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/BankTransfers"
-              }
-            },
             "application/json" : {
               "schema" : {
                 "$ref" : "#/components/schemas/BankTransfers"
-              }
+              },
+              "example" : "{ \"BankTransfers\":[ { \"FromBankAccount\":{ \"Code\":\"090\", \"Name\":\"My Savings\", \"AccountID\":\"7e5e243b-9fcd-4aef-8e3a-c70be1e39bfa\", \"Type\":\"BANK\", \"BankAccountNumber\":\"123455\", \"Status\":\"ACTIVE\", \"BankAccountType\":\"BANK\", \"CurrencyCode\":\"USD\", \"TaxType\":\"NONE\", \"EnablePaymentsToAccount\":false, \"ShowInExpenseClaims\":false, \"Class\":\"ASSET\", \"ReportingCode\":\"ASS\", \"ReportingCodeName\":\"Assets\", \"HasAttachments\":false, \"UpdatedDateUTC\":\"2016-10-17T13:45:33.993-07:00\" }, \"ToBankAccount\":{ \"Code\":\"088\", \"Name\":\"Business Wells Fargo\", \"AccountID\":\"6f7594f2-f059-4d56-9e67-47ac9733bfe9\", \"Type\":\"BANK\", \"BankAccountNumber\":\"123455\", \"Status\":\"ACTIVE\", \"BankAccountType\":\"BANK\", \"CurrencyCode\":\"USD\", \"TaxType\":\"NONE\", \"EnablePaymentsToAccount\":false, \"ShowInExpenseClaims\":false, \"Class\":\"ASSET\", \"ReportingCode\":\"ASS\", \"ReportingCodeName\":\"Assets\", \"HasAttachments\":false, \"UpdatedDateUTC\":\"2016-06-03T08:31:14.517-07:00\" }, \"Amount\":\"50.00\" } ] }"
             }
           },
           "required" : true
@@ -1158,32 +1147,29 @@
         "tags" : [ "Accounting" ],
         "operationId" : "getBankTransfer",
         "summary" : "Allows you to retrieve any bank transfers",
-        "responses" : {
-          "200" : {
-            "description" : "A successful request",
-            "content" : {
-              "text/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/BankTransfers"
-                }
-              },
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/BankTransfers"
-                }
-              }
-            }
-          }
-        },
         "parameters" : [ {
           "required" : true,
           "in" : "path",
           "name" : "BankTransferID",
+          "description" : "Xero generated unique identifier for a bank transfer",
           "schema" : {
             "type" : "string",
             "format" : "uuid"
           }
-        } ]
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success - return response of BankTransfers array with one BankTransfer",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/BankTransfers"
+                },
+                "example" : "{ \"Id\": \"1a5fa46d-5ece-4ef2-89b1-77c293b5d833\", \"Status\": \"OK\", \"ProviderName\": \"Java Partner Example\", \"DateTimeUTC\": \"\\/Date(1551311320368)\\/\", \"BankTransfers\": [ { \"BankTransferID\": \"6221458a-ef7a-4d5f-9b1c-1b96ce03833c\", \"CreatedDateUTCString\": \"2016-10-17T20:46:01\", \"CreatedDateUTC\": \"\\/Date(1476737161140+0000)\\/\", \"DateString\": \"2016-11-12T21:10:00\", \"Date\": \"\\/Date(1478985000000+0000)\\/\", \"FromBankAccount\": { \"AccountID\": \"6f7594f2-f059-4d56-9e67-47ac9733bfe9\", \"Code\": \"088\", \"Name\": \"Business Wells Fargo\" }, \"ToBankAccount\": { \"AccountID\": \"7e5e243b-9fcd-4aef-8e3a-c70be1e39bfa\", \"Code\": \"090\", \"Name\": \"My Savings\" }, \"Amount\": 20.00, \"FromBankTransactionID\": \"a3eca480-bc04-4292-9bbd-5c57b8ba12b4\", \"ToBankTransactionID\": \"4ca13f40-f3a0-4530-a442-a600f5696118\", \"CurrencyRate\": 1.000000, \"HasAttachments\": true, \"Attachments\": [ { \"AttachmentID\": \"e05a6fd8-0e47-47a9-9799-b809c8267260\", \"FileName\": \"HelloWorld.jpg\", \"Url\": \"https://api.xero.com/api.xro/2.0/banktransfer/6221458a-ef7a-4d5f-9b1c-1b96ce03833c/Attachments/HelloWorld.jpg\", \"MimeType\": \"image/jpg\", \"ContentLength\": 2878711 } ] } ] }"
+              }
+            }
+          }
+        }
       }
     },
     "/BankTransfers/{BankTransferID}/Attachments" : {
@@ -1194,13 +1180,8 @@
         "summary" : "Allows you to retrieve Attachments from  bank transfers",
         "responses" : {
           "200" : {
-            "description" : "A successful request",
+            "description" : "Success - return response of Attachments array of 0 to N Attachment for a Bank Transfer",
             "content" : {
-              "text/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Attachments"
-                }
-              },
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/Attachments"
@@ -1213,6 +1194,7 @@
           "required" : true,
           "in" : "path",
           "name" : "BankTransferID",
+          "description" : "Xero generated unique identifier for a bank transfer",
           "schema" : {
             "type" : "string",
             "format" : "uuid"
@@ -1228,7 +1210,7 @@
         "summary" : "Allows you to retrieve Attachments on BankTransfer",
         "responses" : {
           "200" : {
-            "description" : "A successful request",
+            "description" : "Success - return response of binary data from the Attachment to a Bank Transfer",
             "content" : {
               "application/octet-stream" : {
                 "schema" : {
@@ -1243,6 +1225,7 @@
           "required" : true,
           "in" : "path",
           "name" : "BankTransferID",
+          "description" : "Xero generated unique identifier for a bank transfer",
           "schema" : {
             "type" : "string",
             "format" : "uuid"
@@ -1251,6 +1234,7 @@
           "required" : true,
           "in" : "path",
           "name" : "AttachmentID",
+          "description" : "Xero generated unique identifier for an Attachment to a bank transfer",
           "schema" : {
             "type" : "string",
             "format" : "uuid"
@@ -1274,7 +1258,7 @@
         "summary" : "Allows you to retrieve Attachments on BankTransfer by file name",
         "responses" : {
           "200" : {
-            "description" : "A successful request",
+            "description" : "Success - return response of binary data from the Attachment to a Bank Transfer",
             "content" : {
               "application/octet-stream" : {
                 "schema" : {
@@ -1289,6 +1273,7 @@
           "required" : true,
           "in" : "path",
           "name" : "BankTransferID",
+          "description" : "Xero generated unique identifier for a bank transfer",
           "schema" : {
             "type" : "string",
             "format" : "uuid"
@@ -1297,6 +1282,7 @@
           "required" : true,
           "in" : "path",
           "name" : "FileName",
+          "description" : "The name of the file being attached to a Bank Transfer",
           "schema" : {
             "type" : "string"
           }
@@ -1317,6 +1303,7 @@
           "required" : true,
           "in" : "path",
           "name" : "BankTransferID",
+          "description" : "Xero generated unique identifier for a bank transfer",
           "schema" : {
             "type" : "string",
             "format" : "uuid"
@@ -1325,20 +1312,15 @@
           "required" : true,
           "in" : "path",
           "name" : "FileName",
+          "description" : "The name of the file being attached to a Bank Transfer",
           "schema" : {
-            "type" : "string",
-            "format" : "uuid"
+            "type" : "string"
           }
         } ],
         "responses" : {
           "200" : {
-            "description" : "A successful request",
+            "description" : "Success - return response of Attachments array of 0 to N Attachment for a Bank Transfer",
             "content" : {
-              "text/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Attachments"
-                }
-              },
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/Attachments"
@@ -1369,6 +1351,7 @@
           "required" : true,
           "in" : "path",
           "name" : "BankTransferID",
+          "description" : "Xero generated unique identifier for a bank transfer",
           "schema" : {
             "type" : "string",
             "format" : "uuid"
@@ -1377,13 +1360,14 @@
           "required" : true,
           "in" : "path",
           "name" : "FileName",
+          "description" : "The name of the file being attached to a Bank Transfer",
           "schema" : {
             "type" : "string"
           }
         } ],
         "responses" : {
           "200" : {
-            "description" : "A successful request",
+            "description" : "Success - return response of Attachments array of 0 to N Attachment for a Bank Transfer",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -1415,45 +1399,47 @@
         "tags" : [ "Accounting" ],
         "operationId" : "getBankTransferHistory",
         "summary" : "Allows you to retrieve history from a bank transfers",
-        "responses" : {
-          "200" : {
-            "description" : "A successful request",
-            "content" : {
-              "text/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/HistoryRecords"
-                }
-              },
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/HistoryRecords"
-                }
-              }
-            }
-          }
-        },
         "parameters" : [ {
           "required" : true,
           "in" : "path",
           "name" : "BankTransferID",
+          "description" : "Xero generated unique identifier for a bank transfer",
           "schema" : {
             "type" : "string",
             "format" : "uuid"
           }
-        } ]
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success - return response of HistoryRecords array of 0 to N HistoryRecord for a Bank Transfer",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/HistoryRecords"
+                },
+                "example" : "{ \"Id\": \"cd54cc7b-b721-4207-b11d-7d13c7902f91\", \"Status\": \"OK\", \"ProviderName\": \"Java Partner Example\", \"DateTimeUTC\": \"\\/Date(1551311321819)\\/\", \"HistoryRecords\": [ { \"Changes\": \"Attached a file\", \"DateUTCString\": \"2018-11-08T15:01:21\", \"DateUTC\": \"\\/Date(1541689281470+0000)\\/\", \"User\": \"System Generated\", \"Details\": \"Attached the file sample2.jpg through the Xero API using Java Partner Example\" }, { \"Changes\": \"Credit Applied\", \"DateUTCString\": \"2016-10-17T20:46:01\", \"DateUTC\": \"\\/Date(1476737161173+0000)\\/\", \"User\": \"System Generated\", \"Details\": \"Bank transfer from Business Wells Fargo to My Savings on November 12, 2016 for 20.00.\" } ] }"
+              }
+            }
+          }
+        }
       },
       "put" : {
         "tags" : [ "Accounting" ],
         "operationId" : "createBankTransferHistoryRecord",
+        "parameters" : [ {
+          "required" : true,
+          "in" : "path",
+          "name" : "BankTransferID",
+          "description" : "Xero generated unique identifier for a bank transfer",
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
         "responses" : {
           "200" : {
-            "description" : "A successful request",
+            "description" : "Success - return response HistoryRecords array with the newly created HistoryRecord for a Bank Transfer",
             "content" : {
-              "text/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/HistoryRecords"
-                }
-              },
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/HistoryRecords"
@@ -1465,22 +1451,8 @@
             "$ref" : "#/components/responses/400Error"
           }
         },
-        "parameters" : [ {
-          "required" : true,
-          "in" : "path",
-          "name" : "BankTransferID",
-          "schema" : {
-            "type" : "string",
-            "format" : "uuid"
-          }
-        } ],
         "requestBody" : {
           "content" : {
-            "text/xml" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/HistoryRecords"
-              }
-            },
             "application/json" : {
               "schema" : {
                 "$ref" : "#/components/schemas/HistoryRecords"
