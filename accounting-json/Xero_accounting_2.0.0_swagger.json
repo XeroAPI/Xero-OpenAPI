@@ -1178,18 +1178,6 @@
         "tags" : [ "Accounting" ],
         "operationId" : "getBankTransferAttachments",
         "summary" : "Allows you to retrieve Attachments from  bank transfers",
-        "responses" : {
-          "200" : {
-            "description" : "Success - return response of Attachments array of 0 to N Attachment for a Bank Transfer",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Attachments"
-                }
-              }
-            }
-          }
-        },
         "parameters" : [ {
           "required" : true,
           "in" : "path",
@@ -1199,7 +1187,20 @@
             "type" : "string",
             "format" : "uuid"
           }
-        } ]
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success - return response of Attachments array of 0 to N Attachment for a Bank Transfer",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Attachments"
+                },
+                "example" : "{ \"Id\": \"5cb6b587-7b02-46b6-97fe-d8ad8f20321b\", \"Status\": \"OK\", \"ProviderName\": \"Java Partner Example\", \"DateTimeUTC\": \"\\/Date(1551397557272)\\/\", \"Attachments\": [ { \"AttachmentID\": \"e05a6fd8-0e47-47a9-9799-b809c8267260\", \"FileName\": \"HelloWorld.jpg\", \"Url\": \"https://api.xero.com/api.xro/2.0/BankTransfers/6221458a-ef7a-4d5f-9b1c-1b96ce03833c/Attachments/HelloWorld.jpg\", \"MimeType\": \"image/jpg\", \"ContentLength\": 2878711 } ] }"
+              }
+            }
+          }
+        }
       }
     },
     "/BankTransfers/{BankTransferID}/Attachments/{AttachmentID}" : {
@@ -1208,19 +1209,6 @@
         "tags" : [ "Accounting" ],
         "operationId" : "getBankTransferAttachmentById",
         "summary" : "Allows you to retrieve Attachments on BankTransfer",
-        "responses" : {
-          "200" : {
-            "description" : "Success - return response of binary data from the Attachment to a Bank Transfer",
-            "content" : {
-              "application/octet-stream" : {
-                "schema" : {
-                  "type" : "string",
-                  "format" : "binary"
-                }
-              }
-            }
-          }
-        },
         "parameters" : [ {
           "required" : true,
           "in" : "path",
@@ -1247,15 +1235,7 @@
           "schema" : {
             "type" : "string"
           }
-        } ]
-      }
-    },
-    "/BankTransfers/{BankTransferID}/Attachments/{FileName}" : {
-      "x-related-model" : "BankTransfer",
-      "get" : {
-        "tags" : [ "Accounting" ],
-        "operationId" : "getBankTransferAttachmentByFileName",
-        "summary" : "Allows you to retrieve Attachments on BankTransfer by file name",
+        } ],
         "responses" : {
           "200" : {
             "description" : "Success - return response of binary data from the Attachment to a Bank Transfer",
@@ -1268,7 +1248,15 @@
               }
             }
           }
-        },
+        }
+      }
+    },
+    "/BankTransfers/{BankTransferID}/Attachments/{FileName}" : {
+      "x-related-model" : "BankTransfer",
+      "get" : {
+        "tags" : [ "Accounting" ],
+        "operationId" : "getBankTransferAttachmentByFileName",
+        "summary" : "Allows you to retrieve Attachments on BankTransfer by file name",
         "parameters" : [ {
           "required" : true,
           "in" : "path",
@@ -1294,7 +1282,20 @@
           "schema" : {
             "type" : "string"
           }
-        } ]
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success - return response of binary data from the Attachment to a Bank Transfer",
+            "content" : {
+              "application/octet-stream" : {
+                "schema" : {
+                  "type" : "string",
+                  "format" : "binary"
+                }
+              }
+            }
+          }
+        }
       },
       "post" : {
         "tags" : [ "Accounting" ],
@@ -1324,7 +1325,8 @@
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/Attachments"
-                }
+                },
+                "example" : "{ \"Id\": \"c7810140-19c2-4ff7-b3ec-b7e95ce7becf\", \"Status\": \"OK\", \"ProviderName\": \"Java Partner Example\", \"DateTimeUTC\": \"\\/Date(1551398138226)\\/\", \"Attachments\": [ { \"AttachmentID\": \"0851935c-c4c5-4de8-9247-ce22efde6f82\", \"FileName\": \"sample5.jpg\", \"Url\": \"https://api.xero.com/api.xro/2.0/BankTransfers/6221458a-ef7a-4d5f-9b1c-1b96ce03833c/Attachments/sample5.jpg\", \"MimeType\": \"image/jpg\", \"ContentLength\": 2878711 } ] }"
               }
             }
           },
@@ -1372,7 +1374,8 @@
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/Attachments"
-                }
+                },
+                "example" : "{ \"Id\": \"b73ba149-76a9-4e7c-a5c6-b9230022f416\", \"Status\": \"OK\", \"ProviderName\": \"Java Partner Example\", \"DateTimeUTC\": \"\\/Date(1551397998372)\\/\", \"Attachments\": [ { \"AttachmentID\": \"9478be4c-c707-48c1-b4a7-83d8eaf442b5\", \"FileName\": \"sample5.jpg\", \"Url\": \"https://api.xero.com/api.xro/2.0/BankTransfers/6221458a-ef7a-4d5f-9b1c-1b96ce03833c/Attachments/sample5.jpg\", \"MimeType\": \"image/jpg\", \"ContentLength\": 2878711 } ] }"
               }
             }
           },
@@ -1533,7 +1536,7 @@
         } ],
         "responses" : {
           "200" : {
-            "description" : "A successful request",
+            "description" : "Success - return response of type PaymentServices array with 0 to N PaymentService",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -1561,7 +1564,7 @@
         } ],
         "responses" : {
           "200" : {
-            "description" : "A successful request",
+            "description" : "Success - return response of type PaymentServices array with newly created PaymentService",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -1594,18 +1597,6 @@
         "tags" : [ "Accounting" ],
         "operationId" : "getContacts",
         "summary" : "Allows you to retrieve, add and update contacts in a Xero organisation",
-        "responses" : {
-          "200" : {
-            "description" : "A successful response",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Contacts"
-                }
-              }
-            }
-          }
-        },
         "parameters" : [ {
           "in" : "header",
           "name" : "If-Modified-Since",
@@ -1649,24 +1640,33 @@
           "schema" : {
             "type" : "boolean"
           }
-        } ]
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success - return response of type Contacts array with 0 to N Contact",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Contacts"
+                },
+                "example" : "{ \"Id\": \"04e93d48-e72f-4775-b7dd-15a041fab972\", \"Status\": \"OK\", \"ProviderName\": \"Java Partner Example\", \"DateTimeUTC\": \"\\/Date(1551399323399)\\/\", \"Contacts\": [ { \"ContactID\": \"5cc8cf28-567e-4d43-b287-687cfcaec47c\", \"ContactStatus\": \"ACTIVE\", \"Name\": \"Katherine Warren\", \"FirstName\": \"Katherine\", \"LastName\": \"Warren\", \"EmailAddress\": \"kat.warren@clampett.com\", \"BankAccountDetails\": \"\", \"Addresses\": [ { \"AddressType\": \"STREET\", \"City\": \"\", \"Region\": \"\", \"PostalCode\": \"\", \"Country\": \"\" }, { \"AddressType\": \"POBOX\", \"AddressLine1\": \"\", \"AddressLine2\": \"\", \"AddressLine3\": \"\", \"AddressLine4\": \"\", \"City\": \"Palo Alto\", \"Region\": \"CA\", \"PostalCode\": \"94020\", \"Country\": \"United States\" } ], \"Phones\": [ { \"PhoneType\": \"DDI\", \"PhoneNumber\": \"\", \"PhoneAreaCode\": \"\", \"PhoneCountryCode\": \"\" }, { \"PhoneType\": \"DEFAULT\", \"PhoneNumber\": \"847-1294\", \"PhoneAreaCode\": \"(626)\", \"PhoneCountryCode\": \"\" }, { \"PhoneType\": \"FAX\", \"PhoneNumber\": \"\", \"PhoneAreaCode\": \"\", \"PhoneCountryCode\": \"\" }, { \"PhoneType\": \"MOBILE\", \"PhoneNumber\": \"\", \"PhoneAreaCode\": \"\", \"PhoneCountryCode\": \"\" } ], \"UpdatedDateUTC\": \"\\/Date(1503348544227+0000)\\/\", \"ContactGroups\": [], \"IsSupplier\": true, \"IsCustomer\": true, \"Balances\": { \"AccountsReceivable\": { \"Outstanding\": 760.00, \"Overdue\": 920.00 }, \"AccountsPayable\": { \"Outstanding\": 231.60, \"Overdue\": 360.00 } }, \"ContactPersons\": [], \"HasAttachments\": false, \"HasValidationErrors\": false }, { \"ContactID\": \"3ec601ad-eddc-4ccb-a8ac-736e88293b1b\", \"ContactStatus\": \"ACTIVE\", \"Name\": \"Lisa Parker\", \"FirstName\": \"Lisa\", \"LastName\": \"Parker\", \"EmailAddress\": \"lparker@parkerandco.com\", \"BankAccountDetails\": \"\", \"Addresses\": [ { \"AddressType\": \"STREET\", \"City\": \"\", \"Region\": \"\", \"PostalCode\": \"\", \"Country\": \"\" }, { \"AddressType\": \"POBOX\", \"AddressLine1\": \"\", \"AddressLine2\": \"\", \"AddressLine3\": \"\", \"AddressLine4\": \"\", \"City\": \"Anchorage\", \"Region\": \"AK\", \"PostalCode\": \"99501\", \"Country\": \"United States\" } ], \"Phones\": [ { \"PhoneType\": \"DDI\", \"PhoneNumber\": \"\", \"PhoneAreaCode\": \"\", \"PhoneCountryCode\": \"\" }, { \"PhoneType\": \"DEFAULT\", \"PhoneNumber\": \"266-3583\", \"PhoneAreaCode\": \"(510)\", \"PhoneCountryCode\": \"\" }, { \"PhoneType\": \"FAX\", \"PhoneNumber\": \"\", \"PhoneAreaCode\": \"\", \"PhoneCountryCode\": \"\" }, { \"PhoneType\": \"MOBILE\", \"PhoneNumber\": \"\", \"PhoneAreaCode\": \"\", \"PhoneCountryCode\": \"\" } ], \"UpdatedDateUTC\": \"\\/Date(1503348546760+0000)\\/\", \"ContactGroups\": [], \"IsSupplier\": false, \"IsCustomer\": false, \"ContactPersons\": [], \"HasAttachments\": false, \"HasValidationErrors\": false } ] }"
+              }
+            }
+          }
+        }
       },
       "put" : {
         "tags" : [ "Accounting" ],
         "operationId" : "createContact",
         "responses" : {
           "200" : {
-            "description" : "A successful request",
+            "description" : "Success - return response of type Contacts array with newly created Contact",
             "content" : {
-              "text/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Contacts"
-                }
-              },
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/Contacts"
-                }
+                },
+                "example" : "{ \"Id\": \"e997d6d7-6dad-4458-beb8-d9c1bf7f2edf\", \"Status\": \"OK\", \"ProviderName\": \"Java Partner Example\", \"DateTimeUTC\": \"\\/Date(1551399321121)\\/\", \"Contacts\": [ { \"ContactID\": \"3ff6d40c-af9a-40a3-89ce-3c1556a25591\", \"ContactStatus\": \"ACTIVE\", \"Name\": \"Foo9987\", \"EmailAddress\": \"sid32476@blah.com\", \"BankAccountDetails\": \"\", \"Addresses\": [ { \"AddressType\": \"STREET\", \"City\": \"\", \"Region\": \"\", \"PostalCode\": \"\", \"Country\": \"\" }, { \"AddressType\": \"POBOX\", \"City\": \"\", \"Region\": \"\", \"PostalCode\": \"\", \"Country\": \"\" } ], \"Phones\": [ { \"PhoneType\": \"DEFAULT\", \"PhoneNumber\": \"\", \"PhoneAreaCode\": \"\", \"PhoneCountryCode\": \"\" }, { \"PhoneType\": \"DDI\", \"PhoneNumber\": \"\", \"PhoneAreaCode\": \"\", \"PhoneCountryCode\": \"\" }, { \"PhoneType\": \"FAX\", \"PhoneNumber\": \"\", \"PhoneAreaCode\": \"\", \"PhoneCountryCode\": \"\" }, { \"PhoneType\": \"MOBILE\", \"PhoneNumber\": \"555-1212\", \"PhoneAreaCode\": \"415\", \"PhoneCountryCode\": \"\" } ], \"UpdatedDateUTC\": \"\\/Date(1551399321043+0000)\\/\", \"ContactGroups\": [], \"IsSupplier\": false, \"IsCustomer\": false, \"SalesTrackingCategories\": [], \"PurchasesTrackingCategories\": [], \"PaymentTerms\": { \"Bills\": { \"Day\": 15, \"Type\": \"OFCURRENTMONTH\" }, \"Sales\": { \"Day\": 10, \"Type\": \"DAYSAFTERBILLMONTH\" } }, \"ContactPersons\": [], \"HasValidationErrors\": false } ] }"
               }
             }
           },
@@ -1680,7 +1680,8 @@
             "application/json" : {
               "schema" : {
                 "$ref" : "#/components/schemas/Contact"
-              }
+              },
+              "example" : "{ \"Name\":\"Foo9987\", \"EmailAddress\":\"sid32476@blah.com\", \"Phones\":[ { \"PhoneType\":\"MOBILE\", \"PhoneNumber\":\"555-1212\", \"PhoneAreaCode\":\"415\" } ], \"PaymentTerms\":{ \"Bills\":{ \"Day\":15, \"Type\":\"OFCURRENTMONTH\" }, \"Sales\":{ \"Day\":10, \"Type\":\"DAYSAFTERBILLMONTH\" } } }"
             }
           }
         }
@@ -1692,32 +1693,29 @@
         "tags" : [ "Accounting" ],
         "operationId" : "getContact",
         "summary" : "Allows you to retrieve, add and update contacts in a Xero organisation",
-        "responses" : {
-          "200" : {
-            "description" : "A successful request",
-            "content" : {
-              "text/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Contacts"
-                }
-              },
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Contacts"
-                }
-              }
-            }
-          }
-        },
         "parameters" : [ {
           "required" : true,
           "in" : "path",
           "name" : "ContactID",
+          "description" : "Unique identifier for a Contact",
           "schema" : {
             "type" : "string",
             "format" : "uuid"
           }
-        } ]
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success - return response of type Contacts array with a unique Contact",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Contacts"
+                },
+                "example" : "{ \"Id\": \"cfea4280-7e4a-4388-81b0-9bfb7938662e\", \"Status\": \"OK\", \"ProviderName\": \"Java Partner Example\", \"DateTimeUTC\": \"\\/Date(1551459787320)\\/\", \"Contacts\": [ { \"ContactID\": \"8138a266-fb42-49b2-a104-014b7045753d\", \"ContactNumber\": \"SB2\", \"AccountNumber\": \"1234567\", \"ContactStatus\": \"ACTIVE\", \"Name\": \"Acme Parts Co.\", \"FirstName\": \"Blake\", \"LastName\": \"Kohler\", \"EmailAddress\": \"bk@krave.co\", \"SkypeUserName\": \"blake\", \"BankAccountDetails\": \"12334567\", \"TaxNumber\": \"123-22-3456\", \"AccountsReceivableTaxType\": \"TAX003\", \"AccountsPayableTaxType\": \"TAX022\", \"Addresses\": [ { \"AddressType\": \"STREET\", \"AddressLine1\": \"123 Fake Street\", \"City\": \"Vancouver\", \"Region\": \"British Columbia\", \"PostalCode\": \"V6B 2T4\", \"Country\": \"\", \"AttentionTo\": \"\" }, { \"AddressType\": \"POBOX\", \"AddressLine1\": \"1234 Fake Street\", \"City\": \"Vancouver\", \"Region\": \"British Columbia\", \"PostalCode\": \"V6B 2T4\", \"Country\": \"\", \"AttentionTo\": \"Blake\" } ], \"Phones\": [ { \"PhoneType\": \"DDI\", \"PhoneNumber\": \"489-44493\", \"PhoneAreaCode\": \"345\", \"PhoneCountryCode\": \"4\" }, { \"PhoneType\": \"DEFAULT\", \"PhoneNumber\": \"408-0914\", \"PhoneAreaCode\": \"604\", \"PhoneCountryCode\": \"1\" }, { \"PhoneType\": \"FAX\", \"PhoneNumber\": \"123-9933\", \"PhoneAreaCode\": \"123\", \"PhoneCountryCode\": \"2\" }, { \"PhoneType\": \"MOBILE\", \"PhoneNumber\": \"999-44\", \"PhoneAreaCode\": \"234\", \"PhoneCountryCode\": \"3\" } ], \"UpdatedDateUTC\": \"\\/Date(1551459777193+0000)\\/\", \"ContactGroups\": [], \"IsSupplier\": true, \"IsCustomer\": true, \"DefaultCurrency\": \"USD\", \"Discount\": 13.00, \"Website\": \"http://www.google.com\", \"BrandingTheme\": { \"BrandingThemeID\": \"dabc7637-62c1-4941-8a6e-ee44fa5090e7\", \"Name\": \"Standard\" }, \"PurchasesDefaultAccountCode\": \"660\", \"SalesDefaultAccountCode\": \"002\", \"BatchPayments\": { \"BankAccountNumber\": \"12334567\", \"BankAccountName\": \"Citi Bank\", \"Details\": \"biz checking\", \"Code\": \"\", \"Reference\": \"\" }, \"Balances\": { \"AccountsReceivable\": { \"Outstanding\": 118.90, \"Overdue\": 136.90 }, \"AccountsPayable\": { \"Outstanding\": -43.60, \"Overdue\": 40.00 } }, \"PaymentTerms\": { \"Bills\": { \"Day\": 12, \"Type\": \"OFFOLLOWINGMONTH\" }, \"Sales\": { \"Day\": 14, \"Type\": \"OFCURRENTMONTH\" } }, \"ContactPersons\": [ { \"FirstName\": \"Sue\", \"LastName\": \"Johnson\", \"EmailAddress\": \"sue.johnson@krave.com\", \"IncludeInEmails\": true } ], \"HasAttachments\": false, \"Attachments\": [], \"HasValidationErrors\": false } ] }"
+              }
+            }
+          }
+        }
       },
       "post" : {
         "tags" : [ "Accounting" ],
@@ -1726,6 +1724,7 @@
           "required" : true,
           "in" : "path",
           "name" : "ContactID",
+          "description" : "Unique identifier for a Contact",
           "schema" : {
             "type" : "string",
             "format" : "uuid"
@@ -1733,17 +1732,13 @@
         } ],
         "responses" : {
           "200" : {
-            "description" : "A successful request",
+            "description" : "Success - return response of type Contacts array with an updated Contact",
             "content" : {
-              "text/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Contacts"
-                }
-              },
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/Contacts"
-                }
+                },
+                "example" : "{ \"Id\": \"4166b727-c3f0-4881-acd0-d4f7c0e8fcda\", \"Status\": \"OK\", \"ProviderName\": \"Java Partner Example\", \"DateTimeUTC\": \"\\/Date(1551400031795)\\/\", \"Contacts\": [ { \"ContactID\": \"d5be01fb-b09f-4c3a-9c67-e10c2a03412c\", \"ContactStatus\": \"ACTIVE\", \"Name\": \"FooBar\", \"EmailAddress\": \"sid30680@blah.com\", \"BankAccountDetails\": \"\", \"Addresses\": [ { \"AddressType\": \"STREET\", \"City\": \"\", \"Region\": \"\", \"PostalCode\": \"\", \"Country\": \"\" }, { \"AddressType\": \"POBOX\", \"City\": \"\", \"Region\": \"\", \"PostalCode\": \"\", \"Country\": \"\" } ], \"Phones\": [ { \"PhoneType\": \"DEFAULT\", \"PhoneNumber\": \"\", \"PhoneAreaCode\": \"\", \"PhoneCountryCode\": \"\" }, { \"PhoneType\": \"DDI\", \"PhoneNumber\": \"\", \"PhoneAreaCode\": \"\", \"PhoneCountryCode\": \"\" }, { \"PhoneType\": \"FAX\", \"PhoneNumber\": \"\", \"PhoneAreaCode\": \"\", \"PhoneCountryCode\": \"\" }, { \"PhoneType\": \"MOBILE\", \"PhoneNumber\": \"555-1212\", \"PhoneAreaCode\": \"415\", \"PhoneCountryCode\": \"\" } ], \"UpdatedDateUTC\": \"\\/Date(1551400031763+0000)\\/\", \"ContactGroups\": [], \"IsSupplier\": false, \"IsCustomer\": false, \"SalesTrackingCategories\": [], \"PurchasesTrackingCategories\": [], \"PaymentTerms\": { \"Bills\": { \"Day\": 15, \"Type\": \"OFCURRENTMONTH\" }, \"Sales\": { \"Day\": 10, \"Type\": \"DAYSAFTERBILLMONTH\" } }, \"ContactPersons\": [], \"HasValidationErrors\": false } ] }"
               }
             }
           },
@@ -1756,7 +1751,8 @@
             "application/json" : {
               "schema" : {
                 "$ref" : "#/components/schemas/Contacts"
-              }
+              },
+              "example" : "{ \"Contacts\":[ { \"ContactID\":\"d5be01fb-b09f-4c3a-9c67-e10c2a03412c\", \"Name\":\"FooBar\" } ] }"
             }
           }
         }
@@ -1770,13 +1766,8 @@
         "summary" : "Allows you to retrieve, add and update contacts in a Xero organisation",
         "responses" : {
           "200" : {
-            "description" : "A successful request",
+            "description" : "Success - return response of type Attachments array with 0 to N Attachment",
             "content" : {
-              "text/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Attachments"
-                }
-              },
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/Attachments"
@@ -1789,6 +1780,7 @@
           "required" : true,
           "in" : "path",
           "name" : "ContactID",
+          "description" : "Unique identifier for a Contact",
           "schema" : {
             "type" : "string",
             "format" : "uuid"
@@ -1802,23 +1794,11 @@
         "tags" : [ "Accounting" ],
         "operationId" : "getContactAttachmentById",
         "summary" : "Allows you to retrieve Attachments on Contacts",
-        "responses" : {
-          "200" : {
-            "description" : "A successful request",
-            "content" : {
-              "application/octet-stream" : {
-                "schema" : {
-                  "type" : "string",
-                  "format" : "binary"
-                }
-              }
-            }
-          }
-        },
         "parameters" : [ {
           "required" : true,
           "in" : "path",
           "name" : "ContactID",
+          "description" : "Unique identifier for a Contact",
           "schema" : {
             "type" : "string",
             "format" : "uuid"
@@ -1827,6 +1807,7 @@
           "required" : true,
           "in" : "path",
           "name" : "AttachmentID",
+          "description" : "Unique identifier for a Attachment",
           "schema" : {
             "type" : "string",
             "format" : "uuid"
@@ -1839,55 +1820,16 @@
           "schema" : {
             "type" : "string"
           }
-        } ]
-      },
-      "post" : {
-        "tags" : [ "Accounting" ],
-        "operationId" : "updateContactAttachmentById",
-        "parameters" : [ {
-          "required" : true,
-          "in" : "path",
-          "name" : "ContactID",
-          "schema" : {
-            "type" : "string",
-            "format" : "uuid"
-          }
-        }, {
-          "required" : true,
-          "in" : "path",
-          "name" : "AttachmentID",
-          "schema" : {
-            "type" : "string",
-            "format" : "uuid"
-          }
         } ],
         "responses" : {
           "200" : {
-            "description" : "A successful request",
+            "description" : "Success - return response of type Attachments array with a specific Attachment",
             "content" : {
-              "text/xml" : {
+              "application/octet-stream" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/Attachments"
+                  "type" : "string",
+                  "format" : "binary"
                 }
-              },
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Attachments"
-                }
-              }
-            }
-          },
-          "400" : {
-            "$ref" : "#/components/responses/400Error"
-          }
-        },
-        "requestBody" : {
-          "required" : true,
-          "content" : {
-            "application/octet-stream" : {
-              "schema" : {
-                "type" : "string",
-                "format" : "binary"
               }
             }
           }
@@ -1900,23 +1842,11 @@
         "tags" : [ "Accounting" ],
         "operationId" : "getContactAttachmentByFileName",
         "summary" : "Allows you to retrieve Attachments on Contacts by file name",
-        "responses" : {
-          "200" : {
-            "description" : "A successful request",
-            "content" : {
-              "application/octet-stream" : {
-                "schema" : {
-                  "type" : "string",
-                  "format" : "binary"
-                }
-              }
-            }
-          }
-        },
         "parameters" : [ {
           "required" : true,
           "in" : "path",
           "name" : "ContactID",
+          "description" : "Unique identifier for a Contact",
           "schema" : {
             "type" : "string",
             "format" : "uuid"
@@ -1925,6 +1855,7 @@
           "required" : true,
           "in" : "path",
           "name" : "FileName",
+          "description" : "Name for the file you are attaching",
           "schema" : {
             "type" : "string"
           }
@@ -1936,7 +1867,20 @@
           "schema" : {
             "type" : "string"
           }
-        } ]
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success - return response of type Attachments array with a specific Attachment",
+            "content" : {
+              "application/octet-stream" : {
+                "schema" : {
+                  "type" : "string",
+                  "format" : "binary"
+                }
+              }
+            }
+          }
+        }
       },
       "post" : {
         "tags" : [ "Accounting" ],
@@ -1945,6 +1889,7 @@
           "required" : true,
           "in" : "path",
           "name" : "ContactID",
+          "description" : "Unique identifier for a Contact",
           "schema" : {
             "type" : "string",
             "format" : "uuid"
@@ -1953,14 +1898,14 @@
           "required" : true,
           "in" : "path",
           "name" : "FileName",
+          "description" : "Name for the file you are attaching",
           "schema" : {
-            "type" : "string",
-            "format" : "uuid"
+            "type" : "string"
           }
         } ],
         "responses" : {
           "200" : {
-            "description" : "A successful request",
+            "description" : "Success - return response of type Attachments array with an updated Attachment",
             "content" : {
               "text/xml" : {
                 "schema" : {
@@ -1997,6 +1942,7 @@
           "required" : true,
           "in" : "path",
           "name" : "ContactID",
+          "description" : "Unique identifier for a Contact",
           "schema" : {
             "type" : "string",
             "format" : "uuid"
@@ -2005,19 +1951,15 @@
           "required" : true,
           "in" : "path",
           "name" : "FileName",
+          "description" : "Name for the file you are attaching",
           "schema" : {
             "type" : "string"
           }
         } ],
         "responses" : {
           "200" : {
-            "description" : "A successful request",
+            "description" : "Success - return response of type Attachments array with an newly created Attachment",
             "content" : {
-              "text/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Attachments"
-                }
-              },
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/Attachments"
@@ -2048,15 +1990,20 @@
         "tags" : [ "Accounting" ],
         "operationId" : "getContactCISSettings",
         "summary" : "Allows you to retrieve CISSettings for a contact in a Xero organisation",
+        "parameters" : [ {
+          "required" : true,
+          "in" : "path",
+          "name" : "ContactID",
+          "description" : "Unique identifier for a Contact",
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
         "responses" : {
           "200" : {
-            "description" : "A successful request",
+            "description" : "Success - return response of type CISSettings for a specific Contact",
             "content" : {
-              "text/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/CISSettings"
-                }
-              },
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/CISSettings"
@@ -2064,16 +2011,7 @@
               }
             }
           }
-        },
-        "parameters" : [ {
-          "required" : true,
-          "in" : "path",
-          "name" : "ContactID",
-          "schema" : {
-            "type" : "string",
-            "format" : "uuid"
-          }
-        } ]
+        }
       }
     },
     "/Contacts/{ContactID}/History" : {
@@ -2082,61 +2020,39 @@
         "tags" : [ "Accounting" ],
         "operationId" : "getContactHistory",
         "summary" : "Allows you to retrieve a history records of an Contact",
-        "responses" : {
-          "200" : {
-            "description" : "A successful request",
-            "content" : {
-              "text/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/HistoryRecords"
-                }
-              },
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/HistoryRecords"
-                }
-              }
-            }
-          }
-        },
         "parameters" : [ {
           "required" : true,
           "in" : "path",
           "name" : "ContactID",
+          "description" : "Unique identifier for a Contact",
           "schema" : {
             "type" : "string",
             "format" : "uuid"
           }
-        } ]
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success - return response of type History Records array of 0 to N History Record for a specific Contact",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/HistoryRecords"
+                },
+                "example" : "{ \"Id\": \"fb81ef32-80e0-42ef-a735-5b6202773f70\", \"Status\": \"OK\", \"ProviderName\": \"Java Partner Example\", \"DateTimeUTC\": \"\\/Date(1551399323692)\\/\", \"HistoryRecords\": [ { \"Changes\": \"Edited\", \"DateUTCString\": \"2019-03-01T00:15:22\", \"DateUTC\": \"\\/Date(1551399322350+0000)\\/\", \"User\": \"System Generated\", \"Details\": \"Name changed from Foo9987 to Bar8156.\" }, { \"Changes\": \"Created\", \"DateUTCString\": \"2019-03-01T00:15:21\", \"DateUTC\": \"\\/Date(1551399321060+0000)\\/\", \"User\": \"System Generated\", \"Details\": \"Foo9987 has been created.\" } ] }"
+              }
+            }
+          }
+        }
       },
       "put" : {
         "tags" : [ "Accounting" ],
         "operationId" : "createContactHistory",
         "summary" : "Allows you to retrieve a history records of an Contact",
-        "responses" : {
-          "200" : {
-            "description" : "A successful request",
-            "content" : {
-              "text/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/HistoryRecords"
-                }
-              },
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/HistoryRecords"
-                }
-              }
-            }
-          },
-          "400" : {
-            "$ref" : "#/components/responses/400Error"
-          }
-        },
         "parameters" : [ {
           "required" : true,
           "in" : "path",
           "name" : "ContactID",
+          "description" : "Unique identifier for a Contact",
           "schema" : {
             "type" : "string",
             "format" : "uuid"
@@ -2148,8 +2064,25 @@
             "application/json" : {
               "schema" : {
                 "$ref" : "#/components/schemas/HistoryRecords"
+              },
+              "example" : "{ \"HistoryRecords\":[ { \"Details\":\"Hello World\" } ] }"
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Success - return response of type History Records array of newly created History Record for a specific Contact",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/HistoryRecords"
+                },
+                "example" : "{ \"Id\": \"69ab5807-d722-4974-804d-b1459854d8af\", \"Status\": \"OK\", \"ProviderName\": \"Java Partner Example\", \"DateTimeUTC\": \"\\/Date(1551399324272)\\/\", \"HistoryRecords\": [ { \"DateUTCString\": \"2019-03-01T00:15:24\", \"DateUTC\": \"\\/Date(1551399324272)\\/\", \"Details\": \"Hello World\", \"ValidationErrors\": [] } ] }"
               }
             }
+          },
+          "400" : {
+            "$ref" : "#/components/responses/400Error"
           }
         }
       }
@@ -9056,10 +8989,12 @@
             "type" : "string"
           },
           "AccountsReceivableTaxType" : {
-            "$ref" : "#/components/schemas/TaxType"
+            "description" : "The tax type from TaxRates",
+            "type" : "string"
           },
           "AccountsPayableTaxType" : {
-            "$ref" : "#/components/schemas/TaxType"
+            "description" : "The tax type from TaxRates",
+            "type" : "string"
           },
           "Addresses" : {
             "description" : "Store certain address types for a contact – see address types",
