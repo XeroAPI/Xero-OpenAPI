@@ -1671,7 +1671,15 @@
             }
           },
           "400" : {
-            "$ref" : "#/components/responses/400Error"
+            "description" : "Validation Error - some data was incorrect returns response of type Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                },
+                "example" : "{ \"ErrorNumber\": 10, \"Type\": \"ValidationException\", \"Message\": \"A validation exception occurred\", \"Elements\": [ { \"ContactID\": \"00000000-0000-0000-0000-000000000000\", \"AccountNumber\": \"12345-ABCD\", \"Name\": \"Sidney Maestre\", \"EmailAddress\": \"foo78858@bar.com\", \"AccountsReceivableTaxType\": \"NONE\", \"AccountsPayableTaxType\": \"INPUT\", \"Addresses\": [ { \"AddressType\": \"STREET\", \"AddressLine1\": \"101 Green St\", \"AddressLine2\": \"5th floor\", \"City\": \"San Francisco\", \"Region\": \"CA\", \"PostalCode\": \"94041\", \"Country\": \"US\", \"AttentionTo\": \"Rod Drury\", \"ValidationErrors\": [] } ], \"Phones\": [ { \"PhoneType\": \"MOBILE\", \"PhoneNumber\": \"555-1212\", \"PhoneAreaCode\": \"415\", \"ValidationErrors\": [] } ], \"ContactGroups\": [], \"PaymentTerms\": { \"Bills\": { \"Day\": 15, \"Type\": \"OFCURRENTMONTH\", \"ValidationErrors\": [] }, \"Sales\": { \"Day\": 10, \"Type\": \"DAYSAFTERBILLMONTH\", \"ValidationErrors\": [] } }, \"ContactPersons\": [], \"HasValidationErrors\": true, \"ValidationErrors\": [ { \"Message\": \"The contact name Sidney Maestre is already assigned to another contact. The contact name must be unique across all active contacts.\" } ] } ] }"
+              }
+            }
           }
         },
         "requestBody" : {
@@ -1908,15 +1916,11 @@
           "200" : {
             "description" : "Success - return response of type Attachments array with an updated Attachment",
             "content" : {
-              "text/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Attachments"
-                }
-              },
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/Attachments"
-                }
+                },
+                "example" : "{ \"Id\": \"8543ae1a-297c-49b8-bf91-47decac452d5\", \"Status\": \"OK\", \"ProviderName\": \"Java Partner Example\", \"DateTimeUTC\": \"\\/Date(1551485146555)\\/\", \"Attachments\": [ { \"AttachmentID\": \"8b537c1b-bbb5-47fd-857e-370c369dda7c\", \"FileName\": \"HelloWorld.jpg\", \"Url\": \"https://api.xero.com/api.xro/2.0/Contacts/8138a266-fb42-49b2-a104-014b7045753d/Attachments/HelloWorld.jpg\", \"MimeType\": \"image/jpg\", \"ContentLength\": 2878711 } ] }"
               }
             }
           },
@@ -2095,18 +2099,6 @@
         "tags" : [ "Accounting" ],
         "operationId" : "getContactGroups",
         "summary" : "Allows you to retrieve the ContactID and Name of all the contacts in a contact group",
-        "responses" : {
-          "200" : {
-            "description" : "A successful response",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ContactGroups"
-                }
-              }
-            }
-          }
-        },
         "parameters" : [ {
           "in" : "query",
           "name" : "where",
@@ -2121,24 +2113,47 @@
           "schema" : {
             "type" : "string"
           }
-        } ]
-      },
-      "put" : {
-        "tags" : [ "Accounting" ],
-        "operationId" : "createContactGroup",
+        } ],
         "responses" : {
           "200" : {
-            "description" : "A successful request",
+            "description" : "Success - return response of type Contact Groups array of Contact Group",
             "content" : {
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ContactGroups"
-                }
+                },
+                "example" : "{ \"Id\": \"b825df86-1a72-49c9-97dd-36afc7d04bd5\", \"Status\": \"OK\", \"ProviderName\": \"Java Partner Example\", \"DateTimeUTC\": \"\\/Date(1551746015603)\\/\", \"ContactGroups\": [ { \"ContactGroupID\": \"d7a86b80-8dac-4d89-a334-9dcf5753676c\", \"Name\": \"Suppliers\", \"Status\": \"ACTIVE\", \"Contacts\": [], \"HasValidationErrors\": false }, { \"ContactGroupID\": \"ab089fd4-012f-4043-a6e4-e7be01e87e50\", \"Name\": \"Old Group84262\", \"Status\": \"ACTIVE\", \"Contacts\": [], \"HasValidationErrors\": false } ] }"
+              }
+            }
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "Accounting" ],
+        "operationId" : "createContactGroup",
+        "summary" : "Allows you to create a contact group",
+        "responses" : {
+          "200" : {
+            "description" : "Success - return response of type Contact Groups array of newly created Contact Group",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ContactGroups"
+                },
+                "example" : "{ \"Id\": \"5afe53f9-2271-45b8-9767-88d023b71d34\", \"Status\": \"OK\", \"ProviderName\": \"Java Partner Example\", \"DateTimeUTC\": \"\\/Date(1551745740920)\\/\", \"ContactGroups\": [ { \"ContactGroupID\": \"d7a86b80-8dac-4d89-a334-9dcf5753676c\", \"Name\": \"Suppliers\", \"Status\": \"ACTIVE\", \"Contacts\": [], \"HasValidationErrors\": false } ] }"
               }
             }
           },
           "400" : {
-            "$ref" : "#/components/responses/400Error"
+            "description" : "Validation Error - some data was incorrect returns response of type Error",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Error"
+                },
+                "example" : "{ \"ErrorNumber\": 10, \"Type\": \"ValidationException\", \"Message\": \"A validation exception occurred\", \"Elements\": [ { \"ContactGroupID\": \"00000000-0000-0000-0000-000000000000\", \"Name\": \"Suppliers\", \"Contacts\": [], \"HasValidationErrors\": true, \"ValidationErrors\": [ { \"Message\": \"You’ve reached the limit of 100 contact groups.\" } ] } ] }"
+              }
+            }
           }
         },
         "requestBody" : {
@@ -2146,7 +2161,8 @@
             "application/json" : {
               "schema" : {
                 "$ref" : "#/components/schemas/ContactGroups"
-              }
+              },
+              "example" : "{ \"ContactGroups\":[ { \"Name\":\"Suppliers\" } ] }"
             }
           }
         }
@@ -2157,36 +2173,12 @@
       "get" : {
         "tags" : [ "Accounting" ],
         "operationId" : "getContactGroup",
-        "summary" : "Allows you to retrieve the ContactID and Name of all the contacts in a contact group",
-        "responses" : {
-          "200" : {
-            "description" : "A successful request",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/ContactGroups"
-                }
-              }
-            }
-          }
-        },
+        "summary" : "Allows you to retrieve a unique Contract Group by ID",
         "parameters" : [ {
           "required" : true,
           "in" : "path",
           "name" : "ContactGroupID",
-          "schema" : {
-            "type" : "string",
-            "format" : "uuid"
-          }
-        } ]
-      },
-      "post" : {
-        "tags" : [ "Accounting" ],
-        "operationId" : "updateContactGroup",
-        "parameters" : [ {
-          "required" : true,
-          "in" : "path",
-          "name" : "ContactGroupID",
+          "description" : "Unique identifier for a Contact Group",
           "schema" : {
             "type" : "string",
             "format" : "uuid"
@@ -2194,12 +2186,41 @@
         } ],
         "responses" : {
           "200" : {
-            "description" : "A successful request",
+            "description" : "Success - return response of type Contact Groups array with a specific Contact Group",
             "content" : {
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/ContactGroups"
-                }
+                },
+                "example" : "{ \"Id\": \"079c14f6-2c2d-464e-a2c7-0edf7e465723\", \"Status\": \"OK\", \"ProviderName\": \"Java Partner Example\", \"DateTimeUTC\": \"\\/Date(1551746772976)\\/\", \"ContactGroups\": [ { \"ContactGroupID\": \"17b44ed7-4389-4162-91cb-3dd5766e4e22\", \"Name\": \"Oasis\", \"Status\": \"ACTIVE\", \"Contacts\": [ { \"ContactID\": \"4e1753b9-018a-4775-b6aa-1bc7871cfee3\", \"Name\": \"Noel Gallagher\", \"Addresses\": [], \"Phones\": [], \"ContactGroups\": [], \"ContactPersons\": [], \"HasValidationErrors\": false }, { \"ContactID\": \"430fa14a-f945-44d3-9f97-5df5e28441b8\", \"Name\": \"Liam Gallagher\", \"Addresses\": [], \"Phones\": [], \"ContactGroups\": [], \"ContactPersons\": [], \"HasValidationErrors\": false } ], \"HasValidationErrors\": false } ] }"
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Accounting" ],
+        "operationId" : "updateContactGroup",
+        "summary" : "Allows you to update a Contract Group",
+        "parameters" : [ {
+          "required" : true,
+          "in" : "path",
+          "name" : "ContactGroupID",
+          "description" : "Unique identifier for a Contact Group",
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success - return response of type Contact Groups array of updated Contact Group",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ContactGroups"
+                },
+                "example" : "{ \"Id\": \"b1ba6cdb-1637-4209-bb92-bd0c593f3243\", \"Status\": \"OK\", \"ProviderName\": \"Java Partner Example\", \"DateTimeUTC\": \"\\/Date(1551746288544)\\/\", \"ContactGroups\": [ { \"ContactGroupID\": \"13f47537-7c1d-4e62-966e-617d76558fc5\", \"Name\": \"Supplier Vendor\", \"Status\": \"ACTIVE\", \"Contacts\": [], \"HasValidationErrors\": false } ] }"
               }
             }
           },
@@ -2212,7 +2233,8 @@
             "application/json" : {
               "schema" : {
                 "$ref" : "#/components/schemas/ContactGroups"
-              }
+              },
+              "example" : "{ \"ContactGroups\":[ { \"Name\":\"Vendor\" } ] }"
             }
           }
         }
@@ -2223,10 +2245,12 @@
       "put" : {
         "tags" : [ "Accounting" ],
         "operationId" : "createContactGroupContacts",
+        "summary" : "Allows you to add Contacts to a Contract Group",
         "parameters" : [ {
           "required" : true,
           "in" : "path",
           "name" : "ContactGroupID",
+          "description" : "Unique identifier for a Contact Group",
           "schema" : {
             "type" : "string",
             "format" : "uuid"
@@ -2234,12 +2258,13 @@
         } ],
         "responses" : {
           "200" : {
-            "description" : "A successful request",
+            "description" : "Success - return response of type Contacts array of added Contacts",
             "content" : {
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/Contacts"
-                }
+                },
+                "example" : "{ \"Id\": \"99db8024-6895-45c8-a1b5-54805aa8689c\", \"Status\": \"OK\", \"ProviderName\": \"Java Partner Example\", \"DateTimeUTC\": \"\\/Date(1551747495785)\\/\", \"Contacts\": [ { \"ContactID\": \"a3675fc4-f8dd-4f03-ba5b-f1870566bcd7\", \"Addresses\": [], \"Phones\": [], \"ContactGroups\": [], \"ContactPersons\": [], \"HasValidationErrors\": false, \"ValidationErrors\": [] }, { \"ContactID\": \"4e1753b9-018a-4775-b6aa-1bc7871cfee3\", \"Addresses\": [], \"Phones\": [], \"ContactGroups\": [], \"ContactPersons\": [], \"HasValidationErrors\": false, \"ValidationErrors\": [] } ] }"
               }
             }
           },
@@ -2252,7 +2277,8 @@
             "application/json" : {
               "schema" : {
                 "$ref" : "#/components/schemas/Contacts"
-              }
+              },
+              "example" : "{ \"Contacts\":[ { \"ContactID\":\"a3675fc4-f8dd-4f03-ba5b-f1870566bcd7\" }, { \"ContactID\":\"4e1753b9-018a-4775-b6aa-1bc7871cfee3\" } ] }"
             }
           }
         }
@@ -2260,9 +2286,20 @@
       "delete" : {
         "tags" : [ "Accounting" ],
         "operationId" : "deleteContactGroupContacts",
+        "summary" : "Allows you to delete  all Contacts from a Contract Group",
+        "parameters" : [ {
+          "required" : true,
+          "in" : "path",
+          "name" : "ContactGroupID",
+          "description" : "Unique identifier for a Contact Group",
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
         "responses" : {
           "200" : {
-            "description" : "A successful request",
+            "description" : "Success - return response empty with 204 response code",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -2271,16 +2308,7 @@
               }
             }
           }
-        },
-        "parameters" : [ {
-          "required" : true,
-          "in" : "path",
-          "name" : "ContactGroupID",
-          "schema" : {
-            "type" : "string",
-            "format" : "uuid"
-          }
-        } ]
+        }
       }
     },
     "/ContactGroups/{ContactGroupID}/Contacts/{ContactID}" : {
@@ -2288,9 +2316,29 @@
       "delete" : {
         "tags" : [ "Accounting" ],
         "operationId" : "deleteContactGroupContact",
+        "summary" : "Allows you to delete a specific Contact from a Contract Group",
+        "parameters" : [ {
+          "required" : true,
+          "in" : "path",
+          "name" : "ContactGroupID",
+          "description" : "Unique identifier for a Contact Group",
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        }, {
+          "required" : true,
+          "in" : "path",
+          "name" : "ContactID",
+          "description" : "Unique identifier for a Contact",
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
         "responses" : {
           "200" : {
-            "description" : "A successful request",
+            "description" : "Success - return response empty with 204 response code",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -2302,24 +2350,7 @@
           "400" : {
             "$ref" : "#/components/responses/400Error"
           }
-        },
-        "parameters" : [ {
-          "required" : true,
-          "in" : "path",
-          "name" : "ContactGroupID",
-          "schema" : {
-            "type" : "string",
-            "format" : "uuid"
-          }
-        }, {
-          "required" : true,
-          "in" : "path",
-          "name" : "ContactID",
-          "schema" : {
-            "type" : "string",
-            "format" : "uuid"
-          }
-        } ]
+        }
       }
     },
     "/CreditNotes" : {
@@ -2328,18 +2359,6 @@
         "tags" : [ "Accounting" ],
         "operationId" : "getCreditNotes",
         "summary" : "Allows you to retrieve any credit notes",
-        "responses" : {
-          "200" : {
-            "description" : "A successful response",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/CreditNotes"
-                }
-              }
-            }
-          }
-        },
         "parameters" : [ {
           "in" : "header",
           "name" : "If-Modified-Since",
@@ -2369,26 +2388,25 @@
           "schema" : {
             "type" : "integer"
           }
-        } ]
-      },
-      "put" : {
-        "tags" : [ "Accounting" ],
-        "operationId" : "createCreditNote",
+        } ],
         "responses" : {
           "200" : {
-            "description" : "A successful request",
+            "description" : "Success - return response of type Credit Notes array of CreditNote",
             "content" : {
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/CreditNotes"
-                }
+                },
+                "example" : "{ \"Id\": \"306379b0-3d75-4c77-953a-be08fa0efae8\", \"Status\": \"OK\", \"ProviderName\": \"Java Partner Example\", \"DateTimeUTC\": \"\\/Date(1551812506620)\\/\", \"CreditNotes\": [ { \"CreditNoteID\": \"249f15fa-f2a7-4acc-8769-0984103f2225\", \"CreditNoteNumber\": \"CN-0005\", \"Payments\": [ { \"PaymentID\": \"6b037c9b-2e5d-4905-84d3-eabfb3438242\", \"Date\": \"\\/Date(1552521600000+0000)\\/\", \"Amount\": 2.00, \"Reference\": \"Too much\", \"CurrencyRate\": 1.000000, \"HasAccount\": false, \"HasValidationErrors\": false } ], \"ID\": \"249f15fa-f2a7-4acc-8769-0984103f2225\", \"CurrencyRate\": 1.000000, \"Type\": \"ACCRECCREDIT\", \"Reference\": \"US Tour\", \"RemainingCredit\": 32.50, \"Allocations\": [], \"HasAttachments\": true, \"Contact\": { \"ContactID\": \"430fa14a-f945-44d3-9f97-5df5e28441b8\", \"Name\": \"Liam Gallagher\", \"Addresses\": [], \"Phones\": [], \"ContactGroups\": [], \"ContactPersons\": [], \"HasValidationErrors\": false }, \"DateString\": \"2019-03-05T00:00:00\", \"Date\": \"\\/Date(1551744000000+0000)\\/\", \"Status\": \"AUTHORISED\", \"LineAmountTypes\": \"Exclusive\", \"LineItems\": [], \"SubTotal\": 30.00, \"TotalTax\": 4.50, \"Total\": 34.50, \"UpdatedDateUTC\": \"\\/Date(1551812346157+0000)\\/\", \"CurrencyCode\": \"NZD\" }, { \"CreditNoteID\": \"f8021bd2-9a6a-4c19-8477-163da0b9290f\", \"CreditNoteNumber\": \"\", \"Payments\": [], \"ID\": \"f8021bd2-9a6a-4c19-8477-163da0b9290f\", \"CurrencyRate\": 1.000000, \"Type\": \"ACCPAYCREDIT\", \"Reference\": \"\", \"RemainingCredit\": 46.00, \"Allocations\": [], \"HasAttachments\": false, \"Contact\": { \"ContactID\": \"430fa14a-f945-44d3-9f97-5df5e28441b8\", \"Name\": \"Liam Gallagher\", \"Addresses\": [], \"Phones\": [], \"ContactGroups\": [], \"ContactPersons\": [], \"HasValidationErrors\": false }, \"DateString\": \"2019-01-05T00:00:00\", \"Date\": \"\\/Date(1546646400000+0000)\\/\", \"Status\": \"DRAFT\", \"LineAmountTypes\": \"Exclusive\", \"LineItems\": [], \"SubTotal\": 40.00, \"TotalTax\": 6.00, \"Total\": 46.00, \"UpdatedDateUTC\": \"\\/Date(1551812506153+0000)\\/\", \"CurrencyCode\": \"NZD\" } ] }"
               }
             }
-          },
-          "400" : {
-            "$ref" : "#/components/responses/400Error"
           }
-        },
+        }
+      },
+      "put" : {
+        "tags" : [ "Accounting" ],
+        "operationId" : "createCreditNote",
+        "summary" : "Allows you to create a credit note",
         "parameters" : [ {
           "in" : "query",
           "name" : "SummarizeErrors",
@@ -2397,12 +2415,29 @@
             "type" : "boolean"
           }
         } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success - return response of type Credit Notes array of newly created CreditNote",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CreditNotes"
+                },
+                "example" : "{ \"Id\": \"5e57a661-42da-4a19-96a0-00405a0e946d\", \"Status\": \"OK\", \"ProviderName\": \"Java Partner Example\", \"DateTimeUTC\": \"\\/Date(1551812702713)\\/\", \"CreditNotes\": [ { \"CreditNoteID\": \"f9256f04-5a99-4680-acb9-6b4639cc439a\", \"CreditNoteNumber\": \"\", \"Payments\": [], \"ID\": \"f9256f04-5a99-4680-acb9-6b4639cc439a\", \"CurrencyRate\": 1.000000, \"Type\": \"ACCPAYCREDIT\", \"Reference\": \"\", \"RemainingCredit\": 46.00, \"Allocations\": [], \"Contact\": { \"ContactID\": \"430fa14a-f945-44d3-9f97-5df5e28441b8\", \"ContactStatus\": \"ACTIVE\", \"Name\": \"Liam Gallagher\", \"FirstName\": \"Liam\", \"LastName\": \"Gallagher\", \"EmailAddress\": \"liam@rockstar.com\", \"BankAccountDetails\": \"\", \"Addresses\": [ { \"AddressType\": \"STREET\", \"City\": \"\", \"Region\": \"\", \"PostalCode\": \"\", \"Country\": \"\", \"AttentionTo\": \"\" }, { \"AddressType\": \"POBOX\", \"City\": \"Anytown\", \"Region\": \"NY\", \"PostalCode\": \"10101\", \"Country\": \"USA\", \"AttentionTo\": \"\" } ], \"Phones\": [ { \"PhoneType\": \"DEFAULT\", \"PhoneNumber\": \"222-2222\", \"PhoneAreaCode\": \"212\", \"PhoneCountryCode\": \"\" }, { \"PhoneType\": \"DDI\", \"PhoneNumber\": \"\", \"PhoneAreaCode\": \"\", \"PhoneCountryCode\": \"\" }, { \"PhoneType\": \"FAX\", \"PhoneNumber\": \"333-2233\", \"PhoneAreaCode\": \"212\", \"PhoneCountryCode\": \"\" }, { \"PhoneType\": \"MOBILE\", \"PhoneNumber\": \"444-3433\", \"PhoneAreaCode\": \"212\", \"PhoneCountryCode\": \"\" } ], \"UpdatedDateUTC\": \"\\/Date(1551747281053+0000)\\/\", \"ContactGroups\": [], \"ContactPersons\": [], \"HasValidationErrors\": false }, \"DateString\": \"2019-01-05T00:00:00\", \"Date\": \"\\/Date(1546646400000+0000)\\/\", \"Status\": \"DRAFT\", \"LineAmountTypes\": \"Exclusive\", \"LineItems\": [ { \"Description\": \"Foobar\", \"UnitAmount\": 20.00, \"TaxType\": \"INPUT2\", \"TaxAmount\": 6.00, \"LineAmount\": 40.00, \"AccountCode\": \"400\", \"Tracking\": [], \"Quantity\": 2.0000, \"ValidationErrors\": [] } ], \"SubTotal\": 40.00, \"TotalTax\": 6.00, \"Total\": 46.00, \"UpdatedDateUTC\": \"\\/Date(1551812702650+0000)\\/\", \"CurrencyCode\": \"NZD\", \"StatusAttributeString\": \"OK\" } ] }"
+              }
+            }
+          },
+          "400" : {
+            "$ref" : "#/components/responses/400Error"
+          }
+        },
         "requestBody" : {
           "content" : {
             "application/json" : {
               "schema" : {
                 "$ref" : "#/components/schemas/CreditNotes"
-              }
+              },
+              "example" : "{ \"CreditNotes\":[ { \"Type\":\"ACCPAYCREDIT\", \"Contact\":{ \"ContactID\":\"430fa14a-f945-44d3-9f97-5df5e28441b8\" }, \"Date\":\"2019-01-05\", \"LineItems\":[ { \"Description\":\"Foobar\", \"Quantity\":2.0, \"UnitAmount\":20.0, \"AccountCode\":\"400\" } ] } ] }"
             }
           }
         }
@@ -2413,36 +2448,12 @@
       "get" : {
         "tags" : [ "Accounting" ],
         "operationId" : "getCreditNote",
-        "summary" : "Allows you to retrieve any credit notes",
-        "responses" : {
-          "200" : {
-            "description" : "A successful request",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/CreditNotes"
-                }
-              }
-            }
-          }
-        },
+        "summary" : "Allows you to retrieve a specific credit note",
         "parameters" : [ {
           "required" : true,
           "in" : "path",
           "name" : "CreditNoteID",
-          "schema" : {
-            "type" : "string",
-            "format" : "uuid"
-          }
-        } ]
-      },
-      "post" : {
-        "tags" : [ "Accounting" ],
-        "operationId" : "updateCreditNote",
-        "parameters" : [ {
-          "required" : true,
-          "in" : "path",
-          "name" : "CreditNoteID",
+          "description" : "Unique identifier for a Credit Note",
           "schema" : {
             "type" : "string",
             "format" : "uuid"
@@ -2450,12 +2461,41 @@
         } ],
         "responses" : {
           "200" : {
-            "description" : "A successful request",
+            "description" : "Success - return response of type Credit Notes array with a unique CreditNote",
             "content" : {
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/CreditNotes"
-                }
+                },
+                "example" : "{ \"Id\": \"dd5c5da7-08ab-486a-ac34-aea295f1614b\", \"Status\": \"OK\", \"ProviderName\": \"Java Partner Example\", \"DateTimeUTC\": \"\\/Date(1551812703811)\\/\", \"CreditNotes\": [ { \"CreditNoteID\": \"249f15fa-f2a7-4acc-8769-0984103f2225\", \"CreditNoteNumber\": \"CN-0005\", \"Payments\": [ { \"PaymentID\": \"6b037c9b-2e5d-4905-84d3-eabfb3438242\", \"Date\": \"\\/Date(1552521600000+0000)\\/\", \"Amount\": 2.00, \"Reference\": \"Too much\", \"CurrencyRate\": 1.000000, \"HasAccount\": false, \"HasValidationErrors\": false } ], \"ID\": \"249f15fa-f2a7-4acc-8769-0984103f2225\", \"CurrencyRate\": 1.000000, \"Type\": \"ACCRECCREDIT\", \"Reference\": \"US Tour\", \"RemainingCredit\": 32.50, \"Allocations\": [], \"HasAttachments\": true, \"Attachments\": [ { \"AttachmentID\": \"9b9c9b62-069e-4f5a-a172-183195f084bb\", \"FileName\": \"Screen Shot 2019-03-04 at 9.00.06 AM.png\", \"Url\": \"https://api.xero.com/api.xro/2.0/creditnotes/249f15fa-f2a7-4acc-8769-0984103f2225/Attachments/Screen%20Shot%202019-03-04%20at%209.00.06%20AM.png\", \"MimeType\": \"image/png\", \"ContentLength\": 82334 } ], \"Contact\": { \"ContactID\": \"430fa14a-f945-44d3-9f97-5df5e28441b8\", \"ContactStatus\": \"ACTIVE\", \"Name\": \"Liam Gallagher\", \"FirstName\": \"Liam\", \"LastName\": \"Gallagher\", \"EmailAddress\": \"liam@rockstar.com\", \"BankAccountDetails\": \"\", \"Addresses\": [ { \"AddressType\": \"STREET\", \"City\": \"\", \"Region\": \"\", \"PostalCode\": \"\", \"Country\": \"\", \"AttentionTo\": \"\" }, { \"AddressType\": \"POBOX\", \"City\": \"Anytown\", \"Region\": \"NY\", \"PostalCode\": \"10101\", \"Country\": \"USA\", \"AttentionTo\": \"\" } ], \"Phones\": [ { \"PhoneType\": \"DEFAULT\", \"PhoneNumber\": \"222-2222\", \"PhoneAreaCode\": \"212\", \"PhoneCountryCode\": \"\" }, { \"PhoneType\": \"DDI\", \"PhoneNumber\": \"\", \"PhoneAreaCode\": \"\", \"PhoneCountryCode\": \"\" }, { \"PhoneType\": \"FAX\", \"PhoneNumber\": \"333-2233\", \"PhoneAreaCode\": \"212\", \"PhoneCountryCode\": \"\" }, { \"PhoneType\": \"MOBILE\", \"PhoneNumber\": \"444-3433\", \"PhoneAreaCode\": \"212\", \"PhoneCountryCode\": \"\" } ], \"UpdatedDateUTC\": \"\\/Date(1551747281053+0000)\\/\", \"ContactGroups\": [], \"ContactPersons\": [], \"HasValidationErrors\": false }, \"DateString\": \"2019-03-05T00:00:00\", \"Date\": \"\\/Date(1551744000000+0000)\\/\", \"Status\": \"AUTHORISED\", \"LineAmountTypes\": \"Exclusive\", \"LineItems\": [ { \"Description\": \"Mic Stand\", \"UnitAmount\": 30.00, \"TaxType\": \"OUTPUT2\", \"TaxAmount\": 4.50, \"LineAmount\": 30.00, \"AccountCode\": \"200\", \"Tracking\": [], \"Quantity\": 1.0000, \"ValidationErrors\": [] } ], \"SubTotal\": 30.00, \"TotalTax\": 4.50, \"Total\": 34.50, \"UpdatedDateUTC\": \"\\/Date(1551812346157+0000)\\/\", \"CurrencyCode\": \"NZD\" } ] }"
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Accounting" ],
+        "operationId" : "updateCreditNote",
+        "summary" : "Allows you to update a specific credit note",
+        "parameters" : [ {
+          "required" : true,
+          "in" : "path",
+          "name" : "CreditNoteID",
+          "description" : "Unique identifier for a Credit Note",
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success - return response of type Credit Notes array with updated CreditNote",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CreditNotes"
+                },
+                "example" : "{ \"Id\": \"db2f7659-6044-418d-a4c6-d4b93eba4e1e\", \"Status\": \"OK\", \"ProviderName\": \"Java Partner Example\", \"DateTimeUTC\": \"\\/Date(1551812704253)\\/\", \"CreditNotes\": [ { \"CreditNoteID\": \"f9256f04-5a99-4680-acb9-6b4639cc439a\", \"CreditNoteNumber\": \"\", \"Payments\": [], \"ID\": \"f9256f04-5a99-4680-acb9-6b4639cc439a\", \"CurrencyRate\": 1.000000, \"Type\": \"ACCPAYCREDIT\", \"Reference\": \"HelloWorld\", \"RemainingCredit\": 46.00, \"Allocations\": [], \"Contact\": { \"ContactID\": \"430fa14a-f945-44d3-9f97-5df5e28441b8\", \"ContactStatus\": \"ACTIVE\", \"Name\": \"Liam Gallagher\", \"FirstName\": \"Liam\", \"LastName\": \"Gallagher\", \"EmailAddress\": \"liam@rockstar.com\", \"BankAccountDetails\": \"\", \"Addresses\": [ { \"AddressType\": \"STREET\", \"City\": \"\", \"Region\": \"\", \"PostalCode\": \"\", \"Country\": \"\", \"AttentionTo\": \"\" }, { \"AddressType\": \"POBOX\", \"City\": \"Anytown\", \"Region\": \"NY\", \"PostalCode\": \"10101\", \"Country\": \"USA\", \"AttentionTo\": \"\" } ], \"Phones\": [ { \"PhoneType\": \"DEFAULT\", \"PhoneNumber\": \"222-2222\", \"PhoneAreaCode\": \"212\", \"PhoneCountryCode\": \"\" }, { \"PhoneType\": \"DDI\", \"PhoneNumber\": \"\", \"PhoneAreaCode\": \"\", \"PhoneCountryCode\": \"\" }, { \"PhoneType\": \"FAX\", \"PhoneNumber\": \"333-2233\", \"PhoneAreaCode\": \"212\", \"PhoneCountryCode\": \"\" }, { \"PhoneType\": \"MOBILE\", \"PhoneNumber\": \"444-3433\", \"PhoneAreaCode\": \"212\", \"PhoneCountryCode\": \"\" } ], \"UpdatedDateUTC\": \"\\/Date(1551747281053+0000)\\/\", \"ContactGroups\": [], \"ContactPersons\": [], \"HasValidationErrors\": false }, \"DateString\": \"2019-01-05T00:00:00\", \"Date\": \"\\/Date(1546646400000+0000)\\/\", \"Status\": \"AUTHORISED\", \"LineAmountTypes\": \"Exclusive\", \"LineItems\": [ { \"Description\": \"Foobar\", \"UnitAmount\": 20.00, \"TaxType\": \"INPUT2\", \"TaxAmount\": 6.00, \"LineAmount\": 40.00, \"AccountCode\": \"400\", \"Tracking\": [], \"Quantity\": 2.0000, \"ValidationErrors\": [] } ], \"SubTotal\": 40.00, \"TotalTax\": 6.00, \"Total\": 46.00, \"UpdatedDateUTC\": \"\\/Date(1551812704223+0000)\\/\", \"CurrencyCode\": \"NZD\" } ] }"
               }
             }
           },
@@ -2468,7 +2508,8 @@
             "application/json" : {
               "schema" : {
                 "$ref" : "#/components/schemas/CreditNotes"
-              }
+              },
+              "example" : "{ \"CreditNotes\":[ { \"Type\":\"ACCPAYCREDIT\", \"Contact\":{ \"ContactID\":\"430fa14a-f945-44d3-9f97-5df5e28441b8\" }, \"Date\":\"2019-01-05\", \"Status\":\"AUTHORISED\", \"Reference\": \"HelloWorld\", \"LineItems\":[ { \"Description\":\"Foobar\", \"Quantity\":2.0, \"UnitAmount\":20.0, \"AccountCode\":\"400\" } ] } ] }"
             }
           }
         }
@@ -2480,27 +2521,29 @@
         "tags" : [ "Accounting" ],
         "operationId" : "getCreditNoteAttachments",
         "summary" : "Allows you to retrieve Attachments for credit notes",
-        "responses" : {
-          "200" : {
-            "description" : "A successful request",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Attachments"
-                }
-              }
-            }
-          }
-        },
         "parameters" : [ {
           "required" : true,
           "in" : "path",
           "name" : "CreditNoteID",
+          "description" : "Unique identifier for a Credit Note",
           "schema" : {
             "type" : "string",
             "format" : "uuid"
           }
-        } ]
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success - return response of type Attachments array with all Attachment for specific Credit Note",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Attachments"
+                },
+                "example" : "{ \"Id\": \"2bb15054-3868-4f85-a9c6-0402ec8c1201\", \"Status\": \"OK\", \"ProviderName\": \"Java Partner Example\", \"DateTimeUTC\": \"\\/Date(1551822670731)\\/\", \"Attachments\": [ { \"AttachmentID\": \"b7eb1fc9-a0f9-4e8e-9373-6689f5350832\", \"FileName\": \"HelloWorld.png\", \"Url\": \"https://api.xero.com/api.xro/2.0/CreditNotes/249f15fa-f2a7-4acc-8769-0984103f2225/Attachments/HelloWorld.png\", \"MimeType\": \"image/png\", \"ContentLength\": 76091 } ] }"
+              }
+            }
+          }
+        }
       }
     },
     "/CreditNotes/{CreditNoteID}/Attachments/{AttachmentID}" : {
@@ -2509,23 +2552,11 @@
         "tags" : [ "Accounting" ],
         "operationId" : "getCreditNoteAttachmentById",
         "summary" : "Allows you to retrieve Attachments on CreditNote",
-        "responses" : {
-          "200" : {
-            "description" : "A successful request",
-            "content" : {
-              "application/octet-stream" : {
-                "schema" : {
-                  "type" : "string",
-                  "format" : "binary"
-                }
-              }
-            }
-          }
-        },
         "parameters" : [ {
           "required" : true,
           "in" : "path",
           "name" : "CreditNoteID",
+          "description" : "Unique identifier for a Credit Note",
           "schema" : {
             "type" : "string",
             "format" : "uuid"
@@ -2534,6 +2565,7 @@
           "required" : true,
           "in" : "path",
           "name" : "AttachmentID",
+          "description" : "Unique identifier for a Attachment",
           "schema" : {
             "type" : "string",
             "format" : "uuid"
@@ -2546,50 +2578,16 @@
           "schema" : {
             "type" : "string"
           }
-        } ]
-      },
-      "post" : {
-        "tags" : [ "Accounting" ],
-        "operationId" : "updateCreditNoteAttachmentById",
-        "parameters" : [ {
-          "required" : true,
-          "in" : "path",
-          "name" : "CreditNoteID",
-          "schema" : {
-            "type" : "string",
-            "format" : "uuid"
-          }
-        }, {
-          "required" : true,
-          "in" : "path",
-          "name" : "AttachmentID",
-          "schema" : {
-            "type" : "string",
-            "format" : "uuid"
-          }
         } ],
         "responses" : {
           "200" : {
-            "description" : "A successful request",
+            "description" : "Success - return response of type Attachments array with specific Attachment for specific Credit Note",
             "content" : {
-              "application/json" : {
+              "application/octet-stream" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/Attachments"
+                  "type" : "string",
+                  "format" : "binary"
                 }
-              }
-            }
-          },
-          "400" : {
-            "$ref" : "#/components/responses/400Error"
-          }
-        },
-        "requestBody" : {
-          "required" : true,
-          "content" : {
-            "application/octet-stream" : {
-              "schema" : {
-                "type" : "string",
-                "format" : "binary"
               }
             }
           }
@@ -2602,23 +2600,11 @@
         "tags" : [ "Accounting" ],
         "operationId" : "getCreditNoteAttachmentByFileName",
         "summary" : "Allows you to retrieve Attachments on CreditNote by file name",
-        "responses" : {
-          "200" : {
-            "description" : "A successful request",
-            "content" : {
-              "application/octet-stream" : {
-                "schema" : {
-                  "type" : "string",
-                  "format" : "binary"
-                }
-              }
-            }
-          }
-        },
         "parameters" : [ {
           "required" : true,
           "in" : "path",
           "name" : "CreditNoteID",
+          "description" : "Unique identifier for a Credit Note",
           "schema" : {
             "type" : "string",
             "format" : "uuid"
@@ -2627,6 +2613,7 @@
           "required" : true,
           "in" : "path",
           "name" : "FileName",
+          "description" : "Name of the file you are attaching to Credit Note",
           "schema" : {
             "type" : "string"
           }
@@ -2638,15 +2625,30 @@
           "schema" : {
             "type" : "string"
           }
-        } ]
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success - return response of binary data from the Attachment to a Credit Note",
+            "content" : {
+              "application/octet-stream" : {
+                "schema" : {
+                  "type" : "string",
+                  "format" : "binary"
+                }
+              }
+            }
+          }
+        }
       },
       "post" : {
         "tags" : [ "Accounting" ],
         "operationId" : "updateCreditNoteAttachmentByFileName",
+        "summary" : "Allows you to update Attachments on CreditNote by file name",
         "parameters" : [ {
           "required" : true,
           "in" : "path",
           "name" : "CreditNoteID",
+          "description" : "Unique identifier for a Credit Note",
           "schema" : {
             "type" : "string",
             "format" : "uuid"
@@ -2654,15 +2656,15 @@
         }, {
           "required" : true,
           "in" : "path",
+          "description" : "Name of the file you are attaching to Credit Note",
           "name" : "FileName",
           "schema" : {
-            "type" : "string",
-            "format" : "uuid"
+            "type" : "string"
           }
         } ],
         "responses" : {
           "200" : {
-            "description" : "A successful request",
+            "description" : "Success - return response of type Attachments array with updated Attachment for specific Credit Note",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -2690,10 +2692,12 @@
       "put" : {
         "tags" : [ "Accounting" ],
         "operationId" : "createCreditNoteAttachmentByFileName",
+        "summary" : "Allows you to create Attachments on CreditNote by file name",
         "parameters" : [ {
           "required" : true,
           "in" : "path",
           "name" : "CreditNoteID",
+          "description" : "Unique identifier for a Credit Note",
           "schema" : {
             "type" : "string",
             "format" : "uuid"
@@ -2702,18 +2706,20 @@
           "required" : true,
           "in" : "path",
           "name" : "FileName",
+          "description" : "Name of the file you are attaching to Credit Note",
           "schema" : {
             "type" : "string"
           }
         } ],
         "responses" : {
           "200" : {
-            "description" : "A successful request",
+            "description" : "Success - return response of type Attachments array with newly created Attachment for specific Credit Note",
             "content" : {
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/Attachments"
-                }
+                },
+                "example" : "{ \"Id\": \"22a8d402-5dea-40ed-9d01-26896429f649\", \"Status\": \"OK\", \"ProviderName\": \"Java Partner Example\", \"DateTimeUTC\": \"\\/Date(1551822953320)\\/\", \"Attachments\": [ { \"AttachmentID\": \"91bbae3f-5de5-4e3d-875f-8662f25897bd\", \"FileName\": \"sample5.jpg\", \"Url\": \"https://api.xero.com/api.xro/2.0/CreditNotes/249f15fa-f2a7-4acc-8769-0984103f2225/Attachments/sample5.jpg\", \"MimeType\": \"image/jpg\", \"ContentLength\": 2878711 } ] }"
               }
             }
           },
@@ -2740,23 +2746,11 @@
         "tags" : [ "Accounting" ],
         "operationId" : "getCreditNoteAsPdf",
         "summary" : "Allows you to retrieve Credit Note as PDF files",
-        "responses" : {
-          "200" : {
-            "description" : "A successful request",
-            "content" : {
-              "application/octet-stream" : {
-                "schema" : {
-                  "type" : "string",
-                  "format" : "binary"
-                }
-              }
-            }
-          }
-        },
         "parameters" : [ {
           "required" : true,
           "in" : "path",
           "name" : "CreditNoteID",
+          "description" : "Unique identifier for a Credit Note",
           "schema" : {
             "type" : "string",
             "format" : "uuid"
@@ -2769,7 +2763,20 @@
           "schema" : {
             "type" : "string"
           }
-        } ]
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success - return response of binary data from the Attachment to a Credit Note",
+            "content" : {
+              "application/octet-stream" : {
+                "schema" : {
+                  "type" : "string",
+                  "format" : "binary"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/CreditNotes/{CreditNoteID}/Allocations" : {
@@ -2777,10 +2784,12 @@
       "put" : {
         "tags" : [ "Accounting" ],
         "operationId" : "createCreditNoteAllocation",
+        "summary" : "Allows you to create Allocation on CreditNote",
         "parameters" : [ {
           "required" : true,
           "in" : "path",
           "name" : "CreditNoteID",
+          "description" : "Unique identifier for a Credit Note",
           "schema" : {
             "type" : "string",
             "format" : "uuid"
@@ -2788,7 +2797,7 @@
         } ],
         "responses" : {
           "200" : {
-            "description" : "A successful request",
+            "description" : "Success - return response of type Allocations array with newly created Allocation for specific Credit Note",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -2818,9 +2827,19 @@
         "tags" : [ "Accounting" ],
         "operationId" : "getCreditNoteHistory",
         "summary" : "Allows you to retrieve a history records of an CreditNote",
+        "parameters" : [ {
+          "required" : true,
+          "in" : "path",
+          "name" : "CreditNoteID",
+          "description" : "Unique identifier for a Credit Note",
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
         "responses" : {
           "200" : {
-            "description" : "A successful request",
+            "description" : "Success - return response of type HistoryRecords array with all HistoryRecord for specific Credit Note",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -2829,24 +2848,25 @@
               }
             }
           }
-        },
-        "parameters" : [ {
-          "required" : true,
-          "in" : "path",
-          "name" : "CreditNoteID",
-          "schema" : {
-            "type" : "string",
-            "format" : "uuid"
-          }
-        } ]
+        }
       },
       "put" : {
         "tags" : [ "Accounting" ],
         "operationId" : "createCreditNoteHistory",
         "summary" : "Allows you to retrieve a history records of an CreditNote",
+        "parameters" : [ {
+          "required" : true,
+          "in" : "path",
+          "name" : "CreditNoteID",
+          "description" : "Unique identifier for a Credit Note",
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
         "responses" : {
           "200" : {
-            "description" : "A successful request",
+            "description" : "Success - return response of type HistoryRecords array with newly created HistoryRecord for specific Credit Note",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -2859,15 +2879,6 @@
             "$ref" : "#/components/responses/400Error"
           }
         },
-        "parameters" : [ {
-          "required" : true,
-          "in" : "path",
-          "name" : "CreditNoteID",
-          "schema" : {
-            "type" : "string",
-            "format" : "uuid"
-          }
-        } ],
         "requestBody" : {
           "required" : true,
           "content" : {
@@ -2886,18 +2897,6 @@
         "tags" : [ "Accounting" ],
         "operationId" : "getCurrencies",
         "summary" : "Allows you to retrieve currencies for your organisation",
-        "responses" : {
-          "200" : {
-            "description" : "A successful response",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Currencies"
-                }
-              }
-            }
-          }
-        },
         "parameters" : [ {
           "in" : "query",
           "name" : "where",
@@ -2912,7 +2911,19 @@
           "schema" : {
             "type" : "string"
           }
-        } ]
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "A successful response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Currencies"
+                }
+              }
+            }
+          }
+        }
       },
       "put" : {
         "tags" : [ "Accounting" ],
