@@ -3768,10 +3768,6 @@ paths:
       responses:
         '200':
           description: Success - return response empty with 204 response code
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Response204'
   '/ContactGroups/{ContactGroupID}/Contacts/{ContactID}':
     x-related-model: ContactGroup
     delete:
@@ -3801,6 +3797,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Response204'
+              example: '{
+                            "Status": "DELETED"
+                        }'
         '400':
           $ref: '#/components/responses/400Error'
   /CreditNotes:
@@ -4484,10 +4483,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Attachments'
+              example: '{
+                          "Id": "27253066-8c4d-4e34-a251-7a749b72de40",
+                          "Status": "OK",
+                          "ProviderName": "Java Partner Example",
+                          "DateTimeUTC": "\/Date(1551828247939)\/",
+                          "Attachments": [
+                            {
+                              "AttachmentID": "103e49f1-e47c-4b4d-b5e8-77d9d00fa70a",
+                              "FileName": "HelloWorld.jpg",
+                              "Url": "https://api.xero.com/api.xro/2.0/CreditNotes/249f15fa-f2a7-4acc-8769-0984103f2225/Attachments/HelloWorld.jpg",
+                              "MimeType": "image/jpg",
+                              "ContentLength": 2878711
+                            }
+                          ]
+                        }'
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
         required: true
+        description: Byte array of Attachment file in body of request
         content:
           application/octet-stream:
             schema:
@@ -4538,6 +4553,7 @@ paths:
           $ref: '#/components/responses/400Error'
       requestBody:
         required: true
+        description: Byte array of Attachment file in body of request
         content:
           application/octet-stream:
             schema:
@@ -4594,6 +4610,35 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Allocations'
+              example: '{
+                          "Id": "73452751-6eaa-4bcb-86f5-4c013316f4cf",
+                          "Status": "OK",
+                          "ProviderName": "Java Partner Example",
+                          "DateTimeUTC": "\/Date(1551828543255)\/",
+                          "Allocations": [
+                            {
+                              "Amount": 1.00,
+                              "Date": "\/Date(1551744000000+0000)\/",
+                              "Invoice": {
+                                "InvoiceID": "c45720a1-ade3-4a38-a064-d15489be6841",
+                                "Payments": [],
+                                "CreditNotes": [],
+                                "Prepayments": [],
+                                "Overpayments": [],
+                                "HasErrors": false,
+                                "IsDiscounted": false,
+                                "LineItems": [],
+                                "ValidationErrors": []
+                              },
+                              "CreditNote": {
+                                "CreditNoteID": "7be578f5-63af-45c8-9b00-dcc4732baf0b",
+                                "ID": "7be578f5-63af-45c8-9b00-dcc4732baf0b",
+                                "LineItems": []
+                              },
+                              "ValidationErrors": []
+                            }
+                          ]
+                        }'
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
@@ -4601,6 +4646,20 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Allocations'
+            example: '{  
+                       "Allocations":[  
+                          {  
+                             "Invoice":{  
+                                "LineItems":[  
+
+                                ],
+                                "InvoiceID":"c45720a1-ade3-4a38-a064-d15489be6841"
+                             },
+                             "Amount":1.0,
+                             "Date":"2019-03-05"
+                          }
+                       ]
+                    }'
   '/CreditNotes/{CreditNoteID}/History':
     x-related-model: CreditNote
     get:
@@ -4623,6 +4682,36 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HistoryRecords'
+              example: '{
+                          "Id": "dcc7c1dc-6cb0-4028-bd3f-70ece21da236",
+                          "Status": "OK",
+                          "ProviderName": "Java Partner Example",
+                          "DateTimeUTC": "\/Date(1551828544127)\/",
+                          "HistoryRecords": [
+                            
+                            {
+                              "Changes": "Cash Refunded",
+                              "DateUTCString": "2019-03-05T18:59:06",
+                              "DateUTC": "\/Date(1551812346157+0000)\/",
+                              "User": "Sidney Maestre",
+                              "Details": "Payment made to Liam Gallagher on 14 March 2019 for 2.00. There is 32.50 credit remaining on this credit note."
+                            },
+                            {
+                              "Changes": "Approved",
+                              "DateUTCString": "2019-03-05T18:58:33",
+                              "DateUTC": "\/Date(1551812313410+0000)\/",
+                              "User": "Sidney Maestre",
+                              "Details": "CN-0005 to Liam Gallagher for 34.50."
+                            },
+                            {
+                              "Changes": "Created",
+                              "DateUTCString": "2019-03-05T18:58:33",
+                              "DateUTC": "\/Date(1551812313410+0000)\/",
+                              "User": "Sidney Maestre",
+                              "Details": "CN-0005 to Liam Gallagher for 34.50."
+                            }
+                          ]
+                        }'
     put:
       tags:
         - Accounting
@@ -4643,6 +4732,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HistoryRecords'
+              example: '{
+                          "Id": "f4a1e574-a3f0-4862-8e54-143947e3bea6",
+                          "Status": "OK",
+                          "ProviderName": "Java Partner Example",
+                          "DateTimeUTC": "\/Date(1551828544585)\/",
+                          "HistoryRecords": [
+                            {
+                              "DateUTCString": "2019-03-05T23:29:04",
+                              "DateUTC": "\/Date(1551828544585)\/",
+                              "Details": "Hello World",
+                              "ValidationErrors": []
+                            }
+                          ]
+                        }'
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
@@ -4651,6 +4754,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HistoryRecords'
+              example: '{  
+                           "HistoryRecords":[  
+                              {  
+                                 "Details":"Hello World"
+                              }
+                           ]
+                        }'
   /Currencies:
     x-related-model: Currency
     get:
@@ -11847,7 +11957,7 @@ components:
           description: Exception message
           type: string
         Elements:
-          description: Arry of Elements of validation Errors
+          description: Array of Elements of validation Errors
           type: array
           items:
             $ref: '#/components/schemas/Element'
