@@ -9777,6 +9777,10 @@ components:
           description: boolean to indicate if an invoice has an attachment
           readOnly: true
           type: boolean
+        IsDiscounted:
+          description: boolean to indicate if an invoice has a discount
+          readOnly: true
+          type: boolean
         Payments:
           description: See Payments
           readOnly: true
@@ -9828,6 +9832,14 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/CreditNote'
+        Attachments: 
+          description: Displays array of attachments from the API
+          type: array
+          items:
+            $ref: '#/components/schemas/Attachment'
+        HasErrors:
+          description: A boolean to indicate if a contact has an validation errors
+          type: boolean
       required:
         - Type
         - Contact
@@ -11000,6 +11012,12 @@ components:
         Details:
           description: The information to appear on the supplier's bank account
           type: string
+        HasAccount:
+          description: A boolean to indicate if a contact has an validation errors
+          type: boolean
+        HasValidationErrors:
+          description: A boolean to indicate if a contact has an validation errors
+          type: boolean
       type: object
     Prepayments:
       type: object
