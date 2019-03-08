@@ -6290,7 +6290,7 @@ paths:
       summary: Allows you to retrieve Organisation details
       responses:
         '200':
-          description: A successful response
+          description: Success - return response of type Organisation array with all Organisation
           content:
             application/json:
               schema:
@@ -6311,7 +6311,7 @@ paths:
             format: uuid
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of type Organisation array with specified Organisation
           content:
             application/json:
               schema:
@@ -6323,22 +6323,10 @@ paths:
         - Accounting
       operationId: getOverpayments
       summary: Allows you to retrieve overpayments
-      responses:
-        '200':
-          description: A successful response
-          content:
-            text/xml:
-              schema:
-                $ref: '#/components/schemas/Overpayments'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Overpayments'
       parameters:
         - in: header
           name: If-Modified-Since
-          description: >-
-            Only records created or modified since this timestamp will be
-            returned
+          description:  Only records created or modified since this timestamp will be returned
           schema:
             type: string
             format: date-time
@@ -6357,50 +6345,54 @@ paths:
           description: e.g. page=1 – Up to 100 overpayments will be returned in a single API call with line items shown for each overpayment
           schema:
             type: integer
+      responses:
+        '200':
+          description: Success - return response of type Overpayments array with all Overpayments
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Overpayments'
   '/Overpayments/{OverpaymentID}':
     x-related-model: Overpayment
     get:
       tags:
         - Accounting
       operationId: getOverpayment
-      summary: Allows you to retrieve overpayments
-      responses:
-        '200':
-          description: A successful request
-          content:
-            text/xml:
-              schema:
-                $ref: '#/components/schemas/Overpayments'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Overpayments'
+      summary: Allows you to retrieve a specified overpayments
       parameters:
         - required: true
           in: path
           name: OverpaymentID
+          description: Unique identifier for a Overpayment
           schema:
             type: string
             format: uuid
+      responses:
+        '200':
+          description: Success - return response of type Overpayments array with specified Overpayments
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Overpayments'
   '/Overpayments/{OverpaymentID}/Allocations':
     x-related-model: Overpayment
     put:
       tags:
         - Accounting
       operationId: createOverpaymentAllocation
+      summary: Allows you to retrieve Allocations for overpayments
       parameters:
         - required: true
           in: path
           name: OverpaymentID
+          description: Unique identifier for a Overpayment
           schema:
             type: string
             format: uuid
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of type Allocations array with all Allocation for Overpayments
           content:
-            text/xml:
-              schema:
-                $ref: '#/components/schemas/Allocations'
             application/json:
               schema:
                 $ref: '#/components/schemas/Allocations'
@@ -6419,47 +6411,43 @@ paths:
         - Accounting
       operationId: getOverpaymentHistory
       summary: Allows you to retrieve a history records of an Overpayment
-      responses:
-        '200':
-          description: A successful request
-          content:
-            text/xml:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
       parameters:
         - required: true
           in: path
           name: OverpaymentID
+          description: Unique identifier for a Overpayment
           schema:
             type: string
             format: uuid
+      responses:
+        '200':
+          description: Success - return response of type HistoryRecords array with all HistoryRecord for Overpayments
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HistoryRecords'
     put:
       tags:
         - Accounting
       operationId: createOverpaymentHistory
-      summary: Allows you to retrieve a history records of an Overpayment
+      summary: Allows you to create history records of an Overpayment
+      parameters:
+        - required: true
+          in: path
+          name: OverpaymentID
+          description: Unique identifier for a Overpayment
+          schema:
+            type: string
+            format: uuid
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of type HistoryRecords array with newly created HistoryRecord for Overpayments
           content:
-            text/xml:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
             application/json:
               schema:
                 $ref: '#/components/schemas/HistoryRecords'
         '400':
           $ref: '#/components/responses/400Error'
-      parameters:
-        - required: true
-          in: path
-          name: OverpaymentID
-          schema:
-            type: string
-            format: uuid
       requestBody:
         required: true
         content:
@@ -6472,23 +6460,11 @@ paths:
       tags:
         - Accounting
       operationId: getPayments
-      summary: Retrieve either one or many payments for invoices and credit notes
-      responses:
-        '200':
-          description: A successful response
-          content:
-            text/xml:
-              schema:
-                $ref: '#/components/schemas/Payments'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Payments'
+      summary: Allows you to retrieve payments for invoices and credit notes
       parameters:
         - in: header
           name: If-Modified-Since
-          description: >-
-            Only records created or modified since this timestamp will be
-            returned
+          description:  Only records created or modified since this timestamp will be returned
           schema:
             type: string
             format: date-time
@@ -6502,17 +6478,22 @@ paths:
           description: Order by an any element
           schema:
             type: string
+      responses:
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payments'
     put:
       tags:
         - Accounting
       operationId: createPayment
+      summary: Allows you to create payments for invoices and credit notes      
       responses:
         '200':
           description: A successful request
           content:
-            text/xml:
-              schema:
-                $ref: '#/components/schemas/Payments'
             application/json:
               schema:
                 $ref: '#/components/schemas/Payments'
@@ -6530,32 +6511,32 @@ paths:
       tags:
         - Accounting
       operationId: getPayment
-      summary: Retrieve either one or many payments for invoices and credit notes
-      responses:
-        '200':
-          description: A successful request
-          content:
-            text/xml:
-              schema:
-                $ref: '#/components/schemas/Payments'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Payments'
+      summary: Allows you to retrieve a specified payment for invoices and credit notes
       parameters:
         - required: true
           in: path
           name: PaymentID
+          description: Unique identifier for a Payment
           schema:
             type: string
             format: uuid
+      responses:
+        '200':
+          description: A successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payments'
     post:
       tags:
         - Accounting
       operationId: updatePayment
+      summary: Allows you to update a specified payment for invoices and credit notes
       parameters:
         - required: true
           in: path
           name: PaymentID
+          description: Unique identifier for a Payment
           schema:
             type: string
             format: uuid
@@ -6563,9 +6544,6 @@ paths:
         '200':
           description: A successful request
           content:
-            text/xml:
-              schema:
-                $ref: '#/components/schemas/Payments'
             application/json:
               schema:
                 $ref: '#/components/schemas/Payments'
@@ -6583,36 +6561,31 @@ paths:
       tags:
         - Accounting
       operationId: getPaymentHistory
-      summary: Allows you to retrieve a history records of an invoice
-      responses:
-        '200':
-          description: A successful request
-          content:
-            text/xml:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
+      summary: Allows you to retrieve history records of a payment
       parameters:
         - required: true
           in: path
           name: PaymentID
+          description: Unique identifier for a Payment
           schema:
             type: string
             format: uuid
-    put:
-      tags:
-        - Accounting
-      operationId: createPaymentHistory
-      summary: Allows you to retrieve a history records of an invoice
       responses:
         '200':
           description: A successful request
           content:
-            text/xml:
+            application/json:
               schema:
                 $ref: '#/components/schemas/HistoryRecords'
+    put:
+      tags:
+        - Accounting
+      operationId: createPaymentHistory
+      summary: Allows you to create a history record for a payment
+      responses:
+        '200':
+          description: A successful request
+          content:
             application/json:
               schema:
                 $ref: '#/components/schemas/HistoryRecords'
@@ -6622,6 +6595,7 @@ paths:
         - required: true
           in: path
           name: PaymentID
+          description: Unique identifier for a Payment
           schema:
             type: string
             format: uuid
