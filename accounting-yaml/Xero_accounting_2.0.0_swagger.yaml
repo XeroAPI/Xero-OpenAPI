@@ -5886,13 +5886,6 @@ paths:
         - Accounting
       operationId: getLinkedTransactions
       summary: Retrieve linked transactions (billable expenses)
-      responses:
-        '200':
-          description: A successful response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/LinkedTransactions'
       parameters:
         - in: query
           name: page
@@ -5924,13 +5917,21 @@ paths:
           description: Filter by the TargetTransactionID. Get all the linked transactions allocated to a particular ACCREC invoice
           schema:
             type: string
+      responses:
+        '200':
+          description: Success - return response of type LinkedTransactions array with all LinkedTransaction
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LinkedTransactions'
     put:
       tags:
         - Accounting
       operationId: createLinkedTransaction
+      summary: Allows you to create linked transactions (billable expenses)
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of type LinkedTransactions array with newly created LinkedTransaction
           content:
             application/json:
               schema:
@@ -5949,35 +5950,38 @@ paths:
       tags:
         - Accounting
       operationId: getLinkedTransaction
-      summary: Retrieve linked transactions (billable expenses)
+      summary: Allows you to retrieve a specified linked transactions (billable expenses)
+      parameters:
+        - required: true
+          in: path
+          name: LinkedTransactionID
+          description: Unique identifier for a LinkedTransaction
+          schema:
+            type: string
+            format: uuid
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of type LinkedTransactions array with a specified LinkedTransaction
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/LinkedTransactions'
-      parameters:
-        - required: true
-          in: path
-          name: LinkedTransactionID
-          schema:
-            type: string
-            format: uuid
     post:
       tags:
         - Accounting
       operationId: updateLinkedTransaction
+      summary: Allows you to update a specified linked transactions (billable expenses)
       parameters:
         - required: true
           in: path
           name: LinkedTransactionID
+          description: Unique identifier for a LinkedTransaction
           schema:
             type: string
             format: uuid
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of type LinkedTransactions array with updated LinkedTransaction
           content:
             application/json:
               schema:
@@ -5994,18 +5998,20 @@ paths:
       tags:
         - Accounting
       operationId: deleteLinkedTransaction
+      summary: Allows you to delete a specified linked transactions (billable expenses)
+      parameters:
+        - required: true
+          in: path
+          name: LinkedTransactionID
+          description: Unique identifier for a LinkedTransaction
+          schema:
+            type: string
+            format: uuid
       responses:
         '204':
           description: Success - return response 204 no content
         '400':
           $ref: '#/components/responses/400Error'
-      parameters:
-        - required: true
-          in: path
-          name: LinkedTransactionID
-          schema:
-            type: string
-            format: uuid
   /ManualJournals:
     x-related-model: ManualJournal
     get:
@@ -6013,19 +6019,10 @@ paths:
         - Accounting
       operationId: getManualJournals
       summary: Allows you to retrieve any manual journals
-      responses:
-        '200':
-          description: A successful response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ManualJournals'
       parameters:
         - in: header
           name: If-Modified-Since
-          description: >-
-            Only records created or modified since this timestamp will be
-            returned
+          description:  Only records created or modified since this timestamp will be returned
           schema:
             type: string
             format: date-time
@@ -6044,13 +6041,21 @@ paths:
           description: e.g. page=1 – Up to 100 manual journals will be returned in a single API call with line items shown for each overpayment
           schema:
             type: integer
+      responses:
+        '200':
+          description: Success - return response of type ManualJournals array with a all ManualJournals
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ManualJournals'
     put:
       tags:
         - Accounting
       operationId: createManualJournal
+      summary: Allows you to create a manual journal
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of type ManualJournals array with newly created ManualJournal
           content:
             application/json:
               schema:
@@ -6069,39 +6074,39 @@ paths:
       tags:
         - Accounting
       operationId: getManualJournal
-      summary: Allows you to retrieve any manual journals
+      summary: Allows you to retrieve a specified manual journals
+      parameters:
+        - required: true
+          in: path
+          name: ManualJournalID
+          description: Unique identifier for a ManualJournal
+          schema:
+            type: string
+            format: uuid
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of type ManualJournals array with a specified ManualJournals
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ManualJournals'
-      parameters:
-        - required: true
-          in: path
-          name: ManualJournalID
-          schema:
-            type: string
-            format: uuid
     post:
       tags:
         - Accounting
       operationId: updateManualJournal
+      summary: Allows you to update a specified manual journal
       parameters:
         - required: true
           in: path
           name: ManualJournalID
+          description: Unique identifier for a ManualJournal
           schema:
             type: string
             format: uuid
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of type ManualJournals array with an updated ManualJournal
           content:
-            text/xml:
-              schema:
-                $ref: '#/components/schemas/ManualJournals'
             application/json:
               schema:
                 $ref: '#/components/schemas/ManualJournals'
@@ -6120,48 +6125,40 @@ paths:
         - Accounting
       operationId: getManualJournalAttachments
       summary: Allows you to retrieve Attachment for manual journals
-      responses:
-        '200':
-          description: A successful request
-          content:
-            text/xml:
-              schema:
-                $ref: '#/components/schemas/Attachments'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Attachments'
       parameters:
         - required: true
           in: path
           name: ManualJournalID
+          description: Unique identifier for a ManualJournal
           schema:
             type: string
             format: uuid
+      responses:
+        '200':
+          description: Success - return response of type Attachments array with all Attachments for a ManualJournals
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Attachments'
   '/ManualJournals/{ManualJournalID}/Attachments/{AttachmentID}':
     x-related-model: Invoice
     get:
       tags:
         - Accounting
       operationId: getManualJournalAttachmentById
-      summary: Allows you to retrieve Attachments on ManualJournals
-      responses:
-        '200':
-          description: A successful request
-          content:
-             application/octet-stream:
-              schema:
-                type: string
-                format: binary
+      summary: Allows you to retrieve specified Attachment on ManualJournals
       parameters:
         - required: true
           in: path
           name: ManualJournalID
+          description: Unique identifier for a ManualJournal
           schema:
             type: string
             format: uuid
         - required: true
           in: path
           name: AttachmentID
+          description: Unique identifier for a Attachment
           schema:
             type: string
             format: uuid
@@ -6171,31 +6168,33 @@ paths:
           description: The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf
           schema:
             type: string
+      responses:
+        '200':
+          description: Success - return response of type Attachments array with a specified Attachments for a ManualJournals
+          content:
+             application/octet-stream:
+              schema:
+                type: string
+                format: binary
   '/ManualJournals/{ManualJournalID}/Attachments/{FileName}':
     x-related-model: ManualJournal
     get:
       tags:
         - Accounting
       operationId: getManualJournalAttachmentByFileName
-      summary: Allows you to retrieve Attachments on ManualJournal on file name
-      responses:
-        '200':
-          description: A successful request
-          content:
-             application/octet-stream:
-              schema:
-                type: string
-                format: binary
+      summary: Allows you to retrieve specified Attachment on ManualJournal by file name
       parameters:
         - required: true
           in: path
           name: ManualJournalID
+          description: Unique identifier for a ManualJournal
           schema:
             type: string
             format: uuid
         - required: true
           in: path
           name: FileName
+          description: The name of the file being attached to a ManualJournal
           schema:
             type: string
         - required: true
@@ -6204,29 +6203,37 @@ paths:
           description: The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf
           schema:
             type: string
+      responses:
+        '200':
+          description: Success - return response of type Attachments array with a specified Attachments for a ManualJournal by file name
+          content:
+             application/octet-stream:
+              schema:
+                type: string
+                format: binary
     post:
       tags:
         - Accounting
       operationId: updateManualJournalAttachmentByFileName
+      summary: Allows you to update a specified Attachment on ManualJournal by file name
       parameters:
         - required: true
           in: path
           name: ManualJournalID
+          description: Unique identifier for a ManualJournal
           schema:
             type: string
             format: uuid
         - required: true
           in: path
           name: FileName
+          description: The name of the file being attached to a ManualJournal
           schema:
             type: string
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of type Attachments array with an update Attachment for a ManualJournals
           content:
-            text/xml:
-              schema:
-                $ref: '#/components/schemas/Attachments'
             application/json:
               schema:
                 $ref: '#/components/schemas/Attachments'
@@ -6243,25 +6250,25 @@ paths:
       tags:
         - Accounting
       operationId: createManualJournalAttachmentByFileName
+      summary: Allows you to create a specified Attachment on ManualJournal by file name
       parameters:
         - required: true
           in: path
           name: ManualJournalID
+          description: Unique identifier for a ManualJournal
           schema:
             type: string
             format: uuid
         - required: true
           in: path
           name: FileName
+          description: The name of the file being attached to a ManualJournal
           schema:
             type: string
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of type Attachments array with a newly created Attachment for a ManualJournals
           content:
-            text/xml:
-              schema:
-                $ref: '#/components/schemas/Attachments'
             application/json:
               schema:
                 $ref: '#/components/schemas/Attachments'
@@ -6280,14 +6287,11 @@ paths:
       tags:
         - Accounting
       operationId: getOrganisations
-      summary: GET a Organisation
+      summary: Allows you to retrieve Organisation details
       responses:
         '200':
           description: A successful response
           content:
-            text/xml:
-              schema:
-                $ref: '#/components/schemas/Organisations'
             application/json:
               schema:
                 $ref: '#/components/schemas/Organisations'
@@ -6297,17 +6301,7 @@ paths:
       tags:
         - Accounting
       operationId: getOrganisationByShortCode
-      summary: GET a Organisation
-      responses:
-        '200':
-          description: A successful request
-          content:
-            text/xml:
-              schema:
-                $ref: '#/components/schemas/Organisations'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Organisations'
+      summary: Allows you to retrieve Organisation details by short code
       parameters:
         - required: true
           in: path
@@ -6315,6 +6309,13 @@ paths:
           schema:
             type: string
             format: uuid
+      responses:
+        '200':
+          description: A successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organisations'
   /Overpayments:
     x-related-model: Overpayment
     get:
