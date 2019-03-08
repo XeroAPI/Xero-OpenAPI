@@ -4774,7 +4774,7 @@ paths:
             type: string
       responses:
         '200':
-          description: A successful response
+          description: Success - return response of type Currencies array with all Currencies
           content:
             application/json:
               schema:
@@ -4785,7 +4785,7 @@ paths:
       operationId: createCurrency
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of type Currencies array with new Currency
           content:
             application/json:
               schema:
@@ -4804,21 +4804,11 @@ paths:
       tags:
         - Accounting
       operationId: getEmployees
-      summary: >-
-        Allows you to retrieve, add and update employees used in Xero payrun
-        functionality
-      responses:
-        '200':
-          description: A successful response
-          content:
-            application/json:
-              schema:
-                  $ref: '#/components/schemas/Employees'
+      summary: Allows you to retrieve employees used in Xero payrun
       parameters:
         - in: header
           name: If-Modified-Since
-          description: >-
-            Only records created or modified since this timestamp will be
+          description: Only records created or modified since this timestamp will be
             returned
           schema:
             type: string
@@ -4833,17 +4823,27 @@ paths:
           description: Order by an any element
           schema:
             type: string
+      responses:
+        '200':
+          description: Success - return response of type Employees array with all Employee
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employees' 
+              example: ''     
     put:
       tags:
         - Accounting
       operationId: createEmployee
+      summary: Allows you to create new employees used in Xero payrun
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of type Employees array with new Employee
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Employees'
+              example: ''
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
@@ -4859,35 +4859,38 @@ paths:
       tags:
         - Accounting
       operationId: getEmployee
-      summary: Allows you to retrieve employees to see their status
+      summary: Allows you to retrieve a specific employee used in Xero payrun
+      parameters:
+        - required: true
+          in: path
+          name: EmployeeID
+          description: Unique identifier for a Employee
+          schema:
+            type: string
+            format: uuid
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of type Employees array with specified Employee
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Employees'
-      parameters:
-        - required: true
-          in: path
-          name: EmployeeID
-          schema:
-            type: string
-            format: uuid
     post:
       tags:
         - Accounting
       operationId: updateEmployee
+      summary: Allows you to update a specific employee used in Xero payrun
       parameters:
         - required: true
           in: path
           name: EmployeeID
+          description: Unique identifier for a Employee
           schema:
             type: string
             format: uuid
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of type Employees array with updated Employee
           content:
             application/json:
               schema:
@@ -4906,19 +4909,11 @@ paths:
       tags:
         - Accounting
       operationId: getExpenseClaims
-      summary: Allows you to retrieve expense claims to see their status
-      responses:
-        '200':
-          description: A successful response
-          content:
-            application/json:
-              schema:
-                  $ref: '#/components/schemas/ExpenseClaims'
+      summary: Allows you to retrieve expense claims 
       parameters:
         - in: header
           name: If-Modified-Since
-          description: >-
-            Only records created or modified since this timestamp will be
+          description: Only records created or modified since this timestamp will be
             returned
           schema:
             type: string
@@ -4933,19 +4928,18 @@ paths:
           description: Order by an any element
           schema:
             type: string
+      responses:
+        '200':
+          description: Success - return response of type ExpenseClaims array with all ExpenseClaims
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/ExpenseClaims'
     put:
       tags:
         - Accounting
       operationId: createExpenseClaim
-      responses:
-        '200':
-          description: A successful request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ExpenseClaims'
-        '400':
-          $ref: '#/components/responses/400Error'
+      summary: Allows you to retrieve expense claims 
       parameters:
         - in: query
           name: SummarizeErrors
@@ -4958,41 +4952,53 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ExpenseClaims'
+      responses:
+        '200':
+          description: Success - return response of type ExpenseClaims array with newly created ExpenseClaim
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExpenseClaims'
+        '400':
+          $ref: '#/components/responses/400Error'
   '/ExpenseClaims/{ExpenseClaimID}':
     x-related-model: ExpenseClaim
     get:
       tags:
         - Accounting
       operationId: getExpenseClaim
-      summary: Allows you to retrieve expense claims to see their status
+      summary: Allows you to retrieve a specified expense claim
+      parameters:
+        - required: true
+          in: path
+          name: ExpenseClaimID
+          description: Unique identifier for a ExpenseClaim
+          schema:
+            type: string
+            format: uuid
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of type ExpenseClaims array with specified ExpenseClaim
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ExpenseClaims'
-      parameters:
-        - required: true
-          in: path
-          name: ExpenseClaimID
-          schema:
-            type: string
-            format: uuid
     post:
       tags:
         - Accounting
       operationId: updateExpenseClaim
+      summary: Allows you to update specified expense claims 
       parameters:
         - required: true
           in: path
           name: ExpenseClaimID
+          description: Unique identifier for a ExpenseClaim
           schema:
             type: string
             format: uuid
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of type ExpenseClaims array with updated ExpenseClaim
           content:
             application/json:
               schema:
@@ -5012,41 +5018,43 @@ paths:
         - Accounting
       operationId: getExpenseClaimHistory
       summary: Allows you to retrieve a history records of an ExpenseClaim
-      responses:
-        '200':
-          description: A successful request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
       parameters:
         - required: true
           in: path
           name: ExpenseClaimID
+          description: Unique identifier for a ExpenseClaim
           schema:
             type: string
             format: uuid
+      responses:
+        '200':
+          description: Success - return response of type HistoryRecords array with all HistoryRecord for specific ExpenseClaim
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HistoryRecords'
     put:
       tags:
         - Accounting
       operationId: createExpenseClaimHistory
-      summary: Allows you to retrieve a history records of an ExpenseClaim
+      summary: Allows you to create a history records of an ExpenseClaim
+      parameters:
+        - required: true
+          in: path
+          name: ExpenseClaimID
+          description: Unique identifier for a ExpenseClaim
+          schema:
+            type: string
+            format: uuid
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of type HistoryRecords array for newly created HistoryRecord for specific ExpenseClaim
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/HistoryRecords'
         '400':
           $ref: '#/components/responses/400Error'
-      parameters:
-        - required: true
-          in: path
-          name: ExpenseClaimID
-          schema:
-            type: string
-            format: uuid
       requestBody:
         required: true
         content:
@@ -5060,18 +5068,10 @@ paths:
         - Accounting
       operationId: getInvoices
       summary: Allows you to retrieve any sales invoices or purchase bills
-      responses:
-        '200':
-          description: A successful response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Invoices'
       parameters:
         - in: header
           name: If-Modified-Since
-          description: >-
-            Only records created or modified since this timestamp will be
+          description: Only records created or modified since this timestamp will be
             returned
           schema:
             type: string
@@ -5121,17 +5121,22 @@ paths:
           description: When set to true you'll only retrieve Invoices created by your app
           schema:
             type: boolean
+      responses:
+        '200':
+          description: Success - return response of type Invoices array with all Invoices
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invoices'
     put:
       tags:
         - Accounting
       operationId: createInvoice
+      summary: Allows you to create any sales invoices or purchase bills
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of type Invoices array with newly created Invoice
           content:
-            text/xml:
-              schema:
-                $ref: '#/components/schemas/Invoices'
             application/json:
               schema:
                 $ref: '#/components/schemas/Invoices'
@@ -5155,10 +5160,18 @@ paths:
       tags:
         - Accounting
       operationId: getInvoice
-      summary: Allows you to retrieve any sales invoices or purchase bills
+      summary: Allows you to retrieve a specified sales invoice or purchase bill
+      parameters:
+        - required: true
+          in: path
+          name: InvoiceID
+          description: Unique identifier for an Invoice
+          schema:
+            type: string
+            format: uuid
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of type Invoices array with specified Invoices
           content:
             application/json:
               schema:
@@ -5309,27 +5322,22 @@ paths:
                             }
                           ]
                         }'
-      parameters:
-        - required: true
-          in: path
-          name: InvoiceID
-          schema:
-            type: string
-            format: uuid
     post:
       tags:
         - Accounting
       operationId: updateInvoice
+      summary: Allows you to update a specified sales invoices or purchase bills
       parameters:
         - required: true
           in: path
           name: InvoiceID
+          description: Unique identifier for an Invoice
           schema:
             type: string
             format: uuid
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of type Invoices array with updated Invoice
           content:
             text/xml:
               schema:
@@ -5352,18 +5360,11 @@ paths:
         - Accounting
       operationId: getInvoiceAsPdf
       summary: Allows you to retrieve invoices or purchase bills as PDF files
-      responses:
-        '200':
-          description: A successful request
-          content:
-             application/octet-stream:
-              schema:
-                type: string
-                format: binary
       parameters:
         - required: true
           in: path
           name: InvoiceID
+          description: Unique identifier for an Invoice
           schema:
             type: string
             format: uuid
@@ -5373,6 +5374,14 @@ paths:
           description: The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf
           schema:
             type: string
+      responses:
+        '200':
+          description: Success - return response of byte array pdf version of specified Invoices
+          content:
+             application/octet-stream:
+              schema:
+                type: string
+                format: binary
   '/Invoices/{InvoiceID}/Attachments':
     x-related-model: Invoice
     get:
@@ -5380,48 +5389,40 @@ paths:
         - Accounting
       operationId: getInvoiceAttachments
       summary: Allows you to retrieve Attachments on invoices or purchase bills
-      responses:
-        '200':
-          description: A successful request
-          content:
-            text/xml:
-              schema:
-                $ref: '#/components/schemas/Attachments'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Attachments'
       parameters:
         - required: true
           in: path
           name: InvoiceID
+          description: Unique identifier for an Invoice
           schema:
             type: string
             format: uuid
+      responses:
+        '200':
+          description: Success - return response of type Attachments array of Attachments for specified Invoices
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Attachments'
   '/Invoices/{InvoiceID}/Attachments/{AttachmentID}':
     x-related-model: Invoice
     get:
       tags:
         - Accounting
       operationId: getInvoiceAttachmentById
-      summary: Allows you to retrieve Attachments on invoices or purchase bills
-      responses:
-        '200':
-          description: A successful request
-          content:
-             application/octet-stream:
-              schema:
-                type: string
-                format: binary
+      summary: Allows you to retrieve a specified Attachment on invoices or purchase bills by it's ID
       parameters:
         - required: true
           in: path
           name: InvoiceID
+          description: Unique identifier for an Invoice
           schema:
             type: string
             format: uuid
         - required: true
           in: path
           name: AttachmentID
+          description: Unique identifier for an Attachment
           schema:
             type: string
             format: uuid
@@ -5431,31 +5432,33 @@ paths:
           description: The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf
           schema:
             type: string
+      responses:
+        '200':
+          description: Success - return response of type Attachments array of specified Attachment for specified Invoices
+          content:
+             application/octet-stream:
+              schema:
+                type: string
+                format: binary
   '/Invoices/{InvoiceID}/Attachments/{FileName}':
     x-related-model: Invoice
     get:
       tags:
         - Accounting
       operationId: getInvoiceAttachmentByFileName
-      summary: Allows you to retrieve Attachments on invoices or purchase bills
-      responses:
-        '200':
-          description: A successful request
-          content:
-             application/octet-stream:
-              schema:
-                type: string
-                format: binary
+      summary: Allows you to retrieve Attachment on invoices or purchase bills by it's filename
       parameters:
         - required: true
           in: path
           name: InvoiceID
+          description: Unique identifier for an Invoice
           schema:
             type: string
             format: uuid
         - required: true
           in: path
           name: FileName
+          description: Name of the file you are attaching
           schema:
             type: string
         - required: true
@@ -5464,25 +5467,36 @@ paths:
           description: The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf
           schema:
             type: string
+      responses:
+        '200':
+          description: Success - return response of type Attachments array with specified Attachment for specified Invoices
+          content:
+             application/octet-stream:
+              schema:
+                type: string
+                format: binary
     post:
       tags:
         - Accounting
       operationId: updateInvoiceAttachmentByFileName
+      summary: Allows you to update Attachment on invoices or purchase bills by it's filename
       parameters:
         - required: true
           in: path
           name: InvoiceID
+          description: Unique identifier for an Invoice
           schema:
             type: string
             format: uuid
         - required: true
           in: path
           name: FileName
+          description: Name of the file you are attaching
           schema:
             type: string
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of type Attachments array with updated Attachment
           content:
             application/json:
               schema:
@@ -5500,21 +5514,24 @@ paths:
       tags:
         - Accounting
       operationId: createInvoiceAttachmentByFileName
+      summary: Allows you to create an Attachment on invoices or purchase bills by it's filename
       parameters:
         - required: true
           in: path
           name: InvoiceID
+          description: Unique identifier for an Invoice
           schema:
             type: string
             format: uuid
         - required: true
           in: path
           name: FileName
+          description: Name of the file you are attaching
           schema:
             type: string
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of type Attachments array with newly created Attachment
           content:
             application/json:
               schema:
@@ -5535,20 +5552,21 @@ paths:
         - Accounting
       operationId: getOnlineInvoice
       summary: Allows you to retrieve a URL to an online invoice
-      responses:
-        '200':
-          description: A successful request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/OnlineInvoices'
       parameters:
         - required: true
           in: path
           name: InvoiceID
+          description: Unique identifier for an Invoice
           schema:
             type: string
             format: uuid
+      responses:
+        '200':
+          description: Success - return response of type OnlineInvoice array with one OnlineInvoice
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OnlineInvoices'
   '/Invoices/{InvoiceID}/Email':
     x-related-model: Invoice
     post:
@@ -5556,18 +5574,19 @@ paths:
         - Accounting
       operationId: emailInvoice
       summary: Allows you to email a copy of invoice to related Contact
+      parameters:
+        - required: true
+          in: path
+          name: InvoiceID
+          description: Unique identifier for an Invoice
+          schema:
+            type: string
+            format: uuid
       responses:
         '204':
           description: Success - return response 204 no content
         '400':
           $ref: '#/components/responses/400Error'
-      parameters:
-        - required: true
-          in: path
-          name: InvoiceID
-          schema:
-            type: string
-            format: uuid
       requestBody:
         required: true
         content:
@@ -5581,41 +5600,43 @@ paths:
         - Accounting
       operationId: getInvoiceHistory
       summary: Allows you to retrieve a history records of an invoice
-      responses:
-        '200':
-          description: A successful request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
       parameters:
         - required: true
           in: path
           name: InvoiceID
+          description: Unique identifier for an Invoice
           schema:
             type: string
             format: uuid
+      responses:
+        '200':
+          description: Success - return response of type HistoryRecords array with all HistoryRecord for specific Invoice
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HistoryRecords'
     put:
       tags:
         - Accounting
       operationId: createInvoiceHistory
       summary: Allows you to retrieve a history records of an invoice
+      parameters:
+        - required: true
+          in: path
+          name: InvoiceID
+          description: Unique identifier for an Invoice
+          schema:
+            type: string
+            format: uuid
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of type HistoryRecords array with newly created HistoryRecord for specific Invoice
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/HistoryRecords'
         '400':
           $ref: '#/components/responses/400Error'
-      parameters:
-        - required: true
-          in: path
-          name: InvoiceID
-          schema:
-            type: string
-            format: uuid
       requestBody:
         required: true
         content:
@@ -5643,19 +5664,10 @@ paths:
         - Accounting
       operationId: getItems
       summary: Allows you to retrieve any items
-      responses:
-        '200':
-          description: A successful response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Items'
       parameters:
         - in: header
           name: If-Modified-Since
-          description: >-
-            Only records created or modified since this timestamp will be
-            returned
+          description: Only records created or modified since this timestamp will be returned
           schema:
             type: string
             format: date-time
@@ -5669,13 +5681,21 @@ paths:
           description: Order by an any element
           schema:
             type: string
+      responses:
+        '200':
+          description: Success - return response of type Items array with all Item
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Items'
     put:
       tags:
         - Accounting
       operationId: createItem
+      summary: Allows you to create an item
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of type Items array with newly created Item
           content:
             application/json:
               schema:
@@ -5694,35 +5714,38 @@ paths:
       tags:
         - Accounting
       operationId: getItem
-      summary: Allows you to retrieve any items
+      summary: Allows you to retrieve a specified item
+      parameters:
+        - required: true
+          in: path
+          name: ItemID
+          description: Unique identifier for an Item
+          schema:
+            type: string
+            format: uuid
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of type Items array with specified Item
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Items'
-      parameters:
-        - required: true
-          in: path
-          name: ItemID
-          schema:
-            type: string
-            format: uuid
     post:
       tags:
         - Accounting
       operationId: updateItem
+      summary: Allows you to udpate a specified item
       parameters:
         - required: true
           in: path
           name: ItemID
+          description: Unique identifier for an Item
           schema:
             type: string
             format: uuid
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of type Items array with updated Item
           content:
             application/json:
               schema:
@@ -5739,18 +5762,20 @@ paths:
       tags:
         - Accounting
       operationId: deleteItem
+      summary: Allows you to delete a specified item
+      parameters:
+        - required: true
+          in: path
+          name: ItemID
+          description: Unique identifier for an Item
+          schema:
+            type: string
+            format: uuid
       responses:
         '204':
           description: Success - return response 204 no content
         '400':
           $ref: '#/components/responses/400Error'
-      parameters:
-        - required: true
-          in: path
-          name: ItemID
-          schema:
-            type: string
-            format: uuid
   '/Items/{ItemID}/History':
     x-related-model: Item
     get:
@@ -5758,34 +5783,37 @@ paths:
         - Accounting
       operationId: getItemHistory
       summary: Allows you to retrieve history for items
+      parameters:
+        - required: true
+          in: path
+          name: ItemID
+          description: Unique identifier for an Item
+          schema:
+            type: string
+            format: uuid
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of type HistoryRecords array with all HistoryRecord for specific Item
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/HistoryRecords'
-      parameters:
-        - required: true
-          in: path
-          name: ItemID
-          schema:
-            type: string
-            format: uuid
     put:
       tags:
         - Accounting
       operationId: createItemHistory
+      summary: Allows you to create a history record for items
       parameters:
         - required: true
           in: path
           name: ItemID
+          description: Unique identifier for an Item
           schema:
             type: string
             format: uuid
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of type HistoryRecords array with newly created HistoryRecord for specific Item
           content:
             application/json:
               schema:
@@ -5805,51 +5833,52 @@ paths:
         - Accounting
       operationId: getJournals
       summary: Allows you to retrieve any journals.
-      responses:
-        '200':
-          description: A successful response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Journals'
       parameters:
         - in: header
           name: If-Modified-Since
-          description: >-
-            Only records created or modified since this timestamp will be
-            returned
+          description: Only records created or modified since this timestamp will be returned
           schema:
             type: string
             format: date-time
         - in: query
           name: offset
+          description: Offset by a specified journal number. e.g. journals with a JournalNumber greater than the offset will be returned
           schema:
             type: integer
         - in: query
           name: paymentsOnly
+          description: Filter to retrieve journals on a cash basis. Journals are returned on an accrual basis by default.
           schema:
             type: boolean
+      responses:
+        '200':
+          description: Success - return response of type Journals array with all Journals
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Journals'
   '/Journals/{JournalID}':
     x-related-model: Journal
     get:
       tags:
         - Accounting
       operationId: getJournal
-      summary: Allows you to retrieve any journals.
-      responses:
-        '200':
-          description: A successful request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Journals'
+      summary: Allows you to retrieve a specified journals.
       parameters:
         - required: true
           in: path
           name: JournalID
+          description: Unique identifier for a Journal
           schema:
             type: string
             format: uuid
+      responses:
+        '200':
+          description: Success - return response of type Journals array with specified Journal
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Journals'
   /LinkedTransactions:
     x-related-model: LinkedTransaction
     get:
