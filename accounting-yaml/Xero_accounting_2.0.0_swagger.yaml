@@ -6480,7 +6480,7 @@ paths:
             type: string
       responses:
         '200':
-          description: A successful response
+          description: Success - return response of type Payments array for all Payments
           content:
             application/json:
               schema:
@@ -6492,7 +6492,7 @@ paths:
       summary: Allows you to create payments for invoices and credit notes      
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of type Payments array for newly created Payment
           content:
             application/json:
               schema:
@@ -6522,7 +6522,7 @@ paths:
             format: uuid
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of type Payments array for specified Payment
           content:
             application/json:
               schema:
@@ -6542,7 +6542,7 @@ paths:
             format: uuid
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of type Payments array for updated Payment
           content:
             application/json:
               schema:
@@ -6572,7 +6572,7 @@ paths:
             format: uuid
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of type HistoryRecords array with all HistoryRecord for Payments
           content:
             application/json:
               schema:
@@ -6584,7 +6584,7 @@ paths:
       summary: Allows you to create a history record for a payment
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of type HistoryRecords array with newly created HistoryRecord for Payments
           content:
             application/json:
               schema:
@@ -6611,14 +6611,11 @@ paths:
       tags:
         - Accounting
       operationId: getPaymentServices
-      summary: Retrieve either one or many payment services
+      summary: Allows you to retrieve payment services
       responses:
         '200':
-          description: A successful response
+          description: Success - return response of type PaymentServices array for all PaymentService
           content:
-            text/xml:
-              schema:
-                $ref: '#/components/schemas/PaymentServices'
             application/json:
               schema:
                 $ref: '#/components/schemas/PaymentServices'
@@ -6626,13 +6623,11 @@ paths:
       tags:
         - Accounting
       operationId: createPaymentService
+      summary: Allows you to create payment services
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of type PaymentServices array for newly created PaymentService
           content:
-            text/xml:
-              schema:
-                $ref: '#/components/schemas/PaymentServices'
             application/json:
               schema:
                 $ref: '#/components/schemas/PaymentServices'
@@ -6651,22 +6646,10 @@ paths:
         - Accounting
       operationId: getPrepayments
       summary: Allows you to retrieve prepayments
-      responses:
-        '200':
-          description: A successful response
-          content:
-            text/xml:
-              schema:
-                  $ref: '#/components/schemas/Prepayments'
-            application/json:
-              schema:
-                  $ref: '#/components/schemas/Prepayments'
       parameters:
         - in: header
           name: If-Modified-Since
-          description: >-
-            Only records created or modified since this timestamp will be
-            returned
+          description:  Only records created or modified since this timestamp will be returned
           schema:
             type: string
             format: date-time
@@ -6685,17 +6668,22 @@ paths:
           description: e.g. page=1 – Up to 100 prepayments will be returned in a single API call with line items shown for each overpayment
           schema:
             type: integer
+      responses:
+        '200':
+          description: Success - return response of type Prepayments array for all Prepayment
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/Prepayments'
     put:
       tags:
         - Accounting
       operationId: createPrepayment
+      summary: Allows you to create prepayments
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of type Prepayments array for newly created Prepayment
           content:
-            text/xml:
-              schema:
-                $ref: '#/components/schemas/Prepayments'
             application/json:
               schema:
                 $ref: '#/components/schemas/Prepayments'
@@ -6713,30 +6701,29 @@ paths:
       tags:
         - Accounting
       operationId: getPrepayment
-      summary: Allows you to retrieve prepayments
-      responses:
-        '200':
-          description: A successful request
-          content:
-            text/xml:
-              schema:
-                $ref: '#/components/schemas/Prepayments'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Prepayments'
+      summary: Allows you to retrieve a specified prepayments
       parameters:
         - required: true
           in: path
           name: PrepaymentID
+          description: Unique identifier for a PrePayment
           schema:
             type: string
             format: uuid
+      responses:
+        '200':
+          description: Success - return response of type Prepayments array for a specified Prepayment
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Prepayments'
   '/Prepayments/{PrepaymentID}/Allocations':
     x-related-model: Prepayment
     put:
       tags:
         - Accounting
       operationId: createPrepaymentAllocation
+      summary: Allows you to create an Allocation for prepayments
       parameters:
         - required: true
           in: path
@@ -6746,7 +6733,7 @@ paths:
             format: uuid
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of type Allocations array of Allocation for all Prepayment
           content:
             application/json:
               schema:
@@ -6766,47 +6753,43 @@ paths:
         - Accounting
       operationId: getPrepaymentHistory
       summary: Allows you to retrieve a history records of an Prepayment
-      responses:
-        '200':
-          description: A successful request
-          content:
-            text/xml:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
       parameters:
         - required: true
           in: path
           name: PrepaymentID
+          description: Unique identifier for a PrePayment
           schema:
             type: string
             format: uuid
+      responses:
+        '200':
+          description: Success - return response of type HistoryRecords array with all HistoryRecord for PrePayment          
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HistoryRecords'
     put:
       tags:
         - Accounting
       operationId: createPrepaymentHistory
-      summary: Allows you to retrieve a history records of an Overpayment
+      summary: Allows you to create a history record for an Prepayment
+      parameters:
+        - required: true
+          in: path
+          name: PrepaymentID
+          description: Unique identifier for a PrePayment
+          schema:
+            type: string
+            format: uuid
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of type HistoryRecords array for newly created HistoryRecord for PrePayment          
           content:
-            text/xml:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
             application/json:
               schema:
                 $ref: '#/components/schemas/HistoryRecords'
         '400':
           $ref: '#/components/responses/400Error'
-      parameters:
-        - required: true
-          in: path
-          name: PrepaymentID
-          schema:
-            type: string
-            format: uuid
       requestBody:
         required: true
         content:
@@ -6820,22 +6803,10 @@ paths:
         - Accounting
       operationId: getPurchaseOrders
       summary: Allows you to retrieve purchase orders
-      responses:
-        '200':
-          description: A successful response
-          content:
-            text/xml:
-              schema:
-                $ref: '#/components/schemas/PurchaseOrders'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PurchaseOrders'
       parameters:
         - in: header
           name: If-Modified-Since
-          description: >-
-            Only records created or modified since this timestamp will be
-            returned
+          description: Only records created or modified since this timestamp will be returned
           schema:
             type: string
             format: date-time
@@ -6864,28 +6835,32 @@ paths:
           description: To specify a page, append the page parameter to the URL e.g. ?page=1. If there are 100 records in the response you will need to check if there is any more data by fetching the next page e.g ?page=2 and continuing this process until no more results are returned.
           schema:
             type: integer
+      responses:
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PurchaseOrders'
     put:
       tags:
         - Accounting
       operationId: createPurchaseOrder
-      responses:
-        '200':
-          description: A successful request
-          content:
-            text/xml:
-              schema:
-                $ref: '#/components/schemas/PurchaseOrders'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PurchaseOrders'
-        '400':
-          $ref: '#/components/responses/400Error'
       parameters:
         - in: query
           name: SummarizeErrors
           description: shows validation errors for each purchase order.
           schema:
             type: boolean
+      responses:
+        '200':
+          description: A successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PurchaseOrders'
+        '400':
+          $ref: '#/components/responses/400Error'
       requestBody:
         required: true
         content:
@@ -6899,16 +6874,6 @@ paths:
         - Accounting
       operationId: getPurchaseOrder
       summary: Allows you to retrieve purchase orders
-      responses:
-        '200':
-          description: A successful request
-          content:
-            text/xml:
-              schema:
-                $ref: '#/components/schemas/PurchaseOrders'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PurchaseOrders'
       parameters:
         - required: true
           in: path
@@ -6916,6 +6881,13 @@ paths:
           schema:
             type: string
             format: uuid
+      responses:
+        '200':
+          description: A successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PurchaseOrders'
     post:
       tags:
         - Accounting
@@ -6931,9 +6903,6 @@ paths:
         '200':
           description: A successful request
           content:
-            text/xml:
-              schema:
-                $ref: '#/components/schemas/PurchaseOrders'
             application/json:
               schema:
                 $ref: '#/components/schemas/PurchaseOrders'
@@ -6952,16 +6921,6 @@ paths:
         - Accounting
       operationId: getPurchaseOrderHistory
       summary: Allows you to retrieve history for PurchaseOrder
-      responses:
-        '200':
-          description: A successful request
-          content:
-            text/xml:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
       parameters:
         - required: true
           in: path
@@ -6969,6 +6928,13 @@ paths:
           schema:
             type: string
             format: uuid
+      responses:
+        '200':
+          description: A successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HistoryRecords'
     put:
       tags:
         - Accounting
@@ -6984,9 +6950,6 @@ paths:
         '200':
           description: A successful request
           content:
-            text/xml:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
             application/json:
               schema:
                 $ref: '#/components/schemas/HistoryRecords'
@@ -7005,22 +6968,10 @@ paths:
         - Accounting
       operationId: getReceipts
       summary: Allows you to retrieve draft expense claim receipts for any user
-      responses:
-        '200':
-          description: A successful response
-          content:
-            text/xml:
-              schema:
-                $ref: '#/components/schemas/Receipts'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Receipts'
       parameters:
         - in: header
           name: If-Modified-Since
-          description: >-
-            Only records created or modified since this timestamp will be
-            returned
+          description:   Only records created or modified since this timestamp will be returned
           schema:
             type: string
             format: date-time
@@ -7034,6 +6985,13 @@ paths:
           description: Order by an any element
           schema:
             type: string
+      responses:
+        '200':
+          description: A successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Receipts'
     put:
       tags:
         - Accounting
@@ -7042,9 +7000,6 @@ paths:
         '200':
           description: A successful request
           content:
-            text/xml:
-              schema:
-                $ref: '#/components/schemas/Receipts'
             application/json:
               schema:
                 $ref: '#/components/schemas/Receipts'
