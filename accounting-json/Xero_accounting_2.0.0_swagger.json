@@ -4815,7 +4815,7 @@
         "summary" : "Allows you to retrieve Organisation details",
         "responses" : {
           "200" : {
-            "description" : "A successful response",
+            "description" : "Success - return response of type Organisation array with all Organisation",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -4844,7 +4844,7 @@
         } ],
         "responses" : {
           "200" : {
-            "description" : "A successful request",
+            "description" : "Success - return response of type Organisation array with specified Organisation",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -4862,23 +4862,6 @@
         "tags" : [ "Accounting" ],
         "operationId" : "getOverpayments",
         "summary" : "Allows you to retrieve overpayments",
-        "responses" : {
-          "200" : {
-            "description" : "A successful response",
-            "content" : {
-              "text/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Overpayments"
-                }
-              },
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Overpayments"
-                }
-              }
-            }
-          }
-        },
         "parameters" : [ {
           "in" : "header",
           "name" : "If-Modified-Since",
@@ -4908,24 +4891,11 @@
           "schema" : {
             "type" : "integer"
           }
-        } ]
-      }
-    },
-    "/Overpayments/{OverpaymentID}" : {
-      "x-related-model" : "Overpayment",
-      "get" : {
-        "tags" : [ "Accounting" ],
-        "operationId" : "getOverpayment",
-        "summary" : "Allows you to retrieve overpayments",
+        } ],
         "responses" : {
           "200" : {
-            "description" : "A successful request",
+            "description" : "Success - return response of type Overpayments array with all Overpayments",
             "content" : {
-              "text/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Overpayments"
-                }
-              },
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/Overpayments"
@@ -4933,27 +4903,20 @@
               }
             }
           }
-        },
-        "parameters" : [ {
-          "required" : true,
-          "in" : "path",
-          "name" : "OverpaymentID",
-          "schema" : {
-            "type" : "string",
-            "format" : "uuid"
-          }
-        } ]
+        }
       }
     },
-    "/Overpayments/{OverpaymentID}/Allocations" : {
+    "/Overpayments/{OverpaymentID}" : {
       "x-related-model" : "Overpayment",
-      "put" : {
+      "get" : {
         "tags" : [ "Accounting" ],
-        "operationId" : "createOverpaymentAllocation",
+        "operationId" : "getOverpayment",
+        "summary" : "Allows you to retrieve a specified overpayments",
         "parameters" : [ {
           "required" : true,
           "in" : "path",
           "name" : "OverpaymentID",
+          "description" : "Unique identifier for a Overpayment",
           "schema" : {
             "type" : "string",
             "format" : "uuid"
@@ -4961,13 +4924,38 @@
         } ],
         "responses" : {
           "200" : {
-            "description" : "A successful request",
+            "description" : "Success - return response of type Overpayments array with specified Overpayments",
             "content" : {
-              "text/xml" : {
+              "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/Allocations"
+                  "$ref" : "#/components/schemas/Overpayments"
                 }
-              },
+              }
+            }
+          }
+        }
+      }
+    },
+    "/Overpayments/{OverpaymentID}/Allocations" : {
+      "x-related-model" : "Overpayment",
+      "put" : {
+        "tags" : [ "Accounting" ],
+        "operationId" : "createOverpaymentAllocation",
+        "summary" : "Allows you to retrieve Allocations for overpayments",
+        "parameters" : [ {
+          "required" : true,
+          "in" : "path",
+          "name" : "OverpaymentID",
+          "description" : "Unique identifier for a Overpayment",
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success - return response of type Allocations array with all Allocation for Overpayments",
+            "content" : {
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/Allocations"
@@ -4997,15 +4985,20 @@
         "tags" : [ "Accounting" ],
         "operationId" : "getOverpaymentHistory",
         "summary" : "Allows you to retrieve a history records of an Overpayment",
+        "parameters" : [ {
+          "required" : true,
+          "in" : "path",
+          "name" : "OverpaymentID",
+          "description" : "Unique identifier for a Overpayment",
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
         "responses" : {
           "200" : {
-            "description" : "A successful request",
+            "description" : "Success - return response of type HistoryRecords array with all HistoryRecord for Overpayments",
             "content" : {
-              "text/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/HistoryRecords"
-                }
-              },
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/HistoryRecords"
@@ -5013,30 +5006,26 @@
               }
             }
           }
-        },
-        "parameters" : [ {
-          "required" : true,
-          "in" : "path",
-          "name" : "OverpaymentID",
-          "schema" : {
-            "type" : "string",
-            "format" : "uuid"
-          }
-        } ]
+        }
       },
       "put" : {
         "tags" : [ "Accounting" ],
         "operationId" : "createOverpaymentHistory",
-        "summary" : "Allows you to retrieve a history records of an Overpayment",
+        "summary" : "Allows you to create history records of an Overpayment",
+        "parameters" : [ {
+          "required" : true,
+          "in" : "path",
+          "name" : "OverpaymentID",
+          "description" : "Unique identifier for a Overpayment",
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
         "responses" : {
           "200" : {
-            "description" : "A successful request",
+            "description" : "Success - return response of type HistoryRecords array with newly created HistoryRecord for Overpayments",
             "content" : {
-              "text/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/HistoryRecords"
-                }
-              },
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/HistoryRecords"
@@ -5048,15 +5037,6 @@
             "$ref" : "#/components/responses/400Error"
           }
         },
-        "parameters" : [ {
-          "required" : true,
-          "in" : "path",
-          "name" : "OverpaymentID",
-          "schema" : {
-            "type" : "string",
-            "format" : "uuid"
-          }
-        } ],
         "requestBody" : {
           "required" : true,
           "content" : {
@@ -5074,24 +5054,7 @@
       "get" : {
         "tags" : [ "Accounting" ],
         "operationId" : "getPayments",
-        "summary" : "Retrieve either one or many payments for invoices and credit notes",
-        "responses" : {
-          "200" : {
-            "description" : "A successful response",
-            "content" : {
-              "text/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Payments"
-                }
-              },
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Payments"
-                }
-              }
-            }
-          }
-        },
+        "summary" : "Allows you to retrieve payments for invoices and credit notes",
         "parameters" : [ {
           "in" : "header",
           "name" : "If-Modified-Since",
@@ -5114,20 +5077,28 @@
           "schema" : {
             "type" : "string"
           }
-        } ]
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "A successful response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Payments"
+                }
+              }
+            }
+          }
+        }
       },
       "put" : {
         "tags" : [ "Accounting" ],
         "operationId" : "createPayment",
+        "summary" : "Allows you to create payments for invoices and credit notes",
         "responses" : {
           "200" : {
             "description" : "A successful request",
             "content" : {
-              "text/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Payments"
-                }
-              },
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/Payments"
@@ -5156,41 +5127,12 @@
       "get" : {
         "tags" : [ "Accounting" ],
         "operationId" : "getPayment",
-        "summary" : "Retrieve either one or many payments for invoices and credit notes",
-        "responses" : {
-          "200" : {
-            "description" : "A successful request",
-            "content" : {
-              "text/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Payments"
-                }
-              },
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Payments"
-                }
-              }
-            }
-          }
-        },
+        "summary" : "Allows you to retrieve a specified payment for invoices and credit notes",
         "parameters" : [ {
           "required" : true,
           "in" : "path",
           "name" : "PaymentID",
-          "schema" : {
-            "type" : "string",
-            "format" : "uuid"
-          }
-        } ]
-      },
-      "post" : {
-        "tags" : [ "Accounting" ],
-        "operationId" : "updatePayment",
-        "parameters" : [ {
-          "required" : true,
-          "in" : "path",
-          "name" : "PaymentID",
+          "description" : "Unique identifier for a Payment",
           "schema" : {
             "type" : "string",
             "format" : "uuid"
@@ -5200,11 +5142,33 @@
           "200" : {
             "description" : "A successful request",
             "content" : {
-              "text/xml" : {
+              "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/Payments"
                 }
-              },
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Accounting" ],
+        "operationId" : "updatePayment",
+        "summary" : "Allows you to update a specified payment for invoices and credit notes",
+        "parameters" : [ {
+          "required" : true,
+          "in" : "path",
+          "name" : "PaymentID",
+          "description" : "Unique identifier for a Payment",
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "A successful request",
+            "content" : {
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/Payments"
@@ -5233,16 +5197,21 @@
       "get" : {
         "tags" : [ "Accounting" ],
         "operationId" : "getPaymentHistory",
-        "summary" : "Allows you to retrieve a history records of an invoice",
+        "summary" : "Allows you to retrieve history records of a payment",
+        "parameters" : [ {
+          "required" : true,
+          "in" : "path",
+          "name" : "PaymentID",
+          "description" : "Unique identifier for a Payment",
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
         "responses" : {
           "200" : {
             "description" : "A successful request",
             "content" : {
-              "text/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/HistoryRecords"
-                }
-              },
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/HistoryRecords"
@@ -5250,30 +5219,16 @@
               }
             }
           }
-        },
-        "parameters" : [ {
-          "required" : true,
-          "in" : "path",
-          "name" : "PaymentID",
-          "schema" : {
-            "type" : "string",
-            "format" : "uuid"
-          }
-        } ]
+        }
       },
       "put" : {
         "tags" : [ "Accounting" ],
         "operationId" : "createPaymentHistory",
-        "summary" : "Allows you to retrieve a history records of an invoice",
+        "summary" : "Allows you to create a history record for a payment",
         "responses" : {
           "200" : {
             "description" : "A successful request",
             "content" : {
-              "text/xml" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/HistoryRecords"
-                }
-              },
               "application/json" : {
                 "schema" : {
                   "$ref" : "#/components/schemas/HistoryRecords"
@@ -5289,6 +5244,7 @@
           "required" : true,
           "in" : "path",
           "name" : "PaymentID",
+          "description" : "Unique identifier for a Payment",
           "schema" : {
             "type" : "string",
             "format" : "uuid"
