@@ -7299,7 +7299,7 @@ paths:
             type: string
       responses:
         '200':
-          description: A successful response
+          description: Success - return response of type Repeating Invoices array for all Repeating Invoice
           content:
             application/json:
               schema:
@@ -7321,7 +7321,7 @@ paths:
             format: uuid
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of type Repeating Invoices array with a specified Repeating Invoice
           content:
             application/json:
               schema:
@@ -7343,7 +7343,7 @@ paths:
             format: uuid
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of type Attachments array with all Attachments for a specified Repeating Invoice   
           content:
             application/json:
               schema:
@@ -7440,7 +7440,7 @@ paths:
             type: string
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of type Attachments array with specified Attachment for a specified Repeating Invoice   
           content:
             application/json:
               schema:
@@ -7475,7 +7475,7 @@ paths:
             type: string
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of type Attachments array with updated Attachment for a specified Repeating Invoice   
           content:
             application/json:
               schema:
@@ -7506,7 +7506,7 @@ paths:
             format: uuid
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of type HistoryRecords array of all HistoryRecord for Repeating Invoice
           content:
             application/json:
               schema:
@@ -7526,7 +7526,7 @@ paths:
             format: uuid
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of type HistoryRecords array with newly created HistoryRecord for Repeating Invoice
           content:
             application/json:
               schema:
@@ -7547,18 +7547,19 @@ paths:
         - Accounting
       operationId: getReportTenNinetyNine
       summary: Allows you to retrieve report for TenNinetyNine
+      parameters:
+        - in: query
+          name: reportYear
+          description: The year of the 1099 report
+          schema:
+            type: string
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of type Reports
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Reports'
-      parameters:
-        - in: query
-          name: reportYear
-          schema:
-            type: string
   '/Reports/AgedPayablesByContact':
     x-related-model: Report
     get:
@@ -7566,35 +7567,39 @@ paths:
         - Accounting
       operationId: getReportAgedPayablesByContact
       summary: Allows you to retrieve report for AgedPayablesByContact
-      responses:
-        '200':
-          description: A successful request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ReportWithRows'
       parameters:
         - in: query
           required: true
           name: contactId
+          description: Unique identifier for a Contact
           schema:
             type: string
             format: uuid
         - in: query
           name: date
+          description: The date of the Aged Payables By Contact report
           schema:
             type: string
             format: date
         - in: query
           name: fromDate
+          description: The from date of the Aged Payables By Contact report
           schema:
             type: string
             format: date
         - in: query
           name: toDate
+          description: The to date of the Aged Payables By Contact report
           schema:
             type: string
             format: date
+      responses:
+        '200':
+          description: Success - return response of type ReportWithRows
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportWithRows'
   '/Reports/AgedReceivablesByContact':
     x-related-model: Report
     get:
@@ -7602,32 +7607,36 @@ paths:
         - Accounting
       operationId: getReportAgedReceivablesByContact
       summary: Allows you to retrieve report for AgedReceivablesByContact
-      responses:
-        '200':
-          description: A successful request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ReportWithRows'
       parameters:
         - in: query
           required: true
           name: contactId
+          description: Unique identifier for a Contact
           schema:
             type: string
             format: uuid
         - in: query
           name: date
+          description: The date of the Aged Receivables By Contact report
           schema:
             type: string
         - in: query
           name: fromDate
+          description: The from date of the Aged Receivables By Contact report
           schema:
             type: string
         - in: query
           name: toDate
+          description: The to date of the Aged Receivables By Contact report
           schema:
             type: string
+      responses:
+        '200':
+          description: Success - return response of type ReportWithRows
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportWithRows'
   '/Reports/BalanceSheet':
     x-related-model: Report
     get:
@@ -7635,20 +7644,15 @@ paths:
         - Accounting
       operationId: getReportBalanceSheet
       summary: Allows you to retrieve report for BalanceSheet
-      responses:
-        '200':
-          description: A successful request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ReportWithRows'
       parameters:
         - in: query
           name: date
+          description: The date of the Balance Sheet report
           schema:
             type: string
         - in: query
           name: periods
+          description: The number of periods for the Balance Sheet report
           schema:
             type: integer
         - in: query
@@ -7662,20 +7666,31 @@ paths:
             - YEAR
         - in: query
           name: trackingOptionID1
+          description: The tracking option 1 for the Balance Sheet report
           schema:
             type: string
         - in: query
           name: trackingOptionID2
+          description: The tracking option 2 for the Balance Sheet report
           schema:
             type: string
         - in: query
           name: standardLayout
+          description: The standard layout boolean for the Balance Sheet report
           schema:
             type: boolean
         - in: query
           name: paymentsOnly
+          description: return a cash basis for the Balance Sheet report
           schema:
             type: boolean
+      responses:
+        '200':
+          description: Success - return response of type ReportWithRows
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportWithRows'
   '/Reports/BankSummary':
     x-related-model: Report
     get:
@@ -7683,17 +7698,10 @@ paths:
         - Accounting
       operationId: getReportBankSummary
       summary: Allows you to retrieve report for BankSummary
-      responses:
-        '200':
-          description: A successful request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ReportWithRows'
       parameters:
         - in: query
           name: date
-          description: e.g. 2018-03-31
+          description: The date for the Bank Summary report e.g. 2018-03-31
           schema:
             type: string
         - in: query
@@ -7706,6 +7714,13 @@ paths:
           description: The period size to compare to (1=month, 3=quarter, 12=year)
           schema:
             type: integer
+      responses:
+        '200':
+          description: Success - return response of type ReportWithRows
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportWithRows'
   '/Reports':
     x-related-model: Report
     get:
@@ -7715,7 +7730,7 @@ paths:
       summary: Allows you to retrieve report for BAS only valid for AU orgs
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of type ReportWithRows
           content:
             application/json:
               schema:
@@ -7727,19 +7742,20 @@ paths:
         - Accounting
       operationId: getReportBASorGST
       summary: Allows you to retrieve report for BAS only valid for AU orgs
-      responses:
-        '200':
-          description: A successful request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ReportWithRows'
       parameters:
         - in: path
           required: true
           name: ReportID
+          description: Unique identifier for a Report
           schema:
             type: string
+      responses:
+        '200':
+          description: Success - return response of type ReportWithRows
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportWithRows'
   '/Reports/BudgetSummary':
     x-related-model: Report
     get:
@@ -7747,17 +7763,10 @@ paths:
         - Accounting
       operationId: getReportBudgetSummary
       summary: Allows you to retrieve report for Budget Summary
-      responses:
-        '200':
-          description: success- return a Report with Rows object
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ReportWithRows'
       parameters:
         - in: query
           name: date
-          description: e.g. 2018-03-31
+          description: The date for the Bank Summary report e.g. 2018-03-31
           schema:
             type: string
         - in: query
@@ -7770,6 +7779,13 @@ paths:
           description: The period size to compare to (1=month, 3=quarter, 12=year)
           schema:
             type: integer
+      responses:
+        '200':
+          description: success- return a Report with Rows object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportWithRows'
   '/Reports/ExecutiveSummary':
     x-related-model: Report
     get:
@@ -7777,19 +7793,19 @@ paths:
         - Accounting
       operationId: getReportExecutiveSummary
       summary: Allows you to retrieve report for ExecutiveSummary
+      parameters:
+        - in: query
+          name: date
+          description: The date for the Bank Summary report e.g. 2018-03-31
+          schema:
+            type: string
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of type ReportWithRows
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ReportWithRows'
-      parameters:
-        - in: query
-          name: date
-          description: e.g. 2018-03-31
-          schema:
-            type: string
   '/Reports/ProfitAndLoss':
     x-related-model: Report
     get:
@@ -7797,20 +7813,15 @@ paths:
         - Accounting
       operationId: getReportProfitAndLoss
       summary: Allows you to retrieve report for ProfitAndLoss
-      responses:
-        '200':
-          description: A successful request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ReportWithRows'
       parameters:
         - in: query
           name: fromDate
+          description: The from date for the ProfitAndLoss report e.g. 2018-03-31
           schema:
             type: string
         - in: query
           name: toDate
+          description: The to date for the ProfitAndLoss report e.g. 2018-03-31
           schema:
             type: string
         - in: query
@@ -7829,29 +7840,41 @@ paths:
             - YEAR
         - in: query
           name: trackingCategoryID
+          description: The trackingCategory 1 for the ProfitAndLoss report 
           schema:
             type: string
         - in: query
           name: trackingCategoryID2
+          description: The trackingCategory 2 for the ProfitAndLoss report 
           schema:
             type: string
         - in: query
           name: trackingOptionID
+          description: The tracking option 1 for the ProfitAndLoss report 
           schema:
             type: string
         - in: query
           name: trackingOptionID2
+          description: The tracking option 2 for the ProfitAndLoss report 
           schema:
             type: string
         - in: query
           name: standardLayout
+          description: Return the standard layout for the ProfitAndLoss report 
           schema:
             type: boolean
         - in: query
           name: paymentsOnly
+          description: Return cash only basis for the ProfitAndLoss report 
           schema:
-            type: boolean
-            
+            type: boolean     
+      responses:
+        '200':
+          description: Success - return response of type ReportWithRows
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportWithRows'       
   '/Reports/TrialBalance':
     x-related-model: Report
     get:
@@ -7859,39 +7882,31 @@ paths:
         - Accounting
       operationId: getReportTrialBalance
       summary: Allows you to retrieve report for TrialBalance
-      responses:
-        '200':
-          description: A successful request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ReportWithRows'
       parameters:
         - in: query
           name: date
+          description: The date for the Trial Balance report e.g. 2018-03-31
           schema:
             type: string
         - in: query
           name: paymentsOnly
+          description: Return cash only basis for the Trial Balance report 
           schema:
             type: boolean
+      responses:
+        '200':
+          description: Success - return response of type ReportWithRows
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportWithRows'
   /TaxRates:
     x-related-model: TaxRate
     get:
       tags:
         - Accounting
       operationId: getTaxRates
-      summary: GET a TaxRate
-      responses:
-        '200':
-          description: A successful response
-          content:
-            text/xml:
-              schema:
-                $ref: '#/components/schemas/TaxRates'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TaxRates'
+      summary: Allows you to retrieve Tax Rates
       parameters:
         - in: query
           name: where
@@ -7908,13 +7923,21 @@ paths:
           description: Filter by tax type
           schema:
             type: string
+      responses:
+        '200':
+          description: Success - return response of type TaxRates array with TaxRates
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaxRates'
     put:
       tags:
         - Accounting
       operationId: createTaxRate
+      summary: Allows you to create Tax Rates      
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of type TaxRates array newly created TaxRate
           content:
             application/json:
               schema:
@@ -7931,13 +7954,11 @@ paths:
       tags:
         - Accounting
       operationId: updateTaxRate
+      summary: Allows you to update Tax Rates
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of type TaxRates array updated TaxRate
           content:
-            text/xml:
-              schema:
-                $ref: '#/components/schemas/TaxRates'
             application/json:
               schema:
                 $ref: '#/components/schemas/TaxRates'
@@ -7955,17 +7976,7 @@ paths:
       tags:
         - Accounting
       operationId: getTrackingCategories
-      summary: Retrieve tracking categories and options for a Xero organisation
-      responses:
-        '200':
-          description: A successful response
-          content:
-            text/xml:
-              schema:
-                $ref: '#/components/schemas/TrackingCategories'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TrackingCategories'
+      summary: Allows you to retrieve tracking categories and options
       parameters:
         - in: query
           name: where
@@ -7982,17 +7993,22 @@ paths:
           description: e.g. includeArchived=true - Categories and options with a status of ARCHIVED will be included in the response
           schema:
             type: boolean
+      responses:
+        '200':
+          description: Success - return response of type TrackingCategories array of TrackingCategory
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrackingCategories'
     put:
       tags:
         - Accounting
       operationId: createTrackingCategory
+      summary: Allows you to create tracking categories
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of type TrackingCategories array of newly created TrackingCategory
           content:
-            text/xml:
-              schema:
-                $ref: '#/components/schemas/TrackingCategories'
             application/json:
               schema:
                 $ref: '#/components/schemas/TrackingCategories'
@@ -8004,49 +8020,45 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TrackingCategory'
-    
   '/TrackingCategories/{TrackingCategoryID}':
     x-related-model: TrackingCategory
     get:
       tags:
         - Accounting
       operationId: getTrackingCategory
-      summary: Retrieve tracking categories and options for a Xero organisation
-      responses:
-        '200':
-          description: A successful request
-          content:
-            text/xml:
-              schema:
-                $ref: '#/components/schemas/TrackingCategories'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TrackingCategories'
+      summary: Allows you to retrieve tracking categories and options for specified category
       parameters:
         - required: true
           in: path
           name: TrackingCategoryID
+          description: Unique identifier for a TrackingCategory
           schema:
             type: string
             format: uuid
+      responses:
+        '200':
+          description: Success - return response of type TrackingCategories array of specified TrackingCategory
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrackingCategories'
     post:
       tags:
         - Accounting
       operationId: updateTrackingCategory
+      summary: Allows you to update tracking categories
       parameters:
         - required: true
           in: path
           name: TrackingCategoryID
+          description: Unique identifier for a TrackingCategory
           schema:
             type: string
             format: uuid
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of type TrackingCategories array of updated TrackingCategory
           content:
-            text/xml:
-              schema:
-                $ref: '#/components/schemas/TrackingCategories'
             application/json:
               schema:
                 $ref: '#/components/schemas/TrackingCategories'
@@ -8062,45 +8074,43 @@ paths:
       tags:
         - Accounting
       operationId: deleteTrackingCategory
+      summary: Allows you to delete tracking categories
+      parameters:
+        - required: true
+          in: path
+          name: TrackingCategoryID
+          description: Unique identifier for a TrackingCategory
+          schema:
+            type: string
+            format: uuid
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of type TrackingCategories array of deleted TrackingCategory
           content:
-            text/xml:
-              schema:
-                $ref: '#/components/schemas/TrackingCategories'
             application/json:
               schema:
                 $ref: '#/components/schemas/TrackingCategories'
         '400':
           $ref: '#/components/responses/400Error'
-      parameters:
-        - required: true
-          in: path
-          name: TrackingCategoryID
-          schema:
-            type: string
-            format: uuid
   '/TrackingCategories/{TrackingCategoryID}/Options':
     x-related-model: TrackingCategory
     put:
       tags:
         - Accounting
       operationId: createTrackingOptions
+      summary: Allows you to create options for a specified tracking category
       parameters:
         - required: true
           in: path
           name: TrackingCategoryID
+          description: Unique identifier for a TrackingCategory
           schema:
             type: string
             format: uuid
       responses:
         '200':
-          description: A successful request
+          description: Success - return response of type TrackingOptions array of options for a specified category
           content:
-            text/xml:
-              schema:
-                $ref: '#/components/schemas/TrackingOptions'
             application/json:
               schema:
                 $ref: '#/components/schemas/TrackingOptions'
@@ -8118,53 +8128,42 @@ paths:
       tags:
         - Accounting
       operationId: deleteTrackingOptions
-      responses:
-        '200':
-          description: A successful request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TrackingOptions'
-        '400':
-          $ref: '#/components/responses/400Error'
+      summary: Allows you to delete a specified option for a specified tracking category
       parameters:
         - required: true
           in: path
           name: TrackingCategoryID
+          description: Unique identifier for a TrackingCategory
           schema:
             type: string
             format: uuid
         - required: true
           in: path
           name: TrackingOptionID
+          description: Unique identifier for a Tracking Option
           schema:
             type: string
             format: uuid
+      responses:
+        '200':
+          description: Success - return response of type TrackingOptions array of remaining options for a specified category
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrackingOptions'
+        '400':
+          $ref: '#/components/responses/400Error'
   /Users:
     x-related-model: User
     get:
       tags:
         - Accounting
       operationId: getUsers
-      summary: GET a User
-      responses:
-        '200':
-          description: A successful response
-          content:
-            text/xml:
-              schema:
-                $ref: '#/components/schemas/Users'
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Users'
+      summary: Allows you to retrieve users
       parameters:
         - in: header
           name: If-Modified-Since
-          description: >-
-            Only records created or modified since this timestamp will be
-            returned
+          description: Only records created or modified since this timestamp will be returned
           schema:
             type: string
             format: date-time
@@ -8178,30 +8177,37 @@ paths:
           description: Order by an any element
           schema:
             type: string
+      responses:
+        '200':
+          description: Success - return response of type Users array of all User
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Users'
   '/Users/{UserID}':
     x-related-model: User
     get:
       tags:
         - Accounting
       operationId: getUser
-      summary: GET a User
-      responses:
-        '200':
-          description: A successful request
-          content:
-            text/xml:
-              schema:
-                $ref: '#/components/schemas/Users'
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Users'
+      summary: Allows you to retrieve a specified user
       parameters:
         - required: true
           in: path
           name: UserID
+          description: Unique identifier for a User
           schema:
             type: string
             format: uuid
+      responses:
+        '200':
+          description: Success - return response of type Users array of specified User
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Users'
 components:
   responses:
     400Error:
