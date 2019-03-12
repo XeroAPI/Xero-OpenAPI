@@ -4804,26 +4804,10 @@ paths:
       responses:
         '200':
           description: Unsupported - return response incorrect exception, API is not able to create new Currency
-        '400':
-          description: Validation Exception - a bug exists preventing the creationg of new Currency always returns error
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
-              example: '{
-                          "ErrorNumber": 10,
-                          "Type": "ValidationException",
-                          "Message": "A validation exception occurred",
-                          "Elements": [
-                            {
-                              "ValidationErrors": [
-                                {
-                                  "Message": "A currency code must be provided."
-                                }
-                              ]
-                            }
-                          ]
-                        }'
+                $ref: '#/components/schemas/Currencies'
       requestBody:
         required: true
         content:
@@ -5522,29 +5506,10 @@ paths:
       responses:
         '200':
           description: Unsupported - return response incorrect exception, API is not able to create HistoryRecord for Expense Claims
-        '400':
-          description: Validation Exception - return response of validation error - you are unable to create history notes for Expense Claims at this time
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
-              example: '{
-                        "ErrorNumber": 10,
-                        "Type": "ValidationException",
-                        "Message": "A validation exception occurred",
-                        "Elements": [
-                          {
-                            "DateUTCString": "2019-03-11T17:37:39",
-                            "DateUTC": "\/Date(1552325859894)\/",
-                            "Details": "Hello World",
-                            "ValidationErrors": [
-                              {
-                                "Message": "The document with the supplied id was not found for this endpoint."
-                              }
-                            ]
-                          }
-                        ]
-                      }'
+                $ref: '#/components/schemas/HistoryRecords'
       requestBody:
         required: true
         content:
@@ -6976,29 +6941,10 @@ paths:
       responses:
         '200':
           description: Unsupported - return response incorrect exception, API is not able to create HistoryRecord for Items
-        '400':
-          description: Validation Exception - return response of exception, API is not able to create HistoryRecord for Items
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
-              example: '{
-                          "ErrorNumber": 10,
-                          "Type": "ValidationException",
-                          "Message": "A validation exception occurred",
-                          "Elements": [
-                            {
-                              "DateUTCString": "2019-03-11T19:58:57",
-                              "DateUTC": "\/Date(1552334337567)\/",
-                              "Details": "Hello World",
-                              "ValidationErrors": [
-                                {
-                                  "Message": "The document with the supplied id was not found for this endpoint."
-                                }
-                              ]
-                            }
-                          ]
-                        }'
+                $ref: '#/components/schemas/HistoryRecords'
       requestBody:
         required: true
         content:
