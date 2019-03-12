@@ -4884,18 +4884,19 @@
         }
       }
     },
-    "/Organisation/{ShortCode}" : {
+    "/Organisation/{OrganisationID}/CISSettings" : {
       "x-related-model" : "Organisation",
       "get" : {
         "tags" : [ "Accounting" ],
-        "operationId" : "getOrganisationByShortCode",
-        "summary" : "Allows you to retrieve Organisation details by short code",
+        "operationId" : "getOrganisationCISSettings",
+        "summary" : "Allows you To verify if an organisation is using contruction industry scheme, you can retrieve the CIS settings for the organistaion.",
         "parameters" : [ {
           "required" : true,
           "in" : "path",
-          "name" : "ShortCode",
+          "name" : "OrganisationID",
           "schema" : {
-            "type" : "string"
+            "type" : "string",
+            "format" : "UUID"
           }
         } ],
         "responses" : {
@@ -4904,7 +4905,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/Organisations"
+                  "$ref" : "#/components/schemas/CISOrgSetting"
                 }
               }
             }
@@ -8566,6 +8567,21 @@
           "Rate" : {
             "description" : "CIS Deduction rate for the contact if he is a subcontractor. If the contact is not CISEnabled, then the rate is not returned",
             "type" : "integer"
+          }
+        }
+      },
+      "CISOrgSetting" : {
+        "externalDocs" : {
+          "url" : "https://developer.xero.com/documentation/api/organisation"
+        },
+        "properties" : {
+          "CISContractorEnabled" : {
+            "description" : "true or false - Boolean that describes if the organisation is a CIS Contractor",
+            "type" : "boolean"
+          },
+          "CISSubContractorEnabled" : {
+            "description" : "true or false - Boolean that describes if the organisation is a CIS SubContractor",
+            "type" : "boolean"
           }
         }
       },
