@@ -6062,7 +6062,13 @@ paths:
                               "Total": 148062.76,
                               "UpdatedDateUTC": "\/Date(1551981568133+0000)\/",
                               "CurrencyCode": "NZD",
-                              "FullyPaidOnDate": "\/Date(1552953600000+0000)\/"
+                              "FullyPaidOnDate": "\/Date(1552953600000+0000)\/",
+                              "StatusAttributeString": "ERROR",
+                              "ValidationErrors": [
+                                {
+                                  "Message": "Invoice # must be unique."
+                                }
+                              ]
                             }
                           ]
                         }'
@@ -9101,6 +9107,21 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PaymentServices'
+              example: '{
+                          "Id": "ab82a7dd-5070-4e82-b841-0af52909fe04",
+                          "Status": "OK",
+                          "ProviderName": "Java Partner Example",
+                          "DateTimeUTC": "\/Date(1552488713171)\/",
+                          "PaymentServices": [
+                            {
+                              "PaymentServiceID": "54b3b4f6-0443-4fba-bcd1-61ec0c35ca55",
+                              "PaymentServiceName": "PayUpNow",
+                              "PaymentServiceUrl": "https://www.payupnow.com/",
+                              "PaymentServiceType": "Custom",
+                              "PayNowText": "Time To Pay"
+                            }
+                          ]
+                        }'
     put:
       tags:
         - Accounting
@@ -9113,6 +9134,21 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PaymentServices'
+              example: '{
+                          "Id": "7ed8b3c0-2155-49ee-a583-f2dce6607dfb",
+                          "Status": "OK",
+                          "ProviderName": "Java Partner Example",
+                          "DateTimeUTC": "\/Date(1552488712813)\/",
+                          "PaymentServices": [
+                            {
+                              "PaymentServiceID": "54b3b4f6-0443-4fba-bcd1-61ec0c35ca55",
+                              "PaymentServiceName": "PayUpNow",
+                              "PaymentServiceUrl": "https://www.payupnow.com/",
+                              "PaymentServiceType": "Custom",
+                              "PayNowText": "Time To Pay"
+                            }
+                          ]
+                        }'
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
@@ -9121,6 +9157,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PaymentServices'
+              example: '{  
+                           "PaymentServices":[  
+                              {  
+                                 "PaymentServiceName":"PayUpNow",
+                                 "PaymentServiceUrl":"https://www.payupnow.com/",
+                                 "PayNowText":"Time To Pay"
+                              }
+                           ]
+                        }'
   /Prepayments:
     x-related-model: Prepayment
     get:
@@ -9156,7 +9201,44 @@ paths:
           content:
             application/json:
               schema:
-                  $ref: '#/components/schemas/Prepayments'
+                $ref: '#/components/schemas/Prepayments'
+              example: '{
+                          "Id": "d7a9ca0c-6159-4c26-ad2e-715440c50b7d",
+                          "Status": "OK",
+                          "ProviderName": "Java Partner Example",
+                          "DateTimeUTC": "\/Date(1552489227595)\/",
+                          "Prepayments": [
+                            {
+                              "PrepaymentID": "ce0cddef-cf5a-4e59-b638-f225679115a7",
+                              "ID": "ce0cddef-cf5a-4e59-b638-f225679115a7",
+                              "Type": "RECEIVE-PREPAYMENT",
+                              "Reference": "INV-0011",
+                              "RemainingCredit": 3450.00,
+                              "Allocations": [],
+                              "Payments": [],
+                              "HasAttachments": true,
+                              "Contact": {
+                                "ContactID": "be392c72-c121-4f83-9512-03ac71e54c20",
+                                "Name": "Luke Skywalker",
+                                "Addresses": [],
+                                "Phones": [],
+                                "ContactGroups": [],
+                                "ContactPersons": [],
+                                "HasValidationErrors": false
+                              },
+                              "DateString": "2019-03-13T00:00:00",
+                              "Date": "\/Date(1552435200000+0000)\/",
+                              "Status": "AUTHORISED",
+                              "LineAmountTypes": "Exclusive",
+                              "LineItems": [],
+                              "SubTotal": 3000.00,
+                              "TotalTax": 450.00,
+                              "Total": 3450.00,
+                              "UpdatedDateUTC": "\/Date(1552489187730+0000)\/",
+                              "CurrencyCode": "NZD"
+                            }
+                          ]
+                        }'
     put:
       tags:
         - Accounting
@@ -9169,6 +9251,106 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Prepayments'
+              example: '{
+                          "Id": "c8b75c94-e89b-4f4a-adc5-b3b13a023201",
+                          "Status": "OK",
+                          "ProviderName": "Java Partner Example",
+                          "DateTimeUTC": "\/Date(1552491114710)\/",
+                          "BankTransactions": [
+                            {
+                              "BankTransactionID": "af6ff403-9cc7-4f06-a4f5-d2c7f67952d9",
+                              "BankAccount": {
+                                "AccountID": "300f3bde-3a5c-4035-9ec5-45b09777679a",
+                                "Name": "My Big Bank"
+                              },
+                              "Type": "RECEIVE-PREPAYMENT",
+                              "IsReconciled": false,
+                              "CurrencyRate": 1.000000,
+                              "PrepaymentID": "eb369854-cd27-4740-9202-aac49a2b0a34",
+                              "Contact": {
+                                "ContactID": "430fa14a-f945-44d3-9f97-5df5e28441b8",
+                                "ContactStatus": "ACTIVE",
+                                "Name": "Liam Gallagher",
+                                "FirstName": "Liam",
+                                "LastName": "Gallagher",
+                                "EmailAddress": "liam@rockstar.com",
+                                "BankAccountDetails": "",
+                                "Addresses": [
+                                  {
+                                    "AddressType": "STREET",
+                                    "City": "",
+                                    "Region": "",
+                                    "PostalCode": "",
+                                    "Country": "",
+                                    "AttentionTo": ""
+                                  },
+                                  {
+                                    "AddressType": "POBOX",
+                                    "City": "Anytown",
+                                    "Region": "NY",
+                                    "PostalCode": "10101",
+                                    "Country": "USA",
+                                    "AttentionTo": ""
+                                  }
+                                ],
+                                "Phones": [
+                                  {
+                                    "PhoneType": "DEFAULT",
+                                    "PhoneNumber": "222-2222",
+                                    "PhoneAreaCode": "212",
+                                    "PhoneCountryCode": ""
+                                  },
+                                  {
+                                    "PhoneType": "DDI",
+                                    "PhoneNumber": "",
+                                    "PhoneAreaCode": "",
+                                    "PhoneCountryCode": ""
+                                  },
+                                  {
+                                    "PhoneType": "FAX",
+                                    "PhoneNumber": "333-2233",
+                                    "PhoneAreaCode": "212",
+                                    "PhoneCountryCode": ""
+                                  },
+                                  {
+                                    "PhoneType": "MOBILE",
+                                    "PhoneNumber": "444-3433",
+                                    "PhoneAreaCode": "212",
+                                    "PhoneCountryCode": ""
+                                  }
+                                ],
+                                "UpdatedDateUTC": "\/Date(1551747281053+0000)\/",
+                                "ContactGroups": [],
+                                "ContactPersons": [],
+                                "HasValidationErrors": false
+                              },
+                              "DateString": "2019-03-14T00:00:00",
+                              "Date": "\/Date(1552521600000+0000)\/",
+                              "Status": "AUTHORISED",
+                              "LineAmountTypes": "Inclusive",
+                              "LineItems": [
+                                {
+                                  "Description": "Foobar",
+                                  "UnitAmount": 20.00,
+                                  "TaxType": "NONE",
+                                  "TaxAmount": 0.00,
+                                  "LineAmount": 20.00,
+                                  "AccountCode": "710",
+                                  "Tracking": [],
+                                  "Quantity": 1.0000,
+                                  "LineItemID": "2bb283fd-96c0-44ca-861c-37e014436ae2",
+                                  "ValidationErrors": []
+                                }
+                              ],
+                              "SubTotal": 20.00,
+                              "TotalTax": 0.00,
+                              "Total": 20.00,
+                              "UpdatedDateUTC": "\/Date(1552491114600+0000)\/",
+                              "CurrencyCode": "NZD",
+                              "StatusAttributeString": "OK"
+                            }
+                          ]
+                        }'
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
@@ -9177,6 +9359,28 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Prepayments'
+              example: '{  
+                           "BankTransactions":[  
+                              {  
+                                 "Type":"RECEIVE-PREPAYMENT",
+                                 "Contact":{  
+                                    "ContactID":"430fa14a-f945-44d3-9f97-5df5e28441b8"
+                                 },
+                                 "Lineitems":[  
+                                    {  
+                                       "Description":"Foobar",
+                                       "Quantity":1.0,
+                                       "UnitAmount":20.0,
+                                       "AccountCode":"710",
+                                       "TaxType":"NONE"
+                                    }
+                                 ],
+                                 "BankAccount":{  
+                                    "AccountID":"300f3bde-3a5c-4035-9ec5-45b09777679a"
+                                 }
+                              }
+                           ]
+                        }'
   '/Prepayments/{PrepaymentID}':
     x-related-model: Prepayment
     get:
@@ -9199,6 +9403,111 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Prepayments'
+              example: '{
+                          "Id": "23348901-0e0c-49a9-a58f-57f5dad8248e",
+                          "Status": "OK",
+                          "ProviderName": "Java Partner Example",
+                          "DateTimeUTC": "\/Date(1552490694398)\/",
+                          "Prepayments": [
+                            {
+                              "PrepaymentID": "b2fa5a21-43b4-4b6c-92d5-cebc75f9db9f",
+                              "ID": "b2fa5a21-43b4-4b6c-92d5-cebc75f9db9f",
+                              "CurrencyRate": 1.000000,
+                              "Type": "SPEND-PREPAYMENT",
+                              "RemainingCredit": 0.00,
+                              "Allocations": [],
+                              "Payments": [
+                                {
+                                  "PaymentID": "3af934ef-abe3-46eb-ab61-3b0f23f1f4fb",
+                                  "Date": "\/Date(1553126400000+0000)\/",
+                                  "Amount": 2300.00,
+                                  "Reference": "paid too much",
+                                  "CurrencyRate": 1.000000,
+                                  "HasAccount": false,
+                                  "HasValidationErrors": false
+                                }
+                              ],
+                              "HasAttachments": false,
+                              "Attachments": [],
+                              "Contact": {
+                                "ContactID": "c8f2553d-0175-4218-ae75-0084f54e9c53",
+                                "ContactStatus": "ACTIVE",
+                                "Name": "Tony Stark",
+                                "EmailAddress": "",
+                                "BankAccountDetails": "",
+                                "Addresses": [
+                                  {
+                                    "AddressType": "STREET",
+                                    "City": "",
+                                    "Region": "",
+                                    "PostalCode": "",
+                                    "Country": ""
+                                  },
+                                  {
+                                    "AddressType": "POBOX",
+                                    "City": "",
+                                    "Region": "",
+                                    "PostalCode": "",
+                                    "Country": ""
+                                  }
+                                ],
+                                "Phones": [
+                                  {
+                                    "PhoneType": "DEFAULT",
+                                    "PhoneNumber": "",
+                                    "PhoneAreaCode": "",
+                                    "PhoneCountryCode": ""
+                                  },
+                                  {
+                                    "PhoneType": "DDI",
+                                    "PhoneNumber": "",
+                                    "PhoneAreaCode": "",
+                                    "PhoneCountryCode": ""
+                                  },
+                                  {
+                                    "PhoneType": "FAX",
+                                    "PhoneNumber": "",
+                                    "PhoneAreaCode": "",
+                                    "PhoneCountryCode": ""
+                                  },
+                                  {
+                                    "PhoneType": "MOBILE",
+                                    "PhoneNumber": "",
+                                    "PhoneAreaCode": "",
+                                    "PhoneCountryCode": ""
+                                  }
+                                ],
+                                "UpdatedDateUTC": "\/Date(1552489030860+0000)\/",
+                                "ContactGroups": [],
+                                "DefaultCurrency": "NZD",
+                                "ContactPersons": [],
+                                "HasValidationErrors": false
+                              },
+                              "DateString": "2019-03-13T00:00:00",
+                              "Date": "\/Date(1552435200000+0000)\/",
+                              "Status": "PAID",
+                              "LineAmountTypes": "Exclusive",
+                              "LineItems": [
+                                {
+                                  "Description": "New Suit",
+                                  "UnitAmount": 2000.00,
+                                  "TaxType": "INPUT2",
+                                  "TaxAmount": 300.00,
+                                  "LineAmount": 2000.00,
+                                  "AccountCode": "429",
+                                  "Tracking": [],
+                                  "Quantity": 1.0000,
+                                  "ValidationErrors": []
+                                }
+                              ],
+                              "SubTotal": 2000.00,
+                              "TotalTax": 300.00,
+                              "Total": 2300.00,
+                              "UpdatedDateUTC": "\/Date(1552489090420+0000)\/",
+                              "CurrencyCode": "NZD"
+                            }
+                          ]
+                        }'
   '/Prepayments/{PrepaymentID}/Allocations':
     x-related-model: Prepayment
     put:
@@ -9220,6 +9529,35 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Allocations'
+              example: '{
+                          "Id": "d4758808-d14d-45d5-851a-52787ae5739a",
+                          "Status": "OK",
+                          "ProviderName": "Java Partner Example",
+                          "DateTimeUTC": "\/Date(1552522424927)\/",
+                          "Allocations": [
+                            {
+                              "Amount": 1.00,
+                              "Date": "\/Date(1552435200000+0000)\/",
+                              "Invoice": {
+                                "InvoiceID": "c7c37b83-ac95-45ea-88ba-8ad83a5f22fe",
+                                "Payments": [],
+                                "CreditNotes": [],
+                                "Prepayments": [],
+                                "Overpayments": [],
+                                "HasErrors": false,
+                                "IsDiscounted": false,
+                                "LineItems": [],
+                                "ValidationErrors": []
+                              },
+                              "Prepayment": {
+                                "PrepaymentID": "ce0cddef-cf5a-4e59-b638-f225679115a7",
+                                "ID": "ce0cddef-cf5a-4e59-b638-f225679115a7",
+                                "LineItems": []
+                              },
+                              "ValidationErrors": []
+                            }
+                          ]
+                        }'
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
@@ -9228,6 +9566,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Allocations'
+              example: '{  
+                           "Allocations":[  
+                              {  
+                                 "Invoice":{  
+                                    "LineItems":[  
+
+                                    ],
+                                    "InvoiceID":"c7c37b83-ac95-45ea-88ba-8ad83a5f22fe"
+                                 },
+                                 "Amount":1.0,
+                                 "Date":"2019-03-13"
+                              }
+                           ]
+                        }'
   '/Prepayments/{PrepaymentID}/History':
     x-related-model: Prepayment
     get:
@@ -9250,6 +9602,35 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HistoryRecords'
+              example: '{
+                          "Id": "fe085026-7246-4509-92c2-9ac90e63f5ae",
+                          "Status": "OK",
+                          "ProviderName": "Java Partner Example",
+                          "DateTimeUTC": "\/Date(1552491116295)\/",
+                          "HistoryRecords": [
+                            {
+                              "Changes": "Cash Refunded",
+                              "DateUTCString": "2019-03-13T14:58:10",
+                              "DateUTC": "\/Date(1552489090407+0000)\/",
+                              "User": "Sidney Maestre",
+                              "Details": "Payment made to Tony Stark on 21 March 2019 for 2,300.00. There is no credit remaining on this prepayment."
+                            },
+                            {
+                              "Changes": "Approved",
+                              "DateUTCString": "2019-03-13T14:57:10",
+                              "DateUTC": "\/Date(1552489030890+0000)\/",
+                              "User": "Sidney Maestre",
+                              "Details": "From Tony Stark for 2300.0."
+                            },
+                            {
+                              "Changes": "Created",
+                              "DateUTCString": "2019-03-13T14:57:10",
+                              "DateUTC": "\/Date(1552489030890+0000)\/",
+                              "User": "Sidney Maestre",
+                              "Details": "From Tony Stark for 2300.0."
+                            }
+                          ]
+                        }'
     put:
       tags:
         - Accounting
@@ -9271,7 +9652,28 @@ paths:
               schema:
                 $ref: '#/components/schemas/HistoryRecords'
         '400':
-          $ref: '#/components/responses/400Error'
+          description: Unsupported - return response incorrect exception, API is not able to create HistoryRecord for Expense Claims
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example: ' {
+                            "ErrorNumber": 10,
+                            "Type": "ValidationException",
+                            "Message": "A validation exception occurred",
+                            "Elements": [
+                              {
+                                "DateUTCString": "2019-03-14T00:15:35",
+                                "DateUTC": "\/Date(1552522535440)\/",
+                                "Details": "Hello World",
+                                "ValidationErrors": [
+                                  {
+                                    "Message": "The document with the supplied id was not found for this endpoint."
+                                  }
+                                ]
+                              }
+                            ]
+                          }'
       requestBody:
         required: true
         content:
@@ -9324,6 +9726,156 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PurchaseOrders'
+              example: '{
+                          "Id": "66910bfc-15cc-4692-bd4c-cc8f671e653c",
+                          "Status": "OK",
+                          "ProviderName": "Java Partner Example",
+                          "DateTimeUTC": "\/Date(1552523977238)\/",
+                          "PurchaseOrders": [
+                            {
+                              "PurchaseOrderID": "f9627f0d-b715-4039-bb6a-96dc3eae5ec5",
+                              "PurchaseOrderNumber": "PO-0001",
+                              "DateString": "2019-03-12T00:00:00",
+                              "Date": "\/Date(1552348800000+0000)\/",
+                              "AttentionTo": "Jimmy",
+                              "HasErrors": false,
+                              "IsDiscounted": false,
+                              "Type": "PURCHASEORDER",
+                              "CurrencyRate": 1.000000,
+                              "CurrencyCode": "NZD",
+                              "Contact": {
+                                "ContactID": "430fa14a-f945-44d3-9f97-5df5e28441b8",
+                                "ContactStatus": "ACTIVE",
+                                "Name": "Liam Gallagher",
+                                "FirstName": "Liam",
+                                "LastName": "Gallagher",
+                                "Addresses": [
+                                  {
+                                    "AddressType": "POBOX",
+                                    "City": "Anytown",
+                                    "Region": "NY",
+                                    "PostalCode": "10101",
+                                    "Country": "USA",
+                                    "AttentionTo": ""
+                                  }
+                                ],
+                                "Phones": [
+                                  {
+                                    "PhoneType": "DEFAULT",
+                                    "PhoneNumber": "222-2222",
+                                    "PhoneAreaCode": "212",
+                                    "PhoneCountryCode": ""
+                                  },
+                                  {
+                                    "PhoneType": "FAX",
+                                    "PhoneNumber": "333-2233",
+                                    "PhoneAreaCode": "212",
+                                    "PhoneCountryCode": ""
+                                  },
+                                  {
+                                    "PhoneType": "MOBILE",
+                                    "PhoneNumber": "444-3433",
+                                    "PhoneAreaCode": "212",
+                                    "PhoneCountryCode": ""
+                                  }
+                                ],
+                                "UpdatedDateUTC": "\/Date(1551747281053+0000)\/",
+                                "ContactGroups": [],
+                                "ContactPersons": [],
+                                "HasValidationErrors": false
+                              },
+                              "Status": "DELETED",
+                              "LineAmountTypes": "Exclusive",
+                              "LineItems": [
+                                {
+                                  "Description": "Foobar",
+                                  "UnitAmount": 20.0000,
+                                  "TaxAmount": 0.00,
+                                  "LineAmount": 20.00,
+                                  "Tracking": [],
+                                  "Quantity": 1.0000,
+                                  "LineItemID": "0f7b54b8-bfa4-4c5d-9c22-73dbd5796e54"
+                                }
+                              ],
+                              "SubTotal": 20.00,
+                              "TotalTax": 0.00,
+                              "Total": 20.00,
+                              "UpdatedDateUTC": "\/Date(1552522703443+0000)\/",
+                              "HasAttachments": false
+                            },
+                            {
+                              "PurchaseOrderID": "6afa2e02-c514-4964-ab89-b5c0179b8c50",
+                              "PurchaseOrderNumber": "PO-0002",
+                              "DateString": "2019-03-12T00:00:00",
+                              "Date": "\/Date(1552348800000+0000)\/",
+                              "AttentionTo": "Jimmy",
+                              "HasErrors": false,
+                              "IsDiscounted": false,
+                              "Type": "PURCHASEORDER",
+                              "CurrencyRate": 1.000000,
+                              "CurrencyCode": "NZD",
+                              "Contact": {
+                                "ContactID": "430fa14a-f945-44d3-9f97-5df5e28441b8",
+                                "ContactStatus": "ACTIVE",
+                                "Name": "Liam Gallagher",
+                                "FirstName": "Liam",
+                                "LastName": "Gallagher",
+                                "Addresses": [
+                                  {
+                                    "AddressType": "POBOX",
+                                    "City": "Anytown",
+                                    "Region": "NY",
+                                    "PostalCode": "10101",
+                                    "Country": "USA",
+                                    "AttentionTo": ""
+                                  }
+                                ],
+                                "Phones": [
+                                  {
+                                    "PhoneType": "DEFAULT",
+                                    "PhoneNumber": "222-2222",
+                                    "PhoneAreaCode": "212",
+                                    "PhoneCountryCode": ""
+                                  },
+                                  {
+                                    "PhoneType": "FAX",
+                                    "PhoneNumber": "333-2233",
+                                    "PhoneAreaCode": "212",
+                                    "PhoneCountryCode": ""
+                                  },
+                                  {
+                                    "PhoneType": "MOBILE",
+                                    "PhoneNumber": "444-3433",
+                                    "PhoneAreaCode": "212",
+                                    "PhoneCountryCode": ""
+                                  }
+                                ],
+                                "UpdatedDateUTC": "\/Date(1551747281053+0000)\/",
+                                "ContactGroups": [],
+                                "ContactPersons": [],
+                                "HasValidationErrors": false
+                              },
+                              "Status": "DELETED",
+                              "LineAmountTypes": "Exclusive",
+                              "LineItems": [
+                                {
+                                  "Description": "Foobar",
+                                  "UnitAmount": 20.0000,
+                                  "TaxAmount": 0.00,
+                                  "LineAmount": 20.00,
+                                  "Tracking": [],
+                                  "Quantity": 1.0000,
+                                  "LineItemID": "3e4ec232-32b9-491b-84dd-48fb9aa8916f"
+                                }
+                              ],
+                              "SubTotal": 20.00,
+                              "TotalTax": 0.00,
+                              "Total": 20.00,
+                              "UpdatedDateUTC": "\/Date(1552522834733+0000)\/",
+                              "HasAttachments": false
+                            }
+                          ]
+                        }'
     put:
       tags:
         - Accounting
@@ -9342,6 +9894,104 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PurchaseOrders'
+              example: ' {
+                            "Id": "aa2f9d23-fd76-4bee-9600-30c0f0f34036",
+                            "Status": "OK",
+                            "ProviderName": "Java Partner Example",
+                            "DateTimeUTC": "\/Date(1552522946173)\/",
+                            "PurchaseOrders": [
+                              {
+                                "PurchaseOrderID": "56204648-8fbe-46f8-b09c-2125f7939533",
+                                "PurchaseOrderNumber": "PO-0004",
+                                "DateString": "2019-03-13T00:00:00",
+                                "Date": "\/Date(1552435200000+0000)\/",
+                                "HasErrors": false,
+                                "IsDiscounted": false,
+                                "TotalDiscount": 0.00,
+                                "SentToContact": false,
+                                "Type": "PURCHASEORDER",
+                                "CurrencyRate": 1.000000,
+                                "CurrencyCode": "NZD",
+                                "Contact": {
+                                  "ContactID": "430fa14a-f945-44d3-9f97-5df5e28441b8",
+                                  "ContactStatus": "ACTIVE",
+                                  "Name": "Liam Gallagher",
+                                  "FirstName": "Liam",
+                                  "LastName": "Gallagher",
+                                  "EmailAddress": "liam@rockstar.com",
+                                  "BankAccountDetails": "",
+                                  "Addresses": [
+                                    null,
+                                    {
+                                      "AddressType": "POBOX",
+                                      "City": "Anytown",
+                                      "Region": "NY",
+                                      "PostalCode": "10101",
+                                      "Country": "USA",
+                                      "AttentionTo": ""
+                                    }
+                                  ],
+                                  "Phones": [
+                                    {
+                                      "PhoneType": "DEFAULT",
+                                      "PhoneNumber": "222-2222",
+                                      "PhoneAreaCode": "212",
+                                      "PhoneCountryCode": ""
+                                    },
+                                    null,
+                                    {
+                                      "PhoneType": "FAX",
+                                      "PhoneNumber": "333-2233",
+                                      "PhoneAreaCode": "212",
+                                      "PhoneCountryCode": ""
+                                    },
+                                    {
+                                      "PhoneType": "MOBILE",
+                                      "PhoneNumber": "444-3433",
+                                      "PhoneAreaCode": "212",
+                                      "PhoneCountryCode": ""
+                                    }
+                                  ],
+                                  "UpdatedDateUTC": "\/Date(1551747281053+0000)\/",
+                                  "ContactGroups": [
+                                    {
+                                      "ContactGroupID": "17b44ed7-4389-4162-91cb-3dd5766e4e22",
+                                      "Name": "Oasis",
+                                      "Status": "ACTIVE",
+                                      "Contacts": [],
+                                      "HasValidationErrors": false
+                                    }
+                                  ],
+                                  "IsSupplier": true,
+                                  "IsCustomer": true,
+                                  "SalesTrackingCategories": [],
+                                  "PurchasesTrackingCategories": [],
+                                  "ContactPersons": [],
+                                  "HasValidationErrors": false
+                                },
+                                "Status": "DRAFT",
+                                "LineAmountTypes": "Exclusive",
+                                "LineItems": [
+                                  {
+                                    "Description": "Foobar",
+                                    "UnitAmount": 20.0000,
+                                    "TaxType": "INPUT2",
+                                    "TaxAmount": 3.00,
+                                    "LineAmount": 20.00,
+                                    "AccountCode": "710",
+                                    "Tracking": [],
+                                    "Quantity": 1.0000,
+                                    "LineItemID": "792b7e40-b9f2-47f0-8624-b09f4b0166dd"
+                                  }
+                                ],
+                                "SubTotal": 20.00,
+                                "TotalTax": 3.00,
+                                "Total": 23.00,
+                                "UpdatedDateUTC": "\/Date(1552522946077+0000)\/",
+                                "StatusAttributeString": "OK"
+                              }
+                            ]
+                          }'
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
@@ -9350,6 +10000,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PurchaseOrders'
+              example: '{  
+                           "PurchaseOrders":[  
+                              {  
+                                 "Contact":{  
+                                    "ContactID":"430fa14a-f945-44d3-9f97-5df5e28441b8"
+                                 },
+                                 "LineItems":[  
+                                    {  
+                                       "Description":"Foobar",
+                                       "Quantity":1.0,
+                                       "UnitAmount":20.0,
+                                       "AccountCode":"710"
+                                    }
+                                 ],
+                                 "Date":"2019-03-13"
+                              }
+                           ]
+                        }'
   '/PurchaseOrders/{PurchaseOrderID}':
     x-related-model: PurchaseOrder
     get:
@@ -9372,6 +10040,103 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PurchaseOrders'
+              example: '{
+                          "Id": "d923f4ae-7d9f-4d76-95af-84ff4fd3e70a",
+                          "Status": "OK",
+                          "ProviderName": "Java Partner Example",
+                          "DateTimeUTC": "\/Date(1552523977992)\/",
+                          "PurchaseOrders": [
+                            {
+                              "PurchaseOrderID": "f9627f0d-b715-4039-bb6a-96dc3eae5ec5",
+                              "PurchaseOrderNumber": "PO-0001",
+                              "DateString": "2019-03-12T00:00:00",
+                              "Date": "\/Date(1552348800000+0000)\/",
+                              "AttentionTo": "Jimmy",
+                              "HasErrors": false,
+                              "IsDiscounted": false,
+                              "SentToContact": false,
+                              "Type": "PURCHASEORDER",
+                              "CurrencyRate": 1.000000,
+                              "CurrencyCode": "NZD",
+                              "Contact": {
+                                "ContactID": "430fa14a-f945-44d3-9f97-5df5e28441b8",
+                                "ContactStatus": "ACTIVE",
+                                "Name": "Liam Gallagher",
+                                "FirstName": "Liam",
+                                "LastName": "Gallagher",
+                                "EmailAddress": "liam@rockstar.com",
+                                "BankAccountDetails": "",
+                                "Addresses": [
+                                  null,
+                                  {
+                                    "AddressType": "POBOX",
+                                    "City": "Anytown",
+                                    "Region": "NY",
+                                    "PostalCode": "10101",
+                                    "Country": "USA",
+                                    "AttentionTo": ""
+                                  }
+                                ],
+                                "Phones": [
+                                  {
+                                    "PhoneType": "DEFAULT",
+                                    "PhoneNumber": "222-2222",
+                                    "PhoneAreaCode": "212",
+                                    "PhoneCountryCode": ""
+                                  },
+                                  null,
+                                  {
+                                    "PhoneType": "FAX",
+                                    "PhoneNumber": "333-2233",
+                                    "PhoneAreaCode": "212",
+                                    "PhoneCountryCode": ""
+                                  },
+                                  {
+                                    "PhoneType": "MOBILE",
+                                    "PhoneNumber": "444-3433",
+                                    "PhoneAreaCode": "212",
+                                    "PhoneCountryCode": ""
+                                  }
+                                ],
+                                "UpdatedDateUTC": "\/Date(1551747281053+0000)\/",
+                                "ContactGroups": [
+                                  {
+                                    "ContactGroupID": "17b44ed7-4389-4162-91cb-3dd5766e4e22",
+                                    "Name": "Oasis",
+                                    "Status": "ACTIVE",
+                                    "Contacts": [],
+                                    "HasValidationErrors": false
+                                  }
+                                ],
+                                "IsSupplier": true,
+                                "IsCustomer": true,
+                                "SalesTrackingCategories": [],
+                                "PurchasesTrackingCategories": [],
+                                "ContactPersons": [],
+                                "HasValidationErrors": false
+                              },
+                              "Status": "DELETED",
+                              "LineAmountTypes": "Exclusive",
+                              "LineItems": [
+                                {
+                                  "Description": "Foobar",
+                                  "UnitAmount": 20.0000,
+                                  "TaxAmount": 0.00,
+                                  "LineAmount": 20.00,
+                                  "Tracking": [],
+                                  "Quantity": 1.0000,
+                                  "LineItemID": "0f7b54b8-bfa4-4c5d-9c22-73dbd5796e54"
+                                }
+                              ],
+                              "SubTotal": 20.00,
+                              "TotalTax": 0.00,
+                              "Total": 20.00,
+                              "UpdatedDateUTC": "\/Date(1552522703443+0000)\/",
+                              "HasAttachments": false,
+                              "Attachments": []
+                            }
+                          ]
+                        }'
     post:
       tags:
         - Accounting
@@ -9392,6 +10157,104 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PurchaseOrders'
+              example: '{
+                          "Id": "0e9bb3f8-d68b-4bb2-a54d-7da240a4f51a",
+                          "Status": "OK",
+                          "ProviderName": "Java Partner Example",
+                          "DateTimeUTC": "\/Date(1552523976885)\/",
+                          "PurchaseOrders": [
+                            {
+                              "PurchaseOrderID": "f9fc1120-c937-489e-84bc-e822190cfe9c",
+                              "PurchaseOrderNumber": "PO-0005",
+                              "DateString": "2019-03-13T00:00:00",
+                              "Date": "\/Date(1552435200000+0000)\/",
+                              "AttentionTo": "Jimmy",
+                              "HasErrors": false,
+                              "IsDiscounted": false,
+                              "TotalDiscount": 0.00,
+                              "SentToContact": false,
+                              "Type": "PURCHASEORDER",
+                              "CurrencyRate": 1.000000,
+                              "CurrencyCode": "NZD",
+                              "Contact": {
+                                "ContactID": "430fa14a-f945-44d3-9f97-5df5e28441b8",
+                                "ContactStatus": "ACTIVE",
+                                "Name": "Liam Gallagher",
+                                "FirstName": "Liam",
+                                "LastName": "Gallagher",
+                                "EmailAddress": "liam@rockstar.com",
+                                "BankAccountDetails": "",
+                                "Addresses": [
+                                  null,
+                                  {
+                                    "AddressType": "POBOX",
+                                    "City": "Anytown",
+                                    "Region": "NY",
+                                    "PostalCode": "10101",
+                                    "Country": "USA",
+                                    "AttentionTo": ""
+                                  }
+                                ],
+                                "Phones": [
+                                  {
+                                    "PhoneType": "DEFAULT",
+                                    "PhoneNumber": "222-2222",
+                                    "PhoneAreaCode": "212",
+                                    "PhoneCountryCode": ""
+                                  },
+                                  null,
+                                  {
+                                    "PhoneType": "FAX",
+                                    "PhoneNumber": "333-2233",
+                                    "PhoneAreaCode": "212",
+                                    "PhoneCountryCode": ""
+                                  },
+                                  {
+                                    "PhoneType": "MOBILE",
+                                    "PhoneNumber": "444-3433",
+                                    "PhoneAreaCode": "212",
+                                    "PhoneCountryCode": ""
+                                  }
+                                ],
+                                "UpdatedDateUTC": "\/Date(1551747281053+0000)\/",
+                                "ContactGroups": [
+                                  {
+                                    "ContactGroupID": "17b44ed7-4389-4162-91cb-3dd5766e4e22",
+                                    "Name": "Oasis",
+                                    "Status": "ACTIVE",
+                                    "Contacts": [],
+                                    "HasValidationErrors": false
+                                  }
+                                ],
+                                "IsSupplier": true,
+                                "IsCustomer": true,
+                                "SalesTrackingCategories": [],
+                                "PurchasesTrackingCategories": [],
+                                "ContactPersons": [],
+                                "HasValidationErrors": false
+                              },
+                              "Status": "DRAFT",
+                              "LineAmountTypes": "Exclusive",
+                              "LineItems": [
+                                {
+                                  "Description": "Foobar",
+                                  "UnitAmount": 20.0000,
+                                  "TaxType": "INPUT2",
+                                  "TaxAmount": 3.00,
+                                  "LineAmount": 20.00,
+                                  "AccountCode": "710",
+                                  "Tracking": [],
+                                  "Quantity": 1.0000,
+                                  "LineItemID": "d1d9b2cd-c9f2-4445-8d98-0b8096cf4dae"
+                                }
+                              ],
+                              "SubTotal": 20.00,
+                              "TotalTax": 3.00,
+                              "Total": 23.00,
+                              "UpdatedDateUTC": "\/Date(1552523976853+0000)\/"
+                            }
+                          ]
+                        }'
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
@@ -9400,6 +10263,16 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PurchaseOrders'
+              example: '{  
+                           "PurchaseOrders":[  
+                              {  
+                                 "LineItems":[  
+
+                                 ],
+                                 "AttentionTo":"Jimmy"
+                              }
+                           ]
+                        }'
   '/PurchaseOrders/{PurchaseOrderID}/History':
     x-related-model: PurchaseOrder
     get:
@@ -9422,6 +10295,42 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HistoryRecords'
+              example: ' {
+                          "Id": "bb14d6a9-4915-4aff-a152-4b31760706ba",
+                          "Status": "OK",
+                          "ProviderName": "Java Partner Example",
+                          "DateTimeUTC": "\/Date(1552523978738)\/",
+                          "HistoryRecords": [
+                            {
+                              "Changes": "Note",
+                              "DateUTCString": "2019-03-14T00:22:28",
+                              "DateUTC": "\/Date(1552522948670+0000)\/",
+                              "User": "System Generated",
+                              "Details": "Hello World"
+                            },
+                            {
+                              "Changes": "PurchaseOrder Deleted",
+                              "DateUTCString": "2019-03-14T00:18:23",
+                              "DateUTC": "\/Date(1552522703443+0000)\/",
+                              "User": "System Generated",
+                              "Details": "This purchase order has been ''Deleted'' through the Xero API by Java Partner Example"
+                            },
+                            {
+                              "Changes": "PurchaseOrder Edited",
+                              "DateUTCString": "2019-03-14T00:18:21",
+                              "DateUTC": "\/Date(1552522701863+0000)\/",
+                              "User": "System Generated",
+                              "Details": "This purchase order has been ''Edited'' through the Xero API by Java Partner Example"
+                            },
+                            {
+                              "Changes": "Created",
+                              "DateUTCString": "2019-03-14T00:18:21",
+                              "DateUTC": "\/Date(1552522701457+0000)\/",
+                              "User": "System Generated",
+                              "Details": "Received through the Xero API from Java Partner Example"
+                            }
+                          ]
+                        }'
     put:
       tags:
         - Accounting
@@ -9442,6 +10351,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HistoryRecords'
+              example: '{
+                          "Id": "7aa9020e-1d35-4504-80eb-ae4418a5e46d",
+                          "Status": "OK",
+                          "ProviderName": "Java Partner Example",
+                          "DateTimeUTC": "\/Date(1552523979354)\/",
+                          "HistoryRecords": [
+                            {
+                              "DateUTCString": "2019-03-14T00:39:39",
+                              "DateUTC": "\/Date(1552523979354)\/",
+                              "Details": "Hello World",
+                              "ValidationErrors": []
+                            }
+                          ]
+                        }'
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
@@ -9450,6 +10373,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HistoryRecords'
+              example: '{  
+                           "HistoryRecords":[  
+                              {  
+                                 "Details":"Hello World"
+                              }
+                           ]
+                        }'
   /Receipts:
     x-related-model: Receipt
     get:
@@ -9481,6 +10411,53 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Receipts'
+              example: '{
+                          "Id": "078b2a2c-902f-4154-8739-357ece5982e5",
+                          "Status": "OK",
+                          "ProviderName": "Java Partner Example",
+                          "DateTimeUTC": "\/Date(1552524584695)\/",
+                          "Receipts": [
+                            {
+                              "ReceiptID": "a44fd147-af4e-4fe8-a09a-55332df74162",
+                              "ReceiptNumber": 1,
+                              "Status": "DRAFT",
+                              "User": {
+                                "UserID": "d1164823-0ac1-41ad-987b-b4e30fe0b273",
+                                "FirstName": "API ",
+                                "LastName": "Team",
+                                "ValidationErrors": [],
+                                "Warnings": []
+                              },
+                              "Contact": {
+                                "ContactID": "430fa14a-f945-44d3-9f97-5df5e28441b8",
+                                "Name": "Liam Gallagher",
+                                "Addresses": [],
+                                "Phones": [],
+                                "ContactGroups": [],
+                                "SalesTrackingCategories": [],
+                                "PurchasesTrackingCategories": [],
+                                "ContactPersons": [],
+                                "Attachments": [],
+                                "HasValidationErrors": false,
+                                "ValidationErrors": [],
+                                "Warnings": []
+                              },
+                              "Date": "\/Date(1552435200000+0000)\/",
+                              "UpdatedDateUTC": "\/Date(1552524583983+0000)\/",
+                              "Reference": "",
+                              "LineAmountTypes": "NoTax",
+                              "LineItems": [],
+                              "SubTotal": 40.00,
+                              "TotalTax": 0.00,
+                              "Total": 40.00,
+                              "ID": "a44fd147-af4e-4fe8-a09a-55332df74162",
+                              "HasAttachments": false,
+                              "Attachments": [],
+                              "ValidationErrors": [],
+                              "Warnings": []
+                            }
+                          ]
+                        }'
     put:
       tags:
         - Accounting
@@ -9493,6 +10470,107 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Receipts'
+              example: '{
+                          "Id": "35898898-5361-4b42-b6ca-9d2c584fc53d",
+                          "Status": "OK",
+                          "ProviderName": "Java Partner Example",
+                          "DateTimeUTC": "\/Date(1552524583429)\/",
+                          "Receipts": [
+                            {
+                              "ReceiptID": "a44fd147-af4e-4fe8-a09a-55332df74162",
+                              "ReceiptNumber": 1,
+                              "Status": "DRAFT",
+                              "User": {
+                                "UserID": "d1164823-0ac1-41ad-987b-b4e30fe0b273",
+                                "EmailAddress": "api@test.xero.com",
+                                "FirstName": "API ",
+                                "LastName": "Team",
+                                "UpdatedDateUTC": "\/Date(1511957179217+0000)\/",
+                                "IsSubscriber": true,
+                                "OrganisationRole": "FINANCIALADVISER"
+                              },
+                              "Contact": {
+                                "ContactID": "430fa14a-f945-44d3-9f97-5df5e28441b8",
+                                "ContactStatus": "ACTIVE",
+                                "Name": "Liam Gallagher",
+                                "FirstName": "Liam",
+                                "LastName": "Gallagher",
+                                "EmailAddress": "liam@rockstar.com",
+                                "BankAccountDetails": "",
+                                "Addresses": [
+                                  {
+                                    "AddressType": "STREET",
+                                    "City": "",
+                                    "Region": "",
+                                    "PostalCode": "",
+                                    "Country": "",
+                                    "AttentionTo": ""
+                                  },
+                                  {
+                                    "AddressType": "POBOX",
+                                    "City": "Anytown",
+                                    "Region": "NY",
+                                    "PostalCode": "10101",
+                                    "Country": "USA",
+                                    "AttentionTo": ""
+                                  }
+                                ],
+                                "Phones": [
+                                  {
+                                    "PhoneType": "DEFAULT",
+                                    "PhoneNumber": "222-2222",
+                                    "PhoneAreaCode": "212",
+                                    "PhoneCountryCode": ""
+                                  },
+                                  {
+                                    "PhoneType": "DDI",
+                                    "PhoneNumber": "",
+                                    "PhoneAreaCode": "",
+                                    "PhoneCountryCode": ""
+                                  },
+                                  {
+                                    "PhoneType": "FAX",
+                                    "PhoneNumber": "333-2233",
+                                    "PhoneAreaCode": "212",
+                                    "PhoneCountryCode": ""
+                                  },
+                                  {
+                                    "PhoneType": "MOBILE",
+                                    "PhoneNumber": "444-3433",
+                                    "PhoneAreaCode": "212",
+                                    "PhoneCountryCode": ""
+                                  }
+                                ],
+                                "UpdatedDateUTC": "\/Date(1551747281053+0000)\/",
+                                "ContactGroups": [],
+                                "ContactPersons": [],
+                                "HasValidationErrors": false
+                              },
+                              "Date": "\/Date(1552521600000+0000)\/",
+                              "UpdatedDateUTC": "\/Date(1552524583367+0000)\/",
+                              "Reference": "",
+                              "LineAmountTypes": "NoTax",
+                              "LineItems": [
+                                {
+                                  "Description": "Foobar",
+                                  "UnitAmount": 20.00,
+                                  "TaxType": "NONE",
+                                  "TaxAmount": 0.00,
+                                  "LineAmount": 40.00,
+                                  "AccountCode": "400",
+                                  "Tracking": [],
+                                  "Quantity": 2.0000
+                                }
+                              ],
+                              "SubTotal": 40.00,
+                              "TotalTax": 0.00,
+                              "Total": 40.00,
+                              "ID": "a44fd147-af4e-4fe8-a09a-55332df74162",
+                              "HasAttachments": false,
+                              "ValidationErrors": []
+                            }
+                          ]
+                        }'
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
@@ -9501,6 +10579,30 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Receipts'
+              example: '{  
+                           "Receipts":[  
+                              {  
+                                 "Contact":{  
+                                    "ContactID":"430fa14a-f945-44d3-9f97-5df5e28441b8"
+                                 },
+                                 "Lineitems":[  
+                                    {  
+                                       "Description":"Foobar",
+                                       "Quantity":2.0,
+                                       "UnitAmount":20.0,
+                                       "AccountCode":"400",
+                                       "TaxType":"NONE",
+                                       "LineAmount":40.0
+                                    }
+                                 ],
+                                 "User":{  
+                                    "UserID":"d1164823-0ac1-41ad-987b-b4e30fe0b273"
+                                 },
+                                 "LineAmountTypes":"NoTax",
+                                 "Status":"DRAFT"
+                              }
+                           ]
+                        }'
   '/Receipts/{ReceiptID}':
     x-related-model: Receipt
     get:
@@ -9523,6 +10625,107 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Receipts'
+              example: '{
+                          "Id": "e2a8d399-f634-49c2-9059-87ceb68dd344",
+                          "Status": "OK",
+                          "ProviderName": "Java Partner Example",
+                          "DateTimeUTC": "\/Date(1552524584953)\/",
+                          "Receipts": [
+                            {
+                              "ReceiptID": "a44fd147-af4e-4fe8-a09a-55332df74162",
+                              "ReceiptNumber": 1,
+                              "Status": "DRAFT",
+                              "User": {
+                                "UserID": "d1164823-0ac1-41ad-987b-b4e30fe0b273",
+                                "EmailAddress": "api@test.xero.com",
+                                "FirstName": "API ",
+                                "LastName": "Team",
+                                "UpdatedDateUTC": "\/Date(1511957179217+0000)\/",
+                                "IsSubscriber": true,
+                                "OrganisationRole": "FINANCIALADVISER"
+                              },
+                              "Contact": {
+                                "ContactID": "430fa14a-f945-44d3-9f97-5df5e28441b8",
+                                "ContactStatus": "ACTIVE",
+                                "Name": "Liam Gallagher",
+                                "FirstName": "Liam",
+                                "LastName": "Gallagher",
+                                "EmailAddress": "liam@rockstar.com",
+                                "BankAccountDetails": "",
+                                "Addresses": [
+                                  {
+                                    "AddressType": "STREET",
+                                    "City": "",
+                                    "Region": "",
+                                    "PostalCode": "",
+                                    "Country": "",
+                                    "AttentionTo": ""
+                                  },
+                                  {
+                                    "AddressType": "POBOX",
+                                    "City": "Anytown",
+                                    "Region": "NY",
+                                    "PostalCode": "10101",
+                                    "Country": "USA",
+                                    "AttentionTo": ""
+                                  }
+                                ],
+                                "Phones": [
+                                  {
+                                    "PhoneType": "DEFAULT",
+                                    "PhoneNumber": "222-2222",
+                                    "PhoneAreaCode": "212",
+                                    "PhoneCountryCode": ""
+                                  },
+                                  {
+                                    "PhoneType": "DDI",
+                                    "PhoneNumber": "",
+                                    "PhoneAreaCode": "",
+                                    "PhoneCountryCode": ""
+                                  },
+                                  {
+                                    "PhoneType": "FAX",
+                                    "PhoneNumber": "333-2233",
+                                    "PhoneAreaCode": "212",
+                                    "PhoneCountryCode": ""
+                                  },
+                                  {
+                                    "PhoneType": "MOBILE",
+                                    "PhoneNumber": "444-3433",
+                                    "PhoneAreaCode": "212",
+                                    "PhoneCountryCode": ""
+                                  }
+                                ],
+                                "UpdatedDateUTC": "\/Date(1551747281053+0000)\/",
+                                "ContactGroups": [],
+                                "ContactPersons": [],
+                                "HasValidationErrors": false
+                              },
+                              "Date": "\/Date(1552435200000+0000)\/",
+                              "UpdatedDateUTC": "\/Date(1552524583983+0000)\/",
+                              "Reference": "Foobar",
+                              "LineAmountTypes": "NoTax",
+                              "LineItems": [
+                                {
+                                  "Description": "Foobar",
+                                  "UnitAmount": 20.00,
+                                  "TaxType": "NONE",
+                                  "TaxAmount": 0.00,
+                                  "LineAmount": 40.00,
+                                  "AccountCode": "400",
+                                  "Tracking": [],
+                                  "Quantity": 2.0000
+                                }
+                              ],
+                              "SubTotal": 40.00,
+                              "TotalTax": 0.00,
+                              "Total": 40.00,
+                              "ID": "a44fd147-af4e-4fe8-a09a-55332df74162",
+                              "HasAttachments": false,
+                              "Attachments": []
+                            }
+                          ]
+                        }'
     post:
       tags:
         - Accounting
@@ -9738,6 +10941,28 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HistoryRecords'
+              example: '{
+                          "Id": "a6ca4968-780c-43f7-bc75-155f551c81db",
+                          "Status": "OK",
+                          "ProviderName": "Java Partner Example",
+                          "DateTimeUTC": "\/Date(1552524585188)\/",
+                          "HistoryRecords": [
+                            {
+                              "Changes": "Edited",
+                              "DateUTCString": "2019-03-14T00:49:43",
+                              "DateUTC": "\/Date(1552524583983+0000)\/",
+                              "User": "System Generated",
+                              "Details": "Received through the Xero API from Java Partner Example"
+                            },
+                            {
+                              "Changes": "Created",
+                              "DateUTCString": "2019-03-14T00:49:43",
+                              "DateUTC": "\/Date(1552524583350+0000)\/",
+                              "User": "System Generated",
+                              "Details": "Received through the Xero API from Java Partner Example"
+                            }
+                          ]
+                        }'
     put:
       tags:
         - Accounting
@@ -12264,8 +13489,16 @@ components:
           items:
             $ref: '#/components/schemas/Attachment'
         HasErrors:
-          description: A boolean to indicate if a contact has an validation errors
+          description: A boolean to indicate if a invoice has an validation errors
           type: boolean
+        StatusAttributeString:
+          description: A string to indicate if a invoice status
+          type: string
+        ValidationErrors: 
+          description: Displays array of validation error messages from the API
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
       required:
         - Type
         - Contact
@@ -14314,7 +15547,7 @@ components:
         url: 'https://developer.xero.com/documentation/api/http-response-codes'
       properties:
         ValidationErrors:
-          description: Array of Validation Error messages
+          description: Array of Validation Error message
           type: array
           items:
             $ref: '#/components/schemas/ValidationError'
