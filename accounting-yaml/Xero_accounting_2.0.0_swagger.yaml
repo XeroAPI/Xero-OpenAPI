@@ -7568,17 +7568,17 @@ paths:
               schema:
                 $ref: '#/components/schemas/ManualJournals'
               example: '{
-                          "Id": "5aea1fc2-1de2-4d1b-83d4-e7be54088878",
+                          "Id": "45dfa608-0fcb-4f30-a377-c82cd348569c",
                           "Status": "OK",
                           "ProviderName": "Java Partner Example",
-                          "DateTimeUTC": "\/Date(1552357735553)\/",
+                          "DateTimeUTC": "\/Date(1552595972952)\/",
                           "ManualJournals": [
                             {
-                              "Date": "\/Date(1552262400000+0000)\/",
+                              "Date": "\/Date(1552521600000+0000)\/",
                               "Status": "DRAFT",
                               "LineAmountTypes": "NoTax",
-                              "UpdatedDateUTC": "\/Date(1552357735523+0000)\/",
-                              "ManualJournalID": "07eac261-78ef-47a0-a0eb-a57b74137877",
+                              "UpdatedDateUTC": "\/Date(1552595972920+0000)\/",
+                              "ManualJournalID": "d312dd5e-a53e-46d1-9d51-c569ef4570b7",
                               "Narration": "Foo bar",
                               "JournalLines": [
                                 {
@@ -7595,7 +7595,14 @@ paths:
                                   "TaxType": "NONE",
                                   "LineAmount": -100.00,
                                   "AccountCode": "400",
-                                  "Tracking": [],
+                                  "Tracking": [
+                                    {
+                                      "Name": "Simpsons",
+                                      "Option": "Bart",
+                                      "TrackingCategoryID": "6a68adde-f210-4465-b0a9-0d8cc6f50762",
+                                      "TrackingOptionID": "dc54c220-0140-495a-b925-3246adc0075f"
+                                    }
+                                  ],
                                   "AccountID": "c4f29c22-28c2-4a13-9eab-ecbbd641ffdf",
                                   "IsBlank": false
                                 }
@@ -7625,10 +7632,16 @@ paths:
                                     {  
                                        "LineAmount":-100.0,
                                        "AccountCode":"400",
-                                       "Description":"Goodbye"
+                                       "Description":"Goodbye",
+                                       "Tracking":[  
+                                          {  
+                                             "Name":"Simpsons",
+                                             "Option":"Bart"
+                                          }
+                                       ]
                                     }
                                  ],
-                                 "Date":"2019-03-11"
+                                 "Date":"2019-03-14"
                               }
                            ]
                         }'
@@ -15411,7 +15424,7 @@ components:
           type: number
           format: double
         IsCompound:
-          description: Boolean to describe if Tax rate is compounded.
+          description: Boolean to describe if Tax rate is compounded
           type: boolean
         IsNonRecoverable:
           description: Boolean to describe if tax rate is non-recoverable. Non-recoverable rates are only applicable to Canadian organisations
@@ -15429,8 +15442,11 @@ components:
         url: 'http://developer.xero.com/documentation/api/tracking-categories/'
       properties:
         TrackingCategoryID:
-          description: The Xero identifier for a tracking categorye.g.
-            297c2dc5-cc47-4afd-8ec8-74990b8761e9
+          description: The Xero identifier for a tracking category e.g. 297c2dc5-cc47-4afd-8ec8-74990b8761e9
+          type: string
+          format: uuid
+        TrackingOptionID: 
+          description: The Xero identifier for a tracking option e.g. dc54c220-0140-495a-b925-3246adc0075f
           type: string
           format: uuid
         Name:
