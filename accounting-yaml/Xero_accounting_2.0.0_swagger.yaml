@@ -4037,7 +4037,7 @@ paths:
                               "Total": 46.00,
                               "UpdatedDateUTC": "\/Date(1551812702650+0000)\/",
                               "CurrencyCode": "NZD",
-                              "StatusAttributeString": "OK"
+                              "StatusAttributeString": "OK",
                               "ValidationErrors": [
                                 {
                                   "Message": "An existing Credit Note with the specified CreditNoteID could not be found"
@@ -10629,7 +10629,11 @@ paths:
                               "Total": 40.00,
                               "ID": "a44fd147-af4e-4fe8-a09a-55332df74162",
                               "HasAttachments": false,
-                              "ValidationErrors": []
+                              "ValidationErrors": [
+                                {
+                                  "Message": "A valid user should be identified using the UserID."
+                                }
+                              ]
                             }
                           ]
                         }'
@@ -10808,6 +10812,107 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Receipts'
+              example: '{
+                          "Id": "05b76bf7-4734-4633-a399-7d569a6a25c6",
+                          "Status": "OK",
+                          "ProviderName": "Java Partner Example",
+                          "DateTimeUTC": "\/Date(1552675557052)\/",
+                          "Receipts": [
+                            {
+                              "ReceiptID": "e3686fdc-c661-4581-b9df-cbb20782ea66",
+                              "ReceiptNumber": 2,
+                              "Status": "DRAFT",
+                              "User": {
+                                "UserID": "d1164823-0ac1-41ad-987b-b4e30fe0b273",
+                                "EmailAddress": "api@test.xero.com",
+                                "FirstName": "API ",
+                                "LastName": "Team",
+                                "UpdatedDateUTC": "\/Date(1511957179217+0000)\/",
+                                "IsSubscriber": true,
+                                "OrganisationRole": "FINANCIALADVISER"
+                              },
+                              "Contact": {
+                                "ContactID": "430fa14a-f945-44d3-9f97-5df5e28441b8",
+                                "ContactStatus": "ACTIVE",
+                                "Name": "Liam Gallagher",
+                                "FirstName": "Liam",
+                                "LastName": "Gallagher",
+                                "EmailAddress": "liam@rockstar.com",
+                                "BankAccountDetails": "",
+                                "Addresses": [
+                                  {
+                                    "AddressType": "STREET",
+                                    "City": "",
+                                    "Region": "",
+                                    "PostalCode": "",
+                                    "Country": "",
+                                    "AttentionTo": ""
+                                  },
+                                  {
+                                    "AddressType": "POBOX",
+                                    "City": "Anytown",
+                                    "Region": "NY",
+                                    "PostalCode": "10101",
+                                    "Country": "USA",
+                                    "AttentionTo": ""
+                                  }
+                                ],
+                                "Phones": [
+                                  {
+                                    "PhoneType": "DEFAULT",
+                                    "PhoneNumber": "222-2222",
+                                    "PhoneAreaCode": "212",
+                                    "PhoneCountryCode": ""
+                                  },
+                                  {
+                                    "PhoneType": "DDI",
+                                    "PhoneNumber": "",
+                                    "PhoneAreaCode": "",
+                                    "PhoneCountryCode": ""
+                                  },
+                                  {
+                                    "PhoneType": "FAX",
+                                    "PhoneNumber": "333-2233",
+                                    "PhoneAreaCode": "212",
+                                    "PhoneCountryCode": ""
+                                  },
+                                  {
+                                    "PhoneType": "MOBILE",
+                                    "PhoneNumber": "444-3433",
+                                    "PhoneAreaCode": "212",
+                                    "PhoneCountryCode": ""
+                                  }
+                                ],
+                                "UpdatedDateUTC": "\/Date(1551747281053+0000)\/",
+                                "ContactGroups": [],
+                                "ContactPersons": [],
+                                "HasValidationErrors": false
+                              },
+                              "Date": "\/Date(1552694400000+0000)\/",
+                              "UpdatedDateUTC": "\/Date(1552675556927+0000)\/",
+                              "Reference": "Foobar",
+                              "LineAmountTypes": "NoTax",
+                              "LineItems": [
+                                {
+                                  "Description": "Foobar",
+                                  "UnitAmount": 20.00,
+                                  "TaxType": "NONE",
+                                  "TaxAmount": 0.00,
+                                  "LineAmount": 40.00,
+                                  "AccountCode": "400",
+                                  "Tracking": [],
+                                  "Quantity": 2.0000
+                                }
+                              ],
+                              "SubTotal": 40.00,
+                              "TotalTax": 0.00,
+                              "Total": 40.00,
+                              "ID": "e3686fdc-c661-4581-b9df-cbb20782ea66",
+                              "HasAttachments": false,
+                              "ValidationErrors": []
+                            }
+                          ]
+                        }'
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
@@ -10816,6 +10921,19 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Receipts'
+              example: '{  
+                           "Receipts":[  
+                              {  
+                                 "Lineitems":[  
+
+                                 ],
+                                 "User":{  
+                                    "UserID":"d1164823-0ac1-41ad-987b-b4e30fe0b273"
+                                 },
+                                 "Reference":"Foobar"
+                              }
+                           ]
+                        }'
   '/Receipts/{ReceiptID}/Attachments':
     x-related-model: Receipt
     get:
@@ -10838,6 +10956,21 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Attachments'
+              example: '{
+                          "Id": "d379c04d-d3aa-4034-95b8-af69a449bd78",
+                          "Status": "OK",
+                          "ProviderName": "Java Partner Example",
+                          "DateTimeUTC": "\/Date(1552686430436)\/",
+                          "Attachments": [
+                            {
+                              "AttachmentID": "11e5ca6b-d38c-42ab-a29f-c1710d171aa1",
+                              "FileName": "giphy.gif",
+                              "Url": "https://api.xero.com/api.xro/2.0/Receipts/7923c00d-163d-404c-a608-af3de333db29/Attachments/giphy.gif",
+                              "MimeType": "image/gif",
+                              "ContentLength": 495727
+                            }
+                          ]
+                        }'
   '/Receipts/{ReceiptID}/Attachments/{AttachmentID}':
     x-related-model: Invoice
     get:
@@ -10935,6 +11068,21 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Attachments'
+              example: '{
+                          "Id": "aeca1ea8-8fd9-4757-96a6-397dc4957a69",
+                          "Status": "OK",
+                          "ProviderName": "Java Partner Example",
+                          "DateTimeUTC": "\/Date(1552686602761)\/",
+                          "Attachments": [
+                            {
+                              "AttachmentID": "e02a84f6-b83a-4983-b3b9-35cd8880c7bc",
+                              "FileName": "HelloWorld.jpg",
+                              "Url": "https://api.xero.com/api.xro/2.0/Receipts/a44fd147-af4e-4fe8-a09a-55332df74162/Attachments/HelloWorld.jpg",
+                              "MimeType": "image/jpg",
+                              "ContentLength": 2878711
+                            }
+                          ]
+                        }'
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
@@ -10971,6 +11119,21 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Attachments'
+              example: '{
+                          "Id": "01c9a720-b1f1-4477-8de8-ff46d945fd1d",
+                          "Status": "OK",
+                          "ProviderName": "Java Partner Example",
+                          "DateTimeUTC": "\/Date(1552686599884)\/",
+                          "Attachments": [
+                            {
+                              "AttachmentID": "3451e34c-66a6-42b0-91e2-88618bdc169b",
+                              "FileName": "foobar.jpg",
+                              "Url": "https://api.xero.com/api.xro/2.0/Receipts/a44fd147-af4e-4fe8-a09a-55332df74162/Attachments/foobar.jpg",
+                              "MimeType": "image/jpg",
+                              "ContentLength": 2878711
+                            }
+                          ]
+                        }'
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
@@ -11039,14 +11202,29 @@ paths:
             type: string
             format: uuid
       responses:
-        '200':
-          description: Success - return response of type HistoryRecords array for newly created HistoryRecord for Receipt
+        '400':
+          description: Unsupported - return response incorrect exception, API is not able to create HistoryRecord for Receipts
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/HistoryRecords'
-        '400':
-          $ref: '#/components/responses/400Error'
+                $ref: '#/components/schemas/Error'
+              example: '{
+                          "ErrorNumber": 10,
+                          "Type": "ValidationException",
+                          "Message": "A validation exception occurred",
+                          "Elements": [
+                            {
+                              "DateUTCString": "2019-03-15T21:51:50",
+                              "DateUTC": "\/Date(1552686710791)\/",
+                              "Details": "Hello World",
+                              "ValidationErrors": [
+                                {
+                                  "Message": "The document with the supplied id was not found for this endpoint."
+                                }
+                              ]
+                            }
+                          ]
+                        }'
       requestBody:
         required: true
         content:
@@ -15063,6 +15241,11 @@ components:
           description: URL link to a source document – shown as “Go to [appName]” in the Xero app
           readOnly: true
           type: string
+        ValidationErrors: 
+          description: Displays array of validation error messages from the API
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
       required:
         - Date
         - Contact
@@ -15393,7 +15576,7 @@ components:
           items:
             $ref: '#/components/schemas/TaxRate'
     TaxType:
-      description: See Tax Types – can only be used on update call
+      description: See Tax Types – can only be used on update calls
       type: string
       enum:
       - OUTPUT
