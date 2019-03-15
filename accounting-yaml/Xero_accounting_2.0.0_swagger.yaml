@@ -1195,7 +1195,12 @@ paths:
                               "Total": 20.00,
                               "UpdatedDateUTC": "\/Date(1551213567813+0000)\/",
                               "CurrencyCode": "USD",
-                              "StatusAttributeString": "OK"
+                              "StatusAttributeString": "ERROR",
+                              "ValidationErrors": [
+                                {
+                                  "Message": "The Contact must contain at least 1 of the following elements to identify the contact: Name, ContactID, ContactNumber"
+                                }
+                              ]
                             }
                           ]
                         }'
@@ -4033,6 +4038,11 @@ paths:
                               "UpdatedDateUTC": "\/Date(1551812702650+0000)\/",
                               "CurrencyCode": "NZD",
                               "StatusAttributeString": "OK"
+                              "ValidationErrors": [
+                                {
+                                  "Message": "An existing Credit Note with the specified CreditNoteID could not be found"
+                                }
+                              ]
                             }
                           ]
                         }'
@@ -6743,7 +6753,11 @@ paths:
                               "IsTrackedAsInventory": false,
                               "IsSold": true,
                               "IsPurchased": true,
-                              "ValidationErrors": []
+                              "ValidationErrors": [
+                                {
+                                  "Message": "Price List Item with Code ''abc'' already exists"
+                                }
+                              ]
                             }
                           ]
                         }'
@@ -7317,7 +7331,12 @@ paths:
                               "Status": "DRAFT",
                               "Type": "BILLABLEEXPENSE",
                               "UpdatedDateUTC": "\/Date(1552351055000+0000)\/",
-                              "SourceTransactionTypeCode": "ACCPAY"
+                              "SourceTransactionTypeCode": "ACCPAY",
+                              "ValidationErrors": [
+                                {
+                                  "Message": "The SourceLineItemID and SourceTransactionID do not match"
+                                }
+                              ]
                             }
                           ]
                         }'
@@ -7607,7 +7626,17 @@ paths:
                                   "IsBlank": false
                                 }
                               ],
-                              "ShowOnCashBasisReports": true
+                              "ShowOnCashBasisReports": true,
+                              "Warnings": [
+                                {
+                                  "Message": "Account code ''476'' has been removed as it does not match a recognised account."
+                                }
+                              ],
+                              "ValidationErrors": [
+                                {
+                                  "Message": "The total debits (100.00) must equal total credits (-10.00)"
+                                }
+                              ]
                             }
                           ]
                         }'
@@ -8772,7 +8801,12 @@ paths:
                                 "UpdatedDateUTC": "\/Date(1552432238623+0000)\/",
                                 "CurrencyCode": "NZD"
                               },
-                              "HasValidationErrors": false
+                              "HasValidationErrors": false,
+                              "ValidationErrors": [
+                                {
+                                  "Message": "Payment amount exceeds the amount outstanding on this document"
+                                }
+                              ]
                             }
                           ]
                         }'
@@ -9159,6 +9193,11 @@ paths:
                               "PaymentServiceUrl": "https://www.payupnow.com/",
                               "PaymentServiceType": "Custom",
                               "PayNowText": "Time To Pay"
+                              "ValidationErrors": [
+                                {
+                                  "Message": "Payment service could not be found"
+                                }
+                              ]
                             }
                           ]
                         }'
@@ -10001,7 +10040,17 @@ paths:
                                 "TotalTax": 3.00,
                                 "Total": 23.00,
                                 "UpdatedDateUTC": "\/Date(1552522946077+0000)\/",
-                                "StatusAttributeString": "OK"
+                                "StatusAttributeString": "ERROR"
+                                "Warnings": [
+                                  {
+                                    "Message": "Only AUTHORISED and BILLED purchase orders may have SentToContact updated."
+                                  }
+                                ],
+                                "ValidationErrors": [
+                                  {
+                                    "Message": "Order number must be unique"
+                                  }
+                                ]
                               }
                             ]
                           }'
@@ -12130,6 +12179,11 @@ components:
           readOnly: true
           type: string
           format: date-time
+        ValidationErrors: 
+          description: Displays array of validation error messages from the API
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
     AccountType:
       description: See Account Types
       type: string
@@ -12272,10 +12326,7 @@ components:
           type: string
           format: uuid
         PrepaymentID:
-          description: >-
-            Xero generated unique identifier for a Prepayment. This will be
-            returned on BankTransactions with a Type of SPEND-PREPAYMENT or
-            RECEIVE-PREPAYMENT
+          description: Xero generated unique identifier for a Prepayment. This will be returned on BankTransactions with a Type of SPEND-PREPAYMENT or RECEIVE-PREPAYMENT
           readOnly: true
           type: string
           format: uuid
@@ -12293,6 +12344,14 @@ components:
           description: Boolean to indicate if a bank transaction has an attachment
           readOnly: true
           type: boolean
+        StatusAttributeString:
+          description: A string to indicate if a invoice status
+          type: string
+        ValidationErrors: 
+          description: Displays array of validation error messages from the API
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
       required:
         - Type
         - Contact
@@ -12435,6 +12494,11 @@ components:
           readOnly: true
           type: string
           format: date-time
+        ValidationErrors: 
+          description: Displays array of validation error messages from the API
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
       required:
         - FromBankAccount
         - ToBankAccount
@@ -12599,6 +12663,11 @@ components:
         PaymentServiceType:
           description: This will always be CUSTOM for payment services created via the API.
           type: string
+        ValidationErrors: 
+          description: Displays array of validation error messages from the API
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
     Contacts:
       type: object
       properties:
@@ -12987,6 +13056,11 @@ components:
         HasAttachments:
           description: boolean to indicate if a credit note has an attachment
           type: boolean
+        ValidationErrors: 
+          description: Displays array of validation error messages from the API
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
       type: object
     Allocations:
       type: object
@@ -13617,6 +13691,11 @@ components:
           description: The Xero identifier for an Item
           type: string
           format: uuid
+        ValidationErrors: 
+          description: Displays array of validation error messages from the API
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
       required:
         - Code
         - InventoryAssetAccountCode
@@ -13837,6 +13916,11 @@ components:
           enum:
           - ACCPAY
           - SPEND
+        ValidationErrors: 
+          description: Displays array of validation error messages from the API
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
       required:
         - SourceLineItemID
       type: object
@@ -13893,6 +13977,16 @@ components:
           description: The Xero identifier for a Manual Journal
           type: string
           format: uuid
+        Warnings: 
+          description: Displays array of warning messages from the API
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+        ValidationErrors: 
+          description: Displays array of validation error messages from the API
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
       required:
         - Narration
         - JournalLines
@@ -14690,6 +14784,11 @@ components:
         HasValidationErrors:
           description: A boolean to indicate if a contact has an validation errors
           type: boolean
+        ValidationErrors: 
+          description: Displays array of validation error messages from the API
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
       type: object
     Prepayments:
       type: object
@@ -14878,6 +14977,19 @@ components:
           readOnly: true
           type: string
           format: date-time
+        StatusAttributeString:
+          description: A string to indicate if a invoice status
+          type: string
+        ValidationErrors: 
+          description: Displays array of validation error messages from the API
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+        Warnings: 
+          description: Displays array of warning messages from the API
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
       required:
         - Contact
         - LineItems
@@ -15281,7 +15393,7 @@ components:
           items:
             $ref: '#/components/schemas/TaxRate'
     TaxType:
-      description: See Tax Types – can only be used on update calls
+      description: See Tax Types – can only be used on update call
       type: string
       enum:
       - OUTPUT
@@ -15424,7 +15536,7 @@ components:
           type: number
           format: double
         IsCompound:
-          description: Boolean to describe if Tax rate is compounded
+          description: Boolean to describe if Tax rate is compounded.
           type: boolean
         IsNonRecoverable:
           description: Boolean to describe if tax rate is non-recoverable. Non-recoverable rates are only applicable to Canadian organisations
