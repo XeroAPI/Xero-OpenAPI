@@ -9217,7 +9217,7 @@ paths:
                               "PaymentServiceName": "PayUpNow",
                               "PaymentServiceUrl": "https://www.payupnow.com/",
                               "PaymentServiceType": "Custom",
-                              "PayNowText": "Time To Pay"
+                              "PayNowText": "Time To Pay",
                               "ValidationErrors": [
                                 {
                                   "Message": "Payment service could not be found"
@@ -9316,148 +9316,6 @@ paths:
                             }
                           ]
                         }'
-    put:
-      tags:
-        - Accounting
-      operationId: createPrepayment
-      summary: Allows you to create prepayments
-      responses:
-        '200':
-          description: Success - return response of type Prepayments array for newly created Prepayment
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Prepayments'
-              example: '{
-                          "Id": "c8b75c94-e89b-4f4a-adc5-b3b13a023201",
-                          "Status": "OK",
-                          "ProviderName": "Java Partner Example",
-                          "DateTimeUTC": "\/Date(1552491114710)\/",
-                          "BankTransactions": [
-                            {
-                              "BankTransactionID": "af6ff403-9cc7-4f06-a4f5-d2c7f67952d9",
-                              "BankAccount": {
-                                "AccountID": "300f3bde-3a5c-4035-9ec5-45b09777679a",
-                                "Name": "My Big Bank"
-                              },
-                              "Type": "RECEIVE-PREPAYMENT",
-                              "IsReconciled": false,
-                              "CurrencyRate": 1.000000,
-                              "PrepaymentID": "eb369854-cd27-4740-9202-aac49a2b0a34",
-                              "Contact": {
-                                "ContactID": "430fa14a-f945-44d3-9f97-5df5e28441b8",
-                                "ContactStatus": "ACTIVE",
-                                "Name": "Liam Gallagher",
-                                "FirstName": "Liam",
-                                "LastName": "Gallagher",
-                                "EmailAddress": "liam@rockstar.com",
-                                "BankAccountDetails": "",
-                                "Addresses": [
-                                  {
-                                    "AddressType": "STREET",
-                                    "City": "",
-                                    "Region": "",
-                                    "PostalCode": "",
-                                    "Country": "",
-                                    "AttentionTo": ""
-                                  },
-                                  {
-                                    "AddressType": "POBOX",
-                                    "City": "Anytown",
-                                    "Region": "NY",
-                                    "PostalCode": "10101",
-                                    "Country": "USA",
-                                    "AttentionTo": ""
-                                  }
-                                ],
-                                "Phones": [
-                                  {
-                                    "PhoneType": "DEFAULT",
-                                    "PhoneNumber": "222-2222",
-                                    "PhoneAreaCode": "212",
-                                    "PhoneCountryCode": ""
-                                  },
-                                  {
-                                    "PhoneType": "DDI",
-                                    "PhoneNumber": "",
-                                    "PhoneAreaCode": "",
-                                    "PhoneCountryCode": ""
-                                  },
-                                  {
-                                    "PhoneType": "FAX",
-                                    "PhoneNumber": "333-2233",
-                                    "PhoneAreaCode": "212",
-                                    "PhoneCountryCode": ""
-                                  },
-                                  {
-                                    "PhoneType": "MOBILE",
-                                    "PhoneNumber": "444-3433",
-                                    "PhoneAreaCode": "212",
-                                    "PhoneCountryCode": ""
-                                  }
-                                ],
-                                "UpdatedDateUTC": "\/Date(1551747281053+0000)\/",
-                                "ContactGroups": [],
-                                "ContactPersons": [],
-                                "HasValidationErrors": false
-                              },
-                              "DateString": "2019-03-14T00:00:00",
-                              "Date": "\/Date(1552521600000+0000)\/",
-                              "Status": "AUTHORISED",
-                              "LineAmountTypes": "Inclusive",
-                              "LineItems": [
-                                {
-                                  "Description": "Foobar",
-                                  "UnitAmount": 20.00,
-                                  "TaxType": "NONE",
-                                  "TaxAmount": 0.00,
-                                  "LineAmount": 20.00,
-                                  "AccountCode": "710",
-                                  "Tracking": [],
-                                  "Quantity": 1.0000,
-                                  "LineItemID": "2bb283fd-96c0-44ca-861c-37e014436ae2",
-                                  "ValidationErrors": []
-                                }
-                              ],
-                              "SubTotal": 20.00,
-                              "TotalTax": 0.00,
-                              "Total": 20.00,
-                              "UpdatedDateUTC": "\/Date(1552491114600+0000)\/",
-                              "CurrencyCode": "NZD",
-                              "StatusAttributeString": "OK"
-                            }
-                          ]
-                        }'
-        '400':
-          $ref: '#/components/responses/400Error'
-      requestBody:
-        required: true
-        content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Prepayments'
-              example: '{  
-                           "BankTransactions":[  
-                              {  
-                                 "Type":"RECEIVE-PREPAYMENT",
-                                 "Contact":{  
-                                    "ContactID":"430fa14a-f945-44d3-9f97-5df5e28441b8"
-                                 },
-                                 "Lineitems":[  
-                                    {  
-                                       "Description":"Foobar",
-                                       "Quantity":1.0,
-                                       "UnitAmount":20.0,
-                                       "AccountCode":"710",
-                                       "TaxType":"NONE"
-                                    }
-                                 ],
-                                 "BankAccount":{  
-                                    "AccountID":"300f3bde-3a5c-4035-9ec5-45b09777679a"
-                                 }
-                              }
-                           ]
-                        }'
   '/Prepayments/{PrepaymentID}':
     x-related-model: Prepayment
     get:
@@ -9481,35 +9339,50 @@ paths:
               schema:
                 $ref: '#/components/schemas/Prepayments'
               example: '{
-                          "Id": "23348901-0e0c-49a9-a58f-57f5dad8248e",
+                          "Id": "18e5f578-ef28-4096-a7aa-d06d65574b99",
                           "Status": "OK",
                           "ProviderName": "Java Partner Example",
-                          "DateTimeUTC": "\/Date(1552490694398)\/",
+                          "DateTimeUTC": "\/Date(1553540376847)\/",
                           "Prepayments": [
                             {
-                              "PrepaymentID": "b2fa5a21-43b4-4b6c-92d5-cebc75f9db9f",
-                              "ID": "b2fa5a21-43b4-4b6c-92d5-cebc75f9db9f",
+                              "PrepaymentID": "ce0cddef-cf5a-4e59-b638-f225679115a7",
+                              "ID": "ce0cddef-cf5a-4e59-b638-f225679115a7",
                               "CurrencyRate": 1.000000,
-                              "Type": "SPEND-PREPAYMENT",
-                              "RemainingCredit": 0.00,
-                              "Allocations": [],
-                              "Payments": [
+                              "Type": "RECEIVE-PREPAYMENT",
+                              "Reference": "INV-0011",
+                              "RemainingCredit": 3449.00,
+                              "Allocations": [
                                 {
-                                  "PaymentID": "3af934ef-abe3-46eb-ab61-3b0f23f1f4fb",
-                                  "Date": "\/Date(1553126400000+0000)\/",
-                                  "Amount": 2300.00,
-                                  "Reference": "paid too much",
-                                  "CurrencyRate": 1.000000,
-                                  "HasAccount": false,
-                                  "HasValidationErrors": false
+                                  "Amount": 1.00,
+                                  "Date": "\/Date(1552435200000+0000)\/",
+                                  "Invoice": {
+                                    "InvoiceID": "c7c37b83-ac95-45ea-88ba-8ad83a5f22fe",
+                                    "InvoiceNumber": "INV-0004",
+                                    "Payments": [],
+                                    "CreditNotes": [],
+                                    "Prepayments": [],
+                                    "Overpayments": [],
+                                    "HasErrors": false,
+                                    "IsDiscounted": false,
+                                    "LineItems": []
+                                  }
                                 }
                               ],
-                              "HasAttachments": false,
-                              "Attachments": [],
+                              "Payments": [],
+                              "HasAttachments": true,
+                              "Attachments": [
+                                {
+                                  "AttachmentID": "2ca06aa0-3629-474a-9401-553d4b7fa9b0",
+                                  "FileName": "giphy.gif",
+                                  "Url": "https://api.xero.com/api.xro/2.0/banktransaction/ce0cddef-cf5a-4e59-b638-f225679115a7/Attachments/giphy.gif",
+                                  "MimeType": "image/gif",
+                                  "ContentLength": 495727
+                                }
+                              ],
                               "Contact": {
-                                "ContactID": "c8f2553d-0175-4218-ae75-0084f54e9c53",
+                                "ContactID": "be392c72-c121-4f83-9512-03ac71e54c20",
                                 "ContactStatus": "ACTIVE",
-                                "Name": "Tony Stark",
+                                "Name": "Luke Skywalker",
                                 "EmailAddress": "",
                                 "BankAccountDetails": "",
                                 "Addresses": [
@@ -9554,7 +9427,7 @@ paths:
                                     "PhoneCountryCode": ""
                                   }
                                 ],
-                                "UpdatedDateUTC": "\/Date(1552489030860+0000)\/",
+                                "UpdatedDateUTC": "\/Date(1552329691573+0000)\/",
                                 "ContactGroups": [],
                                 "DefaultCurrency": "NZD",
                                 "ContactPersons": [],
@@ -9562,25 +9435,26 @@ paths:
                               },
                               "DateString": "2019-03-13T00:00:00",
                               "Date": "\/Date(1552435200000+0000)\/",
-                              "Status": "PAID",
+                              "Status": "AUTHORISED",
                               "LineAmountTypes": "Exclusive",
                               "LineItems": [
                                 {
-                                  "Description": "New Suit",
-                                  "UnitAmount": 2000.00,
-                                  "TaxType": "INPUT2",
-                                  "TaxAmount": 300.00,
-                                  "LineAmount": 2000.00,
-                                  "AccountCode": "429",
+                                  "Description": "Light Speeder",
+                                  "UnitAmount": 3000.00,
+                                  "TaxType": "OUTPUT2",
+                                  "TaxAmount": 450.00,
+                                  "LineAmount": 3000.00,
+                                  "AccountCode": "200",
                                   "Tracking": [],
                                   "Quantity": 1.0000,
+                                  "DiscountEnteredAsPercent": true,
                                   "ValidationErrors": []
                                 }
                               ],
-                              "SubTotal": 2000.00,
-                              "TotalTax": 300.00,
-                              "Total": 2300.00,
-                              "UpdatedDateUTC": "\/Date(1552489090420+0000)\/",
+                              "SubTotal": 3000.00,
+                              "TotalTax": 450.00,
+                              "Total": 3450.00,
+                              "UpdatedDateUTC": "\/Date(1552522424850+0000)\/",
                               "CurrencyCode": "NZD"
                             }
                           ]
