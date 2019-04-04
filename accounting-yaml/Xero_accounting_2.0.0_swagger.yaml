@@ -940,6 +940,11 @@ paths:
           description: e.g. page=1 – Up to 100 bank transactions will be returned in a single API call with line items shown for each bank transaction
           schema:
             type: integer
+        - in: query
+          name: unitdp
+          description: e.g. unitdp=4 – You can opt in to use four decimal places for unit amounts
+          schema:
+            type: integer
       responses:
         '200':
           description:  Success - return response of type BankTransactions array with 0 to n BankTransaction 
@@ -5593,6 +5598,11 @@ paths:
           description: When set to true you'll only retrieve Invoices created by your app
           schema:
             type: boolean
+        - in: query
+          name: unitdp
+          description: e.g. unitdp=4 – You can opt in to use four decimal places for unit amounts
+          schema:
+            type: integer
       responses:
         '200':
           description: Success - return response of type Invoices array with all Invoices
@@ -6681,6 +6691,11 @@ paths:
           description: Order by an any element
           schema:
             type: string
+        - in: query
+          name: unitdp
+          description: e.g. unitdp=4 – You can opt in to use four decimal places for unit amounts
+          schema:
+            type: integer
       responses:
         '200':
           description: Success - return response of type Items array with all Item
@@ -8153,6 +8168,11 @@ paths:
           description: e.g. page=1 – Up to 100 overpayments will be returned in a single API call with line items shown for each overpayment
           schema:
             type: integer
+        - in: query
+          name: unitdp
+          description: e.g. unitdp=4 – You can opt in to use four decimal places for unit amounts
+          schema:
+            type: integer
       responses:
         '200':
           description: Success - return response of type Overpayments array with all Overpayments
@@ -9270,6 +9290,11 @@ paths:
         - in: query
           name: page
           description: e.g. page=1 – Up to 100 prepayments will be returned in a single API call with line items shown for each overpayment
+          schema:
+            type: integer
+        - in: query
+          name: unitdp
+          description: e.g. unitdp=4 – You can opt in to use four decimal places for unit amounts
           schema:
             type: integer
       responses:
@@ -10393,6 +10418,11 @@ paths:
           description: Order by an any element
           schema:
             type: string
+        - in: query
+          name: unitdp
+          description: e.g. unitdp=4 – You can opt in to use four decimal places for unit amounts
+          schema:
+            type: integer
       responses:
         '200':
           description: Success - return response of type Receipts array for all Receipt   
@@ -16075,7 +16105,7 @@ components:
           description: Boolean to indicate if user is the subscriber
           type: boolean
         OrganisationRole:
-          description: User role (see Types)
+          description: User role that defines permissions in Xero and via API (READONLY, INVOICEONLY, STANDARD, FINANCIALADVISER, etc)
           type: string
           enum:
           - READONLY
