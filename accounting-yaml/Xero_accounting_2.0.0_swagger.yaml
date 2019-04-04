@@ -10,6 +10,11 @@ info:
     name: "Xero Platform Team"
     email: "api@xero.com"
     url: "https://developer.xero.com"
+security:
+  - oAuth2AuthCode:
+      - openid
+      - email
+      - profile
 paths:
   /Accounts:
     get:
@@ -12370,6 +12375,18 @@ paths:
                           ]
                         }'
 components:
+  securitySchemes:
+    oAuth2AuthCode:
+      type: oauth2
+      description: For more information
+      flows: 
+        authorizationCode:
+          authorizationUrl: 'https://login.xero.com/identity/connect/authorize'
+          tokenUrl: 'https://identity.xero.com/connect/token'
+          scopes:
+            email: Grant read-only access to your email
+            openid: Grant read-only access to your open id
+            profile: your profile information
   responses:
     400Error:
       description: A failed request due to validation error
@@ -16075,7 +16092,7 @@ components:
           description: Boolean to indicate if user is the subscriber
           type: boolean
         OrganisationRole:
-          description: User role (see Types)
+          description: User role that defines permissions in Xero and via API (READONLY, INVOICEONLY, STANDARD, FINANCIALADVISER, etc)
           type: string
           enum:
           - READONLY
