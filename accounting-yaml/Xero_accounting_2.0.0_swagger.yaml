@@ -13224,71 +13224,6 @@ paths:
           description: The date for the Bank Summary report e.g. 2018-03-31
           schema:
             type: string
-        - in: query
-          name: period
-          description: The number of periods to compare (integer between 1 and 12)
-          schema:
-            type: integer
-        - in: query
-          name: timeframe
-          description: The period size to compare to (1=month, 3=quarter, 12=year)
-          schema:
-            type: integer
-      responses:
-        '200':
-          description: Success - return response of type ReportWithRows
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ReportWithRows'
-  '/Reports':
-    x-related-model: Report
-    get:
-      tags:
-        - Accounting
-      operationId: getReportBASorGSTList
-      summary: Allows you to retrieve report for BAS only valid for AU orgs
-      responses:
-        '200':
-          description: Success - return response of type ReportWithRows
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ReportWithRows'
-  '/Reports/{ReportID}':
-    x-related-model: Report
-    get:
-      tags:
-        - Accounting
-      operationId: getReportBASorGST
-      summary: Allows you to retrieve report for BAS only valid for AU orgs
-      parameters:
-        - in: path
-          required: true
-          name: ReportID
-          description: Unique identifier for a Report
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Success - return response of type ReportWithRows
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ReportWithRows'
-  '/Reports/BudgetSummary':
-    x-related-model: Report
-    get:
-      tags:
-        - Accounting
-      operationId: getReportBudgetSummary
-      summary: Allows you to retrieve report for Budget Summary
-      parameters:
-        - in: query
-          name: date
-          description: The date for the Bank Summary report e.g. 2018-03-31
-          schema:
-            type: string
             format: date
         - in: query
           name: period
@@ -13302,7 +13237,7 @@ paths:
             type: integer
       responses:
         '200':
-          description: success- return a Report with Rows object
+          description: Success - return response of type ReportWithRows
           content:
             application/json:
               schema:
@@ -13414,6 +13349,72 @@ paths:
                             }
                           ]
                         }'
+  '/Reports':
+    x-related-model: Report
+    get:
+      tags:
+        - Accounting
+      operationId: getReportBASorGSTList
+      summary: Allows you to retrieve report for BAS only valid for AU orgs
+      responses:
+        '200':
+          description: Success - return response of type ReportWithRows
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportWithRows'
+  '/Reports/{ReportID}':
+    x-related-model: Report
+    get:
+      tags:
+        - Accounting
+      operationId: getReportBASorGST
+      summary: Allows you to retrieve report for BAS only valid for AU orgs
+      parameters:
+        - in: path
+          required: true
+          name: ReportID
+          description: Unique identifier for a Report
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success - return response of type ReportWithRows
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportWithRows'
+  '/Reports/BudgetSummary':
+    x-related-model: Report
+    get:
+      tags:
+        - Accounting
+      operationId: getReportBudgetSummary
+      summary: Allows you to retrieve report for Budget Summary
+      parameters:
+        - in: query
+          name: date
+          description: The date for the Bank Summary report e.g. 2018-03-31
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: period
+          description: The number of periods to compare (integer between 1 and 12)
+          schema:
+            type: integer
+        - in: query
+          name: timeframe
+          description: The period size to compare to (1=month, 3=quarter, 12=year)
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: success- return a Report with Rows object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportWithRows'
   '/Reports/ExecutiveSummary':
     x-related-model: Report
     get:
@@ -17952,7 +17953,7 @@ components:
         url: 'https://developer.xero.com/documentation/api/http-response-codes'
       properties:
         ValidationErrors:
-          description: Array of Validation Error messages
+          description: Array of Validation Error message
           type: array
           items:
             $ref: '#/components/schemas/ValidationError'
