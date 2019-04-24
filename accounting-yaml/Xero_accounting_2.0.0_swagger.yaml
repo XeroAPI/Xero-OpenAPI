@@ -13699,281 +13699,6 @@ paths:
                             }
                           ]
                         }'
-  '/Reports/BankSummary':
-    x-related-model: Report
-    get:
-      tags:
-        - Accounting
-      operationId: getReportBankSummary
-      summary: Allows you to retrieve report for BankSummary
-      parameters:
-        - in: query
-          name: date
-          description: The date for the Bank Summary report e.g. 2018-03-31
-          schema:
-            type: string
-            format: date
-        - in: query
-          name: period
-          description: The number of periods to compare (integer between 1 and 12)
-          schema:
-            type: integer
-        - in: query
-          name: timeframe
-          description: The period size to compare to (1=month, 3=quarter, 12=year)
-          schema:
-            type: integer
-      responses:
-        '200':
-          description: Success - return response of type ReportWithRows
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ReportWithRows'
-              example: '{
-                          "Id": "ae58d0ec-9c5c-455f-b96e-690107579257",
-                          "Status": "OK",
-                          "ProviderName": "Java Public Example",
-                          "DateTimeUTC": "\/Date(1556035526223)\/",
-                          "Reports": [
-                            {
-                              "ReportID": "BankSummary",
-                              "ReportName": "Bank Summary",
-                              "ReportType": "BankSummary",
-                              "ReportTitles": [
-                                "Bank Summary",
-                                "MindBody Test 10 (AU-2016-02)",
-                                "From 1 April 2019 to 30 April 2019"
-                              ],
-                              "ReportDate": "23 April 2019",
-                              "UpdatedDateUTC": "\/Date(1556035526223)\/",
-                              "Fields": [],
-                              "Rows": [
-                                {
-                                  "RowType": "Header",
-                                  "Cells": [
-                                    {
-                                      "Value": "Bank Accounts"
-                                    },
-                                    {
-                                      "Value": "Opening Balance"
-                                    },
-                                    {
-                                      "Value": "Cash Received"
-                                    },
-                                    {
-                                      "Value": "Cash Spent"
-                                    },
-                                    {
-                                      "Value": "Closing Balance"
-                                    }
-                                  ]
-                                },
-                                {
-                                  "RowType": "Section",
-                                  "Title": "",
-                                  "Rows": [
-                                    {
-                                      "RowType": "Row",
-                                      "Cells": [
-                                        {
-                                          "Value": "Big City Bank",
-                                          "Attributes": [
-                                            {
-                                              "Value": "03f9cf1e-2deb-4bf1-b0a8-b57f08672eb8",
-                                              "Id": "accountID"
-                                            }
-                                          ]
-                                        },
-                                        {
-                                          "Value": "0.00"
-                                        },
-                                        {
-                                          "Value": "110.00",
-                                          "Attributes": [
-                                            {
-                                              "Value": "03f9cf1e-2deb-4bf1-b0a8-b57f08672eb8",
-                                              "Id": "account"
-                                            }
-                                          ]
-                                        },
-                                        {
-                                          "Value": "100.00",
-                                          "Attributes": [
-                                            {
-                                              "Value": "03f9cf1e-2deb-4bf1-b0a8-b57f08672eb8",
-                                              "Id": "account"
-                                            }
-                                          ]
-                                        },
-                                        {
-                                          "Value": "10.00"
-                                        }
-                                      ]
-                                    },
-                                    {
-                                      "RowType": "SummaryRow",
-                                      "Cells": [
-                                        {
-                                          "Value": "Total"
-                                        },
-                                        {
-                                          "Value": "0.00"
-                                        },
-                                        {
-                                          "Value": "110.00"
-                                        },
-                                        {
-                                          "Value": "100.00"
-                                        },
-                                        {
-                                          "Value": "10.00"
-                                        }
-                                      ]
-                                    }
-                                  ]
-                                }
-                              ]
-                            }
-                          ]
-                        }'
-  '/Reports':
-    x-related-model: Report
-    get:
-      tags:
-        - Accounting
-      operationId: getReportBASorGSTList
-      summary: Allows you to retrieve report for BAS only valid for AU orgs
-      responses:
-        '200':
-          description: Success - return response of type ReportWithRows
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ReportWithRows'
-  '/Reports/{ReportID}':
-    x-related-model: Report
-    get:
-      tags:
-        - Accounting
-      operationId: getReportBASorGST
-      summary: Allows you to retrieve report for BAS only valid for AU orgs
-      parameters:
-        - in: path
-          required: true
-          name: ReportID
-          description: Unique identifier for a Report
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Success - return response of type ReportWithRows
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ReportWithRows'
-  '/Reports/BudgetSummary':
-    x-related-model: Report
-    get:
-      tags:
-        - Accounting
-      operationId: getReportBudgetSummary
-      summary: Allows you to retrieve report for Budget Summary
-      parameters:
-        - in: query
-          name: date
-          description: The date for the Bank Summary report e.g. 2018-03-31
-          schema:
-            type: string
-            format: date
-        - in: query
-          name: period
-          description: The number of periods to compare (integer between 1 and 12)
-          schema:
-            type: integer
-        - in: query
-          name: timeframe
-          description: The period size to compare to (1=month, 3=quarter, 12=year)
-          schema:
-            type: integer
-      responses:
-        '200':
-          description: success- return a Report with Rows object
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ReportWithRows'
-  '/Reports/ProfitAndLoss':
-    x-related-model: Report
-    get:
-      tags:
-        - Accounting
-      operationId: getReportProfitAndLoss
-      summary: Allows you to retrieve report for ProfitAndLoss
-      parameters:
-        - in: query
-          name: fromDate
-          description: The from date for the ProfitAndLoss report e.g. 2018-03-31
-          schema:
-            type: string
-            format: date
-        - in: query
-          name: toDate
-          description: The to date for the ProfitAndLoss report e.g. 2018-03-31
-          schema:
-            type: string
-            format: date
-        - in: query
-          name: periods
-          description: The number of periods to compare (integer between 1 and 12)
-          schema:
-            type: integer
-        - in: query
-          name: timeframe
-          description: The period size to compare to (MONTH, QUARTER, YEAR)
-          schema:
-            type: string
-            enum:
-            - MONTH
-            - QUARTER
-            - YEAR
-        - in: query
-          name: trackingCategoryID
-          description: The trackingCategory 1 for the ProfitAndLoss report 
-          schema:
-            type: string
-        - in: query
-          name: trackingCategoryID2
-          description: The trackingCategory 2 for the ProfitAndLoss report 
-          schema:
-            type: string
-        - in: query
-          name: trackingOptionID
-          description: The tracking option 1 for the ProfitAndLoss report 
-          schema:
-            type: string
-        - in: query
-          name: trackingOptionID2
-          description: The tracking option 2 for the ProfitAndLoss report 
-          schema:
-            type: string
-        - in: query
-          name: standardLayout
-          description: Return the standard layout for the ProfitAndLoss report 
-          schema:
-            type: boolean
-        - in: query
-          name: paymentsOnly
-          description: Return cash only basis for the ProfitAndLoss report 
-          schema:
-            type: boolean     
-      responses:
-        '200':
-          description: Success - return response of type ReportWithRows
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ReportWithRows'       
   '/Reports/TrialBalance':
     x-related-model: Report
     get:
@@ -15081,6 +14806,281 @@ paths:
                             }
                           ]
                         }'
+  '/Reports/BankSummary':
+    x-related-model: Report
+    get:
+      tags:
+        - Accounting
+      operationId: getReportBankSummary
+      summary: Allows you to retrieve report for BankSummary
+      parameters:
+        - in: query
+          name: date
+          description: The date for the Bank Summary report e.g. 2018-03-31
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: period
+          description: The number of periods to compare (integer between 1 and 12)
+          schema:
+            type: integer
+        - in: query
+          name: timeframe
+          description: The period size to compare to (1=month, 3=quarter, 12=year)
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Success - return response of type ReportWithRows
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportWithRows'
+              example: '{
+                          "Id": "ae58d0ec-9c5c-455f-b96e-690107579257",
+                          "Status": "OK",
+                          "ProviderName": "Java Public Example",
+                          "DateTimeUTC": "\/Date(1556035526223)\/",
+                          "Reports": [
+                            {
+                              "ReportID": "BankSummary",
+                              "ReportName": "Bank Summary",
+                              "ReportType": "BankSummary",
+                              "ReportTitles": [
+                                "Bank Summary",
+                                "MindBody Test 10 (AU-2016-02)",
+                                "From 1 April 2019 to 30 April 2019"
+                              ],
+                              "ReportDate": "23 April 2019",
+                              "UpdatedDateUTC": "\/Date(1556035526223)\/",
+                              "Fields": [],
+                              "Rows": [
+                                {
+                                  "RowType": "Header",
+                                  "Cells": [
+                                    {
+                                      "Value": "Bank Accounts"
+                                    },
+                                    {
+                                      "Value": "Opening Balance"
+                                    },
+                                    {
+                                      "Value": "Cash Received"
+                                    },
+                                    {
+                                      "Value": "Cash Spent"
+                                    },
+                                    {
+                                      "Value": "Closing Balance"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "RowType": "Section",
+                                  "Title": "",
+                                  "Rows": [
+                                    {
+                                      "RowType": "Row",
+                                      "Cells": [
+                                        {
+                                          "Value": "Big City Bank",
+                                          "Attributes": [
+                                            {
+                                              "Value": "03f9cf1e-2deb-4bf1-b0a8-b57f08672eb8",
+                                              "Id": "accountID"
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        },
+                                        {
+                                          "Value": "110.00",
+                                          "Attributes": [
+                                            {
+                                              "Value": "03f9cf1e-2deb-4bf1-b0a8-b57f08672eb8",
+                                              "Id": "account"
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "Value": "100.00",
+                                          "Attributes": [
+                                            {
+                                              "Value": "03f9cf1e-2deb-4bf1-b0a8-b57f08672eb8",
+                                              "Id": "account"
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "Value": "10.00"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "RowType": "SummaryRow",
+                                      "Cells": [
+                                        {
+                                          "Value": "Total"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        },
+                                        {
+                                          "Value": "110.00"
+                                        },
+                                        {
+                                          "Value": "100.00"
+                                        },
+                                        {
+                                          "Value": "10.00"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }'
+  /Reports:
+    x-related-model: Report
+    get:
+      tags:
+        - Accounting
+      operationId: getReportBASorGSTList
+      summary: Allows you to retrieve report for BAS only valid for AU orgs
+      responses:
+        '200':
+          description: Success - return response of type ReportWithRows
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportWithRows'
+  '/Reports/{ReportID}':
+    x-related-model: Report
+    get:
+      tags:
+        - Accounting
+      operationId: getReportBASorGST
+      summary: Allows you to retrieve report for BAS only valid for AU orgs
+      parameters:
+        - in: path
+          required: true
+          name: ReportID
+          description: Unique identifier for a Report
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success - return response of type ReportWithRows
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportWithRows'
+  '/Reports/BudgetSummary':
+    x-related-model: Report
+    get:
+      tags:
+        - Accounting
+      operationId: getReportBudgetSummary
+      summary: Allows you to retrieve report for Budget Summary
+      parameters:
+        - in: query
+          name: date
+          description: The date for the Bank Summary report e.g. 2018-03-31
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: period
+          description: The number of periods to compare (integer between 1 and 12)
+          schema:
+            type: integer
+        - in: query
+          name: timeframe
+          description: The period size to compare to (1=month, 3=quarter, 12=year)
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: success- return a Report with Rows object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportWithRows'
+  '/Reports/ProfitAndLoss':
+    x-related-model: Report
+    get:
+      tags:
+        - Accounting
+      operationId: getReportProfitAndLoss
+      summary: Allows you to retrieve report for ProfitAndLoss
+      parameters:
+        - in: query
+          name: fromDate
+          description: The from date for the ProfitAndLoss report e.g. 2018-03-31
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: toDate
+          description: The to date for the ProfitAndLoss report e.g. 2018-03-31
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: periods
+          description: The number of periods to compare (integer between 1 and 12)
+          schema:
+            type: integer
+        - in: query
+          name: timeframe
+          description: The period size to compare to (MONTH, QUARTER, YEAR)
+          schema:
+            type: string
+            enum:
+            - MONTH
+            - QUARTER
+            - YEAR
+        - in: query
+          name: trackingCategoryID
+          description: The trackingCategory 1 for the ProfitAndLoss report 
+          schema:
+            type: string
+        - in: query
+          name: trackingCategoryID2
+          description: The trackingCategory 2 for the ProfitAndLoss report 
+          schema:
+            type: string
+        - in: query
+          name: trackingOptionID
+          description: The tracking option 1 for the ProfitAndLoss report 
+          schema:
+            type: string
+        - in: query
+          name: trackingOptionID2
+          description: The tracking option 2 for the ProfitAndLoss report 
+          schema:
+            type: string
+        - in: query
+          name: standardLayout
+          description: Return the standard layout for the ProfitAndLoss report 
+          schema:
+            type: boolean
+        - in: query
+          name: paymentsOnly
+          description: Return cash only basis for the ProfitAndLoss report 
+          schema:
+            type: boolean     
+      responses:
+        '200':
+          description: Success - return response of type ReportWithRows
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportWithRows'       
   /TaxRates:
     x-related-model: TaxRate
     get:
