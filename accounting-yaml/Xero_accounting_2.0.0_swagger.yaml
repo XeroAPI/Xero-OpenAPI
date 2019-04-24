@@ -14806,6 +14806,378 @@ paths:
                             }
                           ]
                         }'
+  '/Reports/ProfitAndLoss':
+    x-related-model: Report
+    get:
+      tags:
+        - Accounting
+      operationId: getReportProfitAndLoss
+      summary: Allows you to retrieve report for ProfitAndLoss
+      parameters:
+        - in: query
+          name: fromDate
+          description: The from date for the ProfitAndLoss report e.g. 2018-03-31
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: toDate
+          description: The to date for the ProfitAndLoss report e.g. 2018-03-31
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: periods
+          description: The number of periods to compare (integer between 1 and 12)
+          schema:
+            type: integer
+        - in: query
+          name: timeframe
+          description: The period size to compare to (MONTH, QUARTER, YEAR)
+          schema:
+            type: string
+            enum:
+            - MONTH
+            - QUARTER
+            - YEAR
+        - in: query
+          name: trackingCategoryID
+          description: The trackingCategory 1 for the ProfitAndLoss report 
+          schema:
+            type: string
+        - in: query
+          name: trackingCategoryID2
+          description: The trackingCategory 2 for the ProfitAndLoss report 
+          schema:
+            type: string
+        - in: query
+          name: trackingOptionID
+          description: The tracking option 1 for the ProfitAndLoss report 
+          schema:
+            type: string
+        - in: query
+          name: trackingOptionID2
+          description: The tracking option 2 for the ProfitAndLoss report 
+          schema:
+            type: string
+        - in: query
+          name: standardLayout
+          description: Return the standard layout for the ProfitAndLoss report 
+          schema:
+            type: boolean
+        - in: query
+          name: paymentsOnly
+          description: Return cash only basis for the ProfitAndLoss report 
+          schema:
+            type: boolean     
+      responses:
+        '200':
+          description: Success - return response of type ReportWithRows
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportWithRows'
+              example: '{
+                          "Id": "307440be-d9e2-4963-8133-a59d737d3a46",
+                          "Status": "OK",
+                          "ProviderName": "Java Public Example",
+                          "DateTimeUTC": "\/Date(1556133173644)\/",
+                          "Reports": [
+                            {
+                              "ReportID": "ProfitAndLoss",
+                              "ReportName": "Profit and Loss",
+                              "ReportType": "ProfitAndLoss",
+                              "ReportTitles": [
+                                "Income Statement",
+                                "Dev Evangelist - Sid Test 1 (US-2016-06)",
+                                "10 October 2018 to 24 April 2019"
+                              ],
+                              "ReportDate": "24 April 2019",
+                              "UpdatedDateUTC": "\/Date(1556133173644)\/",
+                              "Fields": [],
+                              "Rows": [
+                                {
+                                  "RowType": "Header",
+                                  "Cells": [
+                                    {
+                                      "Value": ""
+                                    },
+                                    {
+                                      "Value": "24 Apr 19"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "RowType": "Section",
+                                  "Title": "Revenue",
+                                  "Rows": [
+                                    {
+                                      "RowType": "Row",
+                                      "Cells": [
+                                        {
+                                          "Value": "Big Expense",
+                                          "Attributes": [
+                                            {
+                                              "Value": "da962997-a8bd-4dff-9616-01cdc199283f",
+                                              "Id": "account"
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "Value": "480.00",
+                                          "Attributes": [
+                                            {
+                                              "Value": "da962997-a8bd-4dff-9616-01cdc199283f",
+                                              "Id": "account"
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "RowType": "Row",
+                                      "Cells": [
+                                        {
+                                          "Value": "Sales",
+                                          "Attributes": [
+                                            {
+                                              "Value": "02439bca-5fdc-4b62-b281-0bdf9f16fd5b",
+                                              "Id": "account"
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "Value": "1954.10",
+                                          "Attributes": [
+                                            {
+                                              "Value": "02439bca-5fdc-4b62-b281-0bdf9f16fd5b",
+                                              "Id": "account"
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "RowType": "Row",
+                                      "Cells": [
+                                        {
+                                          "Value": "Sales-35325",
+                                          "Attributes": [
+                                            {
+                                              "Value": "3f50db14-1fe6-450b-bfe8-b2d894f18c62",
+                                              "Id": "account"
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "Value": "1000.00",
+                                          "Attributes": [
+                                            {
+                                              "Value": "3f50db14-1fe6-450b-bfe8-b2d894f18c62",
+                                              "Id": "account"
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "RowType": "SummaryRow",
+                                      "Cells": [
+                                        {
+                                          "Value": "Total Revenue"
+                                        },
+                                        {
+                                          "Value": "3434.10"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "RowType": "Section",
+                                  "Title": "",
+                                  "Rows": [
+                                    {
+                                      "RowType": "Row",
+                                      "Cells": [
+                                        {
+                                          "Value": "Gross Profit"
+                                        },
+                                        {
+                                          "Value": "3434.10"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "RowType": "Section",
+                                  "Title": "",
+                                  "Rows": [
+                                    {
+                                      "RowType": "Row",
+                                      "Cells": [
+                                        {
+                                          "Value": "Operating Income / (Loss)"
+                                        },
+                                        {
+                                          "Value": "3434.10"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "RowType": "Section",
+                                  "Title": "Other Income and Expense",
+                                  "Rows": [
+                                    {
+                                      "RowType": "Row",
+                                      "Cells": [
+                                        {
+                                          "Value": "Consulting & Accounting",
+                                          "Attributes": [
+                                            {
+                                              "Value": "86db6a8b-d4aa-4fc9-9ba3-d80e609a7ec0",
+                                              "Id": "account"
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "Value": "-7.50",
+                                          "Attributes": [
+                                            {
+                                              "Value": "86db6a8b-d4aa-4fc9-9ba3-d80e609a7ec0",
+                                              "Id": "account"
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "RowType": "Row",
+                                      "Cells": [
+                                        {
+                                          "Value": "Foobar14043",
+                                          "Attributes": [
+                                            {
+                                              "Value": "d1602f69-f900-4616-8d34-90af393fa368",
+                                              "Id": "account"
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "Value": "-40.00",
+                                          "Attributes": [
+                                            {
+                                              "Value": "d1602f69-f900-4616-8d34-90af393fa368",
+                                              "Id": "account"
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "RowType": "Row",
+                                      "Cells": [
+                                        {
+                                          "Value": "MyExp51937",
+                                          "Attributes": [
+                                            {
+                                              "Value": "90f10e0a-a043-46fe-b87e-630e9a951dae",
+                                              "Id": "account"
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "Value": "-80.00",
+                                          "Attributes": [
+                                            {
+                                              "Value": "90f10e0a-a043-46fe-b87e-630e9a951dae",
+                                              "Id": "account"
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "RowType": "SummaryRow",
+                                      "Cells": [
+                                        {
+                                          "Value": "Total Other Income and Expense"
+                                        },
+                                        {
+                                          "Value": "-127.50"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "RowType": "Section",
+                                  "Title": "",
+                                  "Rows": [
+                                    {
+                                      "RowType": "Row",
+                                      "Cells": [
+                                        {
+                                          "Value": "Net Income  / (Loss) before Tax"
+                                        },
+                                        {
+                                          "Value": "3306.60"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "RowType": "Section",
+                                  "Title": "",
+                                  "Rows": []
+                                },
+                                {
+                                  "RowType": "Section",
+                                  "Title": "",
+                                  "Rows": [
+                                    {
+                                      "RowType": "Row",
+                                      "Cells": [
+                                        {
+                                          "Value": "Net Income"
+                                        },
+                                        {
+                                          "Value": "3306.60"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "RowType": "Section",
+                                  "Title": "",
+                                  "Rows": []
+                                },
+                                {
+                                  "RowType": "Section",
+                                  "Title": "",
+                                  "Rows": [
+                                    {
+                                      "RowType": "Row",
+                                      "Cells": [
+                                        {
+                                          "Value": "Total Comprehensive Income"
+                                        },
+                                        {
+                                          "Value": "3306.60"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }'
   '/Reports/BudgetSummary':
     x-related-model: Report
     get:
@@ -15427,78 +15799,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ReportWithRows'
-  '/Reports/ProfitAndLoss':
-    x-related-model: Report
-    get:
-      tags:
-        - Accounting
-      operationId: getReportProfitAndLoss
-      summary: Allows you to retrieve report for ProfitAndLoss
-      parameters:
-        - in: query
-          name: fromDate
-          description: The from date for the ProfitAndLoss report e.g. 2018-03-31
-          schema:
-            type: string
-            format: date
-        - in: query
-          name: toDate
-          description: The to date for the ProfitAndLoss report e.g. 2018-03-31
-          schema:
-            type: string
-            format: date
-        - in: query
-          name: periods
-          description: The number of periods to compare (integer between 1 and 12)
-          schema:
-            type: integer
-        - in: query
-          name: timeframe
-          description: The period size to compare to (MONTH, QUARTER, YEAR)
-          schema:
-            type: string
-            enum:
-            - MONTH
-            - QUARTER
-            - YEAR
-        - in: query
-          name: trackingCategoryID
-          description: The trackingCategory 1 for the ProfitAndLoss report 
-          schema:
-            type: string
-        - in: query
-          name: trackingCategoryID2
-          description: The trackingCategory 2 for the ProfitAndLoss report 
-          schema:
-            type: string
-        - in: query
-          name: trackingOptionID
-          description: The tracking option 1 for the ProfitAndLoss report 
-          schema:
-            type: string
-        - in: query
-          name: trackingOptionID2
-          description: The tracking option 2 for the ProfitAndLoss report 
-          schema:
-            type: string
-        - in: query
-          name: standardLayout
-          description: Return the standard layout for the ProfitAndLoss report 
-          schema:
-            type: boolean
-        - in: query
-          name: paymentsOnly
-          description: Return cash only basis for the ProfitAndLoss report 
-          schema:
-            type: boolean     
-      responses:
-        '200':
-          description: Success - return response of type ReportWithRows
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ReportWithRows'       
+                $ref: '#/components/schemas/ReportWithRows'      
   /TaxRates:
     x-related-model: TaxRate
     get:
