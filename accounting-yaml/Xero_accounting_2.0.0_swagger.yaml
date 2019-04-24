@@ -14806,6 +14806,455 @@ paths:
                             }
                           ]
                         }'
+  '/Reports/BudgetSummary':
+    x-related-model: Report
+    get:
+      tags:
+        - Accounting
+      operationId: getReportBudgetSummary
+      summary: Allows you to retrieve report for Budget Summary
+      parameters:
+        - in: query
+          name: date
+          description: The date for the Bank Summary report e.g. 2018-03-31
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: period
+          description: The number of periods to compare (integer between 1 and 12)
+          schema:
+            type: integer
+        - in: query
+          name: timeframe
+          description: The period size to compare to (1=month, 3=quarter, 12=year)
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: success- return a Report with Rows object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportWithRows'
+              example: '{
+                          "Id": "a0b76f7e-7a14-4d3c-87f2-a1bde778d0ac",
+                          "Status": "OK",
+                          "ProviderName": "Java Public Example",
+                          "DateTimeUTC": "\/Date(1556132376350)\/",
+                          "Reports": [
+                            {
+                              "ReportID": "BudgetSummary",
+                              "ReportName": "Budget Summary",
+                              "ReportType": "BudgetSummary",
+                              "ReportTitles": [
+                                "Overall Budget",
+                                "Budget Summary",
+                                "Dev Evangelist - Sid Test 1 (US-2016-06)",
+                                "April 2019 to March 2022"
+                              ],
+                              "ReportDate": "24 April 2019",
+                              "UpdatedDateUTC": "\/Date(1556132376350)\/",
+                              "Fields": [],
+                              "Rows": [
+                                {
+                                  "RowType": "Header",
+                                  "Cells": [
+                                    {
+                                      "Value": "Account"
+                                    },
+                                    {
+                                      "Value": "Jun-19"
+                                    },
+                                    {
+                                      "Value": "Sep-19"
+                                    },
+                                    {
+                                      "Value": "Dec-19"
+                                    },
+                                    {
+                                      "Value": "Mar-20"
+                                    },
+                                    {
+                                      "Value": "Jun-20"
+                                    },
+                                    {
+                                      "Value": "Sep-20"
+                                    },
+                                    {
+                                      "Value": "Dec-20"
+                                    },
+                                    {
+                                      "Value": "Mar-21"
+                                    },
+                                    {
+                                      "Value": "Jun-21"
+                                    },
+                                    {
+                                      "Value": "Sep-21"
+                                    },
+                                    {
+                                      "Value": "Dec-21"
+                                    },
+                                    {
+                                      "Value": "Mar-22"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "RowType": "Section",
+                                  "Title": "Income",
+                                  "Rows": [
+                                    {
+                                      "RowType": "Row",
+                                      "Cells": [
+                                        {
+                                          "Value": "Big Expense",
+                                          "Attributes": [
+                                            {
+                                              "Value": "da962997-a8bd-4dff-9616-01cdc199283f",
+                                              "Id": "account"
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "Value": "10336.00"
+                                        },
+                                        {
+                                          "Value": "19885.00"
+                                        },
+                                        {
+                                          "Value": "11661.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "RowType": "Row",
+                                      "Cells": [
+                                        {
+                                          "Value": "Interest Income",
+                                          "Attributes": [
+                                            {
+                                              "Value": "a961aab7-51f0-4779-a169-afc5c7cfa62e",
+                                              "Id": "account"
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "Value": "57866.00"
+                                        },
+                                        {
+                                          "Value": "85796.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "RowType": "Row",
+                                      "Cells": [
+                                        {
+                                          "Value": "Sales",
+                                          "Attributes": [
+                                            {
+                                              "Value": "02439bca-5fdc-4b62-b281-0bdf9f16fd5b",
+                                              "Id": "account"
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "Value": "9575543.00"
+                                        },
+                                        {
+                                          "Value": "26361.00"
+                                        },
+                                        {
+                                          "Value": "105461.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "RowType": "SummaryRow",
+                                      "Cells": [
+                                        {
+                                          "Value": "Total Income"
+                                        },
+                                        {
+                                          "Value": "9643745.00"
+                                        },
+                                        {
+                                          "Value": "132042.00"
+                                        },
+                                        {
+                                          "Value": "117122.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "RowType": "Section",
+                                  "Title": "",
+                                  "Rows": [
+                                    {
+                                      "RowType": "SummaryRow",
+                                      "Cells": [
+                                        {
+                                          "Value": "Gross Profit"
+                                        },
+                                        {
+                                          "Value": "9643745.00"
+                                        },
+                                        {
+                                          "Value": "132042.00"
+                                        },
+                                        {
+                                          "Value": "117122.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "RowType": "Section",
+                                  "Title": "",
+                                  "Rows": [
+                                    {
+                                      "RowType": "SummaryRow",
+                                      "Cells": [
+                                        {
+                                          "Value": "Total Expenses"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "RowType": "Section",
+                                  "Title": "",
+                                  "Rows": [
+                                    {
+                                      "RowType": "SummaryRow",
+                                      "Cells": [
+                                        {
+                                          "Value": "Net Profit"
+                                        },
+                                        {
+                                          "Value": "9643745.00"
+                                        },
+                                        {
+                                          "Value": "132042.00"
+                                        },
+                                        {
+                                          "Value": "117122.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        },
+                                        {
+                                          "Value": "0.00"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }'
   '/Reports/BankSummary':
     x-related-model: Report
     get:
@@ -14975,37 +15424,6 @@ paths:
       responses:
         '200':
           description: Success - return response of type ReportWithRows
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ReportWithRows'
-  '/Reports/BudgetSummary':
-    x-related-model: Report
-    get:
-      tags:
-        - Accounting
-      operationId: getReportBudgetSummary
-      summary: Allows you to retrieve report for Budget Summary
-      parameters:
-        - in: query
-          name: date
-          description: The date for the Bank Summary report e.g. 2018-03-31
-          schema:
-            type: string
-            format: date
-        - in: query
-          name: period
-          description: The number of periods to compare (integer between 1 and 12)
-          schema:
-            type: integer
-        - in: query
-          name: timeframe
-          description: The period size to compare to (1=month, 3=quarter, 12=year)
-          schema:
-            type: integer
-      responses:
-        '200':
-          description: success- return a Report with Rows object
           content:
             application/json:
               schema:
