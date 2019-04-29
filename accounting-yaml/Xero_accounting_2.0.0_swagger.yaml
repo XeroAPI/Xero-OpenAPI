@@ -17,6 +17,8 @@ security:
       - profile
 paths:
   /Accounts:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     get:
       tags:
         - Accounting
@@ -5598,6 +5600,7 @@ paths:
           description: When set to true you'll only retrieve Invoices created by your app
           schema:
             type: boolean
+        - $ref: '#/components/parameters/requiredHeader'
       responses:
         '200':
           description: Success - return response of type Invoices array with all Invoices
@@ -12387,6 +12390,49 @@ components:
             email: Grant read-only access to your email
             openid: Grant read-only access to your open id
             profile: your profile information
+            accounting.transactions: Grant read-write access to invoices
+            accounting.transactions.read: Grant read-only access to invoices
+            accounting.reports.read: Grant read-only access to accounting reports
+            accounting.journals.read: Grant read-only access to journals
+            accounting.settings: Grant read-write access to organisation and account settings
+            accounting.settings.read: Grant read-only access to organisation and account settings
+            accounting.contacts: 
+            accounting.contacts.read:
+            accounting.attachments:
+            accounting.attachments.read:
+            assets assets.read:
+            files:
+            files.read:
+            payroll:
+            payroll.read:
+            payroll.employees:
+            payroll.employees.read: 
+            payroll.leaveapplications: 
+            payroll.leaveapplications.read: 
+            payroll.payitems:
+            payroll.payitems.read:
+            payroll.payrollcalendars:
+            payroll.payrollcalendars.read:
+            payroll.payruns:
+            payroll.payruns.read:
+            payroll.payslip:
+            payroll.payslip.read: 
+            payroll.settings.read: 
+            payroll.superfunds: 
+            payroll.superfunds.read: 
+            payroll.superfundproducts.read: 
+            payroll.timesheets:
+            payroll.timesheets.read: 
+            projects: 
+            projects.read: 
+  parameters:
+    requiredHeader: 
+      in: header
+      name: Xero-Tenant-Id
+      description: Xero identifier for Tenant
+      schema:
+        type: string
+      required: true    
   responses:
     400Error:
       description: A failed request due to validation error
