@@ -20,8 +20,6 @@ paths:
     servers:
       - url: 'https://api.xero.com/'
         description: Override the base server url that include version
-    parameters:
-      - $ref: '#/components/parameters/requiredHeader'
     get:
       tags:
         - oauth2
@@ -30,6 +28,17 @@ paths:
       responses:
         '200':
           description: Success - return response of type Accounts array with 0 to n Account 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Connections'
+              example: '[
+                            {
+                                "id": "7cb59f93-2964-421d-bb5e-a0f7a4572a44",
+                                "tenantId": "fe79f7dd-b6d4-4a92-ba7b-538af6289c58",
+                                "tenantType": "ORGANISATION"
+                            }
+                        ]'
   /Accounts:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -19647,3 +19656,27 @@ components:
           description: Validation error message
           type: string
       type: object
+    Connections:
+      externalDocs: 
+        url: https://developer.xero.com
+      type: object
+      properties:
+        Users:
+          type: array
+          items:
+            $ref: '#/components/schemas/Connection'
+    Connection:
+      externalDocs:
+        url: 'http://developer.xero.com'
+      properties:
+        id:
+          description: Xero identifier
+          type: string
+          format: uuid
+        tenantId:
+          description: Xero identifier of organisation
+          type: string
+          format: uuid
+        tenantType:
+          description: Xero tenant type (i.e. ORGANISATION, PRACTICE)
+          type: string
