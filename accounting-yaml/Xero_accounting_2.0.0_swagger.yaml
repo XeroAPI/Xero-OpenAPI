@@ -16,6 +16,17 @@ security:
       - email
       - profile
 paths:
+  /connections:
+    servers:
+      - url: 'https://api.xero.com/'
+        description: Override the base server url that include version
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    get:
+      tags:
+        - oauth2
+      operationId: getConnections
+      summary: Allows you to retrieve the connections for this user
   /Accounts:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
