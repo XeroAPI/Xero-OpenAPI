@@ -1,6 +1,6 @@
 openapi: 3.0.0
-servers:
-  - url: 'https:/'
+host:
+  - url: 'https://foobar.xero.com'
 info:
   version: "1.0.0"
   title: Xero oAuth 2 identity service
@@ -16,10 +16,13 @@ security:
       - email
       - profile
 paths:
-  /api.xero.com/connections:
+  /connections:
     get:
       tags:
         - identity
+      servers:
+      - url: 'https://api.xero.com/'
+        description: Override the base server url that include version
       description: Override the base server url that include version
       operationId: getConnections
       summary: Allows you to retrieve the connections for this users
@@ -39,10 +42,13 @@ paths:
                                 "tenantType": "ORGANISATION"
                             }
                         ]'
-  /identity.xero.com/connect/token:
+  /connect/token:
     post:
       tags:
         - identity
+      servers:
+      - url: 'https://identity.xero.com/'
+        description: Override the base server url that include version
       operationId: refreshToken
       summary: Allows you to refresh your access token
       parameters:
