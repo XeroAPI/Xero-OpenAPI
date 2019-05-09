@@ -1,0 +1,148 @@
+openapi: 3.0.0
+servers:
+  - url: 'https:/'
+info:
+  version: "1.0.0"
+  title: Xero oAuth 2 identity service
+  description: This specifing endpoints related to managing authentication tokens and identity for Xero API
+  termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
+  contact:
+    name: "Xero Platform Team"
+    email: "api@xero.com"
+    url: "https://developer.xero.com"
+security:
+  - oAuth2AuthCode:
+      - openid
+      - email
+      - profile
+paths:
+  /api.xero.com/connections:
+    get:
+      tags:
+        - identity
+      description: Override the base server url that include version
+      operationId: getConnections
+      summary: Allows you to retrieve the connections for this users
+      responses:
+        '200':
+          description: Success - return response of type Accounts array with 0 to n Account 
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Connection'
+              example: '[
+                            {
+                                "id": "7cb59f93-2964-421d-bb5e-a0f7a4572a44",
+                                "tenantId": "fe79f7dd-b6d4-4a92-ba7b-538af6289c58",
+                                "tenantType": "ORGANISATION"
+                            }
+                        ]'
+  /identity.xero.com/connect/token:
+    post:
+      tags:
+        - identity
+      operationId: refreshToken
+      summary: Allows you to refresh your access token
+      parameters:
+        - in: header
+          name: grant-type
+          description: the grant type for token
+          schema:
+            type: string
+        - in: header
+          name: Content-Type
+          description: the content type to be returned (application/json)
+          schema:
+            type: string
+      requestBody:
+        description: form data to post during a token refresh
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Token'
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    Connection:
+      externalDocs:
+        url: 'http://developer.xero.com'
+      properties:
+        id:
+          description: Xero identifier
+          type: string
+          format: uuid
+        tenantId:
+          description: Xero identifier of organisation
+          type: string
+          format: uuid
+        tenantType:
+          description: Xero tenant type (i.e. ORGANISATION, PRACTICE)
+          type: string
+    Token:
+      externalDocs:
+        url: 'http://developer.xero.com'
+      properties:
+        grant_type:
+          description: Xero grant type
+          type: string
+        refresh_token:
+          description: refresh token provided during authentication flow
+          type: string
+        client_id:
+          description: client id for Xero app
+          type: string
+        client_secret:
+          description: client secret for Xero app
+          type: string
+  securitySchemes:
+    oAuth2AuthCode:
+      type: oauth2
+      description: For more information
+      flows: 
+        authorizationCode:
+          authorizationUrl: 'https://login.xero.com/identity/connect/authorize'
+          tokenUrl: 'https://identity.xero.com/connect/token'
+          scopes:
+            email: Grant read-only access to your email
+            openid: Grant read-only access to your open id
+            profile: your profile information
+            accounting.transactions: Grant read-write access to bank transactions, credit notes, invoices, repeating invoices
+            accounting.transactions.read: Grant read-only access to invoices
+            accounting.reports.read: Grant read-only access to accounting reports
+            accounting.journals.read: Grant read-only access to journals
+            accounting.settings: Grant read-write access to organisation and account settings
+            accounting.settings.read: Grant read-only access to organisation and account settings
+            accounting.contacts: Grant read-write access to
+            accounting.contacts.read: Grant read-only access to
+            accounting.attachments: Grant read-write access to
+            accounting.attachments.read: Grant read-only access to
+            assets assets.read: Grant read-only access to
+            files: Grant read-write access to
+            files.read: Grant read-only access to
+            payroll: Grant read-write access to
+            payroll.read: Grant read-only access to
+            payroll.employees: Grant read-write access to
+            payroll.employees.read: Grant read-only access to
+            payroll.leaveapplications: Grant read-write access to
+            payroll.leaveapplications.read: Grant read-only access to
+            payroll.payitems: Grant read-write access to
+            payroll.payitems.read: Grant read-only access to
+            payroll.payrollcalendars: Grant read-write access to
+            payroll.payrollcalendars.read: Grant read-only access to
+            payroll.payruns: Grant read-write access to
+            payroll.payruns.read: Grant read-only access to
+            payroll.payslip: Grant read-write access to
+            payroll.payslip.read: Grant read-only access to
+            payroll.settings.read: Grant read-only access to
+            payroll.superfunds: Grant read-write access to
+            payroll.superfunds.read: Grant read-only access to
+            payroll.superfundproducts.read: Grant read-only access to
+            payroll.timesheets: Grant read-write access to
+            payroll.timesheets.read: Grant read-only access to
+            projects: Grant read-write access to projects
+            projects.read: Grant read-only access to
