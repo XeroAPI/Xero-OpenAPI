@@ -23,10 +23,10 @@ paths:
       description: Override the base server url that include version
       operationId: getConnections
       summary: Allows you to retrieve the connections for this users
-      x-basepath: 'https://api.xero.com/'
+      x-basepath: 'https://api.xero.com'
       responses:
         '200':
-          description: Success - return response of type Accounts array with 0 to n Account 
+          description: Success - return response of type Connections array with 0 to n Connection  
           content:
             application/json:
               schema:
@@ -46,7 +46,7 @@ paths:
         - identity
       operationId: refreshToken
       summary: Allows you to refresh your access token
-      x-basepath: 'https://identity.xero.com/'
+      x-basepath: 'https://identity.xero.com'
       parameters:
         - in: header
           name: grant-type
@@ -62,12 +62,25 @@ paths:
         description: form data to post during a token refresh
         required: true
         content:
-          application/x-www-form-urlencoded:
+          application/json:
             schema:
               $ref: '#/components/schemas/Token'
       responses:
         '200':
-          description: OK
+          description: Success - return response of type Accounts array with 0 to n Account 
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Connection'
+              example: '[
+                          {
+                            "id": "7cb59f93-2964-421d-bb5e-a0f7a4572a44",
+                            "tenantId": "fe79f7dd-b6d4-4a92-ba7b-538af6289c58",
+                            "tenantType": "ORGANISATION"
+                          }
+                        ]'
 components:
   schemas:
     Connection:
@@ -88,6 +101,7 @@ components:
     Token:
       externalDocs:
         url: 'http://developer.xero.com'
+      type: object
       properties:
         grant_type:
           description: Xero grant type
