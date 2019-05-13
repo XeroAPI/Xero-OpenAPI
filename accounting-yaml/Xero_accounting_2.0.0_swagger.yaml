@@ -16,31 +16,6 @@ security:
       - email
       - profile
 paths:
-  /connections:
-    get:
-      tags:
-        - oauth2
-      servers:
-      - url: 'https://api.xero.com/'
-        description: Override the base server url that include version
-      operationId: getConnections
-      summary: Allows you to retrieve the connections for this users
-      responses:
-        '200':
-          description: Success - return response of type Accounts array with 0 to n Account 
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Connection'
-              example: '[
-                            {
-                                "id": "7cb59f93-2964-421d-bb5e-a0f7a4572a44",
-                                "tenantId": "fe79f7dd-b6d4-4a92-ba7b-538af6289c58",
-                                "tenantType": "ORGANISATION"
-                            }
-                        ]'
   /Accounts:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'

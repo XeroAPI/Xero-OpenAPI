@@ -49,13 +49,8 @@ paths:
       x-basepath: 'https://identity.xero.com'
       parameters:
         - in: header
-          name: grant-type
+          name: grant_type
           description: the grant type for token
-          schema:
-            type: string
-        - in: header
-          name: Content-Type
-          description: the content type to be returned (application/json)
           schema:
             type: string
       requestBody:
@@ -64,7 +59,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Token'
+              $ref: '#/components/schemas/RefreshToken'
       responses:
         '200':
           description: Success - return response of type Accounts array with 0 to n Account 
@@ -73,7 +68,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Connection'
+                  $ref: '#/components/schemas/AccessToken'
               example: '[
                           {
                             "id": "7cb59f93-2964-421d-bb5e-a0f7a4572a44",
@@ -98,7 +93,7 @@ components:
         tenantType:
           description: Xero tenant type (i.e. ORGANISATION, PRACTICE)
           type: string
-    Token:
+    RefreshToken:
       externalDocs:
         url: 'http://developer.xero.com'
       type: object
@@ -114,6 +109,27 @@ components:
           type: string
         client_secret:
           description: client secret for Xero app 2
+          type: string
+    AccessToken:
+      externalDocs:
+        url: 'http://developer.xero.com'
+      type: object
+      properties:
+        id_token:
+          description: Xero unique identifier
+          type: string
+        access_token:
+          description: access token provided during authentication flow
+          type: string
+        expires_in:
+          description: time in milliseconds until access token expires.
+          type: number
+          format: int
+        token_type:
+          description: type of token i.e. Bearer
+          type: string
+        refresh_token:
+          description: token used to refresh an expired access token
           type: string
   securitySchemes:
     oAuth2AuthCode:
