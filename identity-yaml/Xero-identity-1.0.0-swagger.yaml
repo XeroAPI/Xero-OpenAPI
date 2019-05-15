@@ -57,7 +57,7 @@ paths:
         description: form data to post during a token refresh
         required: true
         content:
-          application/json:
+          application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/RefreshToken'
       responses:
@@ -66,16 +66,14 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/AccessToken'
-              example: '[
-                          {
-                            "id": "7cb59f93-2964-421d-bb5e-a0f7a4572a44",
-                            "tenantId": "fe79f7dd-b6d4-4a92-ba7b-538af6289c58",
-                            "tenantType": "ORGANISATION"
-                          }
-                        ]'
+                $ref: '#/components/schemas/AccessToken'
+              example: '{
+                            "id_token": "eyJhbGciOiJSUzI1NiIsImtpZCI6IjFDQUY4RTY2NzcyRDZEQzAyOEQ2NzI2RkQwMjYxNTgxNTcwRUZDMTkiLCJ0eXAiOiJKV1QiLCJ4NXQiOiJISy1PWm5jdGJjQW8xbkp2MENZVmdWY09fQmsifQ.eyJuYmYiOjE1NTc3MDE4ODQsImV4cCI6MTU1NzcwMjE4NCwiaXNzIjoiaHR0cHM6Ly9pZGVudGl0eS54ZXJvLmNvbSIsImF1ZCI6IjA1NWMyMTJlLTU1ZjItNDNiMi05NDVlLWU5ZmM4MzM3NzYzNSIsImlhdCI6MTU1NzcwMTg4NCwiYXRfaGFzaCI6InYxY0t6QzhyZXlleGlJTWM4QnNqc3ciLCJzdWIiOiI4MzBhM2VlNjNhNDk1ZTljYmExNjVlNjdlZjVkNWRlNyIsImF1dGhfdGltZSI6MTU1NzcwMTc4NiwiaWRwIjoibG9jYWwiLCJ4ZXJvX3VzZXJpZCI6Ijc0MGFkZDJhLWE3MDMtNGI4YS1hNjcwLTEwOTM5MTljMjA0MCIsImdsb2JhbF9zZXNzaW9uX2lkIjoiZmMwMTZkNjk2NzdlNDEzN2IwODgxMTY4NGI1MjI4NWEiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJzaWQubWFlc3RyZUB4ZXJvLmNvbSIsImVtYWlsIjoic2lkLm1hZXN0cmVAeGVyby5jb20iLCJnaXZlbl9uYW1lIjoiU2lkbmV5IiwiZmFtaWx5X25hbWUiOiJNYWVzdHJlIiwiYW1yIjpbInB3ZCJdfQ.vk2lzZgWdNlv59DTgxbzLPD_nY4FBzkQLm0HZ0irCNufpdbOdo_LRGx7PdeZOqVdz2HhKvzorFqKhZzKJB-eXkrE22PTjU3VpQhJkq318mWLe-DcZrv89WgQzKRnYApIApI0bJGfgPlZXMSaMEV5Stl4vzaJk_Qml_GGOcTXociJS8fh41WDDmD1uTDxKIH-4cSjskiFNBR56quXoqZNmEaLh7o5JVs7kGd2LbNSBDJePiNoQexdCnEOjPa02HgozZ16SGbO2g1FpLguiLX3zsDlVHdPs7SsXhc7oL_AbZ-3Ok_9NdLTkzmocoht3yKJghUrrefCc4UrFKql6YzqkQ",
+                            "access_token": "eyJhbGciOiJSUzI1NiIsImtpZCI6IjFDQUY4RTY2NzcyRDZEQzAyOEQ2NzI2RkQwMjYxNTgxNTcwRUZDMTkiLCJ0eXAiOiJKV1QiLCJ4NXQiOiJISy1PWm5jdGJjQW8xbkp2MENZVmdWY09fQmsifQ.eyJuYmYiOjE1NTc3MDE4ODQsImV4cCI6MTU1NzcwMjYwNCwiaXNzIjoiaHR0cHM6Ly9pZGVudGl0eS54ZXJvLmNvbSIsImF1ZCI6Imh0dHBzOi8vaWRlbnRpdHkueGVyby5jb20vcmVzb3VyY2VzIiwiY2xpZW50X2lkIjoiMDU1YzIxMmUtNTVmMi00M2IyLTk0NWUtZTlmYzgzMzc3NjM1Iiwic3ViIjoiODMwYTNlZTYzYTQ5NWU5Y2JhMTY1ZTY3ZWY1ZDVkZTciLCJhdXRoX3RpbWUiOjE1NTc3MDE3ODYsImlkcCI6ImxvY2FsIiwieGVyb191c2VyaWQiOiI3NDBhZGQyYS1hNzAzLTRiOGEtYTY3MC0xMDkzOTE5YzIwNDAiLCJnbG9iYWxfc2Vzc2lvbl9pZCI6ImZjMDE2ZDY5Njc3ZTQxMzdiMDg4MTE2ODRiNTIyODVhIiwic2NvcGUiOlsiZW1haWwiLCJwcm9maWxlIiwib3BlbmlkIiwiYWNjb3VudGluZy50cmFuc2FjdGlvbnMiLCJvZmZsaW5lX2FjY2VzcyJdLCJhbXIiOlsicHdkIl19.SNWItitI4uvp7KqHaKAn20mKOSha1eRnST3m2ZuHkP6TrlQAfvAss72zt6elbrMNbrr-hO2hFL6w9u9zoeEDimrGevTS6wD5CfssCOmF-HIpoZejx6bZkFgtirKUh87ysxznrp4saM5jngOf611CSykzfKA1PfeGaKRM0Yc8ErkYOZsc0x4_DiFwfP4Gm8ZUXTO1TYnMZWwCEix4eQ3zSrNnCw2WkfG6peOopl-yOWRTM-cRL2M0-j6pGqrpTH1xRlVgiR52d5OwNRleRWyuJbXwSvCRPuzqhQT8IlqnyBt0hEh1vX0iRPfAK6YHF5me40utwAUd3oxGmtw8Ig0iLQ",
+                            "expires_in": 720,
+                            "token_type": "Bearer",
+                            "refresh_token": "9f5a8caabd3b2737f706ff67286b99a1710c7b997e30665dfc4e300010e83ad4"
+                        }'
 components:
   schemas:
     Connection:
