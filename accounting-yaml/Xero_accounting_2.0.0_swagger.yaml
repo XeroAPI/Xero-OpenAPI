@@ -10,18 +10,13 @@ info:
     name: "Xero Platform Team"
     email: "api@xero.com"
     url: "https://developer.xero.com"
-security:
-  - OAuth2:
-      - openid
-      - email
-      - profile
 paths:
   /Accounts:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [profile]
+        - OAuth2: [accounting.settings.read]
       tags:
         - Accounting
       operationId: getAccounts
