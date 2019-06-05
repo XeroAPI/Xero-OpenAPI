@@ -11,12 +11,14 @@ info:
     email: "api@xero.com"
     url: "https://developer.xero.com"
 security:
-  - oAuth2AuthCode:
+  - OAuth2:
       - openid
       - email
       - profile
 paths:
   /Accounts:
+    security:
+        - OAuth2: [openid, email, profile, offline_access,accounting.settings] 
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
@@ -16003,7 +16005,7 @@ paths:
                         }'
 components:
   securitySchemes:
-    oAuth2AuthCode:
+    OAuth2:
       type: oauth2
       description: For more information
       flows: 
