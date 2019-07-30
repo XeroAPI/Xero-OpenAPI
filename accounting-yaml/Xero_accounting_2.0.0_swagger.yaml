@@ -356,6 +356,8 @@ paths:
   '/Accounts/{AccountID}/Attachments':
     x-related-model: Account
     get:
+      security:
+        - OAuth2: [accounting.attachments.read]
       tags:
         - Accounting
       operationId: getAccountAttachments
@@ -393,6 +395,8 @@ paths:
   '/Accounts/{AccountID}/Attachments/{AttachmentID}':
     x-related-model: Account
     get:
+      security:
+        - OAuth2: [accounting.attachments.read]
       tags:
         - Accounting
       operationId: getAccountAttachmentById
@@ -429,6 +433,8 @@ paths:
   '/Accounts/{AccountID}/Attachments/{FileName}':
     x-related-model: Account
     get:
+      security:
+        - OAuth2: [accounting.attachments.read]
       tags:
         - Accounting
       operationId: getAccountAttachmentByFileName
@@ -462,6 +468,8 @@ paths:
                 type: string
                 format: binary
     post:
+      security:
+        - OAuth2: [accounting.attachments]
       tags:
         - Accounting
       operationId: updateAccountAttachmentByFileName
@@ -517,6 +525,8 @@ paths:
               type: string
               format: byte
     put:
+      security:
+        - OAuth2: [accounting.attachments]
       tags:
         - Accounting
       operationId: createAccountAttachmentByFileName
@@ -571,6 +581,8 @@ paths:
     x-related-model: BatchPayments
     description: Batch payments allow you to bundle multiple bills or invoices into one payment transaction. This means a single payment in Xero can be reconciled with a single transaction on the bank statement making for a much simpler bank reconciliation experience.
     get:
+      security:
+        - OAuth2: [accounting.transactions.read]
       tags:
         - Accounting
       operationId: getBatchPayments
@@ -695,6 +707,8 @@ paths:
                         ]
                       }'
     put:
+      security:
+        - OAuth2: [accounting.transactions]
       tags:
         - Accounting
       operationId: createBatchPayment
@@ -837,6 +851,8 @@ paths:
   '/BatchPayments/{BatchPaymentID}/History':
     x-related-model: BatchPayment
     get:
+      security:
+        - OAuth2: [accounting.transactions.read]
       tags:
         - Accounting
       operationId: getBatchPaymentHistory
@@ -872,6 +888,8 @@ paths:
                       ]
                     }'
     put:
+      security:
+        - OAuth2: [accounting.transactions]
       tags:
         - Accounting
       operationId: createBatchPaymentHistoryRecord
@@ -922,6 +940,8 @@ paths:
         required: true
   /BankTransactions:
     get:
+      security:
+        - OAuth2: [accounting.transactions.read]
       tags:
         - Accounting
       operationId: getBankTransactions
@@ -1094,6 +1114,8 @@ paths:
                           ]
                         }'
     put:
+      security:
+        - OAuth2: [accounting.transactions]
       tags:
         - Accounting
       operationId: createBankTransaction
@@ -1250,6 +1272,8 @@ paths:
                     }'
   '/BankTransactions/{BankTransactionID}':
     get:
+      security:
+        - OAuth2: [accounting.transactions.read]
       tags:
         - Accounting
       operationId: getBankTransaction
@@ -1377,6 +1401,8 @@ paths:
                           ]
                         }'
     post:
+      security:
+        - OAuth2: [accounting.transactions]
       tags:
         - Accounting
       operationId: updateBankTransaction
@@ -1597,6 +1623,8 @@ paths:
                     }'
   '/BankTransactions/{BankTransactionID}/Attachments':
     get:
+      security:
+        - OAuth2: [accounting.attachments.read]
       tags:
         - Accounting
       operationId: getBankTransactionAttachments
@@ -1641,6 +1669,8 @@ paths:
   '/BankTransactions/{BankTransactionID}/Attachments/{AttachmentID}':
     x-related-model: BankTransaction
     get:
+      security:
+        - OAuth2: [accounting.attachments.read]
       tags:
         - Accounting
       operationId: getBankTransactionAttachmentById
@@ -1677,6 +1707,8 @@ paths:
   '/BankTransactions/{BankTransactionID}/Attachments/{FileName}':
     x-related-model: BankTransaction
     get:
+      security:
+        - OAuth2: [accounting.attachments.read]
       tags:
         - Accounting
       operationId: getBankTransactionAttachmentByFileName
@@ -1710,6 +1742,8 @@ paths:
                 type: string
                 format: binary
     post:
+      security:
+        - OAuth2: [accounting.attachments]
       tags:
         - Accounting
       operationId: updateBankTransactionAttachmentByFileName
@@ -1761,6 +1795,8 @@ paths:
               type: string
               format: byte
     put:
+      security:
+        - OAuth2: [accounting.attachments]
       tags:
         - Accounting
       operationId: createBankTransactionAttachmentByFileName
@@ -1814,6 +1850,8 @@ paths:
   '/BankTransactions/{BankTransactionID}/History':
     x-related-model: BankTransaction
     get:
+      security:
+        - OAuth2: [accounting.transactions.read]
       tags:
         - Accounting
       operationId: getBankTransactionsHistory
@@ -1856,6 +1894,8 @@ paths:
                           ]
                         }'
     put:
+      security:
+        - OAuth2: [accounting.transactions]
       tags:
         - Accounting
       operationId: createBankTransactionHistoryRecord
@@ -1886,6 +1926,8 @@ paths:
   /BankTransfers:
     x-related-model: BankTransfer
     get:
+      security:
+        - OAuth2: [accounting.transactions.read]
       tags:
         - Accounting
       operationId: getBankTransfers
@@ -1963,6 +2005,8 @@ paths:
                         }'
 
     put:
+      security:
+        - OAuth2: [accounting.transactions]
       tags:
         - Accounting
       operationId: createBankTransfer
@@ -2056,6 +2100,8 @@ paths:
   '/BankTransfers/{BankTransferID}':
     x-related-model: BankTransfer
     get:
+      security:
+        - OAuth2: [accounting.transactions.read]
       tags:
         - Accounting
       operationId: getBankTransfer
@@ -2118,6 +2164,8 @@ paths:
   '/BankTransfers/{BankTransferID}/Attachments':
     x-related-model: BankTransfer
     get:
+      security:
+        - OAuth2: [accounting.attachments.read]
       tags:
         - Accounting
       operationId: getBankTransferAttachments
@@ -2155,6 +2203,8 @@ paths:
   '/BankTransfers/{BankTransferID}/Attachments/{AttachmentID}':
     x-related-model: BankTransfer
     get:
+      security:
+        - OAuth2: [accounting.attachments.read]
       tags:
         - Accounting
       operationId: getBankTransferAttachmentById
@@ -2191,6 +2241,8 @@ paths:
   '/BankTransfers/{BankTransferID}/Attachments/{FileName}':
     x-related-model: BankTransfer
     get:
+      security:
+        - OAuth2: [accounting.attachments.read]
       tags:
         - Accounting
       operationId: getBankTransferAttachmentByFileName
@@ -2224,6 +2276,8 @@ paths:
                 type: string
                 format: binary
     post:
+      security:
+        - OAuth2: [accounting.attachments]
       tags:
         - Accounting
       operationId: updateBankTransferAttachmentByFileName
@@ -2274,6 +2328,8 @@ paths:
               type: string
               format: byte
     put:
+      security:
+        - OAuth2: [accounting.attachments]
       tags:
         - Accounting
       operationId: createBankTransferAttachmentByFileName
@@ -2326,6 +2382,8 @@ paths:
   '/BankTransfers/{BankTransferID}/History':
     x-related-model: BankTransfer
     get:
+      security:
+        - OAuth2: [accounting.transactions.read]
       tags:
         - Accounting
       operationId: getBankTransferHistory
@@ -2368,6 +2426,8 @@ paths:
                           ]
                         }'
     put:
+      security:
+        - OAuth2: [accounting.transactions]
       tags:
         - Accounting
       operationId: createBankTransferHistoryRecord
@@ -2397,6 +2457,8 @@ paths:
   /BrandingThemes:
     x-related-model: BrandingTheme
     get:
+      security:
+        - OAuth2: [accounting.settings.read]
       tags:
         - Accounting
       operationId: getBrandingThemes
@@ -2425,6 +2487,8 @@ paths:
   '/BrandingThemes/{BrandingThemeID}':
     x-related-model: BrandingTheme
     get:
+      security:
+        - OAuth2: [accounting.settings.read]
       tags:
         - Accounting
       operationId: getBrandingTheme
@@ -2461,6 +2525,8 @@ paths:
   '/BrandingThemes/{BrandingThemeID}/PaymentServices':
     x-related-model: BrandingTheme
     get:
+      security:
+        - OAuth2: [paymentservices]
       tags:
         - Accounting
       operationId: getBrandingThemePaymentServices
@@ -2501,6 +2567,8 @@ paths:
                           ]
                         }'
     post:
+      security:
+        - OAuth2: [paymentservices]
       tags:
         - Accounting
       operationId: createBrandingThemePaymentServices
@@ -2552,6 +2620,8 @@ paths:
   /Contacts:
     x-related-model: Contact
     get:
+      security:
+        - OAuth2: [accounting.contacts.read]
       tags:
         - Accounting
       operationId: getContacts
@@ -2740,6 +2810,8 @@ paths:
                           }'
 
     put:
+      security:
+        - OAuth2: [accounting.contacts]
       tags:
         - Accounting
       operationId: createContact
@@ -2917,6 +2989,8 @@ paths:
   '/Contacts/{ContactID}':
     x-related-model: Contact
     get:
+      security:
+        - OAuth2: [accounting.contacts.read]
       tags:
         - Accounting
       operationId: getContact
@@ -3065,6 +3139,8 @@ paths:
                         ]
                       }'
     post:
+      security:
+        - OAuth2: [accounting.contacts]
       tags:
         - Accounting
       operationId: updateContact
@@ -3178,6 +3254,8 @@ paths:
   '/Contacts/{ContactID}/Attachments':
     x-related-model: Contact
     get:
+      security:
+        - OAuth2: [accounting.attachments.read]
       tags:
         - Accounting
       operationId: getContactAttachments
@@ -3215,6 +3293,8 @@ paths:
   '/Contacts/{ContactID}/Attachments/{AttachmentID}':
     x-related-model: Contact
     get:
+      security:
+        - OAuth2: [accounting.attachments.read]
       tags:
         - Accounting
       operationId: getContactAttachmentById
@@ -3251,6 +3331,8 @@ paths:
   '/Contacts/{ContactID}/Attachments/{FileName}':
     x-related-model: Contact
     get:
+      security:
+        - OAuth2: [accounting.attachments.read]
       tags:
         - Accounting
       operationId: getContactAttachmentByFileName
@@ -3284,6 +3366,8 @@ paths:
                 type: string
                 format: binary
     post:
+      security:
+        - OAuth2: [accounting.attachments]
       tags:
         - Accounting
       operationId: updateContactAttachmentByFileName
@@ -3334,6 +3418,8 @@ paths:
               type: string
               format: byte
     put:
+      security:
+        - OAuth2: [accounting.attachments]
       tags:
         - Accounting
       operationId: createContactAttachmentByFileName
@@ -3386,6 +3472,8 @@ paths:
   '/Contacts/{ContactID}/CISSettings':
     x-related-model: Contact
     get:
+      security:
+        - OAuth2: [accounting.contacts.read]
       tags:
         - Accounting
       operationId: getContactCISSettings
@@ -3408,6 +3496,8 @@ paths:
   '/Contacts/{ContactID}/History':
     x-related-model: Contact
     get:
+      security:
+        - OAuth2: [accounting.contacts.read]
       tags:
         - Accounting
       operationId: getContactHistory
@@ -3450,6 +3540,8 @@ paths:
                           ]
                         }'
     put:
+      security:
+        - OAuth2: [accounting.contacts]
       tags:
         - Accounting
       operationId: createContactHistory
@@ -3501,6 +3593,8 @@ paths:
   /ContactGroups:
     x-related-model: ContactGroup
     get:
+      security:
+        - OAuth2: [accounting.contacts.read]
       tags:
         - Accounting
       operationId: getContactGroups
@@ -3548,6 +3642,8 @@ paths:
                         }'
 
     put:
+      security:
+        - OAuth2: [accounting.contacts]
       tags:
         - Accounting
       operationId: createContactGroup
@@ -3615,6 +3711,8 @@ paths:
   '/ContactGroups/{ContactGroupID}':
     x-related-model: ContactGroup
     get:
+      security:
+        - OAuth2: [accounting.contacts.read]
       tags:
         - Accounting
       operationId: getContactGroup
@@ -3669,6 +3767,8 @@ paths:
                           ]
                         }'
     post:
+      security:
+        - OAuth2: [accounting.contacts]
       tags:
         - Accounting
       operationId: updateContactGroup
@@ -3722,6 +3822,8 @@ paths:
   '/ContactGroups/{ContactGroupID}/Contacts':
     x-related-model: ContactGroup
     put:
+      security:
+        - OAuth2: [accounting.contacts]
       tags:
         - Accounting
       operationId: createContactGroupContacts
@@ -3787,6 +3889,8 @@ paths:
                          ]
                       }'
     delete:
+      security:
+        - OAuth2: [accounting.contacts]
       tags:
         - Accounting
       operationId: deleteContactGroupContacts
@@ -3805,6 +3909,8 @@ paths:
   '/ContactGroups/{ContactGroupID}/Contacts/{ContactID}':
     x-related-model: ContactGroup
     delete:
+      security:
+        - OAuth2: [accounting.contacts]
       tags:
         - Accounting
       operationId: deleteContactGroupContact
@@ -3832,6 +3938,8 @@ paths:
   /CreditNotes:
     x-related-model: CreditNote
     get:
+      security:
+        - OAuth2: [accounting.transactions.read]
       tags:
         - Accounting
       operationId: getCreditNotes
@@ -3948,6 +4056,8 @@ paths:
                         }'
 
     put:
+      security:
+        - OAuth2: [accounting.transactions]
       tags:
         - Accounting
       operationId: createCreditNote
@@ -4100,6 +4210,8 @@ paths:
   '/CreditNotes/{CreditNoteID}':
     x-related-model: CreditNote
     get:
+      security:
+        - OAuth2: [accounting.transactions.read]
       tags:
         - Accounting
       operationId: getCreditNote
@@ -4238,6 +4350,8 @@ paths:
                           ]
                         }'
     post:
+      security:
+        - OAuth2: [accounting.transactions]
       tags:
         - Accounting
       operationId: updateCreditNote
@@ -4388,6 +4502,8 @@ paths:
   '/CreditNotes/{CreditNoteID}/Attachments':
     x-related-model: CreditNote
     get:
+      security:
+        - OAuth2: [accounting.attachments.read]
       tags:
         - Accounting
       operationId: getCreditNoteAttachments
@@ -4425,6 +4541,8 @@ paths:
   '/CreditNotes/{CreditNoteID}/Attachments/{AttachmentID}':
     x-related-model: CreditNote
     get:
+      security:
+        - OAuth2: [accounting.attachments.read]
       tags:
         - Accounting
       operationId: getCreditNoteAttachmentById
@@ -4461,6 +4579,8 @@ paths:
   '/CreditNotes/{CreditNoteID}/Attachments/{FileName}':
     x-related-model: CreditNote
     get:
+      security:
+        - OAuth2: [accounting.attachments.read]
       tags:
         - Accounting
       operationId: getCreditNoteAttachmentByFileName
@@ -4494,6 +4614,8 @@ paths:
                 type: string
                 format: binary
     post:
+      security:
+        - OAuth2: [accounting.attachments]
       tags:
         - Accounting
       operationId: updateCreditNoteAttachmentByFileName
@@ -4545,6 +4667,8 @@ paths:
               type: string
               format: byte
     put:
+      security:
+        - OAuth2: [accounting.attachments]
       tags:
         - Accounting
       operationId: createCreditNoteAttachmentByFileName
@@ -4598,6 +4722,8 @@ paths:
   '/CreditNotes/{CreditNoteID}/pdf':
     x-related-model: CreditNote
     get:
+      security:
+        - OAuth2: [accounting.transactions]
       tags:
         - Accounting
       operationId: getCreditNoteAsPdf
@@ -4627,6 +4753,8 @@ paths:
   '/CreditNotes/{CreditNoteID}/Allocations':
     x-related-model: CreditNote
     put:
+      security:
+        - OAuth2: [accounting.transactions]
       tags:
         - Accounting
       operationId: createCreditNoteAllocation
@@ -4701,6 +4829,8 @@ paths:
   '/CreditNotes/{CreditNoteID}/History':
     x-related-model: CreditNote
     get:
+      security:
+        - OAuth2: [accounting.transactions.read]
       tags:
         - Accounting
       operationId: getCreditNoteHistory
@@ -4751,6 +4881,8 @@ paths:
                           ]
                         }'
     put:
+      security:
+        - OAuth2: [accounting.transactions]
       tags:
         - Accounting
       operationId: createCreditNoteHistory
@@ -4802,6 +4934,8 @@ paths:
   /Currencies:
     x-related-model: Currency
     get:
+      security:
+        - OAuth2: [accounting.settings.read]
       tags:
         - Accounting
       operationId: getCurrencies
@@ -4837,6 +4971,8 @@ paths:
                           ]
                         }'
     put:
+      security:
+        - OAuth2: [accounting.settings]
       tags:
         - Accounting
       operationId: createCurrency
@@ -4864,6 +5000,8 @@ paths:
   /Employees:
     x-related-model: Employee
     get:
+      security:
+        - OAuth2: [accounting.settings.read]
       tags:
         - Accounting
       operationId: getEmployees
@@ -4935,6 +5073,8 @@ paths:
                           ]
                         }'     
     put:
+      security:
+        - OAuth2: [accounting.settings]
       tags:
         - Accounting
       operationId: createEmployee
@@ -4987,6 +5127,8 @@ paths:
   '/Employees/{EmployeeID}':
     x-related-model: Employee
     get:
+      security:
+        - OAuth2: [accounting.settings.read]
       tags:
         - Accounting
       operationId: getEmployee
@@ -5026,6 +5168,8 @@ paths:
                           ]
                         }'
     post:
+      security:
+        - OAuth2: [accounting.settings]
       tags:
         - Accounting
       operationId: updateEmployee
@@ -5084,6 +5228,8 @@ paths:
   /ExpenseClaims:
     x-related-model: ExpenseClaim
     get:
+      security:
+        - OAuth2: [accounting.transactions.read]
       tags:
         - Accounting
       operationId: getExpenseClaims
@@ -5142,6 +5288,8 @@ paths:
                           ]
                         }'
     put:
+      security:
+        - OAuth2: [accounting.transactions]
       tags:
         - Accounting
       operationId: createExpenseClaim
@@ -5260,6 +5408,8 @@ paths:
   '/ExpenseClaims/{ExpenseClaimID}':
     x-related-model: ExpenseClaim
     get:
+      security:
+        - OAuth2: [accounting.transactions.read]
       tags:
         - Accounting
       operationId: getExpenseClaim
@@ -5353,6 +5503,8 @@ paths:
                           ]
                         }'
     post:
+      security:
+        - OAuth2: [accounting.transactions]
       tags:
         - Accounting
       operationId: updateExpenseClaim
@@ -5474,6 +5626,8 @@ paths:
   '/ExpenseClaims/{ExpenseClaimID}/History':
     x-related-model: ExpenseClaim
     get:
+      security:
+        - OAuth2: [accounting.transactions.read]
       tags:
         - Accounting
       operationId: getExpenseClaimHistory
@@ -5530,6 +5684,8 @@ paths:
                           ]
                         }'
     put:
+      security:
+        - OAuth2: [accounting.transactions]
       tags:
         - Accounting
       operationId: createExpenseClaimHistory
@@ -5565,6 +5721,8 @@ paths:
   /Invoices:
     x-related-model: Invoice
     get:
+      security:
+        - OAuth2: [accounting.transactions.read]
       tags:
         - Accounting
       operationId: getInvoices
@@ -5769,6 +5927,8 @@ paths:
                           ]
                         }'
     put:
+      security:
+        - OAuth2: [accounting.transactions]
       tags:
         - Accounting
       operationId: createInvoice
@@ -5945,6 +6105,8 @@ paths:
   '/Invoices/{InvoiceID}':
     x-related-model: Invoice
     get:
+      security:
+        - OAuth2: [accounting.transactions.read]
       tags:
         - Accounting
       operationId: getInvoice
@@ -6117,6 +6279,8 @@ paths:
                           ]
                         }'
     post:
+      security:
+        - OAuth2: [accounting.transactions]
       tags:
         - Accounting
       operationId: updateInvoice
@@ -6263,6 +6427,8 @@ paths:
   '/Invoices/{InvoiceID}/pdf':
     x-related-model: Invoice
     get:
+      security:
+        - OAuth2: [accounting.transactions.read]
       tags:
         - Accounting
       operationId: getInvoiceAsPdf
@@ -6292,6 +6458,8 @@ paths:
   '/Invoices/{InvoiceID}/Attachments':
     x-related-model: Invoice
     get:
+      security:
+        - OAuth2: [accounting.attachments.read]
       tags:
         - Accounting
       operationId: getInvoiceAttachments
@@ -6337,6 +6505,8 @@ paths:
   '/Invoices/{InvoiceID}/Attachments/{AttachmentID}':
     x-related-model: Invoice
     get:
+      security:
+        - OAuth2: [accounting.attachments.read]
       tags:
         - Accounting
       operationId: getInvoiceAttachmentById
@@ -6373,6 +6543,8 @@ paths:
   '/Invoices/{InvoiceID}/Attachments/{FileName}':
     x-related-model: Invoice
     get:
+      security:
+        - OAuth2: [accounting.attachments.read]
       tags:
         - Accounting
       operationId: getInvoiceAttachmentByFileName
@@ -6406,6 +6578,8 @@ paths:
                 type: string
                 format: binary
     post:
+      security:
+        - OAuth2: [accounting.attachments]
       tags:
         - Accounting
       operationId: updateInvoiceAttachmentByFileName
@@ -6457,6 +6631,8 @@ paths:
               type: string
               format: byte
     put:
+      security:
+        - OAuth2: [accounting.attachments]
       tags:
         - Accounting
       operationId: createInvoiceAttachmentByFileName
@@ -6510,6 +6686,8 @@ paths:
   '/Invoices/{InvoiceID}/OnlineInvoice':
     x-related-model: Invoice
     get:
+      security:
+        - OAuth2: [accounting.transactions.read]
       tags:
         - Accounting
       operationId: getOnlineInvoice
@@ -6543,6 +6721,8 @@ paths:
   '/Invoices/{InvoiceID}/Email':
     x-related-model: Invoice
     post:
+      security:
+        - OAuth2: [accounting.transactions]
       tags:
         - Accounting
       operationId: emailInvoice
@@ -6569,6 +6749,8 @@ paths:
   '/Invoices/{InvoiceID}/History':
     x-related-model: Invoice
     get:
+      security:
+        - OAuth2: [accounting.transactions.read]
       tags:
         - Accounting
       operationId: getInvoiceHistory
@@ -6618,6 +6800,8 @@ paths:
                           ]
                         }'
     put:
+      security:
+        - OAuth2: [accounting.transactions]
       tags:
         - Accounting
       operationId: createInvoiceHistory
@@ -6669,6 +6853,8 @@ paths:
   '/InvoiceReminders/Settings':
     x-related-model: Invoice
     get:
+      security:
+        - OAuth2: [accounting.transactions.read]
       tags:
         - Accounting
       operationId: getInvoiceReminders
@@ -6694,6 +6880,8 @@ paths:
   /Items:
     x-related-model: Item
     get:
+      security:
+        - OAuth2: [accounting.settings.read]
       tags:
         - Accounting
       operationId: getItems
@@ -6764,6 +6952,8 @@ paths:
                           ]
                         }'
     put:
+      security:
+        - OAuth2: [accounting.settings]
       tags:
         - Accounting
       operationId: createItem
@@ -6820,6 +7010,8 @@ paths:
   '/Items/{ItemID}':
     x-related-model: Item
     get:
+      security:
+        - OAuth2: [accounting.settings.read]
       tags:
         - Accounting
       operationId: getItem
@@ -6873,6 +7065,8 @@ paths:
                           ]
                         }'
     post:
+      security:
+        - OAuth2: [accounting.settings]
       tags:
         - Accounting
       operationId: updateItem
@@ -6930,6 +7124,8 @@ paths:
                            ]
                         }'
     delete:
+      security:
+        - OAuth2: [accounting.settings]
       tags:
         - Accounting
       operationId: deleteItem
@@ -6950,6 +7146,8 @@ paths:
   '/Items/{ItemID}/History':
     x-related-model: Item
     get:
+      security:
+        - OAuth2: [accounting.settings.read]
       tags:
         - Accounting
       operationId: getItemHistory
@@ -6985,6 +7183,8 @@ paths:
                           ]
                         }'
     put:
+      security:
+        - OAuth2: [accounting.settings]
       tags:
         - Accounting
       operationId: createItemHistory
@@ -7020,6 +7220,8 @@ paths:
   /Journals:
     x-related-model: Journal
     get:
+      security:
+        - OAuth2: [accounting.journals.read]
       tags:
         - Accounting
       operationId: getJournals
@@ -7216,6 +7418,8 @@ paths:
   '/Journals/{JournalID}':
     x-related-model: Journal
     get:
+      security:
+        - OAuth2: [accounting.journals.read]
       tags:
         - Accounting
       operationId: getJournal
@@ -7283,6 +7487,8 @@ paths:
   /LinkedTransactions:
     x-related-model: LinkedTransaction
     get:
+      security:
+        - OAuth2: [accounting.transactions.read]
       tags:
         - Accounting
       operationId: getLinkedTransactions
@@ -7346,6 +7552,8 @@ paths:
                           ]
                         }'
     put:
+      security:
+        - OAuth2: [accounting.transactions]
       tags:
         - Accounting
       operationId: createLinkedTransaction
@@ -7398,6 +7606,8 @@ paths:
   '/LinkedTransactions/{LinkedTransactionID}':
     x-related-model: LinkedTransaction
     get:
+      security:
+        - OAuth2: [accounting.transactions.read]
       tags:
         - Accounting
       operationId: getLinkedTransaction
@@ -7438,6 +7648,8 @@ paths:
                           ]
                         }'
     post:
+      security:
+        - OAuth2: [accounting.transactions]
       tags:
         - Accounting
       operationId: updateLinkedTransaction
@@ -7519,6 +7731,8 @@ paths:
                            ]
                         }'
     delete:
+      security:
+        - OAuth2: [accounting.transactions]
       tags:
         - Accounting
       operationId: deleteLinkedTransaction
@@ -7539,6 +7753,8 @@ paths:
   /ManualJournals:
     x-related-model: ManualJournal
     get:
+      security:
+        - OAuth2: [accounting.transactions.read]
       tags:
         - Accounting
       operationId: getManualJournals
@@ -7614,6 +7830,8 @@ paths:
                           ]
                         }'
     put:
+      security:
+        - OAuth2: [accounting.transactions]
       tags:
         - Accounting
       operationId: createManualJournal
@@ -7716,6 +7934,8 @@ paths:
   '/ManualJournals/{ManualJournalID}':
     x-related-model: ManualJournal
     get:
+      security:
+        - OAuth2: [accounting.transactions.read]
       tags:
         - Accounting
       operationId: getManualJournal
@@ -7792,6 +8012,8 @@ paths:
                           ]
                         }'
     post:
+      security:
+        - OAuth2: [accounting.transactions]
       tags:
         - Accounting
       operationId: updateManualJournal
@@ -7874,6 +8096,8 @@ paths:
   '/ManualJournals/{ManualJournalID}/Attachments':
     x-related-model: ManualJournal
     get:
+      security:
+        - OAuth2: [accounting.attachments.read]
       tags:
         - Accounting
       operationId: getManualJournalAttachments
@@ -7918,6 +8142,8 @@ paths:
   '/ManualJournals/{ManualJournalID}/Attachments/{AttachmentID}':
     x-related-model: ManualJournal
     get:
+      security:
+        - OAuth2: [accounting.attachments.read]
       tags:
         - Accounting
       operationId: getManualJournalAttachmentById
@@ -7954,6 +8180,8 @@ paths:
   '/ManualJournals/{ManualJournalID}/Attachments/{FileName}':
     x-related-model: ManualJournal
     get:
+      security:
+        - OAuth2: [accounting.attachments.read]
       tags:
         - Accounting
       operationId: getManualJournalAttachmentByFileName
@@ -7987,6 +8215,8 @@ paths:
                 type: string
                 format: binary
     post:
+      security:
+        - OAuth2: [accounting.attachments]
       tags:
         - Accounting
       operationId: updateManualJournalAttachmentByFileName
@@ -8038,6 +8268,8 @@ paths:
               type: string
               format: byte
     put:
+      security:
+        - OAuth2: [accounting.attachments]
       tags:
         - Accounting
       operationId: createManualJournalAttachmentByFileName
@@ -8147,6 +8379,8 @@ paths:
   '/Organisation/{OrganisationID}/CISSettings':
     x-related-model: Organisation
     get:
+      security:
+        - OAuth2: [accounting.settings.read]
       tags:
         - Accounting
       operationId: getOrganisationCISSettings
@@ -8168,6 +8402,8 @@ paths:
   /Overpayments:
     x-related-model: Overpayment
     get:
+      security:
+        - OAuth2: [accounting.transactions.read]
       tags:
         - Accounting
       operationId: getOverpayments
@@ -8357,6 +8593,8 @@ paths:
   '/Overpayments/{OverpaymentID}':
     x-related-model: Overpayment
     get:
+      security:
+        - OAuth2: [accounting.transactions.read]
       tags:
         - Accounting
       operationId: getOverpayment
@@ -8502,6 +8740,8 @@ paths:
   '/Overpayments/{OverpaymentID}/Allocations':
     x-related-model: Overpayment
     put:
+      security:
+        - OAuth2: [accounting.transactions]
       tags:
         - Accounting
       operationId: createOverpaymentAllocation
@@ -8575,6 +8815,8 @@ paths:
   '/Overpayments/{OverpaymentID}/History':
     x-related-model: Overpayment
     get:
+      security:
+        - OAuth2: [accounting.transactions.read]
       tags:
         - Accounting
       operationId: getOverpaymentHistory
@@ -8624,6 +8866,8 @@ paths:
                           ]
                         }'
     put:
+      security:
+        - OAuth2: [accounting.transactions]
       tags:
         - Accounting
       operationId: createOverpaymentHistory
@@ -8675,6 +8919,8 @@ paths:
   /Payments:
     x-related-model: Payment
     get:
+      security:
+        - OAuth2: [accounting.transactions.read]
       tags:
         - Accounting
       operationId: getPayments
@@ -8794,6 +9040,8 @@ paths:
                           ]
                         }'
     put:
+      security:
+        - OAuth2: [accounting.transactions]
       tags:
         - Accounting
       operationId: createPayment
@@ -8909,6 +9157,8 @@ paths:
   '/Payments/{PaymentID}':
     x-related-model: Payment
     get:
+      security:
+        - OAuth2: [accounting.transactions.read]
       tags:
         - Accounting
       operationId: getPayment
@@ -9011,6 +9261,8 @@ paths:
                           ]
                         }'
     post:
+      security:
+        - OAuth2: [accounting.transactions]
       tags:
         - Accounting
       operationId: deletePayment
@@ -9121,6 +9373,8 @@ paths:
   '/Payments/{PaymentID}/History':
     x-related-model: Payment
     get:
+      security:
+        - OAuth2: [accounting.transactions.read]
       tags:
         - Accounting
       operationId: getPaymentHistory
@@ -9156,6 +9410,8 @@ paths:
                           ]
                         }'
     put:
+      security:
+        - OAuth2: [accounting.transactions]
       tags:
         - Accounting
       operationId: createPaymentHistory
@@ -9214,6 +9470,8 @@ paths:
   /PaymentServices:
     x-related-model: PaymentServices
     get:
+      security:
+        - OAuth2: [paymentservices]
       tags:
         - Accounting
       operationId: getPaymentServices
@@ -9241,6 +9499,8 @@ paths:
                           ]
                         }'
     put:
+      security:
+        - OAuth2: [paymentservices]
       tags:
         - Accounting
       operationId: createPaymentService
@@ -9292,6 +9552,8 @@ paths:
   /Prepayments:
     x-related-model: Prepayment
     get:
+      security:
+        - OAuth2: [accounting.transactions.read]
       tags:
         - Accounting
       operationId: getPrepayments
@@ -9370,6 +9632,8 @@ paths:
   '/Prepayments/{PrepaymentID}':
     x-related-model: Prepayment
     get:
+      security:
+        - OAuth2: [accounting.transactions.read]
       tags:
         - Accounting
       operationId: getPrepayment
@@ -9513,6 +9777,8 @@ paths:
   '/Prepayments/{PrepaymentID}/Allocations':
     x-related-model: Prepayment
     put:
+      security:
+        - OAuth2: [accounting.transactions]
       tags:
         - Accounting
       operationId: createPrepaymentAllocation
@@ -9585,6 +9851,8 @@ paths:
   '/Prepayments/{PrepaymentID}/History':
     x-related-model: Prepayment
     get:
+      security:
+        - OAuth2: [accounting.transactions.read]
       tags:
         - Accounting
       operationId: getPrepaymentHistory
@@ -9634,6 +9902,8 @@ paths:
                           ]
                         }'
     put:
+      security:
+        - OAuth2: [accounting.transactions]
       tags:
         - Accounting
       operationId: createPrepaymentHistory
@@ -9685,6 +9955,8 @@ paths:
   /PurchaseOrders:
     x-related-model: PurchaseOrder
     get:
+      security:
+        - OAuth2: [accounting.transactions.read]
       tags:
         - Accounting
       operationId: getPurchaseOrders
@@ -9879,6 +10151,8 @@ paths:
                           ]
                         }'
     put:
+      security:
+        - OAuth2: [accounting.transactions]
       tags:
         - Accounting
       operationId: createPurchaseOrder
@@ -10033,6 +10307,8 @@ paths:
   '/PurchaseOrders/{PurchaseOrderID}':
     x-related-model: PurchaseOrder
     get:
+      security:
+        - OAuth2: [accounting.transactions.read]
       tags:
         - Accounting
       operationId: getPurchaseOrder
@@ -10178,6 +10454,8 @@ paths:
                           ]
                         }'
     post:
+      security:
+        - OAuth2: [accounting.transactions]
       tags:
         - Accounting
       operationId: updatePurchaseOrder
@@ -10316,6 +10594,8 @@ paths:
   '/PurchaseOrders/{PurchaseOrderID}/History':
     x-related-model: PurchaseOrder
     get:
+      security:
+        - OAuth2: [accounting.transactions.read]
       tags:
         - Accounting
       operationId: getPurchaseOrderHistory
@@ -10372,6 +10652,8 @@ paths:
                           ]
                         }'
     put:
+      security:
+        - OAuth2: [accounting.transactions]
       tags:
         - Accounting
       operationId: createPurchaseOrderHistory
@@ -10423,6 +10705,8 @@ paths:
   /Receipts:
     x-related-model: Receipt
     get:
+      security:
+        - OAuth2: [accounting.transactions.read]
       tags:
         - Accounting
       operationId: getReceipts
@@ -10504,6 +10788,8 @@ paths:
                           ]
                         }'
     put:
+      security:
+        - OAuth2: [accounting.transactions]
       tags:
         - Accounting
       operationId: createReceipt
@@ -10655,6 +10941,8 @@ paths:
   '/Receipts/{ReceiptID}':
     x-related-model: Receipt
     get:
+      security:
+        - OAuth2: [accounting.transactions.read]
       tags:
         - Accounting
       operationId: getReceipt
@@ -10793,6 +11081,8 @@ paths:
                           ]
                         }'
     post:
+      security:
+        - OAuth2: [accounting.transactions]
       tags:
         - Accounting
       operationId: updateReceipt
@@ -10937,6 +11227,8 @@ paths:
   '/Receipts/{ReceiptID}/Attachments':
     x-related-model: Receipt
     get:
+      security:
+        - OAuth2: [accounting.attachments.read]
       tags:
         - Accounting
       operationId: getReceiptAttachments
@@ -10974,6 +11266,8 @@ paths:
   '/Receipts/{ReceiptID}/Attachments/{AttachmentID}':
     x-related-model: Receipt
     get:
+      security:
+        - OAuth2: [accounting.attachments.read]
       tags:
         - Accounting
       operationId: getReceiptAttachmentById
@@ -11010,6 +11304,8 @@ paths:
   '/Receipts/{ReceiptID}/Attachments/{FileName}':
     x-related-model: Receipt
     get:
+      security:
+        - OAuth2: [accounting.attachments.read]
       tags:
         - Accounting
       operationId: getReceiptAttachmentByFileName
@@ -11043,6 +11339,8 @@ paths:
                 type: string
                 format: binary
     post:
+      security:
+        - OAuth2: [accounting.attachments]
       tags:
         - Accounting
       operationId: updateReceiptAttachmentByFileName
@@ -11094,6 +11392,8 @@ paths:
               type: string
               format: byte
     put:
+      security:
+        - OAuth2: [accounting.attachments]
       tags:
         - Accounting
       operationId: createReceiptAttachmentByFileName
@@ -11147,6 +11447,8 @@ paths:
   '/Receipts/{ReceiptID}/History':
     x-related-model: Receipt
     get:
+      security:
+        - OAuth2: [accounting.transactions.read]
       tags:
         - Accounting
       operationId: getReceiptHistory
@@ -11189,6 +11491,8 @@ paths:
                           ]
                         }'
     put:
+      security:
+        - OAuth2: [accounting.transactions]
       tags:
         - Accounting
       operationId: createReceiptHistory
@@ -11240,6 +11544,8 @@ paths:
   /RepeatingInvoices:
     x-related-model: RepeatingInvoice
     get:
+      security:
+        - OAuth2: [accounting.transactions.read]
       tags:
         - Accounting
       operationId: getRepeatingInvoices
@@ -11318,6 +11624,8 @@ paths:
   '/RepeatingInvoices/{RepeatingInvoiceID}':
     x-related-model: RepeatingInvoice
     get:
+      security:
+        - OAuth2: [accounting.transactions.read]
       tags:
         - Accounting
       operationId: getRepeatingInvoice
@@ -11416,6 +11724,8 @@ paths:
   '/RepeatingInvoices/{RepeatingInvoiceID}/Attachments':
     x-related-model: RepeatingInvoice
     get:
+      security:
+        - OAuth2: [accounting.attachments.read]
       tags:
         - Accounting
       operationId: getRepeatingInvoiceAttachments
@@ -11467,6 +11777,8 @@ paths:
   '/RepeatingInvoices/{RepeatingInvoiceID}/Attachments/{AttachmentID}':
     x-related-model: RepeatingInvoice
     get:
+      security:
+        - OAuth2: [accounting.attachments.read]
       tags:
         - Accounting
       operationId: getRepeatingInvoiceAttachmentById
@@ -11503,6 +11815,8 @@ paths:
   '/RepeatingInvoices/{RepeatingInvoiceID}/Attachments/{FileName}':
     x-related-model: RepeatingInvoice
     get:
+      security:
+        - OAuth2: [accounting.attachments.read]
       tags:
         - Accounting
       operationId: getRepeatingInvoiceAttachmentByFileName
@@ -11536,6 +11850,8 @@ paths:
                 type: string
                 format: binary
     post:
+      security:
+        - OAuth2: [accounting.attachments]
       tags:
         - Accounting
       operationId: updateRepeatingInvoiceAttachmentByFileName
@@ -11587,6 +11903,8 @@ paths:
               type: string
               format: byte
     put:
+      security:
+        - OAuth2: [accounting.attachments]
       tags:
         - Accounting
       operationId: createRepeatingInvoiceAttachmentByFileName
@@ -11640,6 +11958,8 @@ paths:
   '/RepeatingInvoices/{RepeatingInvoiceID}/History':
     x-related-model: RepeatingInvoice
     get:
+      security:
+        - OAuth2: [accounting.transactions.read]
       tags:
         - Accounting
       operationId: getRepeatingInvoiceHistory
@@ -11689,6 +12009,8 @@ paths:
                           ]
                         }'
     put:
+      security:
+        - OAuth2: [accounting.transactions]
       tags:
         - Accounting
       operationId: createRepeatingInvoiceHistory
@@ -11719,6 +12041,8 @@ paths:
   '/Reports/TenNinetyNine':
     x-related-model: Report
     get:
+      security:
+        - OAuth2: [accounting.reports.read]
       tags:
         - Accounting
       operationId: getReportTenNinetyNine
@@ -11826,6 +12150,8 @@ paths:
   '/Reports/AgedPayablesByContact':
     x-related-model: Report
     get:
+      security:
+        - OAuth2: [accounting.reports.read]
       tags:
         - Accounting
       operationId: getReportAgedPayablesByContact
@@ -12101,6 +12427,8 @@ paths:
   '/Reports/AgedReceivablesByContact':
     x-related-model: Report
     get:
+      security:
+        - OAuth2: [accounting.reports.read]
       tags:
         - Accounting
       operationId: getReportAgedReceivablesByContact
@@ -12453,6 +12781,8 @@ paths:
   '/Reports/BalanceSheet':
     x-related-model: Report
     get:
+      security:
+        - OAuth2: [accounting.reports.read]
       tags:
         - Accounting
       operationId: getReportBalanceSheet
@@ -13240,6 +13570,8 @@ paths:
   '/Reports/BankSummary':
     x-related-model: Report
     get:
+      security:
+        - OAuth2: [accounting.reports.read]
       tags:
         - Accounting
       operationId: getReportBankSummary
@@ -13378,6 +13710,8 @@ paths:
   '/Reports':
     x-related-model: Report
     get:
+      security:
+        - OAuth2: [accounting.reports.read]
       tags:
         - Accounting
       operationId: getReportBASorGSTList
@@ -13392,6 +13726,8 @@ paths:
   '/Reports/{ReportID}':
     x-related-model: Report
     get:
+      security:
+        - OAuth2: [accounting.reports.read]
       tags:
         - Accounting
       operationId: getReportBASorGST
@@ -13413,6 +13749,8 @@ paths:
   '/Reports/BudgetSummary':
     x-related-model: Report
     get:
+      security:
+        - OAuth2: [accounting.reports.read]
       tags:
         - Accounting
       operationId: getReportBudgetSummary
@@ -13444,6 +13782,8 @@ paths:
   '/Reports/ExecutiveSummary':
     x-related-model: Report
     get:
+      security:
+        - OAuth2: [accounting.reports.read]
       tags:
         - Accounting
       operationId: getReportExecutiveSummary
@@ -13932,6 +14272,8 @@ paths:
   '/Reports/ProfitAndLoss':
     x-related-model: Report
     get:
+      security:
+        - OAuth2: [accounting.reports.read]
       tags:
         - Accounting
       operationId: getReportProfitAndLoss
@@ -14003,6 +14345,8 @@ paths:
   '/Reports/TrialBalance':
     x-related-model: Report
     get:
+      security:
+        - OAuth2: [accounting.reports.read]
       tags:
         - Accounting
       operationId: getReportTrialBalance
@@ -15110,6 +15454,8 @@ paths:
   /TaxRates:
     x-related-model: TaxRate
     get:
+      security:
+        - OAuth2: [accounting.settings.read]
       tags:
         - Accounting
       operationId: getTaxRates
@@ -15251,6 +15597,8 @@ paths:
                           ]
                         }'
     put:
+      security:
+        - OAuth2: [accounting.settings]
       tags:
         - Accounting
       operationId: createTaxRate
@@ -15314,6 +15662,8 @@ paths:
                            ]
                         }'
     post:
+      security:
+        - OAuth2: [accounting.settings]
       tags:
         - Accounting
       operationId: updateTaxRate
@@ -15380,6 +15730,8 @@ paths:
   /TrackingCategories:
     x-related-model: TrackingCategory
     get:
+      security:
+        - OAuth2: [accounting.settings.read]
       tags:
         - Accounting
       operationId: getTrackingCategories
@@ -15428,6 +15780,8 @@ paths:
                           ]
                         }'
     put:
+      security:
+        - OAuth2: [accounting.settings]
       tags:
         - Accounting
       operationId: createTrackingCategory
@@ -15467,6 +15821,8 @@ paths:
   '/TrackingCategories/{TrackingCategoryID}':
     x-related-model: TrackingCategory
     get:
+      security:
+        - OAuth2: [accounting.settings.read]
       tags:
         - Accounting
       operationId: getTrackingCategory
@@ -15501,6 +15857,8 @@ paths:
                           ]
                         }'
     post:
+      security:
+        - OAuth2: [accounting.settings]
       tags:
         - Accounting
       operationId: updateTrackingCategory
@@ -15546,6 +15904,8 @@ paths:
                            "Name":"BarFoo"
                         }'
     delete:
+      security:
+        - OAuth2: [accounting.settings]
       tags:
         - Accounting
       operationId: deleteTrackingCategory
@@ -15584,6 +15944,8 @@ paths:
   '/TrackingCategories/{TrackingCategoryID}/Options':
     x-related-model: TrackingCategory
     put:
+      security:
+        - OAuth2: [accounting.settings]
       tags:
         - Accounting
       operationId: createTrackingOptions
@@ -15634,6 +15996,8 @@ paths:
   '/TrackingCategories/{TrackingCategoryID}/Options/{TrackingOptionID}':
     x-related-model: TrackingCategory
     delete:
+      security:
+        - OAuth2: [accounting.settings]
       tags:
         - Accounting
       operationId: deleteTrackingOptions
@@ -15683,7 +16047,7 @@ paths:
     x-related-model: User
     get:
       security:
-        - OAuth2: [accounting.settings]
+        - OAuth2: [accounting.settings.read]
       tags:
         - Accounting
       operationId: getUsers
@@ -15741,6 +16105,8 @@ paths:
   '/Users/{UserID}':
     x-related-model: User
     get:
+      security:
+        - OAuth2: [accounting.settings.read]
       tags:
         - Accounting
       operationId: getUser
@@ -15826,6 +16192,14 @@ components:
             paymentservices: Grant read-write access to PaymentServices endpoint
             projects: Grant read-write access to projects
             projects.read: Grant read-only access to   
+  parameters:
+    requiredHeader: 
+      in: header
+      name: Xero-Tenant-Id
+      description: Xero identifier for Tenant
+      schema:
+        type: string
+      required: true  
   responses:
     400Error:
       description: A failed request due to validation error
