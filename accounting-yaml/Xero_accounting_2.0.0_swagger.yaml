@@ -12,6 +12,8 @@ info:
     url: "https://developer.xero.com"
 paths:
   /Accounts:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
         - OAuth2: [accounting.settings]
@@ -20,7 +22,6 @@ paths:
       operationId: getAccounts
       summary: Allows you to retrieve the full chart of accounts
       parameters:
-        - $ref: '#/components/schemas/requiredHeader'
         - in: header
           name: If-Modified-Since
           description: Only records created or modified since this timestamp will be
