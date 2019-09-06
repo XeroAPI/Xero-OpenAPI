@@ -5859,7 +5859,10 @@ paths:
           name: ContactIDs
           description: Filter by a comma-separated list of ContactIDs. For faster response times we recommend using these explicit parameters instead of passing OR conditions into the Where filter.
           schema:
-            type: string
+            type: array
+            items:
+              type: string
+              format: uuid
         - in: query
           name: Statuses
           description: Filter by a comma-separated list Statuses. For faster response times we recommend using these explicit parameters instead of passing OR conditions into the Where filter.
@@ -10334,6 +10337,12 @@ paths:
           description: Filter by purchase order status
           schema:
             type: string
+            enum:
+              - DRAFT    
+              - SUBMITTED  
+              - AUTHORISED  
+              - BILLED
+              - DELETED
         - in: query
           name: DateFrom 
           description: Filter by purchase order date (e.g. GET https://.../PurchaseOrders?DateFrom=2015-12-01&DateTo=2015-12-31
