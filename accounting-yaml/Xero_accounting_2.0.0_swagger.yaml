@@ -1265,6 +1265,167 @@ paths:
         content:
           application/json:
             schema:
+              $ref: '#/components/schemas/BankTransaction'
+            example: '{  
+                       "BankTransactions":[  
+                          {  
+                             "Type":"SPEND",
+                             "Contact":{  
+                                "ContactID":"5cc8cf28-567e-4d43-b287-687cfcaec47c"
+                             },
+                             "LineItems":[  
+                                {  
+                                   "Description":"Foobar",
+                                   "Quantity":1.0,
+                                   "UnitAmount":20.0,
+                                   "AccountCode":"400"
+                                }
+                             ],
+                             "BankAccount":{  
+                                "Code":"088"
+                             }
+                          }
+                       ]
+                    }'
+  '/BankTransactions#bulk':
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    put:
+      security:
+        - OAuth2: [accounting.transactions]
+      tags:
+        - Accounting
+      operationId: createBankTransactions
+      summary: Allows you to create a spend or receive money transaction
+      parameters:
+        - in: query
+          name: SummarizeErrors
+          description: response format that shows validation errors for each bank transaction
+          schema:
+            type: boolean
+            default: true
+      responses:
+        '200':
+          description: Success - return response of type BankTransactions array with new BankTransaction 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BankTransactions'
+              example: '{
+                          "Id": "5bc1d776-3c7f-4fe8-9b2d-09e747077a88",
+                          "Status": "OK",
+                          "ProviderName": "Xero API Partner",
+                          "DateTimeUTC": "\/Date(1551213568047)\/",
+                          "BankTransactions": [
+                            {
+                              "BankTransactionID": "1289c190-e46d-434b-9628-463ffdb52f00",
+                              "BankAccount": {
+                                "AccountID": "6f7594f2-f059-4d56-9e67-47ac9733bfe9",
+                                "Code": "088",
+                                "Name": "Business Wells Fargo"
+                              },
+                              "Type": "SPEND",
+                              "Reference": "",
+                              "IsReconciled": false,
+                              "CurrencyRate": 1.000000,
+                              "Contact": {
+                                "ContactID": "5cc8cf28-567e-4d43-b287-687cfcaec47c",
+                                "ContactStatus": "ACTIVE",
+                                "Name": "Katherine Warren",
+                                "FirstName": "Katherine",
+                                "LastName": "Warren",
+                                "EmailAddress": "kat.warren@clampett.com",
+                                "BankAccountDetails": "",
+                                "Addresses": [
+                                  {
+                                    "AddressType": "STREET",
+                                    "City": "",
+                                    "Region": "",
+                                    "PostalCode": "",
+                                    "Country": ""
+                                  },
+                                  {
+                                    "AddressType": "POBOX",
+                                    "AddressLine1": "",
+                                    "AddressLine2": "",
+                                    "AddressLine3": "",
+                                    "AddressLine4": "",
+                                    "City": "Palo Alto",
+                                    "Region": "CA",
+                                    "PostalCode": "94020",
+                                    "Country": "United States"
+                                  }
+                                ],
+                                "Phones": [
+                                  {
+                                    "PhoneType": "DEFAULT",
+                                    "PhoneNumber": "847-1294",
+                                    "PhoneAreaCode": "(626)",
+                                    "PhoneCountryCode": ""
+                                  },
+                                  {
+                                    "PhoneType": "DDI",
+                                    "PhoneNumber": "",
+                                    "PhoneAreaCode": "",
+                                    "PhoneCountryCode": ""
+                                  },
+                                  {
+                                    "PhoneType": "FAX",
+                                    "PhoneNumber": "",
+                                    "PhoneAreaCode": "",
+                                    "PhoneCountryCode": ""
+                                  },
+                                  {
+                                    "PhoneType": "MOBILE",
+                                    "PhoneNumber": "",
+                                    "PhoneAreaCode": "",
+                                    "PhoneCountryCode": ""
+                                  }
+                                ],
+                                "UpdatedDateUTC": "\/Date(1503348544227+0000)\/",
+                                "ContactGroups": [],
+                                "ContactPersons": [],
+                                "HasValidationErrors": false
+                              },
+                              "DateString": "2019-02-26T00:00:00",
+                              "Date": "\/Date(1551139200000+0000)\/",
+                              "Status": "AUTHORISED",
+                              "LineAmountTypes": "Inclusive",
+                              "LineItems": [
+                                {
+                                  "Description": "Foobar",
+                                  "UnitAmount": 20.00,
+                                  "TaxType": "TAX001",
+                                  "TaxAmount": 1.74,
+                                  "LineAmount": 20.00,
+                                  "AccountCode": "400",
+                                  "Tracking": [],
+                                  "Quantity": 1.0000,
+                                  "LineItemID": "d2a06879-da49-4d6c-83b5-72a93a523ec6",
+                                  "ValidationErrors": []
+                                }
+                              ],
+                              "SubTotal": 18.26,
+                              "TotalTax": 1.74,
+                              "Total": 20.00,
+                              "UpdatedDateUTC": "\/Date(1551213567813+0000)\/",
+                              "CurrencyCode": "USD",
+                              "StatusAttributeString": "ERROR",
+                              "ValidationErrors": [
+                                {
+                                  "Message": "The Contact must contain at least 1 of the following elements to identify the contact: Name, ContactID, ContactNumber"
+                                }
+                              ]
+                            }
+                          ]
+                        }'
+        '400':
+          $ref: '#/components/responses/400Error'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
               $ref: '#/components/schemas/BankTransactions'
             example: '{  
                        "BankTransactions":[  
@@ -3033,6 +3194,187 @@ paths:
                           }
                        }
                     }'
+  "/Contacts#bulk":
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    x-related-model: Contact
+    put:
+      security:
+        - OAuth2: [accounting.contacts]
+      tags:
+        - Accounting
+      operationId: createContacts
+      responses:
+        '200':
+          description: Success - return response of type Contacts array with newly created Contact
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contacts'
+              example: '{
+                          "Id": "e997d6d7-6dad-4458-beb8-d9c1bf7f2edf",
+                          "Status": "OK",
+                          "ProviderName": "Xero API Partner",
+                          "DateTimeUTC": "\/Date(1551399321121)\/",
+                          "Contacts": [
+                            {
+                              "ContactID": "3ff6d40c-af9a-40a3-89ce-3c1556a25591",
+                              "ContactStatus": "ACTIVE",
+                              "Name": "Foo9987",
+                              "EmailAddress": "sid32476@blah.com",
+                              "BankAccountDetails": "",
+                              "Addresses": [
+                                {
+                                  "AddressType": "STREET",
+                                  "City": "",
+                                  "Region": "",
+                                  "PostalCode": "",
+                                  "Country": ""
+                                },
+                                {
+                                  "AddressType": "POBOX",
+                                  "City": "",
+                                  "Region": "",
+                                  "PostalCode": "",
+                                  "Country": ""
+                                }
+                              ],
+                              "Phones": [
+                                {
+                                  "PhoneType": "DEFAULT",
+                                  "PhoneNumber": "",
+                                  "PhoneAreaCode": "",
+                                  "PhoneCountryCode": ""
+                                },
+                                {
+                                  "PhoneType": "DDI",
+                                  "PhoneNumber": "",
+                                  "PhoneAreaCode": "",
+                                  "PhoneCountryCode": ""
+                                },
+                                {
+                                  "PhoneType": "FAX",
+                                  "PhoneNumber": "",
+                                  "PhoneAreaCode": "",
+                                  "PhoneCountryCode": ""
+                                },
+                                {
+                                  "PhoneType": "MOBILE",
+                                  "PhoneNumber": "555-1212",
+                                  "PhoneAreaCode": "415",
+                                  "PhoneCountryCode": ""
+                                }
+                              ],
+                              "UpdatedDateUTC": "\/Date(1551399321043+0000)\/",
+                              "ContactGroups": [],
+                              "IsSupplier": false,
+                              "IsCustomer": false,
+                              "SalesTrackingCategories": [],
+                              "PurchasesTrackingCategories": [],
+                              "PaymentTerms": {
+                                "Bills": {
+                                  "Day": 15,
+                                  "Type": "OFCURRENTMONTH"
+                                },
+                                "Sales": {
+                                  "Day": 10,
+                                  "Type": "DAYSAFTERBILLMONTH"
+                                }
+                              },
+                              "ContactPersons": [],
+                              "HasValidationErrors": false
+                            }
+                          ]
+                        }'
+        '400':
+          description: Validation Error - some data was incorrect returns response of type Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example: '{
+                          "ErrorNumber": 10,
+                          "Type": "ValidationException",
+                          "Message": "A validation exception occurred",
+                          "Elements": [
+                            {
+                              "ContactID": "00000000-0000-0000-0000-000000000000",
+                              "AccountNumber": "12345-ABCD",
+                              "Name": "Sidney Maestre",
+                              "EmailAddress": "foo78858@bar.com",
+                              "AccountsReceivableTaxType": "NONE",
+                              "AccountsPayableTaxType": "INPUT",
+                              "Addresses": [
+                                {
+                                  "AddressType": "STREET",
+                                  "AddressLine1": "101 Green St",
+                                  "AddressLine2": "5th floor",
+                                  "City": "San Francisco",
+                                  "Region": "CA",
+                                  "PostalCode": "94041",
+                                  "Country": "US",
+                                  "AttentionTo": "Rod Drury",
+                                  "ValidationErrors": []
+                                }
+                              ],
+                              "Phones": [
+                                {
+                                  "PhoneType": "MOBILE",
+                                  "PhoneNumber": "555-1212",
+                                  "PhoneAreaCode": "415",
+                                  "ValidationErrors": []
+                                }
+                              ],
+                              "ContactGroups": [],
+                              "PaymentTerms": {
+                                "Bills": {
+                                  "Day": 15,
+                                  "Type": "OFCURRENTMONTH",
+                                  "ValidationErrors": []
+                                },
+                                "Sales": {
+                                  "Day": 10,
+                                  "Type": "DAYSAFTERBILLMONTH",
+                                  "ValidationErrors": []
+                                }
+                              },
+                              "ContactPersons": [],
+                              "HasValidationErrors": true,
+                              "ValidationErrors": [
+                                {
+                                  "Message": "The contact name Sidney Maestre is already assigned to another contact. The contact name must be unique across all active contacts."
+                                }
+                              ]
+                            }
+                          ]
+                        }'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Contacts'
+            example: '{  
+                       "Name":"Foo9987",
+                       "EmailAddress":"sid32476@blah.com",
+                       "Phones":[  
+                          {  
+                             "PhoneType":"MOBILE",
+                             "PhoneNumber":"555-1212",
+                             "PhoneAreaCode":"415"
+                          }
+                       ],
+                       "PaymentTerms":{  
+                          "Bills":{  
+                             "Day":15,
+                             "Type":"OFCURRENTMONTH"
+                          },
+                          "Sales":{  
+                             "Day":10,
+                             "Type":"DAYSAFTERBILLMONTH"
+                          }
+                       }
+                    }'                
   '/Contacts/{ContactID}':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
