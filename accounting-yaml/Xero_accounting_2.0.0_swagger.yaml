@@ -5859,15 +5859,19 @@ paths:
           name: ContactIDs
           description: Filter by a comma-separated list of ContactIDs. For faster response times we recommend using these explicit parameters instead of passing OR conditions into the Where filter.
           schema:
-            type: array
-            items:
-              type: string
-              format: uuid
+            type: string
         - in: query
           name: Statuses
           description: Filter by a comma-separated list Statuses. For faster response times we recommend using these explicit parameters instead of passing OR conditions into the Where filter.
           schema:
-            $ref: '#/components/schemas/InvoiceStatus'
+            type: string
+            enum:
+              - DRAFT
+              - SUBMITTED
+              - DELETED
+              - AUTHORISED
+              - PAID
+              - VOIDED
         - in: query
           name: page
           description: e.g. page=1 – Up to 100 invoices will be returned in a single API call with line items shown for each invoice
@@ -18109,7 +18113,15 @@ components:
           type: number
           format: double
         Status:
-          $ref: '#/components/schemas/InvoiceStatus'
+          description: See Invoice Status Codes
+          type: string
+          enum:
+            - DRAFT
+            - SUBMITTED
+            - DELETED
+            - AUTHORISED
+            - PAID
+            - VOIDED
         SentToContact:
           description: Boolean to set whether the invoice in the Xero app should be marked
             as “sent”. This can be set only on invoices that have been approved
@@ -18231,16 +18243,6 @@ components:
         - Contact
         - LineItems
       type: object
-    InvoiceStatus:
-      description: See Invoice Status Codes
-      type: string
-      enum:
-        - DRAFT
-        - SUBMITTED
-        - DELETED
-        - AUTHORISED
-        - PAID
-        - VOIDED
     OnlineInvoices:
       type: object
       properties:
