@@ -4469,6 +4469,156 @@ paths:
         - Accounting
       operationId: createCreditNote
       summary: Allows you to create a credit note
+      responses:
+        '200':
+          description: Success - return response of type Credit Notes array of newly created CreditNote
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreditNotes'
+              example: '{
+                          "Id": "5e57a661-42da-4a19-96a0-00405a0e946d",
+                          "Status": "OK",
+                          "ProviderName": "Java Partner Example",
+                          "DateTimeUTC": "\/Date(1551812702713)\/",
+                          "CreditNotes": [
+                            {
+                              "CreditNoteID": "f9256f04-5a99-4680-acb9-6b4639cc439a",
+                              "CreditNoteNumber": "",
+                              "Payments": [],
+                              "ID": "f9256f04-5a99-4680-acb9-6b4639cc439a",
+                              "CurrencyRate": 1.000000,
+                              "Type": "ACCPAYCREDIT",
+                              "Reference": "",
+                              "RemainingCredit": 46.00,
+                              "Allocations": [],
+                              "Contact": {
+                                "ContactID": "430fa14a-f945-44d3-9f97-5df5e28441b8",
+                                "ContactStatus": "ACTIVE",
+                                "Name": "Liam Gallagher",
+                                "FirstName": "Liam",
+                                "LastName": "Gallagher",
+                                "EmailAddress": "liam@rockstar.com",
+                                "BankAccountDetails": "",
+                                "Addresses": [
+                                  {
+                                    "AddressType": "STREET",
+                                    "City": "",
+                                    "Region": "",
+                                    "PostalCode": "",
+                                    "Country": "",
+                                    "AttentionTo": ""
+                                  },
+                                  {
+                                    "AddressType": "POBOX",
+                                    "City": "Anytown",
+                                    "Region": "NY",
+                                    "PostalCode": "10101",
+                                    "Country": "USA",
+                                    "AttentionTo": ""
+                                  }
+                                ],
+                                "Phones": [
+                                  {
+                                    "PhoneType": "DEFAULT",
+                                    "PhoneNumber": "222-2222",
+                                    "PhoneAreaCode": "212",
+                                    "PhoneCountryCode": ""
+                                  },
+                                  {
+                                    "PhoneType": "DDI",
+                                    "PhoneNumber": "",
+                                    "PhoneAreaCode": "",
+                                    "PhoneCountryCode": ""
+                                  },
+                                  {
+                                    "PhoneType": "FAX",
+                                    "PhoneNumber": "333-2233",
+                                    "PhoneAreaCode": "212",
+                                    "PhoneCountryCode": ""
+                                  },
+                                  {
+                                    "PhoneType": "MOBILE",
+                                    "PhoneNumber": "444-3433",
+                                    "PhoneAreaCode": "212",
+                                    "PhoneCountryCode": ""
+                                  }
+                                ],
+                                "UpdatedDateUTC": "\/Date(1551747281053+0000)\/",
+                                "ContactGroups": [],
+                                "ContactPersons": [],
+                                "HasValidationErrors": false
+                              },
+                              "DateString": "2019-01-05T00:00:00",
+                              "Date": "\/Date(1546646400000+0000)\/",
+                              "Status": "DRAFT",
+                              "LineAmountTypes": "Exclusive",
+                              "LineItems": [
+                                {
+                                  "Description": "Foobar",
+                                  "UnitAmount": 20.00,
+                                  "TaxType": "INPUT2",
+                                  "TaxAmount": 6.00,
+                                  "LineAmount": 40.00,
+                                  "AccountCode": "400",
+                                  "Tracking": [],
+                                  "Quantity": 2.0000,
+                                  "ValidationErrors": []
+                                }
+                              ],
+                              "SubTotal": 40.00,
+                              "TotalTax": 6.00,
+                              "Total": 46.00,
+                              "UpdatedDateUTC": "\/Date(1551812702650+0000)\/",
+                              "CurrencyCode": "NZD",
+                              "StatusAttributeString": "OK",
+                              "ValidationErrors": [
+                                {
+                                  "Message": "An existing Credit Note with the specified CreditNoteID could not be found"
+                                }
+                              ]
+                            }
+                          ]
+                        }'
+        '400':
+          $ref: '#/components/responses/400Error'
+      requestBody:
+        description: an array of Credit Notes with a single CreditNote object.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreditNote'
+            example: '{  
+                         "CreditNotes":[  
+                            {  
+                               "Type":"ACCPAYCREDIT",
+                               "Contact":{  
+                                  "ContactID":"430fa14a-f945-44d3-9f97-5df5e28441b8"
+                               },
+                               "Date":"2019-01-05",
+                               "LineItems":[  
+                                  {  
+                                     "Description":"Foobar",
+                                     "Quantity":2.0,
+                                     "UnitAmount":20.0,
+                                     "AccountCode":"400"
+                                  }
+                               ]
+                            }
+                         ]
+                      }'
+  '/CreditNotes#bulk':
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    x-related-model: CreditNote
+    put:
+      security:
+        - OAuth2: [accounting.transactions]
+      tags:
+        - Accounting
+      operationId: createCreditNotes
+      summary: Allows you to create a credit note
       parameters:
         - in: query
           name: SummarizeErrors
@@ -5500,6 +5650,62 @@ paths:
       tags:
         - Accounting
       operationId: createEmployee
+      summary: Allows you to create new employees used in Xero payrun
+      responses:
+        '200':
+          description: Success - return response of type Employees array with new Employee
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employees'
+              example: '{
+                          "Id": "0d6a08e7-6936-4828-a1bc-e4595e0ef778",
+                          "Status": "OK",
+                          "ProviderName": "Java Partner Example",
+                          "DateTimeUTC": "\/Date(1552324736508)\/",
+                          "Employees": [
+                            {
+                              "EmployeeID": "e1ada26b-a10e-4065-a941-af34b53740e3",
+                              "Status": "ACTIVE",
+                              "FirstName": "Nick",
+                              "LastName": "Fury",
+                              "ExternalLink": {
+                                "Url": "http://twitter.com/#!/search/Nick+Fury",
+                                "Description": "Go to external link"
+                              },
+                              "UpdatedDateUTC": "\/Date(1552324736463+0000)\/"
+                            }
+                          ]
+                        }'
+        '400':
+          $ref: '#/components/responses/400Error'
+      requestBody:
+        required: true
+        content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+              example: '{  
+                         "Employees":[  
+                            {  
+                               "FirstName":"Nick",
+                               "LastName":"Fury",
+                               "ExternalLink":{  
+                                  "Url":"http://twitter.com/#!/search/Nick+Fury"
+                               }
+                            }
+                         ]
+                      }'
+  '/Employees#bulk':
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    x-related-model: Employee  
+    put:
+      security:
+        - OAuth2: [accounting.settings]
+      tags:
+        - Accounting
+      operationId: createEmployees
       summary: Allows you to create new employees used in Xero payrun
       responses:
         '200':
