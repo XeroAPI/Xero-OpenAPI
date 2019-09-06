@@ -5926,6 +5926,122 @@ paths:
         - Accounting
       operationId: createExpenseClaim
       summary: Allows you to retrieve expense claims 
+      requestBody:
+        required: true
+        content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExpenseClaim'
+              example: '{  
+                           "ExpenseClaims":[  
+                              {  
+                                 "Status":"SUBMITTED",
+                                 "User":{  
+                                    "UserID":"d1164823-0ac1-41ad-987b-b4e30fe0b273"
+                                 },
+                                 "Receipts":[  
+                                    {  
+                                       "LineItems":[  
+
+                                       ],
+                                       "ReceiptID":"dc1c7f6d-0a4c-402f-acac-551d62ce5816"
+                                    }
+                                 ]
+                              }
+                           ]
+                        }'
+      responses:
+        '200':
+          description: Success - return response of type ExpenseClaims array with newly created ExpenseClaim
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExpenseClaims'
+              example: '{
+                          "Id": "4a0879a6-3860-4b73-adc6-f6a0e0f68fc8",
+                          "Status": "OK",
+                          "ProviderName": "Java Partner Example",
+                          "DateTimeUTC": "\/Date(1552325850201)\/",
+                          "ExpenseClaims": [
+                            {
+                              "ExpenseClaimID": "646b15ab-b874-4e13-82ae-f4385b2ac4b6",
+                              "Status": "SUBMITTED",
+                              "UpdatedDateUTC": "\/Date(1552325850107+0000)\/",
+                              "User": {
+                                "UserID": "d1164823-0ac1-41ad-987b-b4e30fe0b273",
+                                "EmailAddress": "api@xero.com",
+                                "FirstName": "API ",
+                                "LastName": "Team",
+                                "UpdatedDateUTC": "\/Date(1511957179217+0000)\/",
+                                "IsSubscriber": true,
+                                "OrganisationRole": "FINANCIALADVISER"
+                              },
+                              "Receipts": [
+                                {
+                                  "ReceiptID": "dc1c7f6d-0a4c-402f-acac-551d62ce5816",
+                                  "ReceiptNumber": 1,
+                                  "Status": "SUBMITTED",
+                                  "User": {
+                                    "UserID": "d1164823-0ac1-41ad-987b-b4e30fe0b273",
+                                    "EmailAddress": "api@xero.com",
+                                    "FirstName": "API ",
+                                    "LastName": "Team",
+                                    "UpdatedDateUTC": "\/Date(1511957179217+0000)\/",
+                                    "IsSubscriber": true,
+                                    "OrganisationRole": "FINANCIALADVISER"
+                                  },
+                                  "Contact": {
+                                    "ContactID": "430fa14a-f945-44d3-9f97-5df5e28441b8",
+                                    "Name": "Liam Gallagher",
+                                    "Addresses": [],
+                                    "Phones": [],
+                                    "ContactGroups": [],
+                                    "ContactPersons": [],
+                                    "HasValidationErrors": false
+                                  },
+                                  "Date": "\/Date(1552348800000+0000)\/",
+                                  "UpdatedDateUTC": "\/Date(1552325848457+0000)\/",
+                                  "Reference": "",
+                                  "LineAmountTypes": "NoTax",
+                                  "LineItems": [
+                                    {
+                                      "Description": "Foobar",
+                                      "UnitAmount": 20.00,
+                                      "TaxType": "NONE",
+                                      "TaxAmount": 0.00,
+                                      "LineAmount": 40.00,
+                                      "Tracking": [],
+                                      "Quantity": 2.0000
+                                    }
+                                  ],
+                                  "SubTotal": 40.00,
+                                  "TotalTax": 0.00,
+                                  "Total": 40.00,
+                                  "ID": "dc1c7f6d-0a4c-402f-acac-551d62ce5816",
+                                  "HasAttachments": false
+                                }
+                              ],
+                              "Payments": [],
+                              "Total": 40.00,
+                              "AmountDue": 40.00,
+                              "AmountPaid": 0.00,
+                              "StatusAttributeString": "OK"
+                            }
+                          ]
+                        }'
+        '400':
+          $ref: '#/components/responses/400Error'
+  '/ExpenseClaims#bulk':
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    x-related-model: ExpenseClaim
+    put:
+      security:
+        - OAuth2: [accounting.transactions]
+      tags:
+        - Accounting
+      operationId: createExpenseClaims
+      summary: Allows you to retrieve expense claims 
       parameters:
         - in: query
           name: SummarizeErrors
@@ -7813,6 +7929,66 @@ paths:
       tags:
         - Accounting
       operationId: createItem
+      summary: Allows you to create an item
+      responses:
+        '200':
+          description: Success - return response of type Items array with newly created Item
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Items'
+              example: '{
+                          "Id": "ae7ef7c8-9024-4d42-8d59-5f26ed3f508b",
+                          "Status": "OK",
+                          "ProviderName": "Java Partner Example",
+                          "DateTimeUTC": "\/Date(1552331871904)\/",
+                          "Items": [
+                            {
+                              "ItemID": "a4544d51-48f6-441f-a623-99ecbced6ab7",
+                              "Code": "abc65591",
+                              "Description": "foobar",
+                              "UpdatedDateUTC": "\/Date(1552331871707)\/",
+                              "PurchaseDetails": {},
+                              "SalesDetails": {},
+                              "Name": "Hello11350",
+                              "IsTrackedAsInventory": false,
+                              "IsSold": true,
+                              "IsPurchased": true,
+                              "ValidationErrors": [
+                                {
+                                  "Message": "Price List Item with Code ''abc'' already exists"
+                                }
+                              ]
+                            }
+                          ]
+                        }'
+        '400':
+          $ref: '#/components/responses/400Error'
+      requestBody:
+        required: true
+        content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+              example: '{  
+                           "Items":[  
+                              {  
+                                 "Code":"abc65591",
+                                 "Name":"Hello11350",
+                                 "Description":"foobar"
+                              }
+                           ]
+                        }'
+  '/Items#bulk':
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    x-related-model: Item
+    put:
+      security:
+        - OAuth2: [accounting.settings]
+      tags:
+        - Accounting
+      operationId: createItems
       summary: Allows you to create an item
       responses:
         '200':
@@ -11070,6 +11246,158 @@ paths:
       tags:
         - Accounting
       operationId: createPurchaseOrder
+      summary: Allows you to create purchase orders
+      responses:
+        '200':
+          description: Success - return response of type PurchaseOrder array for specified PurchaseOrder          
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PurchaseOrders'
+              example: ' {
+                            "Id": "aa2f9d23-fd76-4bee-9600-30c0f0f34036",
+                            "Status": "OK",
+                            "ProviderName": "Java Partner Example",
+                            "DateTimeUTC": "\/Date(1552522946173)\/",
+                            "PurchaseOrders": [
+                              {
+                                "PurchaseOrderID": "56204648-8fbe-46f8-b09c-2125f7939533",
+                                "PurchaseOrderNumber": "PO-0004",
+                                "DateString": "2019-03-13T00:00:00",
+                                "Date": "\/Date(1552435200000+0000)\/",
+                                "HasErrors": false,
+                                "IsDiscounted": false,
+                                "TotalDiscount": 0.00,
+                                "SentToContact": false,
+                                "Type": "PURCHASEORDER",
+                                "CurrencyRate": 1.000000,
+                                "CurrencyCode": "NZD",
+                                "Contact": {
+                                  "ContactID": "430fa14a-f945-44d3-9f97-5df5e28441b8",
+                                  "ContactStatus": "ACTIVE",
+                                  "Name": "Liam Gallagher",
+                                  "FirstName": "Liam",
+                                  "LastName": "Gallagher",
+                                  "EmailAddress": "liam@rockstar.com",
+                                  "BankAccountDetails": "",
+                                  "Addresses": [
+                                    null,
+                                    {
+                                      "AddressType": "POBOX",
+                                      "City": "Anytown",
+                                      "Region": "NY",
+                                      "PostalCode": "10101",
+                                      "Country": "USA",
+                                      "AttentionTo": ""
+                                    }
+                                  ],
+                                  "Phones": [
+                                    {
+                                      "PhoneType": "DEFAULT",
+                                      "PhoneNumber": "222-2222",
+                                      "PhoneAreaCode": "212",
+                                      "PhoneCountryCode": ""
+                                    },
+                                    null,
+                                    {
+                                      "PhoneType": "FAX",
+                                      "PhoneNumber": "333-2233",
+                                      "PhoneAreaCode": "212",
+                                      "PhoneCountryCode": ""
+                                    },
+                                    {
+                                      "PhoneType": "MOBILE",
+                                      "PhoneNumber": "444-3433",
+                                      "PhoneAreaCode": "212",
+                                      "PhoneCountryCode": ""
+                                    }
+                                  ],
+                                  "UpdatedDateUTC": "\/Date(1551747281053+0000)\/",
+                                  "ContactGroups": [
+                                    {
+                                      "ContactGroupID": "17b44ed7-4389-4162-91cb-3dd5766e4e22",
+                                      "Name": "Oasis",
+                                      "Status": "ACTIVE",
+                                      "Contacts": [],
+                                      "HasValidationErrors": false
+                                    }
+                                  ],
+                                  "IsSupplier": true,
+                                  "IsCustomer": true,
+                                  "SalesTrackingCategories": [],
+                                  "PurchasesTrackingCategories": [],
+                                  "ContactPersons": [],
+                                  "HasValidationErrors": false
+                                },
+                                "Status": "DRAFT",
+                                "LineAmountTypes": "Exclusive",
+                                "LineItems": [
+                                  {
+                                    "Description": "Foobar",
+                                    "UnitAmount": 20.0000,
+                                    "TaxType": "INPUT2",
+                                    "TaxAmount": 3.00,
+                                    "LineAmount": 20.00,
+                                    "AccountCode": "710",
+                                    "Tracking": [],
+                                    "Quantity": 1.0000,
+                                    "LineItemID": "792b7e40-b9f2-47f0-8624-b09f4b0166dd"
+                                  }
+                                ],
+                                "SubTotal": 20.00,
+                                "TotalTax": 3.00,
+                                "Total": 23.00,
+                                "UpdatedDateUTC": "\/Date(1552522946077+0000)\/",
+                                "StatusAttributeString": "ERROR",
+                                "Warnings": [
+                                  {
+                                    "Message": "Only AUTHORISED and BILLED purchase orders may have SentToContact updated."
+                                  }
+                                ],
+                                "ValidationErrors": [
+                                  {
+                                    "Message": "Order number must be unique"
+                                  }
+                                ]
+                              }
+                            ]
+                          }'
+        '400':
+          $ref: '#/components/responses/400Error'
+      requestBody:
+        required: true
+        content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PurchaseOrder'
+              example: '{  
+                           "PurchaseOrders":[  
+                              {  
+                                 "Contact":{  
+                                    "ContactID":"430fa14a-f945-44d3-9f97-5df5e28441b8"
+                                 },
+                                 "LineItems":[  
+                                    {  
+                                       "Description":"Foobar",
+                                       "Quantity":1.0,
+                                       "UnitAmount":20.0,
+                                       "AccountCode":"710"
+                                    }
+                                 ],
+                                 "Date":"2019-03-13"
+                              }
+                           ]
+                        }'
+  '/PurchaseOrders#bulk':
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    x-related-model: PurchaseOrder
+    put:
+      security:
+        - OAuth2: [accounting.transactions]
+      tags:
+        - Accounting
+      operationId: createPurchaseOrders
       summary: Allows you to create purchase orders
       parameters:
         - in: query
