@@ -16761,7 +16761,7 @@ paths:
         - OAuth2: [accounting.settings]
       tags:
         - Accounting
-      operationId: createTaxRates
+      operationId: createTaxRate
       summary: Allows you to create Tax Rates      
       responses:
         '200':
@@ -16806,7 +16806,7 @@ paths:
         content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TaxRates'
+                $ref: '#/components/schemas/TaxRate'
               example: '{  
                            "TaxRates":[  
                               {  
@@ -16883,6 +16883,75 @@ paths:
                                     }
                                  ],
                                  "Status":"DELETED",
+                                 "ReportTaxType":"INPUT"
+                              }
+                           ]
+                        }'
+  '/TaxRates#bulk':
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    x-related-model: TaxRate
+    put:
+      security:
+        - OAuth2: [accounting.settings]
+      tags:
+        - Accounting
+      operationId: createTaxRates
+      summary: Allows you to create Tax Rates      
+      responses:
+        '200':
+          description: Success - return response of type TaxRates array newly created TaxRate
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaxRates'
+              example: '{
+                          "Id": "9d2c5e56-fab4-450b-a5ff-d47409508eab",
+                          "Status": "OK",
+                          "ProviderName": "Java Partner Example",
+                          "DateTimeUTC": "\/Date(1555086839080)\/",
+                          "TaxRates": [
+                            {
+                              "Name": "SDKTax29067",
+                              "TaxType": "TAX002",
+                              "ReportTaxType": "INPUT",
+                              "CanApplyToAssets": true,
+                              "CanApplyToEquity": true,
+                              "CanApplyToExpenses": true,
+                              "CanApplyToLiabilities": true,
+                              "CanApplyToRevenue": false,
+                              "DisplayTaxRate": 2.2500,
+                              "EffectiveRate": 2.2500,
+                              "Status": "ACTIVE",
+                              "TaxComponents": [
+                                {
+                                  "Name": "State Tax",
+                                  "Rate": 2.2500,
+                                  "IsCompound": false,
+                                  "IsNonRecoverable": false
+                                }
+                              ]
+                            }
+                          ]
+                        }'
+        '400':
+          $ref: '#/components/responses/400Error'
+      requestBody:
+        required: true
+        content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaxRates'
+              example: '{  
+                           "TaxRates":[  
+                              {  
+                                 "Name":"SDKTax29067",
+                                 "TaxComponents":[  
+                                    {  
+                                       "Name":"State Tax",
+                                       "Rate":2.25
+                                    }
+                                 ],
                                  "ReportTaxType":"INPUT"
                               }
                            ]
