@@ -10,6 +10,9 @@ info:
     name: MIT 
     url: 'https://github.com/XeroAPI/Xero-OpenAPI/blob/master/LICENSE'
 servers:
+  - url: 'https://api.xero.com/bankfeeds.xro/1.0'
+  - url: 'https://virtserver.swaggerhub.com/Xero/bankfeeds/1.0.0'
+servers:
   - description: Xero Bank Feeds API base url
     url: https://api.xero.com/bankfeeds.xro/1.0/
 paths:
@@ -23,9 +26,7 @@ paths:
         - BankFeeds
       summary: searches feed connections
       operationId: getFeedConnections
-      description: 
-        By passing in the appropriate options, you can search for
-        available feed connections in the system
+      description:  By passing in the appropriate options, you can search for available feed connections in the system
       parameters: 
         - name: page
           in: query
@@ -41,7 +42,7 @@ paths:
             example: 100
       responses:
         '201':
-          description: search results matching criteria
+          description: Success - return response of type FeedConnections array with 0 to n FeedConnection objects 
           content:
             application/json:
               schema:
@@ -82,8 +83,7 @@ paths:
           - BankFeeds
         summary: create one or more new feed connection
         operationId: createFeedConnections
-        description: |
-          By passing in the appropriate body, you can create one or more new feed connections in the system
+        description: By passing in the FeedConnections array populated with FeedConnection objects tom create one or more new feed connections in the system
         requestBody:
           required: true
           content:
@@ -112,7 +112,7 @@ paths:
           description: Feed Connection(s) to add
         responses:
           '201':
-            description: feed connection created
+            description: Successfully created new feed connections - return response of type FeedConnections array with 0 to n FeedConnection objects 
             content:
               application/json:
                 schema:
@@ -147,9 +147,7 @@ paths:
         - BankFeeds
       summary: get single feed connection by id
       operationId: getFeedConnection
-      description: |
-        By passing in a FeedConnection Id options, you can search for
-        available feed connections in the system
+      description: By passing in a FeedConnection Id options, you can search for available feed connections in the system
       parameters: 
         - name: id
           in: path
@@ -157,10 +155,10 @@ paths:
           description: feed connection id for single object
           schema: 
             type: string 
-            example: xxxx
+            example: 50d3cf8d-95dc-4466-8dc0-47e6d1197e28
       responses:
         '200':
-          description: search results matching criteria
+          description: Success - return single FeedConnection object that matches the resource id 
           content:
             application/json:
               schema:
@@ -186,10 +184,7 @@ paths:
         - BankFeeds
       summary: delete an exsiting feed connection
       operationId: deleteFeedConnections
-      description: |
-        By passing in the appropriate body, you can create a new feed connections in the system
-      security:
-       - apiKey: []
+      description: By passing in a FeedConnections array with a valid FeedConnection obect in body to delete in the system
       requestBody:
         required: true
         content:
@@ -208,7 +203,7 @@ paths:
         description: Feed Connections to delete
       responses:
         '202':
-          description: create results matching body content
+          description: Success - delete single FeedConnection object that matches the resource id 
           content:
             application/json:
               schema:
@@ -241,16 +236,19 @@ paths:
       tags:
         - BankFeeds
       operationId: getStatements
+      description:  By passing in the appropriate options, you can search for available statements in the system
       parameters:
         - in: query
           name: page
           required: false
+          description: Page number which specifies the set of records to retrieve. By default the number of the records per set is 10. Example - https://api.xero.com/bankfeeds.xro/1.0/FeedConnections?page=1 to get the second set of the records. When page value is not a number or a negative number, by default, the first set of records is returned. 
           schema:
             type: integer
             format: int32
         - in: query
           name: pageSize
           required: false
+          description: Page size which specifies how many records per page will be returned (default 10). Example - https://api.xero.com/bankfeeds.xro/1.0/FeedConnections?pageSize=100 to specify page size of 100. 
           schema:
             type: integer
             format: int32
@@ -260,12 +258,6 @@ paths:
           schema:
             type: string
             default: 00000000-0000-0000-0000-0000000010000
-        - name: Xero-Tenant-Id
-          in: header
-          required: false
-          schema:
-            type: string
-            default: 00000000-0000-0000-0000-0000020000000
         - name: Xero-User-Id
           in: header
           required: false
@@ -324,9 +316,10 @@ paths:
       tags:
         - BankFeeds
       operationId: createStatements
+      description:  By passing in a Statements array with Statement objects in the body, you can create bank statements in the system
       responses:
         '202':
-          description: Success
+          description: Success - return Statements array with newly created Statement objects
           content:
             application/json:
               schema:
@@ -425,7 +418,7 @@ paths:
                           "detail": "The request should be retried. If the error persists, a Xero support issue should be raised."
                         }
       requestBody:
-        description: Feed Connection(s) to add
+        description:  Body with Statements array of Statement objects
         content:
           application/json:
             schema:
@@ -508,6 +501,7 @@ paths:
       tags:
         - BankFeeds
       operationId: getStatement
+      description:  By passing in a unique id, you can search for matching statement in the system
       parameters:
         - name: statementId
           in: path
@@ -516,7 +510,7 @@ paths:
             type: string
       responses:
         '200':
-          description: search results matching id for single statement
+          description: search results matching id for single statement object
           content:
             application/json:
               schema:
@@ -544,7 +538,7 @@ components:
   securitySchemes:
     OAuth2:
       type: oauth2
-      description: For more information
+      description: For more information see oAuth 2 documentation https://developer.xero.com/documentation/oauth2/overview
       flows: 
         authorizationCode:
           authorizationUrl: 'https://login.xero.com/identity/connect/authorize'
@@ -552,54 +546,19 @@ components:
           scopes:
             email: Grant read-only access to your email
             openid: Grant read-only access to your open id
-            profile: your profile information
-            accounting.transactions: Grant read-write access to bank transactions, credit notes, invoices, repeating invoices
-            accounting.transactions.read: Grant read-only access to invoices
-            accounting.reports.read: Grant read-only access to accounting reports
-            accounting.journals.read: Grant read-only access to journals
-            accounting.settings: Grant read-write access to organisation and account settings
-            accounting.settings.read: Grant read-only access to organisation and account settings
-            accounting.contacts: Grant read-write access to contacts and contact groups
-            accounting.contacts.read: Grant read-only access to contacts and contact groups
-            accounting.attachments: Grant read-write access to attachments
-            accounting.attachments.read: Grant read-only access to attachments
-            assets assets.read: Grant read-only access to fixed assets
+            profile: Grant read-only your profile information
             bankfeeds: Grant read-write access to bankfeeds 
-            files: Grant read-write access to files and folders
-            files.read: Grant read-only access to files and folders
-            payroll: Grant read-write access to payroll
-            payroll.read: Grant read-only access to payroll
-            payroll.employees: Grant read-write access to payroll employees
-            payroll.employees.read: Grant read-only access to payroll employees
-            payroll.leaveapplications: Grant read-write access to payroll leaveapplications
-            payroll.leaveapplications.read: Grant read-only access to payroll leaveapplications
-            payroll.payitems: Grant read-write access to payroll payitems
-            payroll.payitems.read: Grant read-only access to payroll payitems
-            payroll.payrollcalendars: Grant read-write access to payroll calendars
-            payroll.payrollcalendars.read: Grant read-only access to payroll calendars
-            payroll.payruns: Grant read-write access to payroll payruns
-            payroll.payruns.read: Grant read-only access to payroll payruns
-            payroll.payslip: Grant read-write access to payroll payslips
-            payroll.payslip.read: Grant read-only access to payroll payslips
-            payroll.settings.read: Grant read-only access to payroll settings
-            payroll.superfunds: Grant read-write access to payroll superfunds
-            payroll.superfunds.read: Grant read-only access to payroll superfunds
-            payroll.superfundproducts.read: Grant read-only access to payroll superfundproducts
-            payroll.timesheets: Grant read-write access to payroll timesheets
-            payroll.timesheets.read: Grant read-only access to payroll timesheets
-            paymentservices: Grant read-write access to payment services
-            projects: Grant read-write access to projects
-            projects.read: Grant read-only access to projects
   parameters:
     requiredHeader: 
       in: header
       name: Xero-Tenant-Id
-      description: Xero identifier for Tenant
+      description: Xero identifier for Tenant (organisation, practice, etc)
       schema:
         type: string
       required: true 
   schemas:
     FeedConnections:
+      description: Array of bank feed connection objects and pagination properties
       type: object
       properties:
         pagination:
@@ -609,41 +568,52 @@ components:
           items:
             $ref: '#/components/schemas/FeedConnection'
     FeedConnection:
+      description: bank feed connection object
       type: object
       required:
         - id
       properties:
         id:
+          description: Unique identifier for bank feed connection
           type: string
           example: "0d3cf8d-95dc-4466-8dc0-47e6d1197e28"
         accountToken:
+          description: This account identifier is generated by the financial institute (FI). This must be unique for your financial institute.
           type: string
           example: "10000123"
-        accountNumber:
+        accountNumber: 
+          description: String(40) when AccountType is BANK String(4) when AccountType is CREDITCARD.The Account Number is used to match the feed to a Xero Bank Account. The API will create a new Xero Bank Account if a match to an existing Xero Bank Account is not found. Only the last 4 digits must be supplied for Credit Card numbers. Must be included if AccountId is not specified.
           type: string
           example: "3809087654321500"
         accountName:
+          description: The Account Name will be used for the creation of a new Xero Bank Account if a matching Xero Bank Account is not found.
           type: string
           example: "Joe's Savings Account"
         accountId:
+          description: Xero identifier for a bank account in Xero. Must be included if AccountNumber is not specified.
           type: string
           example: "079a88ea-276d-41fb-a1f1-366ef3e22921"
         accountType:
+          description: High level bank account type i.e BANK CREDITCARD BANK encompasses all bank account types other than credit cards.
           enum: [BANK,CREDITCARD]
           example: "BANK"
         currency:
+          description: ISO-4217 currency code, e.g. USD, AUD.
           type: string
           example: "AUD"
         country:
+          description: ISO-3166 alpha-2 country code, e.g. US, AU. This element is required only when the Application supports multi-region. Talk to your Partner Manager to confirm if this is the case.
           type: string
           example: "GB"
         status:
+          description: The current status of feed connection.
           type: string
           enum: [PENDING,REJECTED]
           example: "REJECTED"
         error:
           $ref: '#/components/schemas/Error'
     Statements:
+      description: Array of Bank statements (collections of financial transaction data) per bank account. 
       type: object
       properties:
         pagination:
@@ -655,36 +625,46 @@ components:
     Pagination:
       properties:
         page:
+          description: Page number which specifies the set of records retrieved.
           type: integer
           example: 1
-        pageSize:
+        pageSize: 
+          description: Page size which specifies how many records per pages returned (default 10).
           type: integer
           example: 10
-        pageCount:
+        pageCount: 
+          description: Number of pages available
           type: integer
           example: 1
-        itemCount:
+        itemCount: 
+          description: Number of items in current page.
           type: integer
           example: 2
     Statement:
+      description: Bank statement (collections of financial transaction data) per bank account. 
       type: object
       required:
         - id
       properties:
         id:
+          description: Unique id in Xero
           type: string
           example: "ba4f3127-5e46-427d-80ea-dea2fcd26afe"
         feedConnectionId:
+          description: The Xero generated feed connection Id that identifies the Xero Bank Account Container into which the statement should be delivered.
           type: string
           example: "87cb0dc8-fa32-409c-b622-19f8de8dcc83"
         status:
+          description: Status of statement
           enum: ["PENDING","REJECTED","DELIVERED"]
           example: "PENDING"
         startDate:
+          description: Opening balance date (can be no older than one year from the current date) ISO-8601 YYYY-MM-DD
           type: string
           format: date
           example: "2018-07-27"
         endDate:
+          description: Closing balance date ISO-8601 YYYY-MM-DD
           type: string
           format: date
           example: "2018-07-27"
@@ -693,31 +673,39 @@ components:
         endBalance:
           $ref: '#/components/schemas/EndBalance'
         statementLines:
+            description: See Elements for Statement Line object
             $ref: '#/components/schemas/StatementLines'
         errors:
+          description: See Elements for Error object
           type: array
           items:
             $ref: '#/components/schemas/Error'
         statementLineCount:
+          description: total number of statement lines
           type: integer
           example: 1
     StartBalance:
+      description: See Elements for Start/End Balance
       type: object
       properties:
         amount:
+          description: Amount of starting balance
           type: string
           example: "9.0000"
         creditDebitIndicator:
           $ref: '#/components/schemas/CreditDebitIndicator'
     EndBalance:
+      description: The StartBalance plus all the Statement Line Amounts should be equal to the EndBalance Amount.
       type: object
       properties:
         amount:
+          description: Amount of ending balance
           type: string
           example: "10.1340"
         creditDebitIndicator:
           $ref: '#/components/schemas/CreditDebitIndicator'
     StatementLines:
+      description: an array of StatementLine objects
       type: array
       items:
         $ref: '#/components/schemas/StatementLine'
@@ -725,27 +713,34 @@ components:
       type: object
       properties:
         postedDate:
+          description: The date that the transaction was processed or cleared as seen in internet banking ISO-8601 YYYY-MM-DD
           type: string
           format: date
           example: "2018-06-10"
         description: 
+          description: Transaction description
           type: string
           example: "Description for statement line 2"
         amount: 
+          description: Transaction amount
           type: string
           example: "5.00"
         creditDebitIndicator: 
           $ref: '#/components/schemas/CreditDebitIndicator'
         transactionId: 
+          description: Financial institute's internal transaction identifier. If provided this field is factored into duplicate detection.
           type: string
           example: "transaction-id-2"
         payeeName: 
+          description: Typically the merchant or payee name
           type: string
           example: "Payee name for statement line 2"
         reference: 
+          description: Optional field to enhance the Description
           type: string
           example: "Reference for statement line 2"
         chequeNumber: 
+          description: The cheque/check number
           type: string
           example: "021"
     Error:
@@ -753,15 +748,19 @@ components:
       description: On error, the API consumer will receive an HTTP response with a HTTP Status Code of 4xx or 5xx and a Content-Type of application/problem+json.
       properties:
         title:
+          description: Human readable high level error description.
           type: string
           example: "Invalid Application"
         status:
+          description: The numeric HTTP Status Code, e.g. 404
           type: integer
           example: 403
         detail:
+          description: Human readable detailed error description.
           type: string
           example: "The application has not been configured to use these API endpoints."
         type:
+          description: Identifies the type of error.
           type: string
           enum: 
           - "invalid-request"
@@ -774,6 +773,7 @@ components:
           - "internal-error"
           example: "invalid-application"
     CreditDebitIndicator:
+      description: If the statement balances are credit or debit, the CreditDebitIndicator should be specified from the perspective of the Customer.
       type: string
       enum:
         - CREDIT
