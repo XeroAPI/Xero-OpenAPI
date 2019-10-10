@@ -17,22 +17,19 @@ In Development
 * Project - yaml
 * Xero HQ - yaml
 
+## Code Generators
+We are using [OpenAPI generator](https://github.com/OpenAPITools/openapi-generator) along with these OAS yaml files to generate our new SDKs.
+
+
 ## Preview
 There are lots of tools available for viewing and editing OpenAPI descriptions in a nicely formatted way. A popular tool is SwaggerHub - a version of which is [hosted here](https://app.swaggerhub.com/home). 
 
-Once you sign up or login, you can create a new API under your account and import a Xero API spec using the 'raw' URL of the spec file e.g.: `https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/oas3/spec/v3/Xero_accounting_2.0.0_swagger.yaml`
+Once you sign up or login, you can create a new API under your account and import a Xero API spec.
 
 ![SwaggerUI Example](images/import-api.png)
 
 ## Updates
-If you find something missing or incorrect then please [open an issue](https://github.com/XeroAPI/Xero-OpenAPI/issues/new) or send us a pull request. There are lots of tools for editing OpenAPI definitions including the SwaggerHub. Just use the import instructions above.
-
-![Swagger Hub Example](images/swaggerhub.png)
-
-## Postman
-Postman will automatically import OpenAPI definitions but the OpenAPI spec doesn't support OAuth1.0a. To use our OpenAPI definitions to make requests in Postman you will need to also import the Xero OAuth1a Postman collection from our [Xero-Postman repo](https://github.com/XeroAPI/Xero-Postman).
-
-![Postman Example](images/postman.png)
+If you find something missing or incorrect please [open an issue](https://github.com/XeroAPI/Xero-OpenAPI/issues/new) or send us a pull request.
 
 ## License
 
