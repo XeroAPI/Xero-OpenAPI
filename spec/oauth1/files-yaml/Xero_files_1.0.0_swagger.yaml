@@ -82,7 +82,18 @@ paths:
         content:
           multipart/form-data:
             schema: 
-              $ref: '#/components/schemas/FileUpload'
+              type: object
+              properties: 
+                body:
+                  type: string
+                  format: byte
+                name:
+                  type: string
+                  description: exact name of the file you are uploading
+                filename:
+                  type: string
+                mimeType:
+                  type: string
   /Files/{FileId}:
     get:
       tags:
@@ -496,19 +507,6 @@ components:
           type: string
           format: uuid
           example: 0f8ccf21-7267-4268-9167-a1e2c40c84c8
-    FileUpload:
-      type: object
-      properties: 
-        body:
-          type: string
-          format: byte
-        name:
-          type: string
-          description: exact name of the file you are uploading
-        filename:
-          type: string
-        mimeType:
-          type: string
     User:
       required:
         - FirstName
@@ -615,14 +613,14 @@ components:
       - Prepayment
       - Receipt
     ObjectType:
-      description: The  Type of object associated (i.e Account, Contact, etc)
+      description: The Object Type
       type: string
       enum:
-      - Accpay
-      - AccRec
       - ACCOUNT  
+      - ACCPAY
       - ACCPAYCREDIT
-      - ACCPAYPAYMENT
+      - ACCPAYPAYMENT  
+      - ACCREC
       - ACCRECCREDIT  
       - ACCRECPAYMENT
       - ADJUSTMENT  
