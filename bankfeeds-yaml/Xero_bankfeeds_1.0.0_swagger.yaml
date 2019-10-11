@@ -74,66 +74,66 @@ paths:
                   ]
         '400':
           description: validation error response
-      post:
-        security:
-          - OAuth2: [bankfeeds]
-        tags:
-          - BankFeeds
-        summary: create one or more new feed connection
-        operationId: createFeedConnections
-        description: By passing in the FeedConnections array object in the body, you can create one or more new feed connections
-        requestBody:
-          required: true
-          description: Feed Connection(s) array object in the body
+    post:
+      security:
+        - OAuth2: [bankfeeds]
+      tags:
+        - BankFeeds
+      summary: create one or more new feed connection
+      operationId: createFeedConnections
+      description: By passing in the FeedConnections array object in the body, you can create one or more new feed connections
+      requestBody:
+        required: true
+        description: Feed Connection(s) array object in the body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FeedConnections'
+            example:
+              items:
+                [
+                  {
+                    "AccountToken": "10058695",
+                    "AccountNumber": "3809058454321500",
+                    "AccountName": "Mike's Savings Account",
+                    "AccountType": "BANK",
+                    "Currency": "GBP"
+                  },
+                  {
+                    "AccountToken": "10045844",
+                    "AccountNumber": "3809058887441500",
+                    "AccountName": "Gee's Saving's Account",
+                    "AccountType": "BANK",
+                    "Currency": "GBP",
+                    "Country": "GB"
+                  }
+                ]
+      responses:
+        '201':
+          description: success new feed connection(s)response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FeedConnections'
-              example:
-                items:
+              example: 
+                items: 
                   [
-                    {
+                    { 
                       "AccountToken": "10058695",
-                      "AccountNumber": "3809058454321500",
-                      "AccountName": "Mike's Savings Account",
-                      "AccountType": "BANK",
-                      "Currency": "GBP"
+                      "Status": "PENDING"
                     },
                     {
-                      "AccountToken": "10045844",
-                      "AccountNumber": "3809058887441500",
-                      "AccountName": "Gee's Saving's Account",
-                      "AccountType": "BANK",
-                      "Currency": "GBP",
-                      "Country": "GB"
+                      "accountToken": "10045844",
+                      "status": "REJECTED",
+                      "error": {
+                        "type": "feed-already-connected-in-current-organisation",
+                        "title": "Feed Connection failed",
+                        "detail": "The AccountToken is already connected to another Xero Bank Account associated with this bank in the selected Xero Organisation.",
+                      }
                     }
                   ]
-        responses:
-          '201':
-            description: success new feed connection(s)response
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/FeedConnections'
-                example: 
-                  items: 
-                    [
-                      { 
-                        "AccountToken": "10058695",
-                        "Status": "PENDING"
-                      },
-                      {
-                        "accountToken": "10045844",
-                        "status": "REJECTED",
-                        "error": {
-                          "type": "feed-already-connected-in-current-organisation",
-                          "title": "Feed Connection failed",
-                          "detail": "The AccountToken is already connected to another Xero Bank Account associated with this bank in the selected Xero Organisation.",
-                        }
-                      }
-                    ]
-          '400':
-            description: 'invalid input, object invalid'
+        '400':
+          description: 'invalid input, object invalid'
   /FeedConnections/{id}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
