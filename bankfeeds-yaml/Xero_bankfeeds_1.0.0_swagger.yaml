@@ -90,24 +90,17 @@ paths:
             schema:
               $ref: '#/components/schemas/FeedConnections'
             example:
-              items:
-                [
-                  {
-                    "AccountToken": "10058695",
-                    "AccountNumber": "3809058454321500",
-                    "AccountName": "Mike's Savings Account",
-                    "AccountType": "BANK",
-                    "Currency": "GBP"
-                  },
-                  {
-                    "AccountToken": "10045844",
-                    "AccountNumber": "3809058887441500",
-                    "AccountName": "Gee's Saving's Account",
-                    "AccountType": "BANK",
-                    "Currency": "GBP",
-                    "Country": "GB"
-                  }
+              { 
+                "items":[ 
+                    { 
+                      "accountToken":"foobar71760",
+                      "accountNumber":"123458637",
+                      "accountName":"SDK Bank 90861",
+                      "accountType":"BANK",
+                      "currency":"GBP"
+                    }
                 ]
+              }
       responses:
         '201':
           description: success new feed connection(s)response
@@ -116,22 +109,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/FeedConnections'
               example: 
-                items: 
-                  [
-                    { 
-                      "AccountToken": "10058695",
-                      "Status": "PENDING"
-                    },
-                    {
-                      "accountToken": "10045844",
-                      "status": "REJECTED",
-                      "error": {
-                        "type": "feed-already-connected-in-current-organisation",
-                        "title": "Feed Connection failed",
-                        "detail": "The AccountToken is already connected to another Xero Bank Account associated with this bank in the selected Xero Organisation.",
+                { 
+                  "items":[ 
+                      { 
+                        "id":"2a19d46c-2a92-4e50-9401-dcf2cb895be7",
+                        "accountToken":"foobar71760",
+                        "status":"PENDING"
                       }
-                    }
                   ]
+                }
         '400':
           description: 'invalid input, object invalid'
   /FeedConnections/{id}:
@@ -161,13 +147,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/FeedConnection'
               example: 
-                {
-                  "id": "50d3cf8d-95dc-4466-8dc0-47e6d1197e28",
-                  "accountToken": "10000123",
-                  "accountNumber": "3809087654321500",
-                  "accountName": "Joe's Savings Account",
-                  "accountType": "BANK",
-                  "currency": "AUD"
+                { 
+                  "id":"b58b685a-1bee-4904-91f1-fee30bb6ea52",
+                  "accountToken":"foobar84778",
+                  "accountType":"BANK",
+                  "accountNumber":"123434859",
+                  "accountName":"SDK Bank 5517",
+                  "accountId":"f4c4d595-da94-493b-999a-19d1ae1f508a",
+                  "currency":"GBP",
+                  "country":"GB"
                 }
         '400':
           description: bad input parameter
@@ -190,14 +178,13 @@ paths:
             schema:
               $ref: '#/components/schemas/FeedConnections'
             example:
-              items: [
-                      {
-                        "id": "50d3cf8d-95dc-4466-8dc0-47e6d1197e28"
-                      },
-                      {
-                        "accountToken": "10000123"
+                { 
+                  "items":[ 
+                      { 
+                        "id":"b4cc693b-24d9-42ec-a6d4-2943d253ff63"
                       }
-                    ]
+                  ]
+                }
       responses:
         '202':
           description: Success response for deleted feed connection
@@ -206,22 +193,23 @@ paths:
               schema:
                 $ref: '#/components/schemas/FeedConnections'
               example: 
-                  items: [
-                    {
-                      "id": "50d3cf8d-95dc-4466-8dc0-47e6d1197e28",
-                      "accountToken": "10000123",
-                      "status": "PENDING"
-                    },
-                    {
-                      "accountToken": "10000125",
-                      "status": "REJECTED",
-                      "error": {
-                        "type": "feed-connected-in-different-organisation",
-                        "title": "Feed connected in different organisation",
-                        "detail": "The AccountToken is connected to another Xero Bank Account associated with this bank. This Xero Bank Account belongs to a different Xero Organisation."
-                      }
-                    }
-                  ]
+                  { 
+                    "items":[ 
+                        { 
+                          "id":"b4cc693b-24d9-42ec-a6d4-2943d253ff63",
+                          "status":"PENDING"
+                        },
+                        {
+                          "accountToken": "10000125",
+                          "status": "REJECTED",
+                          "error": {
+                            "type": "feed-connected-in-different-organisation",
+                            "title": "Feed connected in different organisation",
+                            "detail": "The AccountToken is connected to another Xero Bank Account associated with this bank. This Xero Bank Account belongs to a different Xero Organisation."
+                          }
+                        }
+                    ]
+                  }
         '400':
           description: bad input parameter
   /Statements:
@@ -270,32 +258,56 @@ paths:
               schema:
                 $ref: '#/components/schemas/Statements'
               example: 
-                pagination: 
-                  {
-                    "page": 1,
-                    "pageCount": 1,
-                    "pageSize": 50,
-                    "itemCount": 3
+                  { 
+                    "pagination":{ 
+                        "page":1,
+                        "pageCount":210,
+                        "pageSize":3,
+                        "itemCount":3
+                    },
+                    "items":[ 
+                        { 
+                          "id":"9817e4b8-82b3-4526-91f7-040bd278053f",
+                          "feedConnectionId":"6a4b9ff5-3a5f-4321-936b-4796163550f6",
+                          "status":"REJECTED",
+                          "startDate":"2019-08-01",
+                          "endDate":"2019-08-15",
+                          "startBalance":{ 
+                              "amount":"100.0000",
+                              "creditDebitIndicator":"CREDIT"
+                          },
+                          "endBalance":{ 
+                              "amount":"150.0000",
+                              "creditDebitIndicator":"CREDIT"
+                          },
+                          "statementLineCount":"1",
+                          "errors":[ 
+                              { 
+                                "type":"duplicate-statement",
+                                "title":"Duplicate Statement Received",
+                                "status":409,
+                                "detail":"The received statement was marked as a duplicate."
+                              }
+                          ]
+                        },
+                        { 
+                          "id":"2fc57bac-7aa7-4981-a5cd-8aee83fe698c",
+                          "feedConnectionId":"6a4b9ff5-3a5f-4321-936b-4796163550f6",
+                          "status":"DELIVERED",
+                          "startDate":"2019-08-01",
+                          "endDate":"2019-08-15",
+                          "startBalance":{ 
+                              "amount":"100.0000",
+                              "creditDebitIndicator":"CREDIT"
+                          },
+                          "endBalance":{ 
+                              "amount":"150.0000",
+                              "creditDebitIndicator":"CREDIT"
+                          },
+                          "statementLineCount":"1"
+                        }
+                    ]
                   }
-                items: 
-                  [
-                    { 
-                      "id": "ba4f3127-5e46-427d-80ea-dea2fcd26afe",
-                      "feedConnectionId": "87cb0dc8-fa32-409c-b622-19f8de8dcc83",
-                      "status": "PENDING",
-                      "startDate": "2018-07-27",
-                      "endDate": "2018-07-27",
-                      "startBalance": {
-                          "amount": "9.0000",
-                          "creditDebitIndicator": "DEBIT"
-                      },
-                      "endBalance": {
-                          "amount": "10.1340",
-                          "creditDebitIndicator": "DEBIT"
-                      },
-                      "statementLineCount": "1"
-                    }
-                  ]
         '400':
           description: bad input parameter
           content:
@@ -322,26 +334,20 @@ paths:
               schema:
                 $ref: '#/components/schemas/Statements'
               example:  
-                items: [
-                        {
-                          "id": "ed8580c9-fe82-4692-be66-9fc9c1c9a918",
-                          "feedConnectionId": "5a896e9e-7dce-4b64-b2c5-2a51abedcac0",
-                          "status": "REJECTED",
-                          "errors": [
-                            {
-                              "type": "duplicate-statement",
-                              "title": "Duplicate Statement Received",
-                              "status": 409,
-                              "detail": "The received statement was marked as a duplicate."
-                            }
-                          ]
+                  { 
+                    "items":[ 
+                        { 
+                          "id":"d69b02b7-a30c-464a-99cf-ba9770373c61",
+                          "feedConnectionId":"6a4b9ff5-3a5f-4321-936b-4796163550f6",
+                          "status":"PENDING"
                         },
-                        {
-                          "id": "26c52a2b-a92d-4d0f-9d38-6e217ef5c0f3",
-                          "feedConnectionId": "746f347a-e58d-4906-98ab-9dfaa04f3cf2",
-                          "status": "PENDING"
+                        { 
+                          "id":"598f255c-015b-4138-93df-2e06c64565b3",
+                          "feedConnectionId":"2ebe6393-f3bb-48ab-9a0e-b04fa8585a70",
+                          "status":"PENDING"
                         }
-                      ]
+                    ]
+                  }
         '400':
           description: Statement failed validation
           content:
@@ -372,12 +378,24 @@ paths:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/Statements'
-              example:  {
-                          "type": "duplicate-statement",
-                          "title": "Duplicate Statement Received",
-                          "status": 409,
-                          "detail": "The received statement was marked as a duplicate."
+              example:  
+                  { 
+                    "items":[ 
+                        { 
+                          "id":"29fefeb6-f449-470d-9179-f1d8900930d6",
+                          "feedConnectionId":"6a4b9ff5-3a5f-4321-936b-4796163550f6",
+                          "status":"REJECTED",
+                          "errors":[ 
+                              { 
+                                "type":"duplicate-statement",
+                                "title":"Duplicate Statement Received",
+                                "status":409,
+                                "detail":"The received statement was marked as a duplicate."
+                              }
+                          ]
                         }
+                    ]
+                  }
         '413':
           description: Statement exceeds size limit
           content:
@@ -421,74 +439,60 @@ paths:
             schema:
               $ref: '#/components/schemas/Statements'
             example:
-              items: [
-                       {
-                         "feedConnectionId": "5a896e9e-7dce-4b64-b2c5-2a51abedcac0",
-                         "startDate": "2018-06-10",
-                         "endDate": "2018-06-11",
-                         "startBalance": {
-                            "amount": 100.00,
-                            "creditDebitIndicator": "DEBIT"
-                         },
-                         "endBalance": {
-                            "amount": 110.00,
-                            "creditDebitIndicator": "DEBIT"
-                         },
-                         "statementLines": [
-                           {
-                             "postedDate": "2018-06-10",
-                             "description": "Description for statement line 1",
-                             "amount": 5.00,
-                             "creditDebitIndicator": "CREDIT",
-                             "transactionId": "transaction-id-1"
-                           },
-                           {
-                             "postedDate": "2018-06-10",
-                             "description": "Description for statement line 2",
-                             "amount": 5.00,
-                             "creditDebitIndicator": "CREDIT",
-                             "transactionId": "transaction-id-2",
-                  
-                             "payeeName": "Payee name for statement line 2",
-                             "reference": "Reference for statement line 2",
-                             "chequeNumber": "021"
-                           }
-                         ]
-                       },
-                       {
-                         "feedConnectionId": "746f347a-e58d-4906-98ab-9dfaa04f3cf2",
-                         "startDate": "2018-06-10",
-                         "endDate": "2018-06-11",
-                         "startBalance": {
-                            "amount": 200.00,
-                            "creditDebitIndicator": "DEBIT"
-                         },
-                         "endBalance": {
-                            "amount": 215.50,
-                            "creditDebitIndicator": "DEBIT"
-                         },
-                         "statementLines": [
-                           {
-                             "postedDate": "2018-06-10",
-                             "description": "Description for statement line 1",
-                             "amount": 5.50,
-                             "creditDebitIndicator": "CREDIT",
-                             "transactionId": "transaction-id-10"
-                           },
-                           {
-                             "postedDate": "2018-06-10",
-                             "description": "Description for statement line 2",
-                             "amount": 10.00,
-                             "creditDebitIndicator": "CREDIT",
-                             "transactionId": "transaction-id-11",
-                  
-                             "payeeName": "Payee name for statement line 2",
-                             "reference": "Reference for statement line 2",
-                             "chequeNumber": "031"
-                           }
-                         ]
-                       }
-                     ]
+                { 
+                  "items":[ 
+                      { 
+                        "feedConnectionId":"6a4b9ff5-3a5f-4321-936b-4796163550f6",
+                        "startDate":"2019-08-11",
+                        "endDate":"2019-08-11",
+                        "startBalance":{ 
+                            "amount":"100",
+                            "creditDebitIndicator":"CREDIT"
+                        },
+                        "endBalance":{ 
+                            "amount":"150",
+                            "creditDebitIndicator":"CREDIT"
+                        },
+                        "statementLines":[ 
+                            { 
+                              "postedDate":"2019-08-11",
+                              "description":"My new line",
+                              "amount":"50",
+                              "creditDebitIndicator":"CREDIT",
+                              "transactionId":"123446422",
+                              "payeeName":"StarLord90315",
+                              "reference":"Foobar95578",
+                              "chequeNumber":"12379009"
+                            }
+                        ]
+                      },
+                      { 
+                        "feedConnectionId":"2ebe6393-f3bb-48ab-9a0e-b04fa8585a70",
+                        "startDate":"2019-08-11",
+                        "endDate":"2019-08-11",
+                        "startBalance":{ 
+                            "amount":"100",
+                            "creditDebitIndicator":"CREDIT"
+                        },
+                        "endBalance":{ 
+                            "amount":"150",
+                            "creditDebitIndicator":"CREDIT"
+                        },
+                        "statementLines":[ 
+                            { 
+                              "postedDate":"2019-08-11",
+                              "description":"My new line",
+                              "amount":"50",
+                              "creditDebitIndicator":"CREDIT",
+                              "transactionId":"123449402",
+                              "payeeName":"StarLord56705",
+                              "reference":"Foobar67355",
+                              "chequeNumber":"12379350"
+                            }
+                        ]
+                      }
+                  ]
+                }
   /Statements/{statementId}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -515,22 +519,22 @@ paths:
               schema:
                 $ref: '#/components/schemas/Statement'
               example: 
-                { 
-                  "id": "ba4f3127-5e46-427d-80ea-dea2fcd26afe",
-                  "feedConnectionId": "87cb0dc8-fa32-409c-b622-19f8de8dcc83",
-                  "status": "PENDING",
-                  "startDate": "2018-07-27",
-                  "endDate": "2018-07-27",
-                  "startBalance": {
-                      "amount": "9.0000",
-                      "creditDebitIndicator": "DEBIT"
-                  },
-                  "endBalance": {
-                      "amount": "10.1340",
-                      "creditDebitIndicator": "DEBIT"
-                  },
-                  "statementLineCount": "1"
-                }
+                  { 
+                    "id":"97aca24a-dd10-4cda-98c7-1084a048257b",
+                    "feedConnectionId":"6a4b9ff5-3a5f-4321-936b-4796163550f6",
+                    "status":"DELIVERED",
+                    "startDate":"2019-08-11",
+                    "endDate":"2019-10-11",
+                    "startBalance":{ 
+                        "amount":"100.0000",
+                        "creditDebitIndicator":"CREDIT"
+                    },
+                    "endBalance":{ 
+                        "amount":"150.0000",
+                        "creditDebitIndicator":"CREDIT"
+                    },
+                    "statementLineCount":"1"
+                  }
         '404':
           description: Statement not found
 components:
