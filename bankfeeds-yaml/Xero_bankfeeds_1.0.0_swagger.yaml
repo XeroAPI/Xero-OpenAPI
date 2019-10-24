@@ -123,6 +123,26 @@ paths:
                 }
         '400':
           description: 'invalid input, object invalid'
+        '409':
+          description: failed to create new feed connection(s)response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example: 
+                { 
+                    "items":[ 
+                        {
+                          "status": "REJECTED",
+                          "error": {
+                            "type": "feed-already-connected-in-current-organisation",
+                            "title": "Feed Connection Failed",
+                            "status":409,
+                            "detail": "The AccountToken, AccountNumber or AccountId is already connected to another Xero Bank Account in the selected Xero Organisation."
+                          }
+                        }
+                    ]
+                  }
   /FeedConnections/{id}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -824,6 +844,7 @@ components:
           - "invalid-start-and-end-date"
           - "invalid-start-date"
           - "internal-error"
+          = "feed-already-connected-in-current-organisation"
           example: "invalid-application"
     CreditDebitIndicator:
       type: string
