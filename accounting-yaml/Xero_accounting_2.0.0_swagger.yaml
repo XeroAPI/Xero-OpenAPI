@@ -12172,6 +12172,207 @@ paths:
                               }
                            ]
                         }'
+  /Quotes:
+    x-related-model: Quote
+    get:
+      tags:
+        - Accounting
+      operationId: getQuotes
+      summary: Allows you to retrieve any sales quotes
+      parameters:
+        - in: header
+          name: If-Modified-Since
+          description: Only records created or modified since this timestamp will be
+            returned
+          schema:
+            type: string
+            format: date-time
+        - in: query
+          name: DateFrom
+          description: Filter for quotes after a particular date
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: DateTo
+          description: Filter for quotes before a particular date
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: ExpiryDateFrom
+          description: Filter for quotes expiring after a particular date
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: ExpiryDateTo
+          description: Filter for quotes before a particular date
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: ContactID
+          description: Filter for quotes belonging to a particular contact
+          schema:
+            type: string
+            format: uuid
+        - in: query
+          name: Status
+          description: Filter for quotes of a particular Status
+          schema:
+            type: string
+        - in: query
+          name: page
+          description: e.g. page=1 – Up to 100 Quotes will be returned in a single API call with line items shown for each quote
+          schema:
+            type: integer
+        - in: query
+          name: order
+          description: Order by an any element
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success - return response of type quotes array with all quotes
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Quotes'
+              example: '{
+                          "Id": "bb583e7e-9b6b-471e-88da-4cbfcfad7a57",
+                          "Status": "OK",
+                          "ProviderName": "Adams OAuth2 App",
+                          "DateTimeUTC": "/Date(1571876635477)/",
+                          "Quotes": [
+                            {
+                              "QuoteID": "be59294f-2a9c-4cee-8c64-0f0ddbc1883a",
+                              "QuoteNumber": "QU-0001",
+                              "Reference": "REF-123",
+                              "Terms": "Not valid after the expiry date",
+                              "Contact": {
+                                "ContactID": "060816db-0ed7-44de-ab58-8fee9316fcd5",
+                                "Name": "Adam"
+                              },
+                              "LineItems": [
+                                {
+                                  "LineItemID": "ccf5e45c-73b6-4659-83e8-520f4c6126fd",
+                                  "AccountCode": "200",
+                                  "Description": "Fish out of Water",
+                                  "UnitAmount": 19.9500,
+                                  "DiscountRate": 10.00,
+                                  "LineAmount": 17.96,
+                                  "ItemCode": "BOOK",
+                                  "Quantity": 1.0000,
+                                  "TaxAmount": 2.69,
+                                  "TaxType": "OUTPUT2",
+                                  "Tracking": [
+                                    {
+                                      "TrackingCategoryID": "351953c4-8127-4009-88c3-f9cd8c9cbe9f",
+                                      "TrackingOptionID": "ce205173-7387-4651-9726-2cf4c5405ba2",
+                                      "Name": "Region",
+                                      "Option": "Eastside"
+                                    }
+                                  ]
+                                }
+                              ],
+                              "Date": "/Date(1571875200000)/",
+                              "DateString": "2019-10-24T00:00:00",
+                              "ExpiryDate": "/Date(1571961600000)/",
+                              "ExpiryDateString": "2019-10-25T00:00:00",
+                              "Status": "ACCEPTED",
+                              "CurrencyRate": 0.937053,
+                              "CurrencyCode": "AUD",
+                              "SubTotal": 17.96,
+                              "TotalTax": 2.69,
+                              "Total": 20.65,
+                              "TotalDiscount": 1.99,
+                              "Title": "Your Quote",
+                              "Summary": "Please buy this",
+                              "BrandingThemeID": "4c82c365-35cb-467f-bb11-dce1f2f2f67c",
+                              "UpdatedDateUTC": "/Date(1571869373890)/",
+                              "LineAmountTypes": "EXCLUSIVE"
+                            }
+                          ]
+                        }'
+  '/Quotes/{QuoteID}':
+    x-related-model: Quote
+    get:
+      tags:
+        - Accounting
+      operationId: getQuote
+      summary: Allows you to retrieve a specified quote
+      parameters:
+        - required: true
+          in: path
+          name: QuoteID
+          description: Unique identifier for an Quote
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Success - return response of type Quotes array with specified Quote
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Quotes'
+              example: '{
+                          "Id": "bb583e7e-9b6b-471e-88da-4cbfcfad7a57",
+                          "Status": "OK",
+                          "ProviderName": "Adams OAuth2 App",
+                          "DateTimeUTC": "/Date(1571876635477)/",
+                          "Quotes": [
+                            {
+                              "QuoteID": "be59294f-2a9c-4cee-8c64-0f0ddbc1883a",
+                              "QuoteNumber": "QU-0001",
+                              "Reference": "REF-123",
+                              "Terms": "Not valid after the expiry date",
+                              "Contact": {
+                                "ContactID": "060816db-0ed7-44de-ab58-8fee9316fcd5",
+                                "Name": "Adam"
+                              },
+                              "LineItems": [
+                                {
+                                  "LineItemID": "ccf5e45c-73b6-4659-83e8-520f4c6126fd",
+                                  "AccountCode": "200",
+                                  "Description": "Fish out of Water",
+                                  "UnitAmount": 19.9500,
+                                  "DiscountRate": 10.00,
+                                  "LineAmount": 17.96,
+                                  "ItemCode": "BOOK",
+                                  "Quantity": 1.0000,
+                                  "TaxAmount": 2.69,
+                                  "TaxType": "OUTPUT2",
+                                  "Tracking": [
+                                    {
+                                      "TrackingCategoryID": "351953c4-8127-4009-88c3-f9cd8c9cbe9f",
+                                      "TrackingOptionID": "ce205173-7387-4651-9726-2cf4c5405ba2",
+                                      "Name": "Region",
+                                      "Option": "Eastside"
+                                    }
+                                  ]
+                                }
+                              ],
+                              "Date": "/Date(1571875200000)/",
+                              "DateString": "2019-10-24T00:00:00",
+                              "ExpiryDate": "/Date(1571961600000)/",
+                              "ExpiryDateString": "2019-10-25T00:00:00",
+                              "Status": "ACCEPTED",
+                              "CurrencyRate": 0.937053,
+                              "CurrencyCode": "AUD",
+                              "SubTotal": 17.96,
+                              "TotalTax": 2.69,
+                              "Total": 20.65,
+                              "TotalDiscount": 1.99,
+                              "Title": "Your Quote",
+                              "Summary": "Please buy this",
+                              "BrandingThemeID": "4c82c365-35cb-467f-bb11-dce1f2f2f67c",
+                              "UpdatedDateUTC": "/Date(1571869373890)/",
+                              "LineAmountTypes": "EXCLUSIVE"
+                            }
+                          ]
+                        }'
   /Receipts:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -20915,6 +21116,124 @@ components:
         - Contact
         - LineItems
       type: object
+    Quotes:
+      type: object
+      properties:
+        Quotes:
+          type: array
+          items:
+            $ref: '#/components/schemas/Quote'
+    Quote:
+      externalDocs:
+        url: 'http://developer.xero.com/documentation/api/Quotes/'
+      properties:
+        QuoteID:
+          description: Xero generated unique identifier for quote
+          type: string
+          format: uuid
+        QuoteNumber:
+          description: Unique alpha numeric code identifying quote (when missing will auto-generate from your Organisation Invoice Settings)
+          maxLength: 255
+          type: string
+        Reference:
+          description: Additional reference number
+          maxLength: 4000
+          type: string
+        Terms:
+          description: Terms of the quote
+          maxLength: 4000
+          type: string
+        Contact:
+          description: The contact the quote is for
+          type: object
+          properties:
+            ContactID: 
+              description: The xero identifier for the contact
+              type: string
+              format: uuid
+            Name: 
+              description: The contact name
+              type: string
+              example: John Smith
+        LineItems:
+          description: See LineItems
+          type: array
+          items:
+            $ref: '#/components/schemas/LineItem'
+        Date:
+          description: Date quote was issued – YYYY-MM-DD. If the Date element is not specified it will default to the current date based on the timezone setting of the organisation
+          type: string
+          format: date
+        DateString:
+          description: Date the quote was issued (YYYY-MM-DD)
+          type: string
+        ExpiryDate:
+          description: Date the quote expires – YYYY-MM-DD.
+          type: string
+          format: date
+        ExpiryDateString:
+          description: Date the quote expires – YYYY-MM-DD.
+          type: string
+        Status:
+          $ref: '#/components/schemas/QuoteStatusCodes'
+        CurrencyCode:
+          $ref: '#/components/schemas/CurrencyCode'
+        CurrencyRate:
+          description: The currency rate for a multicurrency quote. If no rate is
+            specified, the XE.com day rate is used.
+          type: number
+          format: double 
+        SubTotal:
+          description: Total of quote excluding taxes
+          readOnly: true
+          type: number
+          format: double
+        TotalTax:
+          description: Total tax on quote
+          readOnly: true
+          type: number
+          format: double
+        Total:
+          description: Total of Quote tax inclusive (i.e. SubTotal + TotalTax). This will be ignored if it doesn’t equal the sum of the LineAmounts
+          readOnly: true
+          type: number
+          format: double
+        TotalDiscount:
+          description: Total of discounts applied on the quote line items
+          readOnly: true
+          type: number
+          format: double
+        Title:
+          description: Title text for the quote
+          type: string
+          maxLength: 100
+        Summary:
+          description: Summary text for the quote
+          type: string
+          maxLength: 4000
+        BrandingThemeID:
+          description: See BrandingThemes
+          type: string
+          format: uuid
+        UpdatedDateUTC:
+          description: Last modified date UTC format
+          readOnly: true
+          type: string
+          format: date-time
+        LineAmountTypes:
+          $ref: '#/components/schemas/LineAmountTypes'
+      required:
+        - Contact
+      type: object
+    QuoteStatusCodes:
+      description: The status of the quote. 
+      type: string
+      enum:
+        - DRAFT
+        - SENT
+        - DECLINED
+        - ACCEPTED
+        - INVOICED
     Receipts:
       type: object
       properties:

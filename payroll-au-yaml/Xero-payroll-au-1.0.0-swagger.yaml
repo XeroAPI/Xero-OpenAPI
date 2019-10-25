@@ -1,0 +1,2549 @@
+openapi: 3.0.0
+servers:
+  - description: Xero Payroll AU API
+    url: https://api.xero.com/payroll.xro/1.0/
+info:
+  version: '1.0.0'
+  title: 'Xero Payroll AU'
+  description: 'This is the Xero Payroll API for orgs in Australia region.'
+  termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
+  contact:
+    name: "Xero Platform Team"
+    email: "api@xero.com"
+    url: "https://developer.xero.com"
+tags:
+  - name: PayrollAU
+    description: Operations available to regular developers
+paths:
+  /Employees:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    get:
+      security:
+        - OAuth2: [payroll.employees.read]
+      tags:
+        - PayrollAU
+      operationId: getEmployees
+      summary: searches employees
+      parameters:
+        - in: header
+          name: If-Modified-Since
+          description: Only records created or modified since this timestamp will be returned
+          schema:
+            type: string
+            format: date-time
+        - in: query
+          name: where
+          description: Filter by an any element
+          schema:
+            type: string
+          example: Status=="ACTIVE"
+        - in: query
+          name: order
+          description: Order by an any element
+          schema:
+            type: string
+          example: EmailAddress%20DESC
+        - in: query
+          name: page
+          description: e.g. page=1 – Up to 100 employees will be returned in a single API call
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employees'
+        '400':
+          description: validation error for a bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIException'
+    post:
+      security:
+        - OAuth2: [payroll.employees]
+      tags:
+        - PayrollAU
+      summary: Use this method to create a payroll employee
+      operationId: createEmployee
+      responses:
+        '200':
+          description: A successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employees'
+        '400':
+          description: invalid input, object invalid - TODO
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Employees'
+  /Employees/{EmployeeId}:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    get:
+      security:
+        - OAuth2: [payroll.employees.read]
+      tags:
+        - PayrollAU
+      summary: searches for an employee by unique id
+      operationId: getEmployee
+      parameters: 
+        - name: EmployeeId
+          in: path
+          required: true
+          description: Employee id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+             application/json:
+              schema:
+                $ref: '#/components/schemas/Employees'
+    post:
+      security:
+        - OAuth2: [payroll.employees]
+      tags:
+        - PayrollAU
+      summary: Update an Employee 
+      operationId: updateEmployee
+      description:  Update properties on a single employee
+      parameters: 
+        - name: EmployeeId
+          in: path
+          required: true
+          description: Employee id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+      responses:
+        '200':
+          description: A successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employees'
+      requestBody:
+        content:
+          application/json:
+              schema:
+                $ref: '#/components/schemas/Employees'
+  /LeaveApplications:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    get:
+      security:
+        - OAuth2: [payroll.leaveapplications.read]
+      tags:
+        - PayrollAU
+      operationId: getLeaveApplications
+      summary: searches Leave Applications
+      parameters:
+        - in: header
+          name: If-Modified-Since
+          description: Only records created or modified since this timestamp will be returned
+          schema:
+            type: string
+            format: date-time
+        - in: query
+          name: where
+          description: Filter by an any element
+          schema:
+            type: string
+          example: Status=="ACTIVE"
+        - in: query
+          name: order
+          description: Order by an any element
+          schema:
+            type: string
+          example: EmailAddress%20DESC
+        - in: query
+          name: page
+          description: e.g. page=1 – Up to 100 objects will be returned in a single API call
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LeaveApplications'
+        '400':
+          description: validation error for a bad request         
+          content: 
+            application/json:               
+              schema:                 
+               $ref: '#/components/schemas/APIException'
+    post:
+      security:
+        - OAuth2: [payroll.leaveapplications]
+      tags:
+        - PayrollAU
+      summary: Use this method to create a Leave Application
+      operationId: createLeaveApplication
+      responses:
+        '200':
+          description: A successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LeaveApplications'
+        '400':
+          description: invalid input, object invalid - TODO
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LeaveApplications'
+  /LeaveApplications/{LeaveApplicationId}:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    get:
+      security:
+        - OAuth2: [payroll.leaveapplications.read]
+      tags:
+        - PayrollAU
+      summary: searches for an Leave Application by unique id
+      operationId: getLeaveApplication
+      parameters: 
+        - name: LeaveApplicationId
+          in: path
+          required: true
+          description: Leave Application id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+             application/json:
+              schema:
+                $ref: '#/components/schemas/LeaveApplications'
+    post:
+      security:
+        - OAuth2: [payroll.leaveapplications]
+      tags:
+        - PayrollAU
+      summary: Use this method to create a Leave Application
+      operationId: updateLeaveApplication
+      parameters: 
+        - name: LeaveApplicationId
+          in: path
+          required: true
+          description: Leave Application id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+      responses:
+        '200':
+          description: A successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LeaveApplications'
+        '400':
+          description: invalid input, object invalid - TODO
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LeaveApplications'
+  /PayItems:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    get:
+      security:
+        - OAuth2: [payroll.payitems.read]
+      tags:
+        - PayrollAU
+      operationId: getPayItems
+      summary: searches Pay Items
+      parameters:
+        - in: header
+          name: If-Modified-Since
+          description: Only records created or modified since this timestamp will be returned
+          schema:
+            type: string
+            format: date-time
+        - in: query
+          name: where
+          description: Filter by an any element
+          schema:
+            type: string
+          example: Status=="ACTIVE"
+        - in: query
+          name: order
+          description: Order by an any element
+          schema:
+            type: string
+          example: EmailAddress%20DESC
+        - in: query
+          name: page
+          description: e.g. page=1 – Up to 100 objects will be returned in a single API call
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PayItems'
+        '400':
+          description: validation error for a bad request         
+          content: 
+            application/json:
+              schema:                 
+               $ref: '#/components/schemas/APIException'
+    post:
+      security:
+        - OAuth2: [payroll.payitems]
+      tags:
+        - PayrollAU
+      summary: Use this method to create a Pay Item
+      operationId: createPayItem
+      responses:
+        '200':
+          description: A successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PayItems'
+        '400':
+          description: invalid input, object invalid - TODO
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PayItems'
+  /PayrollCalendars:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    get:
+      security:
+        - OAuth2: [payroll.payrollcalendars.read]
+      tags:
+        - PayrollAU
+      operationId: getPayrollCalendars
+      summary: searches Payroll Calendars
+      parameters:
+        - in: header
+          name: If-Modified-Since
+          description: Only records created or modified since this timestamp will be returned
+          schema:
+            type: string
+            format: date-time
+        - in: query
+          name: where
+          description: Filter by an any element
+          schema:
+            type: string
+          example: Status=="ACTIVE"
+        - in: query
+          name: order
+          description: Order by an any element
+          schema:
+            type: string
+          example: EmailAddress%20DESC
+        - in: query
+          name: page
+          description: e.g. page=1 – Up to 100 objects will be returned in a single API call
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PayrollCalendars'
+        '400':
+          description: validation error for a bad request           
+          content: 
+            application/json:               
+              schema:                 
+                $ref: '#/components/schemas/APIException'
+    post:
+      security:
+        - OAuth2: [payroll.payrollcalendars]
+      tags:
+        - PayrollAU
+      summary: Use this method to create a Payroll Calendars
+      operationId: createPayrollCalendar
+      responses:
+        '200':
+          description: A successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PayrollCalendars'
+        '400':
+          description: invalid input, object invalid - TODO
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PayrollCalendars'
+  /PayrollCalendars/{PayrollCalendarID}:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    get:
+      security:
+        - OAuth2: [payroll.payrollcalendars.read]
+      tags:
+        - PayrollAU
+      operationId: getPayrollCalendar
+      summary: searches Payroll Calendars
+      parameters:
+        - name: PayrollCalendarID
+          in: path
+          required: true
+          description: Payroll Calendar id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PayrollCalendars'
+        '400':
+          description: validation error for a bad request         
+          content:
+            application/json:    
+              schema: 
+                $ref: '#/components/schemas/APIException'
+  /Payruns:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    get:
+      security:
+        - OAuth2: [payroll.payruns.read]
+      tags:
+        - PayrollAU
+      operationId: getPayruns
+      summary: searches payruns
+      parameters:
+        - in: header
+          name: If-Modified-Since
+          description: Only records created or modified since this timestamp will be returned
+          schema:
+            type: string
+            format: date-time
+        - in: query
+          name: where
+          description: Filter by an any element
+          schema:
+            type: string
+          example: Status=="ACTIVE"
+        - in: query
+          name: order
+          description: Order by an any element
+          schema:
+            type: string
+          example: EmailAddress%20DESC
+        - in: query
+          name: page
+          description: e.g. page=1 – Up to 100 payruns will be returned in a single API call
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payruns'
+        '400':
+          description: validation error for a bad request       
+          content: 
+            application/json:           
+              schema:                 
+                $ref: '#/components/schemas/APIException'
+    post:
+      security:
+        - OAuth2: [payroll.payruns]
+      tags:
+        - PayrollAU
+      summary: Use this method to create a payrun
+      operationId: createPayrun
+      responses:
+        '200':
+          description: A successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payruns'
+        '400':
+          description: invalid input, object invalid - TODO
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Payruns'
+  /Payruns/{PayrunID}:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    get:
+      security:
+        - OAuth2: [payroll.payruns.read]
+      tags:
+        - PayrollAU
+      summary: searches for an payrun by unique id
+      operationId: getPayrun
+      parameters: 
+        - name: PayrunID
+          in: path
+          required: true
+          description: Payrun id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+             application/json:
+              schema:
+                $ref: '#/components/schemas/Payruns'
+    post:
+      security:
+        - OAuth2: [payroll.payruns]
+      tags:
+        - PayrollAU
+      summary: Update a Payrun 
+      operationId: updatePayrun
+      description:  Update properties on a single payrun
+      parameters: 
+        - name: PayrunID
+          in: path
+          required: true
+          description: Payrun id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+      responses:
+        '200':
+          description: A successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payruns'
+      requestBody:
+        content:
+          application/json:
+              schema:
+                $ref: '#/components/schemas/Payruns'
+  /Payslip:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    post:
+      security:
+        - OAuth2: [payroll.payslip]
+      tags:
+        - PayrollAU
+      summary: Use this add, update or delete one or more payslip line items
+      operationId: updatePayslip
+      responses:
+        '200':
+          description: A successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payslip'
+        '400':
+          description: invalid input, object invalid - TODO
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Payslip'
+  /Payslip/{PayslipID}:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    get:
+      security:
+        - OAuth2: [payroll.payslip.read]
+      tags:
+        - PayrollAU
+      summary: searches for an payslip by unique id
+      operationId: getPayslip
+      parameters: 
+        - name: PayslipID
+          in: path
+          required: true
+          description: Payslip id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+             application/json:
+              schema:
+                $ref: '#/components/schemas/Payslip'
+    post:
+      security:
+        - OAuth2: [payroll.payslip]
+      tags:
+        - PayrollAU
+      summary: Update a Payslip 
+      operationId: updatePayslipByID
+      description:  Update lines on a single payslip
+      parameters: 
+        - name: PayslipID
+          in: path
+          required: true
+          description: Payslip id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+      responses:
+        '200':
+          description: A successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payslip'
+      requestBody:
+        content:
+          application/json:
+              schema:
+                $ref: '#/components/schemas/Payslip'
+  /Settings:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    get:
+      security:
+        - OAuth2: [payroll.settings.read]
+      tags:
+        - PayrollAU
+      operationId: getSettings
+      summary: retrieve settings
+      responses:
+        '200':
+          description: payroll settings
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Settings'
+  /Superfunds:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    get:
+      security:
+        - OAuth2: [payroll.superfunds.read]
+      tags:
+        - PayrollAU
+      operationId: getSuperfunds
+      summary: searches Superfunds
+      parameters:
+        - in: header
+          name: If-Modified-Since
+          description: Only records created or modified since this timestamp will be returned
+          schema:
+            type: string
+            format: date-time
+        - in: query
+          name: where
+          description: Filter by an any element
+          schema:
+            type: string
+          example: Status=="ACTIVE"
+        - in: query
+          name: order
+          description: Order by an any element
+          schema:
+            type: string
+          example: EmailAddress%20DESC
+        - in: query
+          name: page
+          description: e.g. page=1 – Up to 100 Superfunds will be returned in a single API call
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Superfunds'
+        '400':
+          description: validation error for a bad request           
+          content: 
+            application/json:             
+              schema:                 
+                $ref: '#/components/schemas/APIException'
+    post:
+      security:
+        - OAuth2: [payroll.superfunds]
+      tags:
+        - PayrollAU
+      summary: Use this method to create a super fund
+      operationId: createSuperfund
+      responses:
+        '200':
+          description: A successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Superfunds'
+        '400':
+          description: invalid input, object invalid - TODO
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Superfunds'
+  /Superfunds/{SuperfundID}:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    get:
+      security:
+        - OAuth2: [payroll.superfunds.read]
+      tags:
+        - PayrollAU
+      summary: searches for an Superfund by unique id
+      operationId: getSuperfund
+      parameters: 
+        - name: SuperfundID
+          in: path
+          required: true
+          description: Superfund id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+             application/json:
+              schema:
+                $ref: '#/components/schemas/Superfunds'
+    post:
+      security:
+        - OAuth2: [payroll.superfunds]
+      tags:
+        - PayrollAU
+      summary: Update a Superfund 
+      operationId: updateSuperfund
+      description:  Update properties on a single Superfund
+      parameters: 
+        - name: SuperfundID
+          in: path
+          required: true
+          description: Superfund id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+      responses:
+        '200':
+          description: A successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Superfunds'
+      requestBody:
+        content:
+          application/json:
+              schema:
+                $ref: '#/components/schemas/Superfunds'
+  /SuperfundProducts:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    get:
+      security:
+        - OAuth2: [payroll.superfundproducts.read]
+      tags:
+        - PayrollAU
+      operationId: getSuperfundProducts
+      summary: searches SuperfundProducts
+      parameters:
+        - in: query
+          name: ABN
+          description: The ABN of the Regulated SuperFund
+          schema:
+            type: string
+          example: 40022701955
+        - in: query
+          name: USI
+          description: The USI of the Regulated SuperFund
+          schema:
+            type: string
+          example: 40022701955001
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuperfundProducts'
+        '400':
+          description: validation error for a bad request           
+          content: 
+            application/json:             
+              schema:                 
+                $ref: '#/components/schemas/APIException'
+  /Timesheets:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    get:
+      security:
+        - OAuth2: [payroll.timesheets.read]
+      tags:
+        - PayrollAU
+      operationId: getTimesheets
+      summary: searches timesheets
+      parameters:
+        - in: header
+          name: If-Modified-Since
+          description: Only records created or modified since this timestamp will be returned
+          schema:
+            type: string
+            format: date-time
+        - in: query
+          name: where
+          description: Filter by an any element
+          schema:
+            type: string
+          example: Status=="ACTIVE"
+        - in: query
+          name: order
+          description: Order by an any element
+          schema:
+            type: string
+          example: EmailAddress%20DESC
+        - in: query
+          name: page
+          description: e.g. page=1 – Up to 100 timesheets will be returned in a single API call
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Timesheets'
+        '400':
+          description: validation error for a bad request           
+          content: 
+            application/json:               
+              schema:         
+                $ref: '#/components/schemas/APIException'
+    post:
+      security:
+        - OAuth2: [payroll.timesheets]
+      tags:
+        - PayrollAU
+      summary: Use this method to create a timesheet
+      operationId: createTimesheet
+      responses:
+        '200':
+          description: A successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Timesheets'
+        '400':
+          description: invalid input, object invalid - TODO
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Timesheets'
+  /Timesheets/{TimesheetID}:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    get:
+      security:
+        - OAuth2: [payroll.timesheets.read]
+      tags:
+        - PayrollAU
+      summary: searches for an timesheet by unique id
+      operationId: getTimesheet
+      parameters: 
+        - name: TimesheetID
+          in: path
+          required: true
+          description: Timesheet id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+             application/json:
+              schema:
+                $ref: '#/components/schemas/Timesheets'
+    post:
+      security:
+        - OAuth2: [payroll.timesheets]
+      tags:
+        - PayrollAU
+      summary: Update a Timesheet 
+      operationId: updateTimesheet
+      description:  Update properties on a single timesheet
+      parameters: 
+        - name: TimesheetID
+          in: path
+          required: true
+          description: Timesheet id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+      responses:
+        '200':
+          description: A successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Timesheets'
+      requestBody:
+        content:
+          application/json:
+              schema:
+                $ref: '#/components/schemas/Timesheets'
+components:
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      description: For more information visit https://developer.xero.com/documentation/oauth2/overview
+      flows: 
+        authorizationCode:
+          authorizationUrl: 'https://login.xero.com/identity/connect/authorize'
+          tokenUrl: 'https://identity.xero.com/connect/token'
+          scopes:
+            email: Grant read-only access to your email
+            openid: Grant read-only access to your open id
+            profile: your profile information
+            accounting.transactions: Grant read-write access to bank transactions, credit notes, invoices, repeating invoices
+            accounting.transactions.read: Grant read-only access to invoices
+            accounting.reports.read: Grant read-only access to accounting reports
+            accounting.journals.read: Grant read-only access to journals
+            accounting.settings: Grant read-write access to organisation and account settings
+            accounting.settings.read: Grant read-only access to organisation and account settings
+            accounting.contacts: Grant read-write access to contacts and contact groups
+            accounting.contacts.read: Grant read-only access to contacts and contact groups
+            accounting.attachments: Grant read-write access to attachments
+            accounting.attachments.read: Grant read-only access to attachments
+            assets assets.read: Grant read-only access to fixed assets
+            bankfeeds: Grant read-write access to bankfeeds 
+            files: Grant read-write access to files and folders
+            files.read: Grant read-only access to files and folders
+            payroll: Grant read-write access to payroll
+            payroll.read: Grant read-only access to payroll
+            payroll.employees: Grant read-write access to payroll employees
+            payroll.employees.read: Grant read-only access to payroll employees
+            payroll.leaveapplications: Grant read-write access to payroll leaveapplications
+            payroll.leaveapplications.read: Grant read-only access to payroll leaveapplications
+            payroll.payitems: Grant read-write access to payroll payitems
+            payroll.payitems.read: Grant read-only access to payroll payitems
+            payroll.payrollcalendars: Grant read-write access to payroll calendars
+            payroll.payrollcalendars.read: Grant read-only access to payroll calendars
+            payroll.payruns: Grant read-write access to payroll payruns
+            payroll.payruns.read: Grant read-only access to payroll payruns
+            payroll.payslip: Grant read-write access to payroll payslips
+            payroll.payslip.read: Grant read-only access to payroll payslips
+            payroll.settings.read: Grant read-only access to payroll settings
+            payroll.superfunds: Grant read-write access to payroll superfunds
+            payroll.superfunds.read: Grant read-only access to payroll superfunds
+            payroll.superfundproducts.read: Grant read-only access to payroll superfundproducts
+            payroll.timesheets: Grant read-write access to payroll timesheets
+            payroll.timesheets.read: Grant read-only access to payroll timesheets
+            paymentservices: Grant read-write access to payment services
+            projects: Grant read-write access to projects
+            projects.read: Grant read-only access to projects
+  parameters:
+    requiredHeader: 
+      in: header
+      name: Xero-Tenant-Id
+      description: Xero identifier for Tenant
+      schema:
+        type: string
+      required: true 
+  schemas:
+    Employees:
+      type: object
+      properties:
+        Employees:
+          type: array
+          items:
+            $ref: '#/components/schemas/Employee'
+    Employee:
+      type: object
+      required:
+        - FirstName
+        - LastName
+        - DateOfBirth
+        - HomeAddress
+      properties:
+        FirstName:
+          description: First name of employee
+          type: string
+          example: Karen
+        LastName:
+          description: Last name of employee
+          type: string
+          example: Jones
+        DateOfBirth:
+          description: Date of birth of the employee (YYYY-MM-DD)
+          type: string
+          format: date
+          example: 2019-01-02   
+        HomeAddress:
+          $ref: '#/components/schemas/HomeAddress'
+        StartDate:
+          description: Start date for an employee (YYYY-MM-DD)
+          type: string
+          format: date
+          example: '2018-12-04'
+        Title:
+          description: Title of the employee
+          type: string
+          example: Mrs
+        MiddleNames:
+          description: Middle name(s) of the employee
+          type: string
+          example: Adena
+        Email:
+          description: The email address for the employee
+          type: string
+          example: developer@me.com
+        Gender:
+          description: The employee’s gender. See Employee Gender
+          type: string
+          enum:
+          - N   #Not Stated  
+          - M   #Male  
+          - F   #Female  
+          - I   #Non-Binary
+          example: F
+        Phone:
+          description: Employee phone number
+          type: string
+          example: 415-555-1212
+        Mobile:
+          description: Employee mobile number
+          type: string
+          example: 415-234-5678
+        TwitterUserName:
+          description: Employee’s twitter name
+          type: string
+          example: xeroapi
+        IsAuthorisedToApproveLeave:
+          description: Authorised to approve other employees' leave requests
+          type: boolean
+          example: false
+        IsAuthorisedToApproveTimesheets:
+          description: Authorised to approve timesheets
+          type: boolean
+          example: true
+        JobTitle:
+          description: JobTitle of the employee
+          type: string
+          example: Manager
+        Classification:
+          description: Employees classification
+          type: string
+          example: 99383
+        OrdinaryEarningsRateID:
+          description: Xero unique identifier for earnings rate
+          type: string
+          format: uuid
+          example: 5gj1e5cc-9835-40d5-bb18-09fdb118db9c
+        PayrollCalendarID:
+          description: Xero unique identifier for payroll calendar for the employee
+          type: string
+          format: uuid
+          example: 2ee8e5cc-9835-40d5-bb18-09fdb118db9c
+        EmployeeGroupName:
+          description: The Employee Group allows you to report on payroll expenses and liabilities for each group of employees
+          type: string
+          example: marketing
+        EmployeeID:
+          description: Xero unique identifier for an Employee
+          type: string
+          format: uuid
+          example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+        TerminationDate:
+          description: Employee Termination Date (YYYY-MM-DD)
+          type: string
+          format: date
+          example: 2019-01-01
+        BankAccounts:
+          type: array
+          items:
+            $ref: '#/components/schemas/BankAccount'
+        PayTemplate:
+            $ref: '#/components/schemas/PayTemplate'
+        OpeningBalances:
+            $ref: '#/components/schemas/OpeningBalances'
+        LeaveBalances:
+          type: array
+          items:
+            $ref: '#/components/schemas/LeaveBalance'
+        SuperMemberships:
+          type: array
+          items:
+            $ref: '#/components/schemas/SuperMembership'
+        Status:
+          $ref: '#/components/schemas/EmployeeStatus'
+        UpdatedDateUTC:
+          description: Last modified timestamp
+          type: string
+          format: date-time
+          example: 2018-04-01T23:02:36
+    LeaveApplications:
+      type: object
+      properties:
+        LeaveApplications:
+          type: array
+          items:
+            $ref: '#/components/schemas/LeaveApplication'
+    LeaveApplication:
+      type: object
+      properties:
+        LeaveApplicationID:
+          description: The Xero identifier for Payroll Employee
+          type: string
+          format: uuid
+          example: e0eb6747-7c17-4075-b804-989f8d4e5d39
+        EmployeeID:
+          description: The Xero identifier for Payroll Employee
+          type: string
+          format: uuid
+          example: fb4ebd68-6568-41eb-96ab-628a0f54b4b8
+        LeaveTypeID:
+          description: The Xero identifier for Leave Type
+          type: string
+          format: uuid
+          example: 742998cb-7584-4ecf-aa88-d694f59c50f9
+        Title:
+          description: The title of the leave
+          type: string
+          example: Annual Leave
+        StartDate:
+          description: Start date of the leave (YYYY-MM-DD)
+          type: string
+          format: date-time
+          example: 2013-05-08T00:00:00
+        EndDate:
+          description: End date of the leave (YYYY-MM-DD)
+          type: string
+          format: date-time
+          example: 2013-06-08T00:00:00
+        Description:
+          description: The Description of the Leave
+          type: string
+          example: My leave
+        LeavePeriods:
+          type: array
+          items:
+            $ref: '#/components/schemas/LeavePeriod'
+    LeavePeriod:
+      type: object
+      properties:
+        NumberOfUnits:
+          description: The Number of Units for the leave
+          type: number
+          format: float
+          example: 22.8000
+        PayPeriodEndDate:
+          description: The Pay Period End Date (YYYY-MM-DD)
+          type: string
+          format: date-time
+          example: 2013-05-12T00:00:00
+        PayPeriodStartDate:
+          description: The Pay Period Start Date (YYYY-MM-DD)
+          type: string
+          format: date-time
+          example: 2013-04-29T00:00:00
+        LeavePeriodStatus:
+          $ref: '#/components/schemas/LeavePeriodStatus'
+    LeavePeriodStatus:
+      type: string
+      enum:
+      - SCHEDULED  #The default status  
+      - PROCESSED #A LeavePeriod is set to the "Processed" status when the Payrun associated with the LeavePeriod is "POSTED"
+    PayItems:
+      type: object
+      properties:
+        PayItems:
+          $ref: '#/components/schemas/PayItem'
+    PayItem:
+      type: object
+      properties:
+        EarningsRates:
+          type: array
+          items:
+            $ref: '#/components/schemas/EarningsRate'
+        DeductionTypes:
+          type: array
+          items:
+            $ref: '#/components/schemas/DeductionType'
+        LeaveTypes:
+          type: array
+          items:
+            $ref: '#/components/schemas/LeaveType'
+        ReimbursementTypes:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReimbursementType'
+    PayrollCalendars:
+      type: object
+      properties:
+        PayrollCalendars:
+          type: array
+          items:
+            $ref: '#/components/schemas/PayrollCalendar'
+    PayrollCalendar:
+      type: object
+      properties:
+        Name:
+          description: Name of the Payroll Calendar
+          type: string
+          example: Fortnightly Calendar
+        CalendarType:
+          $ref: '#/components/schemas/CalendarType'
+        StartDate:
+          description: The start date of the upcoming pay period. The end date will be calculated based upon this date, and the calendar type selected (YYYY-MM-DD)
+          type: string
+          format: date-time
+          example: 2012-08-17T00:00:00Z
+        PaymentDate:
+          description: The date on which employees will be paid for the upcoming pay period (YYYY-MM-DD)
+          type: string
+          format: date-time
+          example: 2012-08-17T00:00:00Z
+        PayrollCalendarID:
+          description: Xero identifier
+          type: string
+          format: uuid
+          example: e0eb6747-7c17-4075-b804-989f8d4e5d39
+    Timesheets:
+      type: object
+      properties:
+        Employees:
+          type: array
+          items:
+            $ref: '#/components/schemas/Timesheet'
+    Timesheet:
+      type: object
+      required:
+        - EmployeeID
+        - StartDate
+        - EndDate
+      properties:
+        EmployeeID:
+          description: The Xero identifier for an employee
+          format: uuid
+          example: 72a0d0c2-0cf8-4f0b-ade1-33231f47b41b
+        StartDate:
+          description: Period start date (YYYY-MM-DD)
+          type: string
+          format: date
+          example: 2013-02-01T00:00:00Z
+        EndDate:
+          description: Period end date (YYYY-MM-DD)
+          type: string
+          format: date
+          example: 2013-02-07T00:00:00Z
+        Status:
+          $ref: '#/components/schemas/TimesheetStatus'
+        Hours:
+          description:  Timesheet total hours
+          type: number
+          format: float
+          example: 31.0000
+        TimesheetID:
+          description: The Xero identifier for a Payroll Timesheet
+          format: uuid
+          example: 049765fc-4506-48fb-bf88-3578dec0ec47
+        TimesheetLines:
+          $ref: '#/components/schemas/TimesheetLines'
+    TimesheetLines:
+      type: array
+      items:
+        $ref: '#/components/schemas/TimesheetLine'
+    TimesheetLine:
+      type: object
+      properties:
+        EarningsRateID:
+          description: The Xero identifier for an Earnings Rate
+          type: string
+          format: uuid
+          example: 966c5c77-2ef0-4320-b6a9-6c27b080ecc5
+        TrackingItemID:
+          description: The Xero identifier for a Tracking Category. The TrackingOptionID must belong to the TrackingCategory selected as TimesheetCategories under Payroll Settings.
+          type: string
+          format: uuid
+          example: ae777a87-5ef3-4fa0-a4f0-d10e1f13073a
+        NumberOfUnits:
+          description:  The number of units on a timesheet line
+          type: array
+          items:
+            description: Number of units of a Timesheet line
+            type: number
+            format: float
+            example: 3.00
+        UpdatedDateUTC:
+          description: Last modified timestamp
+          type: string
+          format: date-time
+          example: 2018-04-01T23:02:36
+    Payruns:
+      type: object
+      properties:
+        Payruns:
+          type: array
+          items:
+            $ref: '#/components/schemas/Payrun'
+    Payrun:
+      type: object
+      required:
+        - PayrollCalendarID
+      properties:
+        PayrollCalendarID:
+          description: Xero identifier for pay run  
+          format: uuid
+          example: bfac31bd-ea62-4fc8-a5e7-7965d9504b15
+        PayRunID:
+          description: Xero identifier for pay run  
+          format: uuid
+          example: bba1d10f-63b1-4692-b5c5-a99f869523a4
+        PayRunPeriodStartDate:
+          description: Period Start Date for the PayRun (YYYY-MM-DD)  
+          type: string
+          format: date
+          example: 2013-02-01T00:00:00Z
+        PayRunPeriodEndDate:
+          description: Period End Date for the PayRun (YYYY-MM-DD)  
+          type: string
+          format: date
+          example: 2013-02-07T00:00:00Z
+        PayRunStatus:
+          $ref: '#/components/schemas/PayRunStatus'
+        PaymentDate:
+          description: Payment Date for the PayRun (YYYY-MM-DD)  
+          type: string
+          format: date
+          example: 2013-02-07T00:00:00Z
+        PayslipMessage:
+          description: Payslip message for the PayRun
+          type: string
+          example: Thanks for being awesome
+        UpdatedDateUTC:
+          description: Last modified timestamp
+          type: string
+          format: date-time
+          example: 2018-04-01T23:02:36
+        Payslips:
+          description: The payslips in the payrun
+          type: array
+          items:
+            $ref: '#/components/schemas/PayslipSummary'
+        Wages:
+          description: The total Wages for the Payrun
+          type: number
+          format: float
+          example: 1060.5
+        Deductions:
+          description: The total Deductions for the Payrun
+          type: number
+          format: float
+          example: 0.0
+        Tax:
+          description: The total Tax for the Payrun
+          type: number
+          format: float
+          example: 198.0
+        Super:
+          description: The total Super for the Payrun
+          type: number
+          format: float
+          example: 75.6
+        Reimbursements:
+          description: The total Reimbursements for the Payrun
+          type: number
+          format: float
+          example: 0.0
+        NetPay:
+          description: The total NetPay for the Payrun
+          type: number
+          format: float
+          example: 862.5
+    PayslipSummary:
+      type: object
+      properties:
+        EmployeeID:
+          description: The Xero identifier for an employee
+          format: uuid
+          example: 4729f087-8eec-49c1-8294-4d11a5a0a37c
+        PayslipID:
+          description: Xero identifier for the payslip  
+          format: uuid
+          example: f3c0874d-7cdd-459a-a95c-d90d51decc42
+        FirstName:
+          description: First name of employee
+          type: string
+          example: Karen
+        LastName:
+          description: Last name of employee
+          type: string
+          example: Jones
+        Wages:
+          description: The Wages for the Payslip
+          type: number
+          format: float
+          example: 1060.5
+        Deductions:
+          description: The Deductions for the Payslip
+          type: number
+          format: float
+          example: 0.0
+        Tax:
+          description: The Tax for the Payslip
+          type: number
+          format: float
+          example: 198.0
+        Super:
+          description: The Super for the Payslip
+          type: number
+          format: float
+          example: 75.6
+        Reimbursements:
+          description: The Reimbursements for the Payslip
+          type: number
+          format: float
+          example: 0.0
+        NetPay:
+          description: The NetPay for the Payslip
+          type: number
+          format: float
+          example: 862.5
+        UpdatedDateUTC:
+          description: Last modified timestamp
+          type: string
+          format: date-time
+          example: 2018-04-01T23:02:36
+    Payslip:
+      type: object
+      properties:
+        EmployeeID:
+          description: The Xero identifier for an employee
+          format: uuid
+          example: 4729f087-8eec-49c1-8294-4d11a5a0a37c
+        PayslipID:
+          description: Xero identifier for the payslip  
+          format: uuid
+          example: f3c0874d-7cdd-459a-a95c-d90d51decc42
+        FirstName:
+          description: First name of employee
+          type: string
+          example: Karen
+        LastName:
+          description: Last name of employee
+          type: string
+          example: Jones
+        Wages:
+          description: The Wages for the Payslip
+          type: number
+          format: float
+          example: 1060.5
+        Deductions:
+          description: The Deductions for the Payslip
+          type: number
+          format: float
+          example: 0.0
+        Tax:
+          description: The Tax for the Payslip
+          type: number
+          format: float
+          example: 198.0
+        Super:
+          description: The Super for the Payslip
+          type: number
+          format: float
+          example: 75.6
+        Reimbursements:
+          description: The Reimbursements for the Payslip
+          type: number
+          format: float
+          example: 0.0
+        NetPay:
+          description: The NetPay for the Payslip
+          type: number
+          format: float
+          example: 862.5
+        EarningsLines:
+          type: array
+          items:
+            type: object
+            properties:
+              EarningsRateID:
+                description: Xero identifier
+                type: string
+                format: uuid
+                example: e0eb6747-7c17-4075-b804-989f8d4e5d39
+              RatePerUnit:
+                description: Rate per unit of the EarningsLine.
+                type: number
+                format: float
+                example: 38.0000
+              NumberOfUnits:
+                description: Earnings rate number of units.
+                type: number
+                format: float
+                example: 2.5
+              FixedAmount:
+                description: Earnings rate amount. Only applicable if the EarningsRate RateType is Fixed
+                type: number
+                format: float
+                example: 2.5
+        LeaveEarningsLines:
+          type: array
+          items:
+            type: object
+            properties:
+              EarningsRateID:
+                description: Xero identifier
+                type: string
+                format: uuid
+                example: e0eb6747-7c17-4075-b804-989f8d4e5d39
+              RatePerUnit:
+                description: Rate per unit of the EarningsLine.
+                type: number
+                format: float
+                example: 38.0000
+              NumberOfUnits:
+                description: Earnings rate number of units.
+                type: number
+                format: float
+                example: 2.5
+        TimesheetEarningsLines:
+          type: array
+          items:
+            type: object
+            properties:
+              EarningsRateID:
+                description: Xero identifier
+                type: string
+                format: uuid
+                example: e0eb6747-7c17-4075-b804-989f8d4e5d39
+              RatePerUnit:
+                description: Rate per unit of the EarningsLine.
+                type: number
+                format: float
+                example: 38.0000
+              NumberOfUnits:
+                description: Earnings rate number of units.
+                type: number
+                format: float
+                example: 2.5
+        DeductionLine:
+          type: array
+          items:
+            type: object
+            properties:
+              DeductionTypeID:
+                description: Xero identifier for the deduction type
+                type: string
+                format: uuid
+                example: e0eb6747-7c17-4075-b804-989f8d4e5d39
+              CalculationType:
+                $ref: '#/components/schemas/DeductionTypeCalculationType'
+              Percentage:
+                description: The Percentage of the Deduction.
+                type: number
+                format: float
+                example: 2.500
+              NumberOfUnits:
+                description: Deduction number of units
+                type: number
+                format: float
+                example: 105.50
+        LeaveAccrualLine:
+          type: array
+          items:
+            type: object
+            properties:
+              LeaveTypeID:
+                description: Xero identifier for the Leave type.
+                type: string
+                format: uuid
+                example: e0eb6747-7c17-4075-b804-989f8d4e5d39
+              NumberOfUnits:
+                description: Leave Accrual number of units
+                type: number
+                format: float
+                example: 105.50
+              AutoCalculate:
+                description: If you want to auto calculate leave.
+                type: boolean
+                example: true
+        ReimbursementLine:
+          type: array
+          items:
+            type: object
+            properties:
+              ReimbursementTypeID:
+                description: Xero identifier for payroll reimbursement type.
+                type: string
+                format: uuid
+                example: e0eb6747-7c17-4075-b804-989f8d4e5d39
+              Description:
+                description: Reimbursement lines description (max length 50)
+                type: string
+                example: For the taxi
+                maxLength: 50
+              ExpenseAccount:
+                description: Reimbursement expense account. For posted pay run you should be able to see expense account code.
+                type: string
+                example: 420
+              Amount:
+                description: Reimbursement amount
+                type: number
+                format: float
+                example: 10.50
+        SuperannuationLine:
+          type: array
+          items:
+            type: object
+            properties:
+              SuperMembershipID:
+                description:   Xero identifier for payroll super fund membership ID.
+                type: string
+                format: uuid
+                example: e0eb6747-7c17-4075-b804-989f8d4e5d39
+              ContributionType:
+                $ref: '#/components/schemas/SuperannuationContributionType'
+              CalculationType:
+                $ref: '#/components/schemas/SuperannuationCalculationType'
+              MinimumMonthlyEarnings:
+                description:  Superannuation minimum monthly earnings.
+                type: number
+                format: float
+                example: 100.50
+              ExpenseAccountCode:
+                description: Superannuation expense account code.
+                type: string
+                example: 450
+              LiabilityAccountCode:
+                description: Superannuation liability account code
+                type: string
+                example: 650
+              PaymentDateForThisPeriod:
+                description:   Superannuation payment date for the current period (YYYY-MM-DD)
+                type: string
+                format: date
+                example: 2019-10-01
+              Percentage:
+                description: Superannuation percentage  
+                type: number
+                format: float
+                example: 4.0000
+              Amount:
+                description: Superannuation amount
+                type: number
+                format: float
+                example: 10.50
+        TaxLine:
+          type: array
+          items:
+            type: object
+            properties:
+              Amount:
+                description: The tax line amount
+                type: number
+                format: float
+                example: 50.00
+              TaxTypeName:
+                description: Name of the tax type.
+                type: string
+                example: Manual Adjustment
+              Description:
+                description: Description of the tax line.
+                type: string
+              ManualTaxType:
+                $ref: '#/components/schemas/ManualTaxType'
+              LiabilityAccount:
+                description: The tax line liability account code. For posted pay run you should be able to see liability account code
+                type: string
+                example: 620
+        UpdatedDateUTC:
+          description: Last modified timestamp
+          type: string
+          format: date-time
+          example: 2018-04-01T23:02:36
+    Settings:
+      type: object
+      properties:
+        Accounts:
+          description: Payroll Account details for SuperExpense, SuperLiabilty, WagesExpense, PAYGLiability & WagesPayable. 
+          type: array
+          items:
+            $ref: '#/components/schemas/Account'
+        TrackingCategories:
+          description: Tracking categories for Employees and Timesheets 
+          type: object
+          properties:
+            EmployeeGroups:
+              description: The tracking category used for employees
+              type: object
+              properties:
+                TrackingCategoryID: 
+                  description: The identifier for the tracking category
+                  type: string
+                  format: uuid
+                  example: e0eb6747-7c17-4075-b804-989f8d4e5d39
+                TrackingCategoryName:
+                  description: Name of the tracking category
+                  type: string
+            TimesheetCategories:
+              description: The tracking category used for timesheets
+              type: object
+              properties:
+                TrackingCategoryID: 
+                  description: The identifier for the tracking category
+                  type: string
+                  format: uuid
+                  example: e0eb6747-7c17-4075-b804-989f8d4e5d39
+                TrackingCategoryName:
+                  description: Name of the tracking category
+                  type: string
+        DaysInPayrollYear:
+          description: Number of days in the Payroll year
+          type: number
+          format: integer
+          example: 365
+    Superfunds:
+      type: object
+      properties:
+        Superfunds:
+          type: array
+          items:
+            $ref: '#/components/schemas/Superfund'
+    Superfund:
+      type: object
+      required:
+        - Type
+      properties:
+        SuperFundID:
+          description: Xero identifier for a super fund  
+          format: uuid
+          example: bfac31bd-ea62-4fc8-a5e7-7965d9504b15
+        Type:
+          $ref: '#/components/schemas/SuperFundType'
+        Name:
+          description: Name of the super fund
+          type: string
+          example: MLC Navigator Retirement Plan - Superannuation Service (including Series 2) (MLC Superannuation Fund)
+        ABN:
+          description: ABN of the self managed super fund
+          type: string
+          example: 40022701955
+        BSB:
+          description: BSB of the self managed super fund
+          type: string
+          example: 234324
+        AccountNumber:
+          description: The account number for the self managed super fund.
+          type: string
+          example: 234234234  
+        AccountNme:
+          description: The account name for the self managed super fund.
+          type: string
+          example: Money account
+        ElectronicServiceAddress:
+          description: The electronic service address for the self managed super fund.
+          type: string
+          example: 12345678
+        EmployerNumber:
+          description: Some funds assign a unique number to each employer
+          type: string
+          example: 324324
+        SPIN:
+          description:   The SPIN of the Regulated SuperFund. This field has been deprecated. It will only be present for legacy superfunds. New superfunds will not have a SPIN value. The USI field should be used instead of SPIN.
+          type: string
+          example: 4545445454
+        USI:
+          description: The USI of the Regulated SuperFund
+          type: string
+          example: 40022701955001
+    SuperfundProducts:
+      type: object
+      properties:
+        SuperfundProducts:
+          type: array
+          items:
+            $ref: '#/components/schemas/SuperfundProduct'
+    SuperfundProduct:
+      type: object
+      properties:
+        ABN:
+          description: The ABN of the Regulated SuperFund
+          format: string
+          example: 839182848805
+        USI:
+          description: The USI of the Regulated SuperFund  
+          format: string
+          example: 839182848805001
+        SPIN:
+          description: The SPIN of the Regulated SuperFund. This field has been deprecated. New superfunds will not have a SPIN value. The USI field should be used instead of SPIN
+          format: string
+          example: NML0117AU
+        ProductName:
+          description: The name of the Regulated SuperFund
+          format: string
+          example: MLC Navigator Retirement Plan - Superannuation Service (including Series 2) (MLC Superannuation Fund)
+    Account:
+      type: object
+      properties:
+        AccountID:
+          description: Xero identifier for accounts
+          type: string
+          format: uuid
+          example: c56b19ef-75bf-45e8-98a4-e699a96609f7
+        Type:
+          $ref: '#/components/schemas/AccountType'
+        Code:
+          description: Customer defined account code
+          type: string
+          example: 420
+        Name:
+          description: Name of account
+          type: string
+          example: General expenses
+    EarningsRate:
+      type: object
+      properties:
+        Name:
+          description: Name of the earnings rate (max length = 100)
+          type: string
+          example: PTO
+          maxLength: 100
+        AccountCode:
+          description: See Accounts
+          type: string
+          example: 720
+        TypeOfUnits:
+          description: Type of units used to record earnings (max length = 50). Only When RateType is RATEPERUNIT
+          type: string
+          example: Fixed
+          maxLength: 50
+        IsExemptFromTax:
+          description: Most payments are subject to tax, so you should only set this value if you are sure that a payment is exempt from PAYG withholding
+          type: boolean
+          example: false
+        IsExemptFromSuper:
+          description: See the ATO website for details of which payments are exempt from SGC
+          type: boolean
+          example: false
+        IsReportableAsW1:
+          description: Boolean to determine if the earnings rate is reportable or exempt from W1
+          type: boolean
+          example: false
+        EarningsType:
+          $ref: '#/components/schemas/EarningsType'
+        EarningsRateID:
+          description: Xero identifier
+          type: string
+          format: uuid
+          example: e0eb6747-7c17-4075-b804-989f8d4e5d39
+        RateType:
+          $ref: '#/components/schemas/RateType'
+        RatePerUnit:
+          description: Default rate per unit (optional). Only applicable if RateType is RATEPERUNIT.
+          type: string
+          example: 10
+        Multiplier:
+          description: This is the multiplier used to calculate the rate per unit, based on the employee’s ordinary earnings rate. For example, for time and a half enter 1.5. Only applicable if RateType is MULTIPLE
+          type: number
+          format: float
+          example: 1.5
+        AccrueLeave:
+          description: Indicates that this earnings rate should accrue leave. Only applicable if RateType is MULTIPLE
+          type: number
+          format: float
+          example: 1.5
+        Amount:
+          description: Optional Amount for FIXEDAMOUNT RateType EarningsRate
+          type: number
+          format: float
+          example: 50.30
+        EmploymentTerminationPaymentType:
+          $ref: '#/components/schemas/EmploymentTerminationPaymentType'
+        UpdatedDateUTC:
+          description: Last modified timestamp
+          type: string
+          format: date-time
+          example: 2018-04-01T23:02:36
+    DeductionType:
+      type: object
+      properties:
+        Name:
+          description: Name of the earnings rate (max length = 100)
+          type: string
+          example: PTO
+          maxLength: 100
+        AccountCode:
+          description: See Accounts
+          type: string
+          example: 720
+        ReducesTax:
+          description: Indicates that this is a pre-tax deduction that will reduce the amount of tax you withhold from an employee.
+          type: boolean
+          example: false
+        ReducesSuper:
+          description: Most deductions don’t reduce your superannuation guarantee contribution liability, so typically you will not set any value for this.
+          type: boolean
+          example: false
+        IsExemptFromW1:
+          description: Boolean to determine if the deduction type is reportable or exempt from W1
+          type: boolean
+          example: false
+        DeductionTypeID:
+          description: Xero identifier
+          type: string
+          format: uuid
+          example: e0eb6747-7c17-4075-b804-989f8d4e5d39
+        UpdatedDateUTC:
+          description: Last modified timestamp
+          type: string
+          format: date-time
+          example: 2018-04-01T23:02:36
+    LeaveType:
+      type: object
+      properties:
+        Name:
+          description: Name of the earnings rate (max length = 100)
+          type: string
+          example: PTO
+          maxLength: 100
+        TypeOfUnits:
+          description: The type of units by which leave entitlements are normally tracked. These are typically the same as the type of units used for the employee’s ordinary earnings rate
+          type: string
+          example: Hours
+        IsPaidLeave:
+          description: Set this to indicate that an employee will be paid when taking this type of leave
+          type: boolean
+          example: true
+        ShowOnPayslip:
+          description: Set this if you want a balance for this leave type to be shown on your employee’s payslips
+          type: boolean
+          example: true
+        LeaveTypeID:
+          description: Xero identifier
+          type: string
+          format: uuid
+          example: e0eb6747-7c17-4075-b804-989f8d4e5d39
+        NormalEntitlement:
+          description: The number of units the employee is entitled to each year
+          type: number
+          format: float
+          example: 152.0000
+        LeaveLoadingRate:
+          description: Enter an amount here if your organisation pays an additional percentage on top of ordinary earnings when your employees take leave (typically 17.5%)
+          type: number
+          format: float
+          example: 12.0000
+        UpdatedDateUTC:
+          description: Last modified timestamp
+          type: string
+          format: date-time
+          example: 2018-04-01T23:02:36
+    ReimbursementType:
+      type: object
+      properties:
+        Name:
+          description: Name of the earnings rate (max length = 100)
+          type: string
+          example: PTO
+          maxLength: 100
+        AccountCode:
+          description: See Accounts
+          type: string
+          example: 720
+        ReimbursementTypeID:
+          description: Xero identifier
+          type: string
+          format: uuid
+          example: e0eb6747-7c17-4075-b804-989f8d4e5d39
+        UpdatedDateUTC:
+          description: Last modified timestamp
+          type: string
+          format: date-time
+          example: 2018-04-01T23:02:36
+    HomeAddress:
+      required:
+        - AddressLine1
+      properties:
+        AddressLine1:
+          description: Address line 1 for employee home address
+          type: string
+          example: 123 Main St
+        AddressLine2:
+          description: Address line 2 for employee home address
+          type: string
+          example: Apt 4
+        City:
+          description: Suburb for employee home address
+          type: string
+          example: St. Kilda
+        Region:
+          $ref: '#/components/schemas/State'
+        PostalCode:
+          description: PostCode for employee home address
+          type: string
+          example: 3182
+        Country:
+          description: Country of HomeAddress
+          type: string
+          example: AUSTRALIA
+      type: object
+    TaxDeclaration:
+      required:
+        - EmployeeID
+        - EmploymentBasis
+      properties:
+        EmployeeID:
+          description: Address line 1 for employee home address
+          type: string
+          format: uuid
+          example: 123 Main St
+        EmploymentBasis:
+          $ref: '#/components/schemas/EmploymentBasis'
+        TFNExemptionType:
+          $ref: '#/components/schemas/TFNExemptionType'
+        TaxFileNumber:
+          description: The tax file number e.g 123123123.
+          type: string
+          example: 123123123
+        AustralianResidentForTaxPurposes:
+          description: If the employee is Australian resident for tax purposes. e.g true or false
+          type: boolean
+          example: true
+        ResidencyStatus:
+          $ref: '#/components/schemas/ResidencyStatus'
+        TaxFreeThresholdClaimed:
+          description: If tax free threshold claimed. e.g true or false
+          type: boolean
+          example: false
+        TaxOffsetEstimatedAmount:
+          description: If has tax offset estimated then the tax offset estimated amount. e.g 100
+          type: number
+          format: int
+          example: 100
+        HasHELPDebt:
+          description: If employee has HECS or HELP debt. e.g true or false
+          type: boolean
+          example: false
+        HasSFSSDebt:
+          description: If employee has financial supplement debt. e.g true or false
+          type: boolean
+          example: false
+        HasTradeSupportLoanDebt:
+          description: If employee has trade support loan. e.g true or false
+          type: boolean
+          example: false
+        UpwardVariationTaxWithholdingAmount:
+          description: If the employee has requested that additional tax be withheld each pay run. e.g 50
+          type: number
+          format: int
+          example: 50
+        EligibleToReceiveLeaveLoading:
+          description: If the employee is eligible to receive an additional percentage on top of ordinary earnings when they take leave (typically 17.5%). e.g true or false
+          type: boolean
+          example: false
+        ApprovedWithholdingVariationPercentage:
+          description: If the employee has approved withholding variation. e.g (0 - 100)
+          type: number
+          format: int
+          example: 75
+      type: object
+    BankAccount:
+      type: object
+      properties:
+        StatementText:
+          description: The text that will appear on your employee's bank statement when they receive payment
+          type: string
+          example: Salary
+        AccountName:
+          description: The name of the account
+          type: string
+          example: James Lebron Savings
+        BSB:
+          description: The BSB number of the account
+          type: string
+          example: 122344
+        AccountNumber:
+          description: The account number
+          type: string
+          example: 345678
+        Remainder:
+          description: If this account is the Remaining bank account
+          type: boolean
+          example: false
+        Amount:
+          description: Fixed amounts (for example, if an employee wants to have $100 of their salary transferred to one account, and the remaining amount to another)
+          type: number
+          format: float
+          example: 200.00
+    PayTemplate:
+      type: object
+      properties:
+        EarningsLines:
+          type: array
+          items:
+            $ref: '#/components/schemas/EarningsLine'
+        DeductionLines:
+          type: array
+          items:
+            $ref: '#/components/schemas/DeductionLine'
+        SuperLines:
+          type: array
+          items:
+            $ref: '#/components/schemas/SuperLine'
+        ReimbursementLines:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReimbursementLine'
+        LeaveLines:
+          type: array
+          items:
+            $ref: '#/components/schemas/LeaveLine'
+    EarningsLine:
+      type: object
+      required:
+      - EarningsRateID
+      - CalculationType
+      properties:
+        EarningsRateID:
+          description: Xero unique id for earnings rate
+          type: string
+          format: uuid
+          example: 72e962d1-fcac-4083-8a71-742bb3e7ae14
+        CalculationType:
+          $ref: '#/components/schemas/EarningsRateCalculationType'
+        AnnualSalary:
+          description: Annual salary for earnings line
+          type: number
+          format: float
+          example: 40000.00
+        NumberOfUnitsPerWeek:
+          description: number of units for earning line
+          type: number
+          format: float
+          example: 38.0000
+        RatePerUnit:
+          description: Rate per unit of the EarningsLine.
+          type: number
+          format: float
+          example: 38.0000
+        NormalNumberOfUnits:
+          description: Normal number of units for EarningsLine. Applicable when RateType is "MULTIPLE"
+          type: number
+          format: float
+          example: 38.0000
+        Amount:
+          description: Earnings rate amount
+          type: number
+          format: float
+          example: 38.0000
+    DeductionLine:
+      type: object
+      required:
+      - DeductionTypeID
+      - CalculationType
+      properties:
+        DeductionTypeID:
+          description: Xero deduction type identifier
+          type: string
+          format: uuid
+          example: 59cd9d04-4521-4cc3-93ac-7841651ff407
+        CalculationType:
+          $ref: '#/components/schemas/DeductionTypeCalculationType'
+        Amount:
+          description: Deduction type amount
+          type: number
+          format: float
+          example: 10.00
+    SuperLine:
+      type: object
+      properties:
+        SuperMembershipID:
+          description: Xero super membership ID
+          type: string
+          format: uuid
+          example: 4333d5cd-53a5-4c31-98e5-a8b4e5676b0b
+        ContributionType:
+          $ref: '#/components/schemas/SuperannuationContributionType'
+        CalculationType:
+          $ref: '#/components/schemas/SuperannuationCalculationType'
+        MinimumMonthlyEarnings:
+          description: amount of mimimum earnings
+          type: number
+          format: float
+          example: 450.00
+        ExpenseAccountCode:
+          description: expense account code
+          type: string
+          example: 478
+        LiabilityAccountCode:
+          description: liabilty account code
+          type: string
+          example: 826
+        Percentage:
+          description: percentage for super line
+          type: number
+          format: float
+          example: 9.0000
+        Amount:
+          description: Super membership amount
+          type: number
+          format: float
+          example: 10.00
+    ReimbursementLines:
+      type: object
+      description: The reimbursement type lines
+      properties:
+        Employee:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReimbursementLine'
+    ReimbursementLine:
+      type: object
+      properties:
+        ReimbursementTypeID:
+          description: Xero reimbursement type identifier
+          type: string
+          format: uuid
+          example: bd246b96-c637-4767-81cf-851ba8fa93c2
+        Amount:
+          description: Reimbursement type amount
+          type: number
+          format: float
+          example: 10.00
+    LeaveLines:
+      type: object
+      description: The leave type lines
+      properties:
+        Employee:
+          type: array
+          items:
+            $ref: '#/components/schemas/LeaveLine'
+    LeaveLine:
+      type: object
+      properties:
+        LeaveTypeID:
+          description: Xero leave type identifier
+          type: string
+          format: uuid
+          example: 742998cb-7584-4ecf-aa88-d694f59c50f9
+        CalculationType:
+          description: Calculation type for leave line ???
+          type: string
+          example: FIXEDAMOUNTEACHPERIOD
+        EntitlementFinalPayPayoutType:
+          $ref: '#/components/schemas/EntitlementFinalPayPayoutType'
+        EmploymentTerminationPaymentType:
+          $ref: '#/components/schemas/EmploymentTerminationPaymentType'
+        IncludeSuperannuationGuaranteeContribution:
+          description: amount of leave line
+          type: boolean
+          example: true
+        NumberOfUnits:
+          description: Leave number of units
+          type: number
+          format: float
+          example: 2.5
+    OpeningBalances:
+      type: object
+      properties:
+        OpeningBalanceDate:
+          description: Opening Balance Date. (YYYY-MM-DD)
+          type: string
+          format: date
+          example: 
+        Tax:
+          description: Opening Balance tax
+          type: string
+          example: 4333d5cd-53a5-4c31-98e5-a8b4e5676b0b
+        EarningsLines:
+          type: array
+          items:
+            $ref: '#/components/schemas/EarningsLine'
+        DeductionLines:
+          type: array
+          items:
+            $ref: '#/components/schemas/DeductionLine'
+        SuperLines:
+          type: array
+          items:
+            $ref: '#/components/schemas/SuperLine'
+        ReimbursementLines:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReimbursementLine'
+        LeaveLines:
+          type: array
+          items:
+            $ref: '#/components/schemas/LeaveLine'
+    LeaveBalance:
+      type: object
+      properties:
+        LeaveName :
+          description: The name of the leave type
+          type: string
+          example: Annual Leave
+        LeaveTypeID :
+          description: Identifier of the leave type (see PayItems)
+          type: string
+          example: 544d9292-4329-4512-bfff-a9f15236d776
+        NumberOfUnits :
+          description: The balance of the leave available
+          type: number
+          format: float
+          example: 81.2602
+        TypeOfUnits :
+          description: The type of units as specified by the LeaveType (see PayItems)
+          type: string
+          example: Hours
+    RateType:
+      type: string
+      enum:
+      - FIXEDAMOUNT    
+      - MULTIPLE  Multiple of Employee’s Ordinary Earnings Rate - an earnings rate which is derived from an employee’s ordinary earnings rate  
+      - RATEPERUNIT  An earnings rate allowing entry of a rate per unit
+    EarningsType: 
+      type: string
+      enum:
+      - FIXED    
+      - ORDINARYTIMEEARNINGS
+      - OVERTIMEEARNINGS
+      - ALLOWANCE
+      - LUMPSUMD
+      - EMPLOYMENTTERMINATIONPAYMENT    
+    EmploymentTerminationPaymentType: 
+      type: string
+      enum:
+      - O  
+      - R  
+    CalendarType: 
+      type: string
+      enum:
+      - WEEKLY  
+      - FORTNIGHTLY
+      - FOURWEEKLY  
+      - MONTHLY  
+      - TWICEMONTHLY  
+      - QUARTERLY  
+    EarningsRateCalculationType: 
+      type: string
+      enum:
+      - USEEARNINGSRATE  
+      - ENTEREARNINGSRATE    
+      - ANNUALSALARY
+    DeductionTypeCalculationType: 
+      type: string
+      enum:
+      - FIXEDAMOUNT  
+      - PRETAX  
+      - POSTTAX
+    SuperannuationContributionType: 
+      type: string
+      enum:
+      - SGC  
+      - SALARYSACRIFICE  
+      - EMPLOYERADDITIONAL  
+      - EMPLOYEE
+    SuperannuationCalculationType: 
+      type: string
+      enum:
+      - FIXEDAMOUNT  
+      - PERCENTAGEOFEARNINGS    
+      - STATUTORY  
+    PaymentFrequencyType: 
+      type: string
+      enum:
+      - WEEKLY  
+      - MONTHLY
+      - FORTNIGHTLY
+      - QUARTERLY
+      - TWICEMONTHLY
+      - FOURWEEKLY
+      - YEARLY
+    LeaveTypeContributionType: 
+      type: string
+      enum:
+      - SGC  
+      - SALARYSACRIFICE  
+      - EMPLOYERADDITIONAL  
+      - EMPLOYEE
+    EntitlementFinalPayPayoutType: 
+      type: string
+      enum:
+      - NOTPAIDOUT
+      - PAIDOUT  
+    PayRunStatus: 
+      type: string
+      enum:
+      - DRAFT
+      - POSTED
+    ManualTaxType: 
+      type: string
+      enum:
+      - PAYGMANUAL  
+      - ETPOMANUAL
+      - ETPRMANUAL
+    SuperFundType: 
+      type: string
+      enum:
+      - REGULATED  
+      - SMSF
+    EmploymentBasis: 
+      type: string
+      enum:
+      - FULLTIME  
+      - PARTTIME  
+      - CASUAL  
+      - LABOURHIRE  
+      - SUPERINCOMESTREAM
+    TFNExemptionType: 
+      type: string
+      enum:
+      - NOTQUOTED  
+      - PENDING  
+      - PENSIONER
+      - UNDER18
+    ResidencyStatus: 
+      type: string
+      enum:
+      - AUSTRALIANRESIDENT
+      - FOREIGNRESIDENT  
+      - WORKINGHOLIDAYMAKER
+    TimesheetStatus: 
+      type: string
+      enum:
+      - DRAFT
+      - PROCESSED
+      - APPROVED
+    EmployeeStatus:
+      type: string
+      description: Employee Status Types
+      enum:
+      - ACTIVE   #Employee with no Termination Date.  
+      - TERMINATED  #Employee with a Termination Date.
+    State:
+      type: string
+      description: State abbreviation for employee home address
+      example: VIC
+      enum:
+      - ACT  #Australian Capital Territory  
+      - NSW  #New South Wales  
+      - NT  #Northern Territory  
+      - QLD  #Queensland  
+      - SA  #South Australia  
+      - TAS  #Tasmania  
+      - VIC  #Victoria  
+      - WA  #Western Australia
+    SuperMembership:
+      type: object
+      required:
+        - SuperFundID
+        - EmployeeNumber
+      properties:
+        SuperMembershipID:
+          description: Xero unique identifier for Super membership
+          type: string
+          format: uuid
+          example: 4333d5cd-53a5-4c31-98e5-a8b4e5676b0b
+        SuperFundID :
+          description: Xero identifier for super fund
+          type: string
+          format: uuid
+          example: 2187a42b-639a-45cb-9eed-cd4ae488306a
+        EmployeeNumber:
+          description: The memberhsip number assigned to the employee by the super fund.
+          type: number
+          example: 1234
+    AccountType:
+      description: See Account Types
+      type: string
+      enum:
+        - BANK
+        - CURRENT
+        - CURRLIAB
+        - DEPRECIATN  
+        - DIRECTCOSTS
+        - EQUITY  
+        - EXPENSE
+        - FIXED
+        - INVENTORY
+        - LIABILITY
+        - NONCURRENT
+        - OTHERINCOME
+        - OVERHEADS
+        - PREPAYMENT
+        - REVENUE
+        - SALES
+        - TERMLIAB
+        - PAYGLIABILITY
+        - PAYG
+        - SUPERANNUATIONEXPENSE
+        - SUPERANNUATIONLIABILITY
+        - WAGESEXPENSE
+    APIException:
+      description: The object returned for a bad request
+      type: object
+      properties:
+        ErrorNumber: 
+          description: The error number 
+          type: number
+          format: integer
+          example: 16
+        Type:
+          description: The type of error
+          type: string
+          example: QueryParseException
+        Message: 
+          description: The message describing the error
+          type: string
+          example: No property or field 'hi' exists in type 'Employee' (at index 0)
