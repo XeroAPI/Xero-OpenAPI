@@ -83,7 +83,9 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Employees'
+              type: array
+              items:
+                $ref: '#/components/schemas/Employee'
   /Employees/{EmployeeId}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -137,8 +139,10 @@ paths:
       requestBody:
         content:
           application/json:
-              schema:
-                $ref: '#/components/schemas/Employees'
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Employee'
   /LeaveApplications:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -207,7 +211,9 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/LeaveApplications'
+              type: array
+              items:
+                $ref: '#/components/schemas/LeaveApplication'
   /LeaveApplications/{LeaveApplicationId}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -264,7 +270,9 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/LeaveApplications'
+              type: array
+              items:
+                $ref: '#/components/schemas/LeaveApplication'
   /PayItems:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -333,7 +341,9 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PayItems'
+              type: array
+              items:
+                $ref: '#/components/schemas/PayItems'
   /PayrollCalendars:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -402,7 +412,9 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PayrollCalendars'
+              type: array
+              items:
+                $ref: '#/components/schemas/PayrollCalendars'
   /PayrollCalendars/{PayrollCalendarID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -503,7 +515,9 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Payruns'
+              type: array
+              items:
+                $ref: '#/components/schemas/Payruns'
   /Payruns/{PayrunID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -557,7 +571,9 @@ paths:
       requestBody:
         content:
           application/json:
-              schema:
+            schema:
+              type: array
+              items:
                 $ref: '#/components/schemas/Payruns'
   /Payslip:
     parameters:
@@ -583,7 +599,9 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Payslip'
+              type: array
+              items:
+                $ref: '#/components/schemas/Payslip'
   /Payslip/{PayslipID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -637,7 +655,9 @@ paths:
       requestBody:
         content:
           application/json:
-              schema:
+            schema:
+              type: array
+              items:
                 $ref: '#/components/schemas/Payslip'
   /Settings:
     parameters:
@@ -724,7 +744,9 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Superfunds'
+              type: array
+              items:
+                $ref: '#/components/schemas/Superfunds'
   /Superfunds/{SuperfundID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -1025,15 +1047,13 @@ components:
         DateOfBirth:
           description: Date of birth of the employee (YYYY-MM-DD)
           type: string
-          format: date
-          example: 2019-01-02   
+          example: '/Date(322560000000+0000)/'   
         HomeAddress:
           $ref: '#/components/schemas/HomeAddress'
         StartDate:
           description: Start date for an employee (YYYY-MM-DD)
           type: string
-          format: date
-          example: '2018-12-04'
+          example: '/Date(320284900000+0000)/'
         Title:
           description: Title of the employee
           type: string
@@ -1162,13 +1182,11 @@ components:
         StartDate:
           description: Start date of the leave (YYYY-MM-DD)
           type: string
-          format: date-time
-          example: 2013-05-08T00:00:00
+          example: '/Date(320284900000+0000)/'
         EndDate:
           description: End date of the leave (YYYY-MM-DD)
           type: string
-          format: date-time
-          example: 2013-06-08T00:00:00
+          example: '/Date(320284900000+0000)/'
         Description:
           description: The Description of the Leave
           type: string
