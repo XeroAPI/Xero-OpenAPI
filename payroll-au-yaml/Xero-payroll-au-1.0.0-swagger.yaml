@@ -31,7 +31,6 @@ paths:
           description: Only records created or modified since this timestamp will be returned
           schema:
             type: string
-            format: date-time
         - in: query
           name: where
           description: Filter by an any element
@@ -159,7 +158,6 @@ paths:
           description: Only records created or modified since this timestamp will be returned
           schema:
             type: string
-            format: date-time
         - in: query
           name: where
           description: Filter by an any element
@@ -245,7 +243,7 @@ paths:
         - OAuth2: [payroll.leaveapplications]
       tags:
         - PayrollAU
-      summary: Use this method to create a Leave Application
+      summary: Use this method to update a Leave Application
       operationId: updateLeaveApplication
       parameters: 
         - name: LeaveApplicationId
@@ -289,7 +287,6 @@ paths:
           description: Only records created or modified since this timestamp will be returned
           schema:
             type: string
-            format: date-time
         - in: query
           name: where
           description: Filter by an any element
@@ -343,7 +340,7 @@ paths:
             schema:
               type: array
               items:
-                $ref: '#/components/schemas/PayItems'
+                $ref: '#/components/schemas/PayItem'
   /PayrollCalendars:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -360,7 +357,6 @@ paths:
           description: Only records created or modified since this timestamp will be returned
           schema:
             type: string
-            format: date-time
         - in: query
           name: where
           description: Filter by an any element
@@ -463,7 +459,6 @@ paths:
           description: Only records created or modified since this timestamp will be returned
           schema:
             type: string
-            format: date-time
         - in: query
           name: where
           description: Filter by an any element
@@ -692,7 +687,6 @@ paths:
           description: Only records created or modified since this timestamp will be returned
           schema:
             type: string
-            format: date-time
         - in: query
           name: where
           description: Filter by an any element
@@ -854,7 +848,6 @@ paths:
           description: Only records created or modified since this timestamp will be returned
           schema:
             type: string
-            format: date-time
         - in: query
           name: where
           description: Filter by an any element
@@ -1125,7 +1118,6 @@ components:
         TerminationDate:
           description: Employee Termination Date (YYYY-MM-DD)
           type: string
-          format: date
           example: 2019-01-01
         BankAccounts:
           type: array
@@ -1148,7 +1140,6 @@ components:
         UpdatedDateUTC:
           description: Last modified timestamp
           type: string
-          format: date-time
           example: 2018-04-01T23:02:36
     LeaveApplications:
       type: object
@@ -1206,12 +1197,10 @@ components:
         PayPeriodEndDate:
           description: The Pay Period End Date (YYYY-MM-DD)
           type: string
-          format: date-time
           example: 2013-05-12T00:00:00
         PayPeriodStartDate:
           description: The Pay Period Start Date (YYYY-MM-DD)
           type: string
-          format: date-time
           example: 2013-04-29T00:00:00
         LeavePeriodStatus:
           $ref: '#/components/schemas/LeavePeriodStatus'
@@ -1263,12 +1252,10 @@ components:
         StartDate:
           description: The start date of the upcoming pay period. The end date will be calculated based upon this date, and the calendar type selected (YYYY-MM-DD)
           type: string
-          format: date-time
           example: 2012-08-17T00:00:00Z
         PaymentDate:
           description: The date on which employees will be paid for the upcoming pay period (YYYY-MM-DD)
           type: string
-          format: date-time
           example: 2012-08-17T00:00:00Z
         PayrollCalendarID:
           description: Xero identifier
@@ -1296,12 +1283,10 @@ components:
         StartDate:
           description: Period start date (YYYY-MM-DD)
           type: string
-          format: date
           example: 2013-02-01T00:00:00Z
         EndDate:
           description: Period end date (YYYY-MM-DD)
           type: string
-          format: date
           example: 2013-02-07T00:00:00Z
         Status:
           $ref: '#/components/schemas/TimesheetStatus'
@@ -1344,7 +1329,6 @@ components:
         UpdatedDateUTC:
           description: Last modified timestamp
           type: string
-          format: date-time
           example: 2018-04-01T23:02:36
     Payruns:
       type: object
@@ -1369,19 +1353,16 @@ components:
         PayRunPeriodStartDate:
           description: Period Start Date for the PayRun (YYYY-MM-DD)  
           type: string
-          format: date
           example: 2013-02-01T00:00:00Z
         PayRunPeriodEndDate:
           description: Period End Date for the PayRun (YYYY-MM-DD)  
           type: string
-          format: date
           example: 2013-02-07T00:00:00Z
         PayRunStatus:
           $ref: '#/components/schemas/PayRunStatus'
         PaymentDate:
           description: Payment Date for the PayRun (YYYY-MM-DD)  
           type: string
-          format: date
           example: 2013-02-07T00:00:00Z
         PayslipMessage:
           description: Payslip message for the PayRun
@@ -1390,7 +1371,6 @@ components:
         UpdatedDateUTC:
           description: Last modified timestamp
           type: string
-          format: date-time
           example: 2018-04-01T23:02:36
         Payslips:
           description: The payslips in the payrun
@@ -1479,7 +1459,6 @@ components:
         UpdatedDateUTC:
           description: Last modified timestamp
           type: string
-          format: date-time
           example: 2018-04-01T23:02:36
     Payslip:
       type: object
@@ -1690,7 +1669,6 @@ components:
               PaymentDateForThisPeriod:
                 description:   Superannuation payment date for the current period (YYYY-MM-DD)
                 type: string
-                format: date
                 example: 2019-10-01
               Percentage:
                 description: Superannuation percentage  
@@ -1728,7 +1706,6 @@ components:
         UpdatedDateUTC:
           description: Last modified timestamp
           type: string
-          format: date-time
           example: 2018-04-01T23:02:36
     Settings:
       type: object
@@ -1931,7 +1908,6 @@ components:
         UpdatedDateUTC:
           description: Last modified timestamp
           type: string
-          format: date-time
           example: 2018-04-01T23:02:36
     DeductionType:
       type: object
@@ -1965,8 +1941,8 @@ components:
         UpdatedDateUTC:
           description: Last modified timestamp
           type: string
-          format: date-time
           example: 2018-04-01T23:02:36
+          readOnly: true
     LeaveType:
       type: object
       properties:
@@ -2005,8 +1981,8 @@ components:
         UpdatedDateUTC:
           description: Last modified timestamp
           type: string
-          format: date-time
           example: 2018-04-01T23:02:36
+          readOnly: true
     ReimbursementType:
       type: object
       properties:
@@ -2027,7 +2003,6 @@ components:
         UpdatedDateUTC:
           description: Last modified timestamp
           type: string
-          format: date-time
           example: 2018-04-01T23:02:36
     HomeAddress:
       required:
@@ -2318,7 +2293,6 @@ components:
         OpeningBalanceDate:
           description: Opening Balance Date. (YYYY-MM-DD)
           type: string
-          format: date
           example: 
         Tax:
           description: Opening Balance tax
