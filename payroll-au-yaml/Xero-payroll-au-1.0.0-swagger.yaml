@@ -410,7 +410,7 @@ paths:
             schema:
               type: array
               items:
-                $ref: '#/components/schemas/PayrollCalendars'
+                $ref: '#/components/schemas/PayrollCalendar'
   /PayrollCalendars/{PayrollCalendarID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -436,14 +436,16 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PayrollCalendars'
+                type: array
+                items:
+                  $ref: '#/components/schemas/PayrollCalendar'
         '400':
           description: validation error for a bad request         
           content:
             application/json:    
               schema: 
                 $ref: '#/components/schemas/APIException'
-  /Payruns:
+  /PayRuns:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
@@ -451,8 +453,8 @@ paths:
         - OAuth2: [payroll.payruns.read]
       tags:
         - PayrollAU
-      operationId: getPayruns
-      summary: searches payruns
+      operationId: getPayRuns
+      summary: searches PayRuns
       parameters:
         - in: header
           name: If-Modified-Since
@@ -473,7 +475,7 @@ paths:
           example: EmailAddress%20DESC
         - in: query
           name: page
-          description: e.g. page=1 – Up to 100 payruns will be returned in a single API call
+          description: e.g. page=1 – Up to 100 PayRuns will be returned in a single API call
           schema:
             type: integer
       responses:
@@ -482,7 +484,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Payruns'
+                $ref: '#/components/schemas/PayRuns'
         '400':
           description: validation error for a bad request       
           content: 
@@ -494,15 +496,15 @@ paths:
         - OAuth2: [payroll.payruns]
       tags:
         - PayrollAU
-      summary: Use this method to create a payrun
-      operationId: createPayrun
+      summary: Use this method to create a PayRun
+      operationId: createPayRun
       responses:
         '200':
           description: A successful request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Payruns'
+                $ref: '#/components/schemas/PayRuns'
         '400':
           description: invalid input, object invalid - TODO
       requestBody:
@@ -512,8 +514,8 @@ paths:
             schema:
               type: array
               items:
-                $ref: '#/components/schemas/Payruns'
-  /Payruns/{PayrunID}:
+                $ref: '#/components/schemas/PayRun'
+  /PayRun/{PayRunID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
@@ -522,12 +524,12 @@ paths:
       tags:
         - PayrollAU
       summary: searches for an payrun by unique id
-      operationId: getPayrun
+      operationId: getPayRun
       parameters: 
-        - name: PayrunID
+        - name: PayRunID
           in: path
           required: true
-          description: Payrun id for single object
+          description: PayRun id for single object
           schema: 
             type: string
             format: uuid
@@ -538,20 +540,20 @@ paths:
           content:
              application/json:
               schema:
-                $ref: '#/components/schemas/Payruns'
+                $ref: '#/components/schemas/PayRuns'
     post:
       security:
         - OAuth2: [payroll.payruns]
       tags:
         - PayrollAU
-      summary: Update a Payrun 
-      operationId: updatePayrun
-      description:  Update properties on a single payrun
+      summary: Update a PayRun 
+      operationId: updatePayRun
+      description:  Update properties on a single PayRun
       parameters: 
-        - name: PayrunID
+        - name: PayRunID
           in: path
           required: true
-          description: Payrun id for single object
+          description: PayRun id for single object
           schema: 
             type: string
             format: uuid
@@ -562,14 +564,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Payruns'
+                $ref: '#/components/schemas/PayRuns'
       requestBody:
         content:
           application/json:
             schema:
               type: array
               items:
-                $ref: '#/components/schemas/Payruns'
+                $ref: '#/components/schemas/PayRun'
   /Payslip:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -622,7 +624,7 @@ paths:
           content:
              application/json:
               schema:
-                $ref: '#/components/schemas/Payslip'
+                $ref: '#/components/schemas/PayslipObject'
     post:
       security:
         - OAuth2: [payroll.payslip]
@@ -630,7 +632,7 @@ paths:
         - PayrollAU
       summary: Update a Payslip 
       operationId: updatePayslipByID
-      description:  Update lines on a single payslip
+      description:  Update lines on a single payslips
       parameters: 
         - name: PayslipID
           in: path
@@ -646,14 +648,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Payslip'
+                $ref: '#/components/schemas/PayslipObject'
       requestBody:
         content:
           application/json:
             schema:
-              type: array
-              items:
-                $ref: '#/components/schemas/Payslip'
+              $ref: '#/components/schemas/PayslipObject'
   /Settings:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -1330,24 +1330,26 @@ components:
           description: Last modified timestamp
           type: string
           example: 2018-04-01T23:02:36
-    Payruns:
+    PayRuns:
       type: object
       properties:
-        Payruns:
+        PayRuns:
           type: array
           items:
-            $ref: '#/components/schemas/Payrun'
-    Payrun:
+            $ref: '#/components/schemas/PayRun'
+    PayRun:
       type: object
       required:
         - PayrollCalendarID
       properties:
         PayrollCalendarID:
           description: Xero identifier for pay run  
+          type: string
           format: uuid
           example: bfac31bd-ea62-4fc8-a5e7-7965d9504b15
         PayRunID:
-          description: Xero identifier for pay run  
+          description: Xero identifier for pay run 
+          type: string 
           format: uuid
           example: bba1d10f-63b1-4692-b5c5-a99f869523a4
         PayRunPeriodStartDate:
@@ -1416,6 +1418,7 @@ components:
           example: 4729f087-8eec-49c1-8294-4d11a5a0a37c
         PayslipID:
           description: Xero identifier for the payslip  
+          type: string
           format: uuid
           example: f3c0874d-7cdd-459a-a95c-d90d51decc42
         FirstName:
@@ -1460,6 +1463,11 @@ components:
           description: Last modified timestamp
           type: string
           example: 2018-04-01T23:02:36
+    PayslipObject:
+      type: object
+      properties:
+        Payslip:
+          $ref: '#/components/schemas/Payslip'
     Payslip:
       type: object
       properties:
@@ -1512,201 +1520,152 @@ components:
         EarningsLines:
           type: array
           items:
-            type: object
-            properties:
-              EarningsRateID:
-                description: Xero identifier
-                type: string
-                format: uuid
-                example: e0eb6747-7c17-4075-b804-989f8d4e5d39
-              RatePerUnit:
-                description: Rate per unit of the EarningsLine.
-                type: number
-                format: float
-                example: 38.0000
-              NumberOfUnits:
-                description: Earnings rate number of units.
-                type: number
-                format: float
-                example: 2.5
-              FixedAmount:
-                description: Earnings rate amount. Only applicable if the EarningsRate RateType is Fixed
-                type: number
-                format: float
-                example: 2.5
+            $ref: '#/components/schemas/EarningsLine'
         LeaveEarningsLines:
           type: array
           items:
-            type: object
-            properties:
-              EarningsRateID:
-                description: Xero identifier
-                type: string
-                format: uuid
-                example: e0eb6747-7c17-4075-b804-989f8d4e5d39
-              RatePerUnit:
-                description: Rate per unit of the EarningsLine.
-                type: number
-                format: float
-                example: 38.0000
-              NumberOfUnits:
-                description: Earnings rate number of units.
-                type: number
-                format: float
-                example: 2.5
+            $ref: '#/components/schemas/LeaveEarningsLine'
         TimesheetEarningsLines:
           type: array
           items:
-            type: object
-            properties:
-              EarningsRateID:
-                description: Xero identifier
-                type: string
-                format: uuid
-                example: e0eb6747-7c17-4075-b804-989f8d4e5d39
-              RatePerUnit:
-                description: Rate per unit of the EarningsLine.
-                type: number
-                format: float
-                example: 38.0000
-              NumberOfUnits:
-                description: Earnings rate number of units.
-                type: number
-                format: float
-                example: 2.5
-        DeductionLine:
+            $ref: '#/components/schemas/TimesheetEarningsLine'
+        DeductionLines:
           type: array
           items:
-            type: object
-            properties:
-              DeductionTypeID:
-                description: Xero identifier for the deduction type
-                type: string
-                format: uuid
-                example: e0eb6747-7c17-4075-b804-989f8d4e5d39
-              CalculationType:
-                $ref: '#/components/schemas/DeductionTypeCalculationType'
-              Percentage:
-                description: The Percentage of the Deduction.
-                type: number
-                format: float
-                example: 2.500
-              NumberOfUnits:
-                description: Deduction number of units
-                type: number
-                format: float
-                example: 105.50
-        LeaveAccrualLine:
+            $ref: '#/components/schemas/DeductionLine'
+        LeaveAccrualLines:
           type: array
           items:
-            type: object
-            properties:
-              LeaveTypeID:
-                description: Xero identifier for the Leave type.
-                type: string
-                format: uuid
-                example: e0eb6747-7c17-4075-b804-989f8d4e5d39
-              NumberOfUnits:
-                description: Leave Accrual number of units
-                type: number
-                format: float
-                example: 105.50
-              AutoCalculate:
-                description: If you want to auto calculate leave.
-                type: boolean
-                example: true
-        ReimbursementLine:
+            $ref: '#/components/schemas/LeaveAccrualLine'
+        ReimbursementLines:
           type: array
           items:
-            type: object
-            properties:
-              ReimbursementTypeID:
-                description: Xero identifier for payroll reimbursement type.
-                type: string
-                format: uuid
-                example: e0eb6747-7c17-4075-b804-989f8d4e5d39
-              Description:
-                description: Reimbursement lines description (max length 50)
-                type: string
-                example: For the taxi
-                maxLength: 50
-              ExpenseAccount:
-                description: Reimbursement expense account. For posted pay run you should be able to see expense account code.
-                type: string
-                example: 420
-              Amount:
-                description: Reimbursement amount
-                type: number
-                format: float
-                example: 10.50
-        SuperannuationLine:
+            $ref: '#/components/schemas/ReimbursementLine'
+        SuperannuationLines:
           type: array
           items:
-            type: object
-            properties:
-              SuperMembershipID:
-                description:   Xero identifier for payroll super fund membership ID.
-                type: string
-                format: uuid
-                example: e0eb6747-7c17-4075-b804-989f8d4e5d39
-              ContributionType:
-                $ref: '#/components/schemas/SuperannuationContributionType'
-              CalculationType:
-                $ref: '#/components/schemas/SuperannuationCalculationType'
-              MinimumMonthlyEarnings:
-                description:  Superannuation minimum monthly earnings.
-                type: number
-                format: float
-                example: 100.50
-              ExpenseAccountCode:
-                description: Superannuation expense account code.
-                type: string
-                example: 450
-              LiabilityAccountCode:
-                description: Superannuation liability account code
-                type: string
-                example: 650
-              PaymentDateForThisPeriod:
-                description:   Superannuation payment date for the current period (YYYY-MM-DD)
-                type: string
-                example: 2019-10-01
-              Percentage:
-                description: Superannuation percentage  
-                type: number
-                format: float
-                example: 4.0000
-              Amount:
-                description: Superannuation amount
-                type: number
-                format: float
-                example: 10.50
-        TaxLine:
+            $ref: '#/components/schemas/SuperannuationLine'
+        TaxLines:
           type: array
           items:
-            type: object
-            properties:
-              Amount:
-                description: The tax line amount
-                type: number
-                format: float
-                example: 50.00
-              TaxTypeName:
-                description: Name of the tax type.
-                type: string
-                example: Manual Adjustment
-              Description:
-                description: Description of the tax line.
-                type: string
-              ManualTaxType:
-                $ref: '#/components/schemas/ManualTaxType'
-              LiabilityAccount:
-                description: The tax line liability account code. For posted pay run you should be able to see liability account code
-                type: string
-                example: 620
+            $ref: '#/components/schemas/TaxLine'
         UpdatedDateUTC:
           description: Last modified timestamp
           type: string
           example: 2018-04-01T23:02:36
+    LeaveAccrualLine:
+      type: object
+      properties:
+        LeaveTypeID:
+          description: Xero identifier for the Leave type.
+          type: string
+          format: uuid
+          example: e0eb6747-7c17-4075-b804-989f8d4e5d39
+        NumberOfUnits:
+          description: Leave Accrual number of units
+          type: number
+          format: float
+          example: 105.50
+        AutoCalculate:
+          description: If you want to auto calculate leave.
+          type: boolean
+          example: true
+    SuperannuationLine:
+      type: object
+      properties:
+        SuperMembershipID:
+          description:   Xero identifier for payroll super fund membership ID.
+          type: string
+          format: uuid
+          example: e0eb6747-7c17-4075-b804-989f8d4e5d39
+        ContributionType:
+          $ref: '#/components/schemas/SuperannuationContributionType'
+        CalculationType:
+          $ref: '#/components/schemas/SuperannuationCalculationType'
+        MinimumMonthlyEarnings:
+          description:  Superannuation minimum monthly earnings.
+          type: number
+          format: float
+          example: 100.50
+        ExpenseAccountCode:
+          description: Superannuation expense account code.
+          type: string
+          example: 450
+        LiabilityAccountCode:
+          description: Superannuation liability account code
+          type: string
+          example: 650
+        PaymentDateForThisPeriod:
+          description:   Superannuation payment date for the current period (YYYY-MM-DD)
+          type: string
+          example: 2019-10-01
+        Percentage:
+          description: Superannuation percentage  
+          type: number
+          format: float
+          example: 4.0000
+        Amount:
+          description: Superannuation amount
+          type: number
+          format: float
+          example: 10.50
+    TaxLine:
+      type: object
+      properties:
+        Amount:
+          description: The tax line amount
+          type: number
+          format: float
+          example: 50.00
+        TaxTypeName:
+          description: Name of the tax type.
+          type: string
+          example: Manual Adjustment
+        Description:
+          description: Description of the tax line.
+          type: string
+        ManualTaxType:
+          $ref: '#/components/schemas/ManualTaxType'
+        LiabilityAccount:
+          description: The tax line liability account code. For posted pay run you should be able to see liability account code
+          type: string
+          example: 620
+    LeaveEarningsLine:
+      type: object
+      properties:
+        EarningsRateID:
+          description: Xero identifier
+          type: string
+          format: uuid
+          example: e0eb6747-7c17-4075-b804-989f8d4e5d39
+        RatePerUnit:
+          description: Rate per unit of the EarningsLine.
+          type: number
+          format: float
+          example: 38.0000
+        NumberOfUnits:
+          description: Earnings rate number of units.
+          type: number
+          format: float
+          example: 2.5
+    TimesheetEarningsLine:
+      type: object
+      properties:
+        EarningsRateID:
+          description: Xero identifier
+          type: string
+          format: uuid
+          example: e0eb6747-7c17-4075-b804-989f8d4e5d39
+        RatePerUnit:
+          description: Rate per unit of the EarningsLine.
+          type: number
+          format: float
+          example: 38.0000
+        NumberOfUnits:
+          description: Earnings rate number of units.
+          type: number
+          format: float
+          example: 2.5
     Settings:
       type: object
       properties:
@@ -1746,7 +1705,6 @@ components:
         DaysInPayrollYear:
           description: Number of days in the Payroll year
           type: number
-          format: integer
           example: 365
     Superfunds:
       type: object
@@ -2180,6 +2138,16 @@ components:
           type: number
           format: float
           example: 38.0000
+        NumberOfUnits:
+          description: Earnings rate number of units.
+          type: number
+          format: float
+          example: 2.5
+        FixedAmount:
+          description: Earnings rate amount. Only applicable if the EarningsRate RateType is Fixed
+          type: number
+          format: float
+          example: 2.5
     DeductionLine:
       type: object
       required:
@@ -2195,6 +2163,16 @@ components:
           $ref: '#/components/schemas/DeductionTypeCalculationType'
         Amount:
           description: Deduction type amount
+          type: number
+          format: float
+          example: 10.00
+        Percentage:
+          description: The Percentage of the Deduction
+          type: number
+          format: float
+          example: 10.00
+        NumberOfUnits:
+          description: Deduction number of units
           type: number
           format: float
           example: 10.00
@@ -2237,7 +2215,7 @@ components:
       type: object
       description: The reimbursement type lines
       properties:
-        Employee:
+        ReimbursementLines:
           type: array
           items:
             $ref: '#/components/schemas/ReimbursementLine'
@@ -2254,6 +2232,15 @@ components:
           type: number
           format: float
           example: 10.00
+        Description:
+          description: Reimbursement lines description (max length 50)
+          type: string
+          example: For the taxi
+          maxLength: 50
+        ExpenseAccount:
+          description: Reimbursement expense account. For posted pay run you should be able to see expense account code.
+          type: string
+          example: 420
     LeaveLines:
       type: object
       description: The leave type lines
