@@ -709,6 +709,28 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuperFunds'
+              example: '{ 
+                          "Id":"c5f5e907-e562-463c-b15c-1d6185fbb779",
+                          "Status":"OK",
+                          "ProviderName":"java-sdk-oauth2-dev-02",
+                          "DateTimeUTC":"\/Date(1573570941142)\/",
+                          "SuperFunds":[ 
+                              { 
+                                "SuperFundID":"fde8e070-bf59-4e56-b1d7-c75a09474b8d",
+                                "Name":"Accumulate Plus (Commonwealth Bank Group Super)",
+                                "Type":"REGULATED",
+                                "USI":"OSF0001AU",
+                                "UpdatedDateUTC":"\/Date(1573510468000+0000)\/"
+                              },
+                              { 
+                                "SuperFundID":"69079de5-67ef-43bb-b5a5-3e7c2ccad7f0",
+                                "Name":"AMG Super",
+                                "Type":"REGULATED",
+                                "USI":"PTC0133AU",
+                                "UpdatedDateUTC":"\/Date(1573490487000+0000)\/"
+                              }
+                          ]
+                        }'
         '400':
           description: validation error for a bad request           
           content: 
@@ -729,6 +751,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuperFunds'
+              example: '{ 
+                          "Id":"6101dc74-d7b5-4d75-8aa6-ba02697167d9",
+                          "Status":"OK",
+                          "ProviderName":"java-sdk-oauth2-dev-02",
+                          "DateTimeUTC":"\/Date(1573583393024)\/",
+                          "SuperFunds":[ 
+                              { 
+                                "SuperFundID":"e02e44eb-2dba-4d5e-84da-8a0c3a4a4fef",
+                                "Name":"AMG Super",
+                                "Type":"REGULATED",
+                                "ABN":"30099320583",
+                                "USI":"PTC0133AU",
+                                "AccountNumber":"FB36350",
+                                "AccountName":"Foo38428",
+                                "UpdatedDateUTC":"\/Date(1573583393009+0000)\/"
+                              }
+                          ]
+                        }'
         '400':
           description: invalid input, object invalid - TODO
       requestBody:
@@ -739,6 +779,16 @@ paths:
               type: array
               items:
                 $ref: '#/components/schemas/SuperFund'
+            example: '[ 
+                        { 
+                            "usi":"PTC0133AU",
+                            "Type":"REGULATED",
+                            "Name":"Bar99359",
+                            "AccountNumber":"FB36350",
+                            "AccountName":"Foo38428",
+                            "USI":"PTC0133AU"
+                        }
+                      ]'
   /Superfunds/{SuperFundID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -765,6 +815,26 @@ paths:
              application/json:
               schema:
                 $ref: '#/components/schemas/SuperFunds'
+              example: '{ 
+                          "Id":"a023294b-3656-4202-8127-c3d77a794fa7",
+                          "Status":"OK",
+                          "ProviderName":"java-sdk-oauth2-dev-02",
+                          "DateTimeUTC":"\/Date(1573571518603)\/",
+                          "SuperFunds":[ 
+                              { 
+                                "SuperFundID":"540f4327-dda2-4b36-9c2f-2fe1c93a72b5",
+                                "Name":"My Self Managed one",
+                                "Type":"SMSF",
+                                "ABN":"53004085616",
+                                "EmployerNumber":"9876543",
+                                "BSB":"324324",
+                                "AccountNumber":"234234234",
+                                "AccountName":"My Checking",
+                                "UpdatedDateUTC":"\/Date(1573571429000+0000)\/",
+                                "ElectronicServiceAddress":"FG48739"
+                              }
+                          ]
+                        }'
     post:
       security:
         - OAuth2: [payroll.superfunds]
@@ -789,6 +859,22 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuperFunds'
+              example: '{ 
+                          "Id":"5805d551-10ba-43f5-ac08-9e482d35cdcb",
+                          "Status":"OK",
+                          "ProviderName":"java-sdk-oauth2-dev-02",
+                          "DateTimeUTC":"\/Date(1573570941547)\/",
+                          "SuperFunds":[ 
+                              { 
+                                "SuperFundID":"fde8e070-bf59-4e56-b1d7-c75a09474b8d",
+                                "Name":"Accumulate Plus (Commonwealth Bank Group Super)",
+                                "Type":"REGULATED",
+                                "ABN":"24248426878",
+                                "USI":"OSF0001AU",
+                                "UpdatedDateUTC":"\/Date(1573510468000+0000)\/"
+                              }
+                          ]
+                        }'
       requestBody:
         content:
           application/json:
@@ -796,6 +882,13 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/SuperFund'
+              example: '
+                        [ 
+                          { 
+                              "Type":"REGULATED",
+                              "Name":"Nice23534"
+                          }
+                        ]'
   /SuperfundProducts:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -826,6 +919,19 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuperFundProducts'
+              example: '{ 
+                          "Id":"d1c101ee-2fd8-47a3-ad3d-bbc64139181c",
+                          "Status":"OK",
+                          "ProviderName":"java-sdk-oauth2-dev-02",
+                          "DateTimeUTC":"\/Date(1573570720295)\/",
+                          "SuperFundProducts":[ 
+                              { 
+                                "USI":"OSF0001AU",
+                                "ABN":"24248426878",
+                                "ProductName":"Accumulate Plus (Commonwealth Bank Group Super)"
+                              }
+                          ]
+                        }'
         '400':
           description: validation error for a bad request           
           content: 
