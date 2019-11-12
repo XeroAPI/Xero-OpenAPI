@@ -436,9 +436,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/PayrollCalendar'
+                $ref: '#/components/schemas/PayrollCalendars'
         '400':
           description: validation error for a bad request         
           content:
@@ -670,7 +668,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Settings'
+                $ref: '#/components/schemas/SettingsObject'
   /Superfunds:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -679,8 +677,8 @@ paths:
         - OAuth2: [payroll.superfunds.read]
       tags:
         - PayrollAU
-      operationId: getSuperfunds
-      summary: searches Superfunds
+      operationId: getSuperFunds
+      summary: searches SuperFunds
       parameters:
         - in: header
           name: If-Modified-Since
@@ -701,7 +699,7 @@ paths:
           example: EmailAddress%20DESC
         - in: query
           name: page
-          description: e.g. page=1 – Up to 100 Superfunds will be returned in a single API call
+          description: e.g. page=1 – Up to 100 SuperFunds will be returned in a single API call
           schema:
             type: integer
       responses:
@@ -710,7 +708,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Superfunds'
+                $ref: '#/components/schemas/SuperFunds'
         '400':
           description: validation error for a bad request           
           content: 
@@ -730,7 +728,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Superfunds'
+                $ref: '#/components/schemas/SuperFunds'
         '400':
           description: invalid input, object invalid - TODO
       requestBody:
@@ -740,8 +738,8 @@ paths:
             schema:
               type: array
               items:
-                $ref: '#/components/schemas/Superfunds'
-  /Superfunds/{SuperfundID}:
+                $ref: '#/components/schemas/SuperFund'
+  /Superfunds/{SuperFundID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
@@ -752,7 +750,7 @@ paths:
       summary: searches for an Superfund by unique id
       operationId: getSuperfund
       parameters: 
-        - name: SuperfundID
+        - name: SuperFundID
           in: path
           required: true
           description: Superfund id for single object
@@ -766,7 +764,7 @@ paths:
           content:
              application/json:
               schema:
-                $ref: '#/components/schemas/Superfunds'
+                $ref: '#/components/schemas/SuperFunds'
     post:
       security:
         - OAuth2: [payroll.superfunds]
@@ -776,7 +774,7 @@ paths:
       operationId: updateSuperfund
       description:  Update properties on a single Superfund
       parameters: 
-        - name: SuperfundID
+        - name: SuperFundID
           in: path
           required: true
           description: Superfund id for single object
@@ -790,12 +788,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Superfunds'
+                $ref: '#/components/schemas/SuperFunds'
       requestBody:
         content:
           application/json:
               schema:
-                $ref: '#/components/schemas/Superfunds'
+                type: array
+                items:
+                  $ref: '#/components/schemas/SuperFund'
   /SuperfundProducts:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -804,8 +804,8 @@ paths:
         - OAuth2: [payroll.superfundproducts.read]
       tags:
         - PayrollAU
-      operationId: getSuperfundProducts
-      summary: searches SuperfundProducts
+      operationId: getSuperFundProducts
+      summary: searches SuperFundProducts
       parameters:
         - in: query
           name: ABN
@@ -818,14 +818,14 @@ paths:
           description: The USI of the Regulated SuperFund
           schema:
             type: string
-          example: 40022701955001
+          example: OSF0001AU
       responses:
         '200':
           description: search results matching criteria
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SuperfundProducts'
+                $ref: '#/components/schemas/SuperFundProducts'
         '400':
           description: validation error for a bad request           
           content: 
@@ -872,6 +872,62 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Timesheets'
+              example: '{ 
+                        "Id":"581271e7-d02d-4966-ae6c-2a4fb9c48e5a",
+                        "Status":"OK",
+                        "ProviderName":"java-sdk-oauth2-dev-02",
+                        "DateTimeUTC":"\/Date(1573516183708)\/",
+                        "Timesheets":[ 
+                            { 
+                              "TimesheetID":"863bbd31-0447-4419-80d5-d733d5e723ba",
+                              "EmployeeID":"b34e89ff-770d-4099-b7e5-f968767118bc",
+                              "StartDate":"\/Date(1547769600000)\/",
+                              "EndDate":"\/Date(1548288000000)\/",
+                              "Status":"APPROVED",
+                              "Hours":24.0000,
+                              "TimesheetLines":[ 
+                                  { 
+                                    "EarningsRateID":"ab874dfb-ab09-4c91-954e-43acf6fc23b4",
+                                    "NumberOfUnits":[ 
+                                        4.00,
+                                        4.00,
+                                        4.00,
+                                        4.00,
+                                        4.00,
+                                        4.00,
+                                        0.00
+                                    ],
+                                    "UpdatedDateUTC":"\/Date(1572915827000+0000)\/"
+                                  }
+                              ],
+                              "UpdatedDateUTC":"\/Date(1572915827000+0000)\/"
+                            },
+                            { 
+                              "TimesheetID":"544eb3a7-0d63-495b-90ae-f6aa3c26c2c8",
+                              "EmployeeID":"7aa04979-ded5-44d9-b09a-793749425844",
+                              "StartDate":"\/Date(1572566400000)\/",
+                              "EndDate":"\/Date(1573084800000)\/",
+                              "Status":"APPROVED",
+                              "Hours":10.0000,
+                              "TimesheetLines":[ 
+                                  { 
+                                    "EarningsRateID":"ab874dfb-ab09-4c91-954e-43acf6fc23b4",
+                                    "NumberOfUnits":[ 
+                                        2.00,
+                                        2.00,
+                                        2.00,
+                                        2.00,
+                                        2.00,
+                                        0.00,
+                                        0.00
+                                    ],
+                                    "UpdatedDateUTC":"\/Date(1572916045000+0000)\/"
+                                  }
+                              ],
+                              "UpdatedDateUTC":"\/Date(1572916045000+0000)\/"
+                            }
+                        ]
+                      }'
         '400':
           description: validation error for a bad request           
           content: 
@@ -892,6 +948,39 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Timesheets'
+              example: '{ 
+                          "Id":"fa8416a1-e02b-4b6f-bad5-3c5a2dbba76e",
+                          "Status":"OK",
+                          "ProviderName":"java-sdk-oauth2-dev-02",
+                          "DateTimeUTC":"\/Date(1573516185143)\/",
+                          "Timesheets":[ 
+                              { 
+                                "TimesheetID":"a7eb0a79-8511-4ee7-b473-3a25f28abcb9",
+                                "EmployeeID":"b34e89ff-770d-4099-b7e5-f968767118bc",
+                                "StartDate":"\/Date(1573171200000+0000)\/",
+                                "EndDate":"\/Date(1573689600000+0000)\/",
+                                "Status":"DRAFT",
+                                "Hours":22.0,
+                                "TimesheetLines":[ 
+                                    { 
+                                      "EarningsRateID":"ab874dfb-ab09-4c91-954e-43acf6fc23b4",
+                                      "TrackingItemID":"af5e9ce2-2349-4136-be99-3561b189f473",
+                                      "NumberOfUnits":[ 
+                                          2.0,
+                                          10.0,
+                                          0.0,
+                                          0.0,
+                                          5.0,
+                                          0.0,
+                                          5.0
+                                      ],
+                                      "UpdatedDateUTC":"\/Date(1573516185127+0000)\/"
+                                    }
+                                ],
+                                "UpdatedDateUTC":"\/Date(1573516185127+0000)\/"
+                              }
+                          ]
+                        }'
         '400':
           description: invalid input, object invalid - TODO
       requestBody:
@@ -899,7 +988,32 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Timesheets'
+              type: array
+              items:
+                $ref: '#/components/schemas/Timesheet'
+            example: '[ 
+                        { 
+                            "EmployeeID":"b34e89ff-770d-4099-b7e5-f968767118bc",
+                            "StartDate":"/Date(1573171200000+0000)/",
+                            "EndDate":"/Date(1573689600000+0000)/",
+                            "Status":"DRAFT",
+                            "TimesheetLines":[ 
+                              { 
+                                  "EarningsRateID":"ab874dfb-ab09-4c91-954e-43acf6fc23b4",
+                                  "TrackingItemID":"af5e9ce2-2349-4136-be99-3561b189f473",
+                                  "NumberOfUnits":[ 
+                                    2.0,
+                                    10.0,
+                                    0.0,
+                                    0.0,
+                                    5.0,
+                                    0.0,
+                                    5.0
+                                  ]
+                              }
+                            ]
+                        }
+                      ]'
   /Timesheets/{TimesheetID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -925,7 +1039,37 @@ paths:
           content:
              application/json:
               schema:
-                $ref: '#/components/schemas/Timesheets'
+                $ref: '#/components/schemas/TimesheetObject'
+              example: '{ 
+                          "Id":"34f58840-6f35-442a-9da7-a487265a7767",
+                          "Status":"OK",
+                          "ProviderName":"java-sdk-oauth2-dev-02",
+                          "DateTimeUTC":"\/Date(1573516184161)\/",
+                          "Timesheet":{ 
+                              "TimesheetID":"df954ca3-3a70-47e9-9a3e-80711e7c5f90",
+                              "EmployeeID":"b34e89ff-770d-4099-b7e5-f968767118bc",
+                              "StartDate":"\/Date(1547164800000+0000)\/",
+                              "EndDate":"\/Date(1547683200000+0000)\/",
+                              "Status":"APPROVED",
+                              "Hours":15.0000,
+                              "TimesheetLines":[ 
+                                { 
+                                    "EarningsRateID":"ab874dfb-ab09-4c91-954e-43acf6fc23b4",
+                                    "NumberOfUnits":[ 
+                                      3.00,
+                                      3.00,
+                                      3.00,
+                                      3.00,
+                                      0.00,
+                                      3.00,
+                                      0.00
+                                    ],
+                                    "UpdatedDateUTC":"\/Date(1572915797000+0000)\/"
+                                }
+                              ],
+                              "UpdatedDateUTC":"\/Date(1572915797000+0000)\/"
+                          }
+                        }'
     post:
       security:
         - OAuth2: [payroll.timesheets]
@@ -950,11 +1094,72 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Timesheets'
+              example: '{ 
+                          "Id":"42f97160-485a-400d-93e2-275f5b199694",
+                          "Status":"OK",
+                          "ProviderName":"3f93110a-df13-49c7-b82f-a069813df188",
+                          "DateTimeUTC":"\/Date(1573516185258)\/",
+                          "Timesheets":[ 
+                              { 
+                                "TimesheetID":"a7eb0a79-8511-4ee7-b473-3a25f28abcb9",
+                                "EmployeeID":"b34e89ff-770d-4099-b7e5-f968767118bc",
+                                "StartDate":"\/Date(1573171200000+0000)\/",
+                                "EndDate":"\/Date(1573689600000+0000)\/",
+                                "Status":"APPROVED",
+                                "Hours":22.0,
+                                "TimesheetLines":[ 
+                                    { 
+                                      "EarningsRateID":"ab874dfb-ab09-4c91-954e-43acf6fc23b4",
+                                      "TrackingItemID":"af5e9ce2-2349-4136-be99-3561b189f473",
+                                      "NumberOfUnits":[ 
+                                          2.0,
+                                          10.0,
+                                          0.0,
+                                          0.0,
+                                          5.0,
+                                          0.0,
+                                          5.0
+                                      ],
+                                      "UpdatedDateUTC":"\/Date(1573516185227+0000)\/"
+                                    }
+                                ],
+                                "UpdatedDateUTC":"\/Date(1573516185227+0000)\/"
+                              }
+                          ]
+                        }'
       requestBody:
         content:
           application/json:
-              schema:
-                $ref: '#/components/schemas/Timesheets'
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Timesheet'
+            example: '[ 
+                        { 
+                            "EmployeeID":"b34e89ff-770d-4099-b7e5-f968767118bc",
+                            "StartDate":"/Date(1573171200000+0000)/",
+                            "EndDate":"/Date(1573689600000+0000)/",
+                            "Status":"APPROVED",
+                            "Hours":22.0,
+                            "TimesheetID":"a7eb0a79-8511-4ee7-b473-3a25f28abcb9",
+                            "TimesheetLines":[ 
+                              { 
+                                  "EarningsRateID":"ab874dfb-ab09-4c91-954e-43acf6fc23b4",
+                                  "TrackingItemID":"af5e9ce2-2349-4136-be99-3561b189f473",
+                                  "NumberOfUnits":[ 
+                                    2.0,
+                                    10.0,
+                                    0.0,
+                                    0.0,
+                                    5.0,
+                                    0.0,
+                                    5.0
+                                  ],
+                                  "UpdatedDateUTC":"/Date(1573516185127+0000)/"
+                              }
+                            ]
+                        }
+                      ]'
 components:
   securitySchemes:
     OAuth2:
@@ -1265,10 +1470,15 @@ components:
     Timesheets:
       type: object
       properties:
-        Employees:
+        Timesheets:
           type: array
           items:
             $ref: '#/components/schemas/Timesheet'
+    TimesheetObject:
+      type: object
+      properties:
+        Timesheet:
+          $ref: '#/components/schemas/Timesheet'
     Timesheet:
       type: object
       required:
@@ -1278,6 +1488,7 @@ components:
       properties:
         EmployeeID:
           description: The Xero identifier for an employee
+          type: string
           format: uuid
           example: 72a0d0c2-0cf8-4f0b-ade1-33231f47b41b
         StartDate:
@@ -1297,6 +1508,7 @@ components:
           example: 31.0000
         TimesheetID:
           description: The Xero identifier for a Payroll Timesheet
+          type: string
           format: uuid
           example: 049765fc-4506-48fb-bf88-3578dec0ec47
         TimesheetLines:
@@ -1666,6 +1878,11 @@ components:
           type: number
           format: float
           example: 2.5
+    SettingsObject:
+      type: object
+      properties:
+        Settings:
+          $ref: '#/components/schemas/Settings'
     Settings:
       type: object
       properties:
@@ -1706,20 +1923,21 @@ components:
           description: Number of days in the Payroll year
           type: number
           example: 365
-    Superfunds:
+    SuperFunds:
       type: object
       properties:
-        Superfunds:
+        SuperFunds:
           type: array
           items:
-            $ref: '#/components/schemas/Superfund'
-    Superfund:
+            $ref: '#/components/schemas/SuperFund'
+    SuperFund:
       type: object
       required:
         - Type
       properties:
         SuperFundID:
           description: Xero identifier for a super fund  
+          type: string
           format: uuid
           example: bfac31bd-ea62-4fc8-a5e7-7965d9504b15
         Type:
@@ -1740,7 +1958,7 @@ components:
           description: The account number for the self managed super fund.
           type: string
           example: 234234234  
-        AccountNme:
+        AccountName:
           description: The account name for the self managed super fund.
           type: string
           example: Money account
@@ -1760,14 +1978,14 @@ components:
           description: The USI of the Regulated SuperFund
           type: string
           example: 40022701955001
-    SuperfundProducts:
+    SuperFundProducts:
       type: object
       properties:
-        SuperfundProducts:
+        SuperFundProducts:
           type: array
           items:
-            $ref: '#/components/schemas/SuperfundProduct'
-    SuperfundProduct:
+            $ref: '#/components/schemas/SuperFundProduct'
+    SuperFundProduct:
       type: object
       properties:
         ABN:
