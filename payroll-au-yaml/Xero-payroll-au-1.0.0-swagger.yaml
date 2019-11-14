@@ -872,7 +872,7 @@ paths:
       operationId: createPayItem
       responses:
         '200':
-          description: A successful request
+          description: A successful request - currently returns empty array for JSON 
           content:
             application/json:
               schema:
@@ -887,6 +887,34 @@ paths:
               type: array
               items:
                 $ref: '#/components/schemas/PayItem'
+            example: '[
+                        {
+                          "EarningsRates": [
+                            {
+                              "Name": "MyRate",
+                              "AccountCode": "400",
+                              "TypeOfUnits": "4.00",
+                              "IsExemptFromTax": true,
+                              "IsExemptFromSuper": true,
+                              "IsReportableAsW1": false,
+                              "EarningsType": "FIXED",
+                              "EarningsRateID": "ab874dfb-ab09-4c91-954e-43acf6fc23b4",
+                              "RateType": "FIXEDAMOUNT",
+                              "RatePerUnit": "10.0",
+                              "Multiplier": 1.5,
+                              "AccrueLeave": 1,
+                              "Amount": 5,
+                              "EmploymentTerminationPaymentType": "O"
+                            }
+                          ],
+                          "DeductionTypes": [
+                            {
+                              "Name": "My Deduction",
+                              "AccountCode": "400"
+                            }
+                          ]
+                        }
+                      ]'
   /PayrollCalendars:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -1174,7 +1202,7 @@ paths:
                           "PaymentDate": "/Date(1573171200000+0000)/"
                         }
                       ]'
-  /PayRun/{PayRunID}:
+  /PayRuns/{PayRunID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
@@ -1200,6 +1228,58 @@ paths:
              application/json:
               schema:
                 $ref: '#/components/schemas/PayRuns'
+              example: '{
+                          "Id": "d31f4401-875e-4a0c-9952-d5dd18519150",
+                          "Status": "OK",
+                          "ProviderName": "java-sdk-oauth2-dev-02",
+                          "DateTimeUTC": "/Date(1573692531699)/",
+                          "PayRuns": [
+                            {
+                              "PayRunID": "21d6317b-5319-4b3d-8d78-48904db6b665",
+                              "PayrollCalendarID": "78bb86b9-e1ea-47ac-b75d-f087a81931de",
+                              "PayRunPeriodStartDate": "/Date(1572566400000+0000)/",
+                              "PayRunPeriodEndDate": "/Date(1573084800000+0000)/",
+                              "PaymentDate": "/Date(1573171200000+0000)/",
+                              "Wages": 205.4,
+                              "Deductions": 37,
+                              "Tax": 0,
+                              "Super": 0,
+                              "Reimbursement": 77,
+                              "NetPay": 168.4,
+                              "PayRunStatus": "POSTED",
+                              "UpdatedDateUTC": "/Date(1573692155000+0000)/",
+                              "Payslips": [
+                                {
+                                  "EmployeeID": "cdfb8371-0b21-4b8a-8903-1024df6c391e",
+                                  "PayslipID": "c81e8bcc-56b0-4740-b46b-767753a6ee45",
+                                  "FirstName": "Albus",
+                                  "LastName": "Dumbledore",
+                                  "EmployeeGroup": "foo",
+                                  "Wages": 5.4,
+                                  "Deductions": 4,
+                                  "Tax": 0,
+                                  "Super": 0,
+                                  "Reimbursements": 55,
+                                  "NetPay": 1.4,
+                                  "UpdatedDateUTC": "/Date(1573692155000+0000)/"
+                                },
+                                {
+                                  "EmployeeID": "7aa04979-ded5-44d9-b09a-793749425844",
+                                  "PayslipID": "76b9cb4e-d024-47cf-b09a-4c9cea2870f1",
+                                  "FirstName": "John",
+                                  "LastName": "Smith",
+                                  "Wages": 200,
+                                  "Deductions": 33,
+                                  "Tax": 0,
+                                  "Super": 0,
+                                  "Reimbursements": 22,
+                                  "NetPay": 167,
+                                  "UpdatedDateUTC": "/Date(1573692155000+0000)/"
+                                }
+                              ]
+                            }
+                          ]
+                        }'
     post:
       security:
         - OAuth2: [payroll.payruns]
@@ -1224,6 +1304,23 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PayRuns'
+              example: '{
+                          "Id": "7ad056f9-7dbd-4b66-bf11-1bb86d5aec92",
+                          "Status": "OK",
+                          "ProviderName": "java-sdk-oauth2-dev-02",
+                          "DateTimeUTC": "/Date(1573693093680)/",
+                          "PayRuns": [
+                            {
+                              "PayRunID": "f8fcda54-643f-4406-902a-d7b020d0a036",
+                              "PayrollCalendarID": "78bb86b9-e1ea-47ac-b75d-f087a81931de",
+                              "PayRunPeriodStartDate": "/Date(1572566400000+0000)/",
+                              "PayRunPeriodEndDate": "/Date(1573084800000+0000)/",
+                              "PaymentDate": "/Date(1573171200000+0000)/",
+                              "PayRunStatus": "POSTED",
+                              "UpdatedDateUTC": "/Date(1573693093000+0000)/"
+                            }
+                          ]
+                        }'
       requestBody:
         content:
           application/json:
@@ -1231,33 +1328,11 @@ paths:
               type: array
               items:
                 $ref: '#/components/schemas/PayRun'
-  /Payslip:
-    parameters:
-      - $ref: '#/components/parameters/requiredHeader'
-    post:
-      security:
-        - OAuth2: [payroll.payslip]
-      tags:
-        - PayrollAU
-      summary: Use this add, update or delete one or more payslip line items
-      operationId: updatePayslip
-      responses:
-        '200':
-          description: A successful request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Payslip'
-        '400':
-          description: invalid input, object invalid - TODO
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: array
-              items:
-                $ref: '#/components/schemas/Payslip'
+              example: '[
+                          {
+                            "PayRunStatus": "POSTED"
+                          }
+                        ]'
   /Payslip/{PayslipID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -1284,6 +1359,83 @@ paths:
              application/json:
               schema:
                 $ref: '#/components/schemas/PayslipObject'
+              example: '{
+                          "Id": "cd64816e-af39-4708-879c-4b6c8061abb2",
+                          "Status": "OK",
+                          "ProviderName": "java-sdk-oauth2-dev-02",
+                          "DateTimeUTC": "/Date(1573692677622)/",
+                          "Payslip": {
+                            "EmployeeID": "cdfb8371-0b21-4b8a-8903-1024df6c391e",
+                            "PayslipID": "c81e8bcc-56b0-4740-b46b-767753a6ee45",
+                            "FirstName": "Albus",
+                            "LastName": "Dumbledore",
+                            "Tax": 0,
+                            "NetPay": 1.4,
+                            "UpdatedDateUTC": "/Date(1573692155000+0000)/",
+                            "EarningsLines": [
+                              {
+                                "EarningsRateID": "ab874dfb-ab09-4c91-954e-43acf6fc23b4",
+                                "RatePerUnit": 3,
+                                "NumberOfUnits": 1.8
+                              }
+                            ],
+                            "LeaveEarningsLines": [
+                              {
+                                "EarningsRateID": "ab874dfb-ab09-4c91-954e-43acf6fc23b4",
+                                "RatePerUnit": 0,
+                                "NumberOfUnits": 0.6
+                              },
+                              {
+                                "EarningsRateID": "ab874dfb-ab09-4c91-954e-43acf6fc23b4",
+                                "RatePerUnit": 0,
+                                "NumberOfUnits": 0.6
+                              }
+                            ],
+                            "TimesheetEarningsLines": [],
+                            "DeductionLines": [
+                              {
+                                "Amount": 4,
+                                "CalculationType": "FIXEDAMOUNT",
+                                "DeductionTypeID": "ed05ea82-e40a-4eb6-9c2e-4b3c03e7e938"
+                              }
+                            ],
+                            "LeaveAccrualLines": [
+                              {
+                                "LeaveTypeID": "184ea8f7-d143-46dd-bef3-0c60e1aa6fca",
+                                "NumberOfUnits": 0.0769,
+                                "AutoCalculate": true
+                              }
+                            ],
+                            "ReimbursementLines": [
+                              {
+                                "ReimbursementTypeID": "aa8cfa40-d872-4be0-8a94-bb7f00962f74",
+                                "Description": "boo",
+                                "ExpenseAccount": "850",
+                                "Amount": 55
+                              }
+                            ],
+                            "SuperannuationLines": [
+                              {
+                                "ContributionType": "SGC",
+                                "CalculationType": "STATUTORY",
+                                "MinimumMonthlyEarnings": 450,
+                                "ExpenseAccountCode": "478",
+                                "LiabilityAccountCode": "826",
+                                "PaymentDateForThisPeriod": "/Date(1580169600000+0000)/",
+                                "Amount": 0
+                              }
+                            ],
+                            "TaxLines": [
+                              {
+                                "PayslipTaxLineID": "c129696e-36ef-4677-a54c-96095787ca20",
+                                "TaxTypeName": "PAYG Tax",
+                                "Description": "No tax file number (Australian resident)",
+                                "Amount": 0,
+                                "LiabilityAccount": "825"
+                              }
+                            ]
+                          }
+                        }'
     post:
       security:
         - OAuth2: [payroll.payslip]
@@ -1303,7 +1455,7 @@ paths:
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
       responses:
         '200':
-          description: A successful request
+          description: A successful request - currently returns empty array for JSON
           content:
             application/json:
               schema:
@@ -1313,6 +1465,18 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/PayslipObject'
+            example: '{
+                        "Payslip": {
+                          "EmployeeID": "cdfb8371-0b21-4b8a-8903-1024df6c391e",
+                          "DeductionLines": [
+                            {
+                              "DeductionTypeID": "727af5e8-b347-4ae7-85fc-9b82266d0aec",
+                              "CalculationType": "FIXEDAMOUNT",
+                              "NumberOfUnits": 10
+                            }
+                          ]
+                        }
+                      }'
   /Settings:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -2564,7 +2728,7 @@ components:
         TimesheetEarningsLines:
           type: array
           items:
-            $ref: '#/components/schemas/TimesheetEarningsLine'
+            $ref: '#/components/schemas/EarningsLine'
         DeductionLines:
           type: array
           items:
@@ -2667,24 +2831,6 @@ components:
           type: string
           example: 620
     LeaveEarningsLine:
-      type: object
-      properties:
-        EarningsRateID:
-          description: Xero identifier
-          type: string
-          format: uuid
-          example: e0eb6747-7c17-4075-b804-989f8d4e5d39
-        RatePerUnit:
-          description: Rate per unit of the EarningsLine.
-          type: number
-          format: float
-          example: 38.0000
-        NumberOfUnits:
-          description: Earnings rate number of units.
-          type: number
-          format: float
-          example: 2.5
-    TimesheetEarningsLine:
       type: object
       properties:
         EarningsRateID:
