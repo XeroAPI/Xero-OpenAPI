@@ -309,7 +309,7 @@ paths:
                               "SuperMemberships": [],
                               "LeaveBalances": [
                                 {
-                                  "LeaveName": "Carer's Leave (unpaid)",
+                                  "LeaveName": "Carer Leave (unpaid)",
                                   "LeaveTypeID": "184ea8f7-d143-46dd-bef3-0c60e1aa6fca",
                                   "NumberOfUnits": 10,
                                   "TypeOfUnits": "Hours"
@@ -428,6 +428,78 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LeaveApplications'
+              example: '{
+                          "Id": "5d31168a-5024-401d-9531-6902064b3fcb",
+                          "Status": "OK",
+                          "ProviderName": "java-sdk-oauth2-dev-02",
+                          "DateTimeUTC": "/Date(1573679791199)/",
+                          "LeaveApplications": [
+                            {
+                              "LeaveApplicationID": "1d4cd583-0107-4386-936b-672eb3d1f624",
+                              "EmployeeID": "cdfb8371-0b21-4b8a-8903-1024df6c391e",
+                              "LeaveTypeID": "184ea8f7-d143-46dd-bef3-0c60e1aa6fca",
+                              "LeavePeriods": [
+                                {
+                                  "PayPeriodStartDate": "/Date(1573171200000+0000)/",
+                                  "PayPeriodEndDate": "/Date(1573689600000+0000)/",
+                                  "LeavePeriodStatus": "SCHEDULED",
+                                  "NumberOfUnits": 0
+                                }
+                              ],
+                              "Title": "vacation",
+                              "StartDate": "/Date(1573516800000+0000)/",
+                              "EndDate": "/Date(1573516800000+0000)/",
+                              "UpdatedDateUTC": "/Date(1573623008000+0000)/"
+                            },
+                            {
+                              "LeaveApplicationID": "62b90465-66e9-4c3a-8151-de1e6335554d",
+                              "EmployeeID": "b34e89ff-770d-4099-b7e5-f968767118bc",
+                              "LeaveTypeID": "184ea8f7-d143-46dd-bef3-0c60e1aa6fca",
+                              "LeavePeriods": [
+                                {
+                                  "PayPeriodStartDate": "/Date(1571961600000+0000)/",
+                                  "PayPeriodEndDate": "/Date(1572480000000+0000)/",
+                                  "LeavePeriodStatus": "SCHEDULED",
+                                  "NumberOfUnits": 0
+                                },
+                                {
+                                  "PayPeriodStartDate": "/Date(1572566400000+0000)/",
+                                  "PayPeriodEndDate": "/Date(1573084800000+0000)/",
+                                  "LeavePeriodStatus": "SCHEDULED",
+                                  "NumberOfUnits": 0
+                                }
+                              ],
+                              "Title": "Yep Carer Leave",
+                              "Description": "My updated Description",
+                              "StartDate": "/Date(1572559200000+0000)/",
+                              "EndDate": "/Date(1572645600000+0000)/",
+                              "UpdatedDateUTC": "/Date(1573447344000+0000)/"
+                            },
+                            {
+                              "LeaveApplicationID": "e8bd9eeb-18c9-4475-9c81-b298f9aa26c0",
+                              "EmployeeID": "b34e89ff-770d-4099-b7e5-f968767118bc",
+                              "LeaveTypeID": "184ea8f7-d143-46dd-bef3-0c60e1aa6fca",
+                              "LeavePeriods": [
+                                {
+                                  "PayPeriodStartDate": "/Date(1571961600000+0000)/",
+                                  "PayPeriodEndDate": "/Date(1572480000000+0000)/",
+                                  "LeavePeriodStatus": "SCHEDULED",
+                                  "NumberOfUnits": 0
+                                },
+                                {
+                                  "PayPeriodStartDate": "/Date(1572566400000+0000)/",
+                                  "PayPeriodEndDate": "/Date(1573084800000+0000)/",
+                                  "LeavePeriodStatus": "SCHEDULED",
+                                  "NumberOfUnits": 0
+                                }
+                              ],
+                              "Title": "Hello World",
+                              "StartDate": "/Date(1572559200000+0000)/",
+                              "EndDate": "/Date(1572645600000+0000)/",
+                              "UpdatedDateUTC": "/Date(1573447343000+0000)/"
+                            }
+                          ]
+                        }'
         '400':
           description: validation error for a bad request         
           content: 
@@ -448,6 +520,31 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LeaveApplications'
+              example: '{
+                          "Id": "7bbc3541-befd-482e-a6a3-a8cf7a93461e",
+                          "Status": "OK",
+                          "ProviderName": "java-sdk-oauth2-dev-02",
+                          "DateTimeUTC": "/Date(1573679791917)/",
+                          "LeaveApplications": [
+                            {
+                              "LeaveApplicationID": "5f7097e4-51f2-46cc-921b-45bc73ea7831",
+                              "EmployeeID": "cdfb8371-0b21-4b8a-8903-1024df6c391e",
+                              "LeaveTypeID": "184ea8f7-d143-46dd-bef3-0c60e1aa6fca",
+                              "LeavePeriods": [
+                                {
+                                  "PayPeriodStartDate": "/Date(1572566400000+0000)/",
+                                  "PayPeriodEndDate": "/Date(1573084800000+0000)/",
+                                  "LeavePeriodStatus": "SCHEDULED",
+                                  "NumberOfUnits": 0.6
+                                }
+                              ],
+                              "Title": "Hello World",
+                              "StartDate": "/Date(1572559200000+0000)/",
+                              "EndDate": "/Date(1572645600000+0000)/",
+                              "UpdatedDateUTC": "/Date(1573679791897+0000)/"
+                            }
+                          ]
+                        }'
         '400':
           description: invalid input, object invalid - TODO
       requestBody:
@@ -458,6 +555,15 @@ paths:
               type: array
               items:
                 $ref: '#/components/schemas/LeaveApplication'
+            example: '[
+                        {
+                          "EmployeeID": "cdfb8371-0b21-4b8a-8903-1024df6c391e",
+                          "LeaveTypeID": "184ea8f7-d143-46dd-bef3-0c60e1aa6fca",
+                          "Title": "Hello World",
+                          "StartDate": "/Date(1572559200000+0000)/",
+                          "EndDate": "/Date(1572645600000+0000)/"
+                        }
+                      ]'
   /LeaveApplications/{LeaveApplicationId}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -484,6 +590,31 @@ paths:
              application/json:
               schema:
                 $ref: '#/components/schemas/LeaveApplications'
+              example: '{
+                          "Id": "071dafb9-0d50-48b2-8ee4-b48d3f3c119d",
+                          "Status": "OK",
+                          "ProviderName": "java-sdk-oauth2-dev-02",
+                          "DateTimeUTC": "/Date(1573679791457)/",
+                          "LeaveApplications": [
+                            {
+                              "LeaveApplicationID": "1d4cd583-0107-4386-936b-672eb3d1f624",
+                              "EmployeeID": "cdfb8371-0b21-4b8a-8903-1024df6c391e",
+                              "LeaveTypeID": "184ea8f7-d143-46dd-bef3-0c60e1aa6fca",
+                              "LeavePeriods": [
+                                {
+                                  "PayPeriodStartDate": "/Date(1573171200000+0000)/",
+                                  "PayPeriodEndDate": "/Date(1573689600000+0000)/",
+                                  "LeavePeriodStatus": "SCHEDULED",
+                                  "NumberOfUnits": 0
+                                }
+                              ],
+                              "Title": "vacation",
+                              "StartDate": "/Date(1573516800000+0000)/",
+                              "EndDate": "/Date(1573516800000+0000)/",
+                              "UpdatedDateUTC": "/Date(1573623008000+0000)/"
+                            }
+                          ]
+                        }'
     post:
       security:
         - OAuth2: [payroll.leaveapplications]
@@ -507,6 +638,32 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LeaveApplications'
+              example: '{
+                        "Id": "9ebc7d7a-e188-4b31-bb2c-1ab9421b82c4",
+                        "Status": "OK",
+                        "ProviderName": "3f93110a-df13-49c7-b82f-a069813df188",
+                        "DateTimeUTC": "/Date(1573679792293)/",
+                        "LeaveApplications": [
+                          {
+                            "LeaveApplicationID": "1d4cd583-0107-4386-936b-672eb3d1f624",
+                            "EmployeeID": "cdfb8371-0b21-4b8a-8903-1024df6c391e",
+                            "LeaveTypeID": "184ea8f7-d143-46dd-bef3-0c60e1aa6fca",
+                            "LeavePeriods": [
+                              {
+                                "PayPeriodStartDate": "/Date(1572566400000+0000)/",
+                                "PayPeriodEndDate": "/Date(1573084800000+0000)/",
+                                "LeavePeriodStatus": "SCHEDULED",
+                                "NumberOfUnits": 0.6
+                              }
+                            ],
+                            "Title": "vacation",
+                            "Description": "My updated Description",
+                            "StartDate": "/Date(1572559200000+0000)/",
+                            "EndDate": "/Date(1572645600000+0000)/",
+                            "UpdatedDateUTC": "/Date(1573679792293+0000)/"
+                          }
+                        ]
+                      }'
         '400':
           description: invalid input, object invalid - TODO
       requestBody:
@@ -517,6 +674,15 @@ paths:
               type: array
               items:
                 $ref: '#/components/schemas/LeaveApplication'
+            example: '[
+                        {
+                          "EmployeeID": "cdfb8371-0b21-4b8a-8903-1024df6c391e",
+                          "LeaveTypeID": "184ea8f7-d143-46dd-bef3-0c60e1aa6fca",
+                          "StartDate": "/Date(1572559200000+0000)/",
+                          "EndDate": "/Date(1572645600000+0000)/",
+                          "Description": "My updated Description"
+                        }
+                      ]'
   /PayItems:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -972,6 +1138,23 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PayRuns'
+              example: '{
+                          "Id": "386f86d9-ae93-4a1d-9a10-eb46495c1184",
+                          "Status": "OK",
+                          "ProviderName": "java-sdk-oauth2-dev-02",
+                          "DateTimeUTC": "/Date(1573685818311)/",
+                          "PayRuns": [
+                            {
+                              "PayRunID": "d1348fab-f47a-4697-beea-922ee262407a",
+                              "PayrollCalendarID": "78bb86b9-e1ea-47ac-b75d-f087a81931de",
+                              "PayRunPeriodStartDate": "/Date(1572566400000+0000)/",
+                              "PayRunPeriodEndDate": "/Date(1573084800000+0000)/",
+                              "PaymentDate": "/Date(1573171200000+0000)/",
+                              "PayRunStatus": "DRAFT",
+                              "UpdatedDateUTC": "/Date(1573685818311+0000)/"
+                            }
+                          ]
+                        }'
         '400':
           description: invalid input, object invalid - TODO
       requestBody:
@@ -982,6 +1165,15 @@ paths:
               type: array
               items:
                 $ref: '#/components/schemas/PayRun'
+            example: '[
+                        {
+                          "PayrollCalendarID": "78bb86b9-e1ea-47ac-b75d-f087a81931de",
+                          "PayRunPeriodStartDate": "/Date(1572566400000+0000)/",
+                          "PayRunPeriodEndDate": "/Date(1573084800000+0000)/",
+                          "PayRunStatus": "DRAFT",
+                          "PaymentDate": "/Date(1573171200000+0000)/"
+                        }
+                      ]'
   /PayRun/{PayRunID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
