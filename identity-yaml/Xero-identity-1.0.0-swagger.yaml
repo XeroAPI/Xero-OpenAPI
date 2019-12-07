@@ -19,7 +19,7 @@ paths:
         - identity
       description: Override the base server url that include version
       operationId: getConnections
-      summary: Allows you to retrieve the connections for this users
+      summary: Allows you to retrieve the connections for this user
       x-basepath: 'https://api.xero.com'
       responses:
         '200':
@@ -34,9 +34,26 @@ paths:
                           {
                             "id": "7cb59f93-2964-421d-bb5e-a0f7a4572a44",
                             "tenantId": "fe79f7dd-b6d4-4a92-ba7b-538af6289c58",
-                            "tenantType": "ORGANISATION"
+                            "tenantType": "ORGANISATION",
+                            "createdDateUtc": "2019-12-07T18:46:19.5165400",
+                            "updatedDateUtc": "2019-12-07T18:46:19.5187840"
                           }
                         ]'
+  /connections/{id}:
+    delete:
+      security:
+        - OAuth2: []
+      tags:
+        - identity
+      description: Override the base server url that include version
+      operationId: deleteConnection
+      summary: Allows you to delete a connection for this user (i.e. disconnect a tenant)
+      x-basepath: 'https://api.xero.com'
+      responses:
+        '204':
+          description: Success - connection has been deleted  
+        '404':
+          description: Resource not found
 components:
   schemas:
     Connection:
@@ -54,6 +71,14 @@ components:
         tenantType:
           description: Xero tenant type (i.e. ORGANISATION, PRACTICE)
           type: string
+        createdDateUTC:
+          description: The date when the user connected this tenant to your app
+          type: string
+          format: date-time
+        updatedDateUtc:
+          description: The date when the user most recently connected this tenant to your app. May differ to the created date if the user has disconnected and subsequently reconnected this tenant to your app.
+          type: string
+          format: date-time
     RefreshToken:
       externalDocs:
         url: 'http://developer.xero.com'
