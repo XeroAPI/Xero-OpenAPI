@@ -49,9 +49,17 @@ paths:
       operationId: deleteConnection
       summary: Allows you to delete a connection for this user (i.e. disconnect a tenant)
       x-basepath: 'https://api.xero.com'
+      parameters:
+        - required: true
+          in: path
+          name: id
+          description: Unique identifier for retrieving single object
+          schema:
+            type: string
+            format: uuid
       responses:
         '204':
-          description: Success - connection has been deleted  
+          description: Success - connection has been deleted no content returned 
         '404':
           description: Resource not found
 components:
@@ -163,4 +171,4 @@ components:
             payroll.timesheets: Grant read-write access to
             payroll.timesheets.read: Grant read-only access to
             projects: Grant read-write access to projects
-            projects.read: Grant read-only access to
+            projects.read: Grant read-only access to projects
