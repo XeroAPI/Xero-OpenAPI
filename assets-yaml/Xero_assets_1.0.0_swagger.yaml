@@ -16,7 +16,11 @@ servers:
     url: https://api.xero.com/assets.xro/1.0/
 paths:
   /Assets:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     get:
+      security:
+        - OAuth2: [assets.read]
       tags:
         - Asset
       summary: searches fixed asset 
@@ -91,6 +95,8 @@ paths:
         '400':
           description: bad input parameter
     post:
+      security:
+        - OAuth2: [assets]
       tags:
         - Asset
       summary: adds a fixed asset
@@ -113,7 +119,11 @@ paths:
               $ref: '#/components/schemas/Asset'
         description: Fixed asset to add
   /Assets/{id}:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     get:
+      security:
+        - OAuth2: [assets.read]
       tags:
         - Asset
       summary: retrieves fixed asset by id 
@@ -140,7 +150,11 @@ paths:
         '400':
           description: bad input parameter
   /AssetTypes:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     get:
+      security:
+        - OAuth2: [assets.read]
       tags:
         - Asset
       summary: searches fixed asset types
@@ -159,6 +173,8 @@ paths:
         '400':
           description: bad input parameter
     post:
+      security:
+        - OAuth2: [assets]
       tags:
         - Asset
       summary: adds a fixed asset type
@@ -182,7 +198,11 @@ paths:
               $ref: '#/components/schemas/AssetType'
         description: Asset type to add
   /Settings:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     get:
+      security:
+        - OAuth2: [assets.read]
       tags:
         - Asset
       summary: searches fixed asset settings
@@ -199,6 +219,63 @@ paths:
         '400':
           description: bad input parameter
 components:
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      description: For more information
+      flows: 
+        authorizationCode:
+          authorizationUrl: 'https://login.xero.com/identity/connect/authorize'
+          tokenUrl: 'https://identity.xero.com/connect/token'
+          scopes:
+            email: Grant read-only access to your email
+            openid: Grant read-only access to your open id
+            profile: your profile information
+            accounting.transactions: Grant read-write access to bank transactions, credit notes, invoices, repeating invoices
+            accounting.transactions.read: Grant read-only access to invoices
+            accounting.reports.read: Grant read-only access to accounting reports
+            accounting.journals.read: Grant read-only access to journals
+            accounting.settings: Grant read-write access to organisation and account settings
+            accounting.settings.read: Grant read-only access to organisation and account settings
+            accounting.contacts: Grant read-write access to contacts and contact groups
+            accounting.contacts.read: Grant read-only access to contacts and contact groups
+            accounting.attachments: Grant read-write access to attachments
+            accounting.attachments.read: Grant read-only access to attachments
+            assets assets.read: Grant read-only access to fixed assets
+            bankfeeds: Grant read-write access to bankfeeds 
+            files: Grant read-write access to files and folders
+            files.read: Grant read-only access to files and folders
+            payroll: Grant read-write access to payroll
+            payroll.read: Grant read-only access to payroll
+            payroll.employees: Grant read-write access to payroll employees
+            payroll.employees.read: Grant read-only access to payroll employees
+            payroll.leaveapplications: Grant read-write access to payroll leaveapplications
+            payroll.leaveapplications.read: Grant read-only access to payroll leaveapplications
+            payroll.payitems: Grant read-write access to payroll payitems
+            payroll.payitems.read: Grant read-only access to payroll payitems
+            payroll.payrollcalendars: Grant read-write access to payroll calendars
+            payroll.payrollcalendars.read: Grant read-only access to payroll calendars
+            payroll.payruns: Grant read-write access to payroll payruns
+            payroll.payruns.read: Grant read-only access to payroll payruns
+            payroll.payslip: Grant read-write access to payroll payslips
+            payroll.payslip.read: Grant read-only access to payroll payslips
+            payroll.settings.read: Grant read-only access to payroll settings
+            payroll.superfunds: Grant read-write access to payroll superfunds
+            payroll.superfunds.read: Grant read-only access to payroll superfunds
+            payroll.superfundproducts.read: Grant read-only access to payroll superfundproducts
+            payroll.timesheets: Grant read-write access to payroll timesheets
+            payroll.timesheets.read: Grant read-only access to payroll timesheets
+            paymentservices: Grant read-write access to payment services
+            projects: Grant read-write access to projects
+            projects.read: Grant read-only access to projects
+  parameters:
+    requiredHeader: 
+      in: header
+      name: Xero-Tenant-Id
+      description: Xero identifier for Tenant
+      schema:
+        type: string
+      required: true 
   schemas:
     Assets:
       type: object
