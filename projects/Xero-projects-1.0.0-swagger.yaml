@@ -1,0 +1,408 @@
+openapi: 3.0.0
+info:
+  version: "1.0.0"
+  title: Xero Projects API
+  description: This is the Xero Projects API 
+  termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
+  contact:
+    name: "Xero Platform Team"
+    email: "api@xero.com"
+    url: "https://developer.xero.com"
+  license:
+    name: MIT 
+    url: 'https://github.com/XeroAPI/Xero-OpenAPI/blob/master/LICENSE'
+servers:
+  - description: Xero API server for projects
+    url: 'https://api.xero.com/projects.xro/2.0/projects'
+paths:
+  /projects:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    get:
+      security:
+        - OAuth2: [projects, projects.read]
+      tags:
+        - Projects
+      summary: list all projects
+      operationId: getProjects
+      description: Allows you to retrieve, create and update projects.
+      parameters:
+        - name: projectIds
+          in: query
+          required: false
+          description: Search for all projects that match a comma separated list of projectIds
+          schema: 
+            type: array
+            items:
+              type: string
+              format: uuid
+        - name: contactID
+          in: query
+          required: false
+          description: Filter for projects for a specific contact
+          schema: 
+            type: string
+            format: uuid
+        - name: states
+          in: query
+          required: false
+          description: Filter for projects in a particular state (INPROGRESS or CLOSED)
+          schema: 
+            $ref: '#/components/schemas/Projects'
+        - name: page
+          in: query
+          required: false
+          description: set to 1 by default. The requested number of the page in paged response - Must be a number greater than 0.
+          schema: 
+            type: integer
+            example: 1
+            default: 1
+        - name: pageSize
+          in: query
+          required: false
+          description: Optional, it is set to 50 by default. The number of items to return per page in a paged response - Must be a number between 1 and 500.
+          schema: 
+            type: integer
+            minimum: 1
+            maximum: 500
+            default: 50
+            example: 100
+      responses:
+        '200':
+          description: OK/success, returns a list of project objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Projects'
+        '400':
+          $ref: '#/components/responses/400Error' 
+  '/projects{projectId}':
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    get:
+      security:
+        - OAuth2: [projects, projects.read]
+      tags:
+        - Projects
+      summary: Allows you to retrieve a single project
+      operationId: getProject
+      description: Allows you to retrieve, create and update projects.
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          description: You can specify an individual project by appending the projectId to the endpoint
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK/success, returns a list of project objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Projects'
+        '400':
+          $ref: '#/components/responses/400Error' 
+components:
+  parameters:
+    requiredHeader: 
+      in: header
+      name: Xero-Tenant-Id
+      description: Xero identifier for Tenant
+      schema:
+        type: string
+      required: true 
+  schemas:
+    Projects: 
+      externalDocs:
+        url: 'https://developer.xero.com/documentation/projects/projects'
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Project'
+    Project:
+      externalDocs:
+        url: 'https://developer.xero.com/documentation/projects/projects'
+      type: object
+      properties:
+        projectId:
+          type: string
+          format: uuid
+          example: '254553fa-2be8-4991-bd5e-70a97ea12ef8'
+          description: Identifier of the project.
+        contactId:
+          externalDocs:
+            url: 'https://developer.xero.com/documentation/api/contacts'
+          type: string
+          format: uuid
+          example: '01234567-89ab-cdef-0123-456789abcdef'
+          description: Identifier of the contact this project was created for.
+        name: 
+          type: string
+          example: 'New Kitchen'
+          description: Name of the project.
+        currencyCode:
+          $ref: '#/components/schemas/CurrencyCode'
+        minutesLogged:
+          type: integer
+          example: 0
+          description: A total of minutes logged against all tasks on the Project.
+        totalTaskAmount:
+          $ref: '#/components/schemas/Amount'
+        totalExpenseAmount:
+          $ref: '#/components/schemas/Amount'
+        minutesToBeInvoiced:
+          type: integer
+          example: 0
+          description: Minutes which have not been invoiced across all chargeable tasks in the project.
+        taskAmountToBeInvoiced:
+          $ref: '#/components/schemas/Amount'
+        taskAmountInvoiced:
+          $ref: '#/components/schemas/Amount'
+        expenseAmountToBeInvoiced:
+          $ref: '#/components/schemas/Amount'
+        expenseAmountInvoiced:
+          $ref: '#/components/schemas/Amount'
+        projectAmountInvoiced:
+          $ref: '#/components/schemas/Amount'
+        deposit:
+          $ref: '#/components/schemas/Amount'
+        depositApplied:
+          $ref: '#/components/schemas/Amount'
+        creditNoteAmount:
+          $ref: '#/components/schemas/Amount'
+        deadlineUtc:
+          type: string
+          format: date-time
+          example: '2019-12-10T12:59:59Z'
+          description: Deadline for the project. UTC Date Time in ISO-8601 format.
+        totalInvoiced:
+          $ref: '#/components/schemas/Amount'
+        totalToBeInvoiced:
+          $ref: '#/components/schemas/Amount'
+        estimate:
+          $ref: '#/components/schemas/Amount'
+        status:
+          type: string
+          enum:
+          - INPROGRESS
+          - CLOSED
+          example: 'INPROGRESS'
+          description: Status of the project. INPROGRESS or CLOSED. A project is created with status of `INPROGRESS`. To change the status of a project see [PATCH].
+    Pagination:
+      properties:
+        page:
+          type: integer
+          example: 1
+          description: Set to 1 by default. The requested number of the page in paged response - Must be a number greater than 0.  
+        pageSize:
+          type: integer
+          example: 10
+          description: Optional, it is set to 50 by default. The number of items to return per page in a paged response - Must be a number between 1 and 500.
+        pageCount:
+          type: integer
+          example: 1
+          description: Number of pages available
+        itemCount:
+          type: integer
+          example: 2
+          description: Number of items returned
+    Amount:
+      type: object
+      properties:
+          currency:
+            $ref: '#/components/schemas/CurrencyCode'
+          value:
+            type: number
+            format: double
+            example: 1.00
+    CurrencyCode:
+      description: 3 letter alpha code for the ISO-4217 currency code, e.g. USD, AUD.
+      example: "AUD"
+      type: string
+      enum:
+      - AED 
+      - AFN
+      - ALL
+      - AMD
+      - ANG
+      - AOA
+      - ARS
+      - AUD
+      - AWG
+      - AZN
+      - BAM
+      - BBD
+      - BDT
+      - BGN
+      - BHD
+      - BIF
+      - BMD
+      - BND
+      - BOB
+      - BRL
+      - BSD
+      - BTN
+      - BWP
+      - BYN
+      - BZD
+      - CAD
+      - CDF
+      - CHF
+      - CLP
+      - CNY
+      - COP
+      - CRC
+      - CUC
+      - CUP
+      - CVE
+      - CZK
+      - DJF
+      - DKK
+      - DOP
+      - DZD
+      - EGP
+      - ERN
+      - ETB
+      - EUR
+      - FJD
+      - FKP
+      - GBP
+      - GEL
+      - GGP
+      - GHS
+      - GIP
+      - GMD
+      - GNF
+      - GTQ
+      - GYD
+      - HKD
+      - HNL
+      - HRK
+      - HTG
+      - HUF
+      - IDR
+      - ILS
+      - IMP
+      - INR
+      - IQD
+      - IRR
+      - ISK
+      - JEP
+      - JMD
+      - JOD
+      - JPY
+      - KES
+      - KGS
+      - KHR
+      - KMF
+      - KPW
+      - KRW
+      - KWD
+      - KYD
+      - KZT
+      - LAK
+      - LBP
+      - LKR
+      - LRD
+      - LSL
+      - LYD
+      - MAD
+      - MDL
+      - MGA
+      - MKD
+      - MMK
+      - MNT
+      - MOP
+      - MRU
+      - MUR
+      - MVR
+      - MWK
+      - MXN
+      - MYR
+      - MZN
+      - NAD
+      - NGN
+      - NIO
+      - NOK
+      - NPR
+      - NZD
+      - OMR
+      - PAB
+      - PEN
+      - PGK
+      - PHP
+      - PKR
+      - PLN
+      - PYG
+      - QAR
+      - RON
+      - RSD
+      - RUB
+      - RWF
+      - SAR
+      - SBD
+      - SCR
+      - SDG
+      - SEK
+      - SGD
+      - SHP
+      - SLL
+      - SOS
+      - SPL
+      - SRD
+      - STN
+      - SVC
+      - SYP
+      - SZL
+      - THB
+      - TJS
+      - TMT
+      - TND
+      - TOP
+      - TRY
+      - TTD
+      - TVD
+      - TWD
+      - TZS
+      - UAH
+      - UGX
+      - USD
+      - UYU
+      - UZS
+      - VEF
+      - VND
+      - VUV
+      - WST
+      - XAF
+      - XCD
+      - XDR
+      - XOF
+      - XPF
+      - YER
+      - ZAR
+      - ZMW
+      - Z
+    Error:
+      externalDocs:
+        url: 'https://developer.xero.com/documentation/projects/projects-response-codes'
+      type: object
+      properties:
+        message:
+          type: string
+          description: Exception message
+        modelState:
+          type: object
+          description: Array of Elements of validation Errors
+  responses:
+    400Error:
+      description: A failed request due to validation error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
