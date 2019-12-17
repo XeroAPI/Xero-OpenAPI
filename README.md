@@ -6,7 +6,7 @@ This repository holds the official Xero [OpenAPI](https://www.openapis.org/) des
 
 OpenAPI spec 3.0
 * [Accounting - yaml](https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/master/accounting-yaml/Xero_accounting_2.0.0_swagger.yaml)
-* [Identity - yaml](https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/master/identity-yaml/Xero_identity_1.0.0_swagger.yaml)
+* [Identity - yaml](https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/master/identity-yaml/Xero-identity-1.0.0-swagger.yaml)
 * [Bank Feeds - yaml](https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/master/bankfeeds-yaml/Xero_bankfeeds_1.0.0_swagger.yaml)
 
 In Development
