@@ -1296,7 +1296,7 @@ paths:
           description: response format that shows validation errors for each bank transaction
           schema:
             type: boolean
-            default: true
+            default: false
       responses:
         '200':
           description: Success - return response of type BankTransactions array with new BankTransaction 
@@ -3019,6 +3019,7 @@ paths:
       tags:
         - Accounting
       operationId: createContact
+      summary: 'Allows you to create a single contact in a Xero organisation'
       responses:
         '200':
           description: Success - return response of type Contacts array with newly created Contact
@@ -3200,6 +3201,14 @@ paths:
       tags:
         - Accounting
       operationId: createContacts
+      summary: 'Allows you to create a multiple contacts (bulk) in a Xero organisation'
+      parameters:
+        - in: query
+          name: SummarizeErrors
+          description: response format that shows validation errors for each bank transaction
+          schema:
+            type: boolean
+            default: false
       responses:
         '200':
           description: Success - return response of type Contacts array with newly created Contact
@@ -4625,7 +4634,7 @@ paths:
           description: shows validation errors for each credit note
           schema:
             type: boolean
-            default: true
+            default: false
       responses:
         '200':
           description: Success - return response of type Credit Notes array of newly created CreditNote
@@ -6749,6 +6758,13 @@ paths:
         - Accounting
       operationId: createInvoices
       summary: Allows you to create any sales invoices or purchase bills
+      parameters:
+        - in: query
+          name: SummarizeErrors
+          description: shows validation errors for each invoice
+          schema:
+            type: boolean
+            default: false
       responses:
         '200':
           description: Success - return response of type Invoices array with newly created Invoice
@@ -6882,13 +6898,6 @@ paths:
                         }'
         '400':
           $ref: '#/components/responses/400Error'
-      parameters:
-        - in: query
-          name: SummarizeErrors
-          description: shows validation errors for each invoice
-          schema:
-            type: boolean
-            default: true
       requestBody:
         required: true
         content:
@@ -7855,6 +7864,13 @@ paths:
         - Accounting
       operationId: createItems
       summary: Allows you to create an item
+      parameters:
+        - in: query
+          name: SummarizeErrors
+          description: response format that shows validation errors for each bank transaction
+          schema:
+            type: boolean
+            default: false
       responses:
         '200':
           description: Success - return response of type Items array with newly created Item
@@ -11628,7 +11644,7 @@ paths:
           description: shows validation errors for each purchase order.
           schema:
             type: boolean
-            default: true
+            default: false
       responses:
         '200':
           description: Success - return response of type PurchaseOrder array for specified PurchaseOrder          
