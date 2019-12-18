@@ -1129,161 +1129,7 @@ paths:
                             }
                           ]
                         }'
-    put:
-      security:
-        - OAuth2: [accounting.transactions]
-      tags:
-        - Accounting
-      operationId: createBankTransaction
-      summary: Allows you to create a spend or receive money transaction
-      responses:
-        '200':
-          description: Success - return response of type BankTransactions array with new BankTransaction 
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BankTransactions'
-              example: '{
-                          "Id": "5bc1d776-3c7f-4fe8-9b2d-09e747077a88",
-                          "Status": "OK",
-                          "ProviderName": "Xero API Partner",
-                          "DateTimeUTC": "\/Date(1551213568047)\/",
-                          "BankTransactions": [
-                            {
-                              "BankTransactionID": "1289c190-e46d-434b-9628-463ffdb52f00",
-                              "BankAccount": {
-                                "AccountID": "6f7594f2-f059-4d56-9e67-47ac9733bfe9",
-                                "Code": "088",
-                                "Name": "Business Wells Fargo"
-                              },
-                              "Type": "SPEND",
-                              "Reference": "",
-                              "IsReconciled": false,
-                              "CurrencyRate": 1.000000,
-                              "Contact": {
-                                "ContactID": "5cc8cf28-567e-4d43-b287-687cfcaec47c",
-                                "ContactStatus": "ACTIVE",
-                                "Name": "Katherine Warren",
-                                "FirstName": "Katherine",
-                                "LastName": "Warren",
-                                "EmailAddress": "kat.warren@clampett.com",
-                                "BankAccountDetails": "",
-                                "Addresses": [
-                                  {
-                                    "AddressType": "STREET",
-                                    "City": "",
-                                    "Region": "",
-                                    "PostalCode": "",
-                                    "Country": ""
-                                  },
-                                  {
-                                    "AddressType": "POBOX",
-                                    "AddressLine1": "",
-                                    "AddressLine2": "",
-                                    "AddressLine3": "",
-                                    "AddressLine4": "",
-                                    "City": "Palo Alto",
-                                    "Region": "CA",
-                                    "PostalCode": "94020",
-                                    "Country": "United States"
-                                  }
-                                ],
-                                "Phones": [
-                                  {
-                                    "PhoneType": "DEFAULT",
-                                    "PhoneNumber": "847-1294",
-                                    "PhoneAreaCode": "(626)",
-                                    "PhoneCountryCode": ""
-                                  },
-                                  {
-                                    "PhoneType": "DDI",
-                                    "PhoneNumber": "",
-                                    "PhoneAreaCode": "",
-                                    "PhoneCountryCode": ""
-                                  },
-                                  {
-                                    "PhoneType": "FAX",
-                                    "PhoneNumber": "",
-                                    "PhoneAreaCode": "",
-                                    "PhoneCountryCode": ""
-                                  },
-                                  {
-                                    "PhoneType": "MOBILE",
-                                    "PhoneNumber": "",
-                                    "PhoneAreaCode": "",
-                                    "PhoneCountryCode": ""
-                                  }
-                                ],
-                                "UpdatedDateUTC": "\/Date(1503348544227+0000)\/",
-                                "ContactGroups": [],
-                                "ContactPersons": [],
-                                "HasValidationErrors": false
-                              },
-                              "DateString": "2019-02-26T00:00:00",
-                              "Date": "\/Date(1551139200000+0000)\/",
-                              "Status": "AUTHORISED",
-                              "LineAmountTypes": "Inclusive",
-                              "LineItems": [
-                                {
-                                  "Description": "Foobar",
-                                  "UnitAmount": 20.00,
-                                  "TaxType": "TAX001",
-                                  "TaxAmount": 1.74,
-                                  "LineAmount": 20.00,
-                                  "AccountCode": "400",
-                                  "Tracking": [],
-                                  "Quantity": 1.0000,
-                                  "LineItemID": "d2a06879-da49-4d6c-83b5-72a93a523ec6",
-                                  "ValidationErrors": []
-                                }
-                              ],
-                              "SubTotal": 18.26,
-                              "TotalTax": 1.74,
-                              "Total": 20.00,
-                              "UpdatedDateUTC": "\/Date(1551213567813+0000)\/",
-                              "CurrencyCode": "USD",
-                              "StatusAttributeString": "ERROR",
-                              "ValidationErrors": [
-                                {
-                                  "Message": "The Contact must contain at least 1 of the following elements to identify the contact: Name, ContactID, ContactNumber"
-                                }
-                              ]
-                            }
-                          ]
-                        }'
-        '400':
-          $ref: '#/components/responses/400Error'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/BankTransaction'
-            example: '{  
-                       "BankTransactions":[  
-                          {  
-                             "Type":"SPEND",
-                             "Contact":{  
-                                "ContactID":"5cc8cf28-567e-4d43-b287-687cfcaec47c"
-                             },
-                             "LineItems":[  
-                                {  
-                                   "Description":"Foobar",
-                                   "Quantity":1.0,
-                                   "UnitAmount":20.0,
-                                   "AccountCode":"400"
-                                }
-                             ],
-                             "BankAccount":{  
-                                "Code":"088"
-                             }
-                          }
-                       ]
-                    }'
-  '/BankTransactions#bulk':
-    parameters:
-      - $ref: '#/components/parameters/requiredHeader'
-    put:
+    post:
       security:
         - OAuth2: [accounting.transactions]
       tags:
@@ -1420,6 +1266,157 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/BankTransactions'
+            example: '{  
+                       "BankTransactions":[  
+                          {  
+                             "Type":"SPEND",
+                             "Contact":{  
+                                "ContactID":"5cc8cf28-567e-4d43-b287-687cfcaec47c"
+                             },
+                             "LineItems":[  
+                                {  
+                                   "Description":"Foobar",
+                                   "Quantity":1.0,
+                                   "UnitAmount":20.0,
+                                   "AccountCode":"400"
+                                }
+                             ],
+                             "BankAccount":{  
+                                "Code":"088"
+                             }
+                          }
+                       ]
+                    }'
+    put:
+      security:
+        - OAuth2: [accounting.transactions]
+      tags:
+        - Accounting
+      operationId: createBankTransaction
+      summary: Allows you to create a spend or receive money transaction
+      responses:
+        '200':
+          description: Success - return response of type BankTransactions array with new BankTransaction 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BankTransactions'
+              example: '{
+                          "Id": "5bc1d776-3c7f-4fe8-9b2d-09e747077a88",
+                          "Status": "OK",
+                          "ProviderName": "Xero API Partner",
+                          "DateTimeUTC": "\/Date(1551213568047)\/",
+                          "BankTransactions": [
+                            {
+                              "BankTransactionID": "1289c190-e46d-434b-9628-463ffdb52f00",
+                              "BankAccount": {
+                                "AccountID": "6f7594f2-f059-4d56-9e67-47ac9733bfe9",
+                                "Code": "088",
+                                "Name": "Business Wells Fargo"
+                              },
+                              "Type": "SPEND",
+                              "Reference": "",
+                              "IsReconciled": false,
+                              "CurrencyRate": 1.000000,
+                              "Contact": {
+                                "ContactID": "5cc8cf28-567e-4d43-b287-687cfcaec47c",
+                                "ContactStatus": "ACTIVE",
+                                "Name": "Katherine Warren",
+                                "FirstName": "Katherine",
+                                "LastName": "Warren",
+                                "EmailAddress": "kat.warren@clampett.com",
+                                "BankAccountDetails": "",
+                                "Addresses": [
+                                  {
+                                    "AddressType": "STREET",
+                                    "City": "",
+                                    "Region": "",
+                                    "PostalCode": "",
+                                    "Country": ""
+                                  },
+                                  {
+                                    "AddressType": "POBOX",
+                                    "AddressLine1": "",
+                                    "AddressLine2": "",
+                                    "AddressLine3": "",
+                                    "AddressLine4": "",
+                                    "City": "Palo Alto",
+                                    "Region": "CA",
+                                    "PostalCode": "94020",
+                                    "Country": "United States"
+                                  }
+                                ],
+                                "Phones": [
+                                  {
+                                    "PhoneType": "DEFAULT",
+                                    "PhoneNumber": "847-1294",
+                                    "PhoneAreaCode": "(626)",
+                                    "PhoneCountryCode": ""
+                                  },
+                                  {
+                                    "PhoneType": "DDI",
+                                    "PhoneNumber": "",
+                                    "PhoneAreaCode": "",
+                                    "PhoneCountryCode": ""
+                                  },
+                                  {
+                                    "PhoneType": "FAX",
+                                    "PhoneNumber": "",
+                                    "PhoneAreaCode": "",
+                                    "PhoneCountryCode": ""
+                                  },
+                                  {
+                                    "PhoneType": "MOBILE",
+                                    "PhoneNumber": "",
+                                    "PhoneAreaCode": "",
+                                    "PhoneCountryCode": ""
+                                  }
+                                ],
+                                "UpdatedDateUTC": "\/Date(1503348544227+0000)\/",
+                                "ContactGroups": [],
+                                "ContactPersons": [],
+                                "HasValidationErrors": false
+                              },
+                              "DateString": "2019-02-26T00:00:00",
+                              "Date": "\/Date(1551139200000+0000)\/",
+                              "Status": "AUTHORISED",
+                              "LineAmountTypes": "Inclusive",
+                              "LineItems": [
+                                {
+                                  "Description": "Foobar",
+                                  "UnitAmount": 20.00,
+                                  "TaxType": "TAX001",
+                                  "TaxAmount": 1.74,
+                                  "LineAmount": 20.00,
+                                  "AccountCode": "400",
+                                  "Tracking": [],
+                                  "Quantity": 1.0000,
+                                  "LineItemID": "d2a06879-da49-4d6c-83b5-72a93a523ec6",
+                                  "ValidationErrors": []
+                                }
+                              ],
+                              "SubTotal": 18.26,
+                              "TotalTax": 1.74,
+                              "Total": 20.00,
+                              "UpdatedDateUTC": "\/Date(1551213567813+0000)\/",
+                              "CurrencyCode": "USD",
+                              "StatusAttributeString": "ERROR",
+                              "ValidationErrors": [
+                                {
+                                  "Message": "The Contact must contain at least 1 of the following elements to identify the contact: Name, ContactID, ContactNumber"
+                                }
+                              ]
+                            }
+                          ]
+                        }'
+        '400':
+          $ref: '#/components/responses/400Error'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BankTransaction'
             example: '{  
                        "BankTransactions":[  
                           {  
@@ -3012,190 +3009,7 @@ paths:
                               }
                             ]
                           }'
-
-    put:
-      security:
-        - OAuth2: [accounting.contacts]
-      tags:
-        - Accounting
-      operationId: createContact
-      summary: 'Allows you to create a single contact in a Xero organisation'
-      responses:
-        '200':
-          description: Success - return response of type Contacts array with newly created Contact
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Contacts'
-              example: '{
-                          "Id": "e997d6d7-6dad-4458-beb8-d9c1bf7f2edf",
-                          "Status": "OK",
-                          "ProviderName": "Xero API Partner",
-                          "DateTimeUTC": "\/Date(1551399321121)\/",
-                          "Contacts": [
-                            {
-                              "ContactID": "3ff6d40c-af9a-40a3-89ce-3c1556a25591",
-                              "ContactStatus": "ACTIVE",
-                              "Name": "Foo9987",
-                              "EmailAddress": "sid32476@blah.com",
-                              "BankAccountDetails": "",
-                              "Addresses": [
-                                {
-                                  "AddressType": "STREET",
-                                  "City": "",
-                                  "Region": "",
-                                  "PostalCode": "",
-                                  "Country": ""
-                                },
-                                {
-                                  "AddressType": "POBOX",
-                                  "City": "",
-                                  "Region": "",
-                                  "PostalCode": "",
-                                  "Country": ""
-                                }
-                              ],
-                              "Phones": [
-                                {
-                                  "PhoneType": "DEFAULT",
-                                  "PhoneNumber": "",
-                                  "PhoneAreaCode": "",
-                                  "PhoneCountryCode": ""
-                                },
-                                {
-                                  "PhoneType": "DDI",
-                                  "PhoneNumber": "",
-                                  "PhoneAreaCode": "",
-                                  "PhoneCountryCode": ""
-                                },
-                                {
-                                  "PhoneType": "FAX",
-                                  "PhoneNumber": "",
-                                  "PhoneAreaCode": "",
-                                  "PhoneCountryCode": ""
-                                },
-                                {
-                                  "PhoneType": "MOBILE",
-                                  "PhoneNumber": "555-1212",
-                                  "PhoneAreaCode": "415",
-                                  "PhoneCountryCode": ""
-                                }
-                              ],
-                              "UpdatedDateUTC": "\/Date(1551399321043+0000)\/",
-                              "ContactGroups": [],
-                              "IsSupplier": false,
-                              "IsCustomer": false,
-                              "SalesTrackingCategories": [],
-                              "PurchasesTrackingCategories": [],
-                              "PaymentTerms": {
-                                "Bills": {
-                                  "Day": 15,
-                                  "Type": "OFCURRENTMONTH"
-                                },
-                                "Sales": {
-                                  "Day": 10,
-                                  "Type": "DAYSAFTERBILLMONTH"
-                                }
-                              },
-                              "ContactPersons": [],
-                              "HasValidationErrors": false
-                            }
-                          ]
-                        }'
-        '400':
-          description: Validation Error - some data was incorrect returns response of type Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              example: '{
-                          "ErrorNumber": 10,
-                          "Type": "ValidationException",
-                          "Message": "A validation exception occurred",
-                          "Elements": [
-                            {
-                              "ContactID": "00000000-0000-0000-0000-000000000000",
-                              "AccountNumber": "12345-ABCD",
-                              "Name": "Sidney Maestre",
-                              "EmailAddress": "foo78858@bar.com",
-                              "AccountsReceivableTaxType": "NONE",
-                              "AccountsPayableTaxType": "INPUT",
-                              "Addresses": [
-                                {
-                                  "AddressType": "STREET",
-                                  "AddressLine1": "101 Green St",
-                                  "AddressLine2": "5th floor",
-                                  "City": "San Francisco",
-                                  "Region": "CA",
-                                  "PostalCode": "94041",
-                                  "Country": "US",
-                                  "AttentionTo": "Rod Drury",
-                                  "ValidationErrors": []
-                                }
-                              ],
-                              "Phones": [
-                                {
-                                  "PhoneType": "MOBILE",
-                                  "PhoneNumber": "555-1212",
-                                  "PhoneAreaCode": "415",
-                                  "ValidationErrors": []
-                                }
-                              ],
-                              "ContactGroups": [],
-                              "PaymentTerms": {
-                                "Bills": {
-                                  "Day": 15,
-                                  "Type": "OFCURRENTMONTH",
-                                  "ValidationErrors": []
-                                },
-                                "Sales": {
-                                  "Day": 10,
-                                  "Type": "DAYSAFTERBILLMONTH",
-                                  "ValidationErrors": []
-                                }
-                              },
-                              "ContactPersons": [],
-                              "HasValidationErrors": true,
-                              "ValidationErrors": [
-                                {
-                                  "Message": "The contact name Sidney Maestre is already assigned to another contact. The contact name must be unique across all active contacts."
-                                }
-                              ]
-                            }
-                          ]
-                        }'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Contact'
-            example: '{  
-                       "Name":"Foo9987",
-                       "EmailAddress":"sid32476@blah.com",
-                       "Phones":[  
-                          {  
-                             "PhoneType":"MOBILE",
-                             "PhoneNumber":"555-1212",
-                             "PhoneAreaCode":"415"
-                          }
-                       ],
-                       "PaymentTerms":{  
-                          "Bills":{  
-                             "Day":15,
-                             "Type":"OFCURRENTMONTH"
-                          },
-                          "Sales":{  
-                             "Day":10,
-                             "Type":"DAYSAFTERBILLMONTH"
-                          }
-                       }
-                    }'
-  "/Contacts#bulk":
-    parameters:
-      - $ref: '#/components/parameters/requiredHeader'
-    x-related-model: Contact
-    put:
+    post:
       security:
         - OAuth2: [accounting.contacts]
       tags:
@@ -3379,7 +3193,185 @@ paths:
                              "Type":"DAYSAFTERBILLMONTH"
                           }
                        }
-                    }'                
+                    }'  
+    put:
+      security:
+        - OAuth2: [accounting.contacts]
+      tags:
+        - Accounting
+      operationId: createContact
+      summary: 'Allows you to create a single contact in a Xero organisation'
+      responses:
+        '200':
+          description: Success - return response of type Contacts array with newly created Contact
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contacts'
+              example: '{
+                          "Id": "e997d6d7-6dad-4458-beb8-d9c1bf7f2edf",
+                          "Status": "OK",
+                          "ProviderName": "Xero API Partner",
+                          "DateTimeUTC": "\/Date(1551399321121)\/",
+                          "Contacts": [
+                            {
+                              "ContactID": "3ff6d40c-af9a-40a3-89ce-3c1556a25591",
+                              "ContactStatus": "ACTIVE",
+                              "Name": "Foo9987",
+                              "EmailAddress": "sid32476@blah.com",
+                              "BankAccountDetails": "",
+                              "Addresses": [
+                                {
+                                  "AddressType": "STREET",
+                                  "City": "",
+                                  "Region": "",
+                                  "PostalCode": "",
+                                  "Country": ""
+                                },
+                                {
+                                  "AddressType": "POBOX",
+                                  "City": "",
+                                  "Region": "",
+                                  "PostalCode": "",
+                                  "Country": ""
+                                }
+                              ],
+                              "Phones": [
+                                {
+                                  "PhoneType": "DEFAULT",
+                                  "PhoneNumber": "",
+                                  "PhoneAreaCode": "",
+                                  "PhoneCountryCode": ""
+                                },
+                                {
+                                  "PhoneType": "DDI",
+                                  "PhoneNumber": "",
+                                  "PhoneAreaCode": "",
+                                  "PhoneCountryCode": ""
+                                },
+                                {
+                                  "PhoneType": "FAX",
+                                  "PhoneNumber": "",
+                                  "PhoneAreaCode": "",
+                                  "PhoneCountryCode": ""
+                                },
+                                {
+                                  "PhoneType": "MOBILE",
+                                  "PhoneNumber": "555-1212",
+                                  "PhoneAreaCode": "415",
+                                  "PhoneCountryCode": ""
+                                }
+                              ],
+                              "UpdatedDateUTC": "\/Date(1551399321043+0000)\/",
+                              "ContactGroups": [],
+                              "IsSupplier": false,
+                              "IsCustomer": false,
+                              "SalesTrackingCategories": [],
+                              "PurchasesTrackingCategories": [],
+                              "PaymentTerms": {
+                                "Bills": {
+                                  "Day": 15,
+                                  "Type": "OFCURRENTMONTH"
+                                },
+                                "Sales": {
+                                  "Day": 10,
+                                  "Type": "DAYSAFTERBILLMONTH"
+                                }
+                              },
+                              "ContactPersons": [],
+                              "HasValidationErrors": false
+                            }
+                          ]
+                        }'
+        '400':
+          description: Validation Error - some data was incorrect returns response of type Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example: '{
+                          "ErrorNumber": 10,
+                          "Type": "ValidationException",
+                          "Message": "A validation exception occurred",
+                          "Elements": [
+                            {
+                              "ContactID": "00000000-0000-0000-0000-000000000000",
+                              "AccountNumber": "12345-ABCD",
+                              "Name": "Sidney Maestre",
+                              "EmailAddress": "foo78858@bar.com",
+                              "AccountsReceivableTaxType": "NONE",
+                              "AccountsPayableTaxType": "INPUT",
+                              "Addresses": [
+                                {
+                                  "AddressType": "STREET",
+                                  "AddressLine1": "101 Green St",
+                                  "AddressLine2": "5th floor",
+                                  "City": "San Francisco",
+                                  "Region": "CA",
+                                  "PostalCode": "94041",
+                                  "Country": "US",
+                                  "AttentionTo": "Rod Drury",
+                                  "ValidationErrors": []
+                                }
+                              ],
+                              "Phones": [
+                                {
+                                  "PhoneType": "MOBILE",
+                                  "PhoneNumber": "555-1212",
+                                  "PhoneAreaCode": "415",
+                                  "ValidationErrors": []
+                                }
+                              ],
+                              "ContactGroups": [],
+                              "PaymentTerms": {
+                                "Bills": {
+                                  "Day": 15,
+                                  "Type": "OFCURRENTMONTH",
+                                  "ValidationErrors": []
+                                },
+                                "Sales": {
+                                  "Day": 10,
+                                  "Type": "DAYSAFTERBILLMONTH",
+                                  "ValidationErrors": []
+                                }
+                              },
+                              "ContactPersons": [],
+                              "HasValidationErrors": true,
+                              "ValidationErrors": [
+                                {
+                                  "Message": "The contact name Sidney Maestre is already assigned to another contact. The contact name must be unique across all active contacts."
+                                }
+                              ]
+                            }
+                          ]
+                        }'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Contact'
+            example: '{  
+                       "Name":"Foo9987",
+                       "EmailAddress":"sid32476@blah.com",
+                       "Phones":[  
+                          {  
+                             "PhoneType":"MOBILE",
+                             "PhoneNumber":"555-1212",
+                             "PhoneAreaCode":"415"
+                          }
+                       ],
+                       "PaymentTerms":{  
+                          "Bills":{  
+                             "Day":15,
+                             "Type":"OFCURRENTMONTH"
+                          },
+                          "Sales":{  
+                             "Day":10,
+                             "Type":"DAYSAFTERBILLMONTH"
+                          }
+                       }
+                    }'             
   '/Contacts/{ContactID}':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -4470,158 +4462,7 @@ paths:
                             }
                           ]
                         }'
-
-    put:
-      security:
-        - OAuth2: [accounting.transactions]
-      tags:
-        - Accounting
-      operationId: createCreditNote
-      summary: Allows you to create a credit note
-      responses:
-        '200':
-          description: Success - return response of type Credit Notes array of newly created CreditNote
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CreditNotes'
-              example: '{
-                          "Id": "5e57a661-42da-4a19-96a0-00405a0e946d",
-                          "Status": "OK",
-                          "ProviderName": "Java Partner Example",
-                          "DateTimeUTC": "\/Date(1551812702713)\/",
-                          "CreditNotes": [
-                            {
-                              "CreditNoteID": "f9256f04-5a99-4680-acb9-6b4639cc439a",
-                              "CreditNoteNumber": "",
-                              "Payments": [],
-                              "ID": "f9256f04-5a99-4680-acb9-6b4639cc439a",
-                              "CurrencyRate": 1.000000,
-                              "Type": "ACCPAYCREDIT",
-                              "Reference": "",
-                              "RemainingCredit": 46.00,
-                              "Allocations": [],
-                              "Contact": {
-                                "ContactID": "430fa14a-f945-44d3-9f97-5df5e28441b8",
-                                "ContactStatus": "ACTIVE",
-                                "Name": "Liam Gallagher",
-                                "FirstName": "Liam",
-                                "LastName": "Gallagher",
-                                "EmailAddress": "liam@rockstar.com",
-                                "BankAccountDetails": "",
-                                "Addresses": [
-                                  {
-                                    "AddressType": "STREET",
-                                    "City": "",
-                                    "Region": "",
-                                    "PostalCode": "",
-                                    "Country": "",
-                                    "AttentionTo": ""
-                                  },
-                                  {
-                                    "AddressType": "POBOX",
-                                    "City": "Anytown",
-                                    "Region": "NY",
-                                    "PostalCode": "10101",
-                                    "Country": "USA",
-                                    "AttentionTo": ""
-                                  }
-                                ],
-                                "Phones": [
-                                  {
-                                    "PhoneType": "DEFAULT",
-                                    "PhoneNumber": "222-2222",
-                                    "PhoneAreaCode": "212",
-                                    "PhoneCountryCode": ""
-                                  },
-                                  {
-                                    "PhoneType": "DDI",
-                                    "PhoneNumber": "",
-                                    "PhoneAreaCode": "",
-                                    "PhoneCountryCode": ""
-                                  },
-                                  {
-                                    "PhoneType": "FAX",
-                                    "PhoneNumber": "333-2233",
-                                    "PhoneAreaCode": "212",
-                                    "PhoneCountryCode": ""
-                                  },
-                                  {
-                                    "PhoneType": "MOBILE",
-                                    "PhoneNumber": "444-3433",
-                                    "PhoneAreaCode": "212",
-                                    "PhoneCountryCode": ""
-                                  }
-                                ],
-                                "UpdatedDateUTC": "\/Date(1551747281053+0000)\/",
-                                "ContactGroups": [],
-                                "ContactPersons": [],
-                                "HasValidationErrors": false
-                              },
-                              "DateString": "2019-01-05T00:00:00",
-                              "Date": "\/Date(1546646400000+0000)\/",
-                              "Status": "DRAFT",
-                              "LineAmountTypes": "Exclusive",
-                              "LineItems": [
-                                {
-                                  "Description": "Foobar",
-                                  "UnitAmount": 20.00,
-                                  "TaxType": "INPUT2",
-                                  "TaxAmount": 6.00,
-                                  "LineAmount": 40.00,
-                                  "AccountCode": "400",
-                                  "Tracking": [],
-                                  "Quantity": 2.0000,
-                                  "ValidationErrors": []
-                                }
-                              ],
-                              "SubTotal": 40.00,
-                              "TotalTax": 6.00,
-                              "Total": 46.00,
-                              "UpdatedDateUTC": "\/Date(1551812702650+0000)\/",
-                              "CurrencyCode": "NZD",
-                              "StatusAttributeString": "OK",
-                              "ValidationErrors": [
-                                {
-                                  "Message": "An existing Credit Note with the specified CreditNoteID could not be found"
-                                }
-                              ]
-                            }
-                          ]
-                        }'
-        '400':
-          $ref: '#/components/responses/400Error'
-      requestBody:
-        description: an array of Credit Notes with a single CreditNote object.
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreditNote'
-            example: '{  
-                         "CreditNotes":[  
-                            {  
-                               "Type":"ACCPAYCREDIT",
-                               "Contact":{  
-                                  "ContactID":"430fa14a-f945-44d3-9f97-5df5e28441b8"
-                               },
-                               "Date":"2019-01-05",
-                               "LineItems":[  
-                                  {  
-                                     "Description":"Foobar",
-                                     "Quantity":2.0,
-                                     "UnitAmount":20.0,
-                                     "AccountCode":"400"
-                                  }
-                               ]
-                            }
-                         ]
-                      }'
-  '/CreditNotes#bulk':
-    parameters:
-      - $ref: '#/components/parameters/requiredHeader'
-    x-related-model: CreditNote
-    put:
+    post:
       security:
         - OAuth2: [accounting.transactions]
       tags:
@@ -4755,6 +4596,152 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/CreditNotes'
+            example: '{  
+                         "CreditNotes":[  
+                            {  
+                               "Type":"ACCPAYCREDIT",
+                               "Contact":{  
+                                  "ContactID":"430fa14a-f945-44d3-9f97-5df5e28441b8"
+                               },
+                               "Date":"2019-01-05",
+                               "LineItems":[  
+                                  {  
+                                     "Description":"Foobar",
+                                     "Quantity":2.0,
+                                     "UnitAmount":20.0,
+                                     "AccountCode":"400"
+                                  }
+                               ]
+                            }
+                         ]
+                      }'
+    put:
+      security:
+        - OAuth2: [accounting.transactions]
+      tags:
+        - Accounting
+      operationId: createCreditNote
+      summary: Allows you to create a credit note
+      responses:
+        '200':
+          description: Success - return response of type Credit Notes array of newly created CreditNote
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreditNotes'
+              example: '{
+                          "Id": "5e57a661-42da-4a19-96a0-00405a0e946d",
+                          "Status": "OK",
+                          "ProviderName": "Java Partner Example",
+                          "DateTimeUTC": "\/Date(1551812702713)\/",
+                          "CreditNotes": [
+                            {
+                              "CreditNoteID": "f9256f04-5a99-4680-acb9-6b4639cc439a",
+                              "CreditNoteNumber": "",
+                              "Payments": [],
+                              "ID": "f9256f04-5a99-4680-acb9-6b4639cc439a",
+                              "CurrencyRate": 1.000000,
+                              "Type": "ACCPAYCREDIT",
+                              "Reference": "",
+                              "RemainingCredit": 46.00,
+                              "Allocations": [],
+                              "Contact": {
+                                "ContactID": "430fa14a-f945-44d3-9f97-5df5e28441b8",
+                                "ContactStatus": "ACTIVE",
+                                "Name": "Liam Gallagher",
+                                "FirstName": "Liam",
+                                "LastName": "Gallagher",
+                                "EmailAddress": "liam@rockstar.com",
+                                "BankAccountDetails": "",
+                                "Addresses": [
+                                  {
+                                    "AddressType": "STREET",
+                                    "City": "",
+                                    "Region": "",
+                                    "PostalCode": "",
+                                    "Country": "",
+                                    "AttentionTo": ""
+                                  },
+                                  {
+                                    "AddressType": "POBOX",
+                                    "City": "Anytown",
+                                    "Region": "NY",
+                                    "PostalCode": "10101",
+                                    "Country": "USA",
+                                    "AttentionTo": ""
+                                  }
+                                ],
+                                "Phones": [
+                                  {
+                                    "PhoneType": "DEFAULT",
+                                    "PhoneNumber": "222-2222",
+                                    "PhoneAreaCode": "212",
+                                    "PhoneCountryCode": ""
+                                  },
+                                  {
+                                    "PhoneType": "DDI",
+                                    "PhoneNumber": "",
+                                    "PhoneAreaCode": "",
+                                    "PhoneCountryCode": ""
+                                  },
+                                  {
+                                    "PhoneType": "FAX",
+                                    "PhoneNumber": "333-2233",
+                                    "PhoneAreaCode": "212",
+                                    "PhoneCountryCode": ""
+                                  },
+                                  {
+                                    "PhoneType": "MOBILE",
+                                    "PhoneNumber": "444-3433",
+                                    "PhoneAreaCode": "212",
+                                    "PhoneCountryCode": ""
+                                  }
+                                ],
+                                "UpdatedDateUTC": "\/Date(1551747281053+0000)\/",
+                                "ContactGroups": [],
+                                "ContactPersons": [],
+                                "HasValidationErrors": false
+                              },
+                              "DateString": "2019-01-05T00:00:00",
+                              "Date": "\/Date(1546646400000+0000)\/",
+                              "Status": "DRAFT",
+                              "LineAmountTypes": "Exclusive",
+                              "LineItems": [
+                                {
+                                  "Description": "Foobar",
+                                  "UnitAmount": 20.00,
+                                  "TaxType": "INPUT2",
+                                  "TaxAmount": 6.00,
+                                  "LineAmount": 40.00,
+                                  "AccountCode": "400",
+                                  "Tracking": [],
+                                  "Quantity": 2.0000,
+                                  "ValidationErrors": []
+                                }
+                              ],
+                              "SubTotal": 40.00,
+                              "TotalTax": 6.00,
+                              "Total": 46.00,
+                              "UpdatedDateUTC": "\/Date(1551812702650+0000)\/",
+                              "CurrencyCode": "NZD",
+                              "StatusAttributeString": "OK",
+                              "ValidationErrors": [
+                                {
+                                  "Message": "An existing Credit Note with the specified CreditNoteID could not be found"
+                                }
+                              ]
+                            }
+                          ]
+                        }'
+        '400':
+          $ref: '#/components/responses/400Error'
+      requestBody:
+        description: an array of Credit Notes with a single CreditNote object.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreditNote'
             example: '{  
                          "CreditNotes":[  
                             {  
@@ -5653,6 +5640,58 @@ paths:
                             }
                           ]
                         }'     
+    post:
+      security:
+        - OAuth2: [accounting.settings]
+      tags:
+        - Accounting
+      operationId: createEmployees
+      summary: Allows you to create new employees used in Xero payrun
+      responses:
+        '200':
+          description: Success - return response of type Employees array with new Employee
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employees'
+              example: '{
+                          "Id": "0d6a08e7-6936-4828-a1bc-e4595e0ef778",
+                          "Status": "OK",
+                          "ProviderName": "Java Partner Example",
+                          "DateTimeUTC": "\/Date(1552324736508)\/",
+                          "Employees": [
+                            {
+                              "EmployeeID": "e1ada26b-a10e-4065-a941-af34b53740e3",
+                              "Status": "ACTIVE",
+                              "FirstName": "Nick",
+                              "LastName": "Fury",
+                              "ExternalLink": {
+                                "Url": "http://twitter.com/#!/search/Nick+Fury",
+                                "Description": "Go to external link"
+                              },
+                              "UpdatedDateUTC": "\/Date(1552324736463+0000)\/"
+                            }
+                          ]
+                        }'
+        '400':
+          $ref: '#/components/responses/400Error'
+      requestBody:
+        required: true
+        content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employees'
+              example: '{  
+                         "Employees":[  
+                            {  
+                               "FirstName":"Nick",
+                               "LastName":"Fury",
+                               "ExternalLink":{  
+                                  "Url":"http://twitter.com/#!/search/Nick+Fury"
+                               }
+                            }
+                         ]
+                      }'
     put:
       security:
         - OAuth2: [accounting.settings]
@@ -5694,62 +5733,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Employee'
-              example: '{  
-                         "Employees":[  
-                            {  
-                               "FirstName":"Nick",
-                               "LastName":"Fury",
-                               "ExternalLink":{  
-                                  "Url":"http://twitter.com/#!/search/Nick+Fury"
-                               }
-                            }
-                         ]
-                      }'
-  '/Employees#bulk':
-    parameters:
-      - $ref: '#/components/parameters/requiredHeader'
-    x-related-model: Employee  
-    put:
-      security:
-        - OAuth2: [accounting.settings]
-      tags:
-        - Accounting
-      operationId: createEmployees
-      summary: Allows you to create new employees used in Xero payrun
-      responses:
-        '200':
-          description: Success - return response of type Employees array with new Employee
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Employees'
-              example: '{
-                          "Id": "0d6a08e7-6936-4828-a1bc-e4595e0ef778",
-                          "Status": "OK",
-                          "ProviderName": "Java Partner Example",
-                          "DateTimeUTC": "\/Date(1552324736508)\/",
-                          "Employees": [
-                            {
-                              "EmployeeID": "e1ada26b-a10e-4065-a941-af34b53740e3",
-                              "Status": "ACTIVE",
-                              "FirstName": "Nick",
-                              "LastName": "Fury",
-                              "ExternalLink": {
-                                "Url": "http://twitter.com/#!/search/Nick+Fury",
-                                "Description": "Go to external link"
-                              },
-                              "UpdatedDateUTC": "\/Date(1552324736463+0000)\/"
-                            }
-                          ]
-                        }'
-        '400':
-          $ref: '#/components/responses/400Error'
-      requestBody:
-        required: true
-        content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Employees'
               example: '{  
                          "Employees":[  
                             {  
@@ -6577,181 +6560,7 @@ paths:
                             }
                           ]
                         }'
-    put:
-      security:
-        - OAuth2: [accounting.transactions]
-      tags:
-        - Accounting
-      operationId: createInvoice
-      summary: Allows you to create any sales invoices or purchase bills
-      responses:
-        '200':
-          description: Success - return response of type Invoices array with newly created Invoice
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Invoices'
-              example: '{
-                          "Id": "ccece84a-075c-4fcd-9073-149d4f7a91cf",
-                          "Status": "OK",
-                          "ProviderName": "Java Partner Example",
-                          "DateTimeUTC": "\/Date(1552327126164)\/",
-                          "Invoices": [
-                            {
-                              "Type": "ACCREC",
-                              "InvoiceID": "ed255415-e141-4150-aab7-89c3bbbb851c",
-                              "InvoiceNumber": "INV-0007",
-                              "Reference": "Website Design",
-                              "Prepayments": [],
-                              "Overpayments": [],
-                              "AmountDue": 40.00,
-                              "AmountPaid": 0.00,
-                              "SentToContact": false,
-                              "CurrencyRate": 1.000000,
-                              "HasErrors": false,
-                              "IsDiscounted": false,
-                              "Contact": {
-                                "ContactID": "430fa14a-f945-44d3-9f97-5df5e28441b8",
-                                "ContactStatus": "ACTIVE",
-                                "Name": "Liam Gallagher",
-                                "FirstName": "Liam",
-                                "LastName": "Gallagher",
-                                "EmailAddress": "liam@rockstar.com",
-                                "BankAccountDetails": "",
-                                "Addresses": [
-                                  {
-                                    "AddressType": "STREET",
-                                    "City": "",
-                                    "Region": "",
-                                    "PostalCode": "",
-                                    "Country": "",
-                                    "AttentionTo": ""
-                                  },
-                                  {
-                                    "AddressType": "POBOX",
-                                    "City": "Anytown",
-                                    "Region": "NY",
-                                    "PostalCode": "10101",
-                                    "Country": "USA",
-                                    "AttentionTo": ""
-                                  }
-                                ],
-                                "Phones": [
-                                  {
-                                    "PhoneType": "DEFAULT",
-                                    "PhoneNumber": "222-2222",
-                                    "PhoneAreaCode": "212",
-                                    "PhoneCountryCode": ""
-                                  },
-                                  {
-                                    "PhoneType": "DDI",
-                                    "PhoneNumber": "",
-                                    "PhoneAreaCode": "",
-                                    "PhoneCountryCode": ""
-                                  },
-                                  {
-                                    "PhoneType": "FAX",
-                                    "PhoneNumber": "333-2233",
-                                    "PhoneAreaCode": "212",
-                                    "PhoneCountryCode": ""
-                                  },
-                                  {
-                                    "PhoneType": "MOBILE",
-                                    "PhoneNumber": "444-3433",
-                                    "PhoneAreaCode": "212",
-                                    "PhoneCountryCode": ""
-                                  }
-                                ],
-                                "UpdatedDateUTC": "\/Date(1551747281053+0000)\/",
-                                "ContactGroups": [
-                                  {
-                                    "ContactGroupID": "17b44ed7-4389-4162-91cb-3dd5766e4e22",
-                                    "Name": "Oasis",
-                                    "Status": "ACTIVE",
-                                    "Contacts": [],
-                                    "HasValidationErrors": false
-                                  }
-                                ],
-                                "IsSupplier": true,
-                                "IsCustomer": true,
-                                "SalesTrackingCategories": [],
-                                "PurchasesTrackingCategories": [],
-                                "ContactPersons": [
-                                  {
-                                    "FirstName": "Debbie",
-                                    "LastName": "Gwyther",
-                                    "EmailAddress": "debbie@rockstar.com",
-                                    "IncludeInEmails": false
-                                  }
-                                ],
-                                "HasValidationErrors": false
-                              },
-                              "DateString": "2019-03-11T00:00:00",
-                              "Date": "\/Date(1552262400000+0000)\/",
-                              "DueDateString": "2018-12-10T00:00:00",
-                              "DueDate": "\/Date(1544400000000+0000)\/",
-                              "Status": "AUTHORISED",
-                              "LineAmountTypes": "Exclusive",
-                              "LineItems": [
-                                {
-                                  "Description": "Acme Tires",
-                                  "UnitAmount": 20.00,
-                                  "TaxType": "NONE",
-                                  "TaxAmount": 0.00,
-                                  "LineAmount": 40.00,
-                                  "AccountCode": "200",
-                                  "Tracking": [],
-                                  "Quantity": 2.0000,
-                                  "LineItemID": "5f7a612b-fdcc-4d33-90fa-a9f6bc6db32f",
-                                  "ValidationErrors": []
-                                }
-                              ],
-                              "SubTotal": 40.00,
-                              "TotalTax": 0.00,
-                              "Total": 40.00,
-                              "UpdatedDateUTC": "\/Date(1552327126117+0000)\/",
-                              "CurrencyCode": "NZD",
-                              "StatusAttributeString": "OK"
-                            }
-                          ]
-                        }'
-        '400':
-          $ref: '#/components/responses/400Error'
-      requestBody:
-        required: true
-        content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Invoice'
-              example: '{  
-                           "Invoices":[  
-                              {  
-                                 "Type":"ACCREC",
-                                 "Contact":{  
-                                    "ContactID":"430fa14a-f945-44d3-9f97-5df5e28441b8"
-                                 },
-                                 "LineItems":[  
-                                    {  
-                                       "Description":"Acme Tires",
-                                       "Quantity":2.0,
-                                       "UnitAmount":20.0,
-                                       "AccountCode":"200",
-                                       "TaxType":"NONE",
-                                       "LineAmount":40.0
-                                    }
-                                 ],
-                                 "Date":"2019-03-11",
-                                 "DueDate":"2018-12-10",
-                                 "Reference":"Website Design",
-                                 "Status":"AUTHORISED"
-                              }
-                           ]
-                        }'
-  '/Invoices#bulk':
-    parameters:
-      - $ref: '#/components/parameters/requiredHeader'
-    x-related-model: Invoice
-    put:
+    post:
       security:
         - OAuth2: [accounting.transactions]
       tags:
@@ -6904,6 +6713,176 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Invoices'
+              example: '{  
+                           "Invoices":[  
+                              {  
+                                 "Type":"ACCREC",
+                                 "Contact":{  
+                                    "ContactID":"430fa14a-f945-44d3-9f97-5df5e28441b8"
+                                 },
+                                 "LineItems":[  
+                                    {  
+                                       "Description":"Acme Tires",
+                                       "Quantity":2.0,
+                                       "UnitAmount":20.0,
+                                       "AccountCode":"200",
+                                       "TaxType":"NONE",
+                                       "LineAmount":40.0
+                                    }
+                                 ],
+                                 "Date":"2019-03-11",
+                                 "DueDate":"2018-12-10",
+                                 "Reference":"Website Design",
+                                 "Status":"AUTHORISED"
+                              }
+                           ]
+                        }'
+    put:
+      security:
+        - OAuth2: [accounting.transactions]
+      tags:
+        - Accounting
+      operationId: createInvoice
+      summary: Allows you to create any sales invoices or purchase bills
+      responses:
+        '200':
+          description: Success - return response of type Invoices array with newly created Invoice
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invoices'
+              example: '{
+                          "Id": "ccece84a-075c-4fcd-9073-149d4f7a91cf",
+                          "Status": "OK",
+                          "ProviderName": "Java Partner Example",
+                          "DateTimeUTC": "\/Date(1552327126164)\/",
+                          "Invoices": [
+                            {
+                              "Type": "ACCREC",
+                              "InvoiceID": "ed255415-e141-4150-aab7-89c3bbbb851c",
+                              "InvoiceNumber": "INV-0007",
+                              "Reference": "Website Design",
+                              "Prepayments": [],
+                              "Overpayments": [],
+                              "AmountDue": 40.00,
+                              "AmountPaid": 0.00,
+                              "SentToContact": false,
+                              "CurrencyRate": 1.000000,
+                              "HasErrors": false,
+                              "IsDiscounted": false,
+                              "Contact": {
+                                "ContactID": "430fa14a-f945-44d3-9f97-5df5e28441b8",
+                                "ContactStatus": "ACTIVE",
+                                "Name": "Liam Gallagher",
+                                "FirstName": "Liam",
+                                "LastName": "Gallagher",
+                                "EmailAddress": "liam@rockstar.com",
+                                "BankAccountDetails": "",
+                                "Addresses": [
+                                  {
+                                    "AddressType": "STREET",
+                                    "City": "",
+                                    "Region": "",
+                                    "PostalCode": "",
+                                    "Country": "",
+                                    "AttentionTo": ""
+                                  },
+                                  {
+                                    "AddressType": "POBOX",
+                                    "City": "Anytown",
+                                    "Region": "NY",
+                                    "PostalCode": "10101",
+                                    "Country": "USA",
+                                    "AttentionTo": ""
+                                  }
+                                ],
+                                "Phones": [
+                                  {
+                                    "PhoneType": "DEFAULT",
+                                    "PhoneNumber": "222-2222",
+                                    "PhoneAreaCode": "212",
+                                    "PhoneCountryCode": ""
+                                  },
+                                  {
+                                    "PhoneType": "DDI",
+                                    "PhoneNumber": "",
+                                    "PhoneAreaCode": "",
+                                    "PhoneCountryCode": ""
+                                  },
+                                  {
+                                    "PhoneType": "FAX",
+                                    "PhoneNumber": "333-2233",
+                                    "PhoneAreaCode": "212",
+                                    "PhoneCountryCode": ""
+                                  },
+                                  {
+                                    "PhoneType": "MOBILE",
+                                    "PhoneNumber": "444-3433",
+                                    "PhoneAreaCode": "212",
+                                    "PhoneCountryCode": ""
+                                  }
+                                ],
+                                "UpdatedDateUTC": "\/Date(1551747281053+0000)\/",
+                                "ContactGroups": [
+                                  {
+                                    "ContactGroupID": "17b44ed7-4389-4162-91cb-3dd5766e4e22",
+                                    "Name": "Oasis",
+                                    "Status": "ACTIVE",
+                                    "Contacts": [],
+                                    "HasValidationErrors": false
+                                  }
+                                ],
+                                "IsSupplier": true,
+                                "IsCustomer": true,
+                                "SalesTrackingCategories": [],
+                                "PurchasesTrackingCategories": [],
+                                "ContactPersons": [
+                                  {
+                                    "FirstName": "Debbie",
+                                    "LastName": "Gwyther",
+                                    "EmailAddress": "debbie@rockstar.com",
+                                    "IncludeInEmails": false
+                                  }
+                                ],
+                                "HasValidationErrors": false
+                              },
+                              "DateString": "2019-03-11T00:00:00",
+                              "Date": "\/Date(1552262400000+0000)\/",
+                              "DueDateString": "2018-12-10T00:00:00",
+                              "DueDate": "\/Date(1544400000000+0000)\/",
+                              "Status": "AUTHORISED",
+                              "LineAmountTypes": "Exclusive",
+                              "LineItems": [
+                                {
+                                  "Description": "Acme Tires",
+                                  "UnitAmount": 20.00,
+                                  "TaxType": "NONE",
+                                  "TaxAmount": 0.00,
+                                  "LineAmount": 40.00,
+                                  "AccountCode": "200",
+                                  "Tracking": [],
+                                  "Quantity": 2.0000,
+                                  "LineItemID": "5f7a612b-fdcc-4d33-90fa-a9f6bc6db32f",
+                                  "ValidationErrors": []
+                                }
+                              ],
+                              "SubTotal": 40.00,
+                              "TotalTax": 0.00,
+                              "Total": 40.00,
+                              "UpdatedDateUTC": "\/Date(1552327126117+0000)\/",
+                              "CurrencyCode": "NZD",
+                              "StatusAttributeString": "OK"
+                            }
+                          ]
+                        }'
+        '400':
+          $ref: '#/components/responses/400Error'
+      requestBody:
+        required: true
+        content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invoice'
               example: '{  
                            "Invoices":[  
                               {  
@@ -7797,67 +7776,7 @@ paths:
                             }
                           ]
                         }'
-    put:
-      security:
-        - OAuth2: [accounting.settings]
-      tags:
-        - Accounting
-      operationId: createItem
-      summary: Allows you to create an item
-      responses:
-        '200':
-          description: Success - return response of type Items array with newly created Item
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Items'
-              example: '{
-                          "Id": "ae7ef7c8-9024-4d42-8d59-5f26ed3f508b",
-                          "Status": "OK",
-                          "ProviderName": "Java Partner Example",
-                          "DateTimeUTC": "\/Date(1552331871904)\/",
-                          "Items": [
-                            {
-                              "ItemID": "a4544d51-48f6-441f-a623-99ecbced6ab7",
-                              "Code": "abc65591",
-                              "Description": "foobar",
-                              "UpdatedDateUTC": "\/Date(1552331871707)\/",
-                              "PurchaseDetails": {},
-                              "SalesDetails": {},
-                              "Name": "Hello11350",
-                              "IsTrackedAsInventory": false,
-                              "IsSold": true,
-                              "IsPurchased": true,
-                              "ValidationErrors": [
-                                {
-                                  "Message": "Price List Item with Code ''abc'' already exists"
-                                }
-                              ]
-                            }
-                          ]
-                        }'
-        '400':
-          $ref: '#/components/responses/400Error'
-      requestBody:
-        required: true
-        content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Item'
-              example: '{  
-                           "Items":[  
-                              {  
-                                 "Code":"abc65591",
-                                 "Name":"Hello11350",
-                                 "Description":"foobar"
-                              }
-                           ]
-                        }'
-  '/Items#bulk':
-    parameters:
-      - $ref: '#/components/parameters/requiredHeader'
-    x-related-model: Item
-    put:
+    post:
       security:
         - OAuth2: [accounting.settings]
       tags:
@@ -7911,6 +7830,62 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Items'
+              example: '{  
+                           "Items":[  
+                              {  
+                                 "Code":"abc65591",
+                                 "Name":"Hello11350",
+                                 "Description":"foobar"
+                              }
+                           ]
+                        }'
+    put:
+      security:
+        - OAuth2: [accounting.settings]
+      tags:
+        - Accounting
+      operationId: createItem
+      summary: Allows you to create an item
+      responses:
+        '200':
+          description: Success - return response of type Items array with newly created Item
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Items'
+              example: '{
+                          "Id": "ae7ef7c8-9024-4d42-8d59-5f26ed3f508b",
+                          "Status": "OK",
+                          "ProviderName": "Java Partner Example",
+                          "DateTimeUTC": "\/Date(1552331871904)\/",
+                          "Items": [
+                            {
+                              "ItemID": "a4544d51-48f6-441f-a623-99ecbced6ab7",
+                              "Code": "abc65591",
+                              "Description": "foobar",
+                              "UpdatedDateUTC": "\/Date(1552331871707)\/",
+                              "PurchaseDetails": {},
+                              "SalesDetails": {},
+                              "Name": "Hello11350",
+                              "IsTrackedAsInventory": false,
+                              "IsSold": true,
+                              "IsPurchased": true,
+                              "ValidationErrors": [
+                                {
+                                  "Message": "Price List Item with Code ''abc'' already exists"
+                                }
+                              ]
+                            }
+                          ]
+                        }'
+        '400':
+          $ref: '#/components/responses/400Error'
+      requestBody:
+        required: true
+        content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
               example: '{  
                            "Items":[  
                               {  
@@ -8474,6 +8449,58 @@ paths:
                             }
                           ]
                         }'
+    post:
+      security:
+        - OAuth2: [accounting.transactions]
+      tags:
+        - Accounting
+      operationId: createLinkedTransactions
+      summary: Allows you to create linked transactions (billable expenses)
+      responses:
+        '200':
+          description: Success - return response of type LinkedTransactions array with newly created LinkedTransaction
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LinkedTransactions'
+              example: '{
+                          "Id": "f32b30e5-32d1-42a8-bcc9-5b22828f725c",
+                          "Status": "OK",
+                          "ProviderName": "Java Partner Example",
+                          "DateTimeUTC": "\/Date(1552351054646)\/",
+                          "LinkedTransactions": [
+                            {
+                              "LinkedTransactionID": "e9684b6c-4df9-45a0-917b-85cc29857008",
+                              "SourceTransactionID": "a848644a-f20f-4630-98c3-386bd7505631",
+                              "SourceLineItemID": "b0df260d-3cc8-4ced-9bd6-41924f624ed3",
+                              "Status": "DRAFT",
+                              "Type": "BILLABLEEXPENSE",
+                              "UpdatedDateUTC": "\/Date(1552351055000+0000)\/",
+                              "SourceTransactionTypeCode": "ACCPAY",
+                              "ValidationErrors": [
+                                {
+                                  "Message": "The SourceLineItemID and SourceTransactionID do not match"
+                                }
+                              ]
+                            }
+                          ]
+                        }'
+        '400':
+          $ref: '#/components/responses/400Error'
+      requestBody:
+        required: true
+        content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LinkedTransactions'
+              example: '{  
+                           "LinkedTransactions":[  
+                              {  
+                                 "SourceTransactionID":"a848644a-f20f-4630-98c3-386bd7505631",
+                                 "SourceLineItemID":"b0df260d-3cc8-4ced-9bd6-41924f624ed3"
+                              }
+                           ]
+                        }'
     put:
       security:
         - OAuth2: [accounting.transactions]
@@ -8518,62 +8545,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LinkedTransaction'
-              example: '{  
-                           "LinkedTransactions":[  
-                              {  
-                                 "SourceTransactionID":"a848644a-f20f-4630-98c3-386bd7505631",
-                                 "SourceLineItemID":"b0df260d-3cc8-4ced-9bd6-41924f624ed3"
-                              }
-                           ]
-                        }'
-  '/LinkedTransactions#bulk':
-    parameters:
-      - $ref: '#/components/parameters/requiredHeader'
-    x-related-model: LinkedTransaction
-    put:
-      security:
-        - OAuth2: [accounting.transactions]
-      tags:
-        - Accounting
-      operationId: createLinkedTransactions
-      summary: Allows you to create linked transactions (billable expenses)
-      responses:
-        '200':
-          description: Success - return response of type LinkedTransactions array with newly created LinkedTransaction
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/LinkedTransactions'
-              example: '{
-                          "Id": "f32b30e5-32d1-42a8-bcc9-5b22828f725c",
-                          "Status": "OK",
-                          "ProviderName": "Java Partner Example",
-                          "DateTimeUTC": "\/Date(1552351054646)\/",
-                          "LinkedTransactions": [
-                            {
-                              "LinkedTransactionID": "e9684b6c-4df9-45a0-917b-85cc29857008",
-                              "SourceTransactionID": "a848644a-f20f-4630-98c3-386bd7505631",
-                              "SourceLineItemID": "b0df260d-3cc8-4ced-9bd6-41924f624ed3",
-                              "Status": "DRAFT",
-                              "Type": "BILLABLEEXPENSE",
-                              "UpdatedDateUTC": "\/Date(1552351055000+0000)\/",
-                              "SourceTransactionTypeCode": "ACCPAY",
-                              "ValidationErrors": [
-                                {
-                                  "Message": "The SourceLineItemID and SourceTransactionID do not match"
-                                }
-                              ]
-                            }
-                          ]
-                        }'
-        '400':
-          $ref: '#/components/responses/400Error'
-      requestBody:
-        required: true
-        content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/LinkedTransactions'
               example: '{  
                            "LinkedTransactions":[  
                               {  
@@ -8812,6 +8783,108 @@ paths:
                             }
                           ]
                         }'
+    post:
+      security:
+        - OAuth2: [accounting.transactions]
+      tags:
+        - Accounting
+      operationId: createManualJournals
+      summary: Allows you to create a manual journal
+      responses:
+        '200':
+          description: Success - return response of type ManualJournals array with newly created ManualJournal
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ManualJournals'
+              example: '{
+                          "Id": "45dfa608-0fcb-4f30-a377-c82cd348569c",
+                          "Status": "OK",
+                          "ProviderName": "Java Partner Example",
+                          "DateTimeUTC": "\/Date(1552595972952)\/",
+                          "ManualJournals": [
+                            {
+                              "Date": "\/Date(1552521600000+0000)\/",
+                              "Status": "DRAFT",
+                              "LineAmountTypes": "NoTax",
+                              "UpdatedDateUTC": "\/Date(1552595972920+0000)\/",
+                              "ManualJournalID": "d312dd5e-a53e-46d1-9d51-c569ef4570b7",
+                              "Narration": "Foo bar",
+                              "JournalLines": [
+                                {
+                                  "Description": "Hello there",
+                                  "TaxType": "NONE",
+                                  "LineAmount": 100.00,
+                                  "AccountCode": "400",
+                                  "Tracking": [],
+                                  "AccountID": "c4f29c22-28c2-4a13-9eab-ecbbd641ffdf",
+                                  "IsBlank": false
+                                },
+                                {
+                                  "Description": "Goodbye",
+                                  "TaxType": "NONE",
+                                  "LineAmount": -100.00,
+                                  "AccountCode": "400",
+                                  "Tracking": [
+                                    {
+                                      "Name": "Simpsons",
+                                      "Option": "Bart",
+                                      "TrackingCategoryID": "6a68adde-f210-4465-b0a9-0d8cc6f50762",
+                                      "TrackingOptionID": "dc54c220-0140-495a-b925-3246adc0075f"
+                                    }
+                                  ],
+                                  "AccountID": "c4f29c22-28c2-4a13-9eab-ecbbd641ffdf",
+                                  "IsBlank": false
+                                }
+                              ],
+                              "ShowOnCashBasisReports": true,
+                              "Warnings": [
+                                {
+                                  "Message": "Account code ''476'' has been removed as it does not match a recognised account."
+                                }
+                              ],
+                              "ValidationErrors": [
+                                {
+                                  "Message": "The total debits (100.00) must equal total credits (-10.00)"
+                                }
+                              ]
+                            }
+                          ]
+                        }'
+        '400':
+          $ref: '#/components/responses/400Error'
+      requestBody:
+        required: true
+        content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ManualJournals'
+              example: '{  
+                           "ManualJournals":[  
+                              {  
+                                 "Narration":"Foo bar",
+                                 "JournalLines":[  
+                                    {  
+                                       "LineAmount":100.0,
+                                       "AccountCode":"400",
+                                       "Description":"Hello there"
+                                    },
+                                    {  
+                                       "LineAmount":-100.0,
+                                       "AccountCode":"400",
+                                       "Description":"Goodbye",
+                                       "Tracking":[  
+                                          {  
+                                             "Name":"Simpsons",
+                                             "Option":"Bart"
+                                          }
+                                       ]
+                                    }
+                                 ],
+                                 "Date":"2019-03-14"
+                              }
+                           ]
+                        }'
     put:
       security:
         - OAuth2: [accounting.transactions]
@@ -8888,112 +8961,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ManualJournal'
-              example: '{  
-                           "ManualJournals":[  
-                              {  
-                                 "Narration":"Foo bar",
-                                 "JournalLines":[  
-                                    {  
-                                       "LineAmount":100.0,
-                                       "AccountCode":"400",
-                                       "Description":"Hello there"
-                                    },
-                                    {  
-                                       "LineAmount":-100.0,
-                                       "AccountCode":"400",
-                                       "Description":"Goodbye",
-                                       "Tracking":[  
-                                          {  
-                                             "Name":"Simpsons",
-                                             "Option":"Bart"
-                                          }
-                                       ]
-                                    }
-                                 ],
-                                 "Date":"2019-03-14"
-                              }
-                           ]
-                        }'
-  '/ManualJournals#bulk':
-    parameters:
-      - $ref: '#/components/parameters/requiredHeader'
-    x-related-model: ManualJournal
-    put:
-      security:
-        - OAuth2: [accounting.transactions]
-      tags:
-        - Accounting
-      operationId: createManualJournals
-      summary: Allows you to create a manual journal
-      responses:
-        '200':
-          description: Success - return response of type ManualJournals array with newly created ManualJournal
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ManualJournals'
-              example: '{
-                          "Id": "45dfa608-0fcb-4f30-a377-c82cd348569c",
-                          "Status": "OK",
-                          "ProviderName": "Java Partner Example",
-                          "DateTimeUTC": "\/Date(1552595972952)\/",
-                          "ManualJournals": [
-                            {
-                              "Date": "\/Date(1552521600000+0000)\/",
-                              "Status": "DRAFT",
-                              "LineAmountTypes": "NoTax",
-                              "UpdatedDateUTC": "\/Date(1552595972920+0000)\/",
-                              "ManualJournalID": "d312dd5e-a53e-46d1-9d51-c569ef4570b7",
-                              "Narration": "Foo bar",
-                              "JournalLines": [
-                                {
-                                  "Description": "Hello there",
-                                  "TaxType": "NONE",
-                                  "LineAmount": 100.00,
-                                  "AccountCode": "400",
-                                  "Tracking": [],
-                                  "AccountID": "c4f29c22-28c2-4a13-9eab-ecbbd641ffdf",
-                                  "IsBlank": false
-                                },
-                                {
-                                  "Description": "Goodbye",
-                                  "TaxType": "NONE",
-                                  "LineAmount": -100.00,
-                                  "AccountCode": "400",
-                                  "Tracking": [
-                                    {
-                                      "Name": "Simpsons",
-                                      "Option": "Bart",
-                                      "TrackingCategoryID": "6a68adde-f210-4465-b0a9-0d8cc6f50762",
-                                      "TrackingOptionID": "dc54c220-0140-495a-b925-3246adc0075f"
-                                    }
-                                  ],
-                                  "AccountID": "c4f29c22-28c2-4a13-9eab-ecbbd641ffdf",
-                                  "IsBlank": false
-                                }
-                              ],
-                              "ShowOnCashBasisReports": true,
-                              "Warnings": [
-                                {
-                                  "Message": "Account code ''476'' has been removed as it does not match a recognised account."
-                                }
-                              ],
-                              "ValidationErrors": [
-                                {
-                                  "Message": "The total debits (100.00) must equal total credits (-10.00)"
-                                }
-                              ]
-                            }
-                          ]
-                        }'
-        '400':
-          $ref: '#/components/responses/400Error'
-      requestBody:
-        required: true
-        content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ManualJournals'
               example: '{  
                            "ManualJournals":[  
                               {  
@@ -9846,6 +9813,79 @@ paths:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     x-related-model: Overpayment
+    post:
+      security:
+        - OAuth2: [accounting.transactions]
+      tags:
+        - Accounting
+      operationId: createOverpaymentAllocations
+      summary: Allows you to retrieve Allocations for overpayments
+      parameters:
+        - required: true
+          in: path
+          name: OverpaymentID
+          description: Unique identifier for a Overpayment
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Success - return response of type Allocations array with all Allocation for Overpayments
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Allocations'
+              example: '{
+                          "Id": "3b7f7be2-384a-4703-bcfb-c56e9116c914",
+                          "Status": "OK",
+                          "ProviderName": "Java Partner Example",
+                          "DateTimeUTC": "\/Date(1552428952968)\/",
+                          "Allocations": [
+                            {
+                              "Amount": 1.00,
+                              "Date": "\/Date(1552348800000+0000)\/",
+                              "Invoice": {
+                                "InvoiceID": "c45720a1-ade3-4a38-a064-d15489be6841",
+                                "Payments": [],
+                                "CreditNotes": [],
+                                "Prepayments": [],
+                                "Overpayments": [],
+                                "HasErrors": false,
+                                "IsDiscounted": false,
+                                "LineItems": [],
+                                "ValidationErrors": []
+                              },
+                              "Overpayment": {
+                                "OverpaymentID": "ed7f6041-c915-4667-bd1d-54c48e92161e",
+                                "ID": "ed7f6041-c915-4667-bd1d-54c48e92161e",
+                                "LineItems": []
+                              },
+                              "ValidationErrors": []
+                            }
+                          ]
+                        }'
+        '400':
+          $ref: '#/components/responses/400Error'
+      requestBody:
+        required: true
+        content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Allocations'
+              example: '{  
+                           "Allocations":[  
+                              {  
+                                 "Invoice":{  
+                                    "LineItems":[  
+
+                                    ],
+                                    "InvoiceID":"c45720a1-ade3-4a38-a064-d15489be6841"
+                                 },
+                                 "Amount":1.0,
+                                 "Date":"2019-03-12"
+                              }
+                           ]
+                        }'
     put:
       security:
         - OAuth2: [accounting.transactions]
@@ -9905,83 +9945,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Allocation'
-              example: '{  
-                           "Allocations":[  
-                              {  
-                                 "Invoice":{  
-                                    "LineItems":[  
-
-                                    ],
-                                    "InvoiceID":"c45720a1-ade3-4a38-a064-d15489be6841"
-                                 },
-                                 "Amount":1.0,
-                                 "Date":"2019-03-12"
-                              }
-                           ]
-                        }'
-  '/Overpayments/{OverpaymentID}/Allocations#bulk':
-    parameters:
-      - $ref: '#/components/parameters/requiredHeader'
-    x-related-model: Overpayment
-    put:
-      security:
-        - OAuth2: [accounting.transactions]
-      tags:
-        - Accounting
-      operationId: createOverpaymentAllocations
-      summary: Allows you to retrieve Allocations for overpayments
-      parameters:
-        - required: true
-          in: path
-          name: OverpaymentID
-          description: Unique identifier for a Overpayment
-          schema:
-            type: string
-            format: uuid
-      responses:
-        '200':
-          description: Success - return response of type Allocations array with all Allocation for Overpayments
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Allocations'
-              example: '{
-                          "Id": "3b7f7be2-384a-4703-bcfb-c56e9116c914",
-                          "Status": "OK",
-                          "ProviderName": "Java Partner Example",
-                          "DateTimeUTC": "\/Date(1552428952968)\/",
-                          "Allocations": [
-                            {
-                              "Amount": 1.00,
-                              "Date": "\/Date(1552348800000+0000)\/",
-                              "Invoice": {
-                                "InvoiceID": "c45720a1-ade3-4a38-a064-d15489be6841",
-                                "Payments": [],
-                                "CreditNotes": [],
-                                "Prepayments": [],
-                                "Overpayments": [],
-                                "HasErrors": false,
-                                "IsDiscounted": false,
-                                "LineItems": [],
-                                "ValidationErrors": []
-                              },
-                              "Overpayment": {
-                                "OverpaymentID": "ed7f6041-c915-4667-bd1d-54c48e92161e",
-                                "ID": "ed7f6041-c915-4667-bd1d-54c48e92161e",
-                                "LineItems": []
-                              },
-                              "ValidationErrors": []
-                            }
-                          ]
-                        }'
-        '400':
-          $ref: '#/components/responses/400Error'
-      requestBody:
-        required: true
-        content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Allocations'
               example: '{  
                            "Allocations":[  
                               {  
@@ -10227,6 +10190,121 @@ paths:
                             }
                           ]
                         }'
+    post:
+      security:
+        - OAuth2: [accounting.transactions]
+      tags:
+        - Accounting
+      operationId: createPayments
+      summary: Allows you to create payments for invoices and credit notes      
+      responses:
+        '200':
+          description: Success - return response of type Payments array for newly created Payment
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payments'
+              example: '{
+                          "Id": "83b5715a-6a77-4c16-b5b8-2da08b5fde44",
+                          "Status": "OK",
+                          "ProviderName": "Java Partner Example",
+                          "DateTimeUTC": "\/Date(1552432238716)\/",
+                          "Payments": [
+                            {
+                              "PaymentID": "61ed71fc-01bf-4eb8-8419-8a18789ff45f",
+                              "Date": "\/Date(1552348800000+0000)\/",
+                              "BankAmount": 1.00,
+                              "Amount": 1.00,
+                              "CurrencyRate": 1.000000,
+                              "PaymentType": "ACCRECPAYMENT",
+                              "Status": "AUTHORISED",
+                              "UpdatedDateUTC": "\/Date(1552432238623+0000)\/",
+                              "HasAccount": true,
+                              "IsReconciled": false,
+                              "Account": {
+                                "AccountID": "5690f1e8-1d02-4893-90c2-ee1a69eff942",
+                                "Code": "970",
+                                "Name": "Owner A Funds Introduced"
+                              },
+                              "Invoice": {
+                                "Type": "ACCREC",
+                                "InvoiceID": "c7c37b83-ac95-45ea-88ba-8ad83a5f22fe",
+                                "InvoiceNumber": "INV-0004",
+                                "Reference": "",
+                                "Prepayments": [],
+                                "Overpayments": [],
+                                "AmountDue": 229.00,
+                                "AmountPaid": 1.00,
+                                "SentToContact": false,
+                                "CurrencyRate": 1.000000,
+                                "HasErrors": false,
+                                "IsDiscounted": false,
+                                "Contact": {
+                                  "ContactID": "a3675fc4-f8dd-4f03-ba5b-f1870566bcd7",
+                                  "Name": "Barney Rubble-83203",
+                                  "ContactPersons": [],
+                                  "HasValidationErrors": false
+                                },
+                                "DateString": "2018-10-10T00:00:00",
+                                "Date": "\/Date(1539129600000+0000)\/",
+                                "DueDateString": "2018-10-18T00:00:00",
+                                "DueDate": "\/Date(1539820800000+0000)\/",
+                                "Status": "AUTHORISED",
+                                "LineAmountTypes": "Exclusive",
+                                "LineItems": [
+                                  {
+                                    "Description": "boo",
+                                    "UnitAmount": 200.00,
+                                    "TaxType": "OUTPUT2",
+                                    "TaxAmount": 30.00,
+                                    "LineAmount": 200.00,
+                                    "AccountCode": "200",
+                                    "Tracking": [],
+                                    "Quantity": 1.0000,
+                                    "LineItemID": "173dfdb9-43b5-4bd2-ae25-9419e662a3a7",
+                                    "ValidationErrors": []
+                                  }
+                                ],
+                                "SubTotal": 200.00,
+                                "TotalTax": 30.00,
+                                "Total": 230.00,
+                                "UpdatedDateUTC": "\/Date(1552432238623+0000)\/",
+                                "CurrencyCode": "NZD"
+                              },
+                              "HasValidationErrors": true,
+                              "ValidationErrors": [
+                                {
+                                  "Message": "Payment amount exceeds the amount outstanding on this document"
+                                }
+                              ]
+                            }
+                          ]
+                        }'
+        '400':
+          $ref: '#/components/responses/400Error'
+      requestBody:
+        required: true
+        content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payments'
+              example: '{  
+                           "Payments":[  
+                              {  
+                                 "Invoice":{  
+                                    "LineItems":[  
+
+                                    ],
+                                    "InvoiceID":"c7c37b83-ac95-45ea-88ba-8ad83a5f22fe"
+                                 },
+                                 "Account":{  
+                                    "Code":"970"
+                                 },
+                                 "Date":"2019-03-12",
+                                 "Amount":1.0
+                              }
+                           ]
+                        }'
     put:
       security:
         - OAuth2: [accounting.transactions]
@@ -10325,125 +10403,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Payment'
-              example: '{  
-                           "Payments":[  
-                              {  
-                                 "Invoice":{  
-                                    "LineItems":[  
-
-                                    ],
-                                    "InvoiceID":"c7c37b83-ac95-45ea-88ba-8ad83a5f22fe"
-                                 },
-                                 "Account":{  
-                                    "Code":"970"
-                                 },
-                                 "Date":"2019-03-12",
-                                 "Amount":1.0
-                              }
-                           ]
-                        }'
-  '/Payments#bulk':
-    parameters:
-      - $ref: '#/components/parameters/requiredHeader'
-    x-related-model: Payment
-    put:
-      security:
-        - OAuth2: [accounting.transactions]
-      tags:
-        - Accounting
-      operationId: createPayments
-      summary: Allows you to create payments for invoices and credit notes      
-      responses:
-        '200':
-          description: Success - return response of type Payments array for newly created Payment
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Payments'
-              example: '{
-                          "Id": "83b5715a-6a77-4c16-b5b8-2da08b5fde44",
-                          "Status": "OK",
-                          "ProviderName": "Java Partner Example",
-                          "DateTimeUTC": "\/Date(1552432238716)\/",
-                          "Payments": [
-                            {
-                              "PaymentID": "61ed71fc-01bf-4eb8-8419-8a18789ff45f",
-                              "Date": "\/Date(1552348800000+0000)\/",
-                              "BankAmount": 1.00,
-                              "Amount": 1.00,
-                              "CurrencyRate": 1.000000,
-                              "PaymentType": "ACCRECPAYMENT",
-                              "Status": "AUTHORISED",
-                              "UpdatedDateUTC": "\/Date(1552432238623+0000)\/",
-                              "HasAccount": true,
-                              "IsReconciled": false,
-                              "Account": {
-                                "AccountID": "5690f1e8-1d02-4893-90c2-ee1a69eff942",
-                                "Code": "970",
-                                "Name": "Owner A Funds Introduced"
-                              },
-                              "Invoice": {
-                                "Type": "ACCREC",
-                                "InvoiceID": "c7c37b83-ac95-45ea-88ba-8ad83a5f22fe",
-                                "InvoiceNumber": "INV-0004",
-                                "Reference": "",
-                                "Prepayments": [],
-                                "Overpayments": [],
-                                "AmountDue": 229.00,
-                                "AmountPaid": 1.00,
-                                "SentToContact": false,
-                                "CurrencyRate": 1.000000,
-                                "HasErrors": false,
-                                "IsDiscounted": false,
-                                "Contact": {
-                                  "ContactID": "a3675fc4-f8dd-4f03-ba5b-f1870566bcd7",
-                                  "Name": "Barney Rubble-83203",
-                                  "ContactPersons": [],
-                                  "HasValidationErrors": false
-                                },
-                                "DateString": "2018-10-10T00:00:00",
-                                "Date": "\/Date(1539129600000+0000)\/",
-                                "DueDateString": "2018-10-18T00:00:00",
-                                "DueDate": "\/Date(1539820800000+0000)\/",
-                                "Status": "AUTHORISED",
-                                "LineAmountTypes": "Exclusive",
-                                "LineItems": [
-                                  {
-                                    "Description": "boo",
-                                    "UnitAmount": 200.00,
-                                    "TaxType": "OUTPUT2",
-                                    "TaxAmount": 30.00,
-                                    "LineAmount": 200.00,
-                                    "AccountCode": "200",
-                                    "Tracking": [],
-                                    "Quantity": 1.0000,
-                                    "LineItemID": "173dfdb9-43b5-4bd2-ae25-9419e662a3a7",
-                                    "ValidationErrors": []
-                                  }
-                                ],
-                                "SubTotal": 200.00,
-                                "TotalTax": 30.00,
-                                "Total": 230.00,
-                                "UpdatedDateUTC": "\/Date(1552432238623+0000)\/",
-                                "CurrencyCode": "NZD"
-                              },
-                              "HasValidationErrors": true,
-                              "ValidationErrors": [
-                                {
-                                  "Message": "Payment amount exceeds the amount outstanding on this document"
-                                }
-                              ]
-                            }
-                          ]
-                        }'
-        '400':
-          $ref: '#/components/responses/400Error'
-      requestBody:
-        required: true
-        content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Payments'
               example: '{  
                            "Payments":[  
                               {  
@@ -11479,159 +11438,7 @@ paths:
                             }
                           ]
                         }'
-    put:
-      security:
-        - OAuth2: [accounting.transactions]
-      tags:
-        - Accounting
-      operationId: createPurchaseOrder
-      summary: Allows you to create purchase orders
-      responses:
-        '200':
-          description: Success - return response of type PurchaseOrder array for specified PurchaseOrder          
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PurchaseOrders'
-              example: ' {
-                            "Id": "aa2f9d23-fd76-4bee-9600-30c0f0f34036",
-                            "Status": "OK",
-                            "ProviderName": "Java Partner Example",
-                            "DateTimeUTC": "\/Date(1552522946173)\/",
-                            "PurchaseOrders": [
-                              {
-                                "PurchaseOrderID": "56204648-8fbe-46f8-b09c-2125f7939533",
-                                "PurchaseOrderNumber": "PO-0004",
-                                "DateString": "2019-03-13T00:00:00",
-                                "Date": "\/Date(1552435200000+0000)\/",
-                                "HasErrors": false,
-                                "IsDiscounted": false,
-                                "TotalDiscount": 0.00,
-                                "SentToContact": false,
-                                "Type": "PURCHASEORDER",
-                                "CurrencyRate": 1.000000,
-                                "CurrencyCode": "NZD",
-                                "Contact": {
-                                  "ContactID": "430fa14a-f945-44d3-9f97-5df5e28441b8",
-                                  "ContactStatus": "ACTIVE",
-                                  "Name": "Liam Gallagher",
-                                  "FirstName": "Liam",
-                                  "LastName": "Gallagher",
-                                  "EmailAddress": "liam@rockstar.com",
-                                  "BankAccountDetails": "",
-                                  "Addresses": [
-                                    null,
-                                    {
-                                      "AddressType": "POBOX",
-                                      "City": "Anytown",
-                                      "Region": "NY",
-                                      "PostalCode": "10101",
-                                      "Country": "USA",
-                                      "AttentionTo": ""
-                                    }
-                                  ],
-                                  "Phones": [
-                                    {
-                                      "PhoneType": "DEFAULT",
-                                      "PhoneNumber": "222-2222",
-                                      "PhoneAreaCode": "212",
-                                      "PhoneCountryCode": ""
-                                    },
-                                    null,
-                                    {
-                                      "PhoneType": "FAX",
-                                      "PhoneNumber": "333-2233",
-                                      "PhoneAreaCode": "212",
-                                      "PhoneCountryCode": ""
-                                    },
-                                    {
-                                      "PhoneType": "MOBILE",
-                                      "PhoneNumber": "444-3433",
-                                      "PhoneAreaCode": "212",
-                                      "PhoneCountryCode": ""
-                                    }
-                                  ],
-                                  "UpdatedDateUTC": "\/Date(1551747281053+0000)\/",
-                                  "ContactGroups": [
-                                    {
-                                      "ContactGroupID": "17b44ed7-4389-4162-91cb-3dd5766e4e22",
-                                      "Name": "Oasis",
-                                      "Status": "ACTIVE",
-                                      "Contacts": [],
-                                      "HasValidationErrors": false
-                                    }
-                                  ],
-                                  "IsSupplier": true,
-                                  "IsCustomer": true,
-                                  "SalesTrackingCategories": [],
-                                  "PurchasesTrackingCategories": [],
-                                  "ContactPersons": [],
-                                  "HasValidationErrors": false
-                                },
-                                "Status": "DRAFT",
-                                "LineAmountTypes": "Exclusive",
-                                "LineItems": [
-                                  {
-                                    "Description": "Foobar",
-                                    "UnitAmount": 20.0000,
-                                    "TaxType": "INPUT2",
-                                    "TaxAmount": 3.00,
-                                    "LineAmount": 20.00,
-                                    "AccountCode": "710",
-                                    "Tracking": [],
-                                    "Quantity": 1.0000,
-                                    "LineItemID": "792b7e40-b9f2-47f0-8624-b09f4b0166dd"
-                                  }
-                                ],
-                                "SubTotal": 20.00,
-                                "TotalTax": 3.00,
-                                "Total": 23.00,
-                                "UpdatedDateUTC": "\/Date(1552522946077+0000)\/",
-                                "StatusAttributeString": "ERROR",
-                                "Warnings": [
-                                  {
-                                    "Message": "Only AUTHORISED and BILLED purchase orders may have SentToContact updated."
-                                  }
-                                ],
-                                "ValidationErrors": [
-                                  {
-                                    "Message": "Order number must be unique"
-                                  }
-                                ]
-                              }
-                            ]
-                          }'
-        '400':
-          $ref: '#/components/responses/400Error'
-      requestBody:
-        required: true
-        content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PurchaseOrder'
-              example: '{  
-                           "PurchaseOrders":[  
-                              {  
-                                 "Contact":{  
-                                    "ContactID":"430fa14a-f945-44d3-9f97-5df5e28441b8"
-                                 },
-                                 "LineItems":[  
-                                    {  
-                                       "Description":"Foobar",
-                                       "Quantity":1.0,
-                                       "UnitAmount":20.0,
-                                       "AccountCode":"710"
-                                    }
-                                 ],
-                                 "Date":"2019-03-13"
-                              }
-                           ]
-                        }'
-  '/PurchaseOrders#bulk':
-    parameters:
-      - $ref: '#/components/parameters/requiredHeader'
-    x-related-model: PurchaseOrder
-    put:
+    post:
       security:
         - OAuth2: [accounting.transactions]
       tags:
@@ -11768,6 +11575,154 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PurchaseOrders'
+              example: '{  
+                           "PurchaseOrders":[  
+                              {  
+                                 "Contact":{  
+                                    "ContactID":"430fa14a-f945-44d3-9f97-5df5e28441b8"
+                                 },
+                                 "LineItems":[  
+                                    {  
+                                       "Description":"Foobar",
+                                       "Quantity":1.0,
+                                       "UnitAmount":20.0,
+                                       "AccountCode":"710"
+                                    }
+                                 ],
+                                 "Date":"2019-03-13"
+                              }
+                           ]
+                        }'
+    put:
+      security:
+        - OAuth2: [accounting.transactions]
+      tags:
+        - Accounting
+      operationId: createPurchaseOrder
+      summary: Allows you to create purchase orders
+      responses:
+        '200':
+          description: Success - return response of type PurchaseOrder array for specified PurchaseOrder          
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PurchaseOrders'
+              example: ' {
+                            "Id": "aa2f9d23-fd76-4bee-9600-30c0f0f34036",
+                            "Status": "OK",
+                            "ProviderName": "Java Partner Example",
+                            "DateTimeUTC": "\/Date(1552522946173)\/",
+                            "PurchaseOrders": [
+                              {
+                                "PurchaseOrderID": "56204648-8fbe-46f8-b09c-2125f7939533",
+                                "PurchaseOrderNumber": "PO-0004",
+                                "DateString": "2019-03-13T00:00:00",
+                                "Date": "\/Date(1552435200000+0000)\/",
+                                "HasErrors": false,
+                                "IsDiscounted": false,
+                                "TotalDiscount": 0.00,
+                                "SentToContact": false,
+                                "Type": "PURCHASEORDER",
+                                "CurrencyRate": 1.000000,
+                                "CurrencyCode": "NZD",
+                                "Contact": {
+                                  "ContactID": "430fa14a-f945-44d3-9f97-5df5e28441b8",
+                                  "ContactStatus": "ACTIVE",
+                                  "Name": "Liam Gallagher",
+                                  "FirstName": "Liam",
+                                  "LastName": "Gallagher",
+                                  "EmailAddress": "liam@rockstar.com",
+                                  "BankAccountDetails": "",
+                                  "Addresses": [
+                                    null,
+                                    {
+                                      "AddressType": "POBOX",
+                                      "City": "Anytown",
+                                      "Region": "NY",
+                                      "PostalCode": "10101",
+                                      "Country": "USA",
+                                      "AttentionTo": ""
+                                    }
+                                  ],
+                                  "Phones": [
+                                    {
+                                      "PhoneType": "DEFAULT",
+                                      "PhoneNumber": "222-2222",
+                                      "PhoneAreaCode": "212",
+                                      "PhoneCountryCode": ""
+                                    },
+                                    null,
+                                    {
+                                      "PhoneType": "FAX",
+                                      "PhoneNumber": "333-2233",
+                                      "PhoneAreaCode": "212",
+                                      "PhoneCountryCode": ""
+                                    },
+                                    {
+                                      "PhoneType": "MOBILE",
+                                      "PhoneNumber": "444-3433",
+                                      "PhoneAreaCode": "212",
+                                      "PhoneCountryCode": ""
+                                    }
+                                  ],
+                                  "UpdatedDateUTC": "\/Date(1551747281053+0000)\/",
+                                  "ContactGroups": [
+                                    {
+                                      "ContactGroupID": "17b44ed7-4389-4162-91cb-3dd5766e4e22",
+                                      "Name": "Oasis",
+                                      "Status": "ACTIVE",
+                                      "Contacts": [],
+                                      "HasValidationErrors": false
+                                    }
+                                  ],
+                                  "IsSupplier": true,
+                                  "IsCustomer": true,
+                                  "SalesTrackingCategories": [],
+                                  "PurchasesTrackingCategories": [],
+                                  "ContactPersons": [],
+                                  "HasValidationErrors": false
+                                },
+                                "Status": "DRAFT",
+                                "LineAmountTypes": "Exclusive",
+                                "LineItems": [
+                                  {
+                                    "Description": "Foobar",
+                                    "UnitAmount": 20.0000,
+                                    "TaxType": "INPUT2",
+                                    "TaxAmount": 3.00,
+                                    "LineAmount": 20.00,
+                                    "AccountCode": "710",
+                                    "Tracking": [],
+                                    "Quantity": 1.0000,
+                                    "LineItemID": "792b7e40-b9f2-47f0-8624-b09f4b0166dd"
+                                  }
+                                ],
+                                "SubTotal": 20.00,
+                                "TotalTax": 3.00,
+                                "Total": 23.00,
+                                "UpdatedDateUTC": "\/Date(1552522946077+0000)\/",
+                                "StatusAttributeString": "ERROR",
+                                "Warnings": [
+                                  {
+                                    "Message": "Only AUTHORISED and BILLED purchase orders may have SentToContact updated."
+                                  }
+                                ],
+                                "ValidationErrors": [
+                                  {
+                                    "Message": "Order number must be unique"
+                                  }
+                                ]
+                              }
+                            ]
+                          }'
+        '400':
+          $ref: '#/components/responses/400Error'
+      requestBody:
+        required: true
+        content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PurchaseOrder'
               example: '{  
                            "PurchaseOrders":[  
                               {  
@@ -17558,8 +17513,8 @@ paths:
         - OAuth2: [accounting.settings]
       tags:
         - Accounting
-      operationId: createTaxRate
-      summary: Allows you to create Tax Rates      
+      operationId: createTaxRates
+      summary: Allows you to create one or more Tax Rates      
       responses:
         '200':
           description: Success - return response of type TaxRates array newly created TaxRate
@@ -17603,7 +17558,7 @@ paths:
         content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TaxRate'
+                $ref: '#/components/schemas/TaxRates'
               example: '{  
                            "TaxRates":[  
                               {  
@@ -17680,75 +17635,6 @@ paths:
                                     }
                                  ],
                                  "Status":"DELETED",
-                                 "ReportTaxType":"INPUT"
-                              }
-                           ]
-                        }'
-  '/TaxRates#bulk':
-    parameters:
-      - $ref: '#/components/parameters/requiredHeader'
-    x-related-model: TaxRate
-    put:
-      security:
-        - OAuth2: [accounting.settings]
-      tags:
-        - Accounting
-      operationId: createTaxRates
-      summary: Allows you to create Tax Rates      
-      responses:
-        '200':
-          description: Success - return response of type TaxRates array newly created TaxRate
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TaxRates'
-              example: '{
-                          "Id": "9d2c5e56-fab4-450b-a5ff-d47409508eab",
-                          "Status": "OK",
-                          "ProviderName": "Java Partner Example",
-                          "DateTimeUTC": "\/Date(1555086839080)\/",
-                          "TaxRates": [
-                            {
-                              "Name": "SDKTax29067",
-                              "TaxType": "TAX002",
-                              "ReportTaxType": "INPUT",
-                              "CanApplyToAssets": true,
-                              "CanApplyToEquity": true,
-                              "CanApplyToExpenses": true,
-                              "CanApplyToLiabilities": true,
-                              "CanApplyToRevenue": false,
-                              "DisplayTaxRate": 2.2500,
-                              "EffectiveRate": 2.2500,
-                              "Status": "ACTIVE",
-                              "TaxComponents": [
-                                {
-                                  "Name": "State Tax",
-                                  "Rate": 2.2500,
-                                  "IsCompound": false,
-                                  "IsNonRecoverable": false
-                                }
-                              ]
-                            }
-                          ]
-                        }'
-        '400':
-          $ref: '#/components/responses/400Error'
-      requestBody:
-        required: true
-        content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TaxRates'
-              example: '{  
-                           "TaxRates":[  
-                              {  
-                                 "Name":"SDKTax29067",
-                                 "TaxComponents":[  
-                                    {  
-                                       "Name":"State Tax",
-                                       "Rate":2.25
-                                    }
-                                 ],
                                  "ReportTaxType":"INPUT"
                               }
                            ]
