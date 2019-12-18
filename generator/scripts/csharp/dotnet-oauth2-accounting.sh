@@ -9,7 +9,7 @@ echo "# START SCRIPT: $SCRIPT"
 # remote yaml on github branch "oauth"
 ags="generate 
 -t ./generator/modules/csharp-netcore 
--i https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/oauth2/accounting-yaml/Xero_accounting_2.0.0_swagger.yaml 
+-i https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/master/accounting-yaml/Xero_accounting_2.0.0_swagger.yaml 
 -g csharp-netcore
 -o ./generator/output/csharp-netcore/accounting
 -c ./generator/scripts/dotnet-oauth2-accounting.json
