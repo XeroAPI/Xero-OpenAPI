@@ -8449,58 +8449,6 @@ paths:
                             }
                           ]
                         }'
-    post:
-      security:
-        - OAuth2: [accounting.transactions]
-      tags:
-        - Accounting
-      operationId: createLinkedTransactions
-      summary: Allows you to create linked transactions (billable expenses)
-      responses:
-        '200':
-          description: Success - return response of type LinkedTransactions array with newly created LinkedTransaction
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/LinkedTransactions'
-              example: '{
-                          "Id": "f32b30e5-32d1-42a8-bcc9-5b22828f725c",
-                          "Status": "OK",
-                          "ProviderName": "Java Partner Example",
-                          "DateTimeUTC": "\/Date(1552351054646)\/",
-                          "LinkedTransactions": [
-                            {
-                              "LinkedTransactionID": "e9684b6c-4df9-45a0-917b-85cc29857008",
-                              "SourceTransactionID": "a848644a-f20f-4630-98c3-386bd7505631",
-                              "SourceLineItemID": "b0df260d-3cc8-4ced-9bd6-41924f624ed3",
-                              "Status": "DRAFT",
-                              "Type": "BILLABLEEXPENSE",
-                              "UpdatedDateUTC": "\/Date(1552351055000+0000)\/",
-                              "SourceTransactionTypeCode": "ACCPAY",
-                              "ValidationErrors": [
-                                {
-                                  "Message": "The SourceLineItemID and SourceTransactionID do not match"
-                                }
-                              ]
-                            }
-                          ]
-                        }'
-        '400':
-          $ref: '#/components/responses/400Error'
-      requestBody:
-        required: true
-        content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/LinkedTransactions'
-              example: '{  
-                           "LinkedTransactions":[  
-                              {  
-                                 "SourceTransactionID":"a848644a-f20f-4630-98c3-386bd7505631",
-                                 "SourceLineItemID":"b0df260d-3cc8-4ced-9bd6-41924f624ed3"
-                              }
-                           ]
-                        }'
     put:
       security:
         - OAuth2: [accounting.transactions]
@@ -11599,7 +11547,7 @@ paths:
       tags:
         - Accounting
       operationId: createPurchaseOrder
-      summary: Allows you to create purchase orders
+      summary: Allows you to create a single purchase order
       responses:
         '200':
           description: Success - return response of type PurchaseOrder array for specified PurchaseOrder          
