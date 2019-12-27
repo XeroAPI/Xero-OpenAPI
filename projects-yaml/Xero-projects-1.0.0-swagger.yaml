@@ -70,12 +70,33 @@ paths:
       responses:
         '200':
           description: OK/success, returns a list of project objects
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Projects'
         '400':
           $ref: '#/components/responses/400Error' 
+    post:
+      security: 
+        - OAuth2: [projects.create]
+      tags:
+        - Projects
+      summary: creates a project for the specified contact
+      requestBody:
+        required: true
+        description: Request of type NewProject
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewProject'
+            example:
+              '{
+                "contactId":"01234567-89ab-cdef-0123-456789abcdef",
+                "name":"New Kitchen",
+                "deadlineUtc":"2019-12-10T12:59:59Z",
+                "estimateAmount":"99.99"
+               }'
+      responses:
+        '200':
+          description: OK/success, project created.
+        '400':
+          $ref: '#/components/responses/400Error'
   '/projects{projectId}':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -194,6 +215,33 @@ components:
           - CLOSED
           example: 'INPROGRESS'
           description: Status of the project. INPROGRESS or CLOSED. A project is created with status of `INPROGRESS`. To change the status of a project see [PATCH].
+    NewProject:
+      externalDocs:
+          url: 'https://developer.xero.com/documentation/projects/projects'
+      type: object
+      properties:
+        contactId:
+          type: string
+          format: uuid
+          description: Identifier of the contact this project was created for. Currently only available when creating a project.
+          example: '01234567-89ab-cdef-0123-456789abcdef'
+        name:
+          type: string
+          description: Name of the project.
+          example: 'New Kitchen'
+        deadlineUtc:
+          type: string
+          format: date-time
+          example: '2019-12-10T12:59:59Z'
+          description: Deadline for the project. UTC Date Time in ISO-8601 format.
+        estimateAmount:
+          type: number
+          format: float
+          description: Estimate for the project.
+          example: '99.99'
+      required:
+        - contactId
+        - name
     Pagination:
       properties:
         page:
