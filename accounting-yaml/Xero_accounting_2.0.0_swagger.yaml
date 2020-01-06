@@ -75,6 +75,13 @@ paths:
         - Accounting
       operationId: createAccount
       summary: Allows you to create a new chart of accounts
+      x-php: 
+          - '$account = new XeroAPI\XeroPHP\Models\Accounting\Account;'
+          - '$account->setCode("987654321");'
+          - '$account->setName("FooBar");'
+          - '$account->setType("EXPENSE");'
+          - '$account->setDescription("Hello World");'
+          - '$result = $apiInstance->createAccount($xeroTenantId,$account);'
       responses:
         '200':
           description: Success - created new Account and return response of type Accounts array with new Account 
