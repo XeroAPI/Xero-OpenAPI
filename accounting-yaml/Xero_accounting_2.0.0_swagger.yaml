@@ -1136,14 +1136,13 @@ paths:
                             }
                           ]
                         }'
-    post:
+    put:
       security:
         - OAuth2: [accounting.transactions]
       tags:
         - Accounting
       operationId: createBankTransactions
       summary: Allows you to create a spend or receive money transaction
-      x-method: PUT
       parameters:
         - in: query
           name: SummarizeErrors
@@ -1295,13 +1294,14 @@ paths:
                           }
                        ]
                     }'
-    put:
+    post:
       security:
         - OAuth2: [accounting.transactions]
       tags:
         - Accounting
       operationId: createBankTransaction
-      summary: Allows you to create a spend or receive money transaction
+      summary: Allows you to create a single spend or receive money transaction
+      x-method: PUT
       responses:
         '200':
           description: Success - return response of type BankTransactions array with new BankTransaction 
@@ -3017,14 +3017,13 @@ paths:
                               }
                             ]
                           }'
-    post:
+    put:
       security:
         - OAuth2: [accounting.contacts]
       tags:
         - Accounting
       operationId: createContacts
       summary: 'Allows you to create a multiple contacts (bulk) in a Xero organisation'
-      x-method: PUT
       parameters:
         - in: query
           name: SummarizeErrors
@@ -3203,13 +3202,14 @@ paths:
                           }
                        }
                     }'  
-    put:
+    post:
       security:
         - OAuth2: [accounting.contacts]
       tags:
         - Accounting
       operationId: createContact
       summary: 'Allows you to create a single contact in a Xero organisation'
+      x-method: PUT
       responses:
         '200':
           description: Success - return response of type Contacts array with newly created Contact
@@ -4471,14 +4471,13 @@ paths:
                             }
                           ]
                         }'
-    post:
+    put:
       security:
         - OAuth2: [accounting.transactions]
       tags:
         - Accounting
       operationId: createCreditNotes
       summary: Allows you to create a credit note
-      x-method: PUT
       parameters:
         - in: query
           name: SummarizeErrors
@@ -4625,13 +4624,14 @@ paths:
                             }
                          ]
                       }'
-    put:
+    post:
       security:
         - OAuth2: [accounting.transactions]
       tags:
         - Accounting
       operationId: createCreditNote
-      summary: Allows you to create a credit note
+      summary: Allows you to create a single credit note
+      x-method: PUT
       responses:
         '200':
           description: Success - return response of type Credit Notes array of newly created CreditNote
@@ -5650,14 +5650,13 @@ paths:
                             }
                           ]
                         }'     
-    post:
+    put:
       security:
         - OAuth2: [accounting.settings]
       tags:
         - Accounting
       operationId: createEmployees
       summary: Allows you to create new employees used in Xero payrun
-      x-method: PUT
       responses:
         '200':
           description: Success - return response of type Employees array with new Employee
@@ -5703,13 +5702,14 @@ paths:
                             }
                          ]
                       }'
-    put:
+    post:
       security:
         - OAuth2: [accounting.settings]
       tags:
         - Accounting
       operationId: createEmployee
-      summary: Allows you to create new employees used in Xero payrun
+      summary: Allows you to create a single new employees used in Xero payrun
+      x-method: PUT
       responses:
         '200':
           description: Success - return response of type Employees array with new Employee
@@ -6571,14 +6571,13 @@ paths:
                             }
                           ]
                         }'
-    post:
+    put:
       security:
         - OAuth2: [accounting.transactions]
       tags:
         - Accounting
       operationId: createInvoices
-      summary: Allows you to create any sales invoices or purchase bills
-      x-method: PUT
+      summary: Allows you to create a single sales invoices or purchase bills
       parameters:
         - in: query
           name: SummarizeErrors
@@ -6749,13 +6748,14 @@ paths:
                               }
                            ]
                         }'
-    put:
+    post:
       security:
         - OAuth2: [accounting.transactions]
       tags:
         - Accounting
       operationId: createInvoice
       summary: Allows you to create any sales invoices or purchase bills
+      x-method: PUT
       responses:
         '200':
           description: Success - return response of type Invoices array with newly created Invoice
@@ -7788,14 +7788,13 @@ paths:
                             }
                           ]
                         }'
-    post:
+    put:
       security:
         - OAuth2: [accounting.settings]
       tags:
         - Accounting
       operationId: createItems
       summary: Allows you to create multiple items
-      x-method: PUT
       parameters:
         - in: query
           name: SummarizeErrors
@@ -7852,13 +7851,14 @@ paths:
                               }
                            ]
                         }'
-    put:
+    post:
       security:
         - OAuth2: [accounting.settings]
       tags:
         - Accounting
       operationId: createItem
-      summary: Allows you to create an item
+      summary: Allows you to create a single item
+      x-method: PUT
       responses:
         '200':
           description: Success - return response of type Items array with newly created Item
@@ -8744,14 +8744,13 @@ paths:
                             }
                           ]
                         }'
-    post:
+    put:
       security:
         - OAuth2: [accounting.transactions]
       tags:
         - Accounting
       operationId: createManualJournals
       summary: Allows you to create multiple manual journals
-      x-method: PUT
       responses:
         '200':
           description: Success - return response of type ManualJournals array with newly created ManualJournal
@@ -8847,13 +8846,14 @@ paths:
                               }
                            ]
                         }'
-    put:
+    post:
       security:
         - OAuth2: [accounting.transactions]
       tags:
         - Accounting
       operationId: createManualJournal
-      summary: Allows you to create a manual journal
+      summary: Allows you to create a single manual journal
+      x-method: PUT
       responses:
         '200':
           description: Success - return response of type ManualJournals array with newly created ManualJournal
@@ -9775,14 +9775,13 @@ paths:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     x-related-model: Overpayment
-    post:
+    put:
       security:
         - OAuth2: [accounting.transactions]
       tags:
         - Accounting
       operationId: createOverpaymentAllocations
-      summary: Allows you to create Allocations for overpayments
-      x-method: PUT
+      summary: Allows you to create a single allocation for an overpayment
       parameters:
         - required: true
           in: path
@@ -9849,13 +9848,14 @@ paths:
                               }
                            ]
                         }'
-    put:
+    post:
       security:
         - OAuth2: [accounting.transactions]
       tags:
         - Accounting
       operationId: createOverpaymentAllocation
-      summary: Allows you to retrieve Allocations for overpayments
+      summary: Allows you to create a single allocations for overpayments
+      x-method: PUT
       parameters:
         - required: true
           in: path
@@ -10153,14 +10153,13 @@ paths:
                             }
                           ]
                         }'
-    post:
+    put:
       security:
         - OAuth2: [accounting.transactions]
       tags:
         - Accounting
       operationId: createPayments
-      summary: Allows you to create payments for invoices and credit notes
-      x-method: PUT      
+      summary: Allows you to create multiple payments for invoices or credit notes    
       responses:
         '200':
           description: Success - return response of type Payments array for newly created Payment
@@ -10269,13 +10268,14 @@ paths:
                               }
                            ]
                         }'
-    put:
+    post:
       security:
         - OAuth2: [accounting.transactions]
       tags:
         - Accounting
       operationId: createPayment
-      summary: Allows you to create payments for invoices and credit notes      
+      summary: Allows you to create a single payment for invoices or credit notes 
+      x-method: PUT     
       responses:
         '200':
           description: Success - return response of type Payments array for newly created Payment
@@ -11402,14 +11402,13 @@ paths:
                             }
                           ]
                         }'
-    post:
+    put:
       security:
         - OAuth2: [accounting.transactions]
       tags:
         - Accounting
       operationId: createPurchaseOrders
-      summary: Allows you to create purchase orders
-      x-method: PUT
+      summary: Allows you to create multiple purchase orders
       parameters:
         - in: query
           name: SummarizeErrors
@@ -11558,13 +11557,14 @@ paths:
                               }
                            ]
                         }'
-    put:
+    post:
       security:
         - OAuth2: [accounting.transactions]
       tags:
         - Accounting
       operationId: createPurchaseOrder
       summary: Allows you to create a single purchase order
+      x-method: PUT
       responses:
         '200':
           description: Success - return response of type PurchaseOrder array for specified PurchaseOrder          
