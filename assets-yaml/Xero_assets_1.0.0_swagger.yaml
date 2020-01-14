@@ -92,6 +92,101 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Assets'
+              example: '{ 
+                          "pagination":{ 
+                            "page":1,
+                            "pageSize":10,
+                            "pageCount":2,
+                            "itemCount":11,
+                            "links":{ 
+                              "first":{ 
+                                "href":"http://asset.favorit.xero.com/v1/assets?status=DRAFT&page=1"
+                              },
+                              "next":{ 
+                                "href":"http://asset.favorit.xero.com/v1/assets?status=DRAFT&page=2"
+                              },
+                              "last":{ 
+                                "href":"http://asset.favorit.xero.com/v1/assets?status=DRAFT&page=2"
+                              }
+                            }
+                          },
+                          "items":[ 
+                            { 
+                              "assetId":"68f17094-af97-4f1b-b36b-013b45b6ad3c",
+                              "assetName":"Computer47822",
+                              "assetNumber":"123478074",
+                              "purchaseDate":"2020-01-01T00:00:00",
+                              "purchasePrice":100.0000,
+                              "disposalPrice":0.0,
+                              "assetStatus":"Draft",
+                              "trackingItems":[ 
+                            ],
+                            "bookDepreciationSetting":{ 
+                              "depreciableObjectId":"68f17094-af97-4f1b-b36b-013b45b6ad3c",
+                              "depreciableObjectType":"Asset",
+                              "bookEffectiveDateOfChangeId":"5da77739-7f22-4109-b0a0-67480fb89af0",
+                              "depreciationMethod":"StraightLine",
+                              "averagingMethod":"ActualDays",
+                              "depreciationRate":0.50,
+                              "depreciationCalculationMethod":"None"
+                            },
+                            "bookDepreciationDetail":{ 
+                              "depreciationStartDate":"2020-01-02T00:00:00",
+                              "priorAccumDepreciationAmount":0.000000,
+                              "currentAccumDepreciationAmount":0.000000,
+                              "currentCapitalGain":0.000000,
+                              "currentGainLoss":0.000000
+                            },
+                            "taxDepreciationSettings":[ 
+                            ],
+                            "taxDepreciationDetails":[ 
+                            ],
+                            "canRollback":true,
+                            "accountingBookValue":100.000000,
+                            "taxValues":[ 
+                            ],
+                            "isDeleteEnabledForDate":false
+                          },
+                          { 
+                            "assetId":"52ea3adf-f04a-4577-8fd2-43c52a256bd5",
+                            "assetName":"Computer4148",
+                            "assetNumber":"123466620",
+                            "purchaseDate":"2020-01-01T00:00:00",
+                            "purchasePrice":100.0000,
+                            "disposalPrice":0.0,
+                            "assetStatus":"Draft",
+                            "trackingItems":[ 
+
+                            ],
+                            "bookDepreciationSetting":{ 
+                              "depreciableObjectId":"52ea3adf-f04a-4577-8fd2-43c52a256bd5",
+                              "depreciableObjectType":"Asset",
+                              "bookEffectiveDateOfChangeId":"c0d5280f-28b6-4329-b5b7-36e08c662010",
+                              "depreciationMethod":"StraightLine",
+                              "averagingMethod":"ActualDays",
+                              "depreciationRate":0.50,
+                              "depreciationCalculationMethod":"None"
+                            },
+                            "bookDepreciationDetail":{ 
+                              "depreciationStartDate":"2020-01-02T00:00:00",
+                              "priorAccumDepreciationAmount":0.000000,
+                              "currentAccumDepreciationAmount":0.000000,
+                              "currentCapitalGain":0.000000,
+                              "currentGainLoss":0.000000
+                            },
+                            "taxDepreciationSettings":[ 
+                            ],
+                            "taxDepreciationDetails":[ 
+                            ],
+                            "canRollback":true,
+                            "accountingBookValue":100.000000,
+                            "taxValues":[ 
+
+                            ],
+                            "isDeleteEnabledForDate":false
+                          }
+                        ]
+                      }'
         '400':
           description: bad input parameter
     post:
@@ -109,15 +204,92 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Asset'
+              example: '{ 
+                          "assetId":"2257c64a-77ca-444c-a5ea-fa9a588c7039",
+                          "assetName":"Computer74863",
+                          "assetNumber":"123477544",
+                          "purchaseDate":"2020-01-01T00:00:00",
+                          "purchasePrice":100.0000,
+                          "disposalPrice":23.2300,
+                          "assetStatus":"Draft",
+                          "trackingItems":[ 
+
+                          ],
+                          "bookDepreciationSetting":{ 
+                            "depreciableObjectId":"2257c64a-77ca-444c-a5ea-fa9a588c7039",
+                            "depreciableObjectType":"Asset",
+                            "bookEffectiveDateOfChangeId":"b58a2ace-1213-4681-9f11-2e30f57b5b8c",
+                            "depreciationMethod":"StraightLine",
+                            "averagingMethod":"ActualDays",
+                            "depreciationRate":0.50,
+                            "depreciationCalculationMethod":"None"
+                          },
+                          "bookDepreciationDetail":{ 
+                            "depreciationStartDate":"2020-01-02T00:00:00",
+                            "priorAccumDepreciationAmount":0.000000,
+                            "currentAccumDepreciationAmount":0.000000,
+                            "currentCapitalGain":0.000000,
+                            "currentGainLoss":0.000000
+                          },
+                          "taxDepreciationSettings":[ 
+                          ],
+                          "taxDepreciationDetails":[ 
+                          ],
+                          "canRollback":true,
+                          "accountingBookValue":76.770000,
+                          "taxValues":[ 
+                          ],
+                          "isDeleteEnabledForDate":true
+                        }'
         '400':
           description: 'invalid input, object invalid'
+          content:
+            application/json:
+              example: '{ 
+                          "resourceValidationErrors":[ ],
+                          "fieldValidationErrors":[ 
+                            { 
+                              "fieldName":"BookDepreciationSetting.DepreciationRate",
+                              "valueProvided":"",
+                              "localisedMessage":"Can''t have both Depreciation Rate and Effective Life",
+                              "type":"http://common.service.xero.com/errors/validation/field",
+                              "title":"Validation Error",
+                              "detail":"Can''t have both Depreciation Rate and Effective Life"
+                            }
+                          ],
+                          "type":"http://common.service.xero.com/errors/validation",
+                          "title":"The resource update failed validation.",
+                          "detail":"Validation Errors"
+                        }'
       requestBody:
         required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/Asset'
-        description: Fixed asset to add
+            example: '{ 
+                        "assetName":"Computer74863",
+                        "assetNumber":"123477544",
+                        "purchaseDate":"2020-01-01",
+                        "purchasePrice":100.0,
+                        "disposalPrice":23.23,
+                        "assetStatus":"Draft",
+                        "bookDepreciationSetting":{ 
+                          "depreciationMethod":"StraightLine",
+                          "averagingMethod":"ActualDays",
+                          "depreciationRate":0.5,
+                          "depreciationCalculationMethod":"None"
+                        },
+                        "bookDepreciationDetail":{ 
+                          "currentCapitalGain":5.32,
+                          "currentGainLoss":3.88,
+                          "depreciationStartDate":"2020-01-02",
+                          "costLimit":100.0,
+                          "currentAccumDepreciationAmount":2.25
+                        },
+                        "AccountingBookValue":99.5
+                      }'
+        description: Fixed asset you are creating
   /Assets/{id}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -147,6 +319,47 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Asset'
+              example: '{ 
+                          "assetId":"68f17094-af97-4f1b-b36b-013b45b6ad3c",
+                          "assetName":"Computer47822",
+                          "assetNumber":"123478074",
+                          "purchaseDate":"2020-01-01T00:00:00",
+                          "purchasePrice":100.0000,
+                          "disposalPrice":23.0000,
+                          "assetStatus":"Draft",
+                          "trackingItems":[ 
+
+                          ],
+                          "bookDepreciationSetting":{ 
+                            "depreciableObjectId":"68f17094-af97-4f1b-b36b-013b45b6ad3c",
+                            "depreciableObjectType":"Asset",
+                            "bookEffectiveDateOfChangeId":"5da77739-7f22-4109-b0a0-67480fb89af0",
+                            "depreciationMethod":"StraightLine",
+                            "averagingMethod":"ActualDays",
+                            "depreciationRate":0.50,
+                            "depreciationCalculationMethod":"None"
+                          },
+                          "bookDepreciationDetail":{ 
+                            "depreciationStartDate":"2020-01-02T00:00:00",
+                            "priorAccumDepreciationAmount":0.000000,
+                            "currentAccumDepreciationAmount":0.000000,
+                            "currentCapitalGain":0.000000,
+                            "currentGainLoss":0.000000
+                          },
+                          "taxDepreciationSettings":[ 
+                          ],
+                          "taxDepreciationDetails":[ 
+                          ],
+                          "canRollback":true,
+                          "metaData":{ 
+                          "bookDepreciationDetailsCanChange":true,
+                          "taxDepreciationDetailsCanChange":true
+                          },
+                          "accountingBookValue":77.000000,
+                          "taxValues":[ 
+                          ],
+                          "isDeleteEnabledForDate":true
+                        }'
         '400':
           description: bad input parameter
   /AssetTypes:
@@ -170,6 +383,48 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/AssetType'
+              example: '[ 
+                          { 
+                            "assetTypeId":"710255c6-d2ed-4463-b992-06c8685add5e",
+                            "assetTypeName":"Computer Equipment",
+                            "fixedAssetAccountId":"37c35de7-8df0-44bf-8e7c-f1f67cf6a278",
+                            "depreciationExpenseAccountId":"0fbd1820-9dd0-454a-9515-6ec076a84cf7",
+                            "accumulatedDepreciationAccountId":"512eac06-6894-47cd-b421-673b4ca2693a",
+                            "bookDepreciationSetting":{ 
+                              "depreciableObjectId":"710255c6-d2ed-4463-b992-06c8685add5e",
+                              "depreciableObjectType":"AssetType",
+                              "bookEffectiveDateOfChangeId":"39b9c2e9-62b1-4efc-ab75-fa9152ffaa5f",
+                              "depreciationMethod":"StraightLine",
+                              "averagingMethod":"FullMonth",
+                              "depreciationRate":25.00,
+                              "depreciationCalculationMethod":"None"
+                            },
+                            "taxDepreciationSettings":[ 
+                            ],
+                            "locks":0,
+                            "lockPrivateUseAccount":false
+                            },
+                            { 
+                            "assetTypeId":"1a398a67-9d9d-4783-8689-14a8efce89d9",
+                            "assetTypeName":"Machinery97704",
+                            "fixedAssetAccountId":"5c93f577-c48f-44cd-8593-01489e319c2b",
+                            "depreciationExpenseAccountId":"adc14376-c960-43f0-b7f3-4063e5098039",
+                            "accumulatedDepreciationAccountId":"9195cadd-8645-41e6-9f67-7bcd421defe8",
+                            "bookDepreciationSetting":{ 
+                              "depreciableObjectId":"1a398a67-9d9d-4783-8689-14a8efce89d9",
+                              "depreciableObjectType":"AssetType",
+                              "bookEffectiveDateOfChangeId":"6d09a96d-7768-4f28-95e8-c9ac870fe36e",
+                              "depreciationMethod":"DiminishingValue100",
+                              "averagingMethod":"ActualDays",
+                              "depreciationRate":40.00,
+                              "depreciationCalculationMethod":"None"
+                            },
+                            "taxDepreciationSettings":[ 
+                            ],
+                            "locks":0,
+                            "lockPrivateUseAccount":false
+                          }
+                        ]'
         '400':
           description: bad input parameter
     post:
@@ -187,8 +442,52 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AssetType'
+              example: '{ 
+                          "assetTypeId":"85509b5d-308e-420d-9532-b85105058916",
+                          "assetTypeName":"Machinery11004",
+                          "fixedAssetAccountId":"3d8d063a-c148-4bb8-8b3c-a5e2ad3b1e82",
+                          "depreciationExpenseAccountId":"d1602f69-f900-4616-8d34-90af393fa368",
+                          "accumulatedDepreciationAccountId":"9195cadd-8645-41e6-9f67-7bcd421defe8",
+                          "bookDepreciationSetting":{ 
+                            "depreciableObjectId":"00000000-0000-0000-0000-000000000000",
+                            "depreciableObjectType":"None",
+                            "depreciationMethod":"DiminishingValue100",
+                            "averagingMethod":"ActualDays",
+                            "depreciationRate":0.05,
+                            "depreciationCalculationMethod":"None"
+                          },
+                          "locks":0,
+                          "lockPrivateUseAccount":false
+                        }'
         '400':
           description: 'invalid input, object invalid'
+          content:
+            application/json:
+              example: '{ 
+                          "resourceValidationErrors":[ 
+                          ],
+                          "fieldValidationErrors":[ 
+                            { 
+                              "fieldName":"FixedAssetAccountId",
+                              "valueProvided":"",
+                              "localisedMessage":"Fixed Asset Account Id is invalid",
+                              "type":"http://common.service.xero.com/errors/validation/field",
+                              "title":"Validation Error",
+                              "detail":"Fixed Asset Account Id is invalid"
+                            },
+                            { 
+                              "fieldName":"DepreciationExpenseAccountId",
+                              "valueProvided":"",
+                              "localisedMessage":"Depreciation Expense Account Id is invalid",
+                              "type":"http://common.service.xero.com/errors/validation/field",
+                              "title":"Validation Error",
+                              "detail":"Depreciation Expense Account Id is invalid"
+                            }
+                          ],
+                          "type":"http://common.service.xero.com/errors/validation",
+                          "title":"The resource update failed validation.",
+                          "detail":"Validation Errors"
+                        }'
         '409':
           description: a type already exists
       requestBody:
@@ -196,6 +495,18 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/AssetType'
+            example: '{ 
+                        "assetTypeName":"Machinery11004",
+                        "fixedAssetAccountId":"3d8d063a-c148-4bb8-8b3c-a5e2ad3b1e82",
+                        "depreciationExpenseAccountId":"d1602f69-f900-4616-8d34-90af393fa368",
+                        "accumulatedDepreciationAccountId":"9195cadd-8645-41e6-9f67-7bcd421defe8",
+                        "bookDepreciationSetting":{ 
+                          "depreciationMethod":"DiminishingValue100",
+                          "averagingMethod":"ActualDays",
+                          "depreciationRate":0.05,
+                          "depreciationCalculationMethod":"None"
+                        }
+                      }'
         description: Asset type to add
   /Settings:
     parameters:
@@ -216,6 +527,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Setting'
+              example: '{ 
+                          "assetNumberPrefix":"FA-",
+                          "assetNumberSequence":"0007",
+                          "assetStartDate":"2016-01-01T00:00:00",
+                          "optInForTax":false
+                        }'
         '400':
           description: bad input parameter
 components:
@@ -326,13 +643,15 @@ components:
           description: "The date the asset was purchased YYYY-MM-DD"
           example: "2015-07-01T00:00:00"
         purchasePrice:
-          type: integer
+          type: number
+          format: float
           description: "The purchase price of the asset"
-          example: "1000"
+          example: "1000.0000"
         disposalPrice:
-          type: integer
+          type: number
+          format: float
           description: "The price the asset was disposed at"
-          example: 0
+          example: "1.0000"
         assetStatus:
           type: string
           description: "See Asset Status Codes."
@@ -358,7 +677,8 @@ components:
           description: "Boolean to indicate whether depreciation can be rolled back for this asset individually. This is true if it doesn't have 'legacy' journal entries and if there is no lock period that would prevent this asset from rolling back."
           example: true
         AccountingBookValue:
-          type: integer
+          type: number
+          format: float
           description: "The accounting value of the asset"
           example: 0
     AssetType:
@@ -442,12 +762,14 @@ components:
         - name
       properties:
         currentCapitalGain:
-          type: integer
-          example: 0
+          type: number
+          format: float
+          example: 5.25
           description: "When an asset is disposed, this will be the sell price minus the purchase price if a profit was made."
         currentGainLoss:
-          type: integer
-          example: 0
+          type: number
+          format: float
+          example: 10.50
           description: "When an asset is disposed, this will be the lowest one of sell price or purchase price, minus the current book value."
         depreciationStartDate:
           type: string
@@ -455,20 +777,24 @@ components:
           example: "2015-07-01T00:00:00"
           description: "YYYY-MM-DD"
         costLimit:
-          type: integer
-          example: 100000
+          type: number
+          format: float
+          example: 9000.0000
           description: "The value of the asset you want to depreciate, if this is less than the cost of the asset."
         residualValue:
-          type: integer
-          example: 10000
+          type: number
+          format: float
+          example: 10000.0000
           description: "The value of the asset remaining when you've fully depreciated it."
         priorAccumDepreciationAmount:
-          type: integer
-          example: 0
+          type: number
+          format: float
+          example: 0.45
           description: "All depreciation prior to the current financial year."
         currentAccumDepreciationAmount:
-          type: integer
-          example: 0
+          type: number
+          format: float
+          example: 5.0000
           description: "All depreciation occurring in the current financial year."
     Setting:
       required:
