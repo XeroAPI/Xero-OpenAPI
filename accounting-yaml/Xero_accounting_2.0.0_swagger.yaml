@@ -732,6 +732,13 @@ paths:
         - Accounting
       operationId: createBatchPayment
       summary: Create one or many BatchPayments for invoices
+      parameters:
+        - in: query
+          name: summarizeErrors
+          description: shows validation errors for each credit note
+          schema:
+            type: boolean
+            default: false
       responses:
         '200':
           description: Success - return response of type BatchPayments array of BatchPayment objects 
@@ -1142,7 +1149,7 @@ paths:
       tags:
         - Accounting
       operationId: createBankTransactions
-      summary: Allows you to create a spend or receive money transaction
+      summary: Allows you to create one or more spend or receive money transaction
       parameters:
         - in: query
           name: summarizeErrors
@@ -1299,9 +1306,15 @@ paths:
         - OAuth2: [accounting.transactions]
       tags:
         - Accounting
-      operationId: createBankTransaction
-      summary: Allows you to create a single spend or receive money transaction
-      x-method: PUT
+      operationId: updateOrCreateBankTransactions
+      summary: Allows you to update or create one or more spend or receive money transaction
+      parameters:
+        - in: query
+          name: summarizeErrors
+          description: response format that shows validation errors for each bank transaction
+          schema:
+            type: boolean
+            default: false
       responses:
         '200':
           description: Success - return response of type BankTransactions array with new BankTransaction 
@@ -1424,7 +1437,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/BankTransaction'
+              $ref: '#/components/schemas/BankTransactions'
             example: '{  
                        "BankTransactions":[  
                           {  
@@ -3209,9 +3222,15 @@ paths:
         - OAuth2: [accounting.contacts]
       tags:
         - Accounting
-      operationId: createContact
-      summary: 'Allows you to create a single contact in a Xero organisation'
-      x-method: PUT
+      operationId: updateOrCreateContacts
+      summary: 'Allows you to update OR create one or more contacts in a Xero organisation'
+      parameters:
+        - in: query
+          name: summarizeErrors
+          description: response format that shows validation errors for each bank transaction
+          schema:
+            type: boolean
+            default: false
       responses:
         '200':
           description: Success - return response of type Contacts array with newly created Contact
@@ -3361,7 +3380,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Contact'
+              $ref: '#/components/schemas/Contacts'
             example: '{  
                        "Name":"Foo9987",
                        "EmailAddress":"sid32476@blah.com",
@@ -4631,9 +4650,15 @@ paths:
         - OAuth2: [accounting.transactions]
       tags:
         - Accounting
-      operationId: createCreditNote
-      summary: Allows you to create a single credit note
-      x-method: PUT
+      operationId: updateOrCreateCreditNotes
+      summary: Allows you to update OR create one or more credit notes
+      parameters:
+        - in: query
+          name: summarizeErrors
+          description: shows validation errors for each credit note
+          schema:
+            type: boolean
+            default: false
       responses:
         '200':
           description: Success - return response of type Credit Notes array of newly created CreditNote
@@ -4753,7 +4778,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreditNote'
+              $ref: '#/components/schemas/CreditNotes'
             example: '{  
                          "CreditNotes":[  
                             {  
@@ -6587,7 +6612,7 @@ paths:
       tags:
         - Accounting
       operationId: createInvoices
-      summary: Allows you to create a single sales invoices or purchase bills
+      summary: Allows you to create one or more sales invoices or purchase bills
       parameters:
         - in: query
           name: summarizeErrors
@@ -6763,9 +6788,15 @@ paths:
         - OAuth2: [accounting.transactions]
       tags:
         - Accounting
-      operationId: createInvoice
-      summary: Allows you to create any sales invoices or purchase bills
-      x-method: PUT
+      operationId: updateOrCreateInvoices
+      summary: Allows you to update OR create one or more sales invoices or purchase bills
+      parameters:
+        - in: query
+          name: summarizeErrors
+          description: shows validation errors for each credit note
+          schema:
+            type: boolean
+            default: false
       responses:
         '200':
           description: Success - return response of type Invoices array with newly created Invoice
@@ -6904,7 +6935,7 @@ paths:
         content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Invoice'
+                $ref: '#/components/schemas/Invoices'
               example: '{  
                            "Invoices":[  
                               {  
@@ -7804,7 +7835,7 @@ paths:
       tags:
         - Accounting
       operationId: createItems
-      summary: Allows you to create multiple items
+      summary: Allows you to create one or more items
       parameters:
         - in: query
           name: summarizeErrors
@@ -7868,7 +7899,6 @@ paths:
         - Accounting
       operationId: createItem
       summary: Allows you to create a single item
-      x-method: PUT
       responses:
         '200':
           description: Success - return response of type Items array with newly created Item
@@ -7910,13 +7940,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/Item'
               example: '{  
-                           "Items":[  
-                              {  
-                                 "Code":"abc65591",
-                                 "Name":"Hello11350",
-                                 "Description":"foobar"
-                              }
-                           ]
+                            "Code":"abc65591",
+                            "Name":"Hello11350",
+                            "Description":"foobar"
                         }'
   '/Items/{ItemID}':
     parameters:
@@ -11418,7 +11444,7 @@ paths:
       tags:
         - Accounting
       operationId: createPurchaseOrders
-      summary: Allows you to create multiple purchase orders
+      summary: Allows you to create one or more purchase orders
       parameters:
         - in: query
           name: summarizeErrors
@@ -11572,9 +11598,15 @@ paths:
         - OAuth2: [accounting.transactions]
       tags:
         - Accounting
-      operationId: createPurchaseOrder
-      summary: Allows you to create a single purchase order
-      x-method: PUT
+      operationId: updateOrCreatePurchaseOrders
+      summary: Allows you to update or create one or more purchase orders
+      parameters:
+        - in: query
+          name: summarizeErrors
+          description: shows validation errors for each credit note
+          schema:
+            type: boolean
+            default: false
       responses:
         '200':
           description: Success - return response of type PurchaseOrder array for specified PurchaseOrder          
@@ -11697,7 +11729,7 @@ paths:
         content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PurchaseOrder'
+                $ref: '#/components/schemas/PurchaseOrders'
               example: '{  
                            "PurchaseOrders":[  
                               {  
@@ -19025,6 +19057,9 @@ components:
         HasValidationErrors:
           description: A boolean to indicate if a contact has an validation errors
           type: boolean
+        StatusAttributeString:
+          description: Status of object
+          type: string
       type: object
     Balances:
       type: object
@@ -19895,6 +19930,9 @@ components:
           description: The Xero identifier for an Item
           type: string
           format: uuid
+        StatusAttributeString:
+          description: Status of object
+          type: string  
         ValidationErrors: 
           description: Displays array of validation error messages from the API
           type: array

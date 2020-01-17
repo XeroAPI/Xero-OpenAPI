@@ -13,7 +13,7 @@ info:
     url: 'https://github.com/XeroAPI/Xero-OpenAPI/blob/master/LICENSE'
 servers:
   - description: Xero API servers
-    url: https://api.xero.com/assets.xro/1.0/
+    url: https://api.xero.com/assets.xro/1.0
 paths:
   /Assets:
     parameters:
@@ -212,9 +212,7 @@ paths:
                           "purchasePrice":100.0000,
                           "disposalPrice":23.2300,
                           "assetStatus":"Draft",
-                          "trackingItems":[ 
-
-                          ],
+                          "trackingItems":[],
                           "bookDepreciationSetting":{ 
                             "depreciableObjectId":"2257c64a-77ca-444c-a5ea-fa9a588c7039",
                             "depreciableObjectType":"Asset",
@@ -233,12 +231,10 @@ paths:
                           },
                           "taxDepreciationSettings":[ 
                           ],
-                          "taxDepreciationDetails":[ 
-                          ],
+                          "taxDepreciationDetails":[],
                           "canRollback":true,
                           "accountingBookValue":76.770000,
-                          "taxValues":[ 
-                          ],
+                          "taxValues":[],
                           "isDeleteEnabledForDate":true
                         }'
         '400':
@@ -672,15 +668,19 @@ components:
           $ref: '#/components/schemas/BookDepreciationSetting'
         bookDepreciationDetail:
           $ref: '#/components/schemas/BookDepreciationDetail'
-        canRollBack:
+        canRollback:
           type: boolean
           description: "Boolean to indicate whether depreciation can be rolled back for this asset individually. This is true if it doesn't have 'legacy' journal entries and if there is no lock period that would prevent this asset from rolling back."
           example: true
-        AccountingBookValue:
+        accountingBookValue:
           type: number
           format: float
           description: "The accounting value of the asset"
           example: 0
+        isDeleteEnabledForDate:
+          type: boolean
+          description: "Boolean to indicate whether delete is enabled"
+          example: true
     AssetType:
       type: object
       required:
@@ -757,6 +757,20 @@ components:
           - None
           example: "None"
           description: "See Depreciation Calculation Methods"
+        depreciableObjectId:
+          type: string
+          format: uuid
+          example: "68f17094-af97-4f1b-b36b-013b45b6ad3c"
+          description: "Unique Xero identifier for the depreciable object"
+        depreciableObjectType:
+          type: string
+          example: "Asset"
+          description: "The type of asset object"
+        bookEffectiveDateOfChangeId:
+          type: string
+          format: uuid
+          example: "68f17094-af97-4f1b-b36b-013b45b6ad3c"
+          description: "Unique Xero identifier for the effective date change"
     BookDepreciationDetail:
       required:
         - name
