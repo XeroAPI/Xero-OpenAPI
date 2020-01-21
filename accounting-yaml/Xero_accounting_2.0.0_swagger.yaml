@@ -7897,8 +7897,15 @@ paths:
         - OAuth2: [accounting.settings]
       tags:
         - Accounting
-      operationId: createItem
-      summary: Allows you to create a single item
+      operationId: updateOrCreateItems
+      summary: Allows you to update or create one or more items
+      parameters:
+        - in: query
+          name: summarizeErrors
+          description: response format that shows validation errors for each bank transaction
+          schema:
+            type: boolean
+            default: false
       responses:
         '200':
           description: Success - return response of type Items array with newly created Item
@@ -7938,11 +7945,15 @@ paths:
         content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Item'
+                $ref: '#/components/schemas/Items'
               example: '{  
-                            "Code":"abc65591",
-                            "Name":"Hello11350",
-                            "Description":"foobar"
+                           "Items":[  
+                              {  
+                                 "Code":"abc65591",
+                                 "Name":"Hello11350",
+                                 "Description":"foobar"
+                              }
+                           ]
                         }'
   '/Items/{ItemID}':
     parameters:
