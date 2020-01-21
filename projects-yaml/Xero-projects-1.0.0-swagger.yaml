@@ -76,6 +76,35 @@ paths:
                 $ref: '#/components/schemas/Projects'
         '400':
           $ref: '#/components/responses/400Error' 
+    post:
+      security: 
+        - OAuth2: [projects.create]
+      tags:
+        - Projects
+      summary: creates a project for the specified contact
+      requestBody:
+        required: true
+        description: Request of type NewProject
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Project'
+            example:
+              '{
+                "contactId":"01234567-89ab-cdef-0123-456789abcdef",
+                "name":"New Kitchen",
+                "deadlineUtc":"2019-12-10T12:59:59Z",
+                "estimateAmount":"99.99"
+               }'
+      responses:
+        '200':
+          description: OK/success, returns a list of project objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Projects'
+        '400':
+          $ref: '#/components/responses/400Error'
   '/projects{projectId}':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -95,6 +124,99 @@ paths:
           schema:
             type: string
             format: uuid
+      responses:
+        '200':
+          description: OK/success, returns a list of project objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Projects'
+        '400':
+          $ref: '#/components/responses/400Error' 
+    put:
+      security: 
+        - OAuth2: [projects.create]
+      tags:
+        - Projects
+      summary: creates a project for the specified contact
+      requestBody:
+        required: true
+        description: Request of type NewProject
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Project'
+            example:
+              '{
+                "name": "New Kitchen",
+                "deadlineUtc": "2017-04-23T18:25:43.511Z",
+                "estimateAmount": 99.99
+                }'
+      responses:
+        '200':
+          description: OK/success, returns a list of project objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Projects'
+        '400':
+          $ref: '#/components/responses/400Error'
+    patch:
+      security: 
+        - OAuth2: [projects.create]
+      tags:
+        - Projects
+      summary: creates a project for the specified contact
+      requestBody:
+        required: true
+        description: Request of type NewProject
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Project'
+            example:
+              '{
+                "status": "INPROGRESS"
+                }'
+      responses:
+        '200':
+          description: OK/success, returns a list of project objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Projects'
+        '400':
+          $ref: '#/components/responses/400Error'
+  /projectusers:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    get:
+      security:
+        - OAuth2: [projects.read]
+      tags:
+        - Projects
+      summary: list all project users
+      operationId: getProject Users
+      description: Allows you to retrieve the users on a projects.
+      parameters:
+        - name: page
+          in: query
+          required: false
+          description: set to 1 by default. The requested number of the page in paged response - Must be a number greater than 0.
+          schema: 
+            type: integer
+            example: 1
+            default: 1
+        - name: pageSize
+          in: query
+          required: false
+          description: Optional, it is set to 50 by default. The number of items to return per page in a paged response - Must be a number between 1 and 500.
+          schema: 
+            type: integer
+            minimum: 1
+            maximum: 500
+            default: 50
+            example: 100
       responses:
         '200':
           description: OK/success, returns a list of project objects
@@ -156,6 +278,8 @@ components:
           $ref: '#/components/schemas/Amount'
         totalExpenseAmount:
           $ref: '#/components/schemas/Amount'
+        estimateAmount:
+          $ref: '#/components/schemas/Amount'
         minutesToBeInvoiced:
           type: integer
           example: 0
@@ -194,6 +318,8 @@ components:
           - CLOSED
           example: 'INPROGRESS'
           description: Status of the project. INPROGRESS or CLOSED. A project is created with status of `INPROGRESS`. To change the status of a project see [PATCH].
+      required:
+        - name    
     Pagination:
       properties:
         page:
@@ -212,6 +338,35 @@ components:
           type: integer
           example: 2
           description: Number of items returned
+    ProjectUsers: 
+      externalDocs:
+        url: 'https://developer.xero.com/documentation/projects/users'
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectUser'
+    ProjectUser:
+      externalDocs:
+        url: 'https://developer.xero.com/documentation/projects/users'
+      type: object
+      properties:
+        userId:
+          type: string
+          format: uuid
+          example: '254553fa-2be8-4991-bd5e-70a97ea12ef8'
+          description: Identifier of the user of the project.
+        name: 
+          type: string
+          example: 'Sidney Allen'
+          description: Full name of the user.
+        email: 
+          type: string
+          example: 'sidneyallen@xero.com'
+          description: Email address of the user.
     Amount:
       type: object
       properties:
