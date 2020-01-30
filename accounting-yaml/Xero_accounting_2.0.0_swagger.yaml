@@ -7323,8 +7323,7 @@ paths:
                                 "ContentLength": 2878711
                               }
                             ]
-                          }
-'
+                          }'
   '/Invoices/{InvoiceID}/Attachments/{AttachmentID}':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -7387,7 +7386,7 @@ paths:
         - required: true
           in: path
           name: FileName
-          description: Name of the file you are attaching
+          description: Name of the file you are retrieving
           schema:
             type: string
         - required: true
@@ -12297,6 +12296,211 @@ paths:
                             }
                           ]
                         }'
+    post:
+      security:
+        - OAuth2: [accounting.transactions]
+      tags:
+        - Accounting
+      operationId: createQuote
+      summary: Allows you to create any sales quotes
+      responses:
+        '200':
+          description: Success - return response of type Quotes array with newly created Quotes
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Quotes'
+              example: '{
+                        "SummarizeErrors": true,
+                        "Id": "1a0d81a2-730a-479e-8347-823f8819b425",
+                        "Status": "OK",
+                        "ProviderName": "Sample Demo Company",
+                        "DateTimeUTC": "/Date(1580332535393)/",
+                        "Quotes": [
+                          {
+                            "QuoteID": "310d97ec-b546-462e-95c5-4f807babb387",
+                            "QuoteNumber": "QU-0068",
+                            "Reference": "REF-10050",
+                            "Terms": "Quote is valid for 30 business days",
+                            "Contact": {
+                              "ContactID": "6d42f03b-181f-43e3-93fb-2025c012de92",
+                              "Name": "Wilson Periodicals",
+                              "EmailAddress": ""
+                            },
+                            "LineItems": [
+                              {
+                                "LineItemID": "fb71c09f-6d99-417e-a408-038523432807",
+                                "Description": "Jurassic Park Colouring Book",
+                                "UnitAmount": 12.5000,
+                                "LineAmount": 12.50,
+                                "ItemCode": "BOOK",
+                                "Quantity": 1.0000,
+                                "TaxAmount": 0.00,
+                                "Tracking": []
+                              }
+                            ],
+                            "Date": "/Date(1574985600000)/",
+                            "DateString": "2019-11-29T00:00:00",
+                            "ExpiryDate": "/Date(1577577600000)/",
+                            "ExpiryDateString": "2019-12-29T00:00:00",
+                            "Status": "DRAFT",
+                            "CurrencyRate": 1.000000,
+                            "CurrencyCode": "NZD",
+                            "SubTotal": 12.50,
+                            "TotalTax": 0.00,
+                            "Total": 12.50,
+                            "Title": "Quote for product sale",
+                            "Summary": "Sale of book",
+                            "UpdatedDateUTC": "/Date(1580332535097)/",
+                            "LineAmountTypes": "EXCLUSIVE"
+                          }
+                        ]
+                      }'
+        '400':
+          $ref: '#/components/responses/400Error'
+      requestBody:
+        required: true
+        content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Quotes'
+              example: '{
+                          "QuoteNumber": "QU-1068",
+                          "Reference": "REF-10050",
+                          "Terms": "Quote is valid for 30 business days",
+                          "Contact": {
+                            "ContactID": "6d42f03b-181f-43e3-93fb-2025c012de92"
+                          },
+                          "LineItems": [
+                            {
+                              "LineItemID": "874a8a16-9696-4a5a-8e3c-0ffda3ef36e6",
+                              "Description": "Jurassic Park Colouring Book",
+                              "UnitAmount": 12.50,
+                              "LineAmount": 12.50,
+                              "ItemCode": "BOOK",
+                              "Quantity": 1.0000
+                            }
+                          ],
+                          "Date": "2019-11-29",
+                          "ExpiryDate": "2019-12-29",
+                          "Status": "SENT",
+                          "CurrencyCode": "NZD",
+                          "SubTotal": 12.50,
+                          "TotalTax": 0.00,
+                          "Total": 12.50,
+                          "Title": "Quote for product sale",
+                          "Summary": "Sale of book",
+                          "Tracking": [],
+                          "LineAmountTypes": "EXCLUSIVE"
+                          }'
+  '/Quotes#bulk':
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    x-related-model: Invoice
+    put:
+      security:
+        - OAuth2: [accounting.transactions]
+      tags:
+        - Accounting
+      operationId: createInvoices
+      summary: Allows you to create any Quotes
+      responses:
+        '200':
+          description: Success - return response of type Invoices array with newly created Invoice
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invoices'
+              example: '{
+                        "SummarizeErrors": true,
+                        "Id": "1a0d81a2-730a-479e-8347-823f8819b425",
+                        "Status": "OK",
+                        "ProviderName": "Sample Demo Company",
+                        "DateTimeUTC": "/Date(1580332535393)/",
+                        "Quotes": [
+                          {
+                            "QuoteID": "310d97ec-b546-462e-95c5-4f807babb387",
+                            "QuoteNumber": "QU-0068",
+                            "Reference": "REF-10050",
+                            "Terms": "Quote is valid for 30 business days",
+                            "Contact": {
+                              "ContactID": "6d42f03b-181f-43e3-93fb-2025c012de92",
+                              "Name": "Wilson Periodicals",
+                              "EmailAddress": ""
+                            },
+                            "LineItems": [
+                              {
+                                "LineItemID": "fb71c09f-6d99-417e-a408-038523432807",
+                                "Description": "Jurassic Park Colouring Book",
+                                "UnitAmount": 12.5000,
+                                "LineAmount": 12.50,
+                                "ItemCode": "BOOK",
+                                "Quantity": 1.0000,
+                                "TaxAmount": 0.00,
+                                "Tracking": []
+                              }
+                            ],
+                            "Date": "/Date(1574985600000)/",
+                            "DateString": "2019-11-29T00:00:00",
+                            "ExpiryDate": "/Date(1577577600000)/",
+                            "ExpiryDateString": "2019-12-29T00:00:00",
+                            "Status": "DRAFT",
+                            "CurrencyRate": 1.000000,
+                            "CurrencyCode": "NZD",
+                            "SubTotal": 12.50,
+                            "TotalTax": 0.00,
+                            "Total": 12.50,
+                            "Title": "Quote for product sale",
+                            "Summary": "Sale of book",
+                            "UpdatedDateUTC": "/Date(1580332535097)/",
+                            "LineAmountTypes": "EXCLUSIVE"
+                          }
+                        ]
+                      }'
+        '400':
+          $ref: '#/components/responses/400Error'
+      parameters:
+        - in: query
+          name: SummarizeErrors
+          description: shows validation errors for each invoice
+          schema:
+            type: boolean
+            default: true
+      requestBody:
+        required: true
+        content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Quotes'
+              example: '{
+                          "QuoteNumber": "QU-1068",
+                          "Reference": "REF-10050",
+                          "Terms": "Quote is valid for 30 business days",
+                          "Contact": {
+                            "ContactID": "6d42f03b-181f-43e3-93fb-2025c012de92"
+                          },
+                          "LineItems": [
+                            {
+                              "LineItemID": "874a8a16-9696-4a5a-8e3c-0ffda3ef36e6",
+                              "Description": "Jurassic Park Colouring Book",
+                              "UnitAmount": 12.50,
+                              "LineAmount": 12.50,
+                              "ItemCode": "BOOK",
+                              "Quantity": 1.0000
+                            }
+                          ],
+                          "Date": "2019-11-29",
+                          "ExpiryDate": "2019-12-29",
+                          "Status": "SENT",
+                          "CurrencyCode": "NZD",
+                          "SubTotal": 12.50,
+                          "TotalTax": 0.00,
+                          "Total": 12.50,
+                          "Title": "Quote for product sale",
+                          "Summary": "Sale of book",
+                          "Tracking": [],
+                          "LineAmountTypes": "EXCLUSIVE"
+                          }'
   '/Quotes/{QuoteID}':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -12310,7 +12514,7 @@ paths:
         - required: true
           in: path
           name: QuoteID
-          description: Unique identifier for an Quote
+          description: Unique identifier for a Quote
           schema:
             type: string
             format: uuid
@@ -12376,6 +12580,480 @@ paths:
                               "LineAmountTypes": "EXCLUSIVE"
                             }
                           ]
+                        }'
+    post:
+      security:
+        - OAuth2: [accounting.transactions]
+      tags:
+        - Accounting
+      operationId: updateQuote
+      summary: Allows you to update a specified quote
+      parameters:
+        - required: true
+          in: path
+          name: QuoteID
+          description: Unique identifier for a Quote
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Success - return response of type Quote array with updated Quote
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Quotes'
+              example: '{
+                          "SummarizeErrors": true,
+                          "Id": "3bc60f05-dede-40f9-b276-9d30e0d67bb9",
+                          "Status": "OK",
+                          "ProviderName": "Dan Demo Company",
+                          "DateTimeUTC": "/Date(1580335863746)/",
+                          "Quotes": [
+                            {
+                              "QuoteID": "68e9965d-8d22-4e22-a01c-ee0a78fb3ea1",
+                              "QuoteNumber": "QU-0016",
+                              "Reference": "REF-90092",
+                              "Terms": "Quote is valid for 30 business days",
+                              "Contact": {
+                                "ContactID": "6d42f03b-181f-43e3-93fb-2025c012de92",
+                                "Name": "Wilson Periodicals",
+                                "EmailAddress": ""
+                              },
+                              "LineItems": [
+                                {
+                                  "LineItemID": "d3d4f747-cff7-46ae-b3d2-68ac5144abad",
+                                  "Description": "Jurassic Park Colouring Book",
+                                  "UnitAmount": 12.5000,
+                                  "LineAmount": 12.50,
+                                  "ItemCode": "BOOK",
+                                  "Quantity": 1.0000,
+                                  "TaxAmount": 0.00,
+                                  "Tracking": []
+                                }
+                              ],
+                              "Date": "/Date(1574985600000)/",
+                              "DateString": "2019-11-29T00:00:00",
+                              "ExpiryDate": "/Date(1577577600000)/",
+                              "ExpiryDateString": "2019-12-29T00:00:00",
+                              "Status": "SENT",
+                              "CurrencyRate": 1.000000,
+                              "CurrencyCode": "NZD",
+                              "SubTotal": 12.50,
+                              "TotalTax": 0.00,
+                              "Total": 12.50,
+                              "Title": "Quote for product sale",
+                              "Summary": "Sale of book",
+                              "UpdatedDateUTC": "/Date(1580335863560)/",
+                              "LineAmountTypes": "EXCLUSIVE"
+                            }
+                          ]
+                        }'
+        '400':
+          $ref: '#/components/responses/400Error'
+      requestBody:
+        required: true
+        content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Invoices'
+              example: '{
+                          "QuoteID": "68e9965d-8d22-4e22-a01c-ee0a78fb3ea1",
+                          "QuoteNumber": "QU-1068",
+                          "Reference": "REF-90092",
+                          "Terms": "Quote is valid for 30 business days",
+                          "Contact": {
+                            "ContactID": "6d42f03b-181f-43e3-93fb-2025c012de92"
+                          },
+                          "LineItems": [
+                            {
+                              "LineItemID": "060f0936-5818-4b31-acbd-6c733dafbc1a",
+                              "Description": "Jurassic Park Colouring Book",
+                              "UnitAmount": 12.50,
+                              "LineAmount": 12.50,
+                              "ItemCode": "BOOK",
+                              "Quantity": 1.0000
+                            }
+                          ],
+                          "Date": "2019-11-29",
+                          "ExpiryDate": "2019-12-29",
+                          "Status": "SENT",
+                          "CurrencyCode": "NZD",
+                          "SubTotal": 12.50,
+                          "TotalTax": 0.00,
+                          "Total": 12.50,
+                          "Title": "Quote for product sale",
+                          "Summary": "Sale of book",
+                          "Tracking": [],
+                          "LineAmountTypes": "EXCLUSIVE"
+                          }'
+  '/Quotes/{QuoteID}/pdf':
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    x-related-model: Quote
+    get:
+      security:
+        - OAuth2: [accounting.transactions.read]
+      tags:
+        - Accounting
+      operationId: getQuoteAsPdf
+      summary: Allows you to retrieve quotes as PDF files
+      parameters:
+        - required: true
+          in: path
+          name: QuoteID
+          description: Unique identifier for a Quote
+          schema:
+            type: string
+            format: uuid
+        - required: true
+          in: header
+          name: contentType
+          description: The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success - return response of byte array pdf version of specified Quote
+          content:
+             application/octet-stream:
+              schema:
+                type: string
+                format: binary
+  '/Quotes/{QuoteID}/Attachments':
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    x-related-model: Quote
+    get:
+      security:
+        - OAuth2: [accounting.attachments.read]
+      tags:
+        - Accounting
+      operationId: getQuoteAttachments
+      summary: Allows you to retrieve Attachments on Quotes
+      parameters:
+        - required: true
+          in: path
+          name: QuoteID
+          description: Unique identifier for a Quote
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Success - return response of type Attachments array of Attachments for specified Quotes
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Attachments'
+              example: '{
+                          "Id": "4e3eaa20-32f2-4541-9fe1-e2246f8eda89",
+                          "Status": "OK",
+                          "ProviderName": "Dan Demo Company",
+                          "DateTimeUTC": "/Date(1580342392460)/",
+                          "Attachments": [
+                            {
+                              "AttachmentID": "ada21254-21c8-4e03-809d-6fbfd0ad0f5d",
+                              "FileName": "sample.pdf",
+                              "Url": "https://api.xero.com/api.xro/2.0/quotes/6294578f-3abf-4fdb-8832-f7289b915708/Attachments/sample.pdf",
+                              "MimeType": "application/pdf",
+                              "ContentLength": 6193,
+                              "IncludeOnline": true
+                            }
+                          ]
+                        }'
+  '/Quotes/{QuoteID}/Attachments/{AttachmentID}':
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    x-related-model: Quote
+    get:
+      security:
+        - OAuth2: [accounting.attachments.read]
+      tags:
+        - Accounting
+      operationId: getQuoteeAttachmentById
+      summary: Allows you to retrieve a specified Attachment on quotes by it's ID
+      parameters:
+        - required: true
+          in: path
+          name: QuoteID
+          description: Unique identifier for a quote
+          schema:
+            type: string
+            format: uuid
+        - required: true
+          in: path
+          name: AttachmentID
+          description: Unique identifier for an Attachment
+          schema:
+            type: string
+            format: uuid
+        - required: true
+          in: header
+          name: contentType
+          description: The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success - return response of attachment for Quote as binary data 
+          content:
+             application/octet-stream:
+              schema:
+                type: string
+                format: binary
+  '/Quotes/{QuoteID}/Attachments/{FileName}':
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    x-related-model: Quote
+    get:
+      security:
+        - OAuth2: [accounting.attachments.read]
+      tags:
+        - Accounting
+      operationId: getQuoteAttachmentByFileName
+      summary: Allows you to retrieve Attachment on Quotes by it's filename
+      parameters:
+        - required: true
+          in: path
+          name: QuoteID
+          description: Unique identifier for a Quote
+          schema:
+            type: string
+            format: uuid
+        - required: true
+          in: path
+          name: FileName
+          description: Name of the file you are retrieving
+          schema:
+            type: string
+        - required: true
+          in: header
+          name: contentType
+          description: The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success - return response of attachment for Invoice as binary data 
+          content:
+             application/octet-stream:
+              schema:
+                type: string
+                format: binary
+    post:
+      security:
+        - OAuth2: [accounting.attachments]
+      tags:
+        - Accounting
+      operationId: updateQuoteAttachmentByFileName
+      summary: Allows you to update Attachment on quotes by filename
+      parameters:
+        - required: true
+          in: path
+          name: QuoteID
+          description: Unique identifier for a Quote
+          schema:
+            type: string
+            format: uuid
+        - required: true
+          in: path
+          name: FileName
+          description: Name of the file you are attaching
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success - return response of type Attachments array with updated Attachment
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Attachments'
+              example: '{
+                          "Id": "a6db12ca-5769-488d-aff4-e3c3d75f39de",
+                          "Status": "OK",
+                          "ProviderName": "Dan Demo Company",
+                          "DateTimeUTC": "/Date(1580349763555)/",
+                          "Attachments": [
+                            {
+                              "AttachmentID": "6a671748-b341-4421-9baa-6855538091ab",
+                              "FileName": "response.pdf",
+                              "Url": "https://api.xero.com/api.xro/2.0/invoices/22b3fab4-ef56-4d70-a110-a7cc3c1a26cd/Attachments/response.pdf",
+                              "MimeType": "application/pdf",
+                              "ContentLength": 6193
+                            }
+                          ]
+                        }'
+        '400':
+          $ref: '#/components/responses/400Error'
+      requestBody:
+        required: true
+        description: Byte array of file in body of request
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: byte
+    put:
+      security:
+        - OAuth2: [accounting.attachments]
+      tags:
+        - Accounting
+      operationId: createQuoteAttachmentByFileName
+      summary: Allows you to create an Attachment on invoices or purchase bills by it's filename
+      parameters:
+        - required: true
+          in: path
+          name: QuoteID
+          description: Unique identifier for a Quote
+          schema:
+            type: string
+            format: uuid
+        - required: true
+          in: path
+          name: FileName
+          description: Name of the file you are attaching
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success - return response of type Attachments array with newly created Attachment
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Attachments'
+              example: '{
+                          "Id": "29be1ed2-d8a5-4ee5-a134-61f41fa1bdfe",
+                          "Status": "OK",
+                          "ProviderName": "Dan Demo Company",
+                          "DateTimeUTC": "/Date(1580349626827)/",
+                          "Attachments": [
+                            {
+                              "AttachmentID": "6a671748-b341-4421-9baa-6855538091ab",
+                              "FileName": "response.pdf",
+                              "Url": "https://api.xero.com/api.xro/2.0/invoices/cb700aeb-64aa-4af8-b2ee-6ab94f7b2d64/Attachments/response.pdf",
+                              "MimeType": "application/pdf",
+                              "ContentLength": 6193
+                            }
+                          ]
+                        }'
+        '400':
+          $ref: '#/components/responses/400Error'
+      requestBody:
+        required: true
+        description: Byte array of file in body of request
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: byte
+  '/Quotes/{QuoteID}/History':
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    x-related-model: Quote
+    get:
+      security:
+        - OAuth2: [accounting.transactions.read]
+      tags:
+        - Accounting
+      operationId: getQuoteHistory
+      summary: Allows you to retrieve a history records of a Quote
+      parameters:
+        - required: true
+          in: path
+          name: QuoteID
+          description: Unique identifier for a Quote
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Success - return response of type HistoryRecords array with all HistoryRecord for specific Quote
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HistoryRecords'
+              example: '{
+                          "Id": "faa2cfe7-01ce-4161-93d7-cc99e82b6064",
+                          "Status": "OK",
+                          "ProviderName": "Dan Demo Company",
+                          "DateTimeUTC": "/Date(1580349988178)/",
+                          "HistoryRecords": [
+                            {
+                              "Changes": "Edited",
+                              "DateUTCString": "2019-10-28T20:31:57",
+                              "DateUTC": "/Date(1572294717150+0000)/",
+                              "User": "Daniel Reed",
+                              "Details": "Quote QU-0003 changed. Reference changed. Summary changed."
+                            },
+                            {
+                              "Changes": "Created",
+                              "DateUTCString": "2019-10-28T20:31:23",
+                              "DateUTC": "/Date(1572294683350+0000)/",
+                              "User": "Daniel Reed",
+                              "Details": "Quote QU-0003 to 7-Eleven for 7,000.00."
+                            }
+                          ]
+                        }'
+    put:
+      security:
+        - OAuth2: [accounting.transactions]
+      tags:
+        - Accounting
+      operationId: createQuoteHistory
+      summary: Allows you to retrieve a history records of a quote
+      parameters:
+        - required: true
+          in: path
+          name: "QuoteID"
+          description: Unique identifier for a quote
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Success - return response of type HistoryRecords array with newly created HistoryRecord for specific Invoice
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HistoryRecords'
+              example: '{
+                          "Id": "82497fcc-853c-446b-aca0-6f3b02fb394f",
+                          "Status": "OK",
+                          "ProviderName": "Dan Demo Company",
+                          "DateTimeUTC": "/Date(1580350179901)/",
+                          "HistoryRecords": [
+                            {
+                              "DateUTCString": "2020-01-30T02:09:39",
+                              "DateUTC": "/Date(1580350179901)/",
+                              "Details": "Previous payment failed",
+                              "ValidationErrors": []
+                            },
+                            {
+                              "DateUTCString": "2020-01-30T02:09:39",
+                              "DateUTC": "/Date(1580350179901)/",
+                              "Details": "Defer the payment",
+                              "ValidationErrors": []
+                            }
+                          ]
+                        }'
+        '400':
+          $ref: '#/components/responses/400Error'
+      requestBody:
+        required: true
+        content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HistoryRecords'
+              example: '{
+                          "HistoryRecords": [
+                            {
+                              "Details": "Previous payment failed"
+                            },
+                            {
+                              "Details": "Defer the payment"
+                            }
+                          ]  
                         }'
   /Receipts:
     parameters:
