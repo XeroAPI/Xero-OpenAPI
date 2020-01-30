@@ -12301,6 +12301,68 @@ paths:
                             }
                           ]
                         }'
+    put:
+      security:
+        - OAuth2: [accounting.transactions]
+      tags:
+        - Accounting
+      operationId: createQuotes
+      summary: Allows you to create one or more quotes
+      parameters:
+        - in: query
+          name: summarizeErrors
+          description: if true, only return quotes with validation errors 
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: Success - return response of type Quotes with array with newly created Quote
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Quotes'
+              example: ''
+        '400':
+          $ref: '#/components/responses/400Error'
+      requestBody:
+        required: true
+        content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Quotes'
+              example: ''
+    post:
+      security:
+        - OAuth2: [accounting.transactions]
+      tags:
+        - Accounting
+      operationId: updateOrCreateQuotes
+      summary: Allows you to update OR create one or more quotes
+      parameters:
+        - in: query
+          name: summarizeErrors
+          description: if true, only return quotes with  validation errors
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: Success - return response of type Quotes array with updated or created Quote
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Quotes'
+              example: ''
+        '400':
+          $ref: '#/components/responses/400Error'
+      requestBody:
+        required: true
+        content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Quotes'
+              example: ''
   '/Quotes/{QuoteID}':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -12383,6 +12445,103 @@ paths:
                             }
                           ]
                         }'
+    post:
+      security:
+        - OAuth2: [accounting.transactions]
+      tags:
+        - Accounting
+      operationId: updateQuote
+      summary: Allows you to update a specified quote
+      parameters:
+        - required: true
+          in: path
+          name: QuoteID
+          description: Unique identifier for an Quote
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Success - return response of type Quotes array with updated Quote
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Quotes'
+              example: ''
+        '400':
+          $ref: '#/components/responses/400Error'
+      requestBody:
+        required: true
+        content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Quotes'
+              example: ''
+  '/Quotes/{QuoteID}/History':
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    get:
+      security:
+        - OAuth2: [accounting.transactions.read]
+      tags:
+        - Accounting
+      operationId: getQuoteHistory
+      summary: Allows you to retrieve a history records of an quote
+      parameters:
+        - required: true
+          in: path
+          name: QuoteID
+          description: Unique identifier for an Quote
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Success - return response of type HistoryRecords array with all HistoryRecord for specific Quote
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HistoryRecords'
+              example: ''
+    put:
+      security:
+        - OAuth2: [accounting.transactions]
+      tags:
+        - Accounting
+      operationId: createQuoteHistory
+      summary: Allows you to retrieve a history records of an quote
+      parameters:
+        - required: true
+          in: path
+          name: QuoteID
+          description: Unique identifier for an Quote
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Success - return response of type HistoryRecords array with newly created HistoryRecord for specific Quote
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HistoryRecords'
+              example: ''
+        '400':
+          $ref: '#/components/responses/400Error'
+      requestBody:
+        required: true
+        content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HistoryRecords'
+              example: '{  
+                           "HistoryRecords":[  
+                              {  
+                                 "Details":"Hello World"
+                              }
+                           ]
+                        }'
+  
   /Receipts:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -21339,11 +21498,11 @@ components:
         url: 'http://developer.xero.com/documentation/api/Quotes/'
       properties:
         QuoteID:
-          description: Xero generated unique identifier for quote
+          description: QuoteID GUID is automatically generated and is returned after create or GET.
           type: string
           format: uuid
         QuoteNumber:
-          description: Unique alpha numeric code identifying quote (when missing will auto-generate from your Organisation Invoice Settings)
+          description: Unique alpha numeric code identifying a quote (Max Length = 255)
           maxLength: 255
           type: string
         Reference:
@@ -21356,11 +21515,13 @@ components:
           type: string
         Contact:
           $ref: '#/components/schemas/Contact'
+          type: string
         LineItems:
-          description: See LineItems
+          description: The LineItems collection can contain any number of individual LineItem sub-elements. At minimum, a description is required to create a complete quote.
           type: array
           items:
             $ref: '#/components/schemas/LineItem'
+            type: object
         Date:
           description: Date quote was issued – YYYY-MM-DD. If the Date element is not specified it will default to the current date based on the timezone setting of the organisation
           type: string
@@ -21377,11 +21538,11 @@ components:
           type: string
         Status:
           $ref: '#/components/schemas/QuoteStatusCodes'
+          type: string
         CurrencyCode:
           $ref: '#/components/schemas/CurrencyCode'
         CurrencyRate:
-          description: The currency rate for a multicurrency quote. If no rate is
-            specified, the XE.com day rate is used.
+          description: The currency rate for a multicurrency quote
           type: number
           format: double 
         SubTotal:
@@ -21411,7 +21572,7 @@ components:
         Summary:
           description: Summary text for the quote
           type: string
-          maxLength: 4000
+          maxLength: 3000
         BrandingThemeID:
           description: See BrandingThemes
           type: string
@@ -21423,8 +21584,12 @@ components:
           format: date-time
         LineAmountTypes:
           $ref: '#/components/schemas/LineAmountTypes'
+          type: string
+          description: See Line Amount Types
       required:
         - Contact
+        - Date
+        - LineItems
       type: object
     QuoteStatusCodes:
       description: The status of the quote. 
