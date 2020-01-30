@@ -145,10 +145,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/Account'
               example: '{
-                          "Code":"123456",
-                          "Name":"Foobar",
-                          "Type":"EXPENSE",
-                          "Description":"Hello World"
+                          code: "123456",
+                          name: "Foobar",
+                          type: AccountType.EXPENSE,
+                          description: "Hello World"
                         }'
   '/Accounts/{AccountID}':
     parameters:
@@ -5286,6 +5286,12 @@ paths:
           description: Name of the file you are attaching to Credit Note
           schema:
             type: string
+        - required: true
+          in: path
+          name: IncludeOnline
+          description: Set an attachment to be included with the invoice when viewed online (through Xero)
+          schema:
+            type: boolean
       responses:
         '200':
           description: Success - return response of type Attachments array with newly created Attachment for specific Credit Note
@@ -7519,6 +7525,12 @@ paths:
           description: Name of the file you are attaching
           schema:
             type: string
+        - required: true
+          in: path
+          name: IncludeOnline
+          description: Set an attachment to be included with the invoice when viewed online (through Xero)
+          schema:
+            type: boolean
       responses:
         '200':
           description: Success - return response of type Attachments array with newly created Attachment
@@ -18199,6 +18211,7 @@ components:
       in: header
       name: xero-tenant-id
       description: Xero identifier for Tenant
+      example: YOUR_XERO_TENANT_ID
       schema:
         type: string
       required: true 
@@ -18290,6 +18303,29 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Account'
+          example: '{
+                  "Id": "11814c9d-3b5e-492e-93b0-fad16bf3244f",
+                  "Status": "OK",
+                  "ProviderName": "Xero API Partner",
+                  "DateTimeUTC": "\/Date(1550793549392)\/",
+                  "Accounts": [
+                    {
+                      "AccountID": "66b262e2-561e-423e-8937-47d558f13442",
+                      "Code": "123456",
+                      "Name": "Foobar",
+                      "Status": "ACTIVE",
+                      "Type": "EXPENSE",
+                      "TaxType": "INPUT",
+                      "Description": "Hello World",
+                      "Class": "EXPENSE",
+                      "EnablePaymentsToAccount": false,
+                      "ShowInExpenseClaims": false,
+                      "ReportingCode": "EXP",
+                      "ReportingCodeName": "Expense",
+                      "UpdatedDateUTC": "\/Date(1550793549320+0000)\/"
+                    }
+                  ]
+                }'
     Account:
       type: object
       externalDocs:
