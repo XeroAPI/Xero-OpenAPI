@@ -142,7 +142,7 @@ paths:
                         }'
       requestBody:
           required: true
-          description: Request body of type Account object 
+          description: Account object in body of request 
           content:
             application/json:
               schema:
@@ -746,13 +746,7 @@ paths:
       operationId: createBatchPayment
       summary: Create one or many BatchPayments for invoices
       parameters:
-        - in: query
-          name: summarizeErrors
-          description: shows validation errors for each credit note
-          example: false
-          schema:
-            type: boolean
-            default: false
+        - $ref: '#/components/parameters/summarizeErrors'
       responses:
         '200':
           description: Success - return response of type BatchPayments array of BatchPayment objects 
@@ -830,7 +824,7 @@ paths:
           $ref: '#/components/responses/400Error'
       requestBody:
         required: true
-        description: Request of type BatchPayments containing a Payments array with one or more Payment objects
+        description: BatchPayments with an array of Payments in body of request
         content:
             application/json:
               schema:
@@ -941,18 +935,7 @@ paths:
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/HistoryRecords'
-            example: '{  
-                        historyRecords:[  
-                          {  
-                              details :"Hello World"
-                          }
-                        ]
-                      }'
-        required: true
+        $ref: '#/components/requestBodies/historyRecords'
   /BankTransactions:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -1140,13 +1123,7 @@ paths:
       operationId: createBankTransactions
       summary: Allows you to create one or more spend or receive money transaction
       parameters:
-        - in: query
-          name: summarizeErrors
-          description: response format that shows validation errors for each bank transaction
-          example: false
-          schema:
-            type: boolean
-            default: false
+        - $ref: '#/components/parameters/summarizeErrors'
       responses:
         '200':
           description: Success - return response of type BankTransactions array with new BankTransaction 
@@ -1266,6 +1243,7 @@ paths:
           $ref: '#/components/responses/400Error'
       requestBody:
         required: true
+        description: BankTransactions with an array of BankTransaction objects in body of request
         content:
           application/json:
             schema:
@@ -1279,13 +1257,7 @@ paths:
       operationId: updateOrCreateBankTransactions
       summary: Allows you to update or create one or more spend or receive money transaction
       parameters:
-        - in: query
-          name: summarizeErrors
-          description: response format that shows validation errors for each bank transaction
-          example: false
-          schema:
-            type: boolean
-            default: false
+        - $ref: '#/components/parameters/summarizeErrors'
       responses:
         '200':
           description: Success - return response of type BankTransactions array with new BankTransaction 
@@ -2007,19 +1979,7 @@ paths:
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
-        required: true
-        description: Request body of type HistoryRecords containing an array of HistoryRecord objects
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/HistoryRecords'
-            example: '{  
-                        historyRecords:[  
-                          {  
-                              details :"Hello World"
-                          }
-                        ]
-                      }'
+        $ref: '#/components/requestBodies/historyRecords'
   /BankTransfers:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -2150,12 +2110,13 @@ paths:
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
+        required: true
+        description: BankTransfers with array of BankTransfer objects in request body
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/BankTransfers'
             example: '{ bankTransfers:[ { fromBankAccount: { code:"090", accountID:"7e5e243b-9fcd-4aef-8e3a-c70be1e39bfa"}, toBankAccount:{ code:"088", accountID:"6f7594f2-f059-4d56-9e67-47ac9733bfe9"}, amount:"50.00" } ] }'
-        required: true
   '/BankTransfers/{BankTransferID}':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -2532,18 +2493,7 @@ paths:
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/HistoryRecords'
-            example: '{  
-                        historyRecords:[  
-                          {  
-                              details :"Hello World"
-                          }
-                        ]
-                      }'
-        required: true
+        $ref: '#/components/requestBodies/historyRecords'
   /BrandingThemes:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -2705,6 +2655,8 @@ paths:
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
+        required: true
+        description: PaymentService object in body of request
         content:
           application/json:
             schema:
@@ -2715,7 +2667,6 @@ paths:
                          paymentServiceUrl:"https://www.payupnow.com/",
                          payNowText:"Pay Now"
                       }'
-        required: true
   /Contacts:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -2926,13 +2877,7 @@ paths:
       operationId: createContacts
       summary: 'Allows you to create a multiple contacts (bulk) in a Xero organisation'
       parameters:
-        - in: query
-          name: summarizeErrors
-          description: response format that shows validation errors for each bank transaction
-          example: false
-          schema:
-            type: boolean
-            default: false
+        - $ref: '#/components/parameters/summarizeErrors'
       responses:
         '200':
           description: Success - return response of type Contacts array with newly created Contact
@@ -3079,6 +3024,7 @@ paths:
                         }'
       requestBody:
         required: true
+        description: Contacts with an array of Contact objects to create in body of request
         content:
           application/json:
             schema:
@@ -3092,13 +3038,7 @@ paths:
       operationId: updateOrCreateContacts
       summary: 'Allows you to update OR create one or more contacts in a Xero organisation'
       parameters:
-        - in: query
-          name: summarizeErrors
-          description: response format that shows validation errors for each bank transaction
-          example: false
-          schema:
-            type: boolean
-            default: false
+        - $ref: '#/components/parameters/summarizeErrors'
       responses:
         '200':
           description: Success - return response of type Contacts array with newly created Contact
@@ -3867,18 +3807,7 @@ paths:
             type: string
             format: uuid
       requestBody:
-        required: true
-        content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
-              example: '{  
-                        historyRecords:[  
-                          {  
-                              details :"Hello World"
-                          }
-                        ]
-                      }'
+        $ref: '#/components/requestBodies/historyRecords'
       responses:
         '200':
           description: Success - return response of type History Records array of newly created History Record for a specific Contact
@@ -4011,7 +3940,7 @@ paths:
                           ]
                         }'          
       requestBody:
-        description: an array of contact groups with names specified
+        description: ContactGroups with an array of names in request body
         required: true
         content:
           application/json:
@@ -4195,7 +4124,7 @@ paths:
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
-        description: an array of contacts with ContactID to be added to ContactGroup
+        description: Contacts with array of contacts specifiying the ContactID to be added to ContactGroup in body of request
         required: true
         content:
           application/json:
@@ -4395,13 +4324,7 @@ paths:
       operationId: createCreditNotes
       summary: Allows you to create a credit note
       parameters:
-        - in: query
-          name: summarizeErrors
-          description: shows validation errors for each credit note
-          example: false
-          schema:
-            type: boolean
-            default: false
+        - $ref: '#/components/parameters/summarizeErrors'
       responses:
         '200':
           description: Success - return response of type Credit Notes array of newly created CreditNote
@@ -4516,7 +4439,7 @@ paths:
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
-        description: an array of Credit Notes with a single CreditNote object.
+        description: Credit Notes with array of CreditNote object in body of request
         required: true
         content:
           application/json:
@@ -4531,13 +4454,7 @@ paths:
       operationId: updateOrCreateCreditNotes
       summary: Allows you to update OR create one or more credit notes
       parameters:
-        - in: query
-          name: summarizeErrors
-          description: shows validation errors for each credit note
-          example: false
-          schema:
-            type: boolean
-            default: false
+        - $ref: '#/components/parameters/summarizeErrors'
       responses:
         '200':
           description: Success - return response of type Credit Notes array of newly created CreditNote
@@ -5311,7 +5228,7 @@ paths:
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
-        description: an array of Allocations with single Allocation object defined.
+        description: Allocations with array of Allocation object in body of request.
         required: true
         content:
           application/json:
@@ -5415,18 +5332,7 @@ paths:
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
-        required: true
-        content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
-              example: '{  
-                        historyRecords:[  
-                          {  
-                              details :"Hello World"
-                          }
-                        ]
-                      }'
+        $ref: '#/components/requestBodies/historyRecords'
   /Currencies:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -5485,6 +5391,7 @@ paths:
                 $ref: '#/components/schemas/Currencies'
       requestBody:
         required: true
+        description: Currency obejct in the body of request
         content:
             application/json:
               schema:
@@ -5606,6 +5513,7 @@ paths:
           $ref: '#/components/responses/400Error'
       requestBody:
         required: true
+        description: Employees with array of Employee object in body of request
         content:
             application/json:
               schema:
@@ -5659,6 +5567,7 @@ paths:
           $ref: '#/components/responses/400Error'
       requestBody:
         required: true
+        description: Employee object in body of request
         content:
             application/json:
               schema:
@@ -5844,6 +5753,7 @@ paths:
       summary: Allows you to retrieve expense claims 
       requestBody:
         required: true
+        description: ExpenseClaims with array of ExpenseClaim object in body of request
         content:
             application/json:
               schema:
@@ -6236,18 +6146,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/HistoryRecords'
       requestBody:
-        required: true
-        content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
-              example: '{  
-                        historyRecords:[  
-                          {  
-                              details :"Hello World"
-                          }
-                        ]
-                      }'
+        $ref: '#/components/requestBodies/historyRecords'
   /Invoices:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -6493,13 +6392,7 @@ paths:
       operationId: createInvoices
       summary: Allows you to create one or more sales invoices or purchase bills
       parameters:
-        - in: query
-          name: summarizeErrors
-          description: shows validation errors for each invoice
-          example: false
-          schema:
-            type: boolean
-            default: false
+        - $ref: '#/components/parameters/summarizeErrors'
       responses:
         '200':
           description: Success - return response of type Invoices array with newly created Invoice
@@ -6635,7 +6528,7 @@ paths:
           $ref: '#/components/responses/400Error'
       requestBody:
         required: true
-        description: Request body containing Invoices with an array of invoice objects
+        description: Invoices with an array of invoice objects in body of request
         content:
             application/json:
               schema:
@@ -6649,13 +6542,7 @@ paths:
       operationId: updateOrCreateInvoices
       summary: Allows you to update OR create one or more sales invoices or purchase bills
       parameters:
-        - in: query
-          name: summarizeErrors
-          description: shows validation errors for each credit note
-          example: false
-          schema:
-            type: boolean
-            default: false
+        - $ref: '#/components/parameters/summarizeErrors'
       responses:
         '200':
           description: Success - return response of type Invoices array with newly created Invoice
@@ -7596,18 +7483,7 @@ paths:
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
-        required: true
-        content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
-              example: '{  
-                        historyRecords:[  
-                          {  
-                              details :"Hello World"
-                          }
-                        ]
-                      }'
+        $ref: '#/components/requestBodies/historyRecords'
   '/InvoiceReminders/Settings':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -7724,13 +7600,7 @@ paths:
       operationId: createItems
       summary: Allows you to create one or more items
       parameters:
-        - in: query
-          name: summarizeErrors
-          description: response format that shows validation errors for each bank transaction
-          example: false
-          schema:
-            type: boolean
-            default: false
+        - $ref: '#/components/parameters/summarizeErrors'
       responses:
         '200':
           description: Success - return response of type Items array with newly created Item
@@ -7767,6 +7637,7 @@ paths:
           $ref: '#/components/responses/400Error'
       requestBody:
         required: true
+        description: Items with an array of Item objects in body of request
         content:
             application/json:
               schema:
@@ -7780,13 +7651,7 @@ paths:
       operationId: updateOrCreateItems
       summary: Allows you to update or create one or more items
       parameters:
-        - in: query
-          name: summarizeErrors
-          description: response format that shows validation errors for each bank transaction
-          example: false
-          schema:
-            type: boolean
-            default: false
+        - $ref: '#/components/parameters/summarizeErrors'
       responses:
         '200':
           description: Success - return response of type Items array with newly created Item
@@ -8043,18 +7908,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/HistoryRecords'
       requestBody:
-        required: true
-        content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
-              example: '{  
-                        historyRecords:[  
-                          {  
-                              details :"Hello World"
-                          }
-                        ]
-                      }'
+        $ref: '#/components/requestBodies/historyRecords'
   /Journals:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -8443,6 +8297,7 @@ paths:
           $ref: '#/components/responses/400Error'
       requestBody:
         required: true
+        description: LinkedTransaction object in body of request
         content:
             application/json:
               schema:
@@ -8756,7 +8611,7 @@ paths:
           $ref: '#/components/responses/400Error'
       requestBody:
         required: true
-        description: Request body with a ManualJournals with an array of ManualJournal objects
+        description: ManualJournals array with ManualJournal object in body of request
         content:
             application/json:
               schema:
@@ -8860,7 +8715,7 @@ paths:
           $ref: '#/components/responses/400Error'
       requestBody:
         required: true
-        description: Request body with a single ManualJournal object
+        description: ManualJournal object in body of request
         content:
             application/json:
               schema:
@@ -9765,7 +9620,7 @@ paths:
           $ref: '#/components/responses/400Error'
       requestBody:
         required: true
-        description: Request body with a single Allocation object
+        description: Allocations array with Allocation object in body of request
         content:
             application/json:
               schema:
@@ -9838,7 +9693,7 @@ paths:
           $ref: '#/components/responses/400Error'
       requestBody:
         required: true
-        description: Request body with a single Allocation object
+        description: Allocation object in body of request
         content:
             application/json:
               schema:
@@ -9947,18 +9802,7 @@ paths:
                           ]
                         }'
       requestBody:
-        required: true
-        content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
-              example: '{  
-                        historyRecords:[  
-                          {  
-                              details :"Hello World"
-                          }
-                        ]
-                      }'
+        $ref: '#/components/requestBodies/historyRecords'
   /Payments:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -10180,7 +10024,7 @@ paths:
           $ref: '#/components/responses/400Error'
       requestBody:
         required: true
-        description: Request body with Payments that contains an array of Payment objects
+        description: Payments array with Payment object in body of request
         content:
             application/json:
               schema:
@@ -10596,18 +10440,7 @@ paths:
                           ]
                         }'
       requestBody:
-        required: true
-        content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
-              example: '{  
-                        historyRecords:[  
-                          {  
-                              details :"Hello World"
-                          }
-                        ]
-                      }'
+        $ref: '#/components/requestBodies/historyRecords'
   /PaymentServices:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -10679,6 +10512,7 @@ paths:
           $ref: '#/components/responses/400Error'
       requestBody:
         required: true
+        description: PaymentServices array with PaymentService object in body of request
         content:
             application/json:
               schema:
@@ -10986,7 +10820,7 @@ paths:
           $ref: '#/components/responses/400Error'
       requestBody:
         required: true
-        description: Request body with Allocations containing an array of Allocation objects
+        description: Allocations with an array of Allocation object in body of request
         content:
             application/json:
               schema:
@@ -11095,18 +10929,7 @@ paths:
                             ]
                           }'
       requestBody:
-        required: true
-        content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
-              example: '{  
-                        historyRecords:[  
-                          {  
-                              details :"Hello World"
-                          }
-                        ]
-                      }'
+        $ref: '#/components/requestBodies/historyRecords'
   /PurchaseOrders:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -11326,13 +11149,7 @@ paths:
       operationId: createPurchaseOrders
       summary: Allows you to create one or more purchase orders
       parameters:
-        - in: query
-          name: summarizeErrors
-          description: shows validation errors for each purchase order.
-          example: false
-          schema:
-            type: boolean
-            default: false
+        - $ref: '#/components/parameters/summarizeErrors'
       responses:
         '200':
           description: Success - return response of type PurchaseOrder array for specified PurchaseOrder          
@@ -11452,7 +11269,7 @@ paths:
           $ref: '#/components/responses/400Error'
       requestBody:
         required: true
-        description: Request body with PurchaseOrders containing an array of PurchaseOrder objects
+        description: PurchaseOrders with an array of PurchaseOrder object in body of request
         content:
             application/json:
               schema:
@@ -11483,13 +11300,7 @@ paths:
       operationId: updateOrCreatePurchaseOrders
       summary: Allows you to update or create one or more purchase orders
       parameters:
-        - in: query
-          name: summarizeErrors
-          description: shows validation errors for each credit note
-          example: false
-          schema:
-            type: boolean
-            default: false
+        - $ref: '#/components/parameters/summarizeErrors'
       responses:
         '200':
           description: Success - return response of type PurchaseOrder array for specified PurchaseOrder          
@@ -12022,18 +11833,7 @@ paths:
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
-        required: true
-        content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
-              example: '{  
-                        historyRecords:[  
-                          {  
-                              details :"Hello World"
-                          }
-                        ]
-                      }'
+        $ref: '#/components/requestBodies/historyRecords'
   /Quotes:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -12172,13 +11972,7 @@ paths:
       operationId: createQuotes
       summary: Allows you to create one or more quotes
       parameters:
-        - in: query
-          name: summarizeErrors
-          description: if true, only return quotes with validation errors 
-          example: false
-          schema:
-            type: boolean
-            default: false
+        - $ref: '#/components/parameters/summarizeErrors'
       responses:
         '200':
           description: Success - return response of type Quotes with array with newly created Quote
@@ -12191,6 +11985,7 @@ paths:
           $ref: '#/components/responses/400Error'
       requestBody:
         required: true
+        description: Quotes with an array of Quote object in body of request
         content:
             application/json:
               schema:
@@ -12204,13 +11999,7 @@ paths:
       operationId: updateOrCreateQuotes
       summary: Allows you to update OR create one or more quotes
       parameters:
-        - in: query
-          name: summarizeErrors
-          description: if true, only return quotes with  validation errors
-          example: false
-          schema:
-            type: boolean
-            default: false
+        - $ref: '#/components/parameters/summarizeErrors'
       responses:
         '200':
           description: Success - return response of type Quotes array with updated or created Quote
@@ -12398,19 +12187,7 @@ paths:
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
-        required: true
-        content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
-              example: '{  
-                        historyRecords:[  
-                          {  
-                              details :"Hello World"
-                          }
-                        ]
-                      }'
-  
+        $ref: '#/components/requestBodies/historyRecords'
   /Receipts:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -12624,7 +12401,7 @@ paths:
           $ref: '#/components/responses/400Error'
       requestBody:
         required: true
-        description: Request body with Receipts containing an array of Receipt objects
+        description: Receipts with an array of Receipt object in body of request
         content:
             application/json:
               schema:
@@ -13250,18 +13027,7 @@ paths:
                           ]
                         }'
       requestBody:
-        required: true
-        content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
-              example: '{  
-                        historyRecords:[  
-                          {  
-                              details :"Hello World"
-                          }
-                        ]
-                      }'
+        $ref: '#/components/requestBodies/historyRecords'
   /RepeatingInvoices:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -13782,18 +13548,7 @@ paths:
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
-        required: true
-        content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
-              example: '{  
-                        historyRecords:[  
-                          {  
-                              details :"Hello World"
-                          }
-                        ]
-                      }'
+        $ref: '#/components/requestBodies/historyRecords'
   '/Reports/TenNinetyNine':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -17669,6 +17424,7 @@ paths:
           $ref: '#/components/responses/400Error'
       requestBody:
         required: true
+        description: TaxRates array with TaxRate object in body of request
         content:
             application/json:
               schema:
@@ -17841,6 +17597,7 @@ paths:
           $ref: '#/components/responses/400Error'
       requestBody:
         required: true
+        description: TrackingCategory object in body of request
         content:
             application/json:
               schema:
@@ -18024,6 +17781,7 @@ paths:
           $ref: '#/components/responses/400Error'
       requestBody:
         required: true
+        description: TrackingOption object in body of request
         content:
             application/json:
               schema:
@@ -18302,6 +18060,21 @@ components:
             paymentservices: Grant read-write access to payment services
             projects: Grant read-write access to projects
             projects.read: Grant read-only access to projects
+  requestBodies:
+    historyRecords:
+      required: true
+      description: HistoryRecords containing an array of HistoryRecord objects in body of request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HistoryRecords'
+          example: '{  
+                      historyRecords:[  
+                        {  
+                            details :"Hello World"
+                        }
+                      ]
+                    }'
   parameters:
     requiredHeader: 
       in: header
@@ -18310,7 +18083,15 @@ components:
       example: YOUR_XERO_TENANT_ID
       schema:
         type: string
-      required: true 
+      required: true
+    summarizeErrors:
+      in: query
+      name: summarizeErrors
+      description: If false return 200 OK and mix of successfully created obejcts and any with validation errors
+      example: false
+      schema:
+        type: boolean
+        default: false
   responses:
     400Error:
       description: A failed request due to validation error
