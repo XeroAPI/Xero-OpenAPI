@@ -14,6 +14,7 @@ paths:
   /Accounts:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
+        type: string
     get:
       security:
         - OAuth2: [accounting.settings]
@@ -32,11 +33,13 @@ paths:
         - in: query
           name: where
           description: Filter by an any element
+          example: Status=="' + Account.StatusEnum.ACTIVE + '" AND Type=="' + Account.BankAccountTypeEnum.BANK + '"
           schema:
             type: string
         - in: query
           name: order
           description: Order by an any element
+          example: ASC
           schema:
             type: string
       responses:
@@ -139,7 +142,7 @@ paths:
                         }'
       requestBody:
           required: true
-          description: Request of type Account 
+          description: Account object in body of request 
           content:
             application/json:
               schema:
@@ -166,6 +169,7 @@ paths:
           in: path
           name: AccountID
           description: Unique identifier for retrieving single object
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -211,6 +215,7 @@ paths:
           in: path
           name: AccountID
           description: Unique identifier for retrieving single object
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -277,20 +282,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/Accounts'
               example: '{  
-                         "Accounts":[  
+                         accounts:[  
                             {  
-                               "Code":"123456",
-                               "Name":"BarFoo",
-                               "AccountID":"99ce6032-0678-4aa0-8148-240c75fee33a",
-                               "Type":"EXPENSE",
-                               "Description":"GoodBye World",
-                               "TaxType":"INPUT",
-                               "EnablePaymentsToAccount":false,
-                               "ShowInExpenseClaims":false,
-                               "Class":"EXPENSE",
-                               "ReportingCode":"EXP",
-                               "ReportingCodeName":"Expense",
-                               "UpdatedDateUTC":"2019-02-21T16:29:47.96-08:00"
+                               code:"123456",
+                               name:"BarFoo",
+                               accountID:"99ce6032-0678-4aa0-8148-240c75fee33a",
+                               type:"EXPENSE",
+                               description:"GoodBye World",
+                               taxType:"INPUT"
                             }
                          ]
                       }'
@@ -306,6 +305,7 @@ paths:
           in: path
           name: AccountID
           description: Unique identifier for retrieving single object
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -380,6 +380,7 @@ paths:
           in: path
           name: AccountID
           description: Unique identifier for Account object
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -421,6 +422,7 @@ paths:
           in: path
           name: AccountID
           description: Unique identifier for Account object
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -428,6 +430,7 @@ paths:
           in: path
           name: AttachmentID
           description: Unique identifier for Attachment object
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -435,6 +438,7 @@ paths:
           in: header
           name: contentType
           description: The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf 
+          example: image/jpg
           schema:
             type: string
       responses:
@@ -461,6 +465,7 @@ paths:
           in: path
           name: AccountID
           description: Unique identifier for Account object
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -468,12 +473,14 @@ paths:
           in: path
           name: FileName
           description: Name of the attachment
+          example: "xero-dev.jpg"
           schema:
             type: string
         - required: true
           in: header
           name: contentType
           description: The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf 
+          example: image/jpg
           schema:
             type: string
       responses:
@@ -496,6 +503,7 @@ paths:
           in: path
           name: AccountID
           description: Unique identifier for Account object
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -503,6 +511,7 @@ paths:
           in: path
           name: FileName
           description: Name of the attachment
+          example: "xero-dev.jpg"
           schema:
             type: string
       responses:
@@ -553,6 +562,7 @@ paths:
           in: path
           name: AccountID
           description: Unique identifier for Account object
+          example: 00000000-0000-0000-000-000000000000
           schema:
             type: string
             format: uuid
@@ -560,6 +570,7 @@ paths:
           in: path
           name: FileName
           description: Name of the attachment
+          example: xero-dev.jpg
           schema:
             type: string
       responses:
@@ -617,11 +628,13 @@ paths:
         - in: query
           name: where
           description: Filter by an any element
+          example: Status=="' + BatchPayment.StatusEnum.ACTIVE + '"
           schema:
             type: string
         - in: query
           name: order
           description: Order by an any element
+          example: ASC
           schema:
             type: string
       responses:
@@ -733,12 +746,7 @@ paths:
       operationId: createBatchPayment
       summary: Create one or many BatchPayments for invoices
       parameters:
-        - in: query
-          name: summarizeErrors
-          description: shows validation errors for each credit note
-          schema:
-            type: boolean
-            default: false
+        - $ref: '#/components/parameters/summarizeErrors'
       responses:
         '200':
           description: Success - return response of type BatchPayments array of BatchPayment objects 
@@ -816,64 +824,35 @@ paths:
           $ref: '#/components/responses/400Error'
       requestBody:
         required: true
-        description: Request of type BatchPayments containing a Payments array with one or more Payment objects
+        description: BatchPayments with an array of Payments in body of request
         content:
             application/json:
               schema:
                 $ref: '#/components/schemas/BatchPayments'
-              example: '{  
-                       "BatchPayments":[  
-                          {  
-                             "Account":{  
-                                "AccountID":"5ec2f302-cd60-4f8b-a915-9229dd45e6fa"
-                             },
-                             "Reference":"Foobar38515",
-                             "Date":"2019-02-22",
-                             "Amount":3.0,
-                             "Payments":[  
-                                {  
-                                   "Invoice":{  
-                                      "LineItems":[  
-
-                                      ],
-                                      "InvoiceID":"e6039672-b161-40cd-b07b-a0178e7186ad"
-                                   },
-                                   "Account":{  
-                                      "AccountID":"5ec2f302-cd60-4f8b-a915-9229dd45e6fa"
-                                   },
-                                   "Date":"2019-02-22",
-                                   "Amount":1.0
-                                },
-                                {  
-                                   "Invoice":{  
-                                      "LineItems":[  
-
-                                      ],
-                                      "InvoiceID":"e4abafb4-1f5b-4d9f-80b3-9a7b815bc302"
-                                   },
-                                   "Account":{  
-                                      "AccountID":"5ec2f302-cd60-4f8b-a915-9229dd45e6fa"
-                                   },
-                                   "Date":"2019-02-22",
-                                   "Amount":1.0
-                                },
-                                {  
-                                   "Invoice":{  
-                                      "LineItems":[  
-
-                                      ],
-                                      "InvoiceID":"3323652c-155e-433b-8a73-4dde7cfbf410"
-                                   },
-                                   "Account":{  
-                                      "AccountID":"5ec2f302-cd60-4f8b-a915-9229dd45e6fa"
-                                   },
-                                   "Date":"2019-02-22",
-                                   "Amount":1.0
+              example: '{
+                          batchPayments: [
+                            {
+                            account: {
+                              accountID: "00000000-0000-0000-000-000000000000"
+                            },
+                            reference: "ref",
+                            date: "2018-08-01",
+                            payments: [
+                              { 
+                                account: { code: "001" },
+                                date: "2019-12-31",
+                                amount: 500,
+                                invoice: {
+                                  invoiceID: "00000000-0000-0000-000-000000000000",
+                                  lineItems: [],
+                                  contact: {},
+                                  type: Invoice.TypeEnum.ACCPAY
                                 }
-                             ]
-                          }
-                       ]
-                    }'
+                                }
+                            ]
+                            }
+                          ]
+                        }'
   '/BatchPayments/{BatchPaymentID}/History':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -890,6 +869,7 @@ paths:
           in: path
           name: BatchPaymentID
           description: Unique identifier for BatchPayment
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -927,6 +907,7 @@ paths:
           in: path
           name: BatchPaymentID
           description: Unique identifier for BatchPayment
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -954,18 +935,7 @@ paths:
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/HistoryRecords'
-            example: '{  
-                         "HistoryRecords":[  
-                            {  
-                               "Details":"Hello World"
-                            }
-                         ]
-                      }'
-        required: true
+        $ref: '#/components/requestBodies/historyRecords'
   /BankTransactions:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -979,25 +949,26 @@ paths:
       parameters:
         - in: header
           name: If-Modified-Since
-          description: >-
-            Only records created or modified since this timestamp will be
-            returned
+          description: Only records created or modified since this timestamp will be returned
           schema:
             type: string
             format: date-time
         - in: query
           name: where
           description: Filter by an any element
+          example: Status=="' + BankTransaction.StatusEnum.ACTIVE + '"
           schema:
             type: string
         - in: query
           name: order
           description: Order by an any element
+          example: ASC
           schema:
             type: string
         - in: query
           name: page
-          description: e.g. page=1 – Up to 100 bank transactions will be returned in a single API call with line items shown for each bank transaction
+          description: Up to 100 bank transactions will be returned in a single API call with line items details
+          example: 1
           schema:
             type: integer
         - in: query
@@ -1151,12 +1122,7 @@ paths:
       operationId: createBankTransactions
       summary: Allows you to create one or more spend or receive money transaction
       parameters:
-        - in: query
-          name: summarizeErrors
-          description: response format that shows validation errors for each bank transaction
-          schema:
-            type: boolean
-            default: false
+        - $ref: '#/components/parameters/summarizeErrors'
       responses:
         '200':
           description: Success - return response of type BankTransactions array with new BankTransaction 
@@ -1276,31 +1242,12 @@ paths:
           $ref: '#/components/responses/400Error'
       requestBody:
         required: true
+        description: BankTransactions with an array of BankTransaction objects in body of request
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/BankTransactions'
-            example: '{  
-                       "BankTransactions":[  
-                          {  
-                             "Type":"SPEND",
-                             "Contact":{  
-                                "ContactID":"5cc8cf28-567e-4d43-b287-687cfcaec47c"
-                             },
-                             "LineItems":[  
-                                {  
-                                   "Description":"Foobar",
-                                   "Quantity":1.0,
-                                   "UnitAmount":20.0,
-                                   "AccountCode":"400"
-                                }
-                             ],
-                             "BankAccount":{  
-                                "Code":"088"
-                             }
-                          }
-                       ]
-                    }'
+            example: '{ bankTransactions:[ { type: BankTransaction.TypeEnum.SPEND, contact: { contactID:"5cc8cf28-567e-4d43-b287-687cfcaec47c" }, lineItems:[ { description:"Foobar", quantity: 1.0, unitAmount:20.0, accountCode:"400" } ], bankAccount:{ code:"088" } } ] }'
     post:
       security:
         - OAuth2: [accounting.transactions]
@@ -1309,12 +1256,7 @@ paths:
       operationId: updateOrCreateBankTransactions
       summary: Allows you to update or create one or more spend or receive money transaction
       parameters:
-        - in: query
-          name: summarizeErrors
-          description: response format that shows validation errors for each bank transaction
-          schema:
-            type: boolean
-            default: false
+        - $ref: '#/components/parameters/summarizeErrors'
       responses:
         '200':
           description: Success - return response of type BankTransactions array with new BankTransaction 
@@ -1438,27 +1380,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/BankTransactions'
-            example: '{  
-                       "BankTransactions":[  
-                          {  
-                             "Type":"SPEND",
-                             "Contact":{  
-                                "ContactID":"5cc8cf28-567e-4d43-b287-687cfcaec47c"
-                             },
-                             "LineItems":[  
-                                {  
-                                   "Description":"Foobar",
-                                   "Quantity":1.0,
-                                   "UnitAmount":20.0,
-                                   "AccountCode":"400"
-                                }
-                             ],
-                             "BankAccount":{  
-                                "Code":"088"
-                             }
-                          }
-                       ]
-                    }'
+            example: '{ bankTransactions:[ { type: BankTransaction.TypeEnum.SPEND, contact: { contactID:"5cc8cf28-567e-4d43-b287-687cfcaec47c" }, lineItems:[ { description:"Foobar", quantity: 1.0, unitAmount:20.0, accountCode:"400" } ], bankAccount:{ code:"088" } } ] }'
   '/BankTransactions/{BankTransactionID}':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -1474,6 +1396,7 @@ paths:
           in: path
           name: BankTransactionID
           description: Xero generated unique identifier for a bank transaction
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -1603,6 +1526,7 @@ paths:
           in: path
           name: BankTransactionID
           description: Xero generated unique identifier for a bank transaction
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -1726,89 +1650,13 @@ paths:
             schema:
               $ref: '#/components/schemas/BankTransactions'
             example: '{  
-                       "BankTransactions":[  
+                       bankTransactions:[  
                           {  
-                             "Type":"SPEND",
-                             "Contact":{  
-                                "ContactID":"5cc8cf28-567e-4d43-b287-687cfcaec47c",
-                                "ContactStatus":"ACTIVE",
-                                "Name":"Katherine Warren",
-                                "FirstName":"Katherine",
-                                "LastName":"Warren",
-                                "EmailAddress":"kat.warren@clampett.com",
-                                "ContactPersons":[  
-
-                                ],
-                                "BankAccountDetails":"",
-                                "Addresses":[  
-                                   {  
-                                      "AddressType":"STREET",
-                                      "City":"",
-                                      "Region":"",
-                                      "PostalCode":"",
-                                      "Country":""
-                                   },
-                                   {  
-                                      "AddressType":"POBOX",
-                                      "AddressLine1":"",
-                                      "AddressLine2":"",
-                                      "AddressLine3":"",
-                                      "AddressLine4":"",
-                                      "City":"Palo Alto",
-                                      "Region":"CA",
-                                      "PostalCode":"94020",
-                                      "Country":"United States"
-                                   }
-                                ],
-                                "Phones":[  
-                                   {  
-                                      "PhoneType":"DEFAULT",
-                                      "PhoneNumber":"847-1294",
-                                      "PhoneAreaCode":"(626)",
-                                      "PhoneCountryCode":""
-                                   },
-                                   {  
-                                      "PhoneType":"DDI",
-                                      "PhoneNumber":"",
-                                      "PhoneAreaCode":"",
-                                      "PhoneCountryCode":""
-                                   },
-                                   {  
-                                      "PhoneType":"FAX",
-                                      "PhoneNumber":"",
-                                      "PhoneAreaCode":"",
-                                      "PhoneCountryCode":""
-                                   },
-                                   {  
-                                      "PhoneType":"MOBILE",
-                                      "PhoneNumber":"",
-                                      "PhoneAreaCode":"",
-                                      "PhoneCountryCode":""
-                                   }
-                                ],
-                                "UpdatedDateUTC":"2017-08-21T13:49:04.227-07:00",
-                                "ContactGroups":[  
-
-                                ]
-                             },
-                             "LineItems":[  
-
-                             ],
-                             "BankAccount":{  
-                                "Code":"088",
-                                "Name":"Business Wells Fargo",
-                                "AccountID":"6f7594f2-f059-4d56-9e67-47ac9733bfe9"
-                             },
-                             "IsReconciled":false,
-                             "Date":"2019-02-25",
-                             "Reference":"You just updated",
-                             "CurrencyCode":"USD",
-                             "CurrencyRate":1.0,
-                             "Status":"AUTHORISED",
-                             "LineAmountTypes":"Inclusive",
-                             "TotalTax":1.74,
-                             "BankTransactionID":"1289c190-e46d-434b-9628-463ffdb52f00",
-                             "UpdatedDateUTC":"2019-02-26T12:39:27.813-08:00"
+                             type:"SPEND",
+                             date:"2019-02-25",
+                             reference:"You just updated",
+                             status:"AUTHORISED",
+                             bankTransactionID:"1289c190-e46d-434b-9628-463ffdb52f00"
                           }
                        ]
                     }'
@@ -1827,6 +1675,7 @@ paths:
           in: path
           name: BankTransactionID
           description: Xero generated unique identifier for a bank transaction
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -1875,6 +1724,7 @@ paths:
           in: path
           name: BankTransactionID
           description: Xero generated unique identifier for a bank transaction
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -1882,6 +1732,7 @@ paths:
           in: path
           name: AttachmentID
           description: Xero generated unique identifier for an attachment
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -1889,6 +1740,7 @@ paths:
           in: header
           name: contentType
           description: The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf 
+          example: image/jpg
           schema:
             type: string
       responses:
@@ -1915,6 +1767,7 @@ paths:
           in: path
           name: BankTransactionID
           description: Xero generated unique identifier for a bank transaction
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -1922,12 +1775,14 @@ paths:
           in: path
           name: FileName
           description: The name of the file being attached
+          example: xero-dev.jpg
           schema:
             type: string
         - required: true
           in: header
           name: contentType
           description: The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf 
+          example: image/jpg
           schema:
             type: string
       responses:
@@ -1950,6 +1805,7 @@ paths:
           in: path
           name: BankTransactionID
           description: Xero generated unique identifier for a bank transaction
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -1957,6 +1813,7 @@ paths:
           in: path
           name: FileName
           description: The name of the file being attached
+          example: xero-dev.jpg
           schema:
             type: string
       responses:
@@ -2003,6 +1860,7 @@ paths:
           in: path
           name: BankTransactionID
           description: Xero generated unique identifier for a bank transaction
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -2010,6 +1868,7 @@ paths:
           in: path
           name: FileName
           description: The name of the file being attached
+          example: xero-dev.jpg
           schema:
             type: string
       responses:
@@ -2060,6 +1919,7 @@ paths:
           in: path
           name: BankTransactionID
           description: Xero generated unique identifier for a bank transaction
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -2104,6 +1964,7 @@ paths:
           in: path
           name: BankTransactionID
           description: Xero generated unique identifier for a bank transaction
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -2117,11 +1978,7 @@ paths:
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/HistoryRecords'
-        required: true
+        $ref: '#/components/requestBodies/historyRecords'
   /BankTransfers:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -2144,11 +2001,13 @@ paths:
         - in: query
           name: where
           description: Filter by an any element
+          example: Status=="' + BankTransfer.StatusEnum.ACTIVE + '"
           schema:
             type: string
         - in: query
           name: order
           description: Order by an any element
+          example: ASC
           schema:
             type: string
       responses:
@@ -2250,54 +2109,13 @@ paths:
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
+        required: true
+        description: BankTransfers with array of BankTransfer objects in request body
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/BankTransfers'
-            example: '{  
-                         "BankTransfers":[  
-                            {  
-                               "FromBankAccount":{  
-                                  "Code":"090",
-                                  "Name":"My Savings",
-                                  "AccountID":"7e5e243b-9fcd-4aef-8e3a-c70be1e39bfa",
-                                  "Type":"BANK",
-                                  "BankAccountNumber":"123455",
-                                  "Status":"ACTIVE",
-                                  "BankAccountType":"BANK",
-                                  "CurrencyCode":"USD",
-                                  "TaxType":"NONE",
-                                  "EnablePaymentsToAccount":false,
-                                  "ShowInExpenseClaims":false,
-                                  "Class":"ASSET",
-                                  "ReportingCode":"ASS",
-                                  "ReportingCodeName":"Assets",
-                                  "HasAttachments":false,
-                                  "UpdatedDateUTC":"2016-10-17T13:45:33.993-07:00"
-                               },
-                               "ToBankAccount":{  
-                                  "Code":"088",
-                                  "Name":"Business Wells Fargo",
-                                  "AccountID":"6f7594f2-f059-4d56-9e67-47ac9733bfe9",
-                                  "Type":"BANK",
-                                  "BankAccountNumber":"123455",
-                                  "Status":"ACTIVE",
-                                  "BankAccountType":"BANK",
-                                  "CurrencyCode":"USD",
-                                  "TaxType":"NONE",
-                                  "EnablePaymentsToAccount":false,
-                                  "ShowInExpenseClaims":false,
-                                  "Class":"ASSET",
-                                  "ReportingCode":"ASS",
-                                  "ReportingCodeName":"Assets",
-                                  "HasAttachments":false,
-                                  "UpdatedDateUTC":"2016-06-03T08:31:14.517-07:00"
-                               },
-                               "Amount":"50.00"
-                            }
-                         ]
-                      }'
-        required: true
+            example: '{ bankTransfers:[ { fromBankAccount: { code:"090", accountID:"7e5e243b-9fcd-4aef-8e3a-c70be1e39bfa"}, toBankAccount:{ code:"088", accountID:"6f7594f2-f059-4d56-9e67-47ac9733bfe9"}, amount:"50.00" } ] }'
   '/BankTransfers/{BankTransferID}':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -2314,6 +2132,7 @@ paths:
           in: path
           name: BankTransferID
           description: Xero generated unique identifier for a bank transfer
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -2380,6 +2199,7 @@ paths:
           in: path
           name: BankTransferID
           description: Xero generated unique identifier for a bank transfer
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -2421,6 +2241,7 @@ paths:
           in: path
           name: BankTransferID
           description: Xero generated unique identifier for a bank transfer
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -2428,6 +2249,7 @@ paths:
           in: path
           name: AttachmentID
           description: Xero generated unique identifier for an Attachment to a bank transfer
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -2435,6 +2257,7 @@ paths:
           in: header
           name: contentType
           description: The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf 
+          example: image/jpg
           schema:
             type: string
       responses:
@@ -2461,6 +2284,7 @@ paths:
           in: path
           name: BankTransferID
           description: Xero generated unique identifier for a bank transfer
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -2468,12 +2292,14 @@ paths:
           in: path
           name: FileName
           description: The name of the file being attached to a Bank Transfer
+          example: xero-dev.jpg
           schema:
             type: string
         - required: true
           in: header
           name: contentType
           description: The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf
+          example: image/jpg
           schema:
             type: string
       responses:
@@ -2495,6 +2321,7 @@ paths:
           in: path
           name: BankTransferID
           description: Xero generated unique identifier for a bank transfer
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -2502,6 +2329,7 @@ paths:
           in: path
           name: FileName
           description: The name of the file being attached to a Bank Transfer
+          example: xero-dev.jpg
           schema:
             type: string
       responses:
@@ -2547,6 +2375,7 @@ paths:
           in: path
           name: BankTransferID
           description: Xero generated unique identifier for a bank transfer
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -2554,6 +2383,7 @@ paths:
           in: path
           name: FileName
           description: The name of the file being attached to a Bank Transfer
+          example: xero-dev.jpg
           schema:
             type: string
       responses:
@@ -2604,6 +2434,7 @@ paths:
           in: path
           name: BankTransferID
           description: Xero generated unique identifier for a bank transfer
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -2647,6 +2478,7 @@ paths:
           in: path
           name: BankTransferID
           description: Xero generated unique identifier for a bank transfer
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -2660,11 +2492,7 @@ paths:
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/HistoryRecords'
-        required: true
+        $ref: '#/components/requestBodies/historyRecords'
   /BrandingThemes:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -2713,6 +2541,7 @@ paths:
           in: path
           name: BrandingThemeID
           description: Unique identifier for a Branding Theme         
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -2753,6 +2582,7 @@ paths:
           in: path
           name: BrandingThemeID
           description: Unique identifier for a Branding Theme  
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid 
@@ -2795,6 +2625,7 @@ paths:
           in: path
           name: BrandingThemeID
           description: Unique identifier for a Branding Theme 
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -2823,17 +2654,18 @@ paths:
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
+        required: true
+        description: PaymentService object in body of request
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/PaymentService'
             example: '{  
-                         "PaymentServiceID":"dede7858-14e3-4a46-bf95-4d4cc491e645",
-                         "PaymentServiceName":"ACME Payments",
-                         "PaymentServiceUrl":"https://www.payupnow.com/",
-                         "PayNowText":"Pay Now"
+                         paymentServiceID:"dede7858-14e3-4a46-bf95-4d4cc491e645",
+                         paymentServiceName:"ACME Payments",
+                         paymentServiceUrl:"https://www.payupnow.com/",
+                         payNowText:"Pay Now"
                       }'
-        required: true
   /Contacts:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -2856,11 +2688,13 @@ paths:
         - in: query
           name: where
           description: Filter by an any element
+          example: Status=="' + Contact.ContactStatusEnum.ACTIVE + '"
           schema:
             type: string
         - in: query
           name: order
           description: Order by an any element
+          example: ASC
           schema:
             type: string
         - in: query
@@ -2868,6 +2702,7 @@ paths:
           description: Filter by a comma separated list of ContactIDs. Allows you to retrieve a specific set of contacts in a single call.
           style: form
           explode: false
+          example: "00000000-0000-0000-000-000000000000,00000000-0000-0000-000-000000000000"
           schema:
             type: array
             items:
@@ -2876,6 +2711,7 @@ paths:
         - in: query
           name: page
           description: e.g. page=1 - Up to 100 contacts will be returned in a single API call.
+          example: 1
           schema:
             type: integer
         - in: query
@@ -3040,12 +2876,7 @@ paths:
       operationId: createContacts
       summary: 'Allows you to create a multiple contacts (bulk) in a Xero organisation'
       parameters:
-        - in: query
-          name: summarizeErrors
-          description: response format that shows validation errors for each bank transaction
-          schema:
-            type: boolean
-            default: false
+        - $ref: '#/components/parameters/summarizeErrors'
       responses:
         '200':
           description: Success - return response of type Contacts array with newly created Contact
@@ -3192,31 +3023,12 @@ paths:
                         }'
       requestBody:
         required: true
+        description: Contacts with an array of Contact objects to create in body of request
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/Contacts'
-            example: '{  
-                       "Name":"Foo9987",
-                       "EmailAddress":"sid32476@blah.com",
-                       "Phones":[  
-                          {  
-                             "PhoneType":"MOBILE",
-                             "PhoneNumber":"555-1212",
-                             "PhoneAreaCode":"415"
-                          }
-                       ],
-                       "PaymentTerms":{  
-                          "Bills":{  
-                             "Day":15,
-                             "Type":"OFCURRENTMONTH"
-                          },
-                          "Sales":{  
-                             "Day":10,
-                             "Type":"DAYSAFTERBILLMONTH"
-                          }
-                       }
-                    }'  
+            example: '{contacts: [{ name:"Bruce Banner", emailAddress:"hulk@avengers.com", phones:[ { phoneType: Phone.PhoneTypeEnum.MOBILE, phoneNumber:"555-1212", phoneAreaCode:"415" } ], paymentTerms:{ bills:{ day:15, type: PaymentTermType.OFCURRENTMONTH }, sales:{ day:10, type: PaymentTermType.DAYSAFTERBILLMONTH } } } ] }'  
     post:
       security:
         - OAuth2: [accounting.contacts]
@@ -3225,12 +3037,7 @@ paths:
       operationId: updateOrCreateContacts
       summary: 'Allows you to update OR create one or more contacts in a Xero organisation'
       parameters:
-        - in: query
-          name: summarizeErrors
-          description: response format that shows validation errors for each bank transaction
-          schema:
-            type: boolean
-            default: false
+        - $ref: '#/components/parameters/summarizeErrors'
       responses:
         '200':
           description: Success - return response of type Contacts array with newly created Contact
@@ -3382,26 +3189,26 @@ paths:
             schema:
               $ref: '#/components/schemas/Contacts'
             example: '{  
-                       "Name":"Foo9987",
-                       "EmailAddress":"sid32476@blah.com",
-                       "Phones":[  
+                       name:"Bruce Banner",
+                       emailAddress:"hulk@avengers.com",
+                       phones:[  
                           {  
-                             "PhoneType":"MOBILE",
-                             "PhoneNumber":"555-1212",
-                             "PhoneAreaCode":"415"
+                             phoneType:"MOBILE",
+                             phoneNumber:"555-1212",
+                             phoneAreaCode:"415"
                           }
                        ],
-                       "PaymentTerms":{  
-                          "Bills":{  
-                             "Day":15,
-                             "Type":"OFCURRENTMONTH"
+                       paymentTerms:{  
+                          bills:{  
+                             day:15,
+                             type:"OFCURRENTMONTH"
                           },
-                          "Sales":{  
-                             "Day":10,
-                             "Type":"DAYSAFTERBILLMONTH"
+                          sales:{  
+                             day:10,
+                             type:"DAYSAFTERBILLMONTH"
                           }
                        }
-                    }'             
+                    }'        
   '/Contacts/{ContactID}':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -3418,6 +3225,7 @@ paths:
           in: path
           name: ContactID
           description: Unique identifier for a Contact 
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -3567,6 +3375,7 @@ paths:
           in: path
           name: ContactID
           description: Unique identifier for a Contact
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -3662,10 +3471,10 @@ paths:
             schema:
               $ref: '#/components/schemas/Contacts'
             example: '{  
-                         "Contacts":[  
+                         contacts:[  
                             {  
-                               "ContactID":"d5be01fb-b09f-4c3a-9c67-e10c2a03412c",
-                               "Name":"FooBar"
+                               contactID:"d5be01fb-b09f-4c3a-9c67-e10c2a03412c",
+                               name:"Thanos"
                             }
                          ]
                       }'
@@ -3707,6 +3516,7 @@ paths:
           in: path
           name: ContactID
           description: Unique identifier for a Contact
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -3726,6 +3536,7 @@ paths:
           in: path
           name: ContactID
           description: Unique identifier for a Contact
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -3733,6 +3544,7 @@ paths:
           in: path
           name: AttachmentID
           description: Unique identifier for a Attachment
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -3740,6 +3552,7 @@ paths:
           in: header
           name: contentType
           description: The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf
+          example: image/jpg
           schema:
             type: string
       responses:
@@ -3766,6 +3579,7 @@ paths:
           in: path
           name: ContactID
           description: Unique identifier for a Contact
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -3773,12 +3587,14 @@ paths:
           in: path
           name: FileName
           description: Name for the file you are attaching
+          example: xero-dev.jpg
           schema:
             type: string
         - required: true
           in: header
           name: contentType
           description: The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf
+          example: image/jpg
           schema:
             type: string
       responses:
@@ -3800,6 +3616,7 @@ paths:
           in: path
           name: ContactID
           description: Unique identifier for a Contact
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -3807,6 +3624,7 @@ paths:
           in: path
           name: FileName
           description: Name for the file you are attaching
+          example: xero-dev.jpg
           schema:
             type: string
       responses:
@@ -3852,6 +3670,7 @@ paths:
           in: path
           name: ContactID
           description: Unique identifier for a Contact
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -3859,6 +3678,7 @@ paths:
           in: path
           name: FileName
           description: Name for the file you are attaching
+          example: xero-dev.jpg
           schema:
             type: string
       responses:
@@ -3909,6 +3729,7 @@ paths:
           in: path
           name: ContactID
           description: Unique identifier for a Contact
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -3935,6 +3756,7 @@ paths:
           in: path
           name: ContactID
           description: Unique identifier for a Contact
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -3979,22 +3801,12 @@ paths:
           in: path
           name: ContactID
           description: Unique identifier for a Contact
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
       requestBody:
-        required: true
-        content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
-              example: '{  
-                         "HistoryRecords":[  
-                            {  
-                               "Details":"Hello World"
-                            }
-                         ]
-                      }'
+        $ref: '#/components/requestBodies/historyRecords'
       responses:
         '200':
           description: Success - return response of type History Records array of newly created History Record for a specific Contact
@@ -4034,11 +3846,13 @@ paths:
         - in: query
           name: where
           description: Filter by an any element
+          example: Status=="' + ContactGroup.StatusEnum.ACTIVE + '"
           schema:
             type: string
         - in: query
           name: order
           description: Order by an any element
+          example: ASC
           schema:
             type: string
       responses:
@@ -4125,16 +3939,16 @@ paths:
                           ]
                         }'          
       requestBody:
-        description: an array of contact groups with names specified
+        description: ContactGroups with an array of names in request body
         required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/ContactGroups'
             example: '{  
-                         "ContactGroups":[  
+                         contactGroups:[  
                             {  
-                               "Name":"Suppliers"
+                               name:"Suppliers"
                             }
                          ]
                       }'
@@ -4154,6 +3968,7 @@ paths:
           in: path
           name: ContactGroupID
           description: Unique identifier for a Contact Group
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -4210,6 +4025,7 @@ paths:
           in: path
           name: ContactGroupID
           description: Unique identifier for a Contact Group
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -4245,9 +4061,9 @@ paths:
             schema:
               $ref: '#/components/schemas/ContactGroups'
             example: '{  
-                         "ContactGroups":[  
+                         contactGroups:[  
                             {  
-                               "Name":"Vendor"
+                               name:"Vendor"
                             }
                          ]
                       }'
@@ -4267,6 +4083,7 @@ paths:
           in: path
           name: ContactGroupID
           description: Unique identifier for a Contact Group
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -4306,19 +4123,19 @@ paths:
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
-        description: an array of contacts with ContactID to be added to ContactGroup
+        description: Contacts with array of contacts specifiying the ContactID to be added to ContactGroup in body of request
         required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/Contacts'
             example: '{  
-                         "Contacts":[  
+                         contacts:[  
                             {  
-                               "ContactID":"a3675fc4-f8dd-4f03-ba5b-f1870566bcd7"
+                               contactID:"a3675fc4-f8dd-4f03-ba5b-f1870566bcd7"
                             },
                             {  
-                               "ContactID":"4e1753b9-018a-4775-b6aa-1bc7871cfee3"
+                               contactID:"4e1753b9-018a-4775-b6aa-1bc7871cfee3"
                             }
                          ]
                       }'
@@ -4334,6 +4151,7 @@ paths:
           in: path
           name: ContactGroupID
           description: Unique identifier for a Contact Group
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -4356,6 +4174,7 @@ paths:
           in: path
           name: ContactGroupID
           description: Unique identifier for a Contact Group
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -4363,6 +4182,7 @@ paths:
           in: path
           name: ContactID
           description: Unique identifier for a Contact
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -4393,16 +4213,19 @@ paths:
         - in: query
           name: where
           description: Filter by an any element
+          example: Status=="' + CreditNote.StatusEnum.ACTIVE + '"
           schema:
             type: string
         - in: query
           name: order
           description: Order by an any element
+          example: ASC
           schema:
             type: string
         - in: query
           name: page
           description: e.g. page=1 – Up to 100 credit notes will be returned in a single API call with line items shown for each credit note
+          example: 1
           schema:
             type: integer
       responses:
@@ -4500,12 +4323,7 @@ paths:
       operationId: createCreditNotes
       summary: Allows you to create a credit note
       parameters:
-        - in: query
-          name: summarizeErrors
-          description: shows validation errors for each credit note
-          schema:
-            type: boolean
-            default: false
+        - $ref: '#/components/parameters/summarizeErrors'
       responses:
         '200':
           description: Success - return response of type Credit Notes array of newly created CreditNote
@@ -4620,31 +4438,13 @@ paths:
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
-        description: an array of Credit Notes with a single CreditNote object.
+        description: Credit Notes with array of CreditNote object in body of request
         required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/CreditNotes'
-            example: '{  
-                         "CreditNotes":[  
-                            {  
-                               "Type":"ACCPAYCREDIT",
-                               "Contact":{  
-                                  "ContactID":"430fa14a-f945-44d3-9f97-5df5e28441b8"
-                               },
-                               "Date":"2019-01-05",
-                               "LineItems":[  
-                                  {  
-                                     "Description":"Foobar",
-                                     "Quantity":2.0,
-                                     "UnitAmount":20.0,
-                                     "AccountCode":"400"
-                                  }
-                               ]
-                            }
-                         ]
-                      }'
+            example: '{ creditNotes:[ { type: CreditNote.TypeEnum.ACCPAYCREDIT, contact:{ contactID:"430fa14a-f945-44d3-9f97-5df5e28441b8" }, date:"2019-01-05", lineItems:[ { description:"Foobar", quantity:2.0, unitAmount:20.0, accountCode:"400" } ] } ] }'
     post:
       security:
         - OAuth2: [accounting.transactions]
@@ -4653,12 +4453,7 @@ paths:
       operationId: updateOrCreateCreditNotes
       summary: Allows you to update OR create one or more credit notes
       parameters:
-        - in: query
-          name: summarizeErrors
-          description: shows validation errors for each credit note
-          schema:
-            type: boolean
-            default: false
+        - $ref: '#/components/parameters/summarizeErrors'
       responses:
         '200':
           description: Success - return response of type Credit Notes array of newly created CreditNote
@@ -4780,19 +4575,19 @@ paths:
             schema:
               $ref: '#/components/schemas/CreditNotes'
             example: '{  
-                         "CreditNotes":[  
+                         creditNotes:[  
                             {  
-                               "Type":"ACCPAYCREDIT",
-                               "Contact":{  
-                                  "ContactID":"430fa14a-f945-44d3-9f97-5df5e28441b8"
+                               type:"ACCPAYCREDIT",
+                               contact:{  
+                                  contactID:"430fa14a-f945-44d3-9f97-5df5e28441b8"
                                },
-                               "Date":"2019-01-05",
-                               "LineItems":[  
+                               date:"2019-01-05",
+                               lineItems:[  
                                   {  
-                                     "Description":"Foobar",
-                                     "Quantity":2.0,
-                                     "UnitAmount":20.0,
-                                     "AccountCode":"400"
+                                     description:"Foobar",
+                                     quantity:2.0,
+                                     unitAmount:20.0,
+                                     accountCode:"400"
                                   }
                                ]
                             }
@@ -4814,6 +4609,7 @@ paths:
           in: path
           name: CreditNoteID
           description: Unique identifier for a Credit Note
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -4954,6 +4750,7 @@ paths:
           in: path
           name: CreditNoteID
           description: Unique identifier for a Credit Note
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -5072,21 +4869,21 @@ paths:
             schema:
               $ref: '#/components/schemas/CreditNotes'
             example: '{  
-                       "CreditNotes":[  
+                       creditNotes:[  
                           {  
-                             "Type":"ACCPAYCREDIT",
-                             "Contact":{  
-                                "ContactID":"430fa14a-f945-44d3-9f97-5df5e28441b8"
+                             type:"ACCPAYCREDIT",
+                             contact:{  
+                                contactID:"430fa14a-f945-44d3-9f97-5df5e28441b8"
                              },
-                             "Date":"2019-01-05",
-                             "Status":"AUTHORISED",
-                             "Reference": "HelloWorld",
-                             "LineItems":[  
+                             date:"2019-01-05",
+                             status:"AUTHORISED",
+                             reference: "Mind stone",
+                             lineItems:[  
                                 {  
-                                   "Description":"Foobar",
-                                   "Quantity":2.0,
-                                   "UnitAmount":20.0,
-                                   "AccountCode":"400"
+                                   description:"Infinity Stones",
+                                   quantity:1.0,
+                                   unitAmount:100.0,
+                                   accountCode:"400"
                                 }
                              ]
                           }
@@ -5108,6 +4905,7 @@ paths:
           in: path
           name: CreditNoteID
           description: Unique identifier for a Credit Note
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -5149,6 +4947,7 @@ paths:
           in: path
           name: CreditNoteID
           description: Unique identifier for a Credit Note
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -5156,6 +4955,7 @@ paths:
           in: path
           name: AttachmentID
           description: Unique identifier for a Attachment
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -5163,6 +4963,7 @@ paths:
           in: header
           name: contentType
           description: The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf
+          example: image/jpg
           schema:
             type: string
       responses:
@@ -5189,6 +4990,7 @@ paths:
           in: path
           name: CreditNoteID
           description: Unique identifier for a Credit Note
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -5196,12 +4998,14 @@ paths:
           in: path
           name: FileName
           description: Name of the file you are attaching to Credit Note
+          example: xero-dev.jpg
           schema:
             type: string
         - required: true
           in: header
           name: contentType
           description: The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf
+          example: image/jpg
           schema:
             type: string
       responses:
@@ -5224,12 +5028,14 @@ paths:
           in: path
           name: CreditNoteID
           description: Unique identifier for a Credit Note
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
         - required: true
           in: path
           description: Name of the file you are attaching to Credit Note
+          example: xero-dev.jpg
           name: FileName
           schema:
             type: string
@@ -5277,6 +5083,7 @@ paths:
           in: path
           name: CreditNoteID
           description: Unique identifier for a Credit Note
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -5284,6 +5091,7 @@ paths:
           in: path
           name: FileName
           description: Name of the file you are attaching to Credit Note
+          example: xero-dev.jpg
           schema:
             type: string
         - required: true
@@ -5334,19 +5142,22 @@ paths:
       tags:
         - Accounting
       operationId: getCreditNoteAsPdf
+      x-path: '/CreditNotes/{CreditNoteID}'
       summary: Allows you to retrieve Credit Note as PDF files
       parameters:
         - required: true
           in: path
           name: CreditNoteID
           description: Unique identifier for a Credit Note
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
         - required: true
           in: header
           name: contentType
-          description: The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf
+          description: The mime type of the attachment file you are retrieving i.e application/pdf
+          example: application/pdf
           schema:
             type: string
       responses:
@@ -5373,6 +5184,7 @@ paths:
           in: path
           name: CreditNoteID
           description: Unique identifier for a Credit Note
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -5415,26 +5227,13 @@ paths:
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
-        description: an array of Allocations with single Allocation object defined.
+        description: Allocations with array of Allocation object in body of request.
         required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/Allocations'
-            example: '{  
-                       "Allocations":[  
-                          {  
-                             "Invoice":{  
-                                "LineItems":[  
-
-                                ],
-                                "InvoiceID":"c45720a1-ade3-4a38-a064-d15489be6841"
-                             },
-                             "Amount":1.0,
-                             "Date":"2019-03-05"
-                          }
-                       ]
-                    }'
+            example: '{ allocations:[ { amount:1.0, date:"2019-03-05", invoice:{ invoiceID:"c45720a1-ade3-4a38-a064-d15489be6841", lineItems:[], type: Invoice.TypeEnum.ACCPAY, contact:{} } } ] }'
   '/CreditNotes/{CreditNoteID}/History':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -5451,6 +5250,7 @@ paths:
           in: path
           name: CreditNoteID
           description: Unique identifier for a Credit Note
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -5503,6 +5303,7 @@ paths:
           in: path
           name: CreditNoteID
           description: Unique identifier for a Credit Note
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -5530,18 +5331,7 @@ paths:
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
-        required: true
-        content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
-              example: '{  
-                           "HistoryRecords":[  
-                              {  
-                                 "Details":"Hello World"
-                              }
-                           ]
-                        }'
+        $ref: '#/components/requestBodies/historyRecords'
   /Currencies:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -5557,11 +5347,13 @@ paths:
         - in: query
           name: where
           description: Filter by an any element
+          example: Status=="' + Currency.StatusEnum.ACTIVE + '"
           schema:
             type: string
         - in: query
           name: order
           description: Order by an any element
+          example: ASC
           schema:
             type: string
       responses:
@@ -5598,14 +5390,12 @@ paths:
                 $ref: '#/components/schemas/Currencies'
       requestBody:
         required: true
+        description: Currency obejct in the body of request
         content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Currency'
-              example: '{  
-                          "Code":"USD",
-                          "Description":"United States Dollar"
-                        }'
+              example: '{ code: CurrencyCode.USD, description:"United States Dollar" }'
   /Employees:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -5628,11 +5418,13 @@ paths:
         - in: query
           name: where
           description: Filter by an any element
+          example: Status=="' + Employee.StatusEnum.ACTIVE + '"
           schema:
             type: string
         - in: query
           name: order
           description: Order by an any element
+          example: ASC
           schema:
             type: string
       responses:
@@ -5720,17 +5512,18 @@ paths:
           $ref: '#/components/responses/400Error'
       requestBody:
         required: true
+        description: Employees with array of Employee object in body of request
         content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Employees'
               example: '{  
-                         "Employees":[  
+                         employees:[  
                             {  
-                               "FirstName":"Nick",
-                               "LastName":"Fury",
-                               "ExternalLink":{  
-                                  "Url":"http://twitter.com/#!/search/Nick+Fury"
+                               firstName:"Nick",
+                               lastName:"Fury",
+                               externalLink:{  
+                                  url:"http://twitter.com/#!/search/Nick+Fury"
                                }
                             }
                          ]
@@ -5773,21 +5566,12 @@ paths:
           $ref: '#/components/responses/400Error'
       requestBody:
         required: true
+        description: Employee object in body of request
         content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Employee'
-              example: '{  
-                         "Employees":[  
-                            {  
-                               "FirstName":"Nick",
-                               "LastName":"Fury",
-                               "ExternalLink":{  
-                                  "Url":"http://twitter.com/#!/search/Nick+Fury"
-                               }
-                            }
-                         ]
-                      }'
+              example: '{ firstName:"Nick", lastName:"Fury", externalLink:{ url:"http://twitter.com/#!/search/Nick+Fury" } }'
   '/Employees/{EmployeeID}':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -5804,6 +5588,7 @@ paths:
           in: path
           name: EmployeeID
           description: Unique identifier for a Employee
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -5845,6 +5630,7 @@ paths:
           in: path
           name: EmployeeID
           description: Unique identifier for a Employee
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -5883,11 +5669,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/Employees'
               example: '{  
-                         "Employees":[  
+                         employees:[  
                             {  
-                               "EmployeeID":"ad3db144-6362-459c-8c36-5d31d196e629",
-                               "FirstName":"Bruce",
-                               "LastName":"Banner"
+                               employeeID:"ad3db144-6362-459c-8c36-5d31d196e629",
+                               firstName:"Natasha",
+                               lastName:"Romanoff"
                             }
                          ]
                       }'
@@ -5913,11 +5699,13 @@ paths:
         - in: query
           name: where
           description: Filter by an any element
+          example: Status=="' + ExpenseClaim.StatusEnum.ACTIVE + '"
           schema:
             type: string
         - in: query
           name: order
           description: Order by an any element
+          example: ASC
           schema:
             type: string
       responses:
@@ -5964,28 +5752,12 @@ paths:
       summary: Allows you to retrieve expense claims 
       requestBody:
         required: true
+        description: ExpenseClaims with array of ExpenseClaim object in body of request
         content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ExpenseClaims'
-              example: '{  
-                           "ExpenseClaims":[  
-                              {  
-                                 "Status":"SUBMITTED",
-                                 "User":{  
-                                    "UserID":"d1164823-0ac1-41ad-987b-b4e30fe0b273"
-                                 },
-                                 "Receipts":[  
-                                    {  
-                                       "LineItems":[  
-
-                                       ],
-                                       "ReceiptID":"dc1c7f6d-0a4c-402f-acac-551d62ce5816"
-                                    }
-                                 ]
-                              }
-                           ]
-                        }'
+              example: '{ expenseClaims:[ { status: ExpenseClaim.StatusEnum.SUBMITTED, user:{ userID:"d1164823-0ac1-41ad-987b-b4e30fe0b273" }, receipts:[ { receiptID:"dc1c7f6d-0a4c-402f-acac-551d62ce5816", lineItems:[], contact: {}, user: {}, date: "2018-01-01" } ] } ] }'
       responses:
         '200':
           description: Success - return response of type ExpenseClaims array with newly created ExpenseClaim
@@ -6083,6 +5855,7 @@ paths:
           in: path
           name: ExpenseClaimID
           description: Unique identifier for a ExpenseClaim
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -6178,6 +5951,7 @@ paths:
           in: path
           name: ExpenseClaimID
           description: Unique identifier for a ExpenseClaim
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -6270,18 +6044,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ExpenseClaims'
               example: '{  
-                         "ExpenseClaims":[  
+                         expenseClaims:[  
                             {  
-                               "Status":"AUTHORISED",
-                               "User":{  
-                                  "UserID":"d1164823-0ac1-41ad-987b-b4e30fe0b273"
+                               status:"AUTHORISED",
+                               user:{  
+                                  userID:"d1164823-0ac1-41ad-987b-b4e30fe0b273"
                                },
-                               "Receipts":[  
+                               receipts:[  
                                   {  
-                                     "LineItems":[  
-
-                                     ],
-                                     "ReceiptID":"dc1c7f6d-0a4c-402f-acac-551d62ce5816"
+                                     receiptID:"dc1c7f6d-0a4c-402f-acac-551d62ce5816"
                                   }
                                ]
                             }
@@ -6303,6 +6074,7 @@ paths:
           in: path
           name: ExpenseClaimID
           description: Unique identifier for a ExpenseClaim
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -6361,6 +6133,7 @@ paths:
           in: path
           name: ExpenseClaimID
           description: Unique identifier for a ExpenseClaim
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -6372,18 +6145,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/HistoryRecords'
       requestBody:
-        required: true
-        content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
-              example: '{  
-                           "HistoryRecords":[  
-                              {  
-                                 "Details":"Hello World"
-                              }
-                           ]
-                        }'
+        $ref: '#/components/requestBodies/historyRecords'
   /Invoices:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -6406,18 +6168,21 @@ paths:
         - in: query
           name: where
           description: Filter by an any element
+          example: Status=="' + Invoice.StatusEnum.ACTIVE + '"
           schema:
             type: string
         - in: query
           name: order
           description: Order by an any element
+          example: ASC
           schema:
             type: string
         - in: query
           name: IDs
-          description: Filter by a comma-separated list of InvoicesIDs. For faster response times we recommend using these explicit parameters instead of passing OR conditions into the Where filter.
+          description: Filter by a comma-separated list of InvoicesIDs. 
           style: form
           explode: false
+          example: "00000000-0000-0000-000-000000000000,00000000-0000-0000-000-000000000000"
           schema:
             type: array
             items:
@@ -6425,18 +6190,20 @@ paths:
               format: uuid
         - in: query
           name: InvoiceNumbers
-          description: Filter by a comma-separated list of InvoiceNumbers. For faster response times we recommend using these explicit parameters instead of passing OR conditions into the Where filter.
+          description: Filter by a comma-separated list of InvoiceNumbers. 
           style: form
           explode: false
+          example: "null"
           schema:
             type: array
             items:
               type: string
         - in: query
           name: ContactIDs
-          description: Filter by a comma-separated list of ContactIDs. For faster response times we recommend using these explicit parameters instead of passing OR conditions into the Where filter.
+          description: Filter by a comma-separated list of ContactIDs. 
           style: form
           explode: false
+          example: "00000000-0000-0000-000-000000000000,00000000-0000-0000-000-000000000000"
           schema:
             type: array
             items:
@@ -6447,6 +6214,7 @@ paths:
           description: Filter by a comma-separated list Statuses. For faster response times we recommend using these explicit parameters instead of passing OR conditions into the Where filter.
           style: simple
           explode: false
+          example: "null"
           schema:
             type: array
             items:
@@ -6454,6 +6222,7 @@ paths:
         - in: query
           name: page
           description: e.g. page=1 – Up to 100 invoices will be returned in a single API call with line items shown for each invoice
+          example: 1
           schema:
             type: integer
         - in: query
@@ -6464,6 +6233,7 @@ paths:
         - in: query
           name: createdByMyApp
           description: When set to true you'll only retrieve Invoices created by your app
+          example: false
           schema:
             type: boolean
         - in: query
@@ -6620,12 +6390,7 @@ paths:
       operationId: createInvoices
       summary: Allows you to create one or more sales invoices or purchase bills
       parameters:
-        - in: query
-          name: summarizeErrors
-          description: shows validation errors for each invoice
-          schema:
-            type: boolean
-            default: false
+        - $ref: '#/components/parameters/summarizeErrors'
       responses:
         '200':
           description: Success - return response of type Invoices array with newly created Invoice
@@ -6761,34 +6526,12 @@ paths:
           $ref: '#/components/responses/400Error'
       requestBody:
         required: true
+        description: Invoices with an array of invoice objects in body of request
         content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Invoices'
-              example: '{  
-                           "Invoices":[  
-                              {  
-                                 "Type":"ACCREC",
-                                 "Contact":{  
-                                    "ContactID":"430fa14a-f945-44d3-9f97-5df5e28441b8"
-                                 },
-                                 "LineItems":[  
-                                    {  
-                                       "Description":"Acme Tires",
-                                       "Quantity":2.0,
-                                       "UnitAmount":20.0,
-                                       "AccountCode":"200",
-                                       "TaxType":"NONE",
-                                       "LineAmount":40.0
-                                    }
-                                 ],
-                                 "Date":"2019-03-11",
-                                 "DueDate":"2018-12-10",
-                                 "Reference":"Website Design",
-                                 "Status":"AUTHORISED"
-                              }
-                           ]
-                        }'
+              example: '{ invoices:[ { type: Invoice.TypeEnum.ACCREC, contact:{ contactID:"00000000-0000-0000-000-000000000000" }, lineItems:[ { description:"Acme Tires", quantity:2.0, unitAmount:20.0, accountCode:"200", taxType:"NONE", lineAmount:40.0 } ], date:"2019-03-11", dueDate:"2018-12-10", reference:"Website Design", status: Invoice.StatusEnum.AUTHORISED } ] }'
     post:
       security:
         - OAuth2: [accounting.transactions]
@@ -6797,12 +6540,7 @@ paths:
       operationId: updateOrCreateInvoices
       summary: Allows you to update OR create one or more sales invoices or purchase bills
       parameters:
-        - in: query
-          name: summarizeErrors
-          description: shows validation errors for each credit note
-          schema:
-            type: boolean
-            default: false
+        - $ref: '#/components/parameters/summarizeErrors'
       responses:
         '200':
           description: Success - return response of type Invoices array with newly created Invoice
@@ -6943,26 +6681,26 @@ paths:
               schema:
                 $ref: '#/components/schemas/Invoices'
               example: '{  
-                           "Invoices":[  
+                           invoices:[  
                               {  
-                                 "Type":"ACCREC",
-                                 "Contact":{  
-                                    "ContactID":"430fa14a-f945-44d3-9f97-5df5e28441b8"
+                                 type:"ACCREC",
+                                 contact:{  
+                                    contactID:"430fa14a-f945-44d3-9f97-5df5e28441b8"
                                  },
-                                 "LineItems":[  
+                                 lineItems:[  
                                     {  
-                                       "Description":"Acme Tires",
-                                       "Quantity":2.0,
-                                       "UnitAmount":20.0,
-                                       "AccountCode":"200",
-                                       "TaxType":"NONE",
-                                       "LineAmount":40.0
+                                       description:"Acme Tires",
+                                       quantity:2.0,
+                                       unitAmount:20.0,
+                                       accountCode:"200",
+                                       taxType:"NONE",
+                                       lineAmount:40.0
                                     }
                                  ],
-                                 "Date":"2019-03-11",
-                                 "DueDate":"2018-12-10",
-                                 "Reference":"Website Design",
-                                 "Status":"AUTHORISED"
+                                 date:"2019-03-11",
+                                 dueDate:"2018-12-10",
+                                 reference:"Website Design",
+                                 status:"AUTHORISED"
                               }
                            ]
                         }'
@@ -6982,6 +6720,7 @@ paths:
           in: path
           name: InvoiceID
           description: Unique identifier for an Invoice
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -7156,6 +6895,7 @@ paths:
           in: path
           name: InvoiceID
           description: Unique identifier for an Invoice
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -7280,13 +7020,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/Invoices'
               example: '{  
-                           "Invoices":[  
+                           invoices:[  
                               {  
-                                 "LineItems":[  
-
-                                 ],
-                                 "Reference":"My the Force be With You",
-                                 "InvoiceID":"4074292c-09b3-456d-84e7-add864c6c39b"
+                                 reference:"I am Iron Man",
+                                 invoiceID:"4074292c-09b3-456d-84e7-add864c6c39b"
                               }
                            ]
                         }'
@@ -7307,13 +7044,15 @@ paths:
           in: path
           name: InvoiceID
           description: Unique identifier for an Invoice
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
         - required: true
           in: header
           name: contentType
-          description: The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf
+          description: The mime type of the attachment file you are retrieving
+          example: application/pdf
           schema:
             type: string
       responses:
@@ -7340,6 +7079,7 @@ paths:
           in: path
           name: InvoiceID
           description: Unique identifier for an Invoice
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -7389,6 +7129,7 @@ paths:
           in: path
           name: InvoiceID
           description: Unique identifier for an Invoice
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -7396,6 +7137,7 @@ paths:
           in: path
           name: AttachmentID
           description: Unique identifier for an Attachment
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -7403,6 +7145,7 @@ paths:
           in: header
           name: contentType
           description: The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf
+          example: image/jpg
           schema:
             type: string
       responses:
@@ -7429,6 +7172,7 @@ paths:
           in: path
           name: InvoiceID
           description: Unique identifier for an Invoice
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -7436,12 +7180,14 @@ paths:
           in: path
           name: FileName
           description: Name of the file you are attaching
+          example: xero-dev.jpg
           schema:
             type: string
         - required: true
           in: header
           name: contentType
           description: The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf
+          example: image/jpg
           schema:
             type: string
       responses:
@@ -7464,6 +7210,7 @@ paths:
           in: path
           name: InvoiceID
           description: Unique identifier for an Invoice
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -7471,6 +7218,7 @@ paths:
           in: path
           name: FileName
           description: Name of the file you are attaching
+          example: xero-dev.jpg
           schema:
             type: string
       responses:
@@ -7517,6 +7265,7 @@ paths:
           in: path
           name: InvoiceID
           description: Unique identifier for an Invoice
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -7524,6 +7273,7 @@ paths:
           in: path
           name: FileName
           description: Name of the file you are attaching
+          example: xero-dev.jpg
           schema:
             type: string
         - required: true
@@ -7580,6 +7330,7 @@ paths:
           in: path
           name: InvoiceID
           description: Unique identifier for an Invoice
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -7617,6 +7368,7 @@ paths:
           in: path
           name: InvoiceID
           description: Unique identifier for an Invoice
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -7632,6 +7384,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/RequestEmpty'
+            example: '{}'
   '/Invoices/{InvoiceID}/History':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -7648,6 +7401,7 @@ paths:
           in: path
           name: InvoiceID
           description: Unique identifier for an Invoice
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -7699,6 +7453,7 @@ paths:
           in: path
           name: InvoiceID
           description: Unique identifier for an Invoice
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -7726,18 +7481,7 @@ paths:
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
-        required: true
-        content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
-              example: '{  
-                           "HistoryRecords":[  
-                              {  
-                                 "Details":"Hello World"
-                              }
-                           ]
-                        }'
+        $ref: '#/components/requestBodies/historyRecords'
   '/InvoiceReminders/Settings':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -7788,11 +7532,13 @@ paths:
         - in: query
           name: where
           description: Filter by an any element
+          example: Status=="' + Item.StatusEnum.ACTIVE + '"
           schema:
             type: string
         - in: query
           name: order
           description: Order by an any element
+          example: ASC
           schema:
             type: string
         - in: query
@@ -7851,12 +7597,7 @@ paths:
       operationId: createItems
       summary: Allows you to create one or more items
       parameters:
-        - in: query
-          name: summarizeErrors
-          description: response format that shows validation errors for each bank transaction
-          schema:
-            type: boolean
-            default: false
+        - $ref: '#/components/parameters/summarizeErrors'
       responses:
         '200':
           description: Success - return response of type Items array with newly created Item
@@ -7893,19 +7634,12 @@ paths:
           $ref: '#/components/responses/400Error'
       requestBody:
         required: true
+        description: Items with an array of Item objects in body of request
         content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Items'
-              example: '{  
-                           "Items":[  
-                              {  
-                                 "Code":"abc65591",
-                                 "Name":"Hello11350",
-                                 "Description":"foobar"
-                              }
-                           ]
-                        }'
+              example: '{ items:[ { code:"abcXYZ", name:"HelloWorld", description:"Foobar", inventoryAssetAccountCode:"140" } ] }'
     post:
       security:
         - OAuth2: [accounting.settings]
@@ -7914,12 +7648,7 @@ paths:
       operationId: updateOrCreateItems
       summary: Allows you to update or create one or more items
       parameters:
-        - in: query
-          name: summarizeErrors
-          description: response format that shows validation errors for each bank transaction
-          schema:
-            type: boolean
-            default: false
+        - $ref: '#/components/parameters/summarizeErrors'
       responses:
         '200':
           description: Success - return response of type Items array with newly created Item
@@ -7961,11 +7690,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/Items'
               example: '{  
-                           "Items":[  
+                           items:[  
                               {  
-                                 "Code":"abc65591",
-                                 "Name":"Hello11350",
-                                 "Description":"foobar"
+                                 code:"abcXYZ",
+                                 name:"HelloWorld",
+                                 description:"Foobar"
                               }
                            ]
                         }'
@@ -7985,6 +7714,7 @@ paths:
           in: path
           name: ItemID
           description: Unique identifier for an Item
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -8040,6 +7770,7 @@ paths:
           in: path
           name: ItemID
           description: Unique identifier for an Item
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -8080,10 +7811,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/Items'
               example: '{  
-                           "Items":[  
+                           items:[  
                               {  
-                                 "Code":"abc38306",
-                                 "Description":"Hello Xero"
+                                 code:"abc123",
+                                 description:"Hello Xero"
                               }
                            ]
                         }'
@@ -8099,6 +7830,7 @@ paths:
           in: path
           name: ItemID
           description: Unique identifier for an Item
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -8123,6 +7855,7 @@ paths:
           in: path
           name: ItemID
           description: Unique identifier for an Item
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -8160,6 +7893,7 @@ paths:
           in: path
           name: ItemID
           description: Unique identifier for an Item
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -8171,18 +7905,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/HistoryRecords'
       requestBody:
-        required: true
-        content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
-              example: '{  
-                           "HistoryRecords":[  
-                              {  
-                                 "Details":"Hello World"
-                              }
-                           ]
-                        }'
+        $ref: '#/components/requestBodies/historyRecords'
   /Journals:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -8204,6 +7927,7 @@ paths:
         - in: query
           name: offset
           description: Offset by a specified journal number. e.g. journals with a JournalNumber greater than the offset will be returned
+          example: 10
           schema:
             type: integer
         - in: query
@@ -8399,6 +8123,7 @@ paths:
           in: path
           name: JournalID
           description: Unique identifier for a Journal
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -8469,31 +8194,37 @@ paths:
         - in: query
           name: page
           description: Up to 100 linked transactions will be returned in a single API call. Use the page parameter to specify the page to be returned e.g. page=1.
+          example: 1
           schema:
             type: integer
         - in: query
           name: LinkedTransactionID
           description: The Xero identifier for an Linked Transaction
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
         - in: query
           name: SourceTransactionID
-          description: Filter by the SourceTransactionID. Get all the linked transactions created from a particular ACCPAY invoice
+          description: Filter by the SourceTransactionID. Get the linked transactions created from a particular ACCPAY invoice
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
         - in: query
           name: ContactID
           description: Filter by the ContactID. Get all the linked transactions that have been assigned to a particular customer.
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
         - in: query
           name: Status
-          description: Filter by the combination of ContactID and Status. Get all the linked transactions that have been assigned to a particular customer and have a particular status e.g. GET /LinkedTransactions?ContactID=4bb34b03-3378-4bb2-a0ed-6345abf3224e&Status=APPROVED.
+          description: Filter by the combination of ContactID and Status. Get  the linked transactions associaed to a  customer and with a status
+          example: "APPROVED"
           schema:
             type: string
         - in: query
           name: TargetTransactionID
           description: Filter by the TargetTransactionID. Get all the linked transactions allocated to a particular ACCREC invoice
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
       responses:
@@ -8563,18 +8294,12 @@ paths:
           $ref: '#/components/responses/400Error'
       requestBody:
         required: true
+        description: LinkedTransaction object in body of request
         content:
             application/json:
               schema:
                 $ref: '#/components/schemas/LinkedTransaction'
-              example: '{  
-                           "LinkedTransactions":[  
-                              {  
-                                 "SourceTransactionID":"a848644a-f20f-4630-98c3-386bd7505631",
-                                 "SourceLineItemID":"b0df260d-3cc8-4ced-9bd6-41924f624ed3"
-                              }
-                           ]
-                        }'
+              example: '{ sourceTransactionID:"00000000-0000-0000-000-000000000000", sourceLineItemID:"00000000-0000-0000-000-000000000000"}'
   '/LinkedTransactions/{LinkedTransactionID}':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -8591,6 +8316,7 @@ paths:
           in: path
           name: LinkedTransactionID
           description: Unique identifier for a LinkedTransaction
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -8633,6 +8359,7 @@ paths:
           in: path
           name: LinkedTransactionID
           description: Unique identifier for a LinkedTransaction
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -8698,9 +8425,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/LinkedTransactions'
               example: '{  
-                           "LinkedTransactions":[  
+                           linkedTransactions:[  
                               {  
-                                 "ContactID":"4e1753b9-018a-4775-b6aa-1bc7871cfee3"
+                                 contactID:"4e1753b9-018a-4775-b6aa-1bc7871cfee3"
                               }
                            ]
                         }'
@@ -8716,6 +8443,7 @@ paths:
           in: path
           name: LinkedTransactionID
           description: Unique identifier for a LinkedTransaction
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -8745,16 +8473,19 @@ paths:
         - in: query
           name: where
           description: Filter by an any element
+          example: Status=="' + ManualJournal.StatusEnum.ACTIVE + '"
           schema:
             type: string
         - in: query
           name: order
           description: Order by an any element
+          example: ASC
           schema:
             type: string
         - in: query
           name: page
           description: e.g. page=1 – Up to 100 manual journals will be returned in a single API call with line items shown for each overpayment
+          example: 1
           schema:
             type: integer
       responses:
@@ -8811,7 +8542,7 @@ paths:
       tags:
         - Accounting
       operationId: createManualJournals
-      summary: Allows you to create multiple manual journals
+      summary: Allows you to create one or more manual journals
       responses:
         '200':
           description: Success - return response of type ManualJournals array with newly created ManualJournal
@@ -8877,33 +8608,34 @@ paths:
           $ref: '#/components/responses/400Error'
       requestBody:
         required: true
+        description: ManualJournals array with ManualJournal object in body of request
         content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ManualJournals'
               example: '{  
-                           "ManualJournals":[  
+                           manualJournals:[  
                               {  
-                                 "Narration":"Foo bar",
-                                 "JournalLines":[  
+                                 narration:"Foo bar",
+                                 journalLines:[  
                                     {  
-                                       "LineAmount":100.0,
-                                       "AccountCode":"400",
-                                       "Description":"Hello there"
+                                       lineAmount:100.0,
+                                       accountCode:"400",
+                                       description:"Hello there"
                                     },
                                     {  
-                                       "LineAmount":-100.0,
-                                       "AccountCode":"400",
-                                       "Description":"Goodbye",
-                                       "Tracking":[  
+                                       lineAmount:-100.0,
+                                       accountCode:"400",
+                                       description:"Goodbye",
+                                       tracking:[  
                                           {  
-                                             "Name":"Simpsons",
-                                             "Option":"Bart"
+                                             name:"Simpsons",
+                                             option:"Bart"
                                           }
                                        ]
                                     }
                                  ],
-                                 "Date":"2019-03-14"
+                                 date:"2019-03-14"
                               }
                            ]
                         }'
@@ -8980,36 +8712,12 @@ paths:
           $ref: '#/components/responses/400Error'
       requestBody:
         required: true
+        description: ManualJournal object in body of request
         content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ManualJournal'
-              example: '{  
-                           "ManualJournals":[  
-                              {  
-                                 "Narration":"Foo bar",
-                                 "JournalLines":[  
-                                    {  
-                                       "LineAmount":100.0,
-                                       "AccountCode":"400",
-                                       "Description":"Hello there"
-                                    },
-                                    {  
-                                       "LineAmount":-100.0,
-                                       "AccountCode":"400",
-                                       "Description":"Goodbye",
-                                       "Tracking":[  
-                                          {  
-                                             "Name":"Simpsons",
-                                             "Option":"Bart"
-                                          }
-                                       ]
-                                    }
-                                 ],
-                                 "Date":"2019-03-14"
-                              }
-                           ]
-                        }'
+              example: '{ narration:"Foo bar", journalLines:[ { lineAmount:100.0, accountCode:"400", description:"Hello there" }, { lineAmount:-100.0, accountCode:"400", description:"Goodbye", tracking:[ { name:"Simpsons", option:"Bart" } ] } ], date:"2019-03-14" }'
   '/ManualJournals/{ManualJournalID}':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -9026,6 +8734,7 @@ paths:
           in: path
           name: ManualJournalID
           description: Unique identifier for a ManualJournal
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -9104,6 +8813,7 @@ paths:
           in: path
           name: ManualJournalID
           description: Unique identifier for a ManualJournal
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -9164,13 +8874,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/ManualJournals'
               example: '{  
-                           "ManualJournals":[  
+                           manualJournals:[  
                               {  
-                                 "Narration":"Hello Xero",
-                                 "JournalLines":[  
-
-                                 ],
-                                 "ManualJournalID":"07eac261-78ef-47a0-a0eb-a57b74137877"
+                                 narration:"Hello Xero",
+                                 manualJournalID:"07eac261-78ef-47a0-a0eb-a57b74137877"
                               }
                            ]
                         }'
@@ -9190,6 +8897,7 @@ paths:
           in: path
           name: ManualJournalID
           description: Unique identifier for a ManualJournal
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -9238,6 +8946,7 @@ paths:
           in: path
           name: ManualJournalID
           description: Unique identifier for a ManualJournal
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -9245,6 +8954,7 @@ paths:
           in: path
           name: AttachmentID
           description: Unique identifier for a Attachment
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -9252,6 +8962,7 @@ paths:
           in: header
           name: contentType
           description: The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf
+          example: image/jpg
           schema:
             type: string
       responses:
@@ -9278,6 +8989,7 @@ paths:
           in: path
           name: ManualJournalID
           description: Unique identifier for a ManualJournal
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -9285,12 +8997,14 @@ paths:
           in: path
           name: FileName
           description: The name of the file being attached to a ManualJournal
+          example: xero-dev.jpg
           schema:
             type: string
         - required: true
           in: header
           name: contentType
           description: The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf
+          example: image/jpg
           schema:
             type: string
       responses:
@@ -9313,6 +9027,7 @@ paths:
           in: path
           name: ManualJournalID
           description: Unique identifier for a ManualJournal
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -9320,6 +9035,7 @@ paths:
           in: path
           name: FileName
           description: The name of the file being attached to a ManualJournal
+          example: xero-dev.jpg
           schema:
             type: string
       responses:
@@ -9366,6 +9082,7 @@ paths:
           in: path
           name: ManualJournalID
           description: Unique identifier for a ManualJournal
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -9373,6 +9090,7 @@ paths:
           in: path
           name: FileName
           description: The name of the file being attached to a ManualJournal
+          example: xero-dev.jpg
           schema:
             type: string
       responses:
@@ -9480,6 +9198,8 @@ paths:
         - required: true
           in: path
           name: OrganisationID
+          description: The unique Xero identifier for an organisation
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -9511,16 +9231,19 @@ paths:
         - in: query
           name: where
           description: Filter by an any element
+          example: Status=="' + Overpayment.StatusEnum.ACTIVE + '"
           schema:
             type: string
         - in: query
           name: order
           description: Order by an any element
+          example: ASC
           schema:
             type: string
         - in: query
           name: page
           description: e.g. page=1 – Up to 100 overpayments will be returned in a single API call with line items shown for each overpayment
+          example: 1
           schema:
             type: integer
         - in: query
@@ -9699,6 +9422,7 @@ paths:
           in: path
           name: OverpaymentID
           description: Unique identifier for a Overpayment
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -9848,6 +9572,7 @@ paths:
           in: path
           name: OverpaymentID
           description: Unique identifier for a Overpayment
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -9891,21 +9616,19 @@ paths:
           $ref: '#/components/responses/400Error'
       requestBody:
         required: true
+        description: Allocations array with Allocation object in body of request
         content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Allocations'
               example: '{  
-                           "Allocations":[  
+                           allocations:[  
                               {  
-                                 "Invoice":{  
-                                    "LineItems":[  
-
-                                    ],
-                                    "InvoiceID":"c45720a1-ade3-4a38-a064-d15489be6841"
+                                 invoice:{  
+                                    invoiceID:"00000000-0000-0000-000-000000000000", lineItems:[], contact: {}, type: Invoice.TypeEnum.ACCPAY
                                  },
-                                 "Amount":1.0,
-                                 "Date":"2019-03-12"
+                                 amount:1.0,
+                                 date:"2019-03-12"
                               }
                            ]
                         }'
@@ -9922,6 +9645,7 @@ paths:
           in: path
           name: OverpaymentID
           description: Unique identifier for a Overpayment
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -9965,24 +9689,12 @@ paths:
           $ref: '#/components/responses/400Error'
       requestBody:
         required: true
+        description: Allocation object in body of request
         content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Allocation'
-              example: '{  
-                           "Allocations":[  
-                              {  
-                                 "Invoice":{  
-                                    "LineItems":[  
-
-                                    ],
-                                    "InvoiceID":"c45720a1-ade3-4a38-a064-d15489be6841"
-                                 },
-                                 "Amount":1.0,
-                                 "Date":"2019-03-12"
-                              }
-                           ]
-                        }'
+              example: '{ invoice:{ invoiceID:"00000000-0000-0000-000-000000000000", lineItems:[], contact: {}, type: Invoice.TypeEnum.ACCPAY }, amount:1.0, date:"2019-03-12" }'
   '/Overpayments/{OverpaymentID}/History':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -9999,6 +9711,7 @@ paths:
           in: path
           name: OverpaymentID
           description: Unique identifier for a Overpayment
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -10050,6 +9763,7 @@ paths:
           in: path
           name: OverpaymentID
           description: Unique identifier for a Overpayment
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -10084,11 +9798,7 @@ paths:
                           ]
                         }'
       requestBody:
-        required: true
-        content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
+        $ref: '#/components/requestBodies/historyRecords'
   /Payments:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -10110,11 +9820,13 @@ paths:
         - in: query
           name: where
           description: Filter by an any element
+          example: Status=="' + Payment.StatusEnum.ACTIVE + '"
           schema:
             type: string
         - in: query
           name: order
           description: Order by an any element
+          example: ASC
           schema:
             type: string
       responses:
@@ -10308,27 +10020,12 @@ paths:
           $ref: '#/components/responses/400Error'
       requestBody:
         required: true
+        description: Payments array with Payment object in body of request
         content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Payments'
-              example: '{  
-                           "Payments":[  
-                              {  
-                                 "Invoice":{  
-                                    "LineItems":[  
-
-                                    ],
-                                    "InvoiceID":"c7c37b83-ac95-45ea-88ba-8ad83a5f22fe"
-                                 },
-                                 "Account":{  
-                                    "Code":"970"
-                                 },
-                                 "Date":"2019-03-12",
-                                 "Amount":1.0
-                              }
-                           ]
-                        }'
+              example: '{ payments:[ { invoice:{ invoiceID:"00000000-0000-0000-000-000000000000", lineItems:[], contact: {}, type: Invoice.TypeEnum.ACCPAY }, account:{ code:"970" }, date:"2019-03-12", amount:1.0 } ] }'
     post:
       security:
         - OAuth2: [accounting.transactions]
@@ -10424,27 +10121,12 @@ paths:
           $ref: '#/components/responses/400Error'
       requestBody:
         required: true
+        description: Request body with a single Payment object
         content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Payment'
-              example: '{  
-                           "Payments":[  
-                              {  
-                                 "Invoice":{  
-                                    "LineItems":[  
-
-                                    ],
-                                    "InvoiceID":"c7c37b83-ac95-45ea-88ba-8ad83a5f22fe"
-                                 },
-                                 "Account":{  
-                                    "Code":"970"
-                                 },
-                                 "Date":"2019-03-12",
-                                 "Amount":1.0
-                              }
-                           ]
-                        }'
+              example: '{ invoice:{ invoiceID:"00000000-0000-0000-000-000000000000", lineItems:[], contact: {}, type: Invoice.TypeEnum.ACCPAY }, account:{ code:"970" }, date:"2019-03-12", amount:1.0 }'
   '/Payments/{PaymentID}':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -10461,6 +10143,7 @@ paths:
           in: path
           name: PaymentID
           description: Unique identifier for a Payment
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -10565,6 +10248,7 @@ paths:
           in: path
           name: PaymentID
           description: Unique identifier for a Payment
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -10657,9 +10341,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/Payments'
               example: '{  
-                           "Payments":[  
+                           payments:[  
                               {  
-                                 "Status":"DELETED"
+                                 status:"DELETED"
                               }
                            ]
                         }'
@@ -10679,6 +10363,7 @@ paths:
           in: path
           name: PaymentID
           description: Unique identifier for a Payment
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -10716,6 +10401,7 @@ paths:
           in: path
           name: PaymentID
           description: Unique identifier for a Payment
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -10750,18 +10436,7 @@ paths:
                           ]
                         }'
       requestBody:
-        required: true
-        content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
-              example: '{  
-                           "HistoryRecords":[  
-                              {  
-                                 "Details":"Hello World"
-                              }
-                           ]
-                        }'
+        $ref: '#/components/requestBodies/historyRecords'
   /PaymentServices:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -10833,16 +10508,17 @@ paths:
           $ref: '#/components/responses/400Error'
       requestBody:
         required: true
+        description: PaymentServices array with PaymentService object in body of request
         content:
             application/json:
               schema:
                 $ref: '#/components/schemas/PaymentServices'
               example: '{  
-                           "PaymentServices":[  
+                           paymentServices:[  
                               {  
-                                 "PaymentServiceName":"PayUpNow",
-                                 "PaymentServiceUrl":"https://www.payupnow.com/",
-                                 "PayNowText":"Time To Pay"
+                                 paymentServiceName:"PayUpNow",
+                                 paymentServiceUrl:"https://www.payupnow.com/",
+                                 payNowText:"Time To Pay"
                               }
                            ]
                         }'
@@ -10867,16 +10543,19 @@ paths:
         - in: query
           name: where
           description: Filter by an any element
+          example: Status=="' + Prepayment.StatusEnum.ACTIVE + '"
           schema:
             type: string
         - in: query
           name: order
           description: Order by an any element
+          example: ASC
           schema:
             type: string
         - in: query
           name: page
           description: e.g. page=1 – Up to 100 prepayments will be returned in a single API call with line items shown for each overpayment
+          example: 1
           schema:
             type: integer
         - in: query
@@ -10944,6 +10623,7 @@ paths:
           in: path
           name: PrepaymentID
           description: Unique identifier for a PrePayment
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -11090,6 +10770,8 @@ paths:
         - required: true
           in: path
           name: PrepaymentID
+          description: Unique identifier for Prepayment
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -11133,24 +10815,12 @@ paths:
           $ref: '#/components/responses/400Error'
       requestBody:
         required: true
+        description: Allocations with an array of Allocation object in body of request
         content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Allocations'
-              example: '{  
-                           "Allocations":[  
-                              {  
-                                 "Invoice":{  
-                                    "LineItems":[  
-
-                                    ],
-                                    "InvoiceID":"c7c37b83-ac95-45ea-88ba-8ad83a5f22fe"
-                                 },
-                                 "Amount":1.0,
-                                 "Date":"2019-03-13"
-                              }
-                           ]
-                        }'
+              example: '{ allocations:[ { invoice:{ invoiceID:"00000000-0000-0000-000-000000000000", lineItems:[], contact: {}, type: null }, amount:1.0, date:"2019-03-13" } ] }'
   '/Prepayments/{PrepaymentID}/History':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -11167,6 +10837,7 @@ paths:
           in: path
           name: PrepaymentID
           description: Unique identifier for a PrePayment
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -11218,6 +10889,7 @@ paths:
           in: path
           name: PrepaymentID
           description: Unique identifier for a PrePayment
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -11252,11 +10924,7 @@ paths:
                             ]
                           }'
       requestBody:
-        required: true
-        content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
+        $ref: '#/components/requestBodies/historyRecords'
   /PurchaseOrders:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -11278,6 +10946,7 @@ paths:
         - in: query
           name: Status
           description: Filter by purchase order status
+          example: "SUBMITTED"
           schema:
             type: string
             enum:
@@ -11289,21 +10958,25 @@ paths:
         - in: query
           name: DateFrom 
           description: Filter by purchase order date (e.g. GET https://.../PurchaseOrders?DateFrom=2015-12-01&DateTo=2015-12-31
+          example: "2019-12-01"
           schema:
             type: string
         - in: query
           name: DateTo
           description: Filter by purchase order date (e.g. GET https://.../PurchaseOrders?DateFrom=2015-12-01&DateTo=2015-12-31
+          example: "2019-12-31"
           schema:
             type: string
         - in: query
           name: order
           description: Order by an any element
+          example: ASC
           schema:
             type: string
         - in: query
           name: page
           description: To specify a page, append the page parameter to the URL e.g. ?page=1. If there are 100 records in the response you will need to check if there is any more data by fetching the next page e.g ?page=2 and continuing this process until no more results are returned.
+          example: 1
           schema:
             type: integer
       responses:
@@ -11471,12 +11144,7 @@ paths:
       operationId: createPurchaseOrders
       summary: Allows you to create one or more purchase orders
       parameters:
-        - in: query
-          name: summarizeErrors
-          description: shows validation errors for each purchase order.
-          schema:
-            type: boolean
-            default: false
+        - $ref: '#/components/parameters/summarizeErrors'
       responses:
         '200':
           description: Success - return response of type PurchaseOrder array for specified PurchaseOrder          
@@ -11596,25 +11264,26 @@ paths:
           $ref: '#/components/responses/400Error'
       requestBody:
         required: true
+        description: PurchaseOrders with an array of PurchaseOrder object in body of request
         content:
             application/json:
               schema:
                 $ref: '#/components/schemas/PurchaseOrders'
               example: '{  
-                           "PurchaseOrders":[  
+                           purchaseOrders:[  
                               {  
-                                 "Contact":{  
-                                    "ContactID":"430fa14a-f945-44d3-9f97-5df5e28441b8"
+                                 contact:{  
+                                    contactID:"430fa14a-f945-44d3-9f97-5df5e28441b8"
                                  },
-                                 "LineItems":[  
+                                 lineItems:[  
                                     {  
-                                       "Description":"Foobar",
-                                       "Quantity":1.0,
-                                       "UnitAmount":20.0,
-                                       "AccountCode":"710"
+                                       description:"Foobar",
+                                       quantity:1.0,
+                                       unitAmount:20.0,
+                                       accountCode:"710"
                                     }
                                  ],
-                                 "Date":"2019-03-13"
+                                 date:"2019-03-13"
                               }
                            ]
                         }'
@@ -11626,12 +11295,7 @@ paths:
       operationId: updateOrCreatePurchaseOrders
       summary: Allows you to update or create one or more purchase orders
       parameters:
-        - in: query
-          name: summarizeErrors
-          description: shows validation errors for each credit note
-          schema:
-            type: boolean
-            default: false
+        - $ref: '#/components/parameters/summarizeErrors'
       responses:
         '200':
           description: Success - return response of type PurchaseOrder array for specified PurchaseOrder          
@@ -11756,20 +11420,20 @@ paths:
               schema:
                 $ref: '#/components/schemas/PurchaseOrders'
               example: '{  
-                           "PurchaseOrders":[  
+                           purchaseOrders:[  
                               {  
-                                 "Contact":{  
-                                    "ContactID":"430fa14a-f945-44d3-9f97-5df5e28441b8"
+                                 contact:{  
+                                    contactID:"430fa14a-f945-44d3-9f97-5df5e28441b8"
                                  },
-                                 "LineItems":[  
+                                 lineItems:[  
                                     {  
-                                       "Description":"Foobar",
-                                       "Quantity":1.0,
-                                       "UnitAmount":20.0,
-                                       "AccountCode":"710"
+                                       description:"Foobar",
+                                       quantity:1.0,
+                                       unitAmount:20.0,
+                                       accountCode:"710"
                                     }
                                  ],
-                                 "Date":"2019-03-13"
+                                 date:"2019-03-13"
                               }
                            ]
                         }'
@@ -11789,6 +11453,7 @@ paths:
           in: path
           name: PurchaseOrderID
           description: Unique identifier for a PurchaseOrder
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -11936,6 +11601,7 @@ paths:
           in: path
           name: PurchaseOrderID
           description: Unique identifier for a PurchaseOrder
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -12053,12 +11719,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/PurchaseOrders'
               example: '{  
-                           "PurchaseOrders":[  
-                              {  
-                                 "LineItems":[  
-
-                                 ],
-                                 "AttentionTo":"Jimmy"
+                           purchaseOrders:[  
+                              { 
+                                attentionTo:"Peter Parker"
                               }
                            ]
                         }'
@@ -12078,6 +11741,7 @@ paths:
           in: path
           name: PurchaseOrderID
           description: Unique identifier for a PurchaseOrder
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -12136,6 +11800,7 @@ paths:
           in: path
           name: PurchaseOrderID
           description: Unique identifier for a PurchaseOrder
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -12163,18 +11828,7 @@ paths:
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
-        required: true
-        content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
-              example: '{  
-                           "HistoryRecords":[  
-                              {  
-                                 "Details":"Hello World"
-                              }
-                           ]
-                        }'
+        $ref: '#/components/requestBodies/historyRecords'
   /Quotes:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -12221,6 +11875,7 @@ paths:
         - in: query
           name: ContactID
           description: Filter for quotes belonging to a particular contact
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -12232,11 +11887,13 @@ paths:
         - in: query
           name: page
           description: e.g. page=1 – Up to 100 Quotes will be returned in a single API call with line items shown for each quote
+          example: 1
           schema:
             type: integer
         - in: query
           name: order
           description: Order by an any element
+          example: ASC
           schema:
             type: string
       responses:
@@ -12310,12 +11967,7 @@ paths:
       operationId: createQuotes
       summary: Allows you to create one or more quotes
       parameters:
-        - in: query
-          name: summarizeErrors
-          description: if true, only return quotes with validation errors 
-          schema:
-            type: boolean
-            default: false
+        - $ref: '#/components/parameters/summarizeErrors'
       responses:
         '200':
           description: Success - return response of type Quotes with array with newly created Quote
@@ -12328,6 +11980,7 @@ paths:
           $ref: '#/components/responses/400Error'
       requestBody:
         required: true
+        description: Quotes with an array of Quote object in body of request
         content:
             application/json:
               schema:
@@ -12341,12 +11994,7 @@ paths:
       operationId: updateOrCreateQuotes
       summary: Allows you to update OR create one or more quotes
       parameters:
-        - in: query
-          name: summarizeErrors
-          description: if true, only return quotes with  validation errors
-          schema:
-            type: boolean
-            default: false
+        - $ref: '#/components/parameters/summarizeErrors'
       responses:
         '200':
           description: Success - return response of type Quotes array with updated or created Quote
@@ -12380,6 +12028,7 @@ paths:
           in: path
           name: QuoteID
           description: Unique identifier for an Quote
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -12458,6 +12107,7 @@ paths:
           in: path
           name: QuoteID
           description: Unique identifier for an Quote
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -12493,6 +12143,7 @@ paths:
           in: path
           name: QuoteID
           description: Unique identifier for an Quote
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -12516,6 +12167,7 @@ paths:
           in: path
           name: QuoteID
           description: Unique identifier for an Quote
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -12530,19 +12182,7 @@ paths:
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
-        required: true
-        content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
-              example: '{  
-                           "HistoryRecords":[  
-                              {  
-                                 "Details":"Hello World"
-                              }
-                           ]
-                        }'
-  
+        $ref: '#/components/requestBodies/historyRecords'
   /Receipts:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -12564,11 +12204,13 @@ paths:
         - in: query
           name: where
           description: Filter by an any element
+          example: Status=="' + Receipt.StatusEnum.ACTIVE + '"
           schema:
             type: string
         - in: query
           name: order
           description: Order by an any element
+          example: ASC
           schema:
             type: string
         - in: query
@@ -12753,34 +12395,12 @@ paths:
           $ref: '#/components/responses/400Error'
       requestBody:
         required: true
+        description: Receipts with an array of Receipt object in body of request
         content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Receipts'
-              example: '{  
-                           "Receipts":[  
-                              {  
-                                 "Contact":{  
-                                    "ContactID":"430fa14a-f945-44d3-9f97-5df5e28441b8"
-                                 },
-                                 "LineItems":[  
-                                    {  
-                                       "Description":"Foobar",
-                                       "Quantity":2.0,
-                                       "UnitAmount":20.0,
-                                       "AccountCode":"400",
-                                       "TaxType":"NONE",
-                                       "LineAmount":40.0
-                                    }
-                                 ],
-                                 "User":{  
-                                    "UserID":"d1164823-0ac1-41ad-987b-b4e30fe0b273"
-                                 },
-                                 "LineAmountTypes":"NoTax",
-                                 "Status":"DRAFT"
-                              }
-                           ]
-                        }'
+              example: '{ receipts:[ { contact:{ contactID:"00000000-0000-0000-000-000000000000" }, lineItems:[ { description:"Foobar", quantity:2.0, unitAmount:20.0, accountCode:"400", taxType:"NONE", lineAmount:40.0 } ], user:{ userID:"00000000-0000-0000-000-000000000000" }, lineAmountTypes: LineAmountTypes.Inclusive, status: Receipt.StatusEnum.DRAFT , date: null} ] }'
   '/Receipts/{ReceiptID}':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -12797,6 +12417,7 @@ paths:
           in: path
           name: ReceiptID
           description: Unique identifier for a Receipt
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -12937,6 +12558,7 @@ paths:
           in: path
           name: ReceiptID
           description: Unique identifier for a Receipt
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -13057,15 +12679,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/Receipts'
               example: '{  
-                           "Receipts":[  
+                           receipts:[  
                               {  
-                                 "LineItems":[  
-
-                                 ],
-                                 "User":{  
-                                    "UserID":"d1164823-0ac1-41ad-987b-b4e30fe0b273"
+                                 user:{  
+                                    userID:"d1164823-0ac1-41ad-987b-b4e30fe0b273"
                                  },
-                                 "Reference":"Foobar"
+                                 reference:"Foobar"
                               }
                            ]
                         }'
@@ -13085,6 +12704,7 @@ paths:
           in: path
           name: ReceiptID
           description: Unique identifier for a Receipt
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -13126,6 +12746,7 @@ paths:
           in: path
           name: ReceiptID
           description: Unique identifier for a Receipt
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -13133,6 +12754,7 @@ paths:
           in: path
           name: AttachmentID
           description: Unique identifier for a Attachment
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -13140,6 +12762,7 @@ paths:
           in: header
           name: contentType
           description: The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf
+          example: image/jpg
           schema:
             type: string
       responses:
@@ -13166,6 +12789,7 @@ paths:
           in: path
           name: ReceiptID
           description: Unique identifier for a Receipt
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -13173,12 +12797,14 @@ paths:
           in: path
           name: FileName
           description: The name of the file being attached to the Receipt
+          example: xero-dev.jpg
           schema:
             type: string
         - required: true
           in: header
           name: contentType
           description: The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf
+          example: image/jpg
           schema:
             type: string
       responses:
@@ -13201,6 +12827,7 @@ paths:
           in: path
           name: ReceiptID
           description: Unique identifier for a Receipt
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -13208,6 +12835,7 @@ paths:
           in: path
           name: FileName
           description: The name of the file being attached to the Receipt
+          example: xero-dev.jpg
           schema:
             type: string
       responses:
@@ -13254,6 +12882,7 @@ paths:
           in: path
           name: ReceiptID
           description: Unique identifier for a Receipt
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -13261,6 +12890,7 @@ paths:
           in: path
           name: FileName
           description: The name of the file being attached to the Receipt
+          example: xero-dev.jpg
           schema:
             type: string
       responses:
@@ -13311,6 +12941,7 @@ paths:
           in: path
           name: ReceiptID
           description: Unique identifier for a Receipt
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -13355,6 +12986,7 @@ paths:
           in: path
           name: ReceiptID
           description: Unique identifier for a Receipt
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -13389,11 +13021,7 @@ paths:
                           ]
                         }'
       requestBody:
-        required: true
-        content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
+        $ref: '#/components/requestBodies/historyRecords'
   /RepeatingInvoices:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -13409,11 +13037,13 @@ paths:
         - in: query
           name: where
           description: Filter by an any element
+          example: Status=="' + RepeatingInvoice.StatusEnum.ACTIVE + '"
           schema:
             type: string
         - in: query
           name: order
           description: Order by an any element
+          example: ASC
           schema:
             type: string
       responses:
@@ -13492,6 +13122,7 @@ paths:
           in: path
           name: RepeatingInvoiceID
           description: Unique identifier for a Repeating Invoice
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -13594,6 +13225,7 @@ paths:
           in: path
           name: RepeatingInvoiceID
           description: Unique identifier for a Repeating Invoice
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -13649,6 +13281,7 @@ paths:
           in: path
           name: RepeatingInvoiceID
           description: Unique identifier for a Repeating Invoice
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -13656,6 +13289,7 @@ paths:
           in: path
           name: AttachmentID
           description: Unique identifier for a Attachment
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -13663,6 +13297,7 @@ paths:
           in: header
           name: contentType
           description: The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf
+          example: image/jpg
           schema:
             type: string
       responses:
@@ -13689,6 +13324,7 @@ paths:
           in: path
           name: RepeatingInvoiceID
           description: Unique identifier for a Repeating Invoice
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -13696,12 +13332,14 @@ paths:
           in: path
           name: FileName
           description: The name of the file being attached to a Repeating Invoice
+          example: xero-dev.jpg
           schema:
             type: string
         - required: true
           in: header
           name: contentType
           description: The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf
+          example: image/jpg
           schema:
             type: string
       responses:
@@ -13724,6 +13362,7 @@ paths:
           in: path
           name: RepeatingInvoiceID
           description: Unique identifier for a Repeating Invoice
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -13731,6 +13370,7 @@ paths:
           in: path
           name: FileName
           description: The name of the file being attached to a Repeating Invoice
+          example: xero-dev.jpg
           schema:
             type: string
       responses:
@@ -13777,6 +13417,7 @@ paths:
           in: path
           name: RepeatingInvoiceID
           description: Unique identifier for a Repeating Invoice
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -13784,6 +13425,7 @@ paths:
           in: path
           name: FileName
           description: The name of the file being attached to a Repeating Invoice
+          example: xero-dev.jpg
           schema:
             type: string
       responses:
@@ -13834,6 +13476,7 @@ paths:
           in: path
           name: RepeatingInvoiceID
           description: Unique identifier for a Repeating Invoice
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -13885,6 +13528,7 @@ paths:
           in: path
           name: RepeatingInvoiceID
           description: Unique identifier for a Repeating Invoice
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -13898,11 +13542,7 @@ paths:
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
-        required: true
-        content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
+        $ref: '#/components/requestBodies/historyRecords'
   '/Reports/TenNinetyNine':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -13918,6 +13558,7 @@ paths:
         - in: query
           name: reportYear
           description: The year of the 1099 report
+          example: "2019"
           schema:
             type: string
       responses:
@@ -14030,6 +13671,7 @@ paths:
           required: true
           name: contactId
           description: Unique identifier for a Contact
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -14309,6 +13951,7 @@ paths:
           required: true
           name: contactId
           description: Unique identifier for a Contact
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -14664,16 +14307,19 @@ paths:
         - in: query
           name: date
           description: The date of the Balance Sheet report
+          example: "2019-11-01"
           schema:
             type: string
         - in: query
           name: periods
           description: The number of periods for the Balance Sheet report
+          example: 3
           schema:
             type: integer
         - in: query
           name: timeframe
           description: The period size to compare to (MONTH, QUARTER, YEAR)
+          example: "MONTH"
           schema:
             type: string
             enum:
@@ -14683,21 +14329,25 @@ paths:
         - in: query
           name: trackingOptionID1
           description: The tracking option 1 for the Balance Sheet report
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
         - in: query
           name: trackingOptionID2
           description: The tracking option 2 for the Balance Sheet report
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
         - in: query
           name: standardLayout
           description: The standard layout boolean for the Balance Sheet report
+          example: true
           schema:
             type: boolean
         - in: query
           name: paymentsOnly
           description: return a cash basis for the Balance Sheet report
+          example: false
           schema:
             type: boolean
       responses:
@@ -15455,12 +15105,14 @@ paths:
         - in: query
           name: fromDate
           description: The from date for the Bank Summary report e.g. 2018-03-31
+          example: "2019-11-01"
           schema:
             type: string
             format: date
         - in: query
           name: toDate
           description: The to date for the Bank Summary report e.g. 2018-03-31
+          example: "2019-11-30"
           schema:
             type: string
             format: date
@@ -15612,6 +15264,7 @@ paths:
           required: true
           name: ReportID
           description: Unique identifier for a Report
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
       responses:
@@ -15636,17 +15289,20 @@ paths:
         - in: query
           name: date
           description: The date for the Bank Summary report e.g. 2018-03-31
+          example: "2019-03-31"
           schema:
             type: string
             format: date
         - in: query
           name: period
           description: The number of periods to compare (integer between 1 and 12)
+          example: 2
           schema:
             type: integer
         - in: query
           name: timeframe
           description: The period size to compare to (1=month, 3=quarter, 12=year)
+          example: 3
           schema:
             type: integer
       responses:
@@ -15889,6 +15545,7 @@ paths:
         - in: query
           name: date
           description: The date for the Bank Summary report e.g. 2018-03-31
+          example: "2019-03-31"
           schema:
             type: string
             format: date
@@ -16381,23 +16038,27 @@ paths:
         - in: query
           name: fromDate
           description: The from date for the ProfitAndLoss report e.g. 2018-03-31
+          example: "2019-03-01"
           schema:
             type: string
             format: date
         - in: query
           name: toDate
           description: The to date for the ProfitAndLoss report e.g. 2018-03-31
+          example: "2019-03-31"
           schema:
             type: string
             format: date
         - in: query
           name: periods
           description: The number of periods to compare (integer between 1 and 12)
+          example: 3
           schema:
             type: integer
         - in: query
           name: timeframe
           description: The period size to compare to (MONTH, QUARTER, YEAR)
+          example: "MONTH"
           schema:
             type: string
             enum:
@@ -16407,31 +16068,37 @@ paths:
         - in: query
           name: trackingCategoryID
           description: The trackingCategory 1 for the ProfitAndLoss report 
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
         - in: query
           name: trackingCategoryID2
           description: The trackingCategory 2 for the ProfitAndLoss report 
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
         - in: query
           name: trackingOptionID
           description: The tracking option 1 for the ProfitAndLoss report 
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
         - in: query
           name: trackingOptionID2
           description: The tracking option 2 for the ProfitAndLoss report 
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
         - in: query
           name: standardLayout
           description: Return the standard layout for the ProfitAndLoss report 
+          example: "true"
           schema:
             type: boolean
         - in: query
           name: paymentsOnly
           description: Return cash only basis for the ProfitAndLoss report 
+          example: "false"
           schema:
             type: boolean     
       responses:
@@ -16456,12 +16123,14 @@ paths:
         - in: query
           name: date
           description: The date for the Trial Balance report e.g. 2018-03-31
+          example: "2019-10-31"
           schema:
             type: string
             format: date
         - in: query
           name: paymentsOnly
           description: Return cash only basis for the Trial Balance report 
+          example: "true"
           schema:
             type: boolean
       responses:
@@ -17567,16 +17236,19 @@ paths:
         - in: query
           name: where
           description: Filter by an any element
+          example: Status=="' + TaxRate.StatusEnum.ACTIVE + '"
           schema:
             type: string
         - in: query
           name: order
           description: Order by an any element
+          example: ASC
           schema:
             type: string
         - in: query
           name: TaxType
           description: Filter by tax type
+          example: "INPUT"
           schema:
             type: string
       responses:
@@ -17746,21 +17418,22 @@ paths:
           $ref: '#/components/responses/400Error'
       requestBody:
         required: true
+        description: TaxRates array with TaxRate object in body of request
         content:
             application/json:
               schema:
                 $ref: '#/components/schemas/TaxRates'
               example: '{  
-                           "TaxRates":[  
+                           taxRates:[  
                               {  
-                                 "Name":"SDKTax29067",
-                                 "TaxComponents":[  
+                                 name:"CA State Tax",
+                                 taxComponents:[  
                                     {  
-                                       "Name":"State Tax",
-                                       "Rate":2.25
+                                       name:"State Tax",
+                                       rate:2.25
                                     }
                                  ],
-                                 "ReportTaxType":"INPUT"
+                                 reportTaxType:"INPUT"
                               }
                            ]
                         }'
@@ -17816,17 +17489,17 @@ paths:
               schema:
                 $ref: '#/components/schemas/TaxRates'
               example: '{  
-                           "TaxRates":[  
+                           taxRates:[  
                               {  
-                                 "Name":"SDKTax29067",
-                                 "TaxComponents":[  
+                                 name:"State Tax NY",
+                                 taxComponents:[  
                                     {  
-                                       "Name":"State Tax",
-                                       "Rate":2.25
+                                       name:"State Tax",
+                                       rate:2.25
                                     }
                                  ],
-                                 "Status":"DELETED",
-                                 "ReportTaxType":"INPUT"
+                                 status:"DELETED",
+                                 reportTaxType:"INPUT"
                               }
                            ]
                         }'
@@ -17845,11 +17518,13 @@ paths:
         - in: query
           name: where
           description: Filter by an any element
+          example: Status=="' + TrackingCategory.StatusEnum.ACTIVE + '"
           schema:
             type: string
         - in: query
           name: order
           description: Order by an any element
+          example: ASC
           schema:
             type: string
         - in: query
@@ -17916,12 +17591,13 @@ paths:
           $ref: '#/components/responses/400Error'
       requestBody:
         required: true
+        description: TrackingCategory object in body of request
         content:
             application/json:
               schema:
                 $ref: '#/components/schemas/TrackingCategory'
               example: '{  
-                           "Name":"FooBar"
+                           name:"FooBar"
                         }'
   '/TrackingCategories/{TrackingCategoryID}':
     parameters:
@@ -17939,6 +17615,7 @@ paths:
           in: path
           name: TrackingCategoryID
           description: Unique identifier for a TrackingCategory
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -17975,6 +17652,7 @@ paths:
           in: path
           name: TrackingCategoryID
           description: Unique identifier for a TrackingCategory
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -18008,7 +17686,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/TrackingCategory'
               example: '{  
-                           "Name":"BarFoo"
+                           name:"Avengers"
                         }'
     delete:
       security:
@@ -18022,6 +17700,7 @@ paths:
           in: path
           name: TrackingCategoryID
           description: Unique identifier for a TrackingCategory
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -18064,6 +17743,7 @@ paths:
           in: path
           name: TrackingCategoryID
           description: Unique identifier for a TrackingCategory
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -18095,12 +17775,13 @@ paths:
           $ref: '#/components/responses/400Error'
       requestBody:
         required: true
+        description: TrackingOption object in body of request
         content:
             application/json:
               schema:
                 $ref: '#/components/schemas/TrackingOption'
               example: '{  
-                           "Name":"Bar40423"
+                           name:"Bar"
                         }'
   '/TrackingCategories/{TrackingCategoryID}/Options/{TrackingOptionID}':
     parameters:
@@ -18118,6 +17799,7 @@ paths:
           in: path
           name: TrackingCategoryID
           description: Unique identifier for a TrackingCategory
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -18125,6 +17807,7 @@ paths:
           in: path
           name: TrackingOptionID
           description: Unique identifier for a Tracking Option
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -18161,7 +17844,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/TrackingOption'
               example: '{  
-                           "Name":"Bar40423"
+                           name:"Vision"
                         }'
     delete:
       security:
@@ -18175,6 +17858,7 @@ paths:
           in: path
           name: TrackingCategoryID
           description: Unique identifier for a TrackingCategory
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -18182,6 +17866,7 @@ paths:
           in: path
           name: TrackingOptionID
           description: Unique identifier for a Tracking Option
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -18232,11 +17917,13 @@ paths:
         - in: query
           name: where
           description: Filter by an any element
+          example: Status=="' + User.StatusEnum.ACTIVE + '"
           schema:
             type: string
         - in: query
           name: order
           description: Order by an any element
+          example: ASC
           schema:
             type: string
       responses:
@@ -18288,6 +17975,7 @@ paths:
           in: path
           name: UserID
           description: Unique identifier for a User
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
@@ -18366,6 +18054,21 @@ components:
             paymentservices: Grant read-write access to payment services
             projects: Grant read-write access to projects
             projects.read: Grant read-only access to projects
+  requestBodies:
+    historyRecords:
+      required: true
+      description: HistoryRecords containing an array of HistoryRecord objects in body of request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HistoryRecords'
+          example: '{  
+                      historyRecords:[  
+                        {  
+                            details :"Hello World"
+                        }
+                      ]
+                    }'
   parameters:
     requiredHeader: 
       in: header
@@ -18374,7 +18077,15 @@ components:
       example: YOUR_XERO_TENANT_ID
       schema:
         type: string
-      required: true 
+      required: true
+    summarizeErrors:
+      in: query
+      name: summarizeErrors
+      description: If false return 200 OK and mix of successfully created obejcts and any with validation errors
+      example: false
+      schema:
+        type: boolean
+        default: false
   responses:
     400Error:
       description: A failed request due to validation error
@@ -18503,6 +18214,7 @@ components:
           description: The Xero identifier for an account – specified as a string following  the endpoint name   e.g. /297c2dc5-cc47-4afd-8ec8-74990b8761e9
           type: string
           format: uuid
+          example: 00000000-0000-0000-000-000000000000
         Type:
           $ref: '#/components/schemas/AccountType'
         BankAccountNumber:
@@ -18647,11 +18359,11 @@ components:
           description: Unique ID for the file
           type: string
           format: uuid
-          example: "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+          example: "00000000-0000-0000-000-000000000000"
         FileName:
           description: Name of the file
           type: string
-          example: "sample5.jpg"
+          example: xero-dev.jpg
         Url:
           description: URL to the file on xero.com
           type: string
@@ -18747,16 +18459,19 @@ components:
           description: Xero generated unique identifier for bank transaction
           type: string
           format: uuid
+          example: "00000000-0000-0000-000-000000000000"
         PrepaymentID:
           description: Xero generated unique identifier for a Prepayment. This will be returned on BankTransactions with a Type of SPEND-PREPAYMENT or RECEIVE-PREPAYMENT
           readOnly: true
           type: string
           format: uuid
+          example: "00000000-0000-0000-000-000000000000"
         OverpaymentID:
           description: Xero generated unique identifier for an Overpayment. This will be returned on BankTransactions with a Type of SPEND-OVERPAYMENT or RECEIVE-OVERPAYMENT
           readOnly: true
           type: string
           format: uuid
+          example: "00000000-0000-0000-000-000000000000"
         UpdatedDateUTC:
           description: Last modified date UTC format
           readOnly: true
@@ -18795,6 +18510,7 @@ components:
           description: LineItem unique ID
           type: string
           format: uuid
+          example: "00000000-0000-0000-000-000000000000"
         Description:
           description: Description needs to be at least 1 char long. A line item with just
             a description (i.e no unit amount or quantity) can be created by
@@ -18845,8 +18561,8 @@ components:
           type: number
           format: double
         RepeatingInvoiceID:
-          description:  The Xero identifier for a Repeating Invoicee.g.
-            297c2dc5-cc47-4afd-8ec8-74990b8761e9
+          description:  The Xero identifier for a Repeating Invoice
+          example: "00000000-0000-0000-000-000000000000"
           type: string
           format: uuid
       type: object
@@ -18858,7 +18574,7 @@ components:
           description: The Xero identifier for a tracking category
           type: string
           format: uuid
-          example: 297c2dc5-cc47-4afd-8ec8-74990b8761e9
+          example: "00000000-0000-0000-000-000000000000"
         Name:
           description: The name of the tracking category
           maxLength: 100
@@ -20038,10 +19754,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ValidationError'
-      required:
-        - Type
-        - Contact
-        - LineItems
       type: object
     OnlineInvoices:
       type: object
@@ -20337,8 +20049,7 @@ components:
           type: string
           format: uuid
         LinkedTransactionID:
-          description:  The Xero identifier for an Linked Transaction e.g.
-            /LinkedTransactions/297c2dc5-cc47-4afd-8ec8-74990b8761e9
+          description:  The Xero identifier for an Linked Transaction e.g./LinkedTransactions/297c2dc5-cc47-4afd-8ec8-74990b8761e9
           type: string
           format: uuid
         Status:
@@ -20449,7 +20160,6 @@ components:
             $ref: '#/components/schemas/Attachment'
       required:
         - Narration
-        - JournalLines
       type: object
     ManualJournalLine:
       externalDocs:
@@ -21679,11 +21389,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Attachment'
-      required:
-        - Date
-        - Contact
-        - LineItems
-        - User
       type: object
     RepeatingInvoices:
       type: object
