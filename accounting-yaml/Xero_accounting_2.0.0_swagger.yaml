@@ -875,26 +875,7 @@ paths:
             format: uuid
       responses:
         '200':
-          description: Success - return response of type HistoryRecords array of HistoryRecord objects 
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
-              example: '{
-                      "Id": "c58e2f9c-baad-42a4-8bb7-f32b6f88fa04",
-                      "Status": "OK",
-                      "ProviderName": "Xero API Partner",
-                      "DateTimeUTC": "\/Date(1550898452503)\/",
-                      "HistoryRecords": [
-                        {
-                          "Changes": "Approved",
-                          "DateUTCString": "2017-11-28T18:29:52",
-                          "DateUTC": "\/Date(1511893792813+0000)\/",
-                          "User": "Sidney Maestre",
-                          "Details": ""
-                        }
-                      ]
-                    }'
+          $ref: '#/components/responses/HistoryRetrieved'
     put:
       security:
         - OAuth2: [accounting.transactions]
@@ -913,25 +894,7 @@ paths:
             format: uuid
       responses:
         '200':
-          description: Success - return response of type HistoryRecords array of HistoryRecord objects 
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
-              example: '{
-                          "Id": "d7525479-3392-44c0-bb37-ff4a0b5df5bd",
-                          "Status": "OK",
-                          "ProviderName": "Xero API Partner",
-                          "DateTimeUTC": "\/Date(1550899400362)\/",
-                          "HistoryRecords": [
-                            {
-                              "DateUTCString": "2019-02-23T05:23:20",
-                              "DateUTC": "\/Date(1550899400362)\/",
-                              "Details": "Hello World",
-                              "ValidationErrors": []
-                            }
-                          ]
-                        }'
+          $ref: '#/components/responses/HistoryRecordCreated'
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
@@ -1925,33 +1888,7 @@ paths:
             format: uuid
       responses:
         '200':
-          description: Success - return response of HistoryRecords array of 0 to N HistoryRecord 
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
-              example: '{
-                          "Id": "238ed37f-5636-4644-beb9-eb44380a02b8",
-                          "Status": "OK",
-                          "ProviderName": "Xero API Partner",
-                          "DateTimeUTC": "\/Date(1551214417576)\/",
-                          "HistoryRecords": [
-                            {
-                              "Changes": "Attached a file",
-                              "DateUTCString": "2018-11-08T14:51:16",
-                              "DateUTC": "\/Date(1541688676083+0000)\/",
-                              "User": "System Generated",
-                              "Details": "Attached the file sample2.jpg through the Xero API using Xero API Partner"
-                            },
-                            {
-                              "Changes": "Created",
-                              "DateUTCString": "2016-10-13T20:13:36",
-                              "DateUTC": "\/Date(1476389616423+0000)\/",
-                              "User": "Sidney Maestre",
-                              "Details": ""
-                            }
-                          ]
-                        }'
+          $ref: '#/components/responses/HistoryRetrieved'
     put:
       security:
         - OAuth2: [accounting.transactions]
@@ -1970,11 +1907,7 @@ paths:
             format: uuid
       responses:
         '200':
-          description: Success - return response of HistoryRecords array of 0 to N HistoryRecord 
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
+          $ref: '#/components/responses/HistoryRecordCreated'
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
@@ -2440,33 +2373,7 @@ paths:
             format: uuid
       responses:
         '200':
-          description: Success - return response of HistoryRecords array of 0 to N HistoryRecord for a Bank Transfer 
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
-              example: '{
-                          "Id": "cd54cc7b-b721-4207-b11d-7d13c7902f91",
-                          "Status": "OK",
-                          "ProviderName": "Xero API Partner",
-                          "DateTimeUTC": "\/Date(1551311321819)\/",
-                          "HistoryRecords": [
-                            {
-                              "Changes": "Attached a file",
-                              "DateUTCString": "2018-11-08T15:01:21",
-                              "DateUTC": "\/Date(1541689281470+0000)\/",
-                              "User": "System Generated",
-                              "Details": "Attached the file sample2.jpg through the Xero API using Xero API Partner"
-                            },
-                            {
-                              "Changes": "Credit Applied",
-                              "DateUTCString": "2016-10-17T20:46:01",
-                              "DateUTC": "\/Date(1476737161173+0000)\/",
-                              "User": "System Generated",
-                              "Details": "Bank transfer from Business Wells Fargo to My Savings on November 12, 2016 for 20.00."
-                            }
-                          ]
-                        }'
+          $ref: '#/components/responses/HistoryRetrieved'
     put:
       security:
         - OAuth2: [accounting.transactions]
@@ -2484,11 +2391,7 @@ paths:
             format: uuid
       responses:
         '200':
-          description: Success - return response HistoryRecords array with the newly created HistoryRecord for a Bank Transfer 
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
+          $ref: '#/components/responses/HistoryRecordCreated'
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
@@ -3762,33 +3665,7 @@ paths:
             format: uuid
       responses:
         '200':
-          description: Success - return response of type History Records array of 0 to N History Record for a specific Contact
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
-              example: '{
-                          "Id": "fb81ef32-80e0-42ef-a735-5b6202773f70",
-                          "Status": "OK",
-                          "ProviderName": "Xero API Partner",
-                          "DateTimeUTC": "\/Date(1551399323692)\/",
-                          "HistoryRecords": [
-                            {
-                              "Changes": "Edited",
-                              "DateUTCString": "2019-03-01T00:15:22",
-                              "DateUTC": "\/Date(1551399322350+0000)\/",
-                              "User": "System Generated",
-                              "Details": "Name changed from Foo9987 to Bar8156."
-                            },
-                            {
-                              "Changes": "Created",
-                              "DateUTCString": "2019-03-01T00:15:21",
-                              "DateUTC": "\/Date(1551399321060+0000)\/",
-                              "User": "System Generated",
-                              "Details": "Foo9987 has been created."
-                            }
-                          ]
-                        }'
+          $ref: '#/components/responses/HistoryRetrieved'
     put:
       security:
         - OAuth2: [accounting.contacts]
@@ -3809,25 +3686,7 @@ paths:
         $ref: '#/components/requestBodies/historyRecords'
       responses:
         '200':
-          description: Success - return response of type History Records array of newly created History Record for a specific Contact
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
-              example: '{
-                          "Id": "69ab5807-d722-4974-804d-b1459854d8af",
-                          "Status": "OK",
-                          "ProviderName": "Xero API Partner",
-                          "DateTimeUTC": "\/Date(1551399324272)\/",
-                          "HistoryRecords": [
-                            {
-                              "DateUTCString": "2019-03-01T00:15:24",
-                              "DateUTC": "\/Date(1551399324272)\/",
-                              "Details": "Hello World",
-                              "ValidationErrors": []
-                            }
-                          ]
-                        }'
+          $ref: '#/components/responses/HistoryRecordCreated'
         '400':
           $ref: '#/components/responses/400Error'
   /ContactGroups:
@@ -5256,41 +5115,7 @@ paths:
             format: uuid
       responses:
         '200':
-          description: Success - return response of type HistoryRecords array with all HistoryRecord for specific Credit Note
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
-              example: '{
-                          "Id": "dcc7c1dc-6cb0-4028-bd3f-70ece21da236",
-                          "Status": "OK",
-                          "ProviderName": "Java Partner Example",
-                          "DateTimeUTC": "\/Date(1551828544127)\/",
-                          "HistoryRecords": [
-                            
-                            {
-                              "Changes": "Cash Refunded",
-                              "DateUTCString": "2019-03-05T18:59:06",
-                              "DateUTC": "\/Date(1551812346157+0000)\/",
-                              "User": "Sidney Maestre",
-                              "Details": "Payment made to Liam Gallagher on 14 March 2019 for 2.00. There is 32.50 credit remaining on this credit note."
-                            },
-                            {
-                              "Changes": "Approved",
-                              "DateUTCString": "2019-03-05T18:58:33",
-                              "DateUTC": "\/Date(1551812313410+0000)\/",
-                              "User": "Sidney Maestre",
-                              "Details": "CN-0005 to Liam Gallagher for 34.50."
-                            },
-                            {
-                              "Changes": "Created",
-                              "DateUTCString": "2019-03-05T18:58:33",
-                              "DateUTC": "\/Date(1551812313410+0000)\/",
-                              "User": "Sidney Maestre",
-                              "Details": "CN-0005 to Liam Gallagher for 34.50."
-                            }
-                          ]
-                        }'
+          $ref: '#/components/responses/HistoryRetrieved'
     put:
       security:
         - OAuth2: [accounting.transactions]
@@ -5309,25 +5134,7 @@ paths:
             format: uuid
       responses:
         '200':
-          description: Success - return response of type HistoryRecords array with newly created HistoryRecord for specific Credit Note
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
-              example: '{
-                          "Id": "f4a1e574-a3f0-4862-8e54-143947e3bea6",
-                          "Status": "OK",
-                          "ProviderName": "Java Partner Example",
-                          "DateTimeUTC": "\/Date(1551828544585)\/",
-                          "HistoryRecords": [
-                            {
-                              "DateUTCString": "2019-03-05T23:29:04",
-                              "DateUTC": "\/Date(1551828544585)\/",
-                              "Details": "Hello World",
-                              "ValidationErrors": []
-                            }
-                          ]
-                        }'
+          $ref: '#/components/responses/HistoryRecordCreated'
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
@@ -6080,47 +5887,7 @@ paths:
             format: uuid
       responses:
         '200':
-          description: Success - return response of type HistoryRecords array with all HistoryRecord for specific ExpenseClaim
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
-              example: '{
-                          "Id": "8f7651e5-3310-47ea-90b8-b56fca096186",
-                          "Status": "OK",
-                          "ProviderName": "Java Partner Example",
-                          "DateTimeUTC": "\/Date(1552325858436)\/",
-                          "HistoryRecords": [
-                            {
-                              "Changes": "Voided",
-                              "DateUTCString": "2019-03-11T17:37:36",
-                              "DateUTC": "\/Date(1552325856747+0000)\/",
-                              "User": "System Generated",
-                              "Details": ""
-                            },
-                            {
-                              "Changes": "Authorised",
-                              "DateUTCString": "2019-03-11T17:37:31",
-                              "DateUTC": "\/Date(1552325851767+0000)\/",
-                              "User": "System Generated",
-                              "Details": ""
-                            },
-                            {
-                              "Changes": "Approved",
-                              "DateUTCString": "2019-03-11T17:37:31",
-                              "DateUTC": "\/Date(1552325851673+0000)\/",
-                              "User": "System Generated",
-                              "Details": "Receipt #1 Approved"
-                            },
-                            {
-                              "Changes": "Edited",
-                              "DateUTCString": "2019-03-11T17:37:30",
-                              "DateUTC": "\/Date(1552325850090+0000)\/",
-                              "User": "System Generated",
-                              "Details": ""
-                            }
-                          ]
-                        }'
+          $ref: '#/components/responses/HistoryRetrieved'
     put:
       security:
         - OAuth2: [accounting.transactions]
@@ -6139,11 +5906,7 @@ paths:
             format: uuid
       responses:
         '200':
-          description: Unsupported - return response incorrect exception, API is not able to create HistoryRecord for Expense Claims
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
+          $ref: '#/components/responses/HistoryRecordCreated'
       requestBody:
         $ref: '#/components/requestBodies/historyRecords'
   /Invoices:
@@ -7407,40 +7170,7 @@ paths:
             format: uuid
       responses:
         '200':
-          description: Success - return response of type HistoryRecords array with all HistoryRecord for specific Invoice
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
-              example: '{
-                          "Id": "6735bff8-88f6-4125-ad79-43ff7c068731",
-                          "Status": "OK",
-                          "ProviderName": "Java Partner Example",
-                          "DateTimeUTC": "\/Date(1552331281043)\/",
-                          "HistoryRecords": [
-                            {
-                              "Changes": "Paid",
-                              "DateUTCString": "2019-03-07T17:59:28",
-                              "DateUTC": "\/Date(1551981568133+0000)\/",
-                              "User": "Sidney Maestre",
-                              "Details": "Payment received from Liam Gallagher on 19 March 2019 for 148,062.76. This invoice has been fully paid."
-                            },
-                            {
-                              "Changes": "Approved",
-                              "DateUTCString": "2019-03-07T17:59:06",
-                              "DateUTC": "\/Date(1551981546460+0000)\/",
-                              "User": "Sidney Maestre",
-                              "Details": "INV-0006 to Liam Gallagher for 148,062.76."
-                            },
-                            {
-                              "Changes": "Created",
-                              "DateUTCString": "2019-03-07T17:59:06",
-                              "DateUTC": "\/Date(1551981546460+0000)\/",
-                              "User": "Sidney Maestre",
-                              "Details": "INV-0006 to Liam Gallagher for 148,062.76."
-                            }
-                          ]
-                        }'
+          $ref: '#/components/responses/HistoryRetrieved'
     put:
       security:
         - OAuth2: [accounting.transactions]
@@ -7459,25 +7189,7 @@ paths:
             format: uuid
       responses:
         '200':
-          description: Success - return response of type HistoryRecords array with newly created HistoryRecord for specific Invoice
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
-              example: '{
-                          "Id": "3ff34d77-2d8a-4b90-bdf9-0009f45b3ad9",
-                          "Status": "OK",
-                          "ProviderName": "Java Partner Example",
-                          "DateTimeUTC": "\/Date(1552331283349)\/",
-                          "HistoryRecords": [
-                            {
-                              "DateUTCString": "2019-03-11T19:08:03",
-                              "DateUTC": "\/Date(1552331283349)\/",
-                              "Details": "Hello World",
-                              "ValidationErrors": []
-                            }
-                          ]
-                        }'
+          $ref: '#/components/responses/HistoryRecordCreated'
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
@@ -7861,26 +7573,7 @@ paths:
             format: uuid
       responses:
         '200':
-          description: Success - return response of type HistoryRecords array with all HistoryRecord for specific Item
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
-              example: '{
-                          "Id": "ff7065dd-52f4-4b8f-8372-67457d883c5e",
-                          "Status": "OK",
-                          "ProviderName": "Java Partner Example",
-                          "DateTimeUTC": "\/Date(1552331878273)\/",
-                          "HistoryRecords": [
-                            {
-                              "Changes": "Created",
-                              "DateUTCString": "2019-03-07T17:57:56",
-                              "DateUTC": "\/Date(1551981476000+0000)\/",
-                              "User": "Sidney Maestre",
-                              "Details": "Item 123 - Guitars created."
-                            }
-                          ]
-                        }'
+          $ref: '#/components/responses/HistoryRetrieved'
     put:
       security:
         - OAuth2: [accounting.settings]
@@ -7899,11 +7592,7 @@ paths:
             format: uuid
       responses:
         '200':
-          description: Unsupported - return response incorrect exception, API is not able to create HistoryRecord for Items
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
+          $ref: '#/components/responses/HistoryRecordCreated'
       requestBody:
         $ref: '#/components/requestBodies/historyRecords'
   /Journals:
@@ -9717,40 +9406,7 @@ paths:
             format: uuid
       responses:
         '200':
-          description: Success - return response of type HistoryRecords array with all HistoryRecord for Overpayments
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
-              example: '{
-                          "Id": "7fa5a005-f74f-4af7-b47d-932f185230ae",
-                          "Status": "OK",
-                          "ProviderName": "Java Partner Example",
-                          "DateTimeUTC": "\/Date(1552428953625)\/",
-                          "HistoryRecords": [
-                            {
-                              "Changes": "Applied",
-                              "DateUTCString": "2019-03-12T22:15:52",
-                              "DateUTC": "\/Date(1552428952877+0000)\/",
-                              "User": "System Generated",
-                              "Details": "Credit applied on 12 March 2019 for 1.00."
-                            },
-                            {
-                              "Changes": "Approved",
-                              "DateUTCString": "2019-03-12T22:13:01",
-                              "DateUTC": "\/Date(1552428781497+0000)\/",
-                              "User": "Sidney Maestre",
-                              "Details": "From Liam Gallagher for 3000.00."
-                            },
-                            {
-                              "Changes": "Created",
-                              "DateUTCString": "2019-03-12T22:13:01",
-                              "DateUTC": "\/Date(1552428781497+0000)\/",
-                              "User": "Sidney Maestre",
-                              "Details": "From Liam Gallagher for 3000.00."
-                            }
-                          ]
-                        }'
+          $ref: '#/components/responses/HistoryRetrieved'
     put:
       security:
         - OAuth2: [accounting.transactions]
@@ -9769,11 +9425,7 @@ paths:
             format: uuid
       responses:
         '200':
-          description: Unsupported - return response incorrect exception, API is not able to create HistoryRecord for Overpayments
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
+          $ref: '#/components/responses/HistoryRecordCreated'
         '400':
           description: A failed request due to validation error - API is not able to create HistoryRecord for Overpayments
           content:
@@ -10369,26 +10021,7 @@ paths:
             format: uuid
       responses:
         '200':
-          description: Success - return response of type HistoryRecords array with all HistoryRecord for Payments
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
-              example: '{
-                          "Id": "eb312706-703c-4fcc-8206-315d846307f8",
-                          "Status": "OK",
-                          "ProviderName": "Java Partner Example",
-                          "DateTimeUTC": "\/Date(1552431875664)\/",
-                          "HistoryRecords": [
-                            {
-                              "Changes": "Created",
-                              "DateUTCString": "2018-11-02T16:36:32",
-                              "DateUTC": "\/Date(1541176592690+0000)\/",
-                              "User": "Sidney Maestre",
-                              "Details": ""
-                            }
-                          ]
-                        }'
+          $ref: '#/components/responses/HistoryRetrieved'
     put:
       security:
         - OAuth2: [accounting.transactions]
@@ -10407,11 +10040,7 @@ paths:
             format: uuid
       responses:
         '200':
-          description: Unsupported - return response incorrect exception, API is not able to create HistoryRecord for Payments
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
+          $ref: '#/components/responses/HistoryRecordCreated'
         '400':
           description: A failed request due to validation error - API is not able to create HistoryRecord for Payments
           content:
@@ -10843,40 +10472,7 @@ paths:
             format: uuid
       responses:
         '200':
-          description: Success - return response of type HistoryRecords array with all HistoryRecord for PrePayment          
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
-              example: '{
-                          "Id": "fe085026-7246-4509-92c2-9ac90e63f5ae",
-                          "Status": "OK",
-                          "ProviderName": "Java Partner Example",
-                          "DateTimeUTC": "\/Date(1552491116295)\/",
-                          "HistoryRecords": [
-                            {
-                              "Changes": "Cash Refunded",
-                              "DateUTCString": "2019-03-13T14:58:10",
-                              "DateUTC": "\/Date(1552489090407+0000)\/",
-                              "User": "Sidney Maestre",
-                              "Details": "Payment made to Tony Stark on 21 March 2019 for 2,300.00. There is no credit remaining on this prepayment."
-                            },
-                            {
-                              "Changes": "Approved",
-                              "DateUTCString": "2019-03-13T14:57:10",
-                              "DateUTC": "\/Date(1552489030890+0000)\/",
-                              "User": "Sidney Maestre",
-                              "Details": "From Tony Stark for 2300.0."
-                            },
-                            {
-                              "Changes": "Created",
-                              "DateUTCString": "2019-03-13T14:57:10",
-                              "DateUTC": "\/Date(1552489030890+0000)\/",
-                              "User": "Sidney Maestre",
-                              "Details": "From Tony Stark for 2300.0."
-                            }
-                          ]
-                        }'
+          $ref: '#/components/responses/HistoryRetrieved'
     put:
       security:
         - OAuth2: [accounting.transactions]
@@ -10895,11 +10491,7 @@ paths:
             format: uuid
       responses:
         '200':
-          description: Success - return response of type HistoryRecords array for newly created HistoryRecord for PrePayment          
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
+          $ref: '#/components/responses/HistoryRecordCreated'
         '400':
           description: Unsupported - return response incorrect exception, API is not able to create HistoryRecord for Expense Claims
           content:
@@ -11747,47 +11339,7 @@ paths:
             format: uuid
       responses:
         '200':
-          description: Success - return response of type HistoryRecords array for all HistoryRecord for PurchaseOrder          
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
-              example: ' {
-                          "Id": "bb14d6a9-4915-4aff-a152-4b31760706ba",
-                          "Status": "OK",
-                          "ProviderName": "Java Partner Example",
-                          "DateTimeUTC": "\/Date(1552523978738)\/",
-                          "HistoryRecords": [
-                            {
-                              "Changes": "Note",
-                              "DateUTCString": "2019-03-14T00:22:28",
-                              "DateUTC": "\/Date(1552522948670+0000)\/",
-                              "User": "System Generated",
-                              "Details": "Hello World"
-                            },
-                            {
-                              "Changes": "PurchaseOrder Deleted",
-                              "DateUTCString": "2019-03-14T00:18:23",
-                              "DateUTC": "\/Date(1552522703443+0000)\/",
-                              "User": "System Generated",
-                              "Details": "This purchase order has been ''Deleted'' through the Xero API by Java Partner Example"
-                            },
-                            {
-                              "Changes": "PurchaseOrder Edited",
-                              "DateUTCString": "2019-03-14T00:18:21",
-                              "DateUTC": "\/Date(1552522701863+0000)\/",
-                              "User": "System Generated",
-                              "Details": "This purchase order has been ''Edited'' through the Xero API by Java Partner Example"
-                            },
-                            {
-                              "Changes": "Created",
-                              "DateUTCString": "2019-03-14T00:18:21",
-                              "DateUTC": "\/Date(1552522701457+0000)\/",
-                              "User": "System Generated",
-                              "Details": "Received through the Xero API from Java Partner Example"
-                            }
-                          ]
-                        }'
+          $ref: '#/components/responses/HistoryRetrieved'
     put:
       security:
         - OAuth2: [accounting.transactions]
@@ -11806,25 +11358,7 @@ paths:
             format: uuid
       responses:
         '200':
-          description: Success - return response of type HistoryRecords array for newly created HistoryRecord for PurchaseOrder          
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
-              example: '{
-                          "Id": "7aa9020e-1d35-4504-80eb-ae4418a5e46d",
-                          "Status": "OK",
-                          "ProviderName": "Java Partner Example",
-                          "DateTimeUTC": "\/Date(1552523979354)\/",
-                          "HistoryRecords": [
-                            {
-                              "DateUTCString": "2019-03-14T00:39:39",
-                              "DateUTC": "\/Date(1552523979354)\/",
-                              "Details": "Hello World",
-                              "ValidationErrors": []
-                            }
-                          ]
-                        }'
+          $ref: '#/components/responses/HistoryRecordCreated'
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
@@ -11975,7 +11509,51 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Quotes'
-              example: ''
+              example: '{ 
+                        "SummarizeErrors":false,
+                        "Id":"29571f5a-bf73-4bb6-9de5-86be44e6bf2e",
+                        "Status":"OK",
+                        "ProviderName":"java-sdk-oauth2-dev-02",
+                        "DateTimeUTC":"\/Date(1580607782916)\/",
+                        "Quotes":[ 
+                            { 
+                              "QuoteID":"60031d53-6488-4321-9cbd-c1db6dbf9ba4",
+                              "QuoteNumber":"QU-0008",
+                              "Terms":"",
+                              "Contact":{ 
+                                  "ContactID":"6a65f055-b0e0-471a-a933-d1ffdd89393f",
+                                  "Name":"John Smith-82160",
+                                  "EmailAddress":""
+                              },
+                              "LineItems":[ 
+                                  { 
+                                    "LineItemID":"26995857-0eea-45fb-b46c-f8ea896ec46e",
+                                    "AccountCode":"12775",
+                                    "Description":"Foobar",
+                                    "UnitAmount":20.0000,
+                                    "LineAmount":20.00,
+                                    "ItemCode":"",
+                                    "Quantity":1.0000,
+                                    "TaxAmount":0.00,
+                                    "Tracking":[ 
+
+                                    ]
+                                  }
+                              ],
+                              "Date":"\/Date(1580515200000)\/",
+                              "DateString":"2020-02-01T00:00:00",
+                              "Status":"DRAFT",
+                              "CurrencyRate":1.000000,
+                              "CurrencyCode":"USD",
+                              "SubTotal":20.00,
+                              "TotalTax":0.00,
+                              "Total":20.00,
+                              "UpdatedDateUTC":"\/Date(1580607782913)\/",
+                              "LineAmountTypes":"EXCLUSIVE",
+                              "StatusAttributeString":"OK"
+                            }
+                        ]
+                      }'
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
@@ -11985,7 +11563,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Quotes'
-              example: ''
+              example: '{ 
+                          "Quotes":[ 
+                              { 
+                                "Contact":{ 
+                                    "ContactID":"6a65f055-b0e0-471a-a933-d1ffdd89393f"
+                                },
+                                "LineItems":[ 
+                                    { 
+                                      "Description":"Foobar",
+                                      "Quantity":1.0,
+                                      "UnitAmount":20.0,
+                                      "AccountCode":"12775"
+                                    }
+                                ],
+                                "Date":"2020-02-01"
+                              }
+                          ]
+                        }'
     post:
       security:
         - OAuth2: [accounting.transactions]
@@ -12002,7 +11597,51 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Quotes'
-              example: ''
+              example: '{ 
+                        "SummarizeErrors":false,
+                        "Id":"b425754f-0512-481d-827b-c8958db7667e",
+                        "Status":"OK",
+                        "ProviderName":"java-sdk-oauth2-dev-02",
+                        "DateTimeUTC":"\/Date(1580607783833)\/",
+                        "Quotes":[ 
+                            { 
+                              "QuoteID":"fd53e0b7-4d24-4c20-be85-043a62ea5847",
+                              "QuoteNumber":"QU-0009",
+                              "Terms":"",
+                              "Contact":{ 
+                                  "ContactID":"6a65f055-b0e0-471a-a933-d1ffdd89393f",
+                                  "Name":"John Smith-82160",
+                                  "EmailAddress":""
+                              },
+                              "LineItems":[ 
+                                  { 
+                                    "LineItemID":"898c7fd6-0d94-4ac0-ace8-87e350a042de",
+                                    "AccountCode":"12775",
+                                    "Description":"Foobar",
+                                    "UnitAmount":20.0000,
+                                    "LineAmount":20.00,
+                                    "ItemCode":"",
+                                    "Quantity":1.0000,
+                                    "TaxAmount":0.00,
+                                    "Tracking":[ 
+
+                                    ]
+                                  }
+                              ],
+                              "Date":"\/Date(1580515200000)\/",
+                              "DateString":"2020-02-01T00:00:00",
+                              "Status":"DRAFT",
+                              "CurrencyRate":1.000000,
+                              "CurrencyCode":"USD",
+                              "SubTotal":20.00,
+                              "TotalTax":0.00,
+                              "Total":20.00,
+                              "UpdatedDateUTC":"\/Date(1580607783467)\/",
+                              "LineAmountTypes":"EXCLUSIVE",
+                              "StatusAttributeString":"OK"
+                            }
+                        ]
+                      }'
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
@@ -12011,7 +11650,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Quotes'
-              example: ''
+              example: '{ 
+                          "Quotes":[ 
+                              { 
+                                "Contact":{ 
+                                    "ContactID":"6a65f055-b0e0-471a-a933-d1ffdd89393f"
+                                },
+                                "LineItems":[ 
+                                    { 
+                                      "Description":"Foobar",
+                                      "Quantity":1.0,
+                                      "UnitAmount":20.0,
+                                      "AccountCode":"12775"
+                                    }
+                                ],
+                                "Date":"2020-02-01"
+                              }
+                          ]
+                        }'
   '/Quotes/{QuoteID}':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -12039,62 +11695,65 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Quotes'
-              example: '{
-                          "Id": "bb583e7e-9b6b-471e-88da-4cbfcfad7a57",
-                          "Status": "OK",
-                          "ProviderName": "Adams OAuth2 App",
-                          "DateTimeUTC": "/Date(1571876635477)/",
-                          "Quotes": [
-                            {
-                              "QuoteID": "be59294f-2a9c-4cee-8c64-0f0ddbc1883a",
-                              "QuoteNumber": "QU-0001",
-                              "Reference": "REF-123",
-                              "Terms": "Not valid after the expiry date",
-                              "Contact": {
-                                "ContactID": "060816db-0ed7-44de-ab58-8fee9316fcd5",
-                                "Name": "Adam"
+              example: '{ 
+                        "SummarizeErrors":true,
+                        "Id":"e3626c45-77f1-4ab0-ba9b-3593c7bcd25c",
+                        "Status":"OK",
+                        "ProviderName":"java-sdk-oauth2-dev-02",
+                        "DateTimeUTC":"\/Date(1580607864786)\/",
+                        "Quotes":[ 
+                            { 
+                              "QuoteID":"1f90e77a-7b88-4462-874f-1aa675be8fef",
+                              "QuoteNumber":"QU-0007",
+                              "Reference":"MyQuote",
+                              "Terms":"These are my terms",
+                              "Contact":{ 
+                                  "ContactID":"4bc3ecb2-8e2a-4267-a171-0e0ce7e5ac2a",
+                                  "Name":"ABC Limited",
+                                  "EmailAddress":"john.smith@gmail.com",
+                                  "FirstName":"John",
+                                  "LastName":"Smith"
                               },
-                              "LineItems": [
-                                {
-                                  "LineItemID": "ccf5e45c-73b6-4659-83e8-520f4c6126fd",
-                                  "AccountCode": "200",
-                                  "Description": "Fish out of Water",
-                                  "UnitAmount": 19.9500,
-                                  "DiscountRate": 10.00,
-                                  "LineAmount": 17.96,
-                                  "ItemCode": "BOOK",
-                                  "Quantity": 1.0000,
-                                  "TaxAmount": 2.69,
-                                  "TaxType": "OUTPUT2",
-                                  "Tracking": [
-                                    {
-                                      "TrackingCategoryID": "351953c4-8127-4009-88c3-f9cd8c9cbe9f",
-                                      "TrackingOptionID": "ce205173-7387-4651-9726-2cf4c5405ba2",
-                                      "Name": "Region",
-                                      "Option": "Eastside"
-                                    }
-                                  ]
-                                }
+                              "LineItems":[ 
+                                  { 
+                                    "LineItemID":"09b47d9f-f78d-4bab-b226-957f55bfb1b5",
+                                    "AccountCode":"400",
+                                    "Description":"Half day training - Microsoft Office",
+                                    "UnitAmount":500.0000,
+                                    "LineAmount":500.00,
+                                    "ItemCode":"Train-MS",
+                                    "Quantity":1.0000,
+                                    "TaxAmount":0.00,
+                                    "TaxType":"NONE",
+                                    "Tracking":[ 
+                                        { 
+                                          "TrackingCategoryID":"9bd3f506-6d91-4625-81f0-0f9147f099f4",
+                                          "TrackingOptionID":"d30e2a0d-ae6f-4806-88ca-d8ebdba2af73",
+                                          "Name":"Avengers",
+                                          "Option":"IronMan"
+                                        }
+                                    ]
+                                  }
                               ],
-                              "Date": "/Date(1571875200000)/",
-                              "DateString": "2019-10-24T00:00:00",
-                              "ExpiryDate": "/Date(1571961600000)/",
-                              "ExpiryDateString": "2019-10-25T00:00:00",
-                              "Status": "ACCEPTED",
-                              "CurrencyRate": 0.937053,
-                              "CurrencyCode": "AUD",
-                              "SubTotal": 17.96,
-                              "TotalTax": 2.69,
-                              "Total": 20.65,
-                              "TotalDiscount": 1.99,
-                              "Title": "Your Quote",
-                              "Summary": "Please buy this",
-                              "BrandingThemeID": "4c82c365-35cb-467f-bb11-dce1f2f2f67c",
-                              "UpdatedDateUTC": "/Date(1571869373890)/",
-                              "LineAmountTypes": "EXCLUSIVE"
+                              "Date":"\/Date(1580515200000)\/",
+                              "DateString":"2020-02-01T00:00:00",
+                              "ExpiryDate":"\/Date(1581724800000)\/",
+                              "ExpiryDateString":"2020-02-15T00:00:00",
+                              "Status":"DRAFT",
+                              "CurrencyRate":1.547150,
+                              "CurrencyCode":"NZD",
+                              "SubTotal":500.00,
+                              "TotalTax":0.00,
+                              "Total":500.00,
+                              "TotalDiscount":0.00,
+                              "Title":"",
+                              "Summary":"",
+                              "BrandingThemeID":"324587a9-7eed-46c0-ad64-fa941a1b5b3e",
+                              "UpdatedDateUTC":"\/Date(1580607757040)\/",
+                              "LineAmountTypes":"EXCLUSIVE"
                             }
-                          ]
-                        }'
+                        ]
+                      }'
     post:
       security:
         - OAuth2: [accounting.transactions]
@@ -12118,7 +11777,49 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Quotes'
-              example: ''
+              example: '{ 
+                        "SummarizeErrors":true,
+                        "Id":"be4f43a7-ef02-497a-96c2-fc0bc047a82a",
+                        "Status":"OK",
+                        "ProviderName":"java-sdk-oauth2-dev-02",
+                        "DateTimeUTC":"\/Date(1580605644385)\/",
+                        "Quotes":[ 
+                            { 
+                              "QuoteID":"8ce6b14c-ef87-4f45-93f0-853137c6d0e1",
+                              "QuoteNumber":"QU-0008",
+                              "Reference":"I am an update",
+                              "Terms":"",
+                              "Contact":{ 
+                                  "ContactID":"8ed7dd03-4e6a-4078-a807-c5309abfec52",
+                                  "Name":"Orlena Greenville 35",
+                                  "EmailAddress":""
+                              },
+                              "LineItems":[ 
+                                  { 
+                                    "LineItemID":"be69f44e-9c72-4fcd-9152-0174867cce49",
+                                    "AccountCode":"12775",
+                                    "Description":"Foobar",
+                                    "UnitAmount":20.0000,
+                                    "LineAmount":20.00,
+                                    "ItemCode":"",
+                                    "Quantity":1.0000,
+                                    "TaxAmount":0.00,
+                                    "Tracking":[]
+                                  }
+                              ],
+                              "Date":"\/Date(1580515200000)\/",
+                              "DateString":"2020-02-01T00:00:00",
+                              "Status":"DRAFT",
+                              "CurrencyRate":1.000000,
+                              "CurrencyCode":"USD",
+                              "SubTotal":20.00,
+                              "TotalTax":0.00,
+                              "Total":20.00,
+                              "UpdatedDateUTC":"\/Date(1580605644360)\/",
+                              "LineAmountTypes":"EXCLUSIVE"
+                            }
+                        ]
+                      }'
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
@@ -12127,7 +11828,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Quotes'
-              example: ''
+              example: '{quotes:[{reference:"I am an update",contact:{contactID:"00000000-0000-0000-000-000000000000"},date:"2020-02-01"}]}'
   '/Quotes/{QuoteID}/History':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -12149,12 +11850,7 @@ paths:
             format: uuid
       responses:
         '200':
-          description: Success - return response of type HistoryRecords array with all HistoryRecord for specific Quote
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
-              example: ''
+          $ref: '#/components/responses/HistoryRetrieved'
     put:
       security:
         - OAuth2: [accounting.transactions]
@@ -12173,12 +11869,7 @@ paths:
             format: uuid
       responses:
         '200':
-          description: Success - return response of type HistoryRecords array with newly created HistoryRecord for specific Quote
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
-              example: ''
+          $ref: '#/components/responses/HistoryRecordCreated'
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
@@ -12947,33 +12638,7 @@ paths:
             format: uuid
       responses:
         '200':
-          description: Success - return response of type HistoryRecords array of all HistoryRecord for Receipt
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
-              example: '{
-                          "Id": "a6ca4968-780c-43f7-bc75-155f551c81db",
-                          "Status": "OK",
-                          "ProviderName": "Java Partner Example",
-                          "DateTimeUTC": "\/Date(1552524585188)\/",
-                          "HistoryRecords": [
-                            {
-                              "Changes": "Edited",
-                              "DateUTCString": "2019-03-14T00:49:43",
-                              "DateUTC": "\/Date(1552524583983+0000)\/",
-                              "User": "System Generated",
-                              "Details": "Received through the Xero API from Java Partner Example"
-                            },
-                            {
-                              "Changes": "Created",
-                              "DateUTCString": "2019-03-14T00:49:43",
-                              "DateUTC": "\/Date(1552524583350+0000)\/",
-                              "User": "System Generated",
-                              "Details": "Received through the Xero API from Java Partner Example"
-                            }
-                          ]
-                        }'
+          $ref: '#/components/responses/HistoryRetrieved'
     put:
       security:
         - OAuth2: [accounting.transactions]
@@ -12992,11 +12657,7 @@ paths:
             format: uuid
       responses:
         '200':
-          description: Unsupported - return response incorrect exception, API is not able to create HistoryRecord for Receipts
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
+          $ref: '#/components/responses/HistoryRecordCreated'
         '400':
           description: Unsupported - return response incorrect exception, API is not able to create HistoryRecord for Receipts
           content:
@@ -13482,40 +13143,7 @@ paths:
             format: uuid
       responses:
         '200':
-          description: Success - return response of type HistoryRecords array of all HistoryRecord for Repeating Invoice
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
-              example: '{
-                          "Id": "1275fdff-508c-4d14-a22d-6c89f24df8b4",
-                          "Status": "OK",
-                          "ProviderName": "Java Partner Example",
-                          "DateTimeUTC": "\/Date(1553805186282)\/",
-                          "HistoryRecords": [
-                            {
-                              "Changes": "Attached a file",
-                              "DateUTCString": "2019-03-15T22:07:28",
-                              "DateUTC": "\/Date(1552687648587+0000)\/",
-                              "User": "System Generated",
-                              "Details": "Attached the file foobar.jpg through the Xero API using Java Partner Example"
-                            },
-                            {
-                              "Changes": "File uploaded",
-                              "DateUTCString": "2019-03-15T22:01:14",
-                              "DateUTC": "\/Date(1552687274740+0000)\/",
-                              "User": "Sidney Maestre",
-                              "Details": "Uploaded file: <a href=''javascript:'' class=''view-attachment-list'' id=''528e978a-87b8-44c4-9465-9456ec2f7ee6''>helo-heros.jpg</a>"
-                            },
-                            {
-                              "Changes": "Created",
-                              "DateUTCString": "2019-03-15T22:00:49",
-                              "DateUTC": "\/Date(1552687249950+0000)\/",
-                              "User": "Sidney Maestre",
-                              "Details": ""
-                            }
-                          ]
-                        }'
+          $ref: '#/components/responses/HistoryRetrieved'
     put:
       security:
         - OAuth2: [accounting.transactions]
@@ -13534,11 +13162,7 @@ paths:
             format: uuid
       responses:
         '200':
-          description: Unsupported - return response incorrect exception, API is not able to create HistoryRecord for Repeating Invoice
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HistoryRecords'
+          $ref: '#/components/responses/HistoryRecordCreated'
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
@@ -18093,6 +17717,54 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+    HistoryRecordCreated:
+      description: Success - return response of type HistoryRecords array of HistoryRecord objects 
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HistoryRecords'
+          example: '{
+                      "Id": "d7525479-3392-44c0-bb37-ff4a0b5df5bd",
+                      "Status": "OK",
+                      "ProviderName": "Xero API Partner",
+                      "DateTimeUTC": "\/Date(1550899400362)\/",
+                      "HistoryRecords": [
+                        {
+                          "DateUTCString": "2019-02-23T05:23:20",
+                          "DateUTC": "\/Date(1550899400362)\/",
+                          "Details": "Hello World",
+                          "ValidationErrors": []
+                        }
+                      ]
+                    }'
+    HistoryRetrieved:
+      description: Success - return response of HistoryRecords array of 0 to N HistoryRecord
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HistoryRecords'
+          example: '{
+                      "Id": "cd54cc7b-b721-4207-b11d-7d13c7902f91",
+                      "Status": "OK",
+                      "ProviderName": "Xero API Partner",
+                      "DateTimeUTC": "\/Date(1551311321819)\/",
+                      "HistoryRecords": [
+                        {
+                          "Changes": "Attached a file",
+                          "DateUTCString": "2018-11-08T15:01:21",
+                          "DateUTC": "\/Date(1541689281470+0000)\/",
+                          "User": "System Generated",
+                          "Details": "Attached the file sample2.jpg through the Xero API using Xero API Partner"
+                        },
+                        {
+                          "Changes": "Credit Applied",
+                          "DateUTCString": "2016-10-17T20:46:01",
+                          "DateUTC": "\/Date(1476737161173+0000)\/",
+                          "User": "System Generated",
+                          "Details": "Bank transfer from Business Wells Fargo to My Savings on November 12, 2016 for 20.00."
+                        }
+                      ]
+                    }'
   schemas:
     Address:
       externalDocs:
@@ -18174,25 +17846,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Account'
-          example: '{
-                      "Accounts": [
-                        {
-                          "AccountID": "66b262e2-561e-423e-8937-47d558f13442",
-                          "Code": "123456",
-                          "Name": "Foobar",
-                          "Status": "ACTIVE",
-                          "Type": "EXPENSE",
-                          "TaxType": "INPUT",
-                          "Description": "Hello World",
-                          "Class": "EXPENSE",
-                          "EnablePaymentsToAccount": false,
-                          "ShowInExpenseClaims": false,
-                          "ReportingCode": "EXP",
-                          "ReportingCodeName": "Expense",
-                          "UpdatedDateUTC": "\/Date(1550793549320+0000)\/"
-                        }
-                      ]
-                    }'
     Account:
       type: object
       externalDocs:
@@ -21227,11 +20880,10 @@ components:
           $ref: '#/components/schemas/Contact'
           type: string
         LineItems:
-          description: The LineItems collection can contain any number of individual LineItem sub-elements. At minimum, a description is required to create a complete quote.
+          description: See LineItems
           type: array
           items:
             $ref: '#/components/schemas/LineItem'
-            type: object
         Date:
           description: Date quote was issued – YYYY-MM-DD. If the Date element is not specified it will default to the current date based on the timezone setting of the organisation
           type: string
