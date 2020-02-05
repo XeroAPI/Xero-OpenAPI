@@ -19713,6 +19713,7 @@ components:
           $ref: '#/components/schemas/CurrencyCode'
         CountryCode:
           $ref: '#/components/schemas/CountryCode'
+          type: string
         IsDemoCompany:
           description: Boolean to describe if organisation is a demo company.
           type: boolean
@@ -20742,14 +20743,17 @@ components:
           type: string
           format: date-time
         LineAmountTypes:
-          $ref: '#/components/schemas/LineAmountTypes'
+          $ref: '#/components/schemas/QuoteLineAmountTypes'
           type: string
-          description: See Line Amount Types
-      required:
-        - Contact
-        - Date
-        - LineItems
+          description: See Quote Line Amount Types
       type: object
+    QuoteLineAmountTypes:
+      description: Line amounts are exclusive of tax by default if you don’t specify this element. See Line Amount Types
+      type: string
+      enum:
+      - EXCLUSIVE
+      - INCLUSIVE
+      - NOTAX
     QuoteStatusCodes:
       description: The status of the quote. 
       type: string
