@@ -11633,6 +11633,42 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
               schema:
                 $ref: '#/components/schemas/Quotes'
               example: '{quotes:[{reference:"I am an update",contact:{contactID:"00000000-0000-0000-000-000000000000"},date:"2020-02-01"}]}'
+  '/Quotes/{QuoteID}/pdf':
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    x-related-model: Quote
+    get:
+      security:
+        - OAuth2: [accounting.transactions]
+      tags:
+        - Accounting
+      operationId: getQuoteAsPdf
+      x-path: '/Quotes/{QuoteID}'
+      summary: Allows you to retrieve a Quote as a PDF file
+      parameters:
+        - required: true
+          in: path
+          name: QuoteID
+          description: Unique identifier for a Quote
+          example: "00000000-0000-0000-000-000000000000"
+          schema:
+            type: string
+            format: uuid
+        - required: true
+          in: header
+          name: contentType
+          description: The mime type of the attachment file you are retrieving i.e application/pdf
+          example: application/pdf
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success - return response of binary data from the PDF of the Quote
+          content:
+             application/octet-stream:
+              schema:
+                type: string
+                format: binary                  
   '/Quotes/{QuoteID}/History':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
