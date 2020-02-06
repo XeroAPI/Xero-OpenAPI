@@ -23,13 +23,7 @@ paths:
       operationId: getAccounts
       summary: Allows you to retrieve the full chart of accounts
       parameters:
-        - in: header
-          name: If-Modified-Since
-          description: Only records created or modified since this timestamp will be
-            returned
-          schema:
-            type: string
-            format: date-time
+        - $ref: '#/components/parameters/ifModifiedSince'
         - in: query
           name: where
           description: Filter by an any element
@@ -39,7 +33,7 @@ paths:
         - in: query
           name: order
           description: Order by an any element
-          example: ASC
+          example: "Name ASC"
           schema:
             type: string
       responses:
@@ -618,13 +612,7 @@ paths:
       operationId: getBatchPayments
       summary: Retrieve either one or many BatchPayments for invoices
       parameters:
-        - in: header
-          name: If-Modified-Since
-          description: Only records created or modified since this timestamp will be
-            returned
-          schema:
-            type: string
-            format: date-time
+        - $ref: '#/components/parameters/ifModifiedSince'
         - in: query
           name: where
           description: Filter by an any element
@@ -634,7 +622,7 @@ paths:
         - in: query
           name: order
           description: Order by an any element
-          example: ASC
+          example: "Date ASC"
           schema:
             type: string
       responses:
@@ -947,12 +935,7 @@ paths:
       operationId: getBankTransactions
       summary: Allows you to retrieve any spend or receive money transactions
       parameters:
-        - in: header
-          name: If-Modified-Since
-          description: Only records created or modified since this timestamp will be returned
-          schema:
-            type: string
-            format: date-time
+        - $ref: '#/components/parameters/ifModifiedSince'
         - in: query
           name: where
           description: Filter by an any element
@@ -962,7 +945,7 @@ paths:
         - in: query
           name: order
           description: Order by an any element
-          example: ASC
+          example: "Type ASC"
           schema:
             type: string
         - in: query
@@ -1243,7 +1226,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/BankTransactions'
-            example: '{ bankTransactions:[ { type: BankTransaction.TypeEnum.SPEND, contact: { contactID:"5cc8cf28-567e-4d43-b287-687cfcaec47c" }, lineItems:[ { description:"Foobar", quantity: 1.0, unitAmount:20.0, accountCode:"400" } ], bankAccount:{ code:"088" } } ] }'
+            example: '{ bankTransactions:[ { type: BankTransaction.TypeEnum.SPEND, contact: { contactID:"00000000-0000-0000-000-000000000000" }, lineItems:[ { description:"Foobar", quantity: 1.0, unitAmount:20.0, accountCode:"000" } ], bankAccount:{ code:"000" } } ] }'
     post:
       security:
         - OAuth2: [accounting.transactions]
@@ -1376,7 +1359,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/BankTransactions'
-            example: '{ bankTransactions:[ { type: BankTransaction.TypeEnum.SPEND, contact: { contactID:"00000000-0000-0000-000-000000000000" }, lineItems:[ { description:"Foobar", quantity: 1.0, unitAmount:20.0, accountCode:"400" } ], bankAccount:{ code:"088" } } ] }'
+            example: '{ bankTransactions:[ { type: BankTransaction.TypeEnum.SPEND, contact: { contactID:"00000000-0000-0000-000-000000000000" }, lineItems:[ { description:"Foobar", quantity: 1.0, unitAmount:20.0, accountCode:"000" } ], bankAccount:{ code:"000" } } ] }'
   '/BankTransactions/{BankTransactionID}':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -1947,13 +1930,7 @@ paths:
       operationId: getBankTransfers
       summary: Allows you to retrieve all bank transfers
       parameters:
-        - in: header
-          name: If-Modified-Since
-          description: Only records created or modified since this timestamp will be
-            returned
-          schema:
-            type: string
-            format: date-time
+        - $ref: '#/components/parameters/ifModifiedSince'
         - in: query
           name: where
           description: Filter by an any element
@@ -1963,7 +1940,7 @@ paths:
         - in: query
           name: order
           description: Order by an any element
-          example: ASC
+          example: "Amount ASC"
           schema:
             type: string
       responses:
@@ -2071,7 +2048,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/BankTransfers'
-            example: '{ bankTransfers:[ { fromBankAccount: { code:"090", accountID:"7e5e243b-9fcd-4aef-8e3a-c70be1e39bfa"}, toBankAccount:{ code:"088", accountID:"6f7594f2-f059-4d56-9e67-47ac9733bfe9"}, amount:"50.00" } ] }'
+            example: '{ bankTransfers:[ { fromBankAccount: { code:"000", accountID:"00000000-0000-0000-000-000000000000"}, toBankAccount:{ code:"001", accountID:"00000000-0000-0000-000-000000000000"}, amount:"50.00" } ] }'
   '/BankTransfers/{BankTransferID}':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -2604,13 +2581,7 @@ paths:
       operationId: getContacts
       summary: 'Allows you to retrieve, add and update contacts in a Xero organisation'
       parameters:
-        - in: header
-          name: If-Modified-Since
-          description: Only records created or modified since this timestamp will be
-            returned
-          schema:
-            type: string
-            format: date-time
+        - $ref: '#/components/parameters/ifModifiedSince'
         - in: query
           name: where
           description: Filter by an any element
@@ -2620,7 +2591,7 @@ paths:
         - in: query
           name: order
           description: Order by an any element
-          example: ASC
+          example: "Name ASC"
           schema:
             type: string
         - in: query
@@ -3714,7 +3685,7 @@ paths:
         - in: query
           name: order
           description: Order by an any element
-          example: ASC
+          example: "Name ASC"
           schema:
             type: string
       responses:
@@ -3810,7 +3781,7 @@ paths:
             example: '{  
                          contactGroups:[  
                             {  
-                               name:"Suppliers"
+                               name:"VIPs"
                             }
                          ]
                       }'
@@ -4065,23 +4036,17 @@ paths:
       operationId: getCreditNotes
       summary: Allows you to retrieve any credit notes
       parameters:
-        - in: header
-          name: If-Modified-Since
-          description: Only records created or modified since this timestamp will be
-            returned
-          schema:
-            type: string
-            format: date-time
+        - $ref: '#/components/parameters/ifModifiedSince'
         - in: query
           name: where
           description: Filter by an any element
-          example: Status=="' + CreditNote.StatusEnum.ACTIVE + '"
+          example: Status=="' + CreditNote.StatusEnum.DRAFT + '"
           schema:
             type: string
         - in: query
           name: order
           description: Order by an any element
-          example: ASC
+          example: "CreditNoteNumber ASC"
           schema:
             type: string
         - in: query
@@ -5125,7 +5090,7 @@ paths:
         - in: query
           name: order
           description: Order by an any element
-          example: ASC
+          example: "Code ASC"
           schema:
             type: string
       responses:
@@ -5180,13 +5145,7 @@ paths:
       operationId: getEmployees
       summary: Allows you to retrieve employees used in Xero payrun
       parameters:
-        - in: header
-          name: If-Modified-Since
-          description: Only records created or modified since this timestamp will be
-            returned
-          schema:
-            type: string
-            format: date-time
+        - $ref: '#/components/parameters/ifModifiedSince'
         - in: query
           name: where
           description: Filter by an any element
@@ -5461,23 +5420,17 @@ paths:
       operationId: getExpenseClaims
       summary: Allows you to retrieve expense claims 
       parameters:
-        - in: header
-          name: If-Modified-Since
-          description: Only records created or modified since this timestamp will be
-            returned
-          schema:
-            type: string
-            format: date-time
+        - $ref: '#/components/parameters/ifModifiedSince'
         - in: query
           name: where
           description: Filter by an any element
-          example: Status=="' + ExpenseClaim.StatusEnum.ACTIVE + '"
+          example: Status=="' + ExpenseClaim.StatusEnum.SUBMITTED + '"
           schema:
             type: string
         - in: query
           name: order
           description: Order by an any element
-          example: ASC
+          example: "Status ASC"
           schema:
             type: string
       responses:
@@ -5873,23 +5826,17 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
       operationId: getInvoices
       summary: Allows you to retrieve any sales invoices or purchase bills
       parameters:
-        - in: header
-          name: If-Modified-Since
-          description: Only records created or modified since this timestamp will be
-            returned
-          schema:
-            type: string
-            format: date-time
+        - $ref: '#/components/parameters/ifModifiedSince'
         - in: query
           name: where
           description: Filter by an any element
-          example: Status=="' + Invoice.StatusEnum.ACTIVE + '"
+          example: Status=="' + Invoice.StatusEnum.DRAFT + '"
           schema:
             type: string
         - in: query
           name: order
           description: Order by an any element
-          example: ASC
+          example: "InvoiceNumber ASC"
           schema:
             type: string
         - in: query
@@ -6242,7 +6189,7 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
             application/json:
               schema:
                 $ref: '#/components/schemas/Invoices'
-              example: '{ invoices:[ { type: Invoice.TypeEnum.ACCREC, contact:{ contactID:"00000000-0000-0000-000-000000000000" }, lineItems:[ { description:"Acme Tires", quantity:2.0, unitAmount:20.0, accountCode:"200", taxType:"NONE", lineAmount:40.0 } ], date:"2019-03-11", dueDate:"2018-12-10", reference:"Website Design", status: Invoice.StatusEnum.AUTHORISED } ] }'
+              example: '{ invoices:[ { type: Invoice.TypeEnum.ACCREC, contact:{ contactID:"00000000-0000-0000-000-000000000000" }, lineItems:[ { description:"Acme Tires", quantity:2.0, unitAmount:20.0, accountCode:"000", taxType:"NONE", lineAmount:40.0 } ], date:"2019-03-11", dueDate:"2018-12-10", reference:"Website Design", status: Invoice.StatusEnum.DRAFT } ] }'
     post:
       security:
         - OAuth2: [accounting.transactions]
@@ -7153,22 +7100,17 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
       operationId: getItems
       summary: Allows you to retrieve any items
       parameters:
-        - in: header
-          name: If-Modified-Since
-          description: Only records created or modified since this timestamp will be returned
-          schema:
-            type: string
-            format: date-time
+        - $ref: '#/components/parameters/ifModifiedSince'
         - in: query
           name: where
           description: Filter by an any element
-          example: Status=="' + Item.StatusEnum.ACTIVE + '"
+          example: IsSold==true
           schema:
             type: string
         - in: query
           name: order
           description: Order by an any element
-          example: ASC
+          example: "Code ASC"
           schema:
             type: string
         - $ref: '#/components/parameters/unitdp'
@@ -7315,7 +7257,7 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
             application/json:
               schema:
                 $ref: '#/components/schemas/Items'
-              example: '{ items:[ { code:"abcXYZ", name:"HelloWorld", description:"Foobar", inventoryAssetAccountCode:"140" } ] }'
+              example: '{ items:[ { code:"abcXYZ", name:"HelloWorld", description:"Foobar" } ] }'
   '/Items/{ItemID}':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -7428,7 +7370,7 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
             application/json:
               schema:
                 $ref: '#/components/schemas/Items'
-              example: '{ items:[ { code:"abc123", description:"Hello Xero",inventoryAssetAccountCode:"000" } ] }'
+              example: '{ items:[ { code:"abc123", description:"Hello Xero" } ] }'
     delete:
       security:
         - OAuth2: [accounting.settings]
@@ -7506,12 +7448,7 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
       operationId: getJournals
       summary: Allows you to retrieve any journals.
       parameters:
-        - in: header
-          name: If-Modified-Since
-          description: Only records created or modified since this timestamp will be returned
-          schema:
-            type: string
-            format: date-time
+        - $ref: '#/components/parameters/ifModifiedSince'
         - in: query
           name: offset
           description: Offset by a specified journal number. e.g. journals with a JournalNumber greater than the offset will be returned
@@ -8046,22 +7983,17 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
       operationId: getManualJournals
       summary: Allows you to retrieve any manual journals
       parameters:
-        - in: header
-          name: If-Modified-Since
-          description:  Only records created or modified since this timestamp will be returned
-          schema:
-            type: string
-            format: date-time
+        - $ref: '#/components/parameters/ifModifiedSince'
         - in: query
           name: where
           description: Filter by an any element
-          example: Status=="' + ManualJournal.StatusEnum.ACTIVE + '"
+          example: Status=="' + ManualJournal.StatusEnum.DRAFT + '"
           schema:
             type: string
         - in: query
           name: order
           description: Order by an any element
-          example: ASC
+          example: "Date ASC"
           schema:
             type: string
         - in: query
@@ -8797,22 +8729,17 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
       operationId: getOverpayments
       summary: Allows you to retrieve overpayments
       parameters:
-        - in: header
-          name: If-Modified-Since
-          description:  Only records created or modified since this timestamp will be returned
-          schema:
-            type: string
-            format: date-time
+        - $ref: '#/components/parameters/ifModifiedSince'
         - in: query
           name: where
           description: Filter by an any element
-          example: Status=="' + Overpayment.StatusEnum.ACTIVE + '"
+          example: Status=="' + Overpayment.StatusEnum.AUTHORISED + '"
           schema:
             type: string
         - in: query
           name: order
           description: Order by an any element
-          example: ASC
+          example: "RemainingCredit ASC"
           schema:
             type: string
         - in: query
@@ -9345,22 +9272,17 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
       operationId: getPayments
       summary: Allows you to retrieve payments for invoices and credit notes
       parameters:
-        - in: header
-          name: If-Modified-Since
-          description:  Only records created or modified since this timestamp will be returned
-          schema:
-            type: string
-            format: date-time
+        - $ref: '#/components/parameters/ifModifiedSince'
         - in: query
           name: where
           description: Filter by an any element
-          example: Status=="' + Payment.StatusEnum.ACTIVE + '"
+          example: Status=="' + Payment.StatusEnum.AUTHORISED + '"
           schema:
             type: string
         - in: query
           name: order
           description: Order by an any element
-          example: ASC
+          example: "Amount ASC"
           schema:
             type: string
       responses:
@@ -10045,22 +9967,17 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
       operationId: getPrepayments
       summary: Allows you to retrieve prepayments
       parameters:
-        - in: header
-          name: If-Modified-Since
-          description:  Only records created or modified since this timestamp will be returned
-          schema:
-            type: string
-            format: date-time
+        - $ref: '#/components/parameters/ifModifiedSince'
         - in: query
           name: where
           description: Filter by an any element
-          example: Status=="' + Prepayment.StatusEnum.ACTIVE + '"
+          example: Status=="' + Prepayment.StatusEnum.AUTHORISED + '"
           schema:
             type: string
         - in: query
           name: order
           description: Order by an any element
-          example: ASC
+          example: "Reference ASC"
           schema:
             type: string
         - in: query
@@ -10407,12 +10324,7 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
       operationId: getPurchaseOrders
       summary: Allows you to retrieve purchase orders
       parameters:
-        - in: header
-          name: If-Modified-Since
-          description: Only records created or modified since this timestamp will be returned
-          schema:
-            type: string
-            format: date-time
+        - $ref: '#/components/parameters/ifModifiedSince'
         - in: query
           name: Status
           description: Filter by purchase order status
@@ -10440,7 +10352,7 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
         - in: query
           name: order
           description: Order by an any element
-          example: ASC
+          example: "PurchaseOrderNumber ASC"
           schema:
             type: string
         - in: query
@@ -11213,13 +11125,7 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
       operationId: getQuotes
       summary: Allows you to retrieve any sales quotes
       parameters:
-        - in: header
-          name: If-Modified-Since
-          description: Only records created or modified since this timestamp will be
-            returned
-          schema:
-            type: string
-            format: date-time
+        - $ref: '#/components/parameters/ifModifiedSince'
         - in: query
           name: DateFrom
           description: Filter for quotes after a particular date
@@ -11690,22 +11596,17 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
       operationId: getReceipts
       summary: Allows you to retrieve draft expense claim receipts for any user
       parameters:
-        - in: header
-          name: If-Modified-Since
-          description:   Only records created or modified since this timestamp will be returned
-          schema:
-            type: string
-            format: date-time
+        - $ref: '#/components/parameters/ifModifiedSince'
         - in: query
           name: where
           description: Filter by an any element
-          example: Status=="' + Receipt.StatusEnum.ACTIVE + '"
+          example: Status=="' + Receipt.StatusEnum.DRAFT + '"
           schema:
             type: string
         - in: query
           name: order
           description: Order by an any element
-          example: ASC
+          example: "ReceiptNumber ASC"
           schema:
             type: string
         - $ref: '#/components/parameters/unitdp'
@@ -12489,13 +12390,13 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
         - in: query
           name: where
           description: Filter by an any element
-          example: Status=="' + RepeatingInvoice.StatusEnum.ACTIVE + '"
+          example: Status=="' + RepeatingInvoice.StatusEnum.DRAFT + '"
           schema:
             type: string
         - in: query
           name: order
           description: Order by an any element
-          example: ASC
+          example: "Total ASC"
           schema:
             type: string
       responses:
@@ -16657,7 +16558,7 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
         - in: query
           name: order
           description: Order by an any element
-          example: ASC
+          example: "Name ASC"
           schema:
             type: string
         - in: query
@@ -16838,20 +16739,7 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
             application/json:
               schema:
                 $ref: '#/components/schemas/TaxRates'
-              example: '{  
-                           taxRates:[  
-                              {  
-                                 name:"CA State Tax",
-                                 taxComponents:[  
-                                    {  
-                                       name:"State Tax",
-                                       rate:2.25
-                                    }
-                                 ],
-                                 reportTaxType:"INPUT"
-                              }
-                           ]
-                        }'
+              example: '{ taxRates:[ { name:"CA State Tax", taxComponents:[ { name:"State Tax", rate:2.25 } ] } ] }'
     post:
       security:
         - OAuth2: [accounting.settings]
@@ -16939,7 +16827,7 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
         - in: query
           name: order
           description: Order by an any element
-          example: ASC
+          example: "Name ASC"
           schema:
             type: string
         - in: query
@@ -17323,22 +17211,17 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
       operationId: getUsers
       summary: Allows you to retrieve users
       parameters:
-        - in: header
-          name: If-Modified-Since
-          description: Only records created or modified since this timestamp will be returned
-          schema:
-            type: string
-            format: date-time
+        - $ref: '#/components/parameters/ifModifiedSince'
         - in: query
           name: where
           description: Filter by an any element
-          example: Status=="' + User.StatusEnum.ACTIVE + '"
+          example: IsSubscriber==true
           schema:
             type: string
         - in: query
           name: order
           description: Order by an any element
-          example: ASC
+          example: "LastName ASC"
           schema:
             type: string
       responses:
@@ -17508,6 +17391,14 @@ components:
       example: 4
       schema:
         type: integer
+    ifModifiedSince:
+      in: header
+      name: If-Modified-Since
+      description: Only records created or modified since this timestamp will be returned
+      example: "2020-02-06T12:17:43.202-08:00"
+      schema:
+        type: string
+        format: date-time
   responses:
     400Error:
       description: A failed request due to validation error
@@ -18171,6 +18062,9 @@ components:
           description: AUTHORISED or DELETED (read-only). New batch payments will have a status of AUTHORISED. It is not possible to delete batch payments via the API.
           readOnly: true
           type: string
+          enum:
+          - AUTHORISED
+          - DELETED
         TotalAmount:
           description: The total of the payments that make up the batch (read-only)
           readOnly: true
@@ -21355,8 +21249,6 @@ components:
           readOnly: true
           type: number
           format: double
-      required:
-        - ReportTaxType
       type: object
     TaxComponent:
       externalDocs:
