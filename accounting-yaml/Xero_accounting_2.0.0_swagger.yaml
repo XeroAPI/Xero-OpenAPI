@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Accounting API
-  version: "2.0.0"
+  version: "2.0.1"
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
   contact:
     name: "Xero Platform Team"
@@ -4952,18 +4952,11 @@ paths:
           schema:
             type: string
             format: uuid
-        - required: true
-          in: header
-          name: contentType
-          description: The mime type of the attachment file you are retrieving i.e application/pdf
-          example: application/pdf
-          schema:
-            type: string
       responses:
         '200':
           description: Success - return response of binary data from the Attachment to a Credit Note
           content:
-             application/octet-stream:
+             application/pdf:
               schema:
                 type: string
                 format: binary    
@@ -5223,6 +5216,8 @@ paths:
         - Accounting
       operationId: createEmployees
       summary: Allows you to create new employees used in Xero payrun
+      parameters:
+        - $ref: '#/components/parameters/summarizeErrors'
       responses:
         '200':
           description: Success - return response of type Employees array with new Employee
@@ -5274,9 +5269,10 @@ paths:
         - OAuth2: [accounting.settings]
       tags:
         - Accounting
-      operationId: createEmployee
+      operationId: updateOrCreateEmployees
       summary: Allows you to create a single new employees used in Xero payrun
-      x-method: PUT
+      parameters:
+        - $ref: '#/components/parameters/summarizeErrors'
       responses:
         '200':
           description: Success - return response of type Employees array with new Employee
@@ -5307,12 +5303,22 @@ paths:
           $ref: '#/components/responses/400Error'
       requestBody:
         required: true
-        description: Employee object in body of request
+        description: Employees with array of Employee object in body of request
         content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Employee'
-              example: '{ firstName:"Nick", lastName:"Fury", externalLink:{ url:"http://twitter.com/#!/search/Nick+Fury" } }'
+                $ref: '#/components/schemas/Employees'
+              example: '{  
+                         employees:[  
+                            {  
+                               firstName:"Nick",
+                               lastName:"Fury",
+                               externalLink:{  
+                                  url:"http://twitter.com/#!/search/Nick+Fury"
+                               }
+                            }
+                         ]
+                      }'
   '/Employees/{EmployeeID}':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -6690,18 +6696,11 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
           schema:
             type: string
             format: uuid
-        - required: true
-          in: header
-          name: contentType
-          description: The mime type of the attachment file you are retrieving
-          example: application/pdf
-          schema:
-            type: string
       responses:
         '200':
           description: Success - return response of byte array pdf version of specified Invoices
           content:
-             application/octet-stream:
+             application/pdf:
               schema:
                 type: string
                 format: binary
@@ -8076,6 +8075,8 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
         - Accounting
       operationId: createManualJournals
       summary: Allows you to create one or more manual journals
+      parameters:
+        - $ref: '#/components/parameters/summarizeErrors'
       responses:
         '200':
           description: Success - return response of type ManualJournals array with newly created ManualJournal
@@ -8177,9 +8178,10 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
         - OAuth2: [accounting.transactions]
       tags:
         - Accounting
-      operationId: createManualJournal
+      operationId: updateOrCreateManualJournals
       summary: Allows you to create a single manual journal
-      x-method: PUT
+      parameters:
+        - $ref: '#/components/parameters/summarizeErrors'
       responses:
         '200':
           description: Success - return response of type ManualJournals array with newly created ManualJournal
@@ -8245,12 +8247,37 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
           $ref: '#/components/responses/400Error'
       requestBody:
         required: true
-        description: ManualJournal object in body of request
+        description: ManualJournals array with ManualJournal object in body of request
         content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ManualJournal'
-              example: '{ narration:"Foo bar", journalLines:[ { lineAmount:100.0, accountCode:"400", description:"Hello there" }, { lineAmount:-100.0, accountCode:"400", description:"Goodbye", tracking:[ { name:"Simpsons", option:"Bart" } ] } ], date:"2019-03-14" }'
+                $ref: '#/components/schemas/ManualJournals'
+              example: '{  
+                           manualJournals:[  
+                              {  
+                                 narration:"Foo bar",
+                                 journalLines:[  
+                                    {  
+                                       lineAmount:100.0,
+                                       accountCode:"400",
+                                       description:"Hello there"
+                                    },
+                                    {  
+                                       lineAmount:-100.0,
+                                       accountCode:"400",
+                                       description:"Goodbye",
+                                       tracking:[  
+                                          {  
+                                             name:"Simpsons",
+                                             option:"Bart"
+                                          }
+                                       ]
+                                    }
+                                 ],
+                                 date:"2019-03-14"
+                              }
+                           ]
+                        }'
   '/ManualJournals/{ManualJournalID}':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -9093,6 +9120,7 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
           schema:
             type: string
             format: uuid
+        - $ref: '#/components/parameters/summarizeErrors'
       responses:
         '200':
           description: Success - return response of type Allocations array with all Allocation for Overpayments
@@ -9149,69 +9177,6 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
                               }
                            ]
                         }'
-    post:
-      security:
-        - OAuth2: [accounting.transactions]
-      tags:
-        - Accounting
-      operationId: createOverpaymentAllocation
-      summary: Allows you to create a single allocations for overpayments
-      x-method: PUT
-      parameters:
-        - required: true
-          in: path
-          name: OverpaymentID
-          description: Unique identifier for a Overpayment
-          example: "00000000-0000-0000-000-000000000000"
-          schema:
-            type: string
-            format: uuid
-      responses:
-        '200':
-          description: Success - return response of type Allocations array with all Allocation for Overpayments
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Allocations'
-              example: '{
-                          "Id": "3b7f7be2-384a-4703-bcfb-c56e9116c914",
-                          "Status": "OK",
-                          "ProviderName": "Java Partner Example",
-                          "DateTimeUTC": "\/Date(1552428952968)\/",
-                          "Allocations": [
-                            {
-                              "Amount": 1.00,
-                              "Date": "\/Date(1552348800000+0000)\/",
-                              "Invoice": {
-                                "InvoiceID": "c45720a1-ade3-4a38-a064-d15489be6841",
-                                "Payments": [],
-                                "CreditNotes": [],
-                                "Prepayments": [],
-                                "Overpayments": [],
-                                "HasErrors": false,
-                                "IsDiscounted": false,
-                                "LineItems": [],
-                                "ValidationErrors": []
-                              },
-                              "Overpayment": {
-                                "OverpaymentID": "ed7f6041-c915-4667-bd1d-54c48e92161e",
-                                "ID": "ed7f6041-c915-4667-bd1d-54c48e92161e",
-                                "LineItems": []
-                              },
-                              "ValidationErrors": []
-                            }
-                          ]
-                        }'
-        '400':
-          $ref: '#/components/responses/400Error'
-      requestBody:
-        required: true
-        description: Allocation object in body of request
-        content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Allocation'
-              example: '{ invoice:{ invoiceID:"00000000-0000-0000-000-000000000000", lineItems:[], contact: {}, type: Invoice.TypeEnum.ACCPAY }, amount:1.0, date:"2019-03-12" }'
   '/Overpayments/{OverpaymentID}/History':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -9507,8 +9472,7 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
       tags:
         - Accounting
       operationId: createPayment
-      summary: Allows you to create a single payment for invoices or credit notes 
-      x-method: PUT     
+      summary: Allows you to create a single payment for invoices or credit notes  
       responses:
         '200':
           description: Success - return response of type Payments array for newly created Payment
@@ -10207,7 +10171,7 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
         - OAuth2: [accounting.transactions]
       tags:
         - Accounting
-      operationId: createPrepaymentAllocation
+      operationId: createPrepaymentAllocations
       summary: Allows you to create an Allocation for prepayments
       parameters:
         - required: true
@@ -10218,6 +10182,7 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
           schema:
             type: string
             format: uuid
+        - $ref: '#/components/parameters/summarizeErrors'
       responses:
         '200':
           description: Success - return response of type Allocations array of Allocation for all Prepayment
@@ -18845,6 +18810,15 @@ components:
           type: string
           format: date-time
           example: 2019-11-12T00:00:00
+        StatusAttributeString:
+          description: A string to indicate if a invoice status
+          type: string
+          example: ERROR
+        ValidationErrors: 
+          description: Displays array of validation error messages from the API
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
       type: object
     ExpenseClaims:
       type: object
@@ -19134,6 +19108,11 @@ components:
           type: string
         ValidationErrors: 
           description: Displays array of validation error messages from the API
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+        Warnings: 
+          description: Displays array of warning messages from the API
           type: array
           items:
             $ref: '#/components/schemas/ValidationError'
@@ -19525,6 +19504,10 @@ components:
           description: The Xero identifier for a Manual Journal
           type: string
           format: uuid
+        StatusAttributeString:
+          description: A string to indicate if a invoice status
+          type: string
+          example: ERROR
         Warnings: 
           description: Displays array of warning messages from the API
           type: array
@@ -20778,6 +20761,11 @@ components:
           type: string
         ValidationErrors: 
           description: Displays array of validation error messages from the API
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+        Warnings: 
+          description: Displays array of warning messages from the API
           type: array
           items:
             $ref: '#/components/schemas/ValidationError'
