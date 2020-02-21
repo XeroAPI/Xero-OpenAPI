@@ -1,0 +1,2928 @@
+openapi: 3.0.0
+info:
+  version: '2.0'
+  title: 'Xero Payroll UK'
+  description: 'This is the Xero Payroll API for orgs in the UK region.'
+  termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
+  contact:
+    name: "Xero Platform Team"
+    email: "api@xero.com"
+    url: "https://developer.xero.com"
+tags:
+  - name: PayrollUK
+servers:
+# Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/AdamMoore/payroll-uk/2.0
+  - description: Xero Payroll AU API
+    url: https://api.xero.com/payroll.xro/2.0/
+paths:
+  /Employees:
+    get: 
+      security:
+        - OAuth2: [payroll.employees.read, payroll.employees]
+      tags:
+        - PayrollUK
+      operationId: getEmployees
+      summary: searches employees
+      parameters:
+        - in: query
+          name: firstName
+          description: Filter by first name
+          schema:
+            type: string
+          example: John
+        - in: query
+          name: lastName
+          description: Filter by last name
+          schema:
+            type: string
+          example: Johnson
+        - in: query
+          name: page
+          description: Page number which specifies the set of records to retrieve. By default the number of the records per set is 100.
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employees'
+        '400':
+          description: validation error for a bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/problem'
+    post: 
+      security:
+        - OAuth2: [payroll.employees]
+      tags:
+        - PayrollUK
+      operationId: createEmployees
+      summary: creates employees
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employees'
+        '400':
+          description: validation error for a bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/problem'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Employee'
+  /Employees/{EmployeeId}:
+    get: 
+      security:
+        - OAuth2: [payroll.employees.read,payroll.employees]
+      tags:
+        - PayrollUK
+      operationId: getEmployee
+      summary: searches employees
+      parameters:
+        - name: EmployeeId
+          in: path
+          required: true
+          description: Employee id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employees'
+    put:
+      security:
+        - OAuth2: [payroll.employees]
+      tags:
+        - PayrollUK
+      operationId: updateEmployees
+      summary: updates employees
+      parameters:
+        - name: EmployeeId
+          in: path
+          required: true
+          description: Employee id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+      responses:
+        '200':
+          description: successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employees'
+        '400':
+          description: validation error for a bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/problem'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Employee'
+  /Employees/{EmployeeId}/Employment:
+    post: 
+      security:
+        - OAuth2: [payroll.employees]
+      tags:
+        - PayrollUK
+      operationId: createEmployment
+      summary: creates employment
+      parameters:
+        - name: EmployeeId
+          in: path
+          required: true
+          description: Employee id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employment'
+        '400':
+          description: validation error for a bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/problem'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Employment'
+  /Employees/{EmployeeId}/Tax:
+    get: 
+      security:
+        - OAuth2: [payroll.employees.read,payroll.employees]
+      tags:
+        - PayrollUK
+      operationId: getEmployeeTax
+      summary: searches tax records for an employee 
+      parameters:
+        - name: EmployeeId
+          in: path
+          required: true
+          description: Employee id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tax'
+  /Employees/{EmployeeId}/UKOpeningBalances:
+    get: 
+      security:
+        - OAuth2: [payroll.employees.read,payroll.employees]
+      tags:
+        - PayrollUK
+      operationId: getEmployeeOpeningBalances
+      summary: retrieve employee openingbalances
+      parameters:
+        - name: EmployeeId
+          in: path
+          required: true
+          description: Employee id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeOpeningBalances'
+    post:
+      security:
+        - OAuth2: [payroll.employees]
+      tags:
+        - PayrollUK
+      operationId: createEmployeeOpeningBalances
+      summary: creates employee opening balances
+      parameters:
+        - name: EmployeeId
+          in: path
+          required: true
+          description: Employee id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeOpeningBalances'
+        '400':
+          description: validation error for a bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/problem'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmployeeOpeningBalances'
+    put:
+      security:
+        - OAuth2: [payroll.employees]
+      tags:
+        - PayrollUK
+      operationId: updateEmployeeOpeningBalances
+      summary: updates employee opening balances
+      parameters:
+        - name: EmployeeId
+          in: path
+          required: true
+          description: Employee id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+      responses:
+        '200':
+          description: successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeOpeningBalances'
+        '400':
+          description: validation error for a bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/problem'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmployeeOpeningBalances'
+  /Employees/{EmployeeId}/Leave:
+    get: 
+      security:
+        - OAuth2: [payroll.employees.read,payroll.employees]
+      tags:
+        - PayrollUK
+      operationId: getEmployeeLeave
+      summary: search employee leave records
+      parameters:
+        - name: EmployeeId
+          in: path
+          required: true
+          description: Employee id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeLeaves'
+    post:
+      security:
+        - OAuth2: [payroll.employees]
+      tags:
+        - PayrollUK
+      operationId: createEmployeeLeave
+      summary: creates employee leave records
+      parameters:
+        - name: EmployeeId
+          in: path
+          required: true
+          description: Employee id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeLeave'
+        '400':
+          description: validation error for a bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/problem'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmployeeLeave'
+  /Employees/{EmployeeId}/Leave/{LeaveID}:
+    get: 
+      security:
+        - OAuth2: [payroll.employees.read,payroll.employees]
+      tags:
+        - PayrollUK
+      operationId: getEmployeeLeaveSingle
+      summary: retrieve a single employee leave record
+      parameters:
+        - name: EmployeeId
+          in: path
+          required: true
+          description: Employee id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+        - name: LeaveID
+          in: path
+          required: true
+          description: Leave id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: c4be24e5-e840-4c92-9eaa-2d86cd596314
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeLeave'
+    put:
+      security:
+        - OAuth2: [payroll.employees]
+      tags:
+        - PayrollUK
+      operationId: updateEmployeeLeave
+      summary: updates employee leave records
+      parameters:
+        - name: EmployeeId
+          in: path
+          required: true
+          description: Employee id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+        - name: LeaveID
+          in: path
+          required: true
+          description: Leave id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: c4be24e5-e840-4c92-9eaa-2d86cd596314  
+      responses:
+        '200':
+          description: successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeLeave'
+        '400':
+          description: validation error for a bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/problem'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmployeeLeave'
+    delete:
+      security:
+        - OAuth2: [payroll.employees]
+      tags:
+        - PayrollUK
+      operationId: deleteEmployeeLeave
+      summary: deletes an employee leave record
+      parameters:
+        - name: EmployeeId
+          in: path
+          required: true
+          description: Employee id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+        - name: LeaveID
+          in: path
+          required: true
+          description: Leave id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: c4be24e5-e840-4c92-9eaa-2d86cd596314  
+      responses:
+        '200':
+          description: successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeLeave'
+  /Employees/{EmployeeId}/LeaveBalances:
+    get: 
+      security:
+        - OAuth2: [payroll.employees.read,payroll.employees]
+      tags:
+        - PayrollUK
+      operationId: getEmployeeLeaveBalances
+      summary: search employee leave balances
+      parameters:
+        - name: EmployeeId
+          in: path
+          required: true
+          description: Employee id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeLeaveBalances'
+  /Employees/{EmployeeId}/StatutoryLeaveBalance:
+    get: 
+      security:
+        - OAuth2: [payroll.employees.read,payroll.employees]
+      tags:
+        - PayrollUK
+      operationId: getEmployeeStatutoryLeaveBalances
+      summary: search employee leave balances
+      parameters:
+        - name: EmployeeId
+          in: path
+          required: true
+          description: Employee id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+        - name: LeaveType
+          in: query
+          description: Filter by the type of statutory leave
+          schema:
+            type: string
+          example: sick
+        - name: AsOfDate
+          in: query
+          description: The date from which to calculate balance remaining. If not specified, current date UTC is used.
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeStatutoryLeaveBalance'
+  /StatutoryLeaves/Summary/{EmployeeId}:
+    get: 
+      security:
+        - OAuth2: [payroll.employees.read,payroll.employees]
+      tags:
+        - PayrollUK
+      operationId: getStatutoryLeaveSummary
+      summary: retrieve a summary of statutory leaves for an employee
+      parameters:
+        - name: EmployeeId
+          in: path
+          required: true
+          description: Employee id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+        - name: activeOnly
+          in: query
+          description: Filter response with leaves that are currently active or yet to be taken. If not specified, all leaves (past, current, and future scheduled) are returned
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeStatutoryLeavesSummary'
+  /StatutoryLeaves/Sick:
+    post:
+      security:
+        - OAuth2: [payroll.employees]
+      tags:
+        - PayrollUK
+      operationId: createEmployeeStatutorySickLeave
+      summary: creates employee statutory sick leave records
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeStatutorySickLeave'
+        '400':
+          description: validation error for a bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/problem'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmployeeStatutorySickLeave'
+  /StatutoryLeaves/Sick/{StatutorySickLeaveID}:
+    get: 
+      security:
+        - OAuth2: [payroll.employees.read,payroll.employees]
+      tags:
+        - PayrollUK
+      operationId: getEmployeeStatutorySickLeave
+      summary: retrieve a statutory sick leave for an employee
+      parameters:
+        - name: StatutorySickLeaveID
+          in: path
+          required: true
+          description: Statutory sick leave id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeStatutorySickLeave'
+  /Employees/{EmployeeId}/LeavePeriods:
+    get: 
+      security:
+        - OAuth2: [payroll.employees.read, payroll.employees]
+      tags:
+        - PayrollUK
+      operationId: getEmployeeLeavePeriods
+      summary: searches employee leave periods
+      parameters:
+        - name: EmployeeId
+          in: path
+          required: true
+          description: Employee id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+        - in: query
+          name: startDate
+          description: Filter by start date
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: endDate
+          description: Filter by end date
+          schema:
+            type: string
+          example: Johnson
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LeavePeriods'
+        '400':
+          description: validation error for a bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/problem'
+  /Employees/{EmployeeId}/LeaveTypes:
+    get: 
+      security:
+        - OAuth2: [payroll.employees.read, payroll.employees]
+      tags:
+        - PayrollUK
+      operationId: getEmployeeLeaveTypes
+      summary: searches employee leave types
+      parameters:
+        - name: EmployeeId
+          in: path
+          required: true
+          description: Employee id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeLeaveTypes'
+        '400':
+          description: validation error for a bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/problem'
+    post:
+      security:
+        - OAuth2: [payroll.employees]
+      tags:
+        - PayrollUK
+      operationId: createEmployeeLeaveType
+      summary: creates employee leave type records
+      parameters:
+        - name: EmployeeId
+          in: path
+          required: true
+          description: Employee id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeLeaveType'
+        '400':
+          description: validation error for a bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/problem'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmployeeLeaveType'
+  /Employees/{EmployeeId}/PaymentMethods:
+    get: 
+      security:
+        - OAuth2: [payroll.employees.read, payroll.employees]
+      tags:
+        - PayrollUK
+      operationId: getEmployeePaymentMethod
+      summary: retrieves an employee's payment method
+      parameters:
+        - name: EmployeeId
+          in: path
+          required: true
+          description: Employee id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentMethod'
+        '400':
+          description: validation error for a bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/problem'
+    post:
+      security:
+        - OAuth2: [payroll.employees]
+      tags:
+        - PayrollUK
+      operationId: createEmployeePaymentMethod
+      summary: creates employee payment method
+      parameters:
+        - name: EmployeeId
+          in: path
+          required: true
+          description: Employee id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentMethod'
+        '400':
+          description: validation error for a bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/problem'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentMethod'
+  /Employees/{EmployeeId}/PayTemplates:
+    get: 
+      security:
+        - OAuth2: [payroll.employees.read, payroll.employees]
+      tags:
+        - PayrollUK
+      operationId: getEmployeePayTemplates
+      summary: searches employee pay templates
+      parameters:
+        - name: EmployeeId
+          in: path
+          required: true
+          description: Employee id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeePayTemplate'
+        '400':
+          description: validation error for a bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/problem'
+  /Employees/{EmployeeId}/PayTemplates/earnings:
+    post:
+      security:
+        - OAuth2: [payroll.employees]
+      tags:
+        - PayrollUK
+      operationId: createEmployeeEarningsTemplate
+      summary: creates employee earnings template records
+      parameters:
+        - name: EmployeeId
+          in: path
+          required: true
+          description: Employee id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EarningsTemplate'
+        '400':
+          description: validation error for a bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/problem'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EarningsTemplate'
+  /Employees/{EmployeeId}/PayTemplates/earnings/{PayTemplateEarningsID}:
+    put:
+      security:
+        - OAuth2: [payroll.employees]
+      tags:
+        - PayrollUK
+      operationId: updateEmployeeEarningsTemplate
+      summary: updates employee earnings template records
+      parameters:
+        - name: EmployeeId
+          in: path
+          required: true
+          description: Employee id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+        - name: PayTemplateEarningsID
+          in: path
+          required: true
+          description:  Id for single pay template earnings object
+          schema: 
+            type: string
+            format: uuid
+            example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EarningsTemplates'
+        '400':
+          description: validation error for a bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/problem'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EarningsTemplates'
+    delete:
+      security:
+        - OAuth2: [payroll.employees]
+      tags:
+        - PayrollUK
+      operationId: deleteEmployeeEarningsTemplate
+      summary: deletes an employee earnings template record
+      parameters:
+        - name: EmployeeId
+          in: path
+          required: true
+          description: Employee id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+        - name: PayTemplateEarningsID
+          in: path
+          required: true
+          description:  Id for single pay template earnings object
+          schema: 
+            type: string
+            format: uuid
+            example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+      responses:
+        '200':
+          description: deletion successful
+  /Employees/{EmployeeId}/PayTemplatesEarnings:
+    post:
+      security:
+        - OAuth2: [payroll.employees]
+      tags:
+        - PayrollUK
+      operationId: createMultipleEmployeeEarningsTemplate
+      summary: creates multiple employee earnings template records
+      parameters:
+        - name: EmployeeId
+          in: path
+          required: true
+          description: Employee id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EarningsTemplates'
+        '400':
+          description: validation error for a bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/problem'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EarningsTemplates'
+  /Benefits:
+    get:
+      security:
+        - OAuth2: [payroll.settings.read, payroll.settings]
+      tags:
+        - PayrollUK
+      operationId: getBenefits
+      summary: searches benefits
+      parameters:
+        - in: query
+          name: page
+          description: Page number which specifies the set of records to retrieve. By default the number of the records per set is 100.
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Benefits'
+    post:
+      security:
+        - OAuth2: [payroll.settings]
+      tags:
+        - PayrollUK
+      operationId: createBenefit
+      summary: create a new benefit
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Benefit'
+        '400':
+          description: validation error for a bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/problem'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Benefit'
+  /Benefits/{Id}:
+    get:
+      security:
+        - OAuth2: [payroll.settings.read, payroll.settings]
+      tags:
+        - PayrollUK
+      operationId: getBenefit
+      summary: retrieve a single benefit by id
+      parameters:
+        - in: path
+          name: Id
+          required: true
+          description: Identifier for the benefit
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Benefit'
+  /Deductions:
+    get:
+      security:
+        - OAuth2: [payroll.settings.read, payroll.settings]
+      tags:
+        - PayrollUK
+      operationId: getDeductions
+      summary: searches deductions
+      parameters:
+        - in: query
+          name: page
+          description: Page number which specifies the set of records to retrieve. By default the number of the records per set is 100.
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Deductions'
+    post:
+      security:
+        - OAuth2: [payroll.settings]
+      tags:
+        - PayrollUK
+      operationId: createDeductions
+      summary: create a new deduction
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Deduction'
+        '400':
+          description: validation error for a bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/problem'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Deduction'
+  /Deductions/{Id}:
+    get:
+      security:
+        - OAuth2: [payroll.settings.read, payroll.settings]
+      tags:
+        - PayrollUK
+      operationId: getDeduction
+      summary: retrieve a single deduction by id
+      parameters:
+        - in: path
+          name: Id
+          required: true
+          description: Identifier for the deduction
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Benefit'
+  /StatutoryDeductions:
+    get:
+      security:
+        - OAuth2: [payroll.settings.read, payroll.settings]
+      tags:
+        - PayrollUK
+      operationId: getStatutoryDeductions
+      summary: searches statutory deductions
+      parameters:
+        - in: query
+          name: page
+          description: Page number which specifies the set of records to retrieve. By default the number of the records per set is 100.
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatutoryDeductions'
+  /StatutoryDeductions/{Id}:
+    get:
+      security:
+        - OAuth2: [payroll.settings.read, payroll.settings]
+      tags:
+        - PayrollUK
+      operationId: getStatutoryDeduction
+      summary: retrieve a single statutory deduction by id
+      parameters:
+        - in: path
+          name: Id
+          required: true
+          description: Identifier for the statutory deduction
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Benefit'
+  /EarningsRates:
+    get:
+      security:
+        - OAuth2: [payroll.settings.read, payroll.settings]
+      tags:
+        - PayrollUK
+      operationId: getEarningsRates
+      summary: searches earnings rates
+      parameters:
+        - in: query
+          name: page
+          description: Page number which specifies the set of records to retrieve. By default the number of the records per set is 100.
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EarningsRates'
+    post:
+      security:
+        - OAuth2: [payroll.settings]
+      tags:
+        - PayrollUK
+      operationId: createEarningsRate
+      summary: create a new earnings rate
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EarningsRate'
+        '400':
+          description: validation error for a bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/problem'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EarningsRate'
+  /EarningsRates/{EarningsRateID}:
+    get:
+      security:
+        - OAuth2: [payroll.settings.read, payroll.settings]
+      tags:
+        - PayrollUK
+      operationId: getEarningsRate
+      summary: retrieve a single earnings rates by id
+      parameters:
+        - in: path
+          name: EarningsRateID
+          required: true
+          description: Identifier for the earnings rate
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EarningsRate'
+  /LeaveTypes:
+    get:
+      security:
+        - OAuth2: [payroll.settings.read, payroll.settings]
+      tags:
+        - PayrollUK
+      operationId: getLeaveTypes
+      summary: searches leave types
+      parameters:
+        - in: query
+          name: page
+          description: Page number which specifies the set of records to retrieve. By default the number of the records per set is 100.
+          schema:
+            type: integer
+        - in: query
+          name: ActiveOnly
+          description: Filters leave types by active status. By default the API returns all leave types.
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LeaveTypes'
+    post:
+      security:
+        - OAuth2: [payroll.settings]
+      tags:
+        - PayrollUK
+      operationId: createLeaveType
+      summary: create a new leave type
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LeaveType'
+        '400':
+          description: validation error for a bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/problem'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LeaveType'
+  /LeaveTypes/{LeaveTypeID}:
+    get:
+      security:
+        - OAuth2: [payroll.settings.read, payroll.settings]
+      tags:
+        - PayrollUK
+      operationId: getLeaveType
+      summary: retrieve a single leave type by id
+      parameters:
+        - in: path
+          name: LeaveTypeID
+          required: true
+          description: Identifier for the leave type
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LeaveType'
+  /Reimbursements:
+    get:
+      security:
+        - OAuth2: [payroll.settings.read, payroll.settings]
+      tags:
+        - PayrollUK
+      operationId: getReimbursements
+      summary: searches reimbursements
+      parameters:
+        - in: query
+          name: page
+          description: Page number which specifies the set of records to retrieve. By default the number of the records per set is 100.
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reimbursements'
+    post:
+      security:
+        - OAuth2: [payroll.settings]
+      tags:
+        - PayrollUK
+      operationId: createReimbursement
+      summary: create a new reimbursement
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reimbursement'
+        '400':
+          description: validation error for a bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/problem'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Reimbursement'
+  /Reimbursements/{ReimbursementID}:
+    get:
+      security:
+        - OAuth2: [payroll.settings.read, payroll.settings]
+      tags:
+        - PayrollUK
+      operationId: getReimbursement
+      summary: retrieve a single reimbursement by id
+      parameters:
+        - in: path
+          name: ReimbursementID
+          required: true
+          description: Identifier for the reimbursement
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reimbursement'
+  /Timesheets:
+    get:
+      security:
+        - OAuth2: [payroll.timesheets.read, payroll.timesheets]
+      tags:
+        - PayrollUK
+      operationId: getTimesheets
+      summary: searches timesheets
+      parameters:
+        - in: query
+          name: page
+          description: Page number which specifies the set of records to retrieve. By default the number of the records per set is 100.
+          schema:
+            type: integer
+        - in: query
+          name: employeeId
+          description: By default get Timesheets will return the timesheets for all employees in an organization. You can add GET https://…/timesheets?filter=employeeId=={EmployeeId} to get only the timesheets of a particular employee.
+          schema:
+            type: string
+            format: uuid
+        - in: query
+          name: payrollCalendarId
+          description: By default get Timesheets will return all the timesheets for an organization. You can add GET https://…/timesheets?filter=payrollCalendarId=={PayrollCalendarID} to filter the timesheets by payroll calendar id
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Timesheets'
+    post:
+      security:
+        - OAuth2: [payroll.timesheets]
+      tags:
+        - PayrollUK
+      operationId: createTimesheet
+      summary: create a new timesheet
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Timesheet'
+        '400':
+          description: validation error for a bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/problem'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Timesheet'
+  /Timesheets/{TimesheetID}:
+    get:
+      security:
+        - OAuth2: [payroll.timesheets.read, timesheets.settings]
+      tags:
+        - PayrollUK
+      operationId: getTimesheet
+      summary: retrieve a single timesheet by id
+      parameters:
+        - in: path
+          name: TimesheetID
+          required: true
+          description: Identifier for the timesheet
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Timesheet'
+    delete:
+      security:
+        - OAuth2: [payroll.timesheets]
+      tags:
+        - PayrollUK
+      operationId: deleteTimesheet
+      summary: delete a timesheet
+      parameters:
+        - in: path
+          name: TimesheetID
+          required: true
+          description: Identifier for the timesheet
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimesheetLine'
+        '400':
+          description: validation error for a bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/problem'
+  /Timesheets/{TimesheetID}/Lines:
+    post:
+      security:
+        - OAuth2: [payroll.timesheets]
+      tags:
+        - PayrollUK
+      operationId: createTimesheetLine
+      summary: create a new timesheet line
+      parameters:
+        - in: path
+          name: TimesheetID
+          required: true
+          description: Identifier for the timesheet
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimesheetLine'
+        '400':
+          description: validation error for a bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/problem'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TimesheetLine'
+  /Timesheets/{TimesheetID}/Approve:
+    post:
+      security:
+        - OAuth2: [payroll.timesheets]
+      tags:
+        - PayrollUK
+      operationId: approveTimesheet
+      summary: approve a timesheet
+      parameters:
+        - in: path
+          name: TimesheetID
+          required: true
+          description: Identifier for the timesheet
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Timesheet'
+        '400':
+          description: validation error for a bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/problem'
+  /Timesheets/{TimesheetID}/RevertToDraft:
+    post:
+      security:
+        - OAuth2: [payroll.timesheets]
+      tags:
+        - PayrollUK
+      operationId: revertTimesheet
+      summary: revert a timesheet to draft
+      parameters:
+        - in: path
+          name: TimesheetID
+          required: true
+          description: Identifier for the timesheet
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Timesheet'
+        '400':
+          description: validation error for a bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/problem'
+  /Timesheets/{TimesheetID}/Lines/{TimesheetLineID}:
+    put:
+      security:
+        - OAuth2: [payroll.timesheets]
+      tags:
+        - PayrollUK
+      operationId: updateTimesheetLine
+      summary: update a timesheet line
+      parameters:
+        - in: path
+          name: TimesheetID
+          required: true
+          description: Identifier for the timesheet
+          schema:
+            type: string
+            format: uuid
+        - in: path
+          name: TimesheetLineID
+          required: true
+          description: Identifier for the timesheet line
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimesheetLine'
+        '400':
+          description: validation error for a bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/problem'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TimesheetLine'
+    delete:
+      security:
+        - OAuth2: [payroll.timesheets]
+      tags:
+        - PayrollUK
+      operationId: deleteTimesheetLine
+      summary: delete a timesheet line
+      parameters:
+        - in: path
+          name: TimesheetID
+          required: true
+          description: Identifier for the timesheet
+          schema:
+            type: string
+            format: uuid
+        - in: path
+          name: TimesheetLineID
+          required: true
+          description: Identifier for the timesheet line
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimesheetLine'
+        '400':
+          description: validation error for a bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/problem'
+  /PayRunCalendars:
+    get:
+      security:
+        - OAuth2: [payroll.settings.read, payroll.settings]
+      tags:
+        - PayrollUK
+      operationId: getPayRunCalendars
+      summary: searches payrun calendars
+      parameters:
+        - in: query
+          name: page
+          description: Page number which specifies the set of records to retrieve. By default the number of the records per set is 100.
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PayRunCalendars'
+    post:
+      security:
+        - OAuth2: [payroll.settings]
+      tags:
+        - PayrollUK
+      operationId: createPayRunCalendar
+      summary: create a new payrun calendar
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PayRunCalendar'
+        '400':
+          description: validation error for a bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/problem'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PayRunCalendar'
+  /PayRunCalendars/{PayRunCalendarID}:
+    get:
+      security:
+        - OAuth2: [payroll.settings.read, payroll.settings]
+      tags:
+        - PayrollUK
+      operationId: getPayRunCalendar
+      summary: retrieve a single payrun calendar by id
+      parameters:
+        - in: path
+          name: PayRunCalendarID
+          required: true
+          description: Identifier for the payrun calendars
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PayRunCalendar'
+  /Employees/{EmployeeId}/SalaryAndWages:
+    get: 
+      security:
+        - OAuth2: [payroll.employees.read, payroll.employees]
+      tags:
+        - PayrollUK
+      operationId: getEmployeeSalaryAndWages
+      summary: retrieves an employee's salary and wages
+      parameters:
+        - name: EmployeeId
+          in: path
+          required: true
+          description: Employee id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+        - in: query
+          name: page
+          description: Page number which specifies the set of records to retrieve. By default the number of the records per set is 100.
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SalaryAndWages'
+        '400':
+          description: validation error for a bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/problem'
+    post:
+      security:
+        - OAuth2: [payroll.employees]
+      tags:
+        - PayrollUK
+      operationId: createEmployeeSalaryAndWage
+      summary: creates employee salary and wage record
+      parameters:
+        - name: EmployeeId
+          in: path
+          required: true
+          description: Employee id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SalaryAndWage'
+        '400':
+          description: validation error for a bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/problem'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SalaryAndWage'
+    put:
+      security:
+        - OAuth2: [payroll.employees]
+      tags:
+        - PayrollUK
+      operationId: updateEmployeeSalaryAndWages
+      summary: updates employee salary and wages record
+      parameters:
+        - name: EmployeeId
+          in: path
+          required: true
+          description: Employee id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SalaryAndWage'
+        '400':
+          description: validation error for a bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/problem'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SalaryAndWage'
+  /Employees/{EmployeeId}/SalaryAndWages/{SalaryAndWagesID}:
+    get:
+      security:
+        - OAuth2: [payroll.employees, payroll.employees.read]
+      tags:
+        - PayrollUK
+      operationId: retrieveEmployeeSalaryAndWage
+      summary: retrieve employee salary and wages record by id
+      parameters:
+        - name: EmployeeId
+          in: path
+          required: true
+          description: Employee id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+        - name: SalaryAndWagesID
+          in: path
+          required: true
+          description:  Id for single pay template earnings object
+          schema: 
+            type: string
+            format: uuid
+            example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SalaryAndWage'
+    delete:
+      security:
+        - OAuth2: [payroll.employees]
+      tags:
+        - PayrollUK
+      operationId: deleteEmployeeSalaryAndWages
+      summary: deletes an employee salary and wages record
+      parameters:
+        - name: EmployeeId
+          in: path
+          required: true
+          description: Employee id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+        - name: SalaryAndWagesID
+          in: path
+          required: true
+          description:  Id for single salary and wages object
+          schema: 
+            type: string
+            format: uuid
+            example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+      responses:
+        '200':
+          description: deletion successful
+  /PayRuns:
+    get:
+      security:
+        - OAuth2: [payroll.payruns.read, payroll.payruns]
+      tags:
+        - PayrollUK
+      operationId: getPayRuns
+      summary: searches pay runs
+      parameters:
+        - in: query
+          name: page
+          description: Page number which specifies the set of records to retrieve. By default the number of the records per set is 100.
+          schema:
+            type: integer
+        - in: query
+          name: status
+          description: By default get payruns will return all the payruns for an organization. You can add GET https://api.xero.com/payroll.xro/2.0/payRuns?statu={PayRunStatus} to filter the payruns by status.
+          schema:
+            type: string
+            format: enum
+              - Draft
+              - Posted
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EarningsRates'
+  /PayRuns/{PayRunID}:
+    get:
+      security:
+        - OAuth2: [payroll.payruns.read, payroll.payruns]
+      tags:
+        - PayrollUK
+      operationId: getPayRun
+      summary: retrieve a single pay run by id
+      parameters:
+        - in: path
+          name: PayRunID
+          required: true
+          description: Identifier for the pay run
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PayRun'
+    put:
+      security:
+        - OAuth2: [payroll.payruns]
+      tags:
+        - PayrollUK
+      operationId: updatePayRun
+      summary: update a pay run
+      parameters:
+        - in: path
+          name: PayRunID
+          required: true
+          description: Identifier for the pay run
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PayRun'
+        '400':
+          description: validation error for a bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/problem'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PayRun'
+  /Payslips:
+    get:
+      security:
+        - OAuth2: [payroll.payslip.read, payroll.payslip]
+      tags:
+        - PayrollUK
+      operationId: getPayslips
+      summary: searches payslips
+      parameters:
+        - in: query
+          name: page
+          description: Page number which specifies the set of records to retrieve. By default the number of the records per set is 100.
+          schema:
+            type: integer
+        - in: query
+          required: true
+          name: PayRunID
+          description: PayrunID which specifies the containing payrun of payslips to retrieve. By default, the API does not group payslips by payrun.
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payslips'
+  /Payslips/{PayslipID}:
+    get:
+      security:
+        - OAuth2: [payroll.payslip.read, payroll.payslip]
+      tags:
+        - PayrollUK
+      operationId: getPaySlip
+      summary: retrieve a single payslip by id
+      parameters:
+        - in: path
+          name: PayslipID
+          required: true
+          description: Identifier for the payslip
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payslip'
+  /Settings:
+    get:
+      security:
+        - OAuth2: [payroll.settings.read, settings.payslip]
+      tags:
+        - PayrollUK
+      operationId: getSettings
+      summary: searches settings
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Settings'
+  /TrackingCategories:
+    get:
+      security:
+        - OAuth2: [payroll.settings.read, settings.payslip]
+      tags:
+        - PayrollUK
+      operationId: getTrackingCategories
+      summary: searches tracking categories
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TrackingCategories'
+components:
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      description: For more information visit https://developer.xero.com/documentation/oauth2/overview
+      flows: 
+        authorizationCode:
+          authorizationUrl: 'https://login.xero.com/identity/connect/authorize'
+          tokenUrl: 'https://identity.xero.com/connect/token'
+          scopes:
+            payroll.employees: Grant read-write access to payroll employees
+            payroll.employees.read: Grant read-only access to payroll employees
+            payroll.payruns: Grant read-write access to payroll payruns
+            payroll.payruns.read: Grant read-only access to payroll payruns
+            payroll.payslip: Grant read-write access to payroll payslips
+            payroll.payslip.read: Grant read-only access to payroll payslips
+            payroll.settings: Grant read-write access to payroll settings
+            payroll.settings.read: Grant read-only access to payroll settings
+            payroll.timesheets: Grant read-write access to payroll timesheets
+            payroll.timesheets.read: Grant read-only access to payroll timesheets
+  parameters:
+    requiredHeader: 
+      in: header
+      name: Xero-Tenant-Id
+      description: Xero identifier for Tenant
+      schema:
+        type: string
+      required: true 
+  schemas:
+    problem:
+      description: The object returned for a bad request
+      type: object
+      properties:
+        type: 
+          description: The type of error format 
+          type: string
+          example: application/problem+json
+        title:
+          description: The type of the error
+          type: string
+          example: BadRequest
+        status:
+          description: The error status code 
+          type: string
+          example: 400
+        detail:
+          description: A description of the error
+          type: string
+          example: Validation error occurred.
+        instance: 
+          type: string
+        invalidfields:
+          type: array
+          items:
+            $ref: '#/components/schemas/InvalidField'
+    InvalidField:
+      type: object
+      properties:
+        name:
+          description: The name of the field that caused the error
+          type: string
+          example: DateOfBirth
+        reason:
+          description: The reason the error occurred
+          type: string
+          example: The Date of Birth is required.
+    Employees:
+      type: object
+      properties:
+        Employees:
+          type: array
+          items:
+            $ref: '#/components/schemas/Employee'
+    Employee:
+      type: object
+      required:
+        - Title
+        - FirstName
+        - LastName
+        - DateOfBirth
+        - Gender
+        - Address
+      properties:
+        EmployeeID:
+          description:  Xero unique identifier for the employee
+          type: string
+          format: uuid
+          example: d90457c4-f1be-4f2e-b4e3-f766390a7e30
+        Title:
+          description: Title of the employee
+          type: string
+          example: Mrs
+        FirstName:
+          description: First name of employee
+          type: string
+          example: Karen
+        LastName:
+          description: Last name of employee
+          type: string
+          example: Jones
+        DateOfBirth:
+          description: Date of birth of the employee (YYYY-MM-DD)
+          type: string
+          format: date
+          example: 2019-01-02   
+        HomeAddress:
+          $ref: '#/components/schemas/Address'
+        Email:
+          description: The email address for the employee
+          type: string
+          example: developer@me.com
+        Gender:
+          description: The employee’s gender
+          type: string
+          enum:
+          - M   #Male  
+          - F   #Female  
+          example: F
+        PhoneNumber:
+          description: Employee phone number
+          type: string
+          example: 415-555-1212
+        StartDate:
+          description: Employment start date of the employee at the time it was requested
+          type: string
+          format: date
+          example: 2020-01-19
+        EndDate:
+          description: Employment end date of the employee at the time it was requested
+        PayrollCalendarID:
+          description: Xero unique identifier for the payroll calendar of the employee
+          type: string
+          format: uuid
+        UpdatedDateUTC:
+          description: UTC timestamp of last update to the employee
+          type: string
+          format: date-time
+        CreatedDateUTC:
+          description: UTC timestamp when the employee was created in Xero
+          type: string
+          format: date-time
+        NationalInsuranceNumber:
+          description: National insurance number of the employee
+          type: string
+          example: AB123456C
+    Employment:
+      type: object
+      required:
+        - PayrollCalendarID
+        - StartDate
+        - EmployeeNumber
+        - NICategory
+      properties:
+        PayrollCalendarID:
+          description: Xero unique identifier for the payroll calendar of the employee
+          type: string
+          format: uuid
+        StartDate:
+          description: Start date of the employment (YYYY-MM-DD)
+          type: string
+          format: date
+        EmployeeNumber:
+          description: The employment number of the employee
+          type: string
+          example: 007
+        NICategory:
+          description: The NI Category of the employee
+          type: string
+          example: A
+    Tax:
+      type: object
+      properties:
+        StarterType:
+          description: The Starter type.
+          type: string
+          example: New Employee with P45
+        StarterDeclaration:
+          description: Starter declaration.
+          type: string
+          example: B.) This is currently their only job
+        TaxCode:
+          description: The Tax code.
+          type: string
+          example: 1185L
+        W1M1:
+          description:   Describes whether the tax settings is W1M1
+          type: boolean
+        PreviousTaxablePay:
+          description: The previous taxable pay
+          type: number
+          format: float
+        PreviousTaxPaid:
+          description: The tax amount previously paid  
+          type: number
+          format: float
+        StudentLoanDeduction:
+          description: The employee's student loan deduction type  
+          type: string
+          example: Plan Type 2
+        HasPostGraduateLoans:
+          description: Describes whether the employee has post graduate loans
+          type: boolean
+        IsDirector:
+          description: Describes whether the employee is director
+          type: boolean
+        DirectorshipStartDate:
+          description: The directorship start date
+          type: string
+          format: date
+        NICCalculationMethod:
+          description: NICs calculation method
+          type: string
+          example: Annualized
+    EmployeeOpeningBalances:
+      type: object
+      properties:
+        StatutoryAdoptionPay:
+          description: The total accumulated statutory adoption pay amount received by the employee for current fiscal year to date
+          type: number
+          format: float
+        StatutoryMaternityPay:
+          description: The total accumulated statutory maternity pay amount received by the employee for current fiscal year to date
+          type: number
+          format: float
+        StatutoryPaternityPay:
+          description: The total accumulated statutory paternity pay amount received by the employee for current fiscal year to date
+          type: number
+          format: float
+        StatutorySharedParentalPay:
+          description: The total accumulated statutory shared parental pay amount received by the employee for current fiscal year to date
+          type: number
+          format: float
+        StatutorySickPay:
+          description: The total accumulated statutory sick pay amount received by the employee for current fiscal year to date  
+          type: number
+          format: float
+        PriorEmployeeNumber:
+          description: The unique employee number issued by the employee's former employer
+          type: number
+          format: float
+    EmployeeLeaves:
+      type: object
+      properties:
+        Employees:
+          type: array
+          items:
+            $ref: '#/components/schemas/EmployeeLeave'
+    EmployeeLeave:
+      type: object
+      required:
+        - LeaveTypeID
+        - Description
+        - StartDate
+        - EndDate
+      properties:
+        LeaveTypeID:
+          description: The Xero identifier for LeaveType
+          type: string
+          format: uuid
+        Description:
+          description: The description of the leave  (max length = 50)
+          type: string
+        StartDate:
+          description: Start date of the leave (YYYY-MM-DD)  
+          type: string
+          format: date
+        EndDate:
+          description:   End date of the leave (YYYY-MM-DD)
+          type: string
+          format: date
+        LeavePeriods:
+          description: The leave period information. The StartDate, EndDate and NumberOfUnits needs to be specified when you do not want to calculate NumberOfUnits automatically. Using incorrect period StartDate and EndDate will result in automatic computation of the NumberOfUnits.
+          type: array
+          items:
+            $ref: '#/components/schemas/LeavePeriod'
+    LeavePeriods:
+      type: array
+      items:
+        $ref: '#/components/schemas/LeavePeriod'
+    LeavePeriod:
+      type: object
+      properties:
+        PeriodStartDate:
+          description: The Pay Period Start Date (YYYY-MM-DD)
+          type: string
+          format: date
+        PeriodEndDate:
+          description:   The Pay Period End Date (YYYY-MM-DD)
+          type: string
+          format: date
+        NumberOfUnits:
+          description: The Number of Units for the leave
+          type: number
+          format: integer
+        PeriodStatus:
+          description: Period Status
+          type: string
+          format: enum
+            - Approved
+            - Completed
+    EmployeeLeaveBalances:
+      type: array
+      items:
+        $ref: '#/components/schemas/EmployeeLeaveBalance'
+    EmployeeLeaveBalance:
+      type: object
+      properties:
+        Name:
+          description: Name of the leave type.  
+          type: string
+          example: Holiday
+        LeaveTypeID:
+          description: The Xero identifier for leave type
+          type: string
+          format: uuid
+        Balance:
+          description: The employees current balance for the corresponding leave type.
+          type: number
+          format: float
+        TypeOfUnits:
+          description: The type of the units of the leave.
+          type: string
+          example: hours
+    EmployeeStatutoryLeaveBalance:
+      type: object
+      properties:
+        LeaveType: 
+          description: The type of statutory leave
+          type: string
+          format: enum
+            - sick
+            - adoption
+            - maternity
+            - paternity
+            - sharedparental
+        BalanceRemaining:
+          description: The balance remaining for the corresponding leave type as of specified date.
+          type: number
+          format: float
+        Units:
+          description: The units will be "Hours"
+          type: string
+          format: enum
+            - Hours
+    EmployeeStatutoryLeavesSummary:
+      type: array
+      items:
+        $ref: '#/components/schemas/EmployeeStatutoryLeaveSummary'
+    EmployeeStatutoryLeaveSummary:
+      type: object
+      properties:
+        StatutoryLeaveID:
+          description: The unique identifier (guid) of a statutory leave.  
+          type: string
+          format: uuid
+        EmployeeID:
+          description: The unique identifier (guid) of the employee  
+          type: string
+          format: uuid
+        Type:
+          description: The category of statutory leave
+          type: string
+          format: enum
+            - sick
+            - adoption
+            - maternity
+            - paternity
+            - sharedparental
+        StartDate:
+          description: The date when the leave starts  
+          type: string
+          format: date
+        EndDate: 
+          description: The date when the leave ends  
+          type: string
+          format: date
+        IsEntitled:
+          description: Whether the leave was entitled to receive payment  
+          type: boolean
+        Status:
+          description: The status of the leave
+          type: string
+          format: enum
+            - Pending
+            - In-Progress
+            - Completed
+    EmployeeStatutorySickLeave:
+      type: object
+      required:
+        - EmployeeID
+        - StartDate
+        - EndDate
+        - WorkPattern
+        - LeaveTypeID
+        - IsPregnancyRelated
+        - SufficientNotice
+      properties:
+        StatutoryLeaveID:
+          description: The unique identifier (guid) of a statutory leave  
+          type: string
+          format: uuid
+        EmployeeID:
+          description: The unique identifier (guid) of the employee  
+          type: string
+          format: uuid
+        LeaveTypeID:
+          description: The unique identifier (guid) of the "Statutory Sick Leave (non-pensionable)" pay item  
+          type: string
+          format: uuid
+        StartDate:
+          description: The date when the leave starts  
+          type: string
+          format: date
+        EndDate:
+          description: The date when the leave ends  
+          type: string
+          format: date
+        WorkPattern:
+          description: The days of the work week the employee is scheduled to work at the time the leave is taken  
+          type: array
+          items:
+            type: string
+        IsPregnancyRelated:
+          description: Whether the sick leave was pregnancy related  
+          type: boolean
+        SufficientNotice:
+          description: Whether the employee provided sufficent notice and documentation as required by the employer supporting the sick leave request  
+          type: boolean
+        IsEntitled:
+          description: Whether the leave was entitled to receive payment  
+          type: boolean
+        EntitlementWeeksRequested:
+          description: The amount of requested time (in weeks)  
+          type: number
+          format: float
+        EntitlementWeeksQualified:
+          description: The amount of statutory sick leave time off (in weeks) that is available to take at the time the leave was requested  
+          type: number
+          format: float
+        EntitlementWeeksRemaining:
+          description: A calculated amount of time (in weeks) that remains for the statutory sick leave period  
+          type: number
+          format: float
+        OverlapsWithOtherLeave:
+          description: Whether another leave (Paternity, Shared Parental specifically) occurs during the requested leave's period. While this is allowed it could affect payment amounts
+          type: boolean
+        EntitlementFailureReasons:
+          description: If the leave requested was considered "not entitled", the reasons why are listed here. 
+          type: string
+          format: enum
+           - UnableToCalculateAwe
+           - AweLowerThanLel
+           - NotQualifiedInPreviousPiw
+           - ExceededMaximumEntitlementWeeksOfSsp
+           - ExceededMaximumDurationOfPiw
+           - SufficientNoticeNotGiven
+    EmployeeLeaveTypes:
+      type: array
+      items:
+        $ref: '#/components/schemas/EmployeeLeaveType'
+    EmployeeLeaveType:
+      type: object
+      required:
+        - LeaveTypeID
+        - ScheduleOfAccrual
+      properties:
+        LeaveTypeID:
+          description: The Xero identifier for leave type
+          type: string
+          format: uuid
+        ScheduleOfAccrual:
+          description: The schedule of accrual
+          type: string
+          format: enum
+            - BeginningOfCalendarYear
+            - OnAnniversaryDate
+            - EachPayPeriod  
+            - OnHourWorked
+        HoursAccruedAnnually:
+          description: The number of hours accrued for the leave annually. This is 0 when the scheduleOfAccrual chosen is "OnHourWorked"
+          type: number
+          format: float
+        MaximumToAccrue:
+          description: The maximum number of hours that can be accrued for the leave  
+          type: number
+          format: float
+        OpeningBalance:
+          description: The initial number of hours assigned when the leave was added to the employee  
+          type: number
+          format: float
+        RateAccruedHourly:
+          description: The number of hours added to the leave balance for every hour worked by the employee. This is normally 0, unless the scheduleOfAccrual chosen is "OnHourWorked"
+          type: number
+          format: float
+    EmployeePayTemplate:
+      type: object
+      required:
+        - EarningTemplates
+      properties:
+        EmployeeID:
+          description: Unique identifier for the employee
+          type: string
+          format: uuid
+        EarningTemplates:
+          $ref: '#/components/schemas/EarningsTemplates'
+    EarningsTemplates:
+      type: array
+      items:
+        $ref: '#/components/schemas/EarningsTemplate'
+    EarningsTemplate:
+      type: object
+      properties:
+        PayTemplateEarningID:
+          description: The Xero identifier for the earnings template
+          type: string
+          format: uuid
+        RatePerUnit:
+          description: The rate per unit  
+          type: number
+          format: float
+        NumberOfUnits:
+          description: The rate per unit  
+          type: number
+          format: float
+        FixedAmount:
+          description: The fixed amount per period  
+          type: number
+          format: float
+        EarningsRateID:
+          description: The corresponding earnings rate identifier  
+          type: string
+          format: uuid
+        Name:
+          description: The read-only name of the Earning Template.
+          type: string
+    Benefits:
+      type: array
+      items:
+        $ref: '#/components/schemas/Benefit'
+    Benefit:
+      type: object
+      required:
+        - Todo
+      properties:
+        Todo:
+          description: Todo
+          type: string
+          format: uuid
+    Deductions:
+      type: array
+      items:
+        $ref: '#/components/schemas/Deduction'
+    Deduction:
+      type: object
+      required:
+        - Todo
+      properties:
+        Todo:
+          description: Todo
+          type: string
+          format: uuid
+    StatutoryDeductions:
+      type: array
+      items:
+        $ref: '#/components/schemas/StatutoryDeduction'
+    StatutoryDeduction:
+      type: object
+      required:
+        - Todo
+      properties:
+        Todo:
+          description: Todo
+          type: string
+          format: uuid
+    EarningsRates:
+      type: array
+      items:
+        $ref: '#/components/schemas/EarningsRate'
+    EarningsRate:
+      type: object
+      required:
+        - Todo
+      properties:
+        Todo:
+          description: Todo
+          type: string
+          format: uuid
+    LeaveTypes:
+      type: array
+      items:
+        $ref: '#/components/schemas/LeaveType'
+    LeaveType:
+      type: object
+      required:
+        - Todo
+      properties:
+        Todo:
+          description: Todo
+          type: string
+          format: uuid
+    Reimbursements:
+      type: array
+      items:
+        $ref: '#/components/schemas/Reimbursement'
+    Reimbursement:
+      type: object
+      required:
+        - Todo
+      properties:
+        Todo:
+          description: Todo
+          type: string
+          format: uuid
+    Timesheets:
+      type: array
+      items:
+        $ref: '#/components/schemas/Timesheet'
+    Timesheet:
+      type: object
+      required:
+        - Todo
+      properties:
+        Todo:
+          description: Todo
+          type: string
+          format: uuid 
+    TimesheetLines:
+      type: array
+      items:
+        $ref: '#/components/schemas/TimesheetLine'
+    TimesheetLine:
+      type: object
+      required:
+        - Todo
+      properties:
+        Todo:
+          description: Todo
+          type: string
+          format: uuid 
+    PayRunCalendars:
+      type: array
+      items:
+        $ref: '#/components/schemas/PayRunCalendar'
+    PayRunCalendar:
+      type: object
+      required:
+        - Todo
+      properties:
+        Todo:
+          description: Todo
+          type: string
+          format: uuid 
+    PaymentMethod:
+      type: object
+      required:
+        - Todo
+      properties:
+        Todo:
+          description: Todo
+          type: string
+          format: uuid 
+    SalaryAndWages:
+      type: array
+      items:
+        $ref: '#/components/schemas/SalaryAndWage'
+    SalaryAndWage:
+      type: object
+      required:
+        - Todo
+      properties:
+        Todo:
+          description: Todo
+          type: string
+          format: uuid 
+    PayRuns:
+      type: array
+      items:
+        $ref: '#/components/schemas/PayRun'
+    PayRun:
+      type: object
+      required:
+        - Todo
+      properties:
+        Todo:
+          description: Todo
+          type: string
+          format: uuid 
+    Payslips:
+      type: array
+      items:
+        $ref: '#/components/schemas/Payslip'
+    Payslip:
+      type: object
+      required:
+        - Todo
+      properties:
+        Todo:
+          description: Todo
+          type: string
+          format: uuid 
+    EarningsLines:
+      type: array
+      items:
+        $ref: '#/components/schemas/EarningsLine'
+    EarningsLine:
+      type: object
+      required:
+        - Todo
+      properties:
+        Todo:
+          description: Todo
+          type: string
+          format: uuid 
+    LeaveEarningsLines:
+      type: array
+      items:
+        $ref: '#/components/schemas/LeaveEarningsLine'
+    LeaveEarningsLine:
+      type: object
+      required:
+        - Todo
+      properties:
+        Todo:
+          description: Todo
+          type: string
+          format: uuid 
+    TimesheetEarningsLines:
+      type: array
+      items:
+        $ref: '#/components/schemas/TimesheetEarningsLine'
+    TimesheetEarningsLine:
+      type: object
+      required:
+        - Todo
+      properties:
+        Todo:
+          description: Todo
+          type: string
+          format: uuid 
+    DeductionLines:
+      type: array
+      items:
+        $ref: '#/components/schemas/DeductionLine'
+    DeductionLine:
+      type: object
+      required:
+        - Todo
+      properties:
+        Todo:
+          description: Todo
+          type: string
+          format: uuid 
+    ReimbursementLines:
+      type: array
+      items:
+        $ref: '#/components/schemas/ReimbursementLine'
+    ReimbursementLine:
+      type: object
+      required:
+        - Todo
+      properties:
+        Todo:
+          description: Todo
+          type: string
+          format: uuid 
+    LeaveAccrualLines:
+      type: array
+      items:
+        $ref: '#/components/schemas/LeaveAccrualLine'
+    LeaveAccrualLine:
+      type: object
+      required:
+        - Todo
+      properties:
+        Todo:
+          description: Todo
+          type: string
+          format: uuid 
+    BenefitLines:
+      type: array
+      items:
+        $ref: '#/components/schemas/BenefitLine'
+    BenefitLine:
+      type: object
+      required:
+        - Todo
+      properties:
+        Todo:
+          description: Todo
+          type: string
+          format: uuid 
+    PaymentLines:
+      type: array
+      items:
+        $ref: '#/components/schemas/PaymentLine'
+    PaymentLine:
+      type: object
+      required:
+        - Todo
+      properties:
+        Todo:
+          description: Todo
+          type: string
+          format: uuid 
+    TaxLines:
+      type: array
+      items:
+        $ref: '#/components/schemas/TaxLine'
+    TaxLine:
+      type: object
+      required:
+        - Todo
+      properties:
+        Todo:
+          description: Todo
+          type: string
+          format: uuid 
+    CourtOrderLines:
+      type: array
+      items:
+        $ref: '#/components/schemas/CourtOrderLine'
+    CourtOrderLine:
+      type: object
+      required:
+        - Todo
+      properties:
+        Todo:
+          description: Todo
+          type: string
+          format: uuid 
+    Settings:
+      type: object
+      required:
+        - Todo
+      properties:
+        Todo:
+          description: Todo
+          type: string
+          format: uuid 
+    Accounts:
+      type: array
+      items:
+        $ref: '#/components/schemas/Account'
+    Account:
+      type: object
+      required:
+        - Todo
+      properties:
+        Todo:
+          description: Todo
+          type: string
+          format: uuid 
+    Address:
+      type: object
+      required:
+        - AddressLine1
+        - City
+        - PostCode
+      properties:
+        AddressLine1:
+          description: Address line 1 for employee home address
+          type: string
+          example: 123 Main St
+        AddressLine2:
+          description: Address line 2 for employee home address
+          type: string
+          example: Apt 4
+        City:
+          description: Suburb for employee home address
+          type: string
+          example: Fulham
+        PostCode:
+          description: PostCode for employee home address
+          type: string
+          example: SW6 6EY
+        Country:
+          description: Country of HomeAddress
+          type: string
+          example: United Kingdom
+    BankAccounts:
+      type: array
+      items:
+        $ref: '#/components/schemas/BankAccount'
+    BankAccount:
+      type: object
+      required:
+        - Todo
+      properties:
+        Todo:
+          description: Todo
+          type: string
+          format: uuid 
+    TrackingCategories:
+      type: object
+      required:
+        - Todo
+      properties:
+        Todo:
+          description: Todo
+          type: string
+          format: uuid
