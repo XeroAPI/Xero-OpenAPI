@@ -11587,6 +11587,248 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
           $ref: '#/components/responses/400Error'
       requestBody:
         $ref: '#/components/requestBodies/historyRecords'
+  '/Quotes/{QuoteID}/Attachments':
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    get:
+      security:
+        - OAuth2: [accounting.attachments.read]
+      tags:
+        - Accounting
+      operationId: getQuoteAttachments
+      summary: Allows you to retrieve Attachments for Quotes
+      parameters:
+        - required: true
+          in: path
+          name: QuoteID
+          description: Unique identifier for Quote object
+          example: "00000000-0000-0000-000-000000000000"
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Success - return response of type Attachments array of Attachment 
+          x-isAttachment: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Attachments'
+              example: '{
+                          "Id": "439c1573-3cd8-4697-a9f6-81fa651ee8f3",
+                          "Status": "OK",
+                          "ProviderName": "Xero API Partner",
+                          "DateTimeUTC": "\/Date(1550852630329)\/",
+                          "Attachments": [
+                            {
+                              "AttachmentID": "52a643be-cd5c-489f-9778-53a9fd337756",
+                              "FileName": "sample5.jpg",
+                              "Url": "https://api.xero.com/api.xro/2.0/Quotes/da962997-a8bd-4dff-9616-01cdc199283f/Attachments/sample5.jpg",
+                              "MimeType": "image/jpg",
+                              "ContentLength": 2878711
+                            }
+                          ]
+                        }'
+  '/Quotes/{QuotesID}/Attachments/{AttachmentID}':
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    get:
+      security:
+        - OAuth2: [accounting.attachments.read]
+      tags:
+        - Accounting
+      operationId: getQuoteAttachmentById
+      summary: Allows you to retrieve specific Attachment on Quote
+      parameters:
+        - required: true
+          in: path
+          name: QuoteID
+          description: Unique identifier for Quote object
+          example: "00000000-0000-0000-000-000000000000"
+          schema:
+            type: string
+            format: uuid
+        - required: true
+          in: path
+          name: AttachmentID
+          description: Unique identifier for Attachment object
+          example: "00000000-0000-0000-000-000000000000"
+          schema:
+            type: string
+            format: uuid
+        - required: true
+          in: header
+          name: contentType
+          description: The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf 
+          example: image/jpg
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success - return response of attachment for Quote as binary data 
+          content:
+             application/octet-stream:
+              schema:
+                type: string
+                format: binary
+  '/Quotes/{QuoteID}/Attachments/{FileName}':
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    get:
+      security:
+        - OAuth2: [accounting.attachments.read]
+      tags:
+        - Accounting
+      operationId: getQuoteAttachmentByFileName
+      summary: Allows you to retrieve Attachment on Quote by Filename
+      parameters:
+        - required: true
+          in: path
+          name: QuoteID
+          description: Unique identifier for Quote object
+          example: "00000000-0000-0000-000-000000000000"
+          schema:
+            type: string
+            format: uuid
+        - required: true
+          in: path
+          name: FileName
+          description: Name of the attachment
+          example: "xero-dev.jpg"
+          schema:
+            type: string
+        - required: true
+          in: header
+          name: contentType
+          description: The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf 
+          example: image/jpg
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success - return response of attachment for Quote as binary data 
+          content:
+             application/octet-stream:
+              schema:
+                type: string
+                format: binary
+    post:
+      security:
+        - OAuth2: [accounting.attachments]
+      tags:
+        - Accounting
+      operationId: updateQuoteAttachmentByFileName
+      summary: Allows you to update Attachment on Quote by Filename
+      parameters:
+        - required: true
+          in: path
+          name: QuoteID
+          description: Unique identifier for Quote object
+          example: "00000000-0000-0000-000-000000000000"
+          schema:
+            type: string
+            format: uuid
+        - required: true
+          in: path
+          name: FileName
+          description: Name of the attachment
+          example: "xero-dev.jpg"
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success - return response of type Attachments array of Attachment 
+          x-isAttachment: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Attachments'
+              example: '{
+                        "Id": "c8d6413a-1da2-4faa-9848-21f60443e906",
+                        "Status": "OK",
+                        "ProviderName": "Xero API Partner",
+                        "DateTimeUTC": "\/Date(1550859714477)\/",
+                        "Attachments": [
+                          {
+                            "AttachmentID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                            "FileName": "sample5.jpg",
+                            "Url": "https://api.xero.com/api.xro/2.0/Quotes/da962997-a8bd-4dff-9616-01cdc199283f/Attachments/sample5.jpg",
+                            "MimeType": "image/jpg",
+                            "ContentLength": 2878711
+                          }
+                        ]
+                      }'
+        '400':
+          description: Validation Error - some data was incorrect returns response of type Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      requestBody:
+        required: true
+        description: Byte array of file in body of request
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: byte
+    put:
+      security:
+        - OAuth2: [accounting.attachments]
+      tags:
+        - Accounting
+      operationId: createQuoteAttachmentByFileName
+      summary: Allows you to create Attachment on Quote
+      parameters:
+        - required: true
+          in: path
+          name: QuoteID
+          description: Unique identifier for Quote object
+          example: 00000000-0000-0000-000-000000000000
+          schema:
+            type: string
+            format: uuid
+        - required: true
+          in: path
+          name: FileName
+          description: Name of the attachment
+          example: xero-dev.jpg
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success - return response of type Attachments array of Attachment 
+          x-isAttachment: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Attachments'
+              example: '{
+                          "Id": "724cdff5-bcd1-4c5c-977e-e864c24258e0",
+                          "Status": "OK",
+                          "ProviderName": "Xero API Partner",
+                          "DateTimeUTC": "\/Date(1550856817769)\/",
+                          "Attachments": [
+                            {
+                              "AttachmentID": "ab95b276-9dce-4925-9077-439818ba270f",
+                              "FileName": "sample5.jpg",
+                              "Url": "https://api.xero.com/api.xro/2.0/Quotes/da962997-a8bd-4dff-9616-01cdc199283f/Attachments/sample5.jpg",
+                              "MimeType": "image/jpg",
+                              "ContentLength": 2878711
+                            }
+                          ]
+                        }'
+        '400':
+          $ref: '#/components/responses/400Error'
+      requestBody:
+        required: true
+        description: Byte array of file in body of request
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: byte
+  
   /Receipts:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -16553,7 +16795,6 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
   /TaxRates:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
-    x-related-model: TaxRate
     get:
       security:
         - OAuth2: [accounting.settings.read]
