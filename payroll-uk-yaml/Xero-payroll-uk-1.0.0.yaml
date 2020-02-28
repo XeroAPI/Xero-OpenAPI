@@ -1886,7 +1886,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EarningsRates'
+                $ref: '#/components/schemas/PayRuns'
   /PayRuns/{PayRunID}:
     get:
       security:
@@ -2567,12 +2567,61 @@ components:
     Benefit:
       type: object
       required:
-        - Todo
+        - Name
+        - Category
+        - LiabilityAccountId
+        - ExpenseAccountId
+        - CalculationType
+        - Percentage
+        - StandardAmount
       properties:
-        Todo:
-          description: Todo
+        Id:
+          description: The Xero identifier for the employer pension	
           type: string
           format: uuid
+        Name:
+          description: Name of the employer pension	
+          type: string
+        Category:
+          description: Category type of the employer pension	
+          type: string
+        LiabilityAccountId:
+          description: Xero identifier for Liability Account	
+          type: string
+          format: uuid
+        ExpenseAccountId:
+          description: Xero identifier for Expense Account	
+          type: string
+          format: uuid
+        StandardAmount:
+          description: Standard amount of the employer pension	
+          type: number
+          format: float
+        Percentage:
+          description: Percentage of gross of the employer pension
+          type: number
+          format: float
+        CalculationType:
+          description: Calculation Type of the employer pension (FixedAmount or PercentageOfGross).	
+          type: string
+          format: enum
+            - FixedAmount
+            - PercentageOfGross
+        CurrentRecord:
+          description: Identifier of a record is active or not.	
+          type: boolean
+        SubjectToNIC:
+          description: Identifier of subject To NIC	
+          type: boolean
+        SubjectToPension:
+          description: Identifier of subject To pension
+          type: boolean
+        SubjectToTax:
+          description: Identifier of subject To Tax
+          type: boolean
+        IsCalculatingOnQualifyingEarnings:
+          description: Identifier of calculating on qualifying earnings
+          type: boolean
     Deductions:
       type: array
       items:
@@ -2580,25 +2629,111 @@ components:
     Deduction:
       type: object
       required:
-        - Todo
+        - DeductionName
+        - DeductionCategory
+        - LiabilityAccountId
+        - CalculationType
       properties:
-        Todo:
-          description: Todo
+        DeductionId:
+          description: The Xero identifier for Deduction	
           type: string
           format: uuid
+        DeductionName:
+          description: Name of the deduction	
+          type: string
+        DeductionCategory:
+          description: Deduction Category type
+          type: string
+          format: enum
+            - StakeholderPension
+            - StakeholderPensionPostTax
+            - ChildCareVoucher
+            - SalarySacrifice
+            - UkOther
+        LiabilityAccountId:
+          description: Xero identifier for Liability Account	
+          type: string
+          format: uuid
+        CurrentRecord:
+          description: Identifier of a record is active or not.	
+          type: boolean
+        StandardAmount:
+          description: Standard amount of the deduction	
+          type: number
+          format: float
+        ReducesSuperLiability:
+          description: Identifier of reduces super liability
+          type: boolean
+        ReducesTaxLiability:
+          description: Identifier of reduces tax liability
+          type: boolean
+        CalculationType:
+          description: determine the calculation type whether fixed amount or percentage of gross	
+          type: string
+          format: enum
+            - FixedAmount
+            - PercentageOfGross
+        percentage:
+          description: Percentage of gross	
+          type: number
+          format: float
+        subjectToNIC:
+          description: Identifier of subject To NIC
+          type: boolean
+        subjectToTax:
+          description: Identifier of subject To Tax	
+          type: boolean
+        isReducedByBasicRate:
+          description: Identifier of reduced by basic rate applicable or not	
+          type: boolean
+        applyToPensionCalculations:
+          description: Identifier for apply to pension calculations	
+          type: boolean
+        isCalculatingOnQualifyingEarnings:
+          description: Identifier of calculating on qualifying earnings	
+          type: boolean
+        IsPension:
+          description: Identifier of applicable for pension or not
+          type: boolean
     StatutoryDeductions:
       type: array
       items:
         $ref: '#/components/schemas/StatutoryDeduction'
     StatutoryDeduction:
       type: object
-      required:
-        - Todo
       properties:
-        Todo:
-          description: Todo
+        Id:
+          description: The Xero identifier for earnings order	
           type: string
           format: uuid
+        Name:
+          description: Name of the earnings order	
+          type: string
+        StatutoryDeductionCategory:
+          description: Statutory Deduction Category
+          type: string
+          format: enum
+            - PriorityOrder
+            - NonPriorityOrder
+            - TableBased
+            - ChildSupport
+            - CourtFines
+            - InlandRevenueArrears
+            - MsdRepayments
+            - StudentLoan
+            - AdditionalStudentLoan
+            - VoluntaryStudentLoan
+            - KiwiSaver
+            - FederalLevy
+            - USChildSupport
+            - Creditor
+        LiabilityAccoutId:
+          description: Xero identifier for Liability Account	
+          type: string
+          format: uuid
+        CurrentRecord:
+          description: Identifier of a record is active or not.
+          type: boolean
     EarningsRates:
       type: array
       items:
@@ -2606,12 +2741,62 @@ components:
     EarningsRate:
       type: object
       required:
-        - Todo
+        - Name
+        - EarningsType
+        - RateType
+        - TypeOfUnits
+        - ExpenseAccountID
       properties:
-        Todo:
-          description: Todo
+        EarningsRateID:
+          description: Xero unique identifier for an earning rate	
           type: string
           format: uuid
+        Name:
+          description: Name of the earning rate	
+          type: string
+        EarningsType:
+          description: Indicates how an employee will be paid when taking this type of earning	
+          type: string
+          format: enum
+            - OvertimeEarnings
+            - Allowance
+            - RegularEarnings
+            - Commission
+            - Bonus
+            - Tips(Direct)
+            - Tips(Non-Direct)
+            - Backpay
+            - OtherEarnings
+            - LumpSum
+        RateType:
+          description: Indicates the type of the earning rate	
+          type: string
+          format: enum
+            - RatePerUnit
+            - MultipleOfOrdinaryEarningsRate
+            - FixedAmount
+        TypeOfUnits:
+          description: The type of units used to record earnings
+          type: string
+        CurrentRecord:
+          description: Indicates whether an earning type is active	
+          type: boolean
+        ExpenseAccountID:
+          description: The account that will be used for the earnings rate	
+          type: string
+          format: uuid
+        RatePerUnit:
+          description: Default rate per unit (optional). Only applicable if RateType is RatePerUnit	
+          type: number
+          format: float
+        MultipleOfOrdinaryEarningsRate:
+          description: This is the multiplier used to calculate the rate per unit, based on the employee’s ordinary earnings rate. For example, for time and a half enter 1.5. Only applicable if RateType is MultipleOfOrdinaryEarningsRate	
+          type: number
+          format: float
+        FixedAmount:
+          description: Optional Fixed Rate Amount. Applicable for FixedAmount Rate
+          type: number
+          format: float
     LeaveTypes:
       type: array
       items:
@@ -2619,12 +2804,33 @@ components:
     LeaveType:
       type: object
       required:
-        - Todo
+        - Name
+        - IsPaidLeave
+        - ShowOnPayslip
       properties:
-        Todo:
-          description: Todo
+        LeaveTypeID:
+          description: Xero unique identifier for the leave type
           type: string
           format: uuid
+        Name:
+          description: Name of the leave type	
+          type: string
+        IsPaidLeave:
+          description: Indicate that an employee will be paid when taking this type of leave	
+          type: boolean
+        ShowOnPayslip:
+          description: Indicate that a balance for this leave type to be shown on the employee’s payslips	
+          type: boolean
+        UpdatedDateUTC:
+          description: UTC timestamp of last update to the leave type note	
+          type: string
+          format: date
+        IsActive:
+          description: Shows whether the leave type is active or not
+          type: boolean
+        IsStatutoryLeave:
+          description: Shows whether the leave type is a statutory leave type or not	
+          type: boolean
     Reimbursements:
       type: array
       items:
@@ -2632,12 +2838,23 @@ components:
     Reimbursement:
       type: object
       required:
-        - Todo
+        - Name
+        - AccountID
       properties:
-        Todo:
-          description: Todo
+        ReimbursementID:
+          description: Xero unique identifier for a reimbursement	
           type: string
           format: uuid
+        Name:
+          description: Name of the reimbursement
+          type: string
+        AccountID:
+          description: Xero unique identifier for the account used for the reimbursement
+          type: string
+          format: uuid
+        CurrentRecord:
+          description: Indicates that whether the reimbursement is active
+          type: boolean
     Timesheets:
       type: array
       items:
@@ -2645,12 +2862,48 @@ components:
     Timesheet:
       type: object
       required:
-        - Todo
+        - PayrollCalendarID
+        - EmployeeID
+        - StartDate
+        - EndDate
       properties:
-        Todo:
-          description: Todo
+        TimesheetID:
+          description: The Xero identifier for a Timesheet
           type: string
           format: uuid 
+        PayrollCalendarID:
+          description: The Xero identifier for the Payroll Calandar that the Timesheet applies to	
+          type: string
+          format: uuid 
+        EmployeeID:
+          description: The Xero identifier for the Employee that the Timesheet is for	
+          type: string
+          format: uuid 
+        StartDate:
+          description: The Start Date of the Timesheet period (YYYY-MM-DD)	
+          type: string
+          format: date 
+        EndDate:
+          description: The End Date of the Timesheet period (YYYY-MM-DD)	
+          type: string
+          format: date 
+        Status:
+          description: Status of the timesheet
+          type: string
+          format: enum
+            - Draft
+            - Approved
+            - Completed
+        TotalHours:
+          description: The Total Hours of the Timesheet	
+          type: number
+          format: float 
+        UpdatedDateUTC:
+          description: The UTC date time that the Timesheet was last updated
+          type: string
+          format: date 
+        TimesheetLines:
+          $ref: '#/components/schemas/TimesheetLines'
     TimesheetLines:
       type: array
       items:
@@ -2658,12 +2911,30 @@ components:
     TimesheetLine:
       type: object
       required:
-        - Todo
+        - Date
+        - EarningsRateID
+        - NumberOfUnits
       properties:
-        Todo:
-          description: Todo
+        TimesheetLineID:
+          description: The Xero identifier for a Timesheet Line	
           type: string
           format: uuid 
+        Date:
+          description: The Date that this Timesheet Line is for (YYYY-MM-DD)
+          type: string
+          format: date 
+        EarningsRateID:
+          description: The Xero identifier for the Earnings Rate that the Timesheet is for	
+          type: string
+          format: uuid 
+        TrackingItemID:
+          description: The Xero identifier for the Tracking Item that the Timesheet is for
+          type: string
+          format: uuid 
+        NumberOfUnits:
+          description: The Number of Units of the Timesheet Line
+          type: number
+          format: float 
     PayRunCalendars:
       type: array
       items:
@@ -2671,21 +2942,58 @@ components:
     PayRunCalendar:
       type: object
       required:
-        - Todo
+        - Name
+        - CalendarType
+        - PeriodStartDate
+        - PaymentDate
       properties:
-        Todo:
-          description: Todo
+        PayRunCalendarID:
+          description: Xero unique identifier for the pay run calendar	
           type: string
           format: uuid 
+        Name:
+          description: Name of the calendar	
+          type: string
+        CalendarType:
+          description: Type of the calendar
+          type: string
+          format: enum
+            - Weekly
+            - Fortnightly
+            - FourWeekly
+            - Monthly
+            - Annual
+            - Quarterly
+        PeriodStartDate:
+          description: Period start date of the calendar	
+          type: string
+          format: date
+        PeriodEndDate:
+          description: Period end date of the calendar	
+          type: string
+          format: date
+        PaymentDate:
+          description: Payment date of the calendar	
+          type: string
+          format: date
+        UpdatedDateUTC:
+          description: UTC timestamp of the last update to the pay run calendar
+          type: string
+          format: date
     PaymentMethod:
       type: object
       required:
-        - Todo
+        - PaymentMethod
       properties:
-        Todo:
-          description: Todo
+        PaymentMethod:
+          description: The payment method code
           type: string
-          format: uuid 
+          format: enum
+            - Cheque
+            - Electronically
+            - Manual
+        BankAccount:
+          $ref: '#/components/schemas/BankAccounts'
     SalaryAndWages:
       type: array
       items:
@@ -2693,190 +3001,469 @@ components:
     SalaryAndWage:
       type: object
       required:
-        - Todo
+        - EarningsRateID
+        - NumberOfUnitsPerWeek
+        - RatePerUnit
+        - NumberOfUnitsPerDay
+        - EffectiveFrom
+        - AnnualSalary
+        - Status
+        - PaymentType
       properties:
-        Todo:
-          description: Todo
+        SalaryAndWagesID:
+          description: Xero unique identifier for a salary and wages record	
           type: string
           format: uuid 
+        EarningsRateID:
+          description: Xero unique identifier for an earnings rate	
+          type: string
+          format: uuid 
+        NumberOfUnitsPerWeek:
+          description: The Number of Units per week for the corresponding salary and wages	
+          type: number
+          format: float 
+        RatePerUnit:
+          description: The rate of each unit for the corresponding salary and wages
+          type: number
+          format: float 
+        NumberOfUnitsPerDay:
+          description: The Number of Units per day for the corresponding salary and wages	
+          type: number
+          format: float 
+        EffectiveFrom:
+          description: The effective date of the corresponding salary and wages	
+          type: string
+          format: date 
+        AnnualSalary:
+          description: The annual salary	
+          type: number
+          format: float 
+        Status:
+          description: The current status of the corresponding salary and wages	
+          type: string
+          format: enum
+            - active
+        PaymentType:
+          description: The type of the payment of the corresponding salary and wages
+          type: string
+          format: enum
+            - Salary
     PayRuns:
       type: array
       items:
         $ref: '#/components/schemas/PayRun'
     PayRun:
       type: object
-      required:
-        - Todo
       properties:
-        Todo:
-          description: Todo
+        PayRunID:
+          description: Xero unique identifier for the pay run	
           type: string
           format: uuid 
+        PayrollCalendarID:
+          description: Xero unique identifier for the payroll calendar
+          type: string
+          format: uuid 
+        PeriodStartDate:
+          description: Period start date of the payroll calendar	
+          type: string
+          format: date 
+        PeriodEndDate:
+          description: Period end date of the payroll calendar	
+          type: string
+          format: date 
+        PaymentDate:
+          description: Payment date of the pay run	
+          type: string
+          format: date 
+        TotalCost:
+          description: Total cost of the pay run	
+          type: number
+          format: float 
+        TotalPay:
+          description: Total pay of the pay run	
+          type: number
+          format: float 
+        PayRunStatus:
+          description: Pay run status
+          type: string
+          format: enum
+            - Draft
+            - Posted
+        PayRunType:
+          description: Pay run type
+          type: string
+          format: enum
+            - Pay run type
+            - Unscheduled
+            - EarlierYearUpdate
+        CalendarType:
+          description: Calendar type of the pay run
+          type: string
+          format: enum
+            - Weekly
+            - Fortnightly
+            - FourWeekly
+            - Monthly
+            - Annual
+            - Quarterly
+        PostedDateTime:
+          description: Posted date time of the pay run	
+          type: string
+          format: date 
+        PaySlips:
+          $ref: '#/components/schemas/Payslips'
     Payslips:
       type: array
       items:
         $ref: '#/components/schemas/Payslip'
     Payslip:
       type: object
-      required:
-        - Todo
       properties:
-        Todo:
-          description: Todo
+        PaySlipID:
+          description: The Xero identifier for a Payslip	
           type: string
           format: uuid 
+        EmployeeID:
+          description: The Xero identifier for payroll employee	
+          type: string
+          format: uuid 
+        PayRunID:
+          description: The Xero identifier for the associated payrun
+          type: string
+          format: uuid 
+        LastEdited:
+          description: The date payslip was last updated	
+          type: string
+          format: date 
+        FirstName:
+          description: Employee first name	
+          type: string
+        LastName:
+          description: Employee last name	
+          type: string
+        TotalEarnings:
+          description: Total earnings before any deductions. Same as gross earnings for UK.
+          type: number
+          format: float 
+        GrossEarnings:
+          description: Total earnings before any deductions. Same as total earnings for UK.	
+          type: number
+          format: float 
+        TotalPay:
+          description: The employee net pay	
+          type: number
+          format: float 
+        TotalEmployerTaxes:
+          description: The employer's tax obligation	
+          type: number
+          format: float 
+        TotalEmployeeTaxes:
+          description: The part of an employee's earnings that is deducted for tax purposes	
+          type: number
+          format: float 
+        TotalDeductions:
+          description: Total amount subtracted from an employee's earnings to reach total pay	
+          type: number
+          format: float 
+        TotalReimbursements:
+          description: Total reimbursements are nontaxable payments to an employee used to repay out-of-pocket expenses when the person incurs those expenses through employment	
+          type: number
+          format: float 
+        TotalCourtOrders:
+          description: Total amounts required by law to subtract from the employee's earnings	
+          type: number
+          format: float 
+        TotalBenefits:
+          description: Benefits (also called fringe benefits, perquisites or perks) are various non-earnings compensations provided to employees in addition to their normal earnings or salaries	
+          type: number
+          format: float 
+        BacsHash:
+          description: BACS Service User Number	
+          type: string 
+        PaymentMethod:
+          description: The payment method code
+          type: string
+          format: enum
+            - Cheque
+            - Electronically
+            - Manual
+        EarningsLines:
+          $ref: '#/components/schemas/EarningsLines'
+        LeaveEarningsLines:
+          $ref: '#/components/schemas/LeaveEarningsLines'
+        TimesheetEarningsLines:
+          $ref: '#/components/schemas/TimesheetEarningsLines'
+        DeductionLines:
+          $ref: '#/components/schemas/DeductionLines'
+        ReimbursementLines:
+          $ref: '#/components/schemas/ReimbursementLines'
+        LeaveAccrualLines:
+          $ref: '#/components/schemas/LeaveAccrualLines'
+        BenefitLines:
+          $ref: '#/components/schemas/BenefitLines'
+        PaymentLines:
+          $ref: '#/components/schemas/PaymentLines'
+        TaxLines:
+          $ref: '#/components/schemas/TaxLines'
+        CourtOrderLines:
+          $ref: '#/components/schemas/CourtOrderLines'
     EarningsLines:
       type: array
       items:
         $ref: '#/components/schemas/EarningsLine'
     EarningsLine:
       type: object
-      required:
-        - Todo
       properties:
-        Todo:
-          description: Todo
+        EarningsRateID:
+          description: Xero identifier for payroll earnings rate	
           type: string
           format: uuid 
+        RatePerUnit:
+          description: Rate per unit for earnings line	
+          type: number
+          format: float 
+        NumberOfUnits:
+          description: Earnings number of units
+          type: number
+          format: float 
+        FixedAmount:
+          description: Earnings fixed amount. Only applicable if the EarningsRate RateType is Fixed	
+          type: number
+          format: float 
+        Amount:
+          description: The amount of the earnings line.	
+          type: number
+          format: float 
+        IsLinkedToTimesheet:
+          description: Identifies if the earnings is taken from the timesheet. False for earnings line
+          type: boolean
     LeaveEarningsLines:
       type: array
       items:
         $ref: '#/components/schemas/LeaveEarningsLine'
     LeaveEarningsLine:
       type: object
-      required:
-        - Todo
       properties:
-        Todo:
-          description: Todo
+        EarningsRateID:
+          description: Xero identifier for payroll leave earnings rate	
           type: string
           format: uuid 
+        RatePerUnit:
+          description: Rate per unit for leave earnings line
+          type: number
+          format: float 
+        NumberOfUnits:
+          description: Leave earnings number of units
+          type: number
+          format: float 
+        FixedAmount:
+          description: Leave earnings fixed amount. Only applicable if the EarningsRate RateType is Fixed	
+          type: number
+          format: float 
+        Amount:
+          description: The amount of the earnings line.	
+          type: number
+          format: float 
+        IsLinkedToTimesheet:
+          description: Identifies if the leave earnings is taken from the timesheet. False for leave earnings line
+          type: boolean
     TimesheetEarningsLines:
       type: array
       items:
         $ref: '#/components/schemas/TimesheetEarningsLine'
     TimesheetEarningsLine:
       type: object
-      required:
-        - Todo
       properties:
-        Todo:
-          description: Todo
+        EarningsRateID:
+          description: Xero identifier for payroll timesheet earnings rate	
           type: string
           format: uuid 
+        RatePerUnit:
+          description: Rate per unit for timesheet earnings line
+          type: number
+          format: float 
+        NumberOfUnits:
+          description: Timesheet earnings number of units
+          type: number
+          format: float 
+        FixedAmount:
+          description: Timesheet earnings fixed amount. Only applicable if the EarningsRate RateType is Fixed	
+          type: number
+          format: float 
+        Amount:
+          description: The amount of the timesheet earnings line.	
+          type: number
+          format: float 
+        IsLinkedToTimesheet:
+          description: Identifies if the timesheet earnings is taken from the timesheet. False for leave earnings line
+          type: boolean
     DeductionLines:
       type: array
       items:
         $ref: '#/components/schemas/DeductionLine'
     DeductionLine:
       type: object
-      required:
-        - Todo
       properties:
-        Todo:
-          description: Todo
+        DeductionTypeID:
+          description: Xero identifier for payroll deduction
           type: string
           format: uuid 
+        Amount:
+          description: The amount of the deduction line	
+          type: number
+          format: float 
+        SubjectToTax:
+          description: Identifies if the deduction is subject to tax
+          type: boolean
+        Percentage:
+          description: Deduction rate percentage
+          type: number
+          format: float 
     ReimbursementLines:
       type: array
       items:
         $ref: '#/components/schemas/ReimbursementLine'
     ReimbursementLine:
       type: object
-      required:
-        - Todo
       properties:
-        Todo:
-          description: Todo
+        ReimbursementTypeID:
+          description: Xero identifier for payroll reimbursement	
           type: string
-          format: uuid 
+          format: uuid
+        Description:
+          description: Reimbursement line description	
+          type: string
+        Amount:
+          description: Reimbursement amount
+          type: number
+          format: float
     LeaveAccrualLines:
       type: array
       items:
         $ref: '#/components/schemas/LeaveAccrualLine'
     LeaveAccrualLine:
       type: object
-      required:
-        - Todo
       properties:
-        Todo:
-          description: Todo
+        LeaveTypeID:
+          description: Xero identifier for the Leave type	
           type: string
           format: uuid 
+        NumberOfUnits:
+          description: Leave accrual number of units
+          type: number
+          format: float 
     BenefitLines:
       type: array
       items:
         $ref: '#/components/schemas/BenefitLine'
     BenefitLine:
       type: object
-      required:
-        - Todo
       properties:
-        Todo:
-          description: Todo
+        BenefitTypeID:
+          description: Xero identifier for payroll benefit type	
           type: string
           format: uuid 
+        DisplayName:
+          description: Benefit display name
+          type: string 
+        Amount:
+          description: The amount of the benefit line.	
+          type: number
+          format: float 
+        FixedAmount:
+          description: Benefit fixed amount	
+          type: number
+          format: float 
+        Percentage:
+          description: Benefit rate percentage
+          type: number
+          format: float 
     PaymentLines:
       type: array
       items:
         $ref: '#/components/schemas/PaymentLine'
     PaymentLine:
       type: object
-      required:
-        - Todo
       properties:
-        Todo:
-          description: Todo
+        PaymentLineID:
+          description: Xero identifier for payroll payment line
           type: string
           format: uuid 
+        Amount:
+          description: The amount of the payment line
+          type: number
+          format: float 
+        AccountNumber:
+          description: The account number	
+          type: string
+        SortCode:
+          description: The account sort code
+          type: string 
+        AccountName:
+          description: The account name
+          type: string
     TaxLines:
       type: array
       items:
         $ref: '#/components/schemas/TaxLine'
     TaxLine:
       type: object
-      required:
-        - Todo
       properties:
-        Todo:
-          description: Todo
+        TaxLineID:
+          description: Xero identifier for payroll tax line	
           type: string
-          format: uuid 
+          format: uuid
+        Description:
+          description: Tax line description	
+          type: string
+        IsEmployerTax:
+          description: Identifies if the amount is paid for by the employee or employer. True if employer pays the tax
+          type: boolean
+        Amount:
+          description: The amount of the tax line
+          type: number
+          format: float 
     CourtOrderLines:
       type: array
       items:
         $ref: '#/components/schemas/CourtOrderLine'
     CourtOrderLine:
       type: object
-      required:
-        - Todo
       properties:
-        Todo:
-          description: Todo
+        CourtOrderTypeID:
+          description: Xero identifier for payroll court order type	
           type: string
           format: uuid 
+        Amount:
+          description: Amount
+          type: number
+          format: float 
     Settings:
-      type: object
-      required:
-        - Todo
-      properties:
-        Todo:
-          description: Todo
-          type: string
-          format: uuid 
+        $ref: '#/components/schemas/Accounts'
     Accounts:
       type: array
       items:
         $ref: '#/components/schemas/Account'
     Account:
       type: object
-      required:
-        - Todo
       properties:
-        Todo:
-          description: Todo
+        AccountID:
+          description: The Xero identifier for Settings.
           type: string
           format: uuid 
+        Type:
+          description: The assigned AccountType
+          type: string
+          format: enum
+            - WagesPayable
+            - WagesExpenses
+            - Bank
+        Code:
+          description: A unique 3 digit number for each Account	
+          type: string
+        Name:
+          description: Name of the Account.
+          type: string
     Address:
       type: object
       required:
@@ -2911,18 +3498,27 @@ components:
     BankAccount:
       type: object
       required:
-        - Todo
+        - AccountName
+        - AccountNumber
+        - SortCode
       properties:
-        Todo:
-          description: Todo
+        AccountName:
+          description: Bank account name (max length = 32)	
           type: string
-          format: uuid 
+        AccountNumber:
+          description: Bank account number (digits only; max length = 8)	
+          type: string
+        SortCode:
+          description: Bank account sort code (6 digits)
+          type: string
     TrackingCategories:
       type: object
-      required:
-        - Todo
       properties:
-        Todo:
-          description: Todo
+        EmployeeGroupsTrackingCategoryID:
+          description: The Xero identifier for Employee groups tracking category.	
+          type: string
+          format: uuid
+        TimesheetTrackingCategoryID:
+          description: The Xero identifier for Timesheet tracking category.	
           type: string
           format: uuid
