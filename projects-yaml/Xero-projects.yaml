@@ -48,7 +48,7 @@ paths:
           required: false
           description: Filter for projects in a particular state (INPROGRESS or CLOSED)
           schema: 
-            $ref: '#/components/schemas/Projects'
+            type: string
         - name: page
           in: query
           required: false
@@ -578,6 +578,65 @@ paths:
   /projects/{projectId}/tasks/{taskId}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
+    get:
+      security:
+        - OAuth2: [projects, projects.read]
+      tags:
+        - Projects
+      summary: Allows you to retrieve a single project
+      operationId: getTask
+      description: Allows you to retrieve a specific project
+      parameters:
+        - name: projectId
+          in: path
+          required: true
+          description: You can specify an individual project by appending the projectId to the endpoint
+          schema:
+            type: string
+            format: uuid
+        - name: taskId
+          in: path
+          required: true
+          description: "You can specify an individual task by appending the taskId to the endpoint, i.e. GET https://.../tasks/{taskId}" 
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK/success, returns a list of task objects
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+              example: '{
+                          "name": "Demolition",
+                          "rate": {
+                            "currency": "AUD",
+                            "value": 20
+                          },
+                          "chargeType": "TIME",
+                          "status": "ACTIVE",
+                          "estimateMinutes": 12000,
+                          "taskId": "7be77337-feec-4458-bb1b-dbaa5a4aafce",
+                          "projectId": "b021e7cb-1903-4292-b48b-5b27b4271e3e",
+                          "totalMinutes": 300,
+                          "totalAmount": {
+                            "currency": "AUD",
+                            "value": 100
+                          },
+                          "minutesToBeInvoiced": 300,
+                          "minutesInvoiced": 0,
+                          "nonChargeableMinutes": 0,
+                          "fixedMinutes": 0,
+                          "amountToBeInvoiced": {
+                            "currency": "AUD",
+                            "value": 100
+                          },
+                          "amountInvoiced": {
+                            "currency": "AUD",
+                            "value": 0
+                          }
+                        }'
     # put:
     #   security:
     #     - OAuth2: [projects, projects.read]
@@ -701,8 +760,10 @@ paths:
         - name: states
           in: query
           description: "Comma-separated list of states to find. Will find all time entries that are in the status of whatever’s specified.	"  
-          schema:
-            type: string
+          schema: 
+            type: array
+            items:
+              type: string
         - name: isChargeable
           in: query
           description: "Finds all time entries which relate to tasks with the charge type `TIME` or `FIXED`."
@@ -1438,7 +1499,10 @@ components:
           description: The date time that time entry is created. UTC Date Time in ISO-8601 format. By default it is set to server time.
         duration:
           type: integer
-          description: The duration of logged minutes.	description	A description of the time entry.
+          description: The duration of logged minutes.
+        description:
+          type: string
+          description: A description of the time entry.
         status:
           type: string
           enum:
