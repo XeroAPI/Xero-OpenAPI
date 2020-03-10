@@ -22,7 +22,7 @@ paths:
       security:
         - OAuth2: [projects, projects.read]
       tags:
-        - Projects
+        - Project
       summary: list all projects
       operationId: getProjects
       description: Allows you to retrieve, create and update projects.
@@ -152,7 +152,7 @@ paths:
       security: 
         - OAuth2: [projects.create]
       tags:
-        - Projects
+        - Project
       summary: create one or more new projects
       operationId: createProject
       requestBody:
@@ -247,7 +247,7 @@ paths:
       security:
         - OAuth2: [projects, projects.read]
       tags:
-        - Projects
+        - Project
       summary: Allows you to retrieve a single project
       operationId: getProject
       description: Allows you to retrieve a specific project
@@ -334,7 +334,7 @@ paths:
       security: 
         - OAuth2: [projects.create]
       tags:
-        - Projects
+        - Project
       summary: update a specific project
       operationId: updateProject
       description: Allows you to update a specific projects.
@@ -369,7 +369,7 @@ paths:
       security: 
         - OAuth2: [projects.create]
       tags:
-        - Projects
+        - Project
       summary: creates a project for the specified contact
       operationId: patchProject
       description: Allows you to update a specific projects.
@@ -405,7 +405,7 @@ paths:
       security:
         - OAuth2: [projects.read]
       tags:
-        - Projects
+        - Project
       summary: list all project users
       operationId: getProjectUsers
       description: Allows you to retrieve the users on a projects.
@@ -464,7 +464,7 @@ paths:
       security:
         - OAuth2: [projects, projects.read]
       tags:
-        - Projects
+        - Project
       summary: Allows you to retrieve a single project
       operationId: getTasks
       description: Allows you to retrieve a specific project
@@ -545,7 +545,7 @@ paths:
     #   security:
     #     - OAuth2: [projects, projects.read]
     #   tags:
-    #     - Projects
+    #     - Project
     #   summary: Allows you to create a task
     #   operationId: createTask
     #   description: Allows you to create a specific task
@@ -582,7 +582,7 @@ paths:
       security:
         - OAuth2: [projects, projects.read]
       tags:
-        - Projects
+        - Project
       summary: Allows you to retrieve a single project
       operationId: getTask
       description: Allows you to retrieve a specific project
@@ -641,7 +641,7 @@ paths:
     #   security:
     #     - OAuth2: [projects, projects.read]
     #   tags:
-    #     - Projects
+    #     - Project
     #   summary: Allows you to update a task
     #   operationId: updateTask
     #   description: Allows you to update a specific task
@@ -679,7 +679,7 @@ paths:
     #   security:
     #     - OAuth2: [projects, projects.read]
     #   tags:
-    #     - Projects
+    #     - Project
     #   summary: Allows you to delete a task
     #   operationId: deleteTask
     #   description: Allows you to delete a specific task
@@ -709,7 +709,7 @@ paths:
       security:
         - OAuth2: [projects, projects.read]
       tags:
-        - Projects
+        - Project
       summary: Allows you to retrieve the time entries associated with a specific project
       operationId: getTimeEntries
       description: Allows you to retrieve the time entries associated with a specific project
@@ -824,7 +824,7 @@ paths:
       security:
         - OAuth2: [projects, projects.read]
       tags:
-        - Projects
+        - Project
       summary: Allows you to create a task
       operationId: createTimeEntry
       description: Allows you to create a specific task
@@ -875,7 +875,7 @@ paths:
       security:
         - OAuth2: [projects, projects.read]
       tags:
-        - Projects
+        - Project
       summary: Allows you to get a single time entry in a project
       operationId: getTimeEntry
       description: Allows you to upget a single time entry in a project
@@ -916,7 +916,7 @@ paths:
       security:
         - OAuth2: [projects, projects.read]
       tags:
-        - Projects
+        - Project
       summary: Allows you to update time entry in a project
       operationId: updateTimeEntry
       description: Allows you to update time entry in a project
@@ -957,7 +957,7 @@ paths:
       security:
         - OAuth2: [projects, projects.read]
       tags:
-        - Projects
+        - Project
       summary: Allows you to delete a time entry
       operationId: deleteTimeEntry
       description: Allows you to delete a specific time entry
@@ -981,6 +981,20 @@ paths:
           description: Success - return response 204 no content
           x-isEmpty: true
 components:
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      description: For more information
+      flows: 
+        authorizationCode:
+          authorizationUrl: 'https://login.xero.com/identity/connect/authorize'
+          tokenUrl: 'https://identity.xero.com/connect/token'
+          scopes:
+            email: Grant read-only access to your email
+            openid: Grant read-only access to your open id
+            profile: your profile information
+            projects: Grant read-write access to projects
+            projects.read: Grant read-only access to projects
   parameters:
     requiredHeader: 
       in: header
