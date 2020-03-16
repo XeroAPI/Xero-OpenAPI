@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: '2.0.4'
+  version: '2.0.5'
   title: 'Xero Payroll AU'
   description: 'This is the Xero Payroll API for orgs in Australia region.'
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
@@ -13,7 +13,7 @@ info:
     url: 'https://github.com/XeroAPI/Xero-OpenAPI/blob/master/LICENSE'
 servers:
   - description: Xero Payroll AU API
-    url: https://api.xero.com/payroll.xro/1.0/
+    url: https://api.xero.com/payroll.xro/1.0
 tags:
   - name: PayrollAU
     description: Operations available to regular developers
@@ -1002,20 +1002,19 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PayrollCalendars'
-              example: '{ 
-                          "Id":"b82449fa-ce79-4b4f-8324-7a2e08e80b66",
+              example: '{
+                          "Id":"113db83f-1769-4352-a097-7ac5c333aa40",
                           "Status":"OK",
                           "ProviderName":"java-sdk-oauth2-dev-02",
-                          "DateTimeUTC":"\/Date(1573611063755)\/",
-                          "PayRuns":[ 
-                              { 
-                                "PayRunID":"31a11153-642b-4c65-b110-9b92b3cd79e1",
-                                "PayrollCalendarID":"78bb86b9-e1ea-47ac-b75d-f087a81931de",
-                                "PayRunPeriodStartDate":"\/Date(1572566400000+0000)\/",
-                                "PayRunPeriodEndDate":"\/Date(1573084800000+0000)\/",
-                                "PaymentDate":"\/Date(1573171200000+0000)\/",
-                                "PayRunStatus":"DRAFT",
-                                "UpdatedDateUTC":"\/Date(1573611063724+0000)\/"
+                          "DateTimeUTC":"\/Date(1584125518649)\/",
+                          "PayrollCalendars":[
+                              {
+                                "PayrollCalendarID":"57accbfe-f729-4be3-b3cb-8c3445c61d3a",
+                                "Name":"MyCal37127",
+                                "CalendarType":"WEEKLY",
+                                "StartDate":"\/Date(1572998400000+0000)\/",
+                                "PaymentDate":"\/Date(1573516800000+0000)\/",
+                                "UpdatedDateUTC":"\/Date(1584125518633+0000)\/"
                               }
                           ]
                         }'
@@ -1562,7 +1561,7 @@ paths:
         - OAuth2: [payroll.superfunds.read]
       tags:
         - PayrollAU
-      operationId: getSuperFunds
+      operationId: getSuperfunds
       summary: searches SuperFunds
       parameters:
         - in: header
@@ -1782,8 +1781,8 @@ paths:
         - OAuth2: [payroll.superfundproducts.read]
       tags:
         - PayrollAU
-      operationId: getSuperFundProducts
-      summary: searches SuperFundProducts
+      operationId: getSuperfundProducts
+      summary: searches SuperfundProducts
       parameters:
         - in: query
           name: ABN
@@ -2236,14 +2235,14 @@ components:
         DateOfBirth:
           description: Date of birth of the employee (YYYY-MM-DD)
           type: string
-          example: '/Date(322560000000+0000)/'   
           x-is-msdate: true
-          x-java-format: LocalDate
+          example: '/Date(322560000000+0000)/'   
         HomeAddress:
           $ref: '#/components/schemas/HomeAddress'
         StartDate:
           description: Start date for an employee (YYYY-MM-DD)
           type: string
+          x-is-msdate: true
           example: '/Date(320284900000+0000)/'
         Title:
           description: Title of the employee
@@ -2316,19 +2315,26 @@ components:
         TerminationDate:
           description: Employee Termination Date (YYYY-MM-DD)
           type: string
-          example: 2019-01-01
+          x-is-msdate: true
+          example: '/Date(1584662400000+0000)/'
         BankAccounts:
           type: array
           items:
             $ref: '#/components/schemas/BankAccount'
         PayTemplate:
-            $ref: '#/components/schemas/PayTemplate'
+          $ref: '#/components/schemas/PayTemplate'
         OpeningBalances:
-            $ref: '#/components/schemas/OpeningBalances'
+          $ref: '#/components/schemas/OpeningBalances'
+        TaxDeclaration: 
+          $ref: '#/components/schemas/TaxDeclaration'
         LeaveBalances:
           type: array
           items:
             $ref: '#/components/schemas/LeaveBalance'
+        LeaveLines:
+          type: array
+          items:
+            $ref: '#/components/schemas/LeaveLine'
         SuperMemberships:
           type: array
           items:
@@ -2338,7 +2344,9 @@ components:
         UpdatedDateUTC:
           description: Last modified timestamp
           type: string
-          example: 2018-04-01T23:02:36
+          readOnly: true
+          x-is-msdate-time: true
+          example: '/Date(1583967733054+0000)/'
     LeaveApplications:
       type: object
       properties:
@@ -2371,11 +2379,13 @@ components:
         StartDate:
           description: Start date of the leave (YYYY-MM-DD)
           type: string
-          example: '/Date(320284900000+0000)/'
+          x-is-msdate: true
+          example: '/Date(322560000000+0000)/'   
         EndDate:
           description: End date of the leave (YYYY-MM-DD)
           type: string
-          example: '/Date(320284900000+0000)/'
+          x-is-msdate: true
+          example: '/Date(322560000000+0000)/'   
         Description:
           description: The Description of the Leave
           type: string
@@ -2384,6 +2394,12 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LeavePeriod'
+        UpdatedDateUTC:
+          description: Last modified timestamp
+          type: string
+          readOnly: true
+          x-is-msdate-time: true
+          example: '/Date(1583967733054+0000)/'
     LeavePeriod:
       type: object
       properties:
@@ -2395,11 +2411,13 @@ components:
         PayPeriodEndDate:
           description: The Pay Period End Date (YYYY-MM-DD)
           type: string
-          example: 2013-05-12T00:00:00
+          x-is-msdate: true
+          example: '/Date(322560000000+0000)/'   
         PayPeriodStartDate:
           description: The Pay Period Start Date (YYYY-MM-DD)
           type: string
-          example: 2013-04-29T00:00:00
+          x-is-msdate: true
+          example: '/Date(322560000000+0000)/'   
         LeavePeriodStatus:
           $ref: '#/components/schemas/LeavePeriodStatus'
     LeavePeriodStatus:
@@ -2450,16 +2468,24 @@ components:
         StartDate:
           description: The start date of the upcoming pay period. The end date will be calculated based upon this date, and the calendar type selected (YYYY-MM-DD)
           type: string
-          example: 2012-08-17T00:00:00Z
+          x-is-msdate: true
+          example: '/Date(322560000000+0000)/'   
         PaymentDate:
           description: The date on which employees will be paid for the upcoming pay period (YYYY-MM-DD)
           type: string
-          example: 2012-08-17T00:00:00Z
+          x-is-msdate: true
+          example: '/Date(322560000000+0000)/'   
         PayrollCalendarID:
           description: Xero identifier
           type: string
           format: uuid
           example: e0eb6747-7c17-4075-b804-989f8d4e5d39
+        UpdatedDateUTC:
+          description: Last modified timestamp
+          type: string
+          readOnly: true
+          x-is-msdate-time: true
+          example: '/Date(1583967733054+0000)/'
     Timesheets:
       type: object
       properties:
@@ -2487,11 +2513,13 @@ components:
         StartDate:
           description: Period start date (YYYY-MM-DD)
           type: string
-          example: 2013-02-01T00:00:00Z
+          x-is-msdate: true
+          example: '/Date(322560000000+0000)/'   
         EndDate:
           description: Period end date (YYYY-MM-DD)
           type: string
-          example: 2013-02-07T00:00:00Z
+          x-is-msdate: true
+          example: '/Date(322560000000+0000)/'   
         Status:
           $ref: '#/components/schemas/TimesheetStatus'
         Hours:
@@ -2506,6 +2534,12 @@ components:
           example: 049765fc-4506-48fb-bf88-3578dec0ec47
         TimesheetLines:
           $ref: '#/components/schemas/TimesheetLines'
+        UpdatedDateUTC:
+          description: Last modified timestamp
+          type: string
+          readOnly: true
+          x-is-msdate-time: true
+          example: '/Date(1583967733054+0000)/'
     TimesheetLines:
       type: array
       items:
@@ -2534,7 +2568,9 @@ components:
         UpdatedDateUTC:
           description: Last modified timestamp
           type: string
-          example: 2018-04-01T23:02:36
+          readOnly: true
+          x-is-msdate-time: true
+          example: '/Date(1583967733054+0000)/'
     PayRuns:
       type: object
       properties:
@@ -2560,17 +2596,20 @@ components:
         PayRunPeriodStartDate:
           description: Period Start Date for the PayRun (YYYY-MM-DD)  
           type: string
-          example: 2013-02-01T00:00:00Z
+          x-is-msdate: true
+          example: '/Date(322560000000+0000)/'   
         PayRunPeriodEndDate:
           description: Period End Date for the PayRun (YYYY-MM-DD)  
           type: string
-          example: 2013-02-07T00:00:00Z
+          x-is-msdate: true
+          example: '/Date(322560000000+0000)/'   
         PayRunStatus:
           $ref: '#/components/schemas/PayRunStatus'
         PaymentDate:
           description: Payment Date for the PayRun (YYYY-MM-DD)  
           type: string
-          example: 2013-02-07T00:00:00Z
+          x-is-msdate: true
+          example: '/Date(322560000000+0000)/'   
         PayslipMessage:
           description: Payslip message for the PayRun
           type: string
@@ -2578,7 +2617,9 @@ components:
         UpdatedDateUTC:
           description: Last modified timestamp
           type: string
-          example: 2018-04-01T23:02:36
+          readOnly: true
+          x-is-msdate-time: true
+          example: '/Date(1583967733054+0000)/'
         Payslips:
           description: The payslips in the payrun
           type: array
@@ -2604,7 +2645,7 @@ components:
           type: number
           format: float
           example: 75.6
-        Reimbursements:
+        Reimbursement:
           description: The total Reimbursements for the Payrun
           type: number
           format: float
@@ -2619,6 +2660,7 @@ components:
       properties:
         EmployeeID:
           description: The Xero identifier for an employee
+          type: string
           format: uuid
           example: 4729f087-8eec-49c1-8294-4d11a5a0a37c
         PayslipID:
@@ -2634,6 +2676,10 @@ components:
           description: Last name of employee
           type: string
           example: Jones
+        EmployeeGroup:
+          description: Employee group name
+          type: string
+          example: Marketing
         Wages:
           description: The Wages for the Payslip
           type: number
@@ -2667,7 +2713,9 @@ components:
         UpdatedDateUTC:
           description: Last modified timestamp
           type: string
-          example: 2018-04-01T23:02:36
+          readOnly: true
+          x-is-msdate-time: true
+          example: '/Date(1583967733054+0000)/'
     PayslipObject:
       type: object
       properties:
@@ -2678,10 +2726,12 @@ components:
       properties:
         EmployeeID:
           description: The Xero identifier for an employee
+          type: string
           format: uuid
           example: 4729f087-8eec-49c1-8294-4d11a5a0a37c
         PayslipID:
           description: Xero identifier for the payslip  
+          type: string
           format: uuid
           example: f3c0874d-7cdd-459a-a95c-d90d51decc42
         FirstName:
@@ -2757,7 +2807,9 @@ components:
         UpdatedDateUTC:
           description: Last modified timestamp
           type: string
-          example: 2018-04-01T23:02:36
+          readOnly: true
+          x-is-msdate-time: true
+          example: '/Date(1583967733054+0000)/'
     LeaveAccrualLine:
       type: object
       properties:
@@ -2803,7 +2855,8 @@ components:
         PaymentDateForThisPeriod:
           description:   Superannuation payment date for the current period (YYYY-MM-DD)
           type: string
-          example: 2019-10-01
+          x-is-msdate: true
+          example: '/Date(322560000000+0000)/'   
         Percentage:
           description: Superannuation percentage  
           type: number
@@ -2817,6 +2870,11 @@ components:
     TaxLine:
       type: object
       properties:
+        PayslipTaxLineID:
+          description:   Xero identifier for payslip tax line ID.
+          type: string
+          format: uuid
+          example: e0eb6747-7c17-4075-b804-989f8d4e5d39
         Amount:
           description: The tax line amount
           type: number
@@ -2896,7 +2954,8 @@ components:
                   type: string
         DaysInPayrollYear:
           description: Number of days in the Payroll year
-          type: number
+          type: integer
+          format: int32
           example: 365
     SuperFunds:
       type: object
@@ -2953,6 +3012,12 @@ components:
           description: The USI of the Regulated SuperFund
           type: string
           example: 40022701955001
+        UpdatedDateUTC:
+          description: Last modified timestamp
+          type: string
+          readOnly: true
+          x-is-msdate-time: true
+          example: '/Date(1583967733054+0000)/'
     SuperFundProducts:
       type: object
       properties:
@@ -2965,19 +3030,19 @@ components:
       properties:
         ABN:
           description: The ABN of the Regulated SuperFund
-          format: string
+          type: string
           example: 839182848805
         USI:
           description: The USI of the Regulated SuperFund  
-          format: string
+          type: string
           example: 839182848805001
         SPIN:
           description: The SPIN of the Regulated SuperFund. This field has been deprecated. New superfunds will not have a SPIN value. The USI field should be used instead of SPIN
-          format: string
+          type: string
           example: NML0117AU
         ProductName:
           description: The name of the Regulated SuperFund
-          format: string
+          type: string
           example: MLC Navigator Retirement Plan - Superannuation Service (including Series 2) (MLC Superannuation Fund)
     Account:
       type: object
@@ -3059,7 +3124,13 @@ components:
         UpdatedDateUTC:
           description: Last modified timestamp
           type: string
-          example: 2018-04-01T23:02:36
+          readOnly: true
+          x-is-msdate-time: true
+          example: '/Date(1583967733054+0000)/'
+        CurrentRecord:
+          description: Is the current record
+          type: boolean
+          example: true
     DeductionType:
       type: object
       properties:
@@ -3092,8 +3163,19 @@ components:
         UpdatedDateUTC:
           description: Last modified timestamp
           type: string
-          example: 2018-04-01T23:02:36
           readOnly: true
+          x-is-msdate-time: true
+          example: '/Date(1583967733054+0000)/'
+        DeductionCategory:
+          type: string
+          enum:
+            - NONE
+            - UNIONFEES
+            - WORKPLACEGIVING
+        CurrentRecord:
+          description: Is the current record
+          type: boolean
+          example: true
     LeaveType:
       type: object
       properties:
@@ -3106,6 +3188,25 @@ components:
           description: The type of units by which leave entitlements are normally tracked. These are typically the same as the type of units used for the employee’s ordinary earnings rate
           type: string
           example: Hours
+        LeaveTypeID:
+          description: Xero identifier
+          type: string
+          format: uuid
+          example: e0eb6747-7c17-4075-b804-989f8d4e5d39
+        NormalEntitlement:
+          description: The number of units the employee is entitled to each year
+          type: integer
+          example: 152
+        LeaveLoadingRate:
+          description: Enter an amount here if your organisation pays an additional percentage on top of ordinary earnings when your employees take leave (typically 17.5%)
+          type: integer
+          example: 12
+        UpdatedDateUTC:
+          description: Last modified timestamp
+          type: string
+          readOnly: true
+          x-is-msdate-time: true
+          example: '/Date(1583967733054+0000)/'
         IsPaidLeave:
           description: Set this to indicate that an employee will be paid when taking this type of leave
           type: boolean
@@ -3114,26 +3215,10 @@ components:
           description: Set this if you want a balance for this leave type to be shown on your employee’s payslips
           type: boolean
           example: true
-        LeaveTypeID:
-          description: Xero identifier
-          type: string
-          format: uuid
-          example: e0eb6747-7c17-4075-b804-989f8d4e5d39
-        NormalEntitlement:
-          description: The number of units the employee is entitled to each year
-          type: number
-          format: float
-          example: 152.0000
-        LeaveLoadingRate:
-          description: Enter an amount here if your organisation pays an additional percentage on top of ordinary earnings when your employees take leave (typically 17.5%)
-          type: number
-          format: float
-          example: 12.0000
-        UpdatedDateUTC:
-          description: Last modified timestamp
-          type: string
-          example: 2018-04-01T23:02:36
-          readOnly: true
+        CurrentRecord:
+          description: Is the current record
+          type: boolean
+          example: true
     ReimbursementType:
       type: object
       properties:
@@ -3154,7 +3239,13 @@ components:
         UpdatedDateUTC:
           description: Last modified timestamp
           type: string
-          example: 2018-04-01T23:02:36
+          readOnly: true
+          x-is-msdate-time: true
+          example: '/Date(1583967733054+0000)/'
+        CurrentRecord:
+          description: Is the current record
+          type: boolean
+          example: true
     HomeAddress:
       required:
         - AddressLine1
@@ -3241,6 +3332,16 @@ components:
           type: number
           format: int
           example: 75
+        HasStudentStartupLoan:
+          description: If the employee is eligible for student startup loan rules
+          type: boolean
+          example: true
+        UpdatedDateUTC:
+          description: Last modified timestamp
+          type: string
+          readOnly: true
+          x-is-msdate-time: true
+          example: '/Date(1583967733054+0000)/'
       type: object
     BankAccount:
       type: object
@@ -3451,9 +3552,7 @@ components:
           format: uuid
           example: 742998cb-7584-4ecf-aa88-d694f59c50f9
         CalculationType:
-          description: Calculation type for leave line ???
-          type: string
-          example: FIXEDAMOUNTEACHPERIOD
+          $ref: '#/components/schemas/LeaveLineCalculationType'
         EntitlementFinalPayPayoutType:
           $ref: '#/components/schemas/EntitlementFinalPayPayoutType'
         EmploymentTerminationPaymentType:
@@ -3473,7 +3572,8 @@ components:
         OpeningBalanceDate:
           description: Opening Balance Date. (YYYY-MM-DD)
           type: string
-          example: 
+          x-is-msdate: true
+          example: '/Date(322560000000+0000)/'   
         Tax:
           description: Opening Balance tax
           type: string
@@ -3522,8 +3622,8 @@ components:
       type: string
       enum:
       - FIXEDAMOUNT    
-      - MULTIPLE  Multiple of Employee’s Ordinary Earnings Rate - an earnings rate which is derived from an employee’s ordinary earnings rate  
-      - RATEPERUNIT  An earnings rate allowing entry of a rate per unit
+      - MULTIPLE  #Multiple of Employee’s Ordinary Earnings Rate - an earnings rate which is derived from an employee’s ordinary earnings rate  
+      - RATEPERUNIT  #An earnings rate allowing entry of a rate per unit
     EarningsType: 
       type: string
       enum:
@@ -3559,6 +3659,13 @@ components:
       - FIXEDAMOUNT  
       - PRETAX  
       - POSTTAX
+    LeaveLineCalculationType: 
+      description: Calculation type for leave line for Opening Balance on Employee
+      type: string
+      enum:
+      - NOCALCULATIONREQUIRED  
+      - FIXEDAMOUNTEACHPERIOD
+      - ""
     SuperannuationContributionType: 
       type: string
       enum:
