@@ -32,17 +32,14 @@ paths:
           in: query
           description: Required when retrieving a collection of assets. See Asset Status Codes
           schema: 
-            type: string
-            enum: 
-            - DRAFT
-            - REGISTERED
-            - DISPOSED
-            example: Draft
+            $ref: '#/components/schemas/AssetStatus'
           required: true
         - name: page
           in: query
           description: Results are paged. This specifies which page of the results to return. The default page is 1.
           schema: 
+        example: Resu
+
             type: integer
             example: 1
         - name: pageSize
@@ -118,7 +115,7 @@ paths:
                               "purchaseDate":"2020-01-01T00:00:00",
                               "purchasePrice":100.0000,
                               "disposalPrice":0.0,
-                              "assetStatus":"Draft",
+                              "assetStatus":"DRAFT",
                               "trackingItems":[ 
                             ],
                             "bookDepreciationSetting":{ 
@@ -154,7 +151,7 @@ paths:
                             "purchaseDate":"2020-01-01T00:00:00",
                             "purchasePrice":100.0000,
                             "disposalPrice":0.0,
-                            "assetStatus":"Draft",
+                            "assetStatus":"DRAFT",
                             "trackingItems":[ 
 
                             ],
@@ -211,7 +208,7 @@ paths:
                           "purchaseDate":"2020-01-01T00:00:00",
                           "purchasePrice":100.0000,
                           "disposalPrice":23.2300,
-                          "assetStatus":"Draft",
+                          "assetStatus":"DRAFT",
                           "trackingItems":[],
                           "bookDepreciationSetting":{ 
                             "depreciableObjectId":"2257c64a-77ca-444c-a5ea-fa9a588c7039",
@@ -269,7 +266,7 @@ paths:
                         "purchaseDate":"2020-01-01",
                         "purchasePrice":100.0,
                         "disposalPrice":23.23,
-                        "assetStatus":"Draft",
+                        "assetStatus":"DRAFT",
                         "bookDepreciationSetting":{ 
                           "depreciationMethod":"StraightLine",
                           "averagingMethod":"ActualDays",
@@ -322,7 +319,7 @@ paths:
                           "purchaseDate":"2020-01-01T00:00:00",
                           "purchasePrice":100.0000,
                           "disposalPrice":23.0000,
-                          "assetStatus":"Draft",
+                          "assetStatus":"DRAFT",
                           "trackingItems":[ 
 
                           ],
@@ -651,9 +648,9 @@ components:
           description: "See Asset Status Codes."
           example: "Draft"
           enum:
-          - Draft  
-          - Registered  
-          - Disposed
+          - DRAFT
+          - REGISTERED
+          - DISPOSED
         warrantyExpiryDate:
           type: string
           description: "The date the asset’s warranty expires (if needed) YYYY-MM-DD"
@@ -679,6 +676,13 @@ components:
           type: boolean
           description: "Boolean to indicate whether delete is enabled"
           example: true
+    AssetStatus:
+      type: string
+      enum:
+        - DRAFT
+        - REGISTERED
+        - DISPOSED
+      example: REGISTERED
     AssetType:
       type: object
       required:
