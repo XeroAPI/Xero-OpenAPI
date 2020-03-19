@@ -32,12 +32,7 @@ paths:
           in: query
           description: Required when retrieving a collection of assets. See Asset Status Codes
           schema: 
-            type: string
-            enum: 
-            - Draft
-            - Registered
-            - Disposed
-            example: Draft
+            $ref: '#/components/schemas/AssetStatus'
           required: true
         - name: page
           in: query
@@ -647,13 +642,7 @@ components:
           description: "The price the asset was disposed at"
           example: "1.0000"
         assetStatus:
-          type: string
-          description: "See Asset Status Codes."
-          example: "Draft"
-          enum:
-          - Draft  
-          - Registered  
-          - Disposed
+          $ref: '#/components/schemas/AssetStatus'
         warrantyExpiryDate:
           type: string
           description: "The date the asset’s warranty expires (if needed) YYYY-MM-DD"
@@ -679,6 +668,14 @@ components:
           type: boolean
           description: "Boolean to indicate whether delete is enabled"
           example: true
+    AssetStatus:
+      type: string
+      description: "See Asset Status Codes."
+      example: "DRAFT"
+      enum:
+        - DRAFT  
+        - REGISTERED  
+        - DISPOSED
     AssetType:
       type: object
       required:
