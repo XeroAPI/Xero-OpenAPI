@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Accounting API
-  version: "2.0.1"
+  version: "2.0.5"
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
   contact:
     name: "Xero Platform Team"
@@ -3811,7 +3811,7 @@ paths:
       tags:
         - Accounting
       operationId: getContactGroup
-      summary: Allows you to retrieve a unique Contract Group by ID
+      summary: Allows you to retrieve a unique Contact Group by ID
       parameters:
         - required: true
           in: path
@@ -3868,7 +3868,7 @@ paths:
       tags:
         - Accounting
       operationId: updateContactGroup
-      summary: Allows you to update a Contract Group
+      summary: Allows you to update a Contact Group
       parameters:
         - required: true
           in: path
@@ -3926,7 +3926,7 @@ paths:
       tags:
         - Accounting
       operationId: createContactGroupContacts
-      summary: Allows you to add Contacts to a Contract Group
+      summary: Allows you to add Contacts to a Contact Group
       parameters:
         - required: true
           in: path
@@ -3994,7 +3994,7 @@ paths:
       tags:
         - Accounting
       operationId: deleteContactGroupContacts
-      summary: Allows you to delete  all Contacts from a Contract Group
+      summary: Allows you to delete  all Contacts from a Contact Group
       parameters:
         - required: true
           in: path
@@ -4005,8 +4005,9 @@ paths:
             type: string
             format: uuid
       responses:
-        '200':
+        '204':
           description: Success - return response 204 no content
+          x-isEmpty: true
   '/ContactGroups/{ContactGroupID}/Contacts/{ContactID}':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -4017,7 +4018,7 @@ paths:
       tags:
         - Accounting
       operationId: deleteContactGroupContact
-      summary: Allows you to delete a specific Contact from a Contract Group
+      summary: Allows you to delete a specific Contact from a Contact Group
       parameters:
         - required: true
           in: path
@@ -4038,6 +4039,7 @@ paths:
       responses:
         '204':
           description: Success - return response 204 no content
+          x-isEmpty: true
         '400':
           $ref: '#/components/responses/400Error'
   /CreditNotes:
@@ -7424,6 +7426,7 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
       responses:
         '204':
           description: Success - return response 204 no content
+          x-isEmpty: true
         '400':
           $ref: '#/components/responses/400Error'
   '/Items/{ItemID}/History':
@@ -8003,6 +8006,7 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
       responses:
         '204':
           description: Success - return response 204 no content
+          x-isEmpty: true
         '400':
           $ref: '#/components/responses/400Error'
   /ManualJournals:
@@ -9717,79 +9721,75 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
             application/json:
               schema:
                 $ref: '#/components/schemas/Payments'
-              example: ' {
-                            "Id": "8e7c7ab6-fa43-4771-b490-e0deed46751f",
-                            "Status": "OK",
-                            "ProviderName": "Java Partner Example",
-                            "DateTimeUTC": "\/Date(1552432642081)\/",
-                            "Payments": [
-                              {
-                                "PaymentID": "38928000-e9a0-420c-8884-f624bab2a351",
-                                "Date": "\/Date(1552953600000+0000)\/",
-                                "BankAmount": 148062.76,
-                                "Amount": 148062.76,
-                                "Reference": "Yahoo",
+              example: '{
+                          "Id": "ee23328c-4a8b-4ee7-8fb6-9796ffab9cb0",
+                          "Status": "OK",
+                          "ProviderName": "java-sdk-oauth2-dev-02",
+                          "DateTimeUTC": "\/Date(1583945852489)\/",
+                          "Payments": [
+                            {
+                              "PaymentID": "c94c996b-1ab3-4ff3-ad19-1cdc77f30817",
+                              "Date": "\/Date(1567382400000+0000)\/",
+                              "BankAmount": 2.00,
+                              "Amount": 2.00,
+                              "Reference": "foobar",
+                              "CurrencyRate": 1.000000,
+                              "PaymentType": "APCREDITPAYMENT",
+                              "Status": "DELETED",
+                              "UpdatedDateUTC": "\/Date(1583945852373+0000)\/",
+                              "HasAccount": true,
+                              "IsReconciled": false,
+                              "Account": {
+                                "AccountID": "57f261f0-e32d-4a7f-be82-22cd992c6367",
+                                "Code": "033",
+                                "Name": "Checking account"
+                              },
+                              "Invoice": {
+                                "Type": "ACCPAYCREDIT",
+                                "InvoiceID": "dba68ebc-c05a-4e2d-b97d-964349e5b8d6",
+                                "InvoiceNumber": "",
+                                "Reference": "",
+                                "Prepayments": [],
+                                "Overpayments": [],
+                                "AmountDue": 22.00,
+                                "AmountPaid": 0.00,
+                                "SentToContact": false,
                                 "CurrencyRate": 1.000000,
-                                "PaymentType": "ACCRECPAYMENT",
-                                "Status": "DELETED",
-                                "UpdatedDateUTC": "\/Date(1552432641940+0000)\/",
-                                "HasAccount": true,
-                                "IsReconciled": false,
-                                "Account": {
-                                  "AccountID": "136ebd08-60ea-4592-8982-be92c153b53a",
-                                  "Code": "980",
-                                  "Name": "Owner A Drawings"
+                                "IsDiscounted": false,
+                                "HasErrors": false,
+                                "Contact": {
+                                  "ContactID": "216830cb-9a68-487e-928b-c1a7ccc4fc81",
+                                  "Name": "FooBar73005",
+                                  "ContactPersons": [],
+                                  "HasValidationErrors": false
                                 },
-                                "Invoice": {
-                                  "Type": "ACCREC",
-                                  "InvoiceID": "a03ffcd2-5d91-4c7e-b483-318584e9e439",
-                                  "InvoiceNumber": "INV-0006",
-                                  "Reference": "Tour",
-                                  "Prepayments": [],
-                                  "Overpayments": [],
-                                  "AmountDue": 148062.76,
-                                  "AmountPaid": 0.00,
-                                  "SentToContact": false,
-                                  "CurrencyRate": 1.000000,
-                                  "HasErrors": false,
-                                  "IsDiscounted": false,
-                                  "Contact": {
-                                    "ContactID": "430fa14a-f945-44d3-9f97-5df5e28441b8",
-                                    "Name": "Liam Gallagher",
-                                    "ContactPersons": [],
-                                    "HasValidationErrors": false
-                                  },
-                                  "DateString": "2019-03-07T00:00:00",
-                                  "Date": "\/Date(1551916800000+0000)\/",
-                                  "DueDateString": "2019-03-13T00:00:00",
-                                  "DueDate": "\/Date(1552435200000+0000)\/",
-                                  "Status": "AUTHORISED",
-                                  "LineAmountTypes": "Exclusive",
-                                  "LineItems": [
-                                    {
-                                      "ItemCode": "123",
-                                      "Description": "Guitars Fender Strat",
-                                      "UnitAmount": 148062.76,
-                                      "TaxType": "NONE",
-                                      "TaxAmount": 0.00,
-                                      "LineAmount": 148062.76,
-                                      "AccountCode": "200",
-                                      "Tracking": [],
-                                      "Quantity": 1.0000,
-                                      "LineItemID": "b18f39d9-7739-4246-9288-72afe939d2d5",
-                                      "ValidationErrors": []
-                                    }
-                                  ],
-                                  "SubTotal": 148062.76,
-                                  "TotalTax": 0.00,
-                                  "Total": 148062.76,
-                                  "UpdatedDateUTC": "\/Date(1552432641927+0000)\/",
-                                  "CurrencyCode": "NZD"
-                                },
-                                "HasValidationErrors": false
-                              }
-                            ]
-                          }'
+                                "DateString": "2017-01-02T00:00:00",
+                                "Date": "\/Date(1483315200000+0000)\/",
+                                "Status": "AUTHORISED",
+                                "LineAmountTypes": "Exclusive",
+                                "LineItems": [
+                                  {
+                                    "Description": "Sample Item72716",
+                                    "UnitAmount": 20.00,
+                                    "TaxType": "INPUT",
+                                    "TaxAmount": 2.00,
+                                    "LineAmount": 20.00,
+                                    "AccountCode": "400",
+                                    "Tracking": [],
+                                    "Quantity": 1.0000,
+                                    "ValidationErrors": []
+                                  }
+                                ],
+                                "SubTotal": 20.00,
+                                "TotalTax": 2.00,
+                                "Total": 22.00,
+                                "UpdatedDateUTC": "\/Date(1583945852363+0000)\/",
+                                "CurrencyCode": "AUD"
+                              },
+                              "HasValidationErrors": false
+                            }
+                          ]
+                        }'
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
@@ -9797,13 +9797,9 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
         content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Payments'
-              example: '{  
-                           payments:[  
-                              {  
-                                 status:"DELETED"
-                              }
-                           ]
+                $ref: '#/components/schemas/PaymentDelete'
+              example: '{ 
+                          status:"DELETED"
                         }'
   '/Payments/{PaymentID}/History':
     parameters:
@@ -11070,6 +11066,157 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
               schema:
                 $ref: '#/components/schemas/PurchaseOrders'
               example: '{ purchaseOrders:[ { attentionTo:"Peter Parker",lineItems: [],contact: {} } ] }'
+  '/PurchaseOrders/{PurchaseOrderNumber}':
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    x-related-model: PurchaseOrder
+    get:
+      security:
+        - OAuth2: [accounting.transactions.read]
+      tags:
+        - Accounting
+      operationId: getPurchaseOrderByNumber
+      summary: Allows you to retrieve a specified purchase orders
+      parameters:
+        - required: true
+          in: path
+          name: PurchaseOrderNumber
+          description: Unique identifier for a PurchaseOrder
+          example: "PO1234"
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success - return response of type PurchaseOrder array for specified PurchaseOrder          
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PurchaseOrders'
+              example: '{
+                          "Id": "53a8c7a5-92e8-475b-a037-acf7c55c3afd",
+                          "Status": "OK",
+                          "ProviderName": "Java Partner Example",
+                          "DateTimeUTC": "\/Date(1553626110950)\/",
+                          "PurchaseOrders": [
+                            {
+                              "PurchaseOrderID": "15369a9f-17b6-4235-83c4-0029256d1c37",
+                              "PurchaseOrderNumber": "PO-0006",
+                              "DateString": "2019-03-26T00:00:00",
+                              "Date": "\/Date(1553558400000+0000)\/",
+                              "DeliveryDateString": "2019-03-28T00:00:00",
+                              "DeliveryDate": "\/Date(1553731200000+0000)\/",
+                              "DeliveryAddress": "101 Grafton Road\nRoseneath\nWellington\n6011\nNew Zealand",
+                              "AttentionTo": "CEO",
+                              "Telephone": "64 123-2222",
+                              "DeliveryInstructions": "Drop off at front  door",
+                              "HasErrors": false,
+                              "IsDiscounted": true,
+                              "TotalDiscount": 250.00,
+                              "SentToContact": false,
+                              "Reference": "foobar",
+                              "Type": "PURCHASEORDER",
+                              "CurrencyRate": 1.000000,
+                              "CurrencyCode": "NZD",
+                              "Contact": {
+                                "ContactID": "430fa14a-f945-44d3-9f97-5df5e28441b8",
+                                "ContactStatus": "ACTIVE",
+                                "Name": "Liam Gallagher",
+                                "FirstName": "Liam",
+                                "LastName": "Gallagher",
+                                "EmailAddress": "liam@rockstar.com",
+                                "BankAccountDetails": "",
+                                "Addresses": [
+                                  null,
+                                  {
+                                    "AddressType": "POBOX",
+                                    "City": "Anytown",
+                                    "Region": "NY",
+                                    "PostalCode": "10101",
+                                    "Country": "USA",
+                                    "AttentionTo": ""
+                                  }
+                                ],
+                                "Phones": [
+                                  {
+                                    "PhoneType": "DEFAULT",
+                                    "PhoneNumber": "222-2222",
+                                    "PhoneAreaCode": "212",
+                                    "PhoneCountryCode": ""
+                                  },
+                                  null,
+                                  {
+                                    "PhoneType": "FAX",
+                                    "PhoneNumber": "333-2233",
+                                    "PhoneAreaCode": "212",
+                                    "PhoneCountryCode": ""
+                                  },
+                                  {
+                                    "PhoneType": "MOBILE",
+                                    "PhoneNumber": "444-3433",
+                                    "PhoneAreaCode": "212",
+                                    "PhoneCountryCode": ""
+                                  }
+                                ],
+                                "UpdatedDateUTC": "\/Date(1553672800957+0000)\/",
+                                "ContactGroups": [
+                                  {
+                                    "ContactGroupID": "17b44ed7-4389-4162-91cb-3dd5766e4e22",
+                                    "Name": "Oasis",
+                                    "Status": "ACTIVE",
+                                    "Contacts": [],
+                                    "HasValidationErrors": false
+                                  }
+                                ],
+                                "IsSupplier": true,
+                                "IsCustomer": true,
+                                "DefaultCurrency": "NZD",
+                                "SalesTrackingCategories": [],
+                                "PurchasesTrackingCategories": [],
+                                "ContactPersons": [],
+                                "HasValidationErrors": false
+                              },
+                              "BrandingThemeID": "414d4a87-46d6-4cfc-ab42-4e29d22e5076",
+                              "Status": "DRAFT",
+                              "LineAmountTypes": "Exclusive",
+                              "LineItems": [
+                                {
+                                  "ItemCode": "123",
+                                  "Description": "Brand new Fender Strats",
+                                  "UnitAmount": 2500.0000,
+                                  "TaxType": "INPUT2",
+                                  "TaxAmount": 337.50,
+                                  "LineAmount": 2250.00,
+                                  "AccountCode": "630",
+                                  "Tracking": [
+                                    {
+                                      "Name": "Simpsons",
+                                      "Option": "Homer",
+                                      "TrackingCategoryID": "6a68adde-f210-4465-b0a9-0d8cc6f50762",
+                                      "TrackingOptionID": "94faf12f-f65c-4331-8004-b0b7c5a2da23"
+                                    }
+                                  ],
+                                  "Quantity": 1.0000,
+                                  "DiscountRate": 10.00,
+                                  "LineItemID": "8a9d3eca-e052-43bc-9b87-221d0648c045"
+                                }
+                              ],
+                              "SubTotal": 2250.00,
+                              "TotalTax": 337.50,
+                              "Total": 2587.50,
+                              "UpdatedDateUTC": "\/Date(1553626029823+0000)\/",
+                              "HasAttachments": true,
+                              "Attachments": [
+                                {
+                                  "AttachmentID": "7d94ccdc-ef7b-4806-87ac-8442f25e593b",
+                                  "FileName": "HelloWorld.png",
+                                  "Url": "https://api.xero.com/api.xro/2.0/PurchaseOrders/15369a9f-17b6-4235-83c4-0029256d1c37/Attachments/HelloWorld.png",
+                                  "MimeType": "image/png",
+                                  "ContentLength": 76091
+                                }
+                              ]
+                            }
+                          ]
+                        }'
   '/PurchaseOrders/{PurchaseOrderID}/History':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -11587,6 +11734,248 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
           $ref: '#/components/responses/400Error'
       requestBody:
         $ref: '#/components/requestBodies/historyRecords'
+  '/Quotes/{QuoteID}/Attachments':
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    get:
+      security:
+        - OAuth2: [accounting.attachments.read]
+      tags:
+        - Accounting
+      operationId: getQuoteAttachments
+      summary: Allows you to retrieve Attachments for Quotes
+      parameters:
+        - required: true
+          in: path
+          name: QuoteID
+          description: Unique identifier for Quote object
+          example: "00000000-0000-0000-000-000000000000"
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Success - return response of type Attachments array of Attachment 
+          x-isAttachment: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Attachments'
+              example: '{
+                          "Id": "439c1573-3cd8-4697-a9f6-81fa651ee8f3",
+                          "Status": "OK",
+                          "ProviderName": "Xero API Partner",
+                          "DateTimeUTC": "\/Date(1550852630329)\/",
+                          "Attachments": [
+                            {
+                              "AttachmentID": "52a643be-cd5c-489f-9778-53a9fd337756",
+                              "FileName": "sample5.jpg",
+                              "Url": "https://api.xero.com/api.xro/2.0/Quotes/da962997-a8bd-4dff-9616-01cdc199283f/Attachments/sample5.jpg",
+                              "MimeType": "image/jpg",
+                              "ContentLength": 2878711
+                            }
+                          ]
+                        }'
+  '/Quotes/{QuoteID}/Attachments/{AttachmentID}':
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    get:
+      security:
+        - OAuth2: [accounting.attachments.read]
+      tags:
+        - Accounting
+      operationId: getQuoteAttachmentById
+      summary: Allows you to retrieve specific Attachment on Quote
+      parameters:
+        - required: true
+          in: path
+          name: QuoteID
+          description: Unique identifier for Quote object
+          example: "00000000-0000-0000-000-000000000000"
+          schema:
+            type: string
+            format: uuid
+        - required: true
+          in: path
+          name: AttachmentID
+          description: Unique identifier for Attachment object
+          example: "00000000-0000-0000-000-000000000000"
+          schema:
+            type: string
+            format: uuid
+        - required: true
+          in: header
+          name: contentType
+          description: The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf 
+          example: image/jpg
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success - return response of attachment for Quote as binary data 
+          content:
+             application/octet-stream:
+              schema:
+                type: string
+                format: binary
+  '/Quotes/{QuoteID}/Attachments/{FileName}':
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    get:
+      security:
+        - OAuth2: [accounting.attachments.read]
+      tags:
+        - Accounting
+      operationId: getQuoteAttachmentByFileName
+      summary: Allows you to retrieve Attachment on Quote by Filename
+      parameters:
+        - required: true
+          in: path
+          name: QuoteID
+          description: Unique identifier for Quote object
+          example: "00000000-0000-0000-000-000000000000"
+          schema:
+            type: string
+            format: uuid
+        - required: true
+          in: path
+          name: FileName
+          description: Name of the attachment
+          example: "xero-dev.jpg"
+          schema:
+            type: string
+        - required: true
+          in: header
+          name: contentType
+          description: The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf 
+          example: image/jpg
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success - return response of attachment for Quote as binary data 
+          content:
+             application/octet-stream:
+              schema:
+                type: string
+                format: binary
+    post:
+      security:
+        - OAuth2: [accounting.attachments]
+      tags:
+        - Accounting
+      operationId: updateQuoteAttachmentByFileName
+      summary: Allows you to update Attachment on Quote by Filename
+      parameters:
+        - required: true
+          in: path
+          name: QuoteID
+          description: Unique identifier for Quote object
+          example: "00000000-0000-0000-000-000000000000"
+          schema:
+            type: string
+            format: uuid
+        - required: true
+          in: path
+          name: FileName
+          description: Name of the attachment
+          example: "xero-dev.jpg"
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success - return response of type Attachments array of Attachment 
+          x-isAttachment: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Attachments'
+              example: '{
+                        "Id": "c8d6413a-1da2-4faa-9848-21f60443e906",
+                        "Status": "OK",
+                        "ProviderName": "Xero API Partner",
+                        "DateTimeUTC": "\/Date(1550859714477)\/",
+                        "Attachments": [
+                          {
+                            "AttachmentID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                            "FileName": "sample5.jpg",
+                            "Url": "https://api.xero.com/api.xro/2.0/Quotes/da962997-a8bd-4dff-9616-01cdc199283f/Attachments/sample5.jpg",
+                            "MimeType": "image/jpg",
+                            "ContentLength": 2878711
+                          }
+                        ]
+                      }'
+        '400':
+          description: Validation Error - some data was incorrect returns response of type Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      requestBody:
+        required: true
+        description: Byte array of file in body of request
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: byte
+    put:
+      security:
+        - OAuth2: [accounting.attachments]
+      tags:
+        - Accounting
+      operationId: createQuoteAttachmentByFileName
+      summary: Allows you to create Attachment on Quote
+      parameters:
+        - required: true
+          in: path
+          name: QuoteID
+          description: Unique identifier for Quote object
+          example: 00000000-0000-0000-000-000000000000
+          schema:
+            type: string
+            format: uuid
+        - required: true
+          in: path
+          name: FileName
+          description: Name of the attachment
+          example: xero-dev.jpg
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success - return response of type Attachments array of Attachment 
+          x-isAttachment: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Attachments'
+              example: '{
+                          "Id": "724cdff5-bcd1-4c5c-977e-e864c24258e0",
+                          "Status": "OK",
+                          "ProviderName": "Xero API Partner",
+                          "DateTimeUTC": "\/Date(1550856817769)\/",
+                          "Attachments": [
+                            {
+                              "AttachmentID": "ab95b276-9dce-4925-9077-439818ba270f",
+                              "FileName": "sample5.jpg",
+                              "Url": "https://api.xero.com/api.xro/2.0/Quotes/da962997-a8bd-4dff-9616-01cdc199283f/Attachments/sample5.jpg",
+                              "MimeType": "image/jpg",
+                              "ContentLength": 2878711
+                            }
+                          ]
+                        }'
+        '400':
+          $ref: '#/components/responses/400Error'
+      requestBody:
+        required: true
+        description: Byte array of file in body of request
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: byte
+  
   /Receipts:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -16553,7 +16942,6 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
   /TaxRates:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
-    x-related-model: TaxRate
     get:
       security:
         - OAuth2: [accounting.settings.read]
@@ -18568,6 +18956,11 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Allocation'
+        AppliedAmount: 
+          description: The amount of applied to an invoice
+          type: number
+          format: double 
+          example: 2.00
         Payments:
           description: See Payments 
           type: array
@@ -18798,7 +19191,9 @@ components:
       - YER
       - ZAR
       - ZMW
+      - ZMK
       - ZWD
+      - ""
     Employees:
       type: object
       properties:
@@ -18965,6 +19360,7 @@ components:
           - ACCREC
           - ACCRECCREDIT
           - AROVERPAYMENT
+          - ARPREPAYMENT
         Contact:
           $ref: '#/components/schemas/Contact'
         LineItems:
@@ -19950,7 +20346,7 @@ components:
       - NG
       - NI
       - NL
-      - NO
+      - "NO"
       - NP
       - NR
       - NU
@@ -20264,6 +20660,11 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Allocation'
+        AppliedAmount: 
+          description: The amount of applied to an invoice
+          type: number
+          format: double 
+          example: 2.00
         Payments:
           description: See Payments
           type: array
@@ -20285,6 +20686,17 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Payment'
+    PaymentDelete:
+      externalDocs:
+        url: 'http://developer.xero.com/documentation/api/payments/'
+      properties:
+        Status:
+          description: The status of the payment.
+          type: string
+          default: "DELETED"
+      required:
+        - Status
+      type: object 
     Payment:
       externalDocs:
         url: 'http://developer.xero.com/documentation/api/payments/'
@@ -20459,6 +20871,11 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Allocation'
+        AppliedAmount: 
+          description: The amount of applied to an invoice
+          type: number
+          format: double 
+          example: 2.00
         HasAttachments:
           description: boolean to indicate if a prepayment has an attachment
           type: boolean
