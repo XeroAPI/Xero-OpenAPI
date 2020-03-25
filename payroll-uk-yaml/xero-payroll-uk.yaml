@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: '2.0'
+  version: '2.0.5'
   title: 'Xero Payroll UK'
   description: 'This is the Xero Payroll API for orgs in the UK region.'
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
@@ -11,16 +11,15 @@ info:
 tags:
   - name: PayrollUK
 servers:
-# Added by API Auto Mocking Plugin
-  - description: SwaggerHub API Auto Mocking
-    url: https://virtserver.swaggerhub.com/AdamMoore/payroll-uk/2.0
   - description: Xero Payroll AU API
     url: https://api.xero.com/payroll.xro/2.0/
 paths:
   /Employees:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     get: 
       security:
-        - OAuth2: [payroll.employees.read, payroll.employees]
+        - OAuth2: [payroll.employees.read]
       tags:
         - PayrollUK
       operationId: getEmployees
@@ -50,6 +49,87 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Employees'
+              example: '{
+                          "id":"1a14e877-773d-4cd3-b253-f559a4b4be65",
+                          "providerName":"java-sdk-oauth2-dev-02",
+                          "dateTimeUTC":"2020-03-24T18:43:43.860852",
+                          "httpStatusCode":"OK",
+                          "pagination":{
+                              "page":1,
+                              "pageSize":100,
+                              "pageCount":1,
+                              "itemCount":3
+                          },
+                          "problem":null,
+                          "employees":[
+                              {
+                                "employeeID":"aad6b292-7b94-408b-93f6-e489867e3fb0",
+                                "firstName":"Jack",
+                                "lastName":"Allan",
+                                "dateOfBirth":"1987-12-23T00:00:00",
+                                "gender":"M",
+                                "email":null,
+                                "phoneNumber":null,
+                                "startDate":"2020-02-03T00:00:00",
+                                "address":{
+                                    "addressLine1":"171 Midsummer Boulevard",
+                                    "addressLine2":null,
+                                    "city":"Milton Keynes",
+                                    "county":null,
+                                    "countryName":"UNITED KINGDOM",
+                                    "postCode":"MK9 1EB"
+                                },
+                                "payrollCalendarID":"216d80e6-af55-47b1-b718-9457c3f5d2fe",
+                                "updatedDateUTC":"2020-02-13T16:23:31",
+                                "createdDateUTC":"2020-02-10T10:00:24",
+                                "endDate":null
+                              },
+                              {
+                                "employeeID":"67e545d4-e8a6-4f98-9f63-85c2383dfe12",
+                                "firstName":"Charlotte",
+                                "lastName":"Danes",
+                                "dateOfBirth":"1993-10-24T00:00:00",
+                                "gender":"F",
+                                "email":null,
+                                "phoneNumber":null,
+                                "startDate":"2020-02-03T00:00:00",
+                                "address":{
+                                    "addressLine1":"171 Midsummer Blvd",
+                                    "addressLine2":null,
+                                    "city":"Milton Keynes",
+                                    "county":null,
+                                    "countryName":"UNITED KINGDOM",
+                                    "postCode":"MK9 1EB"
+                                },
+                                "payrollCalendarID":"5e813d9e-949c-461f-8a89-e9ee8955a254",
+                                "updatedDateUTC":"2020-02-13T16:48:51",
+                                "createdDateUTC":"2020-02-13T16:32:12",
+                                "endDate":null
+                              },
+                              {
+                                "employeeID":"eb4a0c3b-b0d6-440d-bccc-348b7dc92321",
+                                "firstName":"Chelsea",
+                                "lastName":"Serati",
+                                "dateOfBirth":"1976-02-16T00:00:00",
+                                "gender":"F",
+                                "email":null,
+                                "phoneNumber":null,
+                                "startDate":"2019-07-02T00:00:00",
+                                "address":{
+                                    "addressLine1":"171 Midsummer Boulevard",
+                                    "addressLine2":null,
+                                    "city":"Milton Keynes",
+                                    "county":null,
+                                    "countryName":"UNITED KINGDOM",
+                                    "postCode":"MK9 1EB"
+                                },
+                                "payrollCalendarID":"d45bc68f-59d6-4000-929d-1058dcfa79e1",
+                                "updatedDateUTC":"2020-02-13T16:53:12",
+                                "createdDateUTC":"2020-02-13T16:46:41",
+                                "endDate":null
+                              }
+                          ]
+                        }'
         '400':
           description: validation error for a bad request
           content:
@@ -69,7 +149,41 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Employees'
+                $ref: '#/components/schemas/EmployeeObject'
+              example: '{
+                          "id":"660ff206-fc4a-42f5-8f7d-de886bc2a3d3",
+                          "providerName":"java-sdk-oauth2-dev-02",
+                          "dateTimeUTC":"2020-03-25T03:12:10.406476",
+                          "httpStatusCode":"OK",
+                          "pagination":null,
+                          "problem":null,
+                          "employee":{
+                              "employeeID":"316146c7-26a4-4065-b9bd-346d0557ea96",
+                              "title":"Mr",
+                              "firstName":"Mike",
+                              "lastName":"Fancy",
+                              "dateOfBirth":"1999-01-01T00:00:00",
+                              "gender":"M",
+                              "email":"mike@starkindustries.com",
+                              "phoneNumber":null,
+                              "startDate":null,
+                              "nationalInsuranceNumber":null,
+                              "address":{
+                                "addressLine1":"101 Green St",
+                                "addressLine2":null,
+                                "city":"San Francisco",
+                                "county":null,
+                                "countryName":null,
+                                "postCode":"6TGR4F"
+                              },
+                              "payrollCalendarID":null,
+                              "updatedDateUTC":"2020-03-25T03:12:10",
+                              "createdDateUTC":"2020-03-25T03:12:10",
+                              "niCategory":null,
+                              "employeeNumber":null,
+                              "endDate":null
+                          }
+                        }'
         '400':
           description: validation error for a bad request
           content:
@@ -82,7 +196,23 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Employee'
+            example: '{
+                        "title":"Mr",
+                        "firstName":"Mike",
+                        "lastName":"Fancy",
+                        "dateOfBirth":"1999-01-01",
+                        "address":{
+                            "addressLine1":"101 Green St",
+                            "city":"San Francisco",
+                            "postCode":"6TGR4F",
+                            "country":"UK"
+                        },
+                        "email":"mike@starkindustries.com",
+                        "gender":"M"
+                      }'
   /Employees/{EmployeeId}:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     get: 
       security:
         - OAuth2: [payroll.employees.read,payroll.employees]
@@ -105,14 +235,48 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Employees'
+                $ref: '#/components/schemas/EmployeeObject'
+              example: '{
+                          "id":"a8ef46c6-8191-43f6-a3c9-f42c7ca884b5",
+                          "providerName":"java-sdk-oauth2-dev-02",
+                          "dateTimeUTC":"2020-03-25T03:28:45.5524202",
+                          "httpStatusCode":"OK",
+                          "pagination":null,
+                          "problem":null,
+                          "employee":{
+                              "employeeID":"aad6b292-7b94-408b-93f6-e489867e3fb0",
+                              "title":"Mr.",
+                              "firstName":"Jack",
+                              "lastName":"Allan",
+                              "dateOfBirth":"1987-12-23T00:00:00",
+                              "gender":"M",
+                              "email":null,
+                              "phoneNumber":null,
+                              "startDate":"2020-02-03T00:00:00",
+                              "nationalInsuranceNumber":"AB123456C",
+                              "address":{
+                                "addressLine1":"171 Midsummer Boulevard",
+                                "addressLine2":null,
+                                "city":"Milton Keynes",
+                                "county":null,
+                                "countryName":"UNITED KINGDOM",
+                                "postCode":"MK9 1EB"
+                              },
+                              "payrollCalendarID":"216d80e6-af55-47b1-b718-9457c3f5d2fe",
+                              "updatedDateUTC":"2020-02-13T16:23:31",
+                              "createdDateUTC":"2020-02-10T10:00:24",
+                              "niCategory":"A",
+                              "employeeNumber":"01",
+                              "endDate":null
+                          }
+                        }'
     put:
       security:
         - OAuth2: [payroll.employees]
       tags:
         - PayrollUK
-      operationId: updateEmployees
-      summary: updates employees
+      operationId: updateEmployee
+      summary: updates employee
       parameters:
         - name: EmployeeId
           in: path
@@ -128,7 +292,41 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Employees'
+                $ref: '#/components/schemas/EmployeeObject'
+              example: '{
+                        "id": "eebef848-5fa2-42c2-a10f-4dc47a9cf82a",
+                        "providerName": "java-sdk-oauth2-dev-02",
+                        "dateTimeUTC": "2020-03-25T17:03:50.710258",
+                        "httpStatusCode": "OK",
+                        "pagination": null,
+                        "problem": null,
+                        "employee": {
+                          "employeeID": "aad6b292-7b94-408b-93f6-e489867e3fb0",
+                          "title": "Mr",
+                          "firstName": "Mike",
+                          "lastName": "Johnllsbkrhwopson",
+                          "dateOfBirth": "1999-01-01T00:00:00",
+                          "gender": "M",
+                          "email": "84044@starkindustries.com",
+                          "phoneNumber": null,
+                          "startDate": "2020-02-03T00:00:00",
+                          "nationalInsuranceNumber": null,
+                          "address": {
+                            "addressLine1": "101 Green St",
+                            "addressLine2": null,
+                            "city": "San Francisco",
+                            "county": null,
+                            "countryName": null,
+                            "postCode": "6TGR4F"
+                          },
+                          "payrollCalendarID": "216d80e6-af55-47b1-b718-9457c3f5d2fe",
+                          "updatedDateUTC": "2020-03-25T17:03:50",
+                          "createdDateUTC": "2020-02-10T10:00:24",
+                          "niCategory": null,
+                          "employeeNumber": null,
+                          "endDate": null
+                        }
+                      }'
         '400':
           description: validation error for a bad request
           content:
@@ -141,7 +339,23 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Employee'
+            example: '{
+                        "title":"Mr",
+                        "firstName":"Mike",
+                        "lastName":"Johnllsbkrhwopson",
+                        "dateOfBirth":"1999-01-01",
+                        "address":{
+                            "addressLine1":"101 Green St",
+                            "city":"San Francisco",
+                            "postCode":"6TGR4F",
+                            "country":"UK"
+                        },
+                        "email":"84044@starkindustries.com",
+                        "gender":"M"
+                      }'
   /Employees/{EmployeeId}/Employment:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     post: 
       security:
         - OAuth2: [payroll.employees]
@@ -178,6 +392,8 @@ paths:
             schema:
               $ref: '#/components/schemas/Employment'
   /Employees/{EmployeeId}/Tax:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     get: 
       security:
         - OAuth2: [payroll.employees.read,payroll.employees]
@@ -202,6 +418,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/Tax'
   /Employees/{EmployeeId}/UKOpeningBalances:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     get: 
       security:
         - OAuth2: [payroll.employees.read,payroll.employees]
@@ -296,6 +514,8 @@ paths:
             schema:
               $ref: '#/components/schemas/EmployeeOpeningBalances'
   /Employees/{EmployeeId}/Leave:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     get: 
       security:
         - OAuth2: [payroll.employees.read,payroll.employees]
@@ -355,6 +575,8 @@ paths:
             schema:
               $ref: '#/components/schemas/EmployeeLeave'
   /Employees/{EmployeeId}/Leave/{LeaveID}:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     get: 
       security:
         - OAuth2: [payroll.employees.read,payroll.employees]
@@ -461,6 +683,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/EmployeeLeave'
   /Employees/{EmployeeId}/LeaveBalances:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     get: 
       security:
         - OAuth2: [payroll.employees.read,payroll.employees]
@@ -485,6 +709,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/EmployeeLeaveBalances'
   /Employees/{EmployeeId}/StatutoryLeaveBalance:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     get: 
       security:
         - OAuth2: [payroll.employees.read,payroll.employees]
@@ -521,6 +747,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/EmployeeStatutoryLeaveBalance'
   /StatutoryLeaves/Summary/{EmployeeId}:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     get: 
       security:
         - OAuth2: [payroll.employees.read,payroll.employees]
@@ -550,6 +778,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/EmployeeStatutoryLeavesSummary'
   /StatutoryLeaves/Sick:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     post:
       security:
         - OAuth2: [payroll.employees]
@@ -577,6 +807,8 @@ paths:
             schema:
               $ref: '#/components/schemas/EmployeeStatutorySickLeave'
   /StatutoryLeaves/Sick/{StatutorySickLeaveID}:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     get: 
       security:
         - OAuth2: [payroll.employees.read,payroll.employees]
@@ -601,6 +833,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/EmployeeStatutorySickLeave'
   /Employees/{EmployeeId}/LeavePeriods:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     get: 
       security:
         - OAuth2: [payroll.employees.read, payroll.employees]
@@ -643,6 +877,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/problem'
   /Employees/{EmployeeId}/LeaveTypes:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     get: 
       security:
         - OAuth2: [payroll.employees.read, payroll.employees]
@@ -708,6 +944,8 @@ paths:
             schema:
               $ref: '#/components/schemas/EmployeeLeaveType'
   /Employees/{EmployeeId}/PaymentMethods:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     get: 
       security:
         - OAuth2: [payroll.employees.read, payroll.employees]
@@ -773,6 +1011,8 @@ paths:
             schema:
               $ref: '#/components/schemas/PaymentMethod'
   /Employees/{EmployeeId}/PayTemplates:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     get: 
       security:
         - OAuth2: [payroll.employees.read, payroll.employees]
@@ -803,6 +1043,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/problem'
   /Employees/{EmployeeId}/PayTemplates/earnings:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     post:
       security:
         - OAuth2: [payroll.employees]
@@ -839,6 +1081,8 @@ paths:
             schema:
               $ref: '#/components/schemas/EarningsTemplate'
   /Employees/{EmployeeId}/PayTemplates/earnings/{PayTemplateEarningsID}:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     put:
       security:
         - OAuth2: [payroll.employees]
@@ -910,6 +1154,8 @@ paths:
         '200':
           description: deletion successful
   /Employees/{EmployeeId}/PayTemplatesEarnings:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     post:
       security:
         - OAuth2: [payroll.employees]
@@ -946,6 +1192,8 @@ paths:
             schema:
               $ref: '#/components/schemas/EarningsTemplates'
   /Benefits:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
         - OAuth2: [payroll.settings.read, payroll.settings]
@@ -993,6 +1241,8 @@ paths:
             schema:
               $ref: '#/components/schemas/Benefit'
   /Benefits/{Id}:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
         - OAuth2: [payroll.settings.read, payroll.settings]
@@ -1016,6 +1266,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/Benefit'
   /Deductions:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
         - OAuth2: [payroll.settings.read, payroll.settings]
@@ -1063,6 +1315,8 @@ paths:
             schema:
               $ref: '#/components/schemas/Deduction'
   /Deductions/{Id}:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
         - OAuth2: [payroll.settings.read, payroll.settings]
@@ -1086,6 +1340,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/Benefit'
   /StatutoryDeductions:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
         - OAuth2: [payroll.settings.read, payroll.settings]
@@ -1107,6 +1363,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/StatutoryDeductions'
   /StatutoryDeductions/{Id}:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
         - OAuth2: [payroll.settings.read, payroll.settings]
@@ -1130,6 +1388,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/Benefit'
   /EarningsRates:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
         - OAuth2: [payroll.settings.read, payroll.settings]
@@ -1177,6 +1437,8 @@ paths:
             schema:
               $ref: '#/components/schemas/EarningsRate'
   /EarningsRates/{EarningsRateID}:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
         - OAuth2: [payroll.settings.read, payroll.settings]
@@ -1200,6 +1462,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/EarningsRate'
   /LeaveTypes:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
         - OAuth2: [payroll.settings.read, payroll.settings]
@@ -1252,6 +1516,8 @@ paths:
             schema:
               $ref: '#/components/schemas/LeaveType'
   /LeaveTypes/{LeaveTypeID}:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
         - OAuth2: [payroll.settings.read, payroll.settings]
@@ -1275,6 +1541,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/LeaveType'
   /Reimbursements:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
         - OAuth2: [payroll.settings.read, payroll.settings]
@@ -1322,6 +1590,8 @@ paths:
             schema:
               $ref: '#/components/schemas/Reimbursement'
   /Reimbursements/{ReimbursementID}:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
         - OAuth2: [payroll.settings.read, payroll.settings]
@@ -1345,6 +1615,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/Reimbursement'
   /Timesheets:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
         - OAuth2: [payroll.timesheets.read, payroll.timesheets]
@@ -1404,6 +1676,8 @@ paths:
             schema:
               $ref: '#/components/schemas/Timesheet'
   /Timesheets/{TimesheetID}:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
         - OAuth2: [payroll.timesheets.read, timesheets.settings]
@@ -1455,6 +1729,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/problem'
   /Timesheets/{TimesheetID}/Lines:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     post:
       security:
         - OAuth2: [payroll.timesheets]
@@ -1490,6 +1768,8 @@ paths:
             schema:
               $ref: '#/components/schemas/TimesheetLine'
   /Timesheets/{TimesheetID}/Approve:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     post:
       security:
         - OAuth2: [payroll.timesheets]
@@ -1519,6 +1799,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/problem'
   /Timesheets/{TimesheetID}/RevertToDraft:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     post:
       security:
         - OAuth2: [payroll.timesheets]
@@ -1625,6 +1907,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/problem'
   /PayRunCalendars:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
         - OAuth2: [payroll.settings.read, payroll.settings]
@@ -1672,6 +1956,8 @@ paths:
             schema:
               $ref: '#/components/schemas/PayRunCalendar'
   /PayRunCalendars/{PayRunCalendarID}:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
         - OAuth2: [payroll.settings.read, payroll.settings]
@@ -1695,6 +1981,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/PayRunCalendar'
   /Employees/{EmployeeId}/SalaryAndWages:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     get: 
       security:
         - OAuth2: [payroll.employees.read, payroll.employees]
@@ -1800,6 +2088,8 @@ paths:
             schema:
               $ref: '#/components/schemas/SalaryAndWage'
   /Employees/{EmployeeId}/SalaryAndWages/{SalaryAndWagesID}:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
         - OAuth2: [payroll.employees, payroll.employees.read]
@@ -1859,6 +2149,8 @@ paths:
         '200':
           description: deletion successful
   /PayRuns:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
         - OAuth2: [payroll.payruns.read, payroll.payruns]
@@ -1888,6 +2180,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/PayRuns'
   /PayRuns/{PayRunID}:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
         - OAuth2: [payroll.payruns.read, payroll.payruns]
@@ -1945,6 +2239,8 @@ paths:
             schema:
               $ref: '#/components/schemas/PayRun'
   /Payslips:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
         - OAuth2: [payroll.payslip.read, payroll.payslip]
@@ -1973,6 +2269,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/Payslips'
   /Payslips/{PayslipID}:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
         - OAuth2: [payroll.payslip.read, payroll.payslip]
@@ -1996,6 +2294,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/Payslip'
   /Settings:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
         - OAuth2: [payroll.settings.read, settings.payslip]
@@ -2011,6 +2311,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/Settings'
   /TrackingCategories:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
         - OAuth2: [payroll.settings.read, settings.payslip]
@@ -2054,6 +2356,20 @@ components:
         type: string
       required: true 
   schemas:
+    Pagination:
+      properties:
+        page:
+          type: integer
+          example: 1
+        pageSize:
+          type: integer
+          example: 10
+        pageCount:
+          type: integer
+          example: 1
+        itemCount:
+          type: integer
+          example: 2
     problem:
       description: The object returned for a bad request
       type: object
@@ -2090,14 +2406,21 @@ components:
         reason:
           description: The reason the error occurred
           type: string
-          example: The Date of Birth is required.
+          example: The Date of Birth is required.  
     Employees:
       type: object
       properties:
-        Employees:
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        employees:
           type: array
           items:
             $ref: '#/components/schemas/Employee'
+    EmployeeObject:
+      type: object
+      properties:
+        employee:
+          $ref: '#/components/schemas/Employee'
     Employee:
       type: object
       required:
@@ -2108,65 +2431,69 @@ components:
         - Gender
         - Address
       properties:
-        EmployeeID:
+        employeeID:
           description:  Xero unique identifier for the employee
           type: string
           format: uuid
           example: d90457c4-f1be-4f2e-b4e3-f766390a7e30
-        Title:
+        title:
           description: Title of the employee
           type: string
           example: Mrs
-        FirstName:
+        firstName:
           description: First name of employee
           type: string
           example: Karen
-        LastName:
+        lastName:
           description: Last name of employee
           type: string
           example: Jones
-        DateOfBirth:
+        dateOfBirth:
           description: Date of birth of the employee (YYYY-MM-DD)
           type: string
           format: date
-          example: 2019-01-02   
-        HomeAddress:
+          example: 2019-01-02  
+          x-is-date: true 
+        address:
           $ref: '#/components/schemas/Address'
-        Email:
+        email:
           description: The email address for the employee
           type: string
           example: developer@me.com
-        Gender:
+        gender:
           description: The employee’s gender
           type: string
           enum:
           - M   #Male  
           - F   #Female  
           example: F
-        PhoneNumber:
+        phoneNumber:
           description: Employee phone number
           type: string
           example: 415-555-1212
-        StartDate:
+        startDate:
           description: Employment start date of the employee at the time it was requested
           type: string
           format: date
           example: 2020-01-19
-        EndDate:
+          x-is-date: true
+        endDate:
           description: Employment end date of the employee at the time it was requested
-        PayrollCalendarID:
+        payrollCalendarID:
           description: Xero unique identifier for the payroll calendar of the employee
           type: string
           format: uuid
-        UpdatedDateUTC:
+        updatedDateUTC:
           description: UTC timestamp of last update to the employee
           type: string
           format: date-time
-        CreatedDateUTC:
+          x-is-datetime: true
+        createdDateUTC:
           description: UTC timestamp when the employee was created in Xero
           type: string
           format: date-time
-        NationalInsuranceNumber:
+          x-is-datetime: true
+        nationalInsuranceNumber:
           description: National insurance number of the employee
           type: string
           example: AB123456C
@@ -2186,6 +2513,7 @@ components:
           description: Start date of the employment (YYYY-MM-DD)
           type: string
           format: date
+          x-is-date: true 
         EmployeeNumber:
           description: The employment number of the employee
           type: string
@@ -2234,6 +2562,7 @@ components:
           description: The directorship start date
           type: string
           format: date
+          x-is-date: true 
         NICCalculationMethod:
           description: NICs calculation method
           type: string
@@ -2291,10 +2620,12 @@ components:
           description: Start date of the leave (YYYY-MM-DD)  
           type: string
           format: date
+          x-is-date: true 
         EndDate:
           description:   End date of the leave (YYYY-MM-DD)
           type: string
           format: date
+          x-is-date: true 
         LeavePeriods:
           description: The leave period information. The StartDate, EndDate and NumberOfUnits needs to be specified when you do not want to calculate NumberOfUnits automatically. Using incorrect period StartDate and EndDate will result in automatic computation of the NumberOfUnits.
           type: array
@@ -2311,10 +2642,12 @@ components:
           description: The Pay Period Start Date (YYYY-MM-DD)
           type: string
           format: date
+          x-is-date: true 
         PeriodEndDate:
           description:   The Pay Period End Date (YYYY-MM-DD)
           type: string
           format: date
+          x-is-date: true 
         NumberOfUnits:
           description: The Number of Units for the leave
           type: number
@@ -2397,10 +2730,12 @@ components:
           description: The date when the leave starts  
           type: string
           format: date
+          x-is-date: true 
         EndDate: 
           description: The date when the leave ends  
           type: string
           format: date
+          x-is-date: true 
         IsEntitled:
           description: Whether the leave was entitled to receive payment  
           type: boolean
@@ -2438,10 +2773,12 @@ components:
           description: The date when the leave starts  
           type: string
           format: date
+          x-is-date: true 
         EndDate:
           description: The date when the leave ends  
           type: string
           format: date
+          x-is-date: true 
         WorkPattern:
           description: The days of the work week the employee is scheduled to work at the time the leave is taken  
           type: array
@@ -2576,25 +2913,25 @@ components:
         - StandardAmount
       properties:
         Id:
-          description: The Xero identifier for the employer pension	
+          description: unique identifier in Xero
           type: string
           format: uuid
         Name:
-          description: Name of the employer pension	
+          description: Name of the employer pension
           type: string
         Category:
-          description: Category type of the employer pension	
+          description: Category type of the employer pension
           type: string
         LiabilityAccountId:
-          description: Xero identifier for Liability Account	
+          description: Xero identifier for Liability Account
           type: string
           format: uuid
         ExpenseAccountId:
-          description: Xero identifier for Expense Account	
+          description: Xero identifier for Expense Account
           type: string
           format: uuid
         StandardAmount:
-          description: Standard amount of the employer pension	
+          description: Standard amount of the employer pension
           type: number
           format: float
         Percentage:
@@ -2602,16 +2939,16 @@ components:
           type: number
           format: float
         CalculationType:
-          description: Calculation Type of the employer pension (FixedAmount or PercentageOfGross).	
+          description: Calculation Type of the employer pension (FixedAmount or PercentageOfGross).
           type: string
           format: enum
             - FixedAmount
             - PercentageOfGross
         CurrentRecord:
-          description: Identifier of a record is active or not.	
+          description: Identifier of a record is active or not.
           type: boolean
         SubjectToNIC:
-          description: Identifier of subject To NIC	
+          description: Identifier of subject To NIC
           type: boolean
         SubjectToPension:
           description: Identifier of subject To pension
@@ -2635,11 +2972,11 @@ components:
         - CalculationType
       properties:
         DeductionId:
-          description: The Xero identifier for Deduction	
+          description: The Xero identifier for Deduction
           type: string
           format: uuid
         DeductionName:
-          description: Name of the deduction	
+          description: Name of the deduction
           type: string
         DeductionCategory:
           description: Deduction Category type
@@ -2651,14 +2988,14 @@ components:
             - SalarySacrifice
             - UkOther
         LiabilityAccountId:
-          description: Xero identifier for Liability Account	
+          description: Xero identifier for Liability Account
           type: string
           format: uuid
         CurrentRecord:
-          description: Identifier of a record is active or not.	
+          description: Identifier of a record is active or not.
           type: boolean
         StandardAmount:
-          description: Standard amount of the deduction	
+          description: Standard amount of the deduction
           type: number
           format: float
         ReducesSuperLiability:
@@ -2668,29 +3005,29 @@ components:
           description: Identifier of reduces tax liability
           type: boolean
         CalculationType:
-          description: determine the calculation type whether fixed amount or percentage of gross	
+          description: determine the calculation type whether fixed amount or percentage of gross
           type: string
           format: enum
             - FixedAmount
             - PercentageOfGross
         percentage:
-          description: Percentage of gross	
+          description: Percentage of gross
           type: number
           format: float
         subjectToNIC:
           description: Identifier of subject To NIC
           type: boolean
         subjectToTax:
-          description: Identifier of subject To Tax	
+          description: Identifier of subject To Tax
           type: boolean
         isReducedByBasicRate:
-          description: Identifier of reduced by basic rate applicable or not	
+          description: Identifier of reduced by basic rate applicable or not
           type: boolean
         applyToPensionCalculations:
-          description: Identifier for apply to pension calculations	
+          description: Identifier for apply to pension calculations
           type: boolean
         isCalculatingOnQualifyingEarnings:
-          description: Identifier of calculating on qualifying earnings	
+          description: Identifier of calculating on qualifying earnings
           type: boolean
         IsPension:
           description: Identifier of applicable for pension or not
@@ -2703,11 +3040,11 @@ components:
       type: object
       properties:
         Id:
-          description: The Xero identifier for earnings order	
+          description: The Xero identifier for earnings order
           type: string
           format: uuid
         Name:
-          description: Name of the earnings order	
+          description: Name of the earnings order
           type: string
         StatutoryDeductionCategory:
           description: Statutory Deduction Category
@@ -2728,7 +3065,7 @@ components:
             - USChildSupport
             - Creditor
         LiabilityAccoutId:
-          description: Xero identifier for Liability Account	
+          description: Xero identifier for Liability Account
           type: string
           format: uuid
         CurrentRecord:
@@ -2748,14 +3085,14 @@ components:
         - ExpenseAccountID
       properties:
         EarningsRateID:
-          description: Xero unique identifier for an earning rate	
+          description: Xero unique identifier for an earning rate
           type: string
           format: uuid
         Name:
-          description: Name of the earning rate	
+          description: Name of the earning rate
           type: string
         EarningsType:
-          description: Indicates how an employee will be paid when taking this type of earning	
+          description: Indicates how an employee will be paid when taking this type of earning
           type: string
           format: enum
             - OvertimeEarnings
@@ -2769,7 +3106,7 @@ components:
             - OtherEarnings
             - LumpSum
         RateType:
-          description: Indicates the type of the earning rate	
+          description: Indicates the type of the earning rate
           type: string
           format: enum
             - RatePerUnit
@@ -2779,18 +3116,18 @@ components:
           description: The type of units used to record earnings
           type: string
         CurrentRecord:
-          description: Indicates whether an earning type is active	
+          description: Indicates whether an earning type is active
           type: boolean
         ExpenseAccountID:
-          description: The account that will be used for the earnings rate	
+          description: The account that will be used for the earnings rate
           type: string
           format: uuid
         RatePerUnit:
-          description: Default rate per unit (optional). Only applicable if RateType is RatePerUnit	
+          description: Default rate per unit (optional). Only applicable if RateType is RatePerUnit
           type: number
           format: float
         MultipleOfOrdinaryEarningsRate:
-          description: This is the multiplier used to calculate the rate per unit, based on the employee’s ordinary earnings rate. For example, for time and a half enter 1.5. Only applicable if RateType is MultipleOfOrdinaryEarningsRate	
+          description: This is the multiplier used to calculate the rate per unit, based on the employee’s ordinary earnings rate. For example, for time and a half enter 1.5. Only applicable if RateType is MultipleOfOrdinaryEarningsRate
           type: number
           format: float
         FixedAmount:
@@ -2813,23 +3150,24 @@ components:
           type: string
           format: uuid
         Name:
-          description: Name of the leave type	
+          description: Name of the leave type
           type: string
         IsPaidLeave:
-          description: Indicate that an employee will be paid when taking this type of leave	
+          description: Indicate that an employee will be paid when taking this type of leave
           type: boolean
         ShowOnPayslip:
-          description: Indicate that a balance for this leave type to be shown on the employee’s payslips	
+          description: Indicate that a balance for this leave type to be shown on the employee’s payslips
           type: boolean
         UpdatedDateUTC:
-          description: UTC timestamp of last update to the leave type note	
+          description: UTC timestamp of last update to the leave type note
           type: string
           format: date
+          x-is-datetime: true 
         IsActive:
           description: Shows whether the leave type is active or not
           type: boolean
         IsStatutoryLeave:
-          description: Shows whether the leave type is a statutory leave type or not	
+          description: Shows whether the leave type is a statutory leave type or not
           type: boolean
     Reimbursements:
       type: array
@@ -2842,7 +3180,7 @@ components:
         - AccountID
       properties:
         ReimbursementID:
-          description: Xero unique identifier for a reimbursement	
+          description: Xero unique identifier for a reimbursement
           type: string
           format: uuid
         Name:
@@ -2872,21 +3210,23 @@ components:
           type: string
           format: uuid 
         PayrollCalendarID:
-          description: The Xero identifier for the Payroll Calandar that the Timesheet applies to	
+          description: The Xero identifier for the Payroll Calandar that the Timesheet applies to
           type: string
           format: uuid 
         EmployeeID:
-          description: The Xero identifier for the Employee that the Timesheet is for	
+          description: The Xero identifier for the Employee that the Timesheet is for
           type: string
           format: uuid 
         StartDate:
-          description: The Start Date of the Timesheet period (YYYY-MM-DD)	
+          description: The Start Date of the Timesheet period (YYYY-MM-DD)
           type: string
           format: date 
+          x-is-date: true 
         EndDate:
-          description: The End Date of the Timesheet period (YYYY-MM-DD)	
+          description: The End Date of the Timesheet period (YYYY-MM-DD)
           type: string
           format: date 
+          x-is-date: true 
         Status:
           description: Status of the timesheet
           type: string
@@ -2895,13 +3235,14 @@ components:
             - Approved
             - Completed
         TotalHours:
-          description: The Total Hours of the Timesheet	
+          description: The Total Hours of the Timesheet
           type: number
           format: float 
         UpdatedDateUTC:
           description: The UTC date time that the Timesheet was last updated
           type: string
           format: date 
+          x-is-date: true 
         TimesheetLines:
           $ref: '#/components/schemas/TimesheetLines'
     TimesheetLines:
@@ -2916,15 +3257,16 @@ components:
         - NumberOfUnits
       properties:
         TimesheetLineID:
-          description: The Xero identifier for a Timesheet Line	
+          description: The Xero identifier for a Timesheet Line
           type: string
           format: uuid 
         Date:
           description: The Date that this Timesheet Line is for (YYYY-MM-DD)
           type: string
           format: date 
+          x-is-date: true 
         EarningsRateID:
-          description: The Xero identifier for the Earnings Rate that the Timesheet is for	
+          description: The Xero identifier for the Earnings Rate that the Timesheet is for
           type: string
           format: uuid 
         TrackingItemID:
@@ -2948,11 +3290,11 @@ components:
         - PaymentDate
       properties:
         PayRunCalendarID:
-          description: Xero unique identifier for the pay run calendar	
+          description: Xero unique identifier for the pay run calendar
           type: string
           format: uuid 
         Name:
-          description: Name of the calendar	
+          description: Name of the calendar
           type: string
         CalendarType:
           description: Type of the calendar
@@ -2965,21 +3307,25 @@ components:
             - Annual
             - Quarterly
         PeriodStartDate:
-          description: Period start date of the calendar	
+          description: Period start date of the calendar
           type: string
           format: date
+          x-is-date: true 
         PeriodEndDate:
-          description: Period end date of the calendar	
+          description: Period end date of the calendar
           type: string
           format: date
+          x-is-date: true 
         PaymentDate:
-          description: Payment date of the calendar	
+          description: Payment date of the calendar
           type: string
           format: date
+          x-is-date: true 
         UpdatedDateUTC:
           description: UTC timestamp of the last update to the pay run calendar
           type: string
           format: date
+          x-is-datetime: true 
     PaymentMethod:
       type: object
       required:
@@ -3011,15 +3357,15 @@ components:
         - PaymentType
       properties:
         SalaryAndWagesID:
-          description: Xero unique identifier for a salary and wages record	
+          description: Xero unique identifier for a salary and wages record
           type: string
           format: uuid 
         EarningsRateID:
-          description: Xero unique identifier for an earnings rate	
+          description: Xero unique identifier for an earnings rate
           type: string
           format: uuid 
         NumberOfUnitsPerWeek:
-          description: The Number of Units per week for the corresponding salary and wages	
+          description: The Number of Units per week for the corresponding salary and wages
           type: number
           format: float 
         RatePerUnit:
@@ -3027,19 +3373,20 @@ components:
           type: number
           format: float 
         NumberOfUnitsPerDay:
-          description: The Number of Units per day for the corresponding salary and wages	
+          description: The Number of Units per day for the corresponding salary and wages
           type: number
           format: float 
         EffectiveFrom:
-          description: The effective date of the corresponding salary and wages	
+          description: The effective date of the corresponding salary and wages
           type: string
           format: date 
+          x-is-date: true 
         AnnualSalary:
-          description: The annual salary	
+          description: The annual salary
           type: number
           format: float 
         Status:
-          description: The current status of the corresponding salary and wages	
+          description: The current status of the corresponding salary and wages
           type: string
           format: enum
             - active
@@ -3056,7 +3403,7 @@ components:
       type: object
       properties:
         PayRunID:
-          description: Xero unique identifier for the pay run	
+          description: Xero unique identifier for the pay run
           type: string
           format: uuid 
         PayrollCalendarID:
@@ -3064,23 +3411,26 @@ components:
           type: string
           format: uuid 
         PeriodStartDate:
-          description: Period start date of the payroll calendar	
+          description: Period start date of the payroll calendar
           type: string
           format: date 
+          x-is-date: true
         PeriodEndDate:
-          description: Period end date of the payroll calendar	
+          description: Period end date of the payroll calendar
           type: string
           format: date 
+          x-is-date: true 
         PaymentDate:
-          description: Payment date of the pay run	
+          description: Payment date of the pay run
           type: string
           format: date 
+          x-is-date: true 
         TotalCost:
-          description: Total cost of the pay run	
+          description: Total cost of the pay run
           type: number
           format: float 
         TotalPay:
-          description: Total pay of the pay run	
+          description: Total pay of the pay run
           type: number
           format: float 
         PayRunStatus:
@@ -3107,9 +3457,10 @@ components:
             - Annual
             - Quarterly
         PostedDateTime:
-          description: Posted date time of the pay run	
+          description: Posted date time of the pay run
           type: string
           format: date 
+          x-is-date: true 
         PaySlips:
           $ref: '#/components/schemas/Payslips'
     Payslips:
@@ -3120,11 +3471,11 @@ components:
       type: object
       properties:
         PaySlipID:
-          description: The Xero identifier for a Payslip	
+          description: The Xero identifier for a Payslip
           type: string
           format: uuid 
         EmployeeID:
-          description: The Xero identifier for payroll employee	
+          description: The Xero identifier for payroll employee
           type: string
           format: uuid 
         PayRunID:
@@ -3132,53 +3483,54 @@ components:
           type: string
           format: uuid 
         LastEdited:
-          description: The date payslip was last updated	
+          description: The date payslip was last updated
           type: string
           format: date 
+          x-is-datetime: true 
         FirstName:
-          description: Employee first name	
+          description: Employee first name
           type: string
         LastName:
-          description: Employee last name	
+          description: Employee last name
           type: string
         TotalEarnings:
           description: Total earnings before any deductions. Same as gross earnings for UK.
           type: number
           format: float 
         GrossEarnings:
-          description: Total earnings before any deductions. Same as total earnings for UK.	
+          description: Total earnings before any deductions. Same as total earnings for UK.
           type: number
           format: float 
         TotalPay:
-          description: The employee net pay	
+          description: The employee net pay
           type: number
           format: float 
         TotalEmployerTaxes:
-          description: The employer's tax obligation	
+          description: The employer's tax obligation
           type: number
           format: float 
         TotalEmployeeTaxes:
-          description: The part of an employee's earnings that is deducted for tax purposes	
+          description: The part of an employee's earnings that is deducted for tax purposes
           type: number
           format: float 
         TotalDeductions:
-          description: Total amount subtracted from an employee's earnings to reach total pay	
+          description: Total amount subtracted from an employee's earnings to reach total pay
           type: number
           format: float 
         TotalReimbursements:
-          description: Total reimbursements are nontaxable payments to an employee used to repay out-of-pocket expenses when the person incurs those expenses through employment	
+          description: Total reimbursements are nontaxable payments to an employee used to repay out-of-pocket expenses when the person incurs those expenses through employment
           type: number
           format: float 
         TotalCourtOrders:
-          description: Total amounts required by law to subtract from the employee's earnings	
+          description: Total amounts required by law to subtract from the employee's earnings
           type: number
           format: float 
         TotalBenefits:
-          description: Benefits (also called fringe benefits, perquisites or perks) are various non-earnings compensations provided to employees in addition to their normal earnings or salaries	
+          description: Benefits (also called fringe benefits, perquisites or perks) are various non-earnings compensations provided to employees in addition to their normal earnings or salaries
           type: number
           format: float 
         BacsHash:
-          description: BACS Service User Number	
+          description: BACS Service User Number
           type: string 
         PaymentMethod:
           description: The payment method code
@@ -3215,11 +3567,11 @@ components:
       type: object
       properties:
         EarningsRateID:
-          description: Xero identifier for payroll earnings rate	
+          description: Xero identifier for payroll earnings rate
           type: string
           format: uuid 
         RatePerUnit:
-          description: Rate per unit for earnings line	
+          description: Rate per unit for earnings line
           type: number
           format: float 
         NumberOfUnits:
@@ -3227,11 +3579,11 @@ components:
           type: number
           format: float 
         FixedAmount:
-          description: Earnings fixed amount. Only applicable if the EarningsRate RateType is Fixed	
+          description: Earnings fixed amount. Only applicable if the EarningsRate RateType is Fixed
           type: number
           format: float 
         Amount:
-          description: The amount of the earnings line.	
+          description: The amount of the earnings line.
           type: number
           format: float 
         IsLinkedToTimesheet:
@@ -3245,7 +3597,7 @@ components:
       type: object
       properties:
         EarningsRateID:
-          description: Xero identifier for payroll leave earnings rate	
+          description: Xero identifier for payroll leave earnings rate
           type: string
           format: uuid 
         RatePerUnit:
@@ -3257,11 +3609,11 @@ components:
           type: number
           format: float 
         FixedAmount:
-          description: Leave earnings fixed amount. Only applicable if the EarningsRate RateType is Fixed	
+          description: Leave earnings fixed amount. Only applicable if the EarningsRate RateType is Fixed
           type: number
           format: float 
         Amount:
-          description: The amount of the earnings line.	
+          description: The amount of the earnings line.
           type: number
           format: float 
         IsLinkedToTimesheet:
@@ -3275,7 +3627,7 @@ components:
       type: object
       properties:
         EarningsRateID:
-          description: Xero identifier for payroll timesheet earnings rate	
+          description: Xero identifier for payroll timesheet earnings rate
           type: string
           format: uuid 
         RatePerUnit:
@@ -3287,11 +3639,11 @@ components:
           type: number
           format: float 
         FixedAmount:
-          description: Timesheet earnings fixed amount. Only applicable if the EarningsRate RateType is Fixed	
+          description: Timesheet earnings fixed amount. Only applicable if the EarningsRate RateType is Fixed
           type: number
           format: float 
         Amount:
-          description: The amount of the timesheet earnings line.	
+          description: The amount of the timesheet earnings line.
           type: number
           format: float 
         IsLinkedToTimesheet:
@@ -3309,7 +3661,7 @@ components:
           type: string
           format: uuid 
         Amount:
-          description: The amount of the deduction line	
+          description: The amount of the deduction line
           type: number
           format: float 
         SubjectToTax:
@@ -3327,11 +3679,11 @@ components:
       type: object
       properties:
         ReimbursementTypeID:
-          description: Xero identifier for payroll reimbursement	
+          description: Xero identifier for payroll reimbursement
           type: string
           format: uuid
         Description:
-          description: Reimbursement line description	
+          description: Reimbursement line description
           type: string
         Amount:
           description: Reimbursement amount
@@ -3345,7 +3697,7 @@ components:
       type: object
       properties:
         LeaveTypeID:
-          description: Xero identifier for the Leave type	
+          description: Xero identifier for the Leave type
           type: string
           format: uuid 
         NumberOfUnits:
@@ -3360,18 +3712,18 @@ components:
       type: object
       properties:
         BenefitTypeID:
-          description: Xero identifier for payroll benefit type	
+          description: Xero identifier for payroll benefit type
           type: string
           format: uuid 
         DisplayName:
           description: Benefit display name
           type: string 
         Amount:
-          description: The amount of the benefit line.	
+          description: The amount of the benefit line.
           type: number
           format: float 
         FixedAmount:
-          description: Benefit fixed amount	
+          description: Benefit fixed amount
           type: number
           format: float 
         Percentage:
@@ -3394,7 +3746,7 @@ components:
           type: number
           format: float 
         AccountNumber:
-          description: The account number	
+          description: The account number
           type: string
         SortCode:
           description: The account sort code
@@ -3410,11 +3762,11 @@ components:
       type: object
       properties:
         TaxLineID:
-          description: Xero identifier for payroll tax line	
+          description: Xero identifier for payroll tax line
           type: string
           format: uuid
         Description:
-          description: Tax line description	
+          description: Tax line description
           type: string
         IsEmployerTax:
           description: Identifies if the amount is paid for by the employee or employer. True if employer pays the tax
@@ -3431,7 +3783,7 @@ components:
       type: object
       properties:
         CourtOrderTypeID:
-          description: Xero identifier for payroll court order type	
+          description: Xero identifier for payroll court order type
           type: string
           format: uuid 
         Amount:
@@ -3459,7 +3811,7 @@ components:
             - WagesExpenses
             - Bank
         Code:
-          description: A unique 3 digit number for each Account	
+          description: A unique 3 digit number for each Account
           type: string
         Name:
           description: Name of the Account.
@@ -3467,27 +3819,27 @@ components:
     Address:
       type: object
       required:
-        - AddressLine1
-        - City
-        - PostCode
+        - addressLine1
+        - city
+        - postCode
       properties:
-        AddressLine1:
+        addressLine1:
           description: Address line 1 for employee home address
           type: string
           example: 123 Main St
-        AddressLine2:
+        addressLine2:
           description: Address line 2 for employee home address
           type: string
           example: Apt 4
-        City:
+        city:
           description: Suburb for employee home address
           type: string
           example: Fulham
-        PostCode:
+        postCode:
           description: PostCode for employee home address
           type: string
           example: SW6 6EY
-        Country:
+        country:
           description: Country of HomeAddress
           type: string
           example: United Kingdom
@@ -3503,10 +3855,10 @@ components:
         - SortCode
       properties:
         AccountName:
-          description: Bank account name (max length = 32)	
+          description: Bank account name (max length = 32)
           type: string
         AccountNumber:
-          description: Bank account number (digits only; max length = 8)	
+          description: Bank account number (digits only; max length = 8)
           type: string
         SortCode:
           description: Bank account sort code (6 digits)
@@ -3515,10 +3867,10 @@ components:
       type: object
       properties:
         EmployeeGroupsTrackingCategoryID:
-          description: The Xero identifier for Employee groups tracking category.	
+          description: The Xero identifier for Employee groups tracking category.
           type: string
           format: uuid
         TimesheetTrackingCategoryID:
-          description: The Xero identifier for Timesheet tracking category.	
+          description: The Xero identifier for Timesheet tracking category.
           type: string
           format: uuid
