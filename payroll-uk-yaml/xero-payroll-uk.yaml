@@ -1929,6 +1929,48 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PayRunCalendars'
+              example: '{
+                          "id": "f66c8da6-06c1-47c7-a415-366cb3991858",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-03-25T18:39:43.9215965",
+                          "httpStatusCode": "OK",
+                          "pagination": {
+                            "page": 1,
+                            "pageSize": 100,
+                            "pageCount": 1,
+                            "itemCount": 3
+                          },
+                          "problem": null,
+                          "payRunCalendars": [
+                            {
+                              "payrollCalendarID": "216d80e6-af55-47b1-b718-9457c3f5d2fe",
+                              "name": "Weekly ",
+                              "calendarType": "Weekly",
+                              "periodStartDate": "2020-02-10T00:00:00",
+                              "periodEndDate": "2020-02-16T00:00:00",
+                              "paymentDate": "2020-02-17T00:00:00",
+                              "updatedDateUTC": "2020-02-13T16:53:54"
+                            },
+                            {
+                              "payrollCalendarID": "d45bc68f-59d6-4000-929d-1058dcfa79e1",
+                              "name": "Fortnightly ",
+                              "calendarType": "Fortnightly",
+                              "periodStartDate": "2020-02-03T00:00:00",
+                              "periodEndDate": "2020-02-16T00:00:00",
+                              "paymentDate": "2020-02-10T00:00:00",
+                              "updatedDateUTC": "2020-02-10T10:02:09"
+                            },
+                            {
+                              "payrollCalendarID": "5e813d9e-949c-461f-8a89-e9ee8955a254",
+                              "name": "Monthly ",
+                              "calendarType": "Monthly",
+                              "periodStartDate": "2020-03-03T00:00:00",
+                              "periodEndDate": "2020-04-02T00:00:00",
+                              "paymentDate": "2020-03-31T00:00:00",
+                              "updatedDateUTC": "2020-02-13T16:54:07"
+                            }
+                          ]
+                        }'
     post:
       security:
         - OAuth2: [payroll.settings]
@@ -2412,6 +2454,8 @@ components:
       properties:
         pagination:
           $ref: '#/components/schemas/Pagination'
+        problem:
+          $ref: '#/components/schemas/Problem'
         employees:
           type: array
           items:
@@ -3278,25 +3322,32 @@ components:
           type: number
           format: float 
     PayRunCalendars:
-      type: array
-      items:
-        $ref: '#/components/schemas/PayRunCalendar'
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        problem:
+          $ref: '#/components/schemas/Problem'
+        payRunCalendars:
+          type: array
+          items:
+            $ref: '#/components/schemas/PayRunCalendar'
     PayRunCalendar:
       type: object
       required:
-        - Name
-        - CalendarType
-        - PeriodStartDate
-        - PaymentDate
+        - name
+        - calendarType
+        - periodStartDate
+        - paymentDate
       properties:
-        PayRunCalendarID:
+        payRunCalendarID:
           description: Xero unique identifier for the pay run calendar
           type: string
           format: uuid 
-        Name:
+        name:
           description: Name of the calendar
           type: string
-        CalendarType:
+        calendarType:
           description: Type of the calendar
           type: string
           format: enum
@@ -3306,25 +3357,25 @@ components:
             - Monthly
             - Annual
             - Quarterly
-        PeriodStartDate:
+        periodStartDate:
           description: Period start date of the calendar
           type: string
           format: date
           x-is-date: true 
-        PeriodEndDate:
+        periodEndDate:
           description: Period end date of the calendar
           type: string
           format: date
           x-is-date: true 
-        PaymentDate:
+        paymentDate:
           description: Payment date of the calendar
           type: string
           format: date
           x-is-date: true 
-        UpdatedDateUTC:
+        updatedDateUTC:
           description: UTC timestamp of the last update to the pay run calendar
           type: string
-          format: date
+          format: date-time
           x-is-datetime: true 
     PaymentMethod:
       type: object
