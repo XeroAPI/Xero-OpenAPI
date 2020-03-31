@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: "2.0.5"
+  version: "2.0.6"
   title: Xero Assets API
   description: This is the Xero Assets API 
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
@@ -642,9 +642,6 @@ components:
           description: "The price the asset was disposed at"
           example: "1.0000"
         assetStatus:
-          type: string
-          description: "See Asset Status Codes."
-          example: "Draft"
           $ref: '#/components/schemas/AssetStatus'
         warrantyExpiryDate:
           type: string
@@ -673,11 +670,12 @@ components:
           example: true
     AssetStatus:
       type: string
+      description: "See Asset Status Codes."
+      example: "DRAFT"
       enum:
-        - DRAFT
-        - REGISTERED
+        - DRAFT  
+        - REGISTERED  
         - DISPOSED
-      example: REGISTERED
     AssetType:
       type: object
       required:
