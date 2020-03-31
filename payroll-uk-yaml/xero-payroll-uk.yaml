@@ -678,7 +678,31 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EmployeeLeaves'
+                $ref: '#/components/schemas/EmployeeLeaveObject'
+              example: '{
+                          "id": "ef91410a-2be1-42cc-86db-e625344a82e9",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-03-31T04:32:57.0247198",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null,
+                          "leave": {
+                            "leaveID": "bdfedc6b-363b-4801-8ba6-9a074d400b31",
+                            "leaveTypeID": "1d2778ee-86ea-45c0-bbf8-1045485f6b3f",
+                            "description": "Creating a Desription",
+                            "startDate": "2020-03-24T00:00:00",
+                            "endDate": "2020-03-26T00:00:00",
+                            "periods": [
+                              {
+                                "periodStartDate": "2020-03-23T00:00:00",
+                                "periodEndDate": "2020-03-29T00:00:00",
+                                "numberOfUnits": 24,
+                                "periodStatus": "Approved"
+                              }
+                            ],
+                            "updatedDateUTC": "2020-03-31T04:32:56.9537857"
+                          }
+                        }'
         '400':
           description: validation error for a bad request
           content:
@@ -691,6 +715,12 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/EmployeeLeave'
+            example: '{
+                        "leaveTypeID": "1d2778ee-86ea-45c0-bbf8-1045485f6b3f",
+                        "description": "Creating a Desription",
+                        "startDate": "2020-03-24",
+                        "endDate": "2020-03-26"
+                      }'
   /Employees/{EmployeeId}/Leave/{LeaveID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -724,7 +754,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EmployeeLeave'
+                $ref: '#/components/schemas/EmployeeLeaveObject'
               example: '{
                           "id": "6ae25805-fef3-4c9b-9e69-9ccc71a6a8da",
                           "providerName": "java-sdk-oauth2-dev-02",
@@ -779,7 +809,31 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EmployeeLeave'
+                $ref: '#/components/schemas/EmployeeLeaveObject'
+              example: '{
+                          "id": "1105314b-c65d-45b4-9b93-af645ebd88e1",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-03-31T04:07:15.8470261",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null,
+                          "leave": {
+                            "leaveID": "384bf62a-5884-484d-b675-a3ad9c662f8e",
+                            "leaveTypeID": "ed08dffe-788e-4b24-9630-f0fa2f4d164c",
+                            "description": "Vacation to Majorca",
+                            "startDate": "2020-02-17T00:00:00",
+                            "endDate": "2020-02-21T00:00:00",
+                            "periods": [
+                              {
+                                "periodStartDate": "2020-02-17T00:00:00",
+                                "periodEndDate": "2020-02-23T00:00:00",
+                                "numberOfUnits": 40,
+                                "periodStatus": "Approved"
+                              }
+                            ],
+                            "updatedDateUTC": "2020-03-31T04:07:15.8120844"
+                          }
+                        }'
         '400':
           description: validation error for a bad request
           content:
@@ -792,6 +846,21 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/EmployeeLeave'
+            example: '{
+                        "leaveID": "384bf62a-5884-484d-b675-a3ad9c662f8e",
+                        "leaveTypeID": "ed08dffe-788e-4b24-9630-f0fa2f4d164c",
+                        "description": "Vacation to Majorca",
+                        "startDate": "2020-02-17",
+                        "endDate": "2020-02-21",
+                        "periods": [
+                          {
+                            "periodStartDate": "2020-02-17",
+                            "periodEndDate": "2020-02-23",
+                            "numberOfUnits": 40,
+                            "periodStatus": "Approved"
+                          }
+                        ]
+                      }'
     delete:
       security:
         - OAuth2: [payroll.employees]
@@ -822,7 +891,15 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EmployeeLeave'
+                $ref: '#/components/schemas/EmployeeLeaveObject'
+              example: '{
+                          "id": "b0ab87f6-bbca-4c81-b616-c545592f6988",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-03-31T04:11:42.422139",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null
+                        }'
   /Employees/{EmployeeId}/LeaveBalances:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -849,6 +926,33 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmployeeLeaveBalances'
+              example: '{
+                          "id": "a9b96d49-fc15-4e25-8b62-818462ea6dbd",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-03-31T04:45:06.125346",
+                          "httpStatusCode": "OK",
+                          "pagination": {
+                            "page": 1,
+                            "pageSize": 100,
+                            "pageCount": 1,
+                            "itemCount": 2
+                          },
+                          "problem": null,
+                          "leaveBalances": [
+                            {
+                              "name": "Holiday",
+                              "leaveTypeID": "ed08dffe-788e-4b24-9630-f0fa2f4d164c",
+                              "balance": 32,
+                              "typeOfUnits": "Hours"
+                            },
+                            {
+                              "name": "Parental Leave",
+                              "leaveTypeID": "1d2778ee-86ea-45c0-bbf8-1045485f6b3f",
+                              "balance": -80,
+                              "typeOfUnits": "Hours"
+                            }
+                          ]
+                        }'
   /Employees/{EmployeeId}/StatutoryLeaveBalance:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -887,6 +991,19 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmployeeStatutoryLeaveBalance'
+              example: '{
+                          "id": "ee863df3-c394-4102-bb91-2b14de404c1c",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-03-31T05:03:47.418497",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null,
+                          "leaveBalance": {
+                            "leaveType": "Sick",
+                            "balanceRemaining": 1120,
+                            "units": "Hours"
+                          }
+                        }'
   /StatutoryLeaves/Summary/{EmployeeId}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -2881,6 +2998,15 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/EmployeeLeave'
+    EmployeeLeaveObject:
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        problem:
+          $ref: '#/components/schemas/Problem'
+        leave:
+          $ref: '#/components/schemas/EmployeeLeave'
     EmployeeLeave:
       type: object
       required:
@@ -2943,9 +3069,16 @@ components:
             - Approved
             - Completed
     EmployeeLeaveBalances:
-      type: array
-      items:
-        $ref: '#/components/schemas/EmployeeLeaveBalance'
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        problem:
+          $ref: '#/components/schemas/Problem'
+        leaveBalances:
+          type: array
+          items:
+            $ref: '#/components/schemas/EmployeeLeaveBalance'
     EmployeeLeaveBalance:
       type: object
       properties:
