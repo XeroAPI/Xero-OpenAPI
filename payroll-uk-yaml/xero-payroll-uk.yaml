@@ -990,7 +990,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EmployeeStatutoryLeaveBalance'
+                $ref: '#/components/schemas/EmployeeStatutoryLeaveBalanceObject'
               example: '{
                           "id": "ee863df3-c394-4102-bb91-2b14de404c1c",
                           "providerName": "java-sdk-oauth2-dev-02",
@@ -1004,7 +1004,7 @@ paths:
                             "units": "Hours"
                           }
                         }'
-  /StatutoryLeaves/Summary/{EmployeeId}:
+  /statutoryleaves/summary/{EmployeeId}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get: 
@@ -1034,7 +1034,26 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EmployeeStatutoryLeavesSummary'
+                $ref: '#/components/schemas/EmployeeStatutoryLeavesSummaries'
+              example: '{
+                        "id": "1908f4d1-b85d-4d6d-a885-6b6e2922ad03",
+                        "providerName": "java-sdk-oauth2-dev-02",
+                        "dateTimeUTC": "2020-04-02T19:47:06.0791382",
+                        "httpStatusCode": "OK",
+                        "pagination": null,
+                        "problem": null,
+                        "statutoryLeaves": [
+                          {
+                            "statutoryLeaveID": "17f4c3c7-d65c-4572-9118-03798f26f813",
+                            "employeeID": "aad6b292-7b94-408b-93f6-e489867e3fb0",
+                            "type": "Sick",
+                            "endDate": "2020-04-01",
+                            "startDate": "2020-03-28",
+                            "isEntitled": false,
+                            "status": "Pending"
+                          }
+                        ]
+                      }'
   /StatutoryLeaves/Sick:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -3098,6 +3117,15 @@ components:
           description: The type of the units of the leave.
           type: string
           example: hours
+    EmployeeStatutoryLeaveBalanceObject:
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        problem:
+          $ref: '#/components/schemas/Problem'
+        leaveBalance:
+          $ref: '#/components/schemas/EmployeeStatutoryLeaveBalance'
     EmployeeStatutoryLeaveBalance:
       type: object
       properties:
@@ -3119,10 +3147,17 @@ components:
           type: string
           format: enum
             - Hours
-    EmployeeStatutoryLeavesSummary:
-      type: array
-      items:
-        $ref: '#/components/schemas/EmployeeStatutoryLeaveSummary'
+    EmployeeStatutoryLeavesSummaries:
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        problem:
+          $ref: '#/components/schemas/Problem'
+        statutoryLeaves:
+          type: array
+          items:
+            $ref: '#/components/schemas/EmployeeStatutoryLeaveSummary'
     EmployeeStatutoryLeaveSummary:
       type: object
       properties:
