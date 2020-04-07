@@ -32,7 +32,7 @@ paths:
           in: query
           description: Required when retrieving a collection of assets. See Asset Status Codes
           schema: 
-            $ref: '#/components/schemas/AssetStatus'
+            $ref: '#/components/schemas/AssetStatusQueryParam'
           required: true
         - name: page
           in: query
@@ -671,11 +671,19 @@ components:
     AssetStatus:
       type: string
       description: "See Asset Status Codes."
-      example: "DRAFT"
+      example: "Draft"
       enum:
         - Draft
         - Registered
         - Disposed
+    AssetStatusQueryParam:
+      type: string
+      description: "See Asset Status Codes."
+      example: "DRAFT"
+      enum:
+        - DRAFT
+        - REGISTERED
+        - DISPOSED
     AssetType:
       type: object
       required:
