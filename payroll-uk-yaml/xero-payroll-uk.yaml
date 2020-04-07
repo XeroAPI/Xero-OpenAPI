@@ -1139,6 +1139,7 @@ paths:
           description: Filter by end date
           schema:
             type: string
+            format: date
           example: Johnson
       responses:
         '200':
@@ -1147,6 +1148,28 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LeavePeriods'
+              example: '{
+                        "id": "a31df805-68d1-4054-9542-797ec758abd2",
+                        "providerName": "java-sdk-oauth2-dev-02",
+                        "dateTimeUTC": "2020-04-07T20:33:42.1904008",
+                        "httpStatusCode": "OK",
+                        "pagination": null,
+                        "problem": null,
+                        "periods": [
+                          {
+                            "periodStartDate": "2020-02-24T00:00:00",
+                            "periodEndDate": "2020-03-01T00:00:00",
+                            "numberOfUnits": 40,
+                            "periodStatus": null
+                          },
+                          {
+                            "periodStartDate": "2020-03-02T00:00:00",
+                            "periodEndDate": "2020-03-08T00:00:00",
+                            "numberOfUnits": 32,
+                            "periodStatus": null
+                          }
+                        ]
+                      }'
         '400':
           description: validation error for a bad request
           content:
@@ -3061,9 +3084,16 @@ components:
           items:
             $ref: '#/components/schemas/LeavePeriod'
     LeavePeriods:
-      type: array
-      items:
-        $ref: '#/components/schemas/LeavePeriod'
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        problem:
+          $ref: '#/components/schemas/Problem'
+        periods:
+          type: array
+          items:
+            $ref: '#/components/schemas/LeavePeriod'
     LeavePeriod:
       type: object
       properties:
@@ -3198,6 +3228,17 @@ components:
             - Pending
             - In-Progress
             - Completed
+    EmployeeStatutorySickLeaves:
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        problem:
+          $ref: '#/components/schemas/Problem'
+        statutoryLeaves:
+          type: array
+          items:
+            $ref: '#/components/schemas/EmployeeStatutorySickLeave'
     EmployeeStatutorySickLeave:
       type: object
       required:
@@ -3231,6 +3272,14 @@ components:
           type: string
           format: date
           x-is-date: true 
+        type:
+          description: the type of statutory leave
+          type: string
+          example: "Sick"
+        status:
+          description: the type of statutory leave
+          type: string
+          example: "Pending"
         workPattern:
           description: The days of the work week the employee is scheduled to work at the time the leave is taken  
           type: array
