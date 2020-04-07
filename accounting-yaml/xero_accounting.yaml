@@ -10725,6 +10725,35 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
               schema:
                 $ref: '#/components/schemas/PurchaseOrders'
               example: '{ purchaseOrders:[ { contact:{ contactID:"00000000-0000-0000-000-000000000000" }, lineItems:[ { description:"Foobar", quantity:1.0, unitAmount:20.0, accountCode:"710" } ], date:"2019-03-13" } ] }'
+  '/PurchaseOrders/{PurchaseOrderID}/pdf':
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    x-related-model: PurchaseOrder
+    get:
+      security:
+        - OAuth2: [accounting.transactions.read]
+      tags:
+        - Accounting
+      operationId: getPurchaseOrderAsPdf
+      x-path: '/PurchaseOrders/{PurchaseOrderID}'
+      summary: Allows you to retrieve purchase orders as PDF files
+      parameters:
+        - required: true
+          in: path
+          name: PurchaseOrderID
+          description: Unique identifier for an Purchase Order
+          example: "00000000-0000-0000-000-000000000000"
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Success - return response of byte array pdf version of specified Purchase Orders
+          content:
+             application/pdf:
+              schema:
+                type: string
+                format: binary
   '/PurchaseOrders/{PurchaseOrderID}':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
