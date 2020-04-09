@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: "2.0.7"
+  version: "2.0.8"
   title: Xero Assets API
   description: This is the Xero Assets API 
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
@@ -32,7 +32,7 @@ paths:
           in: query
           description: Required when retrieving a collection of assets. See Asset Status Codes
           schema: 
-            $ref: '#/components/schemas/AssetStatus'
+            $ref: '#/components/schemas/AssetStatusQueryParam'
           required: true
         - name: page
           in: query
@@ -671,11 +671,19 @@ components:
     AssetStatus:
       type: string
       description: "See Asset Status Codes."
-      example: "DRAFT"
+      example: "Draft"
       enum:
         - Draft
         - Registered
         - Disposed
+    AssetStatusQueryParam:
+      type: string
+      description: "See Asset Status Codes."
+      example: "DRAFT"
+      enum:
+        - DRAFT
+        - REGISTERED
+        - DISPOSED
     AssetType:
       type: object
       required:
@@ -846,4 +854,71 @@ components:
           type: boolean
           description: "opt in for tax calculation"
           example: false
+      type: object
+    Error:
+      externalDocs:
+        url: "https://developer.xero.com/documentation/api/http-response-codes"
+      properties:
+        resourceValidationErrors:
+          description: Array of elements of resource validation errors
+          type: array
+          items:
+            $ref: "#/components/schemas/ResourceValidationErrorsElement"
+        fieldValidationErrors:
+          description: Array of elements of field validation errors
+          type: array
+          items:
+            $ref: "#/components/schemas/FieldValidationErrorsElement"
+        type:
+          description: The internal type of error, not accessible externally
+          type: string
+        title:
+          description: Title of the error
+          type: string
+        detail:
+          description: Detail of the error
+          type: string
+      type: object
+    ResourceValidationErrorsElement:
+      externalDocs:
+        url: "https://developer.xero.com/documentation/api/http-response-codes"
+      properties:
+        resourceName:
+          description: The field name of the erroneous field
+          type: string
+        localisedMessage:
+          description: Explaination of the resource validation error
+          type: string
+        type:
+          description: Internal type of the resource error message
+          type: string
+        title:
+          description: Title of the resource validation error
+          type: string
+        detail:
+          description: Detail of the resource validation error
+          type: string
+      type: object
+    FieldValidationErrorsElement:
+      externalDocs:
+        url: "https://developer.xero.com/documentation/api/http-response-codes"
+      properties:
+        fieldName:
+          description: The field name of the erroneous field
+          type: string
+        valueProvided:
+          description: The provided value
+          type: string
+        localisedMessage:
+          description: Explaination of the field validation error
+          type: string
+        type:
+          description: Internal type of the field validation error message
+          type: string
+        title:
+          description: Title of the field validation error
+          type: string
+        detail:
+          description: Detail of the field validation error
+          type: string
       type: object
