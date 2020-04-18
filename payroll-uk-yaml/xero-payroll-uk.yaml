@@ -811,27 +811,27 @@ paths:
               schema:
                 $ref: '#/components/schemas/EmployeeLeaveObject'
               example: '{
-                          "id": "1105314b-c65d-45b4-9b93-af645ebd88e1",
+                          "id": "ea115d89-61a0-4a2d-ad77-e3c63a2b401f",
                           "providerName": "java-sdk-oauth2-dev-02",
-                          "dateTimeUTC": "2020-03-31T04:07:15.8470261",
+                          "dateTimeUTC": "2020-04-17T18:18:30.5118218",
                           "httpStatusCode": "OK",
                           "pagination": null,
                           "problem": null,
                           "leave": {
-                            "leaveID": "384bf62a-5884-484d-b675-a3ad9c662f8e",
+                            "leaveID": "8340b795-50c1-428e-9fda-90badf081ab4",
                             "leaveTypeID": "ed08dffe-788e-4b24-9630-f0fa2f4d164c",
-                            "description": "Vacation to Majorca",
-                            "startDate": "2020-02-17T00:00:00",
-                            "endDate": "2020-02-21T00:00:00",
+                            "description": "Creating a Description",
+                            "startDate": "2020-04-24T00:00:00",
+                            "endDate": "2020-04-26T00:00:00",
                             "periods": [
                               {
-                                "periodStartDate": "2020-02-17T00:00:00",
-                                "periodEndDate": "2020-02-23T00:00:00",
-                                "numberOfUnits": 40,
+                                "periodStartDate": "2020-04-20T00:00:00",
+                                "periodEndDate": "2020-04-26T00:00:00",
+                                "numberOfUnits": 1,
                                 "periodStatus": "Approved"
                               }
                             ],
-                            "updatedDateUTC": "2020-03-31T04:07:15.8120844"
+                            "updatedDateUTC": "2020-04-17T18:18:30.614537"
                           }
                         }'
         '400':
@@ -847,16 +847,15 @@ paths:
             schema:
               $ref: '#/components/schemas/EmployeeLeave'
             example: '{
-                        "leaveID": "384bf62a-5884-484d-b675-a3ad9c662f8e",
                         "leaveTypeID": "ed08dffe-788e-4b24-9630-f0fa2f4d164c",
-                        "description": "Vacation to Majorca",
-                        "startDate": "2020-02-17",
-                        "endDate": "2020-02-21",
+                        "description": "Creating a Description",
+                        "startDate": "2020-04-24",
+                        "endDate": "2020-04-26",
                         "periods": [
                           {
-                            "periodStartDate": "2020-02-17",
-                            "periodEndDate": "2020-02-23",
-                            "numberOfUnits": 40,
+                            "periodStartDate": "2020-04-20",
+                            "periodEndDate": "2020-04-26",
+                            "numberOfUnits": 1,
                             "periodStatus": "Approved"
                           }
                         ]
@@ -1108,7 +1107,39 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EmployeeStatutorySickLeaves'
+                $ref: '#/components/schemas/EmployeeStatutorySickLeaveObject'
+              example: '{
+                          "id": "c484213d-6225-4ede-bc5e-e81ef350af41",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-04-17T18:31:49.3895522",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null,
+                          "statutorySickLeave": {
+                            "statutoryLeaveID": "17f4c3c7-d65c-4572-9118-03798f26f813",
+                            "employeeID": "aad6b292-7b94-408b-93f6-e489867e3fb0",
+                            "leaveTypeID": "054a2b5e-fe51-4494-9486-3e3130323c69",
+                            "startDate": "2020-03-28",
+                            "endDate": "2020-04-01",
+                            "workPattern": [
+                              "Monday",
+                              "Tuesday",
+                              "Wednesday",
+                              "Thursday",
+                              "Friday"
+                            ],
+                            "isPregnancyRelated": false,
+                            "sufficientNotice": true,
+                            "isEntitled": false,
+                            "entitlementWeeksRequested": 0.6,
+                            "entitlementWeeksQualified": 28,
+                            "entitlementWeeksRemaining": 0,
+                            "overlapsWithOtherLeave": false,
+                            "entitlementFailureReasons": [
+                              "AweLowerThanLel"
+                            ]
+                          }
+                        }'
   /Employees/{EmployeeId}/LeavePeriods:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -1399,13 +1430,40 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EmployeePayTemplate'
+                $ref: '#/components/schemas/EmployeePayTemplateObject'
+              example: '{
+                          "id": "3138be2b-96d9-44d0-a01e-80fd527555c8",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-04-17T15:10:54.4464048",
+                          "httpStatusCode": "OK",
+                          "pagination": {
+                            "page": 1,
+                            "pageSize": 100,
+                            "pageCount": 0,
+                            "itemCount": 0
+                          },
+                          "problem": null,
+                          "payTemplate": {
+                            "employeeID": "aad6b292-7b94-408b-93f6-e489867e3fb0",
+                            "earningTemplates": [
+                              {
+                                "payTemplateEarningID": "4e2a0753-56b9-423d-8068-624473bd1c00",
+                                "ratePerUnit": 25,
+                                "numberOfUnits": 10,
+                                "fixedAmount": null,
+                                "earningsRateID": "87f5b43a-cf51-4b74-92de-94c819e82d27",
+                                "name": "Regular Hours"
+                              }
+                            ]
+                          }
+                        }'
         '400':
           description: validation error for a bad request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Problem'
+  # 503
   /Employees/{EmployeeId}/PayTemplates/earnings:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -1431,7 +1489,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EarningsTemplate'
+                $ref: '#/components/schemas/EarningsTemplateObject'
         '400':
           description: validation error for a bad request
           content:
@@ -1444,7 +1502,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/EarningsTemplate'
-  /Employees/{EmployeeId}/PayTemplates/earnings/{PayTemplateEarningsID}:
+  /Employees/{EmployeeId}/PayTemplates/earnings/{PayTemplateEarningID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     put:
@@ -1463,7 +1521,7 @@ paths:
             type: string
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
-        - name: PayTemplateEarningsID
+        - name: PayTemplateEarningID
           in: path
           required: true
           description:  Id for single pay template earnings object
@@ -1477,7 +1535,23 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EarningsTemplates'
+                $ref: '#/components/schemas/EarningsTemplateObject'
+              example: '{
+                          "id": "39603f09-e06f-4cd4-8291-e3ad1df8b35b",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-04-17T15:52:35.0247503",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null,
+                          "earningTemplate": {
+                            "payTemplateEarningID": "4e2a0753-56b9-423d-8068-624473bd1c00",
+                            "ratePerUnit": 30,
+                            "numberOfUnits": 4,
+                            "fixedAmount": null,
+                            "earningsRateID": "87f5b43a-cf51-4b74-92de-94c819e82d27",
+                            "name": "Regular Hours"
+                          }
+                        }'
         '400':
           description: validation error for a bad request
           content:
@@ -1489,7 +1563,12 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/EarningsTemplates'
+              $ref: '#/components/schemas/EarningsTemplate'
+            example: '{
+                        "ratePerUnit": 30,
+                        "numberOfUnits": 4,
+                        "earningsRateID": "87f5b43a-cf51-4b74-92de-94c819e82d27"
+                      }'
     delete:
       security:
         - OAuth2: [payroll.employees]
@@ -1506,7 +1585,7 @@ paths:
             type: string
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
-        - name: PayTemplateEarningsID
+        - name: PayTemplateEarningID
           in: path
           required: true
           description:  Id for single pay template earnings object
@@ -1517,7 +1596,7 @@ paths:
       responses:
         '200':
           description: deletion successful
-  /Employees/{EmployeeId}/PayTemplatesEarnings:
+  /Employees/{EmployeeId}/paytemplateearnings:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     post:
@@ -1542,7 +1621,33 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EarningsTemplates'
+                $ref: '#/components/schemas/EmployeePayTemplate'
+              example: '{
+                        "id": "1c08b529-0827-4e91-a6a1-c479765aa65f",
+                        "providerName": "java-sdk-oauth2-dev-02",
+                        "dateTimeUTC": "2020-04-17T16:56:35.6264368",
+                        "httpStatusCode": "OK",
+                        "pagination": null,
+                        "problem": null,
+                        "earningTemplates": [
+                          {
+                            "payTemplateEarningID": "6b32533d-1111-4a92-ac52-7641315a1719",
+                            "ratePerUnit": 20,
+                            "numberOfUnits": 8,
+                            "fixedAmount": null,
+                            "earningsRateID": "87f5b43a-cf51-4b74-92de-94c819e82d27",
+                            "name": "Regular Hours"
+                          },
+                          {
+                            "payTemplateEarningID": "b8b16366-6a60-4b72-97c1-57af555da375",
+                            "ratePerUnit": 20,
+                            "numberOfUnits": 8,
+                            "fixedAmount": null,
+                            "earningsRateID": "973365f3-66b2-4c33-8ae6-14b75f78f68b",
+                            "name": "Overtime Hours"
+                          }
+                        ]
+                      }'
         '400':
           description: validation error for a bad request
           content:
@@ -1555,6 +1660,18 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/EarningsTemplates'
+            example: '[
+                        {
+                            "ratePerUnit":20.0,
+                            "numberOfUnits":8.0,
+                            "earningsRateID":"87f5b43a-cf51-4b74-92de-94c819e82d27"
+                        },
+                        {
+                            "ratePerUnit":20.0,
+                            "numberOfUnits":8.0,
+                            "earningsRateID":"973365f3-66b2-4c33-8ae6-14b75f78f68b"
+                        }
+                      ]'
   /Benefits:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -1578,6 +1695,37 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Benefits'
+              example: '{
+                          "id": "079865dc-f3df-4783-98a9-67db747ab82c",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-04-15T18:45:03.617089",
+                          "httpStatusCode": "OK",
+                          "pagination": {
+                            "page": 1,
+                            "pageSize": 100,
+                            "pageCount": 1,
+                            "itemCount": 1
+                          },
+                          "problem": null,
+                          "benefits": [
+                            {
+                              "id": "17ee7e28-9f4c-4675-9590-cc0547c9f7ac",
+                              "name": "Mind The Gap Pensions",
+                              "category": "StakeholderPension",
+                              "liabilityAccountId": "d659ebbf-0760-4e07-a1fb-8de6b9ecdff9",
+                              "expenseAccountId": "edda7154-dfc8-4486-a82b-e5e955408eaa",
+                              "standardAmount": null,
+                              "percentage": 3,
+                              "calculationType": "PercentageOfGross",
+                              "currentRecord": true,
+                              "showBalanceToEmployee": false,
+                              "subjectToNIC": null,
+                              "subjectToPension": null,
+                              "subjectToTax": null,
+                              "isCalculatingOnQualifyingEarnings": null
+                            }
+                          ]
+                        }'
     post:
       security:
         - OAuth2: [payroll.settings]
@@ -1591,7 +1739,31 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Benefit'
+                $ref: '#/components/schemas/BenefitObject'
+              example: '{
+                          "id": "95352407-6477-42f1-bd9c-bab28af8b0d9",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-04-15T18:59:01.5812362",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null,
+                          "benefit": {
+                            "id": "d295bf25-fb61-4f91-9b62-a9ae87633746",
+                            "name": "My Big Bennie",
+                            "category": "StakeholderPension",
+                            "liabilityAccountId": "e0faa299-ca0d-4b0a-9e32-0dfabdf9179a",
+                            "expenseAccountId": "4b03500d-32fd-4616-8d70-e1e56e0519c6",
+                            "standardAmount": null,
+                            "percentage": 25,
+                            "calculationType": "PercentageOfGross",
+                            "currentRecord": true,
+                            "showBalanceToEmployee": true,
+                            "subjectToNIC": null,
+                            "subjectToPension": null,
+                            "subjectToTax": null,
+                            "isCalculatingOnQualifyingEarnings": null
+                          }
+                        }'
         '400':
           description: validation error for a bad request
           content:
@@ -1604,7 +1776,16 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Benefit'
-  /Benefits/{Id}:
+            example: '{
+                        "name": "My Big Bennie",
+                        "category": "StakeholderPension",
+                        "liabilityAccountId": "e0faa299-ca0d-4b0a-9e32-0dfabdf9179a",
+                        "expenseAccountId": "4b03500d-32fd-4616-8d70-e1e56e0519c6",
+                        "standardAmount": 50,
+                        "percentage": 25,
+                        "calculationType": "PercentageOfGross"
+                      }'
+  /Benefits/{id}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
@@ -1616,7 +1797,7 @@ paths:
       summary: retrieve a single benefit by id
       parameters:
         - in: path
-          name: Id
+          name: id
           required: true
           description: Identifier for the benefit
           schema:
@@ -1628,7 +1809,31 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Benefit'
+                $ref: '#/components/schemas/BenefitObject'
+              example: '{
+                          "id": "e7959d7b-370d-47e5-bb15-4b68f136ddae",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-04-15T18:45:04.5134277",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null,
+                          "benefit": {
+                            "id": "17ee7e28-9f4c-4675-9590-cc0547c9f7ac",
+                            "name": "Mind The Gap Pensions",
+                            "category": "StakeholderPension",
+                            "liabilityAccountId": "d659ebbf-0760-4e07-a1fb-8de6b9ecdff9",
+                            "expenseAccountId": "edda7154-dfc8-4486-a82b-e5e955408eaa",
+                            "standardAmount": null,
+                            "percentage": 3,
+                            "calculationType": "PercentageOfGross",
+                            "currentRecord": true,
+                            "showBalanceToEmployee": false,
+                            "subjectToNIC": null,
+                            "subjectToPension": null,
+                            "subjectToTax": null,
+                            "isCalculatingOnQualifyingEarnings": null
+                          }
+                        }'
   /Deductions:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -1703,54 +1908,54 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Benefit'
-  /StatutoryDeductions:
-    parameters:
-      - $ref: '#/components/parameters/requiredHeader'
-    get:
-      security:
-        - OAuth2: [payroll.settings.read, payroll.settings]
-      tags:
-        - PayrollUK
-      operationId: getStatutoryDeductions
-      summary: searches statutory deductions
-      parameters:
-        - in: query
-          name: page
-          description: Page number which specifies the set of records to retrieve. By default the number of the records per set is 100.
-          schema:
-            type: integer
-      responses:
-        '200':
-          description: search results matching criteria
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/StatutoryDeductions'
-  /StatutoryDeductions/{Id}:
-    parameters:
-      - $ref: '#/components/parameters/requiredHeader'
-    get:
-      security:
-        - OAuth2: [payroll.settings.read, payroll.settings]
-      tags:
-        - PayrollUK
-      operationId: getStatutoryDeduction
-      summary: retrieve a single statutory deduction by id
-      parameters:
-        - in: path
-          name: Id
-          required: true
-          description: Identifier for the statutory deduction
-          schema:
-            type: string
-            format: uuid
-      responses:
-        '200':
-          description: search results matching criteria
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Benefit'
+  # /StatutoryDeductions:
+  #   parameters:
+  #     - $ref: '#/components/parameters/requiredHeader'
+  #   get:
+  #     security:
+  #       - OAuth2: [payroll.settings.read, payroll.settings]
+  #     tags:
+  #       - PayrollUK
+  #     operationId: getStatutoryDeductions
+  #     summary: searches statutory deductions
+  #     parameters:
+  #       - in: query
+  #         name: page
+  #         description: Page number which specifies the set of records to retrieve. By default the number of the records per set is 100.
+  #         schema:
+  #           type: integer
+  #     responses:
+  #       '200':
+  #         description: search results matching criteria
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: '#/components/schemas/StatutoryDeductions'
+  # /StatutoryDeductions/{Id}:
+  #   parameters:
+  #     - $ref: '#/components/parameters/requiredHeader'
+  #   get:
+  #     security:
+  #       - OAuth2: [payroll.settings.read, payroll.settings]
+  #     tags:
+  #       - PayrollUK
+  #     operationId: getStatutoryDeduction
+  #     summary: retrieve a single statutory deduction by id
+  #     parameters:
+  #       - in: path
+  #         name: Id
+  #         required: true
+  #         description: Identifier for the statutory deduction
+  #         schema:
+  #           type: string
+  #           format: uuid
+  #     responses:
+  #       '200':
+  #         description: search results matching criteria
+  #         content:
+  #           application/json:
+  #             schema:
+  #               $ref: '#/components/schemas/Benefit'
   /EarningsRates:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -1774,6 +1979,45 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EarningsRates'
+              example: '{
+                        "id": "fbe7a960-fad3-4293-8de9-0fabfbea615f",
+                        "providerName": "java-sdk-oauth2-dev-02",
+                        "dateTimeUTC": "2020-04-15T15:00:05.2418623",
+                        "httpStatusCode": "OK",
+                        "pagination": {
+                          "page": 1,
+                          "pageSize": 100,
+                          "pageCount": 1,
+                          "itemCount": 13
+                        },
+                        "problem": null,
+                        "earningsRates": [
+                          {
+                            "earningsRateID": "87f5b43a-cf51-4b74-92de-94c819e82d27",
+                            "name": "Regular Hours",
+                            "earningsType": "RegularEarnings",
+                            "rateType": "RatePerUnit",
+                            "typeOfUnits": "hours",
+                            "currentRecord": true,
+                            "expenseAccountID": "81da553d-c6c6-411e-95df-cc4ac8f7e1c2",
+                            "fixedAmount": null,
+                            "ratePerUnit": null,
+                            "multipleOfOrdinaryEarningsRate": null
+                          },
+                          {
+                            "earningsRateID": "973365f3-66b2-4c33-8ae6-14b75f78f68b",
+                            "name": "Overtime Hours",
+                            "earningsType": "OvertimeEarnings",
+                            "rateType": "MultipleOfOrdinaryEarningsRate",
+                            "typeOfUnits": null,
+                            "currentRecord": true,
+                            "expenseAccountID": "81da553d-c6c6-411e-95df-cc4ac8f7e1c2",
+                            "fixedAmount": null,
+                            "ratePerUnit": null,
+                            "multipleOfOrdinaryEarningsRate": 1.5
+                          }
+                        ]
+                      }'
     post:
       security:
         - OAuth2: [payroll.settings]
@@ -1787,7 +2031,27 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EarningsRate'
+                $ref: '#/components/schemas/EarningsRateObject'
+              example: '{
+                          "id": "cc5341dd-c652-47f0-b8a3-67a22617ca7b",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-04-15T18:12:04.6341065",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null,
+                          "earningsRate": {
+                            "earningsRateID": "fcf811a8-3843-4e87-8431-c62e83158aef",
+                            "name": "My Earnings Rate",
+                            "earningsType": "RegularEarnings",
+                            "rateType": "RatePerUnit",
+                            "typeOfUnits": "hours",
+                            "currentRecord": true,
+                            "expenseAccountID": "4b03500d-32fd-4616-8d70-e1e56e0519c6",
+                            "fixedAmount": null,
+                            "ratePerUnit": null,
+                            "multipleOfOrdinaryEarningsRate": null
+                          }
+                        }'
         '400':
           description: validation error for a bad request
           content:
@@ -1800,6 +2064,13 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/EarningsRate'
+            example: '{
+                        "name": "My Earnings Rate",
+                        "earningsType": "RegularEarnings",
+                        "rateType": "RatePerUnit",
+                        "typeOfUnits": "hours",
+                        "expenseAccountID": "4b03500d-32fd-4616-8d70-e1e56e0519c6"
+                      }'
   /EarningsRates/{EarningsRateID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -1824,7 +2095,27 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EarningsRate'
+                $ref: '#/components/schemas/EarningsRateObject'
+              example: '{
+                          "id": "85375ff5-6ccf-4d8c-a976-0531c94597de",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-04-15T16:54:51.8240698",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null,
+                          "earningsRate": {
+                            "earningsRateID": "87f5b43a-cf51-4b74-92de-94c819e82d27",
+                            "name": "Regular Hours",
+                            "earningsType": "RegularEarnings",
+                            "rateType": "RatePerUnit",
+                            "typeOfUnits": "hours",
+                            "currentRecord": true,
+                            "expenseAccountID": "81da553d-c6c6-411e-95df-cc4ac8f7e1c2",
+                            "fixedAmount": null,
+                            "ratePerUnit": null,
+                            "multipleOfOrdinaryEarningsRate": null
+                          }
+                        }'
   /LeaveTypes:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -3042,7 +3333,7 @@ paths:
           description: By default get payruns will return all the payruns for an organization. You can add GET https://api.xero.com/payroll.xro/2.0/payRuns?statu={PayRunStatus} to filter the payruns by status.
           schema:
             type: string
-            format: enum
+            enum:
               - Draft
               - Posted
       responses:
@@ -3670,8 +3961,8 @@ components:
           description: The employee’s gender
           type: string
           enum:
-          - M   #Male  
-          - F   #Female  
+          - M  
+          - F 
           example: F
         phoneNumber:
           description: Employee phone number
@@ -3921,11 +4212,11 @@ components:
         numberOfUnits:
           description: The Number of Units for the leave
           type: number
-          format: integer
+          format: float
         periodStatus:
           description: Period Status
           type: string
-          format: enum
+          enum:
             - Approved
             - Completed
     EmployeeLeaveBalances:
@@ -3973,7 +4264,7 @@ components:
         leaveType: 
           description: The type of statutory leave
           type: string
-          format: enum
+          enum:
             - sick
             - adoption
             - maternity
@@ -3986,7 +4277,7 @@ components:
         units:
           description: The units will be "Hours"
           type: string
-          format: enum
+          enum:
             - Hours
     EmployeeStatutoryLeavesSummaries:
       type: object
@@ -4013,7 +4304,7 @@ components:
         type:
           description: The category of statutory leave
           type: string
-          format: enum
+          enum:
             - sick
             - adoption
             - maternity
@@ -4035,7 +4326,7 @@ components:
         status:
           description: The status of the leave
           type: string
-          format: enum
+          enum:
             - Pending
             - In-Progress
             - Completed
@@ -4050,6 +4341,15 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/EmployeeStatutorySickLeave'
+    EmployeeStatutorySickLeaveObject:
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        problem:
+          $ref: '#/components/schemas/Problem'
+        statutorySickLeave:
+          $ref: '#/components/schemas/EmployeeStatutorySickLeave'
     EmployeeStatutorySickLeave:
       type: object
       required:
@@ -4123,7 +4423,7 @@ components:
         entitlementFailureReasons:
           description: If the leave requested was considered "not entitled", the reasons why are listed here. 
           type: string
-          format: enum
+          enum:
            - UnableToCalculateAwe
            - AweLowerThanLel
            - NotQualifiedInPreviousPiw
@@ -4175,6 +4475,15 @@ components:
           description: The number of hours added to the leave balance for every hour worked by the employee. This is normally 0, unless the scheduleOfAccrual chosen is "OnHourWorked"
           type: number
           format: float
+    EmployeePayTemplateObject:
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        problem:
+          $ref: '#/components/schemas/Problem'
+        payTemplate:
+          $ref: '#/components/schemas/EmployeePayTemplate'
     EmployeePayTemplate:
       type: object
       required:
@@ -4190,6 +4499,15 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/EarningsTemplate'
+    EarningsTemplateObject:
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        problem:
+          $ref: '#/components/schemas/Problem'
+        earningTemplate:
+          $ref: '#/components/schemas/EarningsTemplate'
     EarningsTemplate:
       type: object
       properties:
@@ -4217,9 +4535,25 @@ components:
           description: The read-only name of the Earning Template.
           type: string
     Benefits:
-      type: array
-      items:
-        $ref: '#/components/schemas/Benefit'
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        problem:
+          $ref: '#/components/schemas/Problem'
+        benefits:
+          type: array
+          items:
+            $ref: '#/components/schemas/Benefit'
+    BenefitObject:
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        problem:
+          $ref: '#/components/schemas/Problem'
+        benefit:
+          $ref: '#/components/schemas/Benefit'
     Benefit:
       type: object
       required:
@@ -4241,6 +4575,9 @@ components:
         category:
           description: Category type of the employer pension
           type: string
+          enum:
+          - StakeholderPension
+          - Other
         liabilityAccountId:
           description: Xero identifier for Liability Account
           type: string
@@ -4260,7 +4597,7 @@ components:
         calculationType:
           description: Calculation Type of the employer pension (FixedAmount or PercentageOfGross).
           type: string
-          format: enum
+          enum:
             - FixedAmount
             - PercentageOfGross
         currentRecord:
@@ -4279,9 +4616,25 @@ components:
           description: Identifier of calculating on qualifying earnings
           type: boolean
     Deductions:
-      type: array
-      items:
-        $ref: '#/components/schemas/Deduction'
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        problem:
+          $ref: '#/components/schemas/Problem'
+        deductions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Deduction'
+    DeductionObject:
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        problem:
+          $ref: '#/components/schemas/Problem'
+        deductions:
+          $ref: '#/components/schemas/Deduction'
     Deduction:
       type: object
       required:
@@ -4300,7 +4653,7 @@ components:
         deductionCategory:
           description: Deduction Category type
           type: string
-          format: enum
+          enum:
             - StakeholderPension
             - StakeholderPensionPostTax
             - ChildCareVoucher
@@ -4326,7 +4679,7 @@ components:
         calculationType:
           description: determine the calculation type whether fixed amount or percentage of gross
           type: string
-          format: enum
+          enum:
             - FixedAmount
             - PercentageOfGross
         percentage:
@@ -4368,7 +4721,7 @@ components:
         statutoryDeductionCategory:
           description: Statutory Deduction Category
           type: string
-          format: enum
+          enum:
             - PriorityOrder
             - NonPriorityOrder
             - TableBased
@@ -4391,9 +4744,25 @@ components:
           description: Identifier of a record is active or not.
           type: boolean
     EarningsRates:
-      type: array
-      items:
-        $ref: '#/components/schemas/EarningsRate'
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        problem:
+          $ref: '#/components/schemas/Problem'
+        earningsRates:
+          type: array
+          items:
+            $ref: '#/components/schemas/EarningsRate'
+    EarningsRateObject:
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        problem:
+          $ref: '#/components/schemas/Problem'
+        earningsRate:
+          $ref: '#/components/schemas/EarningsRate'
     EarningsRate:
       type: object
       required:
@@ -4413,7 +4782,7 @@ components:
         earningsType:
           description: Indicates how an employee will be paid when taking this type of earning
           type: string
-          format: enum
+          enum:
             - OvertimeEarnings
             - Allowance
             - RegularEarnings
@@ -4427,7 +4796,7 @@ components:
         rateType:
           description: Indicates the type of the earning rate
           type: string
-          format: enum
+          enum:
             - RatePerUnit
             - MultipleOfOrdinaryEarningsRate
             - FixedAmount
@@ -4592,7 +4961,7 @@ components:
         status:
           description: Status of the timesheet
           type: string
-          format: enum
+          enum:
             - Draft
             - Approved
             - Completed
@@ -4686,7 +5055,7 @@ components:
         calendarType:
           description: Type of the calendar
           type: string
-          format: enum
+          enum:
             - Weekly
             - Fortnightly
             - FourWeekly
@@ -4730,7 +5099,7 @@ components:
         paymentMethod:
           description: The payment method code
           type: string
-          format: enum
+          enum:
             - Cheque
             - Electronically
             - Manual
@@ -4802,12 +5171,12 @@ components:
         status:
           description: The current status of the corresponding salary and wages
           type: string
-          format: enum
+          enum:
             - active
         paymentType:
           description: The type of the payment of the corresponding salary and wages
           type: string
-          format: enum
+          enum:
             - Salary
     PayRuns:
       type: object
@@ -4866,20 +5235,19 @@ components:
         payRunStatus:
           description: Pay run status
           type: string
-          format: enum
+          enum:
             - Draft
             - Posted
         payRunType:
           description: Pay run type
           type: string
-          format: enum
-            - Pay run type
+          enum:
             - Unscheduled
             - EarlierYearUpdate
         calendarType:
           description: Calendar type of the pay run
           type: string
-          format: enum
+          enum:
             - Weekly
             - Fortnightly
             - FourWeekly
@@ -4983,7 +5351,7 @@ components:
         paymentMethod:
           description: The payment method code
           type: string
-          format: enum
+          enum:
             - Cheque
             - Electronically
             - Manual
@@ -5260,7 +5628,7 @@ components:
         type:
           description: The assigned AccountType
           type: string
-          format: enum
+          enum:
             - WagesPayable
             - WagesExpenses
             - Bank
