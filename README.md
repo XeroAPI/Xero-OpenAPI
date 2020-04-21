@@ -6,17 +6,18 @@ This repository holds the official Xero [OpenAPI](https://www.openapis.org/) des
 
 OpenAPI spec 3.0
 In Release (used for one or more SDKs)
-* [Accounting - yaml](https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/master/accounting-yaml/xero_accounting.yaml)
-* [Identity - yaml](https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/master/identity-yaml/xero-identity.yaml)
-* [Bank Feeds - yaml](https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/master/bankfeeds-yaml/xero_bankfeeds.yaml)
-* [Fixed Assets - yaml](https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/master/assets-yaml/xero_assets.yaml)
-* [Project - yaml](https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/master/projects-yaml/Xero-projects.yaml)
-* [Payroll AU - yaml](https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/master/payroll-au-yaml/xero-payroll-au.yaml)
+* [Accounting](https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/master/accounting-yaml/xero_accounting.yaml)
+* [Identity](https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/master/identity-yaml/xero-identity.yaml)
+* [Bank Feeds](https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/master/bankfeeds-yaml/xero_bankfeeds.yaml)
+* [Fixed Assets](https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/master/assets-yaml/xero_assets.yaml)
+* [Project](https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/master/projects-yaml/Xero-projects.yaml)
+* [Payroll AU](https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/master/payroll-au-yaml/xero-payroll-au.yaml)
+* [Payroll UK -beta](https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/master/payroll-uk-yaml/xero-payroll-uk.yaml)
 
 In Development
-* Payroll NZ/UK - yaml
-* Files - yaml
-* Xero HQ - yaml
+* Payroll NZ
+* Files
+* Xero HQ
 
 ## Code Generators
 We are using [OpenAPI generator](https://github.com/OpenAPITools/openapi-generator) along with these OAS yaml files to generate our new SDKs.
