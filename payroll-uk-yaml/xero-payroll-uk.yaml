@@ -12,7 +12,7 @@ tags:
   - name: PayrollUK
 servers:
   - description: Xero Payroll AU API
-    url: https://api.xero.com/payroll.xro/2.0/
+    url: https://api.xero.com/payroll.xro/2.0
 paths:
   /Employees:
     parameters:
@@ -141,7 +141,7 @@ paths:
         - OAuth2: [payroll.employees]
       tags:
         - PayrollUK
-      operationId: createEmployees
+      operationId: createEmployee
       summary: creates employees
       responses:
         '200':
@@ -612,7 +612,7 @@ paths:
         - OAuth2: [payroll.employees.read,payroll.employees]
       tags:
         - PayrollUK
-      operationId: getEmployeeLeave
+      operationId: getEmployeeLeaves
       summary: search employee leave records
       parameters:
         - name: EmployeeId
@@ -729,7 +729,7 @@ paths:
         - OAuth2: [payroll.employees.read,payroll.employees]
       tags:
         - PayrollUK
-      operationId: getEmployeeLeaveSingle
+      operationId: getEmployeeLeave
       summary: retrieve a single employee leave record
       parameters:
         - name: EmployeeId
@@ -4550,6 +4550,11 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LeavePeriod'
+        updatedDateUTC:
+          description: UTC timestamp of last update to the leave type note
+          type: string
+          format: date-time
+          x-is-datetime: true
     LeavePeriods:
       type: object
       properties:
@@ -6088,7 +6093,7 @@ components:
           description: PostCode for employee home address
           type: string
           example: SW6 6EY
-        country:
+        countryName:
           description: Country of HomeAddress
           type: string
           example: United Kingdom
