@@ -141,7 +141,7 @@ paths:
         - OAuth2: [payroll.employees]
       tags:
         - PayrollUK
-      operationId: createEmployees
+      operationId: createEmployee
       summary: creates employees
       responses:
         '200':
@@ -612,7 +612,7 @@ paths:
         - OAuth2: [payroll.employees.read,payroll.employees]
       tags:
         - PayrollUK
-      operationId: getEmployeeLeave
+      operationId: getEmployeeLeaves
       summary: search employee leave records
       parameters:
         - name: EmployeeId
@@ -729,7 +729,7 @@ paths:
         - OAuth2: [payroll.employees.read,payroll.employees]
       tags:
         - PayrollUK
-      operationId: getEmployeeLeaveSingle
+      operationId: getEmployeeLeave
       summary: retrieve a single employee leave record
       parameters:
         - name: EmployeeId
@@ -4550,6 +4550,11 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LeavePeriod'
+        updatedDateUTC:
+          description: UTC timestamp of last update to the leave type note
+          type: string
+          format: date-time
+          x-is-datetime: true 
     LeavePeriods:
       type: object
       properties:
@@ -4630,11 +4635,11 @@ components:
           description: The type of statutory leave
           type: string
           enum:
-            - sick
-            - adoption
-            - maternity
-            - paternity
-            - sharedparental
+            - Sick
+            - Adoption
+            - Maternity
+            - Paternity
+            - Sharedparental
         balanceRemaining:
           description: The balance remaining for the corresponding leave type as of specified date.
           type: number
@@ -4670,11 +4675,11 @@ components:
           description: The category of statutory leave
           type: string
           enum:
-            - sick
-            - adoption
-            - maternity
-            - paternity
-            - sharedparental
+            - Sick
+            - Adoption
+            - Maternity
+            - Paternity
+            - Sharedparental
         startDate:
           description: The date when the leave starts  
           type: string
@@ -4787,14 +4792,16 @@ components:
           type: boolean
         entitlementFailureReasons:
           description: If the leave requested was considered "not entitled", the reasons why are listed here. 
-          type: string
-          enum:
-           - UnableToCalculateAwe
-           - AweLowerThanLel
-           - NotQualifiedInPreviousPiw
-           - ExceededMaximumEntitlementWeeksOfSsp
-           - ExceededMaximumDurationOfPiw
-           - SufficientNoticeNotGiven
+          type: array
+          items:
+            type: string
+            enum:
+            - UnableToCalculateAwe
+            - AweLowerThanLel
+            - NotQualifiedInPreviousPiw
+            - ExceededMaximumEntitlementWeeksOfSsp
+            - ExceededMaximumDurationOfPiw
+            - SufficientNoticeNotGiven
     EmployeeLeaveTypes:
       type: object
       properties:
@@ -6088,7 +6095,7 @@ components:
           description: PostCode for employee home address
           type: string
           example: SW6 6EY
-        country:
+        countryName:
           description: Country of HomeAddress
           type: string
           example: United Kingdom
