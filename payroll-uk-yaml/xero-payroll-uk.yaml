@@ -142,6 +142,7 @@ paths:
       tags:
         - PayrollUK
       operationId: createEmployee
+      x-hasPayrollUkProblem: true
       summary: creates employees
       responses:
         '200':
@@ -219,6 +220,7 @@ paths:
       tags:
         - PayrollUK
       operationId: getEmployee
+      x-hasPayrollUkProblem: true
       summary: searches employees
       parameters:
         - name: EmployeeId
@@ -362,6 +364,7 @@ paths:
       tags:
         - PayrollUK
       operationId: createEmployment
+      x-hasPayrollUkProblem: true
       summary: creates employment
       parameters:
         - name: EmployeeId
@@ -506,6 +509,7 @@ paths:
       tags:
         - PayrollUK
       operationId: createEmployeeOpeningBalances
+      x-hasPayrollUkProblem: true
       summary: creates employee opening balances
       parameters:
         - name: EmployeeId
@@ -662,6 +666,7 @@ paths:
       tags:
         - PayrollUK
       operationId: createEmployeeLeave
+      x-hasPayrollUkProblem: true
       summary: creates employee leave records
       parameters:
         - name: EmployeeId
@@ -1062,6 +1067,7 @@ paths:
       tags:
         - PayrollUK
       operationId: createEmployeeStatutorySickLeave
+      x-hasPayrollUkProblem: true
       summary: creates employee statutory sick leave records
       responses:
         '200':
@@ -1310,6 +1316,7 @@ paths:
       tags:
         - PayrollUK
       operationId: createEmployeeLeaveType
+      x-hasPayrollUkProblem: true
       summary: creates employee leave type records
       parameters:
         - name: EmployeeId
@@ -1416,6 +1423,7 @@ paths:
       tags:
         - PayrollUK
       operationId: createEmployeePaymentMethod
+      x-hasPayrollUkProblem: true
       summary: creates employee payment method
       parameters:
         - name: EmployeeId
@@ -1541,6 +1549,7 @@ paths:
       tags:
         - PayrollUK
       operationId: createEmployeeEarningsTemplate
+      x-hasPayrollUkProblem: true
       summary: creates employee earnings template records
       parameters:
         - name: EmployeeId
@@ -1673,6 +1682,7 @@ paths:
       tags:
         - PayrollUK
       operationId: createMultipleEmployeeEarningsTemplate
+      x-hasPayrollUkProblem: true
       summary: creates multiple employee earnings template records
       parameters:
         - name: EmployeeId
@@ -1800,6 +1810,7 @@ paths:
       tags:
         - PayrollUK
       operationId: createBenefit
+      x-hasPayrollUkProblem: true
       summary: create a new benefit
       responses:
         '200':
@@ -1982,6 +1993,7 @@ paths:
       tags:
         - PayrollUK
       operationId: createDeduction
+      x-hasPayrollUkProblem: true
       summary: create a new deduction
       responses:
         '200':
@@ -2336,6 +2348,7 @@ paths:
       tags:
         - PayrollUK
       operationId: createEarningsRate
+      x-hasPayrollUkProblem: true
       summary: create a new earnings rate
       responses:
         '200':
@@ -2495,6 +2508,7 @@ paths:
       tags:
         - PayrollUK
       operationId: createLeaveType
+      x-hasPayrollUkProblem: true
       summary: create a new leave type
       responses:
         '200':
@@ -2635,6 +2649,7 @@ paths:
       tags:
         - PayrollUK
       operationId: createReimbursement
+      x-hasPayrollUkProblem: true
       summary: create a new reimbursement
       responses:
         '200':
@@ -2778,6 +2793,7 @@ paths:
       tags:
         - PayrollUK
       operationId: createTimesheet
+      x-hasPayrollUkProblem: true
       summary: create a new timesheet
       responses:
         '200':
@@ -2946,6 +2962,7 @@ paths:
       tags:
         - PayrollUK
       operationId: createTimesheetLine
+      x-hasPayrollUkProblem: true
       summary: create a new timesheet line
       parameters:
         - in: path
@@ -3308,6 +3325,7 @@ paths:
       tags:
         - PayrollUK
       operationId: createPayRunCalendar
+      x-hasPayrollUkProblem: true
       summary: create a new payrun calendar
       responses:
         '200':
@@ -3463,6 +3481,7 @@ paths:
       tags:
         - PayrollUK
       operationId: createEmployeeSalaryAndWage
+      x-hasPayrollUkProblem: true
       summary: creates employee salary and wage record
       parameters:
         - name: EmployeeId
@@ -4281,8 +4300,12 @@ components:
     EmployeeObject:
       type: object
       properties:
+        pagination:
+          $ref: '#/components/schemas/Pagination'
         employee:
           $ref: '#/components/schemas/Employee'
+        problem:
+          $ref: '#/components/schemas/Problem'
     Employee:
       type: object
       required:
