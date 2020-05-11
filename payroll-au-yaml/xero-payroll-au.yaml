@@ -108,6 +108,7 @@ paths:
         - PayrollAU
       summary: Use this method to create a payroll employee
       operationId: createEmployee
+      x-hasPayrollAuProblem: true
       responses:
         '200':
           description: A successful request
@@ -2347,6 +2348,11 @@ components:
           readOnly: true
           x-is-msdate-time: true
           example: '/Date(1583967733054+0000)/'
+        ValidationErrors: 
+          description: Displays array of validation error messages from the API
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
     LeaveApplications:
       type: object
       properties:
@@ -3842,3 +3848,11 @@ components:
           description: The message describing the error
           type: string
           example: No property or field 'hi' exists in type 'Employee' (at index 0)
+    ValidationError:
+      externalDocs:
+        url: 'https://developer.xero.com/documentation/api/http-response-codes'
+      properties:
+        Message:
+          description: Validation error message
+          type: string
+      type: object
