@@ -108,6 +108,7 @@ paths:
         - PayrollAU
       summary: Use this method to create a payroll employee
       operationId: createEmployee
+      x-hasPayrollAuProblem: true
       responses:
         '200':
           description: A successful request
@@ -516,6 +517,7 @@ paths:
         - PayrollAU
       summary: Use this method to create a Leave Application
       operationId: createLeaveApplication
+      x-hasPayrollAuProblem: true
       responses:
         '200':
           description: A successful request
@@ -887,10 +889,8 @@ paths:
         content:
           application/json:
             schema:
-              type: array
-              items:
-                $ref: '#/components/schemas/PayItem'
-            example: '[
+              $ref: '#/components/schemas/PayItem'
+            example: '
                         {
                           "EarningsRates": [
                             {
@@ -917,7 +917,7 @@ paths:
                             }
                           ]
                         }
-                      ]'
+                      '
   /PayrollCalendars:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -995,6 +995,7 @@ paths:
         - PayrollAU
       summary: Use this method to create a Payroll Calendars
       operationId: createPayrollCalendar
+      x-hasPayrollAuProblem: true
       responses:
         '200':
           description: A successful request
@@ -1161,6 +1162,7 @@ paths:
         - PayrollAU
       summary: Use this method to create a PayRun
       operationId: createPayRun
+      x-hasPayrollAuProblem: true
       responses:
         '200':
           description: A successful request
@@ -1444,7 +1446,8 @@ paths:
       tags:
         - PayrollAU
       summary: Update a Payslip 
-      operationId: updatePayslipByID
+      operationId: updatePayslip
+      x-hasPayrollAuError: true
       description:  Update lines on a single payslips
       parameters: 
         - name: PayslipID
@@ -1466,7 +1469,9 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PayslipObject'
+              type: array
+              items:
+                $ref: '#/components/schemas/PayslipLines'
             example: '{
                         "Payslip": {
                           "EmployeeID": "cdfb8371-0b21-4b8a-8903-1024df6c391e",
@@ -1628,6 +1633,7 @@ paths:
         - PayrollAU
       summary: Use this method to create a super fund
       operationId: createSuperfund
+      x-hasPayrollAuProblem: true
       responses:
         '200':
           description: A successful request
@@ -1931,6 +1937,7 @@ paths:
         - PayrollAU
       summary: Use this method to create a timesheet
       operationId: createTimesheet
+      x-hasPayrollAuProblem: true
       responses:
         '200':
           description: A successful request
@@ -2347,6 +2354,11 @@ components:
           readOnly: true
           x-is-msdate-time: true
           example: '/Date(1583967733054+0000)/'
+        ValidationErrors: 
+          description: Displays array of validation error messages from the API
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
     LeaveApplications:
       type: object
       properties:
@@ -2400,6 +2412,11 @@ components:
           readOnly: true
           x-is-msdate-time: true
           example: '/Date(1583967733054+0000)/'
+        ValidationErrors: 
+          description: Displays array of validation error messages from the API
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
     LeavePeriod:
       type: object
       properties:
@@ -2486,6 +2503,11 @@ components:
           readOnly: true
           x-is-msdate-time: true
           example: '/Date(1583967733054+0000)/'
+        ValidationErrors: 
+          description: Displays array of validation error messages from the API
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
     Timesheets:
       type: object
       properties:
@@ -2540,6 +2562,11 @@ components:
           readOnly: true
           x-is-msdate-time: true
           example: '/Date(1583967733054+0000)/'
+        ValidationErrors: 
+          description: Displays array of validation error messages from the API
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
     TimesheetLines:
       type: array
       items:
@@ -2655,6 +2682,11 @@ components:
           type: number
           format: float
           example: 862.5
+        ValidationErrors: 
+          description: Displays array of validation error messages from the API
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
     PayslipSummary:
       type: object
       properties:
@@ -2716,6 +2748,41 @@ components:
           readOnly: true
           x-is-msdate-time: true
           example: '/Date(1583967733054+0000)/'
+    PayslipLines:
+      type: object
+      properties:
+        EarningsLines:
+          type: array
+          items:
+            $ref: '#/components/schemas/EarningsLine'
+        LeaveEarningsLines:
+          type: array
+          items:
+            $ref: '#/components/schemas/LeaveEarningsLine'
+        TimesheetEarningsLines:
+          type: array
+          items:
+            $ref: '#/components/schemas/EarningsLine'
+        DeductionLines:
+          type: array
+          items:
+            $ref: '#/components/schemas/DeductionLine'
+        LeaveAccrualLines:
+          type: array
+          items:
+            $ref: '#/components/schemas/LeaveAccrualLine'
+        ReimbursementLines:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReimbursementLine'
+        SuperannuationLines:
+          type: array
+          items:
+            $ref: '#/components/schemas/SuperannuationLine'
+        TaxLines:
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxLine'
     PayslipObject:
       type: object
       properties:
@@ -3018,6 +3085,11 @@ components:
           readOnly: true
           x-is-msdate-time: true
           example: '/Date(1583967733054+0000)/'
+        ValidationErrors: 
+          description: Displays array of validation error messages from the API
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
     SuperFundProducts:
       type: object
       properties:
@@ -3842,3 +3914,11 @@ components:
           description: The message describing the error
           type: string
           example: No property or field 'hi' exists in type 'Employee' (at index 0)
+    ValidationError:
+      externalDocs:
+        url: 'https://developer.xero.com/documentation/api/http-response-codes'
+      properties:
+        Message:
+          description: Validation error message
+          type: string
+      type: object
