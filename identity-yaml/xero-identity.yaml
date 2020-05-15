@@ -24,6 +24,15 @@ paths:
       description: Override the base server url that include version
       operationId: getConnections
       summary: Allows you to retrieve the connections for this user
+      parameters:
+        - in: query
+          required: false
+          name: authEventId
+          description: Filter by authEventId
+          example: "00000000-0000-0000-000-000000000000"
+          schema:
+            type: string
+            format: uuid
       x-basepath: 'https://api.xero.com'
       responses:
         '200':
@@ -79,6 +88,10 @@ components:
           format: uuid
         tenantId:
           description: Xero identifier of organisation
+          type: string
+          format: uuid
+        authEventId:
+          description: Identifier shared across connections authorised at the same time
           type: string
           format: uuid
         tenantType:
