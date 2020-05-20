@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Accounting API
-  version: "2.1.3"
+  version: "2.1.4"
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
   contact:
     name: "Xero Platform Team"
@@ -10027,35 +10027,6 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
                             }
                           ]
                         }'
-  '/Prepayments/{PrepaymentID}/pdf':
-    parameters:
-      - $ref: '#/components/parameters/requiredHeader'
-    x-related-model: Prepayment
-    get:
-      security:
-        - OAuth2: [accounting.transactions.read]
-      tags:
-        - Accounting
-      operationId: getPrepaymentAsPdf
-      x-path: '/Prepayments/{PrepaymentID}'
-      summary: Allows you to retrieve prepayments as PDF files
-      parameters:
-        - required: true
-          in: path
-          name: PrepaymentID
-          description: Unique identifier for a PrePayment
-          example: "00000000-0000-0000-000-000000000000"
-          schema:
-            type: string
-            format: uuid
-      responses:
-        '200':
-          description: Success - return response of byte array pdf version of specified Prepayments
-          content:
-             application/pdf:
-              schema:
-                type: string
-                format: binary
   '/Prepayments/{PrepaymentID}':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'

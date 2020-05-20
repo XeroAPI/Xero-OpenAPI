@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: '2.1.3'
+  version: '2.1.4'
   title: 'Xero Payroll AU'
   description: 'This is the Xero Payroll API for orgs in Australia region.'
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
@@ -1464,7 +1464,32 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PayslipObject'
+                $ref: '#/components/schemas/Payslips'
+              example: '{
+                          "Id": "6ba774cb-7db6-4c8e-ba13-5342b5ce6cc3",
+                          "Status": "OK",
+                          "ProviderName": "java-sdk-oauth2-dev-02",
+                          "DateTimeUTC": "/Date(1589568253813)/",
+                          "Payslips": [
+                            {
+                              "EmployeeID": "cdfb8371-0b21-4b8a-8903-1024df6c391e",
+                              "PayslipID": "c81e8bcc-56b0-4740-b46b-767753a6ee45",
+                              "FirstName": "Albus",
+                              "LastName": "Dumbledore",
+                              "LastEdited": "/Date(1589568253735+0000)/",
+                              "Tax": 0,
+                              "NetPay": 1.4,
+                              "UpdatedDateUTC": "/Date(1589568253735+0000)/",
+                              "DeductionLines": [
+                                {
+                                  "Amount": 4,
+                                  "CalculationType": "FIXEDAMOUNT",
+                                  "DeductionTypeID": "ed05ea82-e40a-4eb6-9c2e-4b3c03e7e938"
+                                }
+                              ]
+                            }
+                          ]
+                        }'
       requestBody:
         content:
           application/json:
@@ -2788,6 +2813,13 @@ components:
       properties:
         Payslip:
           $ref: '#/components/schemas/Payslip'
+    Payslips:
+      type: object
+      properties:
+        Payslips:
+          type: array
+          items:
+            $ref: '#/components/schemas/Payslip'
     Payslip:
       type: object
       properties:
