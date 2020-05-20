@@ -3119,6 +3119,160 @@ paths:
             schema:
               $ref: '#/components/schemas/Contacts'
             example: '{contacts: [{ name:"Bruce Banner", emailAddress:"hulk@avengers.com", phones:[ { phoneType: Phone.PhoneTypeEnum.MOBILE, phoneNumber:"555-1212", phoneAreaCode:"415" } ], paymentTerms:{ bills:{ day:15, type: PaymentTermType.OFCURRENTMONTH }, sales:{ day:10, type: PaymentTermType.DAYSAFTERBILLMONTH } } } ] }'     
+  '/Contacts/{ContactNumber}':
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    x-related-model: Contact
+    get:
+      security:
+        - OAuth2: [accounting.contacts.read]
+      tags:
+        - Accounting
+      operationId: getContactByContactNumber
+      summary: 'Allows you to retrieve a single contact by Contact Number in a Xero organisation'
+      parameters:
+        - required: true
+          in: path
+          name: ContactNumber
+          description: This field is read only on the Xero contact screen, used to identify contacts in external systems (max length = 50). 
+          example: "SB2"
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success - return response of type Contacts array with a unique Contact
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contacts'
+              example: '{
+                        "Id": "5c83b115-a6e8-4f2a-877f-ba63d009235b",
+                        "Status": "OK",
+                        "ProviderName": "Xero API Partner",
+                        "DateTimeUTC": "\/Date(1551462703288)\/",
+                        "Contacts": [
+                          {
+                            "ContactID": "8138a266-fb42-49b2-a104-014b7045753d",
+                            "ContactNumber": "SB2",
+                            "AccountNumber": "1234567",
+                            "ContactStatus": "ACTIVE",
+                            "Name": "Acme Parts Co.",
+                            "FirstName": "Blake",
+                            "LastName": "Kohler",
+                            "EmailAddress": "bk@krave.co",
+                            "SkypeUserName": "blake",
+                            "BankAccountDetails": "12334567",
+                            "TaxNumber": "123-22-3456",
+                            "AccountsReceivableTaxType": "TAX003",
+                            "AccountsPayableTaxType": "TAX022",
+                            "Addresses": [
+                              {
+                                "AddressType": "STREET",
+                                "AddressLine1": "123 Fake Street",
+                                "City": "Vancouver",
+                                "Region": "British Columbia",
+                                "PostalCode": "V6B 2T4",
+                                "Country": "",
+                                "AttentionTo": ""
+                              },
+                              {
+                                "AddressType": "POBOX",
+                                "AddressLine1": "1234 Fake Street",
+                                "City": "Vancouver",
+                                "Region": "British Columbia",
+                                "PostalCode": "V6B 2T4",
+                                "Country": "",
+                                "AttentionTo": "Blake"
+                              }
+                            ],
+                            "Phones": [
+                              {
+                                "PhoneType": "DDI",
+                                "PhoneNumber": "489-44493",
+                                "PhoneAreaCode": "345",
+                                "PhoneCountryCode": "4"
+                              },
+                              {
+                                "PhoneType": "DEFAULT",
+                                "PhoneNumber": "408-0914",
+                                "PhoneAreaCode": "604",
+                                "PhoneCountryCode": "1"
+                              },
+                              {
+                                "PhoneType": "FAX",
+                                "PhoneNumber": "123-9933",
+                                "PhoneAreaCode": "123",
+                                "PhoneCountryCode": "2"
+                              },
+                              {
+                                "PhoneType": "MOBILE",
+                                "PhoneNumber": "999-44",
+                                "PhoneAreaCode": "234",
+                                "PhoneCountryCode": "3"
+                              }
+                            ],
+                            "UpdatedDateUTC": "\/Date(1551459777193+0000)\/",
+                            "ContactGroups": [],
+                            "IsSupplier": true,
+                            "IsCustomer": true,
+                            "DefaultCurrency": "USD",
+                            "Discount": 13.00,
+                            "Website": "http://www.google.com",
+                            "BrandingTheme": {
+                              "BrandingThemeID": "dabc7637-62c1-4941-8a6e-ee44fa5090e7",
+                              "Name": "Standard"
+                            },
+                            "PurchasesDefaultAccountCode": "660",
+                            "SalesDefaultAccountCode": "002",
+                            "BatchPayments": {
+                              "BankAccountNumber": "12334567",
+                              "BankAccountName": "Citi Bank",
+                              "Details": "biz checking",
+                              "Code": "",
+                              "Reference": ""
+                            },
+                            "Balances": {
+                              "AccountsReceivable": {
+                                "Outstanding": 118.90,
+                                "Overdue": 136.90
+                              },
+                              "AccountsPayable": {
+                                "Outstanding": -43.60,
+                                "Overdue": 40.00
+                              }
+                            },
+                            "PaymentTerms": {
+                              "Bills": {
+                                "Day": 12,
+                                "Type": "OFFOLLOWINGMONTH"
+                              },
+                              "Sales": {
+                                "Day": 14,
+                                "Type": "OFCURRENTMONTH"
+                              }
+                            },
+                            "ContactPersons": [
+                              {
+                                "FirstName": "Sue",
+                                "LastName": "Johnson",
+                                "EmailAddress": "sue.johnson@krave.com",
+                                "IncludeInEmails": true
+                              }
+                            ],
+                            "HasAttachments": true,
+                            "Attachments": [
+                              {
+                                "AttachmentID": "04e0a3e3-b116-456a-9f32-9706f0d33afa",
+                                "FileName": "sample5.jpg",
+                                "Url": "https://api.xero.com/api.xro/2.0/contact/8138a266-fb42-49b2-a104-014b7045753d/Attachments/sample5.jpg",
+                                "MimeType": "image/jpg",
+                                "ContentLength": 2878711
+                              }
+                            ],
+                            "HasValidationErrors": false
+                          }
+                        ]
+                      }'
   '/Contacts/{ContactID}':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
