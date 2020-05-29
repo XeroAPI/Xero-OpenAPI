@@ -5182,23 +5182,7 @@ components:
           description: Name of the earnings order
           type: string
         statutoryDeductionCategory:
-          description: Statutory Deduction Category
-          type: string
-          enum:
-          - AdditionalStudentLoan
-          - ChildSupport
-          - CourtFines
-          - Creditor
-          - FederalLevy
-          - InlandRevenueArrears
-          - KiwiSaver
-          - MsdRepayments
-          - NonPriorityOrder
-          - PriorityOrder
-          - TableBased
-          - StudentLoan           
-          - VoluntaryStudentLoan
-          - USChildSupport
+          $ref: '#/components/schemas/StatutoryDeductionCategory'
         liabilityAccountId:
           description: Xero identifier for Liability Account
           type: string
@@ -5206,6 +5190,24 @@ components:
         currentRecord:
           description: Identifier of a record is active or not.
           type: boolean
+    StatutoryDeductionCategory:
+      description: Statutory Deduction Category
+      type: string
+      enum:
+      - AdditionalStudentLoan
+      - ChildSupport
+      - CourtFines
+      - Creditor
+      - FederalLevy
+      - InlandRevenueArrears
+      - KiwiSaver
+      - MsdRepayments
+      - NonPriorityOrder
+      - PriorityOrder
+      - TableBased
+      - StudentLoan           
+      - VoluntaryStudentLoan
+      - USChildSupport
     EarningsOrders:
       type: object
       properties:
@@ -5238,14 +5240,13 @@ components:
         name:
           description: Name of the earning order
           type: string
-        StatutoryDeductionCategory:
-          description: Statutory Deduction Category, see Statutory Deduction Categories
-          type: string
-        LiabilityAccoutId:
+        statutoryDeductionCategory:
+          $ref: '#/components/schemas/StatutoryDeductionCategory'
+        liabilityAccoutId:
           description: Xero identifier for Liability Account
           type: string
           format: uuid
-        CurrentRecord:
+        currentRecord:
           description: Identifier of a record is active or not.
           type: boolean
           default: true
