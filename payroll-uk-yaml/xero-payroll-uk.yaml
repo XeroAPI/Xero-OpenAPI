@@ -3902,7 +3902,50 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PayRuns'
+                $ref: '#/components/schemas/PayRunObject'
+              example: '{
+                          "id": "f567524d-34d6-412b-97e3-f97152c1bbc2",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-06-03T18:33:25.3607921",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null,
+                          "payRun": {
+                            "payRunID": "e0a59d82-6229-4be4-9d66-49891b4d933e",
+                            "payrollCalendarID": "216d80e6-af55-47b1-b718-9457c3f5d2fe",
+                            "periodStartDate": "2020-02-03T00:00:00",
+                            "periodEndDate": "2020-02-09T00:00:00",
+                            "paymentDate": "2020-05-01T00:00:00",
+                            "totalCost": 523.79,
+                            "totalPay": 445.04,
+                            "payRunStatus": "Draft",
+                            "payRunType": "Scheduled",
+                            "calendarType": "Weekly",
+                            "postedDateTime": null,
+                            "paySlips": [
+                              {
+                                "paySlipID": "ed3fb9b3-e9a1-44fa-a224-8be49facbbe8",
+                                "employeeID": "aad6b292-7b94-408b-93f6-e489867e3fb0",
+                                "lastEdited": null,
+                                "firstName": "Mike",
+                                "lastName": "Johncfvhitgezvson",
+                                "totalEarnings": 480.77,
+                                "grossEarnings": 480.77,
+                                "totalPay": 445.04,
+                                "totalEmployerTaxes": 43.02,
+                                "totalEmployeeTaxes": 35.73,
+                                "totalDeductions": 0,
+                                "totalReimbursements": 0,
+                                "totalCourtOrders": 0,
+                                "totalBenefits": 0,
+                                "bacsHash": null,
+                                "paymentMethod": "Electronically"
+                              }
+                            ],
+                            "payslipMessage": null,
+                            "invalidPayeeIDs": null
+                          }
+                        }'
         '400':
           description: validation error for a bad request
           content:
@@ -3915,6 +3958,9 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/PayRun'
+            example: '{
+                        "paymentDate": "2020-05-01"
+                      }'
   /Payslips:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
