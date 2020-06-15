@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Accounting API
-  version: "2.2.0"
+  version: "2.2.1"
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
   contact:
     name: "Xero Platform Team"
@@ -19298,6 +19298,12 @@ components:
       properties:
         Invoice:
           $ref: '#/components/schemas/Invoice'
+        Overpayment:
+          $ref: '#/components/schemas/Overpayment'
+        Prepayment:
+          $ref: '#/components/schemas/Prepayment'
+        CreditNote:
+          $ref: '#/components/schemas/CreditNote'
         Amount:
           description: the amount being applied to the invoice
           type: number
@@ -19307,6 +19313,14 @@ components:
           type: string
           x-is-msdate: true
           x-is-msdate-temp: true
+        StatusAttributeString:
+          description: A string to indicate if a invoice status
+          type: string
+        ValidationErrors: 
+          description: Displays array of validation error messages from the API
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
       required:
         - Amount
         - Invoice
@@ -20570,6 +20584,9 @@ components:
           type: string
         RegistrationNumber:
           description: Shows for New Zealand, Australian and UK organisations
+          type: string
+        EmployerIdentificationNumber:
+          description: Shown if set. US Only.
           type: string
         TaxNumber:
           description: Shown if set. Displays in the Xero UI as Tax File Number (AU), GST
@@ -22112,6 +22129,8 @@ components:
           enum:
           - DAYSAFTERBILLDATE
           - DAYSAFTERBILLMONTH
+          - DAYSAFTERINVOICEDATE
+          - DAYSAFTERINVOICEMONTH
           - OFCURRENTMONTH
           - OFFOLLOWINGMONTH
         StartDate:
@@ -22283,6 +22302,26 @@ components:
           - ZERORATEDOUTPUT
           - DRCHARGESUPPLY
           - DRCHARGE
+          - CAPINPUT
+          - CAPIMPORTS
+          - IMINPUT
+          - INPUT2
+          - CIUINPUT
+          - SRINPUT
+          - OUTPUT2
+          - SROUTPUT
+          - CAPOUTPUT
+          - SROUTPUT2
+          - CIUOUTPUT
+          - ZROUTPUT
+          - ZREXPORT
+          - ACC28PLUS
+          - ACCUPTO28
+          - OTHEROUTPUT
+          - SHOUTPUT
+          - ZRINPUT
+          - BADDEBT
+          - OTHERINPUT
         CanApplyToAssets:
           description: Boolean to describe if tax rate can be used for asset accounts i.e.  true,false
           readOnly: true
