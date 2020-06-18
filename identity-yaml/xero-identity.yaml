@@ -76,6 +76,30 @@ paths:
           description: Success - connection has been deleted no content returned 
         '404':
           description: Resource not found
+  '/connect/revocation':
+    post:
+      security:
+        - BasicAuth: []
+      tags:
+        - identity
+      description: Remove all their connections to your app
+      operationId: revokeRefreshToken
+      summary: You can revoke a user's refresh token and remove all their connections to your app by making a request to the revocation endpoint.
+      x-basepath: 'https://identity.xero.com'
+      responses:
+        '200':
+          description: Success - connection has been deleted no content returned 
+      requestBody:
+          required: true
+          description: Account object in body of request 
+          content:
+            application/x-www-form-urlencoded:
+              schema:
+                type: object
+                properties:
+                  token: 
+                    type: string
+                    description: your refresh token to be revoked
 components:
   schemas:
     Connection:
@@ -100,7 +124,7 @@ components:
         tenantName:
           description: Xero tenant name
           type: string
-        createdDateUTC:
+        createdDateUtc:
           description: The date when the user connected this tenant to your app
           type: string
           format: date-time
@@ -151,6 +175,9 @@ components:
           description: token used to refresh an expired access token
           type: string
   securitySchemes:
+    BasicAuth:    
+      type: http
+      scheme: basic
     OAuth2:
       type: oauth2
       description: For more information
