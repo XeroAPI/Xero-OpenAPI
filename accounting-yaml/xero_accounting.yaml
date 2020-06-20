@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Accounting API
-  version: "2.1.7"
+  version: "2.2.2"
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
   contact:
     name: "Xero Platform Team"
@@ -9437,6 +9437,12 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
           example: "Amount ASC"
           schema:
             type: string
+        - in: query
+          name: page
+          description: Up to 100 payments will be returned in a single API call
+          example: 1
+          schema:
+            type: integer
       responses:
         '200':
           description: Success - return response of type Payments array for all Payments
@@ -19325,6 +19331,12 @@ components:
       properties:
         Invoice:
           $ref: '#/components/schemas/Invoice'
+        Overpayment:
+          $ref: '#/components/schemas/Overpayment'
+        Prepayment:
+          $ref: '#/components/schemas/Prepayment'
+        CreditNote:
+          $ref: '#/components/schemas/CreditNote'
         Amount:
           description: the amount being applied to the invoice
           type: number
@@ -19336,6 +19348,14 @@ components:
           format: date
           #x-is-msdate: true
           x-is-msdate-temp: true
+        StatusAttributeString:
+          description: A string to indicate if a invoice status
+          type: string
+        ValidationErrors: 
+          description: Displays array of validation error messages from the API
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
       required:
         - Amount
         - Invoice
@@ -20637,6 +20657,9 @@ components:
         RegistrationNumber:
           description: Shows for New Zealand, Australian and UK organisations
           type: string
+        EmployerIdentificationNumber:
+          description: Shown if set. US Only.
+          type: string
         TaxNumber:
           description: Shown if set. Displays in the Xero UI as Tax File Number (AU), GST
             Number (NZ), VAT Number (UK) and Tax ID Number (US & Global).
@@ -21775,6 +21798,14 @@ components:
           $ref: '#/components/schemas/QuoteLineAmountTypes'
           type: string
           description: See Quote Line Amount Types
+        StatusAttributeString:
+          description: A string to indicate if a invoice status
+          type: string
+        ValidationErrors: 
+          description: Displays array of validation error messages from the API
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
       type: object
     QuoteLineAmountTypes:
       description: Line amounts are exclusive of tax by default if you don’t specify this element. See Line Amount Types
@@ -22238,6 +22269,8 @@ components:
           enum:
           - DAYSAFTERBILLDATE
           - DAYSAFTERBILLMONTH
+          - DAYSAFTERINVOICEDATE
+          - DAYSAFTERINVOICEMONTH
           - OFCURRENTMONTH
           - OFFOLLOWINGMONTH
         StartDate:
@@ -22413,6 +22446,26 @@ components:
           - ZERORATEDOUTPUT
           - DRCHARGESUPPLY
           - DRCHARGE
+          - CAPINPUT
+          - CAPIMPORTS
+          - IMINPUT
+          - INPUT2
+          - CIUINPUT
+          - SRINPUT
+          - OUTPUT2
+          - SROUTPUT
+          - CAPOUTPUT
+          - SROUTPUT2
+          - CIUOUTPUT
+          - ZROUTPUT
+          - ZREXPORT
+          - ACC28PLUS
+          - ACCUPTO28
+          - OTHEROUTPUT
+          - SHOUTPUT
+          - ZRINPUT
+          - BADDEBT
+          - OTHERINPUT
         CanApplyToAssets:
           description: Boolean to describe if tax rate can be used for asset accounts i.e.  true,false
           readOnly: true
