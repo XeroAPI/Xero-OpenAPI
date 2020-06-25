@@ -73,8 +73,9 @@ paths:
         - Accounting
       operationId: createAccount
       x-hasAccountingValidationError: true
+      x-ruby-requestBody: 'account = { code: "123456", name: "Foobar", type: XeroRuby::Accounting::AccountType::EXPENSE, description: "Hello World" }'
       summary: Allows you to create a new chart of accounts
-      x-php: 
+      x-php:
           - '$account = new XeroAPI\XeroPHP\Models\Accounting\Account;'
           - '$account->setCode("987654321");'
           - '$account->setName("FooBar");'
@@ -137,18 +138,13 @@ paths:
                           ]
                         }'
       requestBody:
-          required: true
-          description: Account object in body of request 
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Account'
-              example: '{
-                          code: "123456",
-                          name: "Foobar",
-                          type: AccountType.EXPENSE,
-                          description: "Hello World"
-                        }'
+        required: true
+        description: Account object in body of request 
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Account'
+            example: '{ code: "123456", name: "Foobar", type: AccountType.EXPENSE, description: "Hello World" }'
   '/Accounts/{AccountID}':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -272,24 +268,13 @@ paths:
                           ]
                         }'
       requestBody:
-          required: true
-          description: Request of type Accounts array with one Account 
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Accounts'
-              example: '{  
-                         accounts:[  
-                            {  
-                               code:"123456",
-                               name:"BarFoo",
-                               accountID:"00000000-0000-0000-000-000000000000",
-                               type:AccountType.EXPENSE,
-                               description:"GoodBye World",
-                               taxType:"INPUT"
-                            }
-                         ]
-                      }'
+        required: true
+        description: Request of type Accounts array with one Account 
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Accounts'
+            example: '{ accounts: [{ code: "123456", name: "BarFoo", accountID: "00000000-0000-0000-000-000000000000", type: AccountType.EXPENSE, description: "GoodBye World", taxType: TaxType.INPUT }]}'
     delete:
       security:
         - OAuth2: [accounting.settings]
@@ -743,6 +728,7 @@ paths:
         - Accounting
       operationId: createBatchPayment
       x-hasAccountingValidationError: true
+      x-ruby-requestBody: 'batch_payments = { batch_payments: [{ account: { account_id: "00000000-0000-0000-000-000000000000" }, reference: "ref", date: "2018-08-01", payments: [{  account: { code: "001" }, date: "2019-12-31", amount: 500, invoice: { invoice_id: "00000000-0000-0000-000-000000000000", line_items: [], contact: {}, type: XeroRuby::Accounting::Invoice::ACCPAY }}]}]}'
       summary: Create one or many BatchPayments for invoices
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
@@ -1113,6 +1099,7 @@ paths:
         - Accounting
       operationId: createBankTransactions
       x-hasAccountingValidationError: true
+      x-ruby-requestBody: 'bank_transactions = { bank_transactions: [{ type: XeroRuby::Accounting::BankTransaction::SPEND, contact: { contact_id: "00000000-0000-0000-000-000000000000" }, line_items: [{ description: "Foobar", quantity: 1.0, unit_amount: 20.0, account_code: "000" } ], bank_account: { code: "000" }}]}'
       summary: Allows you to create one or more spend or receive money transaction
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
@@ -1241,7 +1228,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/BankTransactions'
-            example: '{ bankTransactions:[ { type: BankTransaction.TypeEnum.SPEND, contact: { contactID:"00000000-0000-0000-000-000000000000" }, lineItems:[ { description:"Foobar", quantity: 1.0, unitAmount:20.0, accountCode:"000" } ], bankAccount:{ code:"000" } } ] }'
+            example: '{ bankTransactions: [{ type: BankTransaction.TypeEnum.SPEND, contact: { contactID: "00000000-0000-0000-000-000000000000" }, lineItems: [{ description: "Foobar", quantity: 1.0, unitAmount: 20.0, accountCode: "000" } ], bankAccount: { code: "000" }}]}'
     post:
       security:
         - OAuth2: [accounting.transactions]
@@ -1376,7 +1363,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/BankTransactions'
-            example: '{ bankTransactions:[ { type: BankTransaction.TypeEnum.SPEND, contact: { contactID:"00000000-0000-0000-000-000000000000" }, lineItems:[ { description:"Foobar", quantity: 1.0, unitAmount:20.0, accountCode:"000" } ], bankAccount:{ code:"000" } } ] }'
+            example: '{ bankTransactions: [{ type: BankTransaction.TypeEnum.SPEND, contact: { contactID: "00000000-0000-0000-000-000000000000" }, lineItems: [{ description: "Foobar", quantity: 1.0, unitAmount: 20.0, accountCode: "000" } ], bankAccount: { code: "000" }}]}'
   '/BankTransactions/{BankTransactionID}':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -1518,6 +1505,7 @@ paths:
         - Accounting
       operationId: updateBankTransaction
       x-hasAccountingValidationError: true
+      x-ruby-requestBody: '{ bank_transactions: [{ type: XeroRuby::Accounting::BankTransaction::SPEND, date: "2019-02-25", reference: "You just updated", status: XeroRuby::Accounting::BankTransaction::AUTHORISED, bank_transaction_id: "00000000-0000-0000-000-000000000000", line_items: [], contact: {}, bank_account: { account_id: "00000000-0000-0000-000-000000000000" }}]}
       summary: Allows you to update a single spend or receive money transaction
       parameters:
         - required: true
@@ -1648,7 +1636,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/BankTransactions'
-            example: '{ bankTransactions:[ { type: BankTransaction.TypeEnum.SPEND, date:"2019-02-25", reference:"You just updated", status:BankTransaction.StatusEnum.AUTHORISED, bankTransactionID:"00000000-0000-0000-000-000000000000", lineItems: [],contact: {}, bankAccount: {accountID: "00000000-0000-0000-000-000000000000"} } ] }'
+            example: '{ bankTransactions: [{ type: BankTransaction.TypeEnum.SPEND, date: "2019-02-25", reference: "You just updated", status: BankTransaction.StatusEnum.AUTHORISED, bankTransactionID: "00000000-0000-0000-000-000000000000", lineItems: [], contact: {}, bankAccount: { accountID: "00000000-0000-0000-000-000000000000" }}]}'
   '/BankTransactions/{BankTransactionID}/Attachments':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -2030,6 +2018,7 @@ paths:
         - Accounting
       operationId: createBankTransfer
       x-hasAccountingValidationError: true
+      x-ruby-requestBody: 'bank_transfers = { bank_transfers: [{ from_bank_account: { code: "000", account_id: "00000000-0000-0000-000-000000000000" }, to_bank_account: { code: "001", account_id: "00000000-0000-0000-000-000000000000" }, amount: "50.00" }]}'
       summary: Allows you to create a bank transfers
       responses:
         '200':
@@ -2075,7 +2064,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/BankTransfers'
-            example: '{ bankTransfers:[ { fromBankAccount: { code:"000", accountID:"00000000-0000-0000-000-000000000000"}, toBankAccount:{ code:"001", accountID:"00000000-0000-0000-000-000000000000"}, amount:"50.00" } ] }'
+            example: '{ bankTransfers: [{ fromBankAccount: { code: "000", accountID: "00000000-0000-0000-000-000000000000" }, toBankAccount: { code: "001", accountID: "00000000-0000-0000-000-000000000000" }, amount: "50.00" }]}'
   '/BankTransfers/{BankTransferID}':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -2556,6 +2545,7 @@ paths:
         - Accounting
       operationId: createBrandingThemePaymentServices
       x-hasAccountingValidationError: true
+      x-ruby-requestBody: 'payment_service = { payment_service_id: "dede7858-14e3-4a46-bf95-4d4cc491e645", payment_service_name: "ACME Payments", payment_service_url: "https://www.payupnow.com/", pay_now_text: "Pay Now" }'
       summary: Allow for the creation of new custom payment service for specified Branding Theme
       parameters:
         - required: true
@@ -2597,12 +2587,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/PaymentService'
-            example: '{  
-                         paymentServiceID:"dede7858-14e3-4a46-bf95-4d4cc491e645",
-                         paymentServiceName:"ACME Payments",
-                         paymentServiceUrl:"https://www.payupnow.com/",
-                         payNowText:"Pay Now"
-                      }'
+            example: '{  paymentServiceID: "dede7858-14e3-4a46-bf95-4d4cc491e645", paymentServiceName: "ACME Payments", paymentServiceUrl: "https://www.payupnow.com/", payNowText: "Pay Now" }'
   /Contacts:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -2807,6 +2792,7 @@ paths:
         - Accounting
       operationId: createContacts
       x-hasAccountingValidationError: true
+      x-ruby-requestBody: 'contacts = { contacts: [{ name: "Bruce Banner", email_address: "hulk@avengers.com", phones: [{ phone_type: XeroRuby::Accounting::Phone::MOBILE, phone_number: "555-1212", phone_area_code: "415" }], payment_terms: { bills: { day: 15, type: XeroRuby::Accounting::PaymentTermType::OFCURRENTMONTH }, sales: { day: 10, type: XeroRuby::Accounting::PaymentTermType::DAYSAFTERBILLMONTH }}}]}'
       summary: 'Allows you to create a multiple contacts (bulk) in a Xero organisation'
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
@@ -2961,7 +2947,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Contacts'
-            example: '{contacts: [{ name:"Bruce Banner", emailAddress:"hulk@avengers.com", phones:[ { phoneType: Phone.PhoneTypeEnum.MOBILE, phoneNumber:"555-1212", phoneAreaCode:"415" } ], paymentTerms:{ bills:{ day:15, type: PaymentTermType.OFCURRENTMONTH }, sales:{ day:10, type: PaymentTermType.DAYSAFTERBILLMONTH } } } ] }'  
+            example: '{ contacts: [{ name: "Bruce Banner", emailAddress: "hulk@avengers.com", phones: [{ phoneType: Phone.PhoneTypeEnum.MOBILE, phoneNumber: "555-1212", phoneAreaCode: "415" }], paymentTerms: { bills: { day: 15, type: PaymentTermType.OFCURRENTMONTH }, sales: { day: 10, type: PaymentTermType.DAYSAFTERBILLMONTH }}}]}'
     post:
       security:
         - OAuth2: [accounting.contacts]
@@ -2969,6 +2955,7 @@ paths:
         - Accounting
       operationId: updateOrCreateContacts
       x-hasAccountingValidationError: true
+      x-ruby-requestBody: '{ contacts: [{ name: "Bruce Banner", email_address: "hulk@avengers.com", phones: [{ phone_type: XeroRuby::Accounting::Phone::MOBILE, phone_number: "555-1212", phone_area_code: "415" }], payment_terms: { bills: { day: 15, type: XeroRuby::Accounting::PaymentTermType::OFCURRENTMONTH }, sales: { day: 10, type: XeroRuby::Accounting::PaymentTermType::OFCURRENTMONTHDAYSAFTERBILLMONTH }}}]}' 
       summary: 'Allows you to update OR create one or more contacts in a Xero organisation'
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
@@ -3122,7 +3109,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Contacts'
-            example: '{contacts: [{ name:"Bruce Banner", emailAddress:"hulk@avengers.com", phones:[ { phoneType: Phone.PhoneTypeEnum.MOBILE, phoneNumber:"555-1212", phoneAreaCode:"415" } ], paymentTerms:{ bills:{ day:15, type: PaymentTermType.OFCURRENTMONTH }, sales:{ day:10, type: PaymentTermType.DAYSAFTERBILLMONTH } } } ] }'     
+            example: '{ contacts: [{ name: "Bruce Banner", emailAddress: "hulk@avengers.com", phones: [{ phoneType: Phone.PhoneTypeEnum.MOBILE, phoneNumber: "555-1212", phoneAreaCode: "415" }], paymentTerms: { bills: { day: 15, type: PaymentTermType.OFCURRENTMONTH }, sales: { day: 10, type: PaymentTermType.DAYSAFTERBILLMONTH }}}]}'
   '/Contacts/{ContactNumber}':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -3439,6 +3426,7 @@ paths:
         - Accounting
       operationId: updateContact
       x-hasAccountingValidationError: true
+      x-ruby-requestBody: 'contacts = { contacts: [{ contact_id: "00000000-0000-0000-000-000000000000", name: "Thanos" }]}'
       parameters:
         - required: true
           in: path
@@ -3539,14 +3527,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Contacts'
-            example: '{  
-                         contacts:[  
-                            {  
-                               contactID:"00000000-0000-0000-000-000000000000",
-                               name:"Thanos"
-                            }
-                         ]
-                      }'
+            example: '{ contacts: [{ contactID: "00000000-0000-0000-000-000000000000", name: "Thanos" }]}'
   '/Contacts/{ContactID}/Attachments':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -3925,6 +3906,7 @@ paths:
         - Accounting
       operationId: createContactGroup
       x-hasAccountingValidationError: true
+      x-ruby-requestBody: 'contact_groups = { contact_groups: [{ name: "VIPs" }]}'
       summary: Allows you to create a contact group
       responses:
         '200':
@@ -3979,13 +3961,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/ContactGroups'
-            example: '{  
-                         contactGroups:[  
-                            {  
-                               name:"VIPs"
-                            }
-                         ]
-                      }'
+            example: '{ contactGroups: [{ name: "VIPs" }]}'
   '/ContactGroups/{ContactGroupID}':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -4054,6 +4030,7 @@ paths:
         - Accounting
       operationId: updateContactGroup
       x-hasAccountingValidationError: true
+      x-ruby-requestBody: 'contact_groups = { contact_groups: [{ name: "Vendor" }]}'
       summary: Allows you to update a Contact Group
       parameters:
         - required: true
@@ -4095,13 +4072,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/ContactGroups'
-            example: '{  
-                         contactGroups:[  
-                            {  
-                               name:"Vendor"
-                            }
-                         ]
-                      }'
+            example: '{ contactGroups: [{ name: "Vendor" }]}'
   '/ContactGroups/{ContactGroupID}/Contacts':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -4113,6 +4084,7 @@ paths:
         - Accounting
       operationId: createContactGroupContacts
       x-hasAccountingValidationError: true
+      x-ruby-requestBody: 'contacts = { contacts: [{ contactID: "a3675fc4-f8dd-4f03-ba5b-f1870566bcd7" }, { contactID: "4e1753b9-018a-4775-b6aa-1bc7871cfee3" }]}'
       summary: Allows you to add Contacts to a Contact Group
       parameters:
         - required: true
@@ -4165,16 +4137,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Contacts'
-            example: '{  
-                         contacts:[  
-                            {  
-                               contactID:"a3675fc4-f8dd-4f03-ba5b-f1870566bcd7"
-                            },
-                            {  
-                               contactID:"4e1753b9-018a-4775-b6aa-1bc7871cfee3"
-                            }
-                         ]
-                      }'
+            example: '{ contacts: [{ contactID: "a3675fc4-f8dd-4f03-ba5b-f1870566bcd7" }, { contactID: "4e1753b9-018a-4775-b6aa-1bc7871cfee3" }]}'
     delete:
       security:
         - OAuth2: [accounting.contacts]
@@ -4356,6 +4319,7 @@ paths:
         - Accounting
       operationId: createCreditNotes
       x-hasAccountingValidationError: true
+      x-ruby-requestBody: 'credit_notes = { credit_notes: [{ type: XeroRuby::Accounting::CreditNote::ACCPAYCREDIT, contact: { contact_id: "430fa14a-f945-44d3-9f97-5df5e28441b8" }, date: "2019-01-05", line_items: [{ description: "Foobar", quantity: 2.0, unit_amount: 20.0, account_code: "400" }]}]}'
       summary: Allows you to create a credit note
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
@@ -4480,7 +4444,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/CreditNotes'
-            example: '{ creditNotes:[ { type: CreditNote.TypeEnum.ACCPAYCREDIT, contact:{ contactID:"430fa14a-f945-44d3-9f97-5df5e28441b8" }, date:"2019-01-05", lineItems:[ { description:"Foobar", quantity:2.0, unitAmount:20.0, accountCode:"400" } ] } ] }'
+            example: '{ creditNotes: [{ type: CreditNote.TypeEnum.ACCPAYCREDIT, contact: { contactID: "430fa14a-f945-44d3-9f97-5df5e28441b8" }, date: "2019-01-05", lineItems: [{ description: "Foobar", quantity: 2.0, unitAmount: 20.0, accountCode: "400" }]}]}'
     post:
       security:
         - OAuth2: [accounting.transactions]
@@ -4488,6 +4452,7 @@ paths:
         - Accounting
       operationId: updateOrCreateCreditNotes
       x-hasAccountingValidationError: true
+      x-ruby-requestBody: 'credit_notes = { credit_notes: [{ type: XeroRuby::Accounting::CreditNote::ACCPAYCREDIT, contact: { contact_id: "00000000-0000-0000-000-000000000000" }, date: "2019-01-05", line_items: [{ description: "Foobar", quantity: 2.0, unit_amount: 20.0, account_code: "400" }]}]}'
       summary: Allows you to update OR create one or more credit notes
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
@@ -4612,7 +4577,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/CreditNotes'
-            example: '{ creditNotes:[ { type: CreditNote.TypeEnum.ACCPAYCREDIT, contact:{ contactID:"00000000-0000-0000-000-000000000000" }, date:"2019-01-05", lineItems:[ { description:"Foobar", quantity:2.0, unitAmount:20.0, accountCode:"400" } ] } ] }'
+            example: '{ creditNotes: [{ type: CreditNote.TypeEnum.ACCPAYCREDIT, contact: { contactID: "00000000-0000-0000-000-000000000000" }, date: "2019-01-05", lineItems: [{ description: "Foobar", quantity: 2.0, unitAmount: 20.0, accountCode: "400" }]}]}'
   '/CreditNotes/{CreditNoteID}':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -4766,6 +4731,7 @@ paths:
         - Accounting
       operationId: updateCreditNote
       x-hasAccountingValidationError: true
+      x-ruby-requestBody: 'credit_notes = { credit_notes: [{ type: XeroRuby::Accounting::CreditNote::ACCPAYCREDIT, contact: { contact_id: "00000000-0000-0000-000-000000000000" }, date: "2019-01-05", status: XeroRuby::Accounting::CreditNote::AUTHORISED, reference: "Mind stone", line_items: [{ description: "Infinity Stones", quantity: 1.0, unit_amount: 100.0, account_code: "400" } ]}]}'
       summary: Allows you to update a specific credit note
       parameters:
         - required: true
@@ -4891,7 +4857,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/CreditNotes'
-            example: '{ creditNotes:[ { type:CreditNote.TypeEnum.ACCPAYCREDIT, contact:{ contactID:"00000000-0000-0000-000-000000000000" }, date:"2019-01-05", status: CreditNote.StatusEnum.AUTHORISED, reference: "Mind stone", lineItems:[ { description:"Infinity Stones", quantity:1.0, unitAmount:100.0, accountCode:"400" } ] } ] }'
+            example: '{ creditNotes: [{ type: CreditNote.TypeEnum.ACCPAYCREDIT, contact: { contactID: "00000000-0000-0000-000-000000000000" }, date: "2019-01-05", status: CreditNote.StatusEnum.AUTHORISED, reference: "Mind stone", lineItems: [{ description: "Infinity Stones", quantity: 1.0, unitAmount: 100.0, accountCode: "400" } ]}]}'
   '/CreditNotes/{CreditNoteID}/Attachments':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -5175,6 +5141,7 @@ paths:
         - Accounting
       operationId: createCreditNoteAllocation
       x-hasAccountingValidationError: true
+      x-ruby-requestBody: 'allocations = { allocations: [{ amount: 1.0, date: "2019-03-05", invoice: { invoice_id: "c45720a1-ade3-4a38-a064-d15489be6841", line_items: [], type: XeroRuby::Accounting::Invoice::ACCPAY, contact: {} }}]}'
       summary: Allows you to create Allocation on CreditNote
       parameters:
         - required: true
@@ -5230,7 +5197,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Allocations'
-            example: '{ allocations:[ { amount:1.0, date:"2019-03-05", invoice:{ invoiceID:"c45720a1-ade3-4a38-a064-d15489be6841", lineItems:[], type: Invoice.TypeEnum.ACCPAY, contact:{} } } ] }'
+            example: '{ allocations: [{ amount: 1.0, date: "2019-03-05", invoice: { invoiceID: "c45720a1-ade3-4a38-a064-d15489be6841", lineItems:[], type: Invoice.TypeEnum.ACCPAY, contact: {}}}]}'
   '/CreditNotes/{CreditNoteID}/History':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -5329,6 +5296,7 @@ paths:
         - Accounting
       operationId: createCurrency
       x-hasAccountingValidationError: true
+      x-ruby-requestBody: 'currency = { code: XeroRuby::Accounting::CurrencyCode::USD, description: "United States Dollar" }'
       responses:
         '200':
           description: Unsupported - return response incorrect exception, API is not able to create new Currency
@@ -5343,7 +5311,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Currency'
-              example: '{ code: CurrencyCode.USD, description:"United States Dollar" }'
+              example: '{ code: CurrencyCode.USD, description: "United States Dollar" }'
   /Employees:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -5425,6 +5393,7 @@ paths:
         - Accounting
       operationId: createEmployees
       x-hasAccountingValidationError: true
+      x-ruby-requestBody: 'employees = { employees: [{ first_name: "Nick", last_name: "Fury", externalink: { url: "http://twitter.com/#!/search/Nick+Fury" }}]}'
       summary: Allows you to create new employees used in Xero payrun
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
@@ -5463,17 +5432,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Employees'
-              example: '{  
-                         employees:[  
-                            {  
-                               firstName:"Nick",
-                               lastName:"Fury",
-                               externalLink:{  
-                                  url:"http://twitter.com/#!/search/Nick+Fury"
-                               }
-                            }
-                         ]
-                      }'
+              example: '{ employees: [{ firstName: "Nick", lastName: "Fury", externalLink: { url: "http://twitter.com/#!/search/Nick+Fury" }}]}'
     post:
       security:
         - OAuth2: [accounting.settings]
@@ -5481,6 +5440,7 @@ paths:
         - Accounting
       operationId: updateOrCreateEmployees
       x-hasAccountingValidationError: true
+      x-ruby-requestBody: 'employees = { employees: [{ first_name: "Nick", last_name: "Fury", external_link: { url: "http://twitter.com/#!/search/Nick+Fury" }}]}'
       summary: Allows you to create a single new employees used in Xero payrun
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
@@ -5519,17 +5479,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Employees'
-              example: '{  
-                         employees:[  
-                            {  
-                               firstName:"Nick",
-                               lastName:"Fury",
-                               externalLink:{  
-                                  url:"http://twitter.com/#!/search/Nick+Fury"
-                               }
-                            }
-                         ]
-                      }'
+              example: '{ employees: [{ firstName: "Nick", lastName: "Fury", externalLink: { url: "http://twitter.com/#!/search/Nick+Fury" }}]}'
   '/Employees/{EmployeeID}':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -5644,6 +5594,7 @@ paths:
         - Accounting
       operationId: createExpenseClaims
       x-hasAccountingValidationError: true
+      x-ruby-requestBody: 'expense_claims = { expense_claims: [{ status: XeroRuby::Accounting::ExpenseClaim::SUBMITTED, user: { user_id: "d1164823-0ac1-41ad-987b-b4e30fe0b273" }, receipts: [{ receipt_id: "dc1c7f6d-0a4c-402f-acac-551d62ce5816", line_items: [], contact: {}, user: {}, date: "2018-01-01" }]}]}'
       summary: Allows you to retrieve expense claims 
       requestBody:
         required: true
@@ -5652,7 +5603,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ExpenseClaims'
-              example: '{ expenseClaims:[ { status: ExpenseClaim.StatusEnum.SUBMITTED, user:{ userID:"d1164823-0ac1-41ad-987b-b4e30fe0b273" }, receipts:[ { receiptID:"dc1c7f6d-0a4c-402f-acac-551d62ce5816", lineItems:[], contact: {}, user: {}, date: "2018-01-01" } ] } ] }'
+              example: '{ expenseClaims: [{ status: ExpenseClaim.StatusEnum.SUBMITTED, user: { userID: "d1164823-0ac1-41ad-987b-b4e30fe0b273" }, receipts: [{ receiptID: "dc1c7f6d-0a4c-402f-acac-551d62ce5816", lineItems: [], contact: {}, user: {}, date: "2018-01-01" }]}]}'
       responses:
         '200':
           description: Success - return response of type ExpenseClaims array with newly created ExpenseClaim
@@ -5841,6 +5792,7 @@ paths:
         - Accounting
       operationId: updateExpenseClaim
       x-hasAccountingValidationError: true
+      x-ruby-requestBody: 'expense_claims = { expense_claims: [{ status: XeroRuby::Accounting::ExpenseClaim::AUTHORISED, user: { user_id: "00000000-0000-0000-000-000000000000" }, receipts: [{ receipt_id: "00000000-0000-0000-000-000000000000", line_items: [], contact: {}, date:"2020-01-01", user: {} }]}]}'
       summary: Allows you to update specified expense claims 
       parameters:
         - required: true
@@ -5939,8 +5891,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ExpenseClaims'
-              example: '{ expenseClaims:[ { status:ExpenseClaim.StatusEnum.AUTHORISED, user:{ userID:"00000000-0000-0000-000-000000000000" }, receipts:[ { receiptID:"00000000-0000-0000-000-000000000000", lineItems: [],
-contact: {}, date:"2020-01-01", user:{} } ] } ] }'
+              example: '{ expenseClaims: [{ status: ExpenseClaim.StatusEnum.AUTHORISED, user: { userID: "00000000-0000-0000-000-000000000000" }, receipts: [{ receiptID: "00000000-0000-0000-000-000000000000", lineItems: [], contact: {}, date:"2020-01-01", user: {} }]}]}'
   '/ExpenseClaims/{ExpenseClaimID}/History':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -6047,7 +5998,6 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
         - in: query
           name: Statuses
           description: Filter by a comma-separated list Statuses. For faster response times we recommend using these explicit parameters instead of passing OR conditions into the Where filter.
-          style: simple
           explode: false
           example: "null"
           schema:
@@ -6220,6 +6170,7 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
         - Accounting
       operationId: createInvoices
       x-hasAccountingValidationError: true
+      x-ruby-requestBody: 'invoices = { invoices: [{ type: XeroRuby::Accounting::Invoice::ACCREC, contact: { contact_id: "00000000-0000-0000-000-000000000000" }, line_items: [{ description: "Acme Tires", quantity: 2.0, unit_amount: 20.0, account_code: "000", tax_type: TaxType.NONE, line_amount: 40.0 }], date: "2019-03-11", due_date: "2018-12-10", reference: "Website Design", status: XeroRuby::Accounting::Invoice::DRAFT }]}'
       summary: Allows you to create one or more sales invoices or purchase bills
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
@@ -6364,7 +6315,7 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
             application/json:
               schema:
                 $ref: '#/components/schemas/Invoices'
-              example: '{ invoices:[ { type: Invoice.TypeEnum.ACCREC, contact:{ contactID:"00000000-0000-0000-000-000000000000" }, lineItems:[ { description:"Acme Tires", quantity:2.0, unitAmount:20.0, accountCode:"000", taxType:"NONE", lineAmount:40.0 } ], date:"2019-03-11", dueDate:"2018-12-10", reference:"Website Design", status: Invoice.StatusEnum.DRAFT } ] }'
+              example: '{ invoices: [{ type: Invoice.TypeEnum.ACCREC, contact: { contactID: "00000000-0000-0000-000-000000000000" }, lineItems: [{ description: "Acme Tires", quantity: 2.0, unitAmount: 20.0, accountCode: "000", taxType: TaxType.NONE, lineAmount: 40.0 }], date: "2019-03-11", dueDate: "2018-12-10", reference: "Website Design", status: Invoice.StatusEnum.DRAFT }]}'
     post:
       security:
         - OAuth2: [accounting.transactions]
@@ -6372,6 +6323,7 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
         - Accounting
       operationId: updateOrCreateInvoices
       x-hasAccountingValidationError: true
+      x-ruby-requestBody: 'invoices = { invoices: [{ type: XeroRuby::Accounting::Invoice::ACCREC, contact: { contact_id: "00000000-0000-0000-000-000000000000" }, line_items: [{ description: "Acme Tires", quantity: 2.0, unit_amount: 20.0, account_code: "000", tax_type: TaxType.NONE, line_amount: 40.0 }], date: "2019-03-11", due_date: "2018-12-10", reference: "Website Design", status: XeroRuby::Accounting::Invoice::DRAFT }]}'
       summary: Allows you to update OR create one or more sales invoices or purchase bills
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
@@ -6515,7 +6467,7 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
             application/json:
               schema:
                 $ref: '#/components/schemas/Invoices'
-              example: '{ invoices:[ { type: Invoice.TypeEnum.ACCREC, contact:{ contactID:"00000000-0000-0000-000-000000000000" }, lineItems:[ { description:"Acme Tires", quantity:2.0, unitAmount:20.0, accountCode:"200", taxType:"NONE", lineAmount:40.0 } ], date:"2019-03-11", dueDate:"2018-12-10", reference:"Website Design", status: Invoice.StatusEnum.AUTHORISED } ] }'
+              example: '{ invoices: [{ type: Invoice.TypeEnum.ACCREC, contact: { contactID:"00000000-0000-0000-000-000000000000" }, lineItems:[ { description:"Acme Tires", quantity:2.0, unitAmount:20.0, accountCode:"200", taxType:"NONE", lineAmount:40.0 } ], date:"2019-03-11", dueDate:"2018-12-10", reference:"Website Design", status: Invoice.StatusEnum.AUTHORISED } ] }'
   '/Invoices/{InvoiceID}':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -6703,6 +6655,7 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
         - Accounting
       operationId: updateInvoice
       x-hasAccountingValidationError: true
+      x-ruby-requestBody: 'invoices = { invoices: [{ reference: "I am Iron Man", invoice_id: "00000000-0000-0000-000-000000000000", line_items: [], contact: {}, type: XeroRuby::Accounting::Invoice::ACCPAY }]}'
       summary: Allows you to update a specified sales invoices or purchase bills
       parameters:
         - required: true
@@ -6831,10 +6784,10 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
       requestBody:
         required: true
         content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Invoices'
-              example: '{ invoices:[ { reference:"I am Iron Man", invoiceID:"00000000-0000-0000-000-000000000000", lineItems: [],contact: {},type: Invoice.TypeEnum.ACCPAY } ] }'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Invoices'
+            example: '{ invoices: [{ reference: "I am Iron Man", invoiceID: "00000000-0000-0000-000-000000000000", lineItems: [], contact: {}, type: Invoice.TypeEnum.ACCPAY }]}'
   '/Invoices/{InvoiceID}/pdf':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -7338,6 +7291,7 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
         - Accounting
       operationId: createItems
       x-hasAccountingValidationError: true
+      x-ruby-requestBody: 'items = { items: [{ code: "abcXYZ123", name: "HelloWorld11", description: "Foobar", inventory_asset_account_code: "140", purchase_details: { cogs_account_code: "500" }}]}'
       summary: Allows you to create one or more items
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
@@ -7380,10 +7334,10 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
         required: true
         description: Items with an array of Item objects in body of request
         content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Items'
-              example: '{ items:[ { code:"abcXYZ123", name:"HelloWorld11", description:"Foobar", inventoryAssetAccountCode:"140", purchaseDetails: {cOGSAccountCode:"500"} } ] }'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Items'
+            example: '{ items: [{ code: "abcXYZ123", name: "HelloWorld11", description: "Foobar", inventoryAssetAccountCode: "140", purchaseDetails: { cOGSAccountCode: "500" }}]}'
     post:
       security:
         - OAuth2: [accounting.settings]
@@ -7391,6 +7345,7 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
         - Accounting
       operationId: updateOrCreateItems
       x-hasAccountingValidationError: true
+      x-ruby-requestBody: 'items = { items: [{ code: "abcXYZ", name: "HelloWorld", description: "Foobar" }]}'
       summary: Allows you to update or create one or more items
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
@@ -7432,10 +7387,10 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
       requestBody:
         required: true
         content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Items'
-              example: '{ items:[ { code:"abcXYZ", name:"HelloWorld", description:"Foobar" } ] }'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Items'
+            example: '{ items: [{ code: "abcXYZ", name: "HelloWorld", description: "Foobar" }]}'
   '/Items/{ItemID}':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -7548,10 +7503,10 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
       requestBody:
         required: true
         content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Items'
-              example: '{ items:[ { code:"abc123", description:"Hello Xero" } ] }'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Items'
+            example: '{ items:[ { code:"abc123", description:"Hello Xero" } ] }'
     delete:
       security:
         - OAuth2: [accounting.settings]
@@ -7969,6 +7924,7 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
         - Accounting
       operationId: createLinkedTransaction
       x-hasAccountingValidationError: true
+      x-ruby-requestBody: 'linked_transaction = { source_transaction_id: "00000000-0000-0000-000-000000000000", source_line_item_id: "00000000-0000-0000-000-000000000000" }'
       summary: Allows you to create linked transactions (billable expenses)
       responses:
         '200':
@@ -8008,7 +7964,7 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
             application/json:
               schema:
                 $ref: '#/components/schemas/LinkedTransaction'
-              example: '{ sourceTransactionID:"00000000-0000-0000-000-000000000000", sourceLineItemID:"00000000-0000-0000-000-000000000000"}'
+              example: '{ sourceTransactionID: "00000000-0000-0000-000-000000000000", sourceLineItemID: "00000000-0000-0000-000-000000000000" }'
   '/LinkedTransactions/{LinkedTransactionID}':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -8063,6 +8019,7 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
         - Accounting
       operationId: updateLinkedTransaction
       x-hasAccountingValidationError: true
+      x-ruby-requestBody: 'linked_transactions = { linked_transactions: [{ source_line_item_id: "00000000-0000-0000-000-000000000000", contact_id: "00000000-0000-0000-000-000000000000" }]}'
       summary: Allows you to update a specified linked transactions (billable expenses)
       parameters:
         - required: true
@@ -8134,7 +8091,7 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
             application/json:
               schema:
                 $ref: '#/components/schemas/LinkedTransactions'
-              example: '{ linkedTransactions:[ {sourceLineItemID:"00000000-0000-0000-000-000000000000", contactID:"00000000-0000-0000-000-000000000000" } ] }'
+              example: '{ linkedTransactions: [{ sourceLineItemID: "00000000-0000-0000-000-000000000000", contactID: "00000000-0000-0000-000-000000000000" }]}'
     delete:
       security:
         - OAuth2: [accounting.transactions]
@@ -8244,6 +8201,7 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
         - Accounting
       operationId: createManualJournals
       x-hasAccountingValidationError: true
+      x-ruby-requestBody: 'manual_journals = { manual_journals: [{ narration: "Foo bar", date: "2019-03-14", journal_lines: [{ line_amount: 100.0, account_code: "400", description: "Hello there" }, { line_amount: -100.0, account_code: "400", description: "Goodbye", tracking: [{ name: "Simpson", option: "Bart" }] }]}]}'
       summary: Allows you to create one or more manual journals
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
@@ -8317,32 +8275,7 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
             application/json:
               schema:
                 $ref: '#/components/schemas/ManualJournals'
-              example: '{  
-                           manualJournals:[  
-                              {  
-                                 narration:"Foo bar",
-                                 journalLines:[  
-                                    {  
-                                       lineAmount:100.0,
-                                       accountCode:"400",
-                                       description:"Hello there"
-                                    },
-                                    {  
-                                       lineAmount:-100.0,
-                                       accountCode:"400",
-                                       description:"Goodbye",
-                                       tracking:[  
-                                          {  
-                                             name:"Simpsons",
-                                             option:"Bart"
-                                          }
-                                       ]
-                                    }
-                                 ],
-                                 date:"2019-03-14"
-                              }
-                           ]
-                        }'
+              example: '{ manualJournals: [{ narration: "Foo bar", date: "2019-03-14", journalLines: [{ lineAmount: 100.0, accountCode: "400", description: "Hello there" }, { lineAmount: -100.0, accountCode: "400", description: "Goodbye", tracking: [{ name: "Simpson", option: "Bart" }] }]}]}'
     post:
       security:
         - OAuth2: [accounting.transactions]
@@ -8350,6 +8283,7 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
         - Accounting
       operationId: updateOrCreateManualJournals
       x-hasAccountingValidationError: true
+      x-ruby-requestBody: 'manual_journals = { manual_journals: [{ narration: "Foo bar", date: "2019-03-14", journal_lines: [{ line_amount: 100.0, account_code: "400", description: "Hello there" },{ line_amount: -100.0, account_code: "400", description: "Goodbye", tracking: [{ name: "Simpsons", option: "Bart" }]}] }]}'
       summary: Allows you to create a single manual journal
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
@@ -8423,32 +8357,7 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
             application/json:
               schema:
                 $ref: '#/components/schemas/ManualJournals'
-              example: '{  
-                           manualJournals:[  
-                              {  
-                                 narration:"Foo bar",
-                                 journalLines:[  
-                                    {  
-                                       lineAmount:100.0,
-                                       accountCode:"400",
-                                       description:"Hello there"
-                                    },
-                                    {  
-                                       lineAmount:-100.0,
-                                       accountCode:"400",
-                                       description:"Goodbye",
-                                       tracking:[  
-                                          {  
-                                             name:"Simpsons",
-                                             option:"Bart"
-                                          }
-                                       ]
-                                    }
-                                 ],
-                                 date:"2019-03-14"
-                              }
-                           ]
-                        }'
+              example: '{ manualJournals: [{ narration: "Foo bar", journalLines: [{ lineAmount: 100.0, accountCode: "400", description: "Hello there" },{ lineAmount: -100.0, accountCode: "400", description: "Goodbye", tracking: [{ name: "Simpsons", option: "Bart" }]}], date: "2019-03-14" }]}'
   '/ManualJournals/{ManualJournalID}':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -8539,6 +8448,7 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
         - Accounting
       operationId: updateManualJournal
       x-hasAccountingValidationError: true
+      x-ruby-requestBody: 'manual_journals = { manual_journals: [{ narration: "Hello Xero", manual_journal_id: "00000000-0000-0000-000-000000000000", journal_ines: [] }]}'
       summary: Allows you to update a specified manual journal
       parameters:
         - required: true
@@ -8605,7 +8515,7 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
             application/json:
               schema:
                 $ref: '#/components/schemas/ManualJournals'
-              example: '{ manualJournals:[ { narration:"Hello Xero", manualJournalID:"00000000-0000-0000-000-000000000000",journalLines:[] } ] }'
+              example: '{ manualJournals: [{ narration: "Hello Xero", manualJournalID: "00000000-0000-0000-000-000000000000", journalLines: [] }]}'
   '/ManualJournals/{ManualJournalID}/Attachments':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -9289,6 +9199,7 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
         - Accounting
       operationId: createOverpaymentAllocations
       x-hasAccountingValidationError: true
+      x-ruby-requestBody: 'allocations = { allocations: [{ invoice: { invoice_id: "00000000-0000-0000-000-000000000000", line_items: [], contact: {}, type: XeroRuby::Accounting::Invoice::ACCPAY }, amount: 1.0, date: "2019-03-12" }]}'
       summary: Allows you to create a single allocation for an overpayment
       parameters:
         - required: true
@@ -9345,17 +9256,7 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
             application/json:
               schema:
                 $ref: '#/components/schemas/Allocations'
-              example: '{  
-                           allocations:[  
-                              {  
-                                 invoice:{  
-                                    invoiceID:"00000000-0000-0000-000-000000000000", lineItems:[], contact: {}, type: Invoice.TypeEnum.ACCPAY
-                                 },
-                                 amount:1.0,
-                                 date:"2019-03-12"
-                              }
-                           ]
-                        }'
+              example: '{ allocations: [{ invoice: { invoiceID: "00000000-0000-0000-000-000000000000", lineItems: [], contact: {}, type: Invoice.TypeEnum.ACCPAY }, amount: 1.0, date: "2019-03-12" }]}'
   '/Overpayments/{OverpaymentID}/History':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -9560,6 +9461,7 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
         - Accounting
       operationId: createPayments
       x-hasAccountingValidationError: true
+      x-ruby-requestBody: 'payments = { payments: [{ invoice: { invoice_id: "00000000-0000-0000-000-000000000000", line_items: [], contact: {}, type: XeroRuby::Accounting::Invoice::ACCPAY }, account: { code: "970" }, date: "2019-03-12", amount: 1.0 }]}'
       summary: Allows you to create multiple payments for invoices or credit notes
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
@@ -9655,7 +9557,7 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
             application/json:
               schema:
                 $ref: '#/components/schemas/Payments'
-              example: '{ payments:[ { invoice:{ invoiceID:"00000000-0000-0000-000-000000000000", lineItems:[], contact: {}, type: Invoice.TypeEnum.ACCPAY }, account:{ code:"970" }, date:"2019-03-12", amount:1.0 } ] }'
+              example: '{ payments: [{ invoice: { invoiceID: "00000000-0000-0000-000-000000000000", lineItems: [], contact: {}, type: Invoice.TypeEnum.ACCPAY }, account: { code: "970" }, date: "2019-03-12", amount: 1.0 }]}'
     post:
       security:
         - OAuth2: [accounting.transactions]
@@ -9663,6 +9565,7 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
         - Accounting
       operationId: createPayment
       x-hasAccountingValidationError: true
+      x-ruby-requestBody: 'invoice = { invoice: { invoice_id: "00000000-0000-0000-000-000000000000", line_items: [], contact: {}, type: XeroRuby::Accounting::Invoice::ACCPAY }, account: { code: "970" }, date: "2019-03-12", amount: 1.0 }'
       summary: Allows you to create a single payment for invoices or credit notes  
       responses:
         '200':
@@ -9756,7 +9659,7 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
             application/json:
               schema:
                 $ref: '#/components/schemas/Payment'
-              example: '{ invoice:{ invoiceID:"00000000-0000-0000-000-000000000000", lineItems:[], contact: {}, type: Invoice.TypeEnum.ACCPAY }, account:{ code:"970" }, date:"2019-03-12", amount:1.0 }'
+              example: '{ invoice: { invoiceID: "00000000-0000-0000-000-000000000000", lineItems: [], contact: {}, type: Invoice.TypeEnum.ACCPAY }, account: { code: "970" }, date: "2019-03-12", amount: 1.0 }'
   '/Payments/{PaymentID}':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -9967,9 +9870,7 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
             application/json:
               schema:
                 $ref: '#/components/schemas/PaymentDelete'
-              example: '{ 
-                          status:"DELETED"
-                        }'
+              example: '{ status: "DELETED" }'
   '/Payments/{PaymentID}/History':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -10078,6 +9979,7 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
         - Accounting
       operationId: createPaymentService
       x-hasAccountingValidationError: true
+      x-ruby-requestBody: 'payment_services = { payment_services: [{ payment_service_name: "PayUpNow", payment_service_url: "https://www.payupnow.com/", pay_now_text: "Time To Pay" }]}'
       summary: Allows you to create payment services
       responses:
         '200':
@@ -10115,15 +10017,7 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
             application/json:
               schema:
                 $ref: '#/components/schemas/PaymentServices'
-              example: '{  
-                           paymentServices:[  
-                              {  
-                                 paymentServiceName:"PayUpNow",
-                                 paymentServiceUrl:"https://www.payupnow.com/",
-                                 payNowText:"Time To Pay"
-                              }
-                           ]
-                        }'
+              example: '{ paymentServices: [{ paymentServiceName: "PayUpNow", paymentServiceUrl: "https://www.payupnow.com/", payNowText: "Time To Pay" }]}'
   /Prepayments:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -10360,6 +10254,7 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
         - Accounting
       operationId: createPrepaymentAllocations
       x-hasAccountingValidationError: true
+      x-ruby-requestBody: 'allocations = { allocations: [{ invoice: { invoice_id: "00000000-0000-0000-000-000000000000", line_items: [], contact: {}, type: null }, amount: 1.0, date: "2019-03-13" }]}'
       summary: Allows you to create an Allocation for prepayments
       parameters:
         - required: true
@@ -10416,7 +10311,7 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
             application/json:
               schema:
                 $ref: '#/components/schemas/Allocations'
-              example: '{ allocations:[ { invoice:{ invoiceID:"00000000-0000-0000-000-000000000000", lineItems:[], contact: {}, type: null }, amount:1.0, date:"2019-03-13" } ] }'
+              example: '{ allocations: [{ invoice: { invoiceID: "00000000-0000-0000-000-000000000000", lineItems: [], contact: {}, type: null }, amount: 1.0, date: "2019-03-13" }]}'
   '/Prepayments/{PrepaymentID}/History':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -10698,6 +10593,7 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
         - Accounting
       operationId: createPurchaseOrders
       x-hasAccountingValidationError: true
+      x-ruby-requestBody: 'purchase_orders = { purchase_orders: [{ contact: { contact_id: "00000000-0000-0000-000-000000000000" }, line_items: [{ description: "Foobar", quantity: 1.0, unitAmount: 20.0, account_code: "710" }], date: "2019-03-13" }]}'
       summary: Allows you to create one or more purchase orders
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
@@ -10825,7 +10721,7 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
             application/json:
               schema:
                 $ref: '#/components/schemas/PurchaseOrders'
-              example: '{ purchaseOrders:[ { contact:{ contactID:"00000000-0000-0000-000-000000000000" }, lineItems:[ { description:"Foobar", quantity:1.0, unitAmount:20.0, accountCode:"710" } ], date:"2019-03-13" } ] }'
+              example: '{ purchaseOrders: [{ contact: { contactID: "00000000-0000-0000-000-000000000000" }, lineItems: [{ description: "Foobar", quantity: 1.0, unitAmount: 20.0, accountCode: "710" }], date: "2019-03-13" }]}'
     post:
       security:
         - OAuth2: [accounting.transactions]
@@ -10833,6 +10729,7 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
         - Accounting
       operationId: updateOrCreatePurchaseOrders
       x-hasAccountingValidationError: true
+      x-ruby-requestBody: 'purchase_orders = { purchase_orders: [{ contact: { contact_id: "00000000-0000-0000-000-000000000000" }, line_items: [{ description: "Foobar", quantity: 1.0, unitAmount: 20.0, accountCode: "710" }], date: "2019-03-13" }]}'
       summary: Allows you to update or create one or more purchase orders
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
@@ -10959,7 +10856,7 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
             application/json:
               schema:
                 $ref: '#/components/schemas/PurchaseOrders'
-              example: '{ purchaseOrders:[ { contact:{ contactID:"00000000-0000-0000-000-000000000000" }, lineItems:[ { description:"Foobar", quantity:1.0, unitAmount:20.0, accountCode:"710" } ], date:"2019-03-13" } ] }'
+              example: '{ purchaseOrders: [ { contact: { contactID: "00000000-0000-0000-000-000000000000" }, lineItems: [{ description: "Foobar", quantity: 1.0, unitAmount: 20.0, accountCode: "710" }], date: "2019-03-13" }]}'
   '/PurchaseOrders/{PurchaseOrderID}/pdf':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -11148,6 +11045,7 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
         - Accounting
       operationId: updatePurchaseOrder
       x-hasAccountingValidationError: true
+      x-ruby-requestBody: 'purchase_orders = { purchase_orders: [ { attention_to: "Peter Parker", line_items: [], contact: {} }]}'
       summary: Allows you to update a specified purchase order
       parameters:
         - required: true
@@ -11271,7 +11169,7 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
             application/json:
               schema:
                 $ref: '#/components/schemas/PurchaseOrders'
-              example: '{ purchaseOrders:[ { attentionTo:"Peter Parker",lineItems: [],contact: {} } ] }'
+              example: '{ purchaseOrders:[ { attentionTo: "Peter Parker", lineItems: [], contact: {} }]}'
   '/PurchaseOrders/{PurchaseOrderNumber}':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -11601,6 +11499,7 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
         - Accounting
       operationId: createQuotes
       x-hasAccountingValidationError: true
+      x-ruby-requestBody: 'quotes = { quotes: [{ contact: { contact_id: "00000000-0000-0000-000-000000000000" }, line_items: [{ description: "Foobar", quantity: 1.0, unit_amount: 20.0, account_code: "12775" }], date:"2020-02-01" }]}'
       summary: Allows you to create one or more quotes
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
@@ -11665,7 +11564,7 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
             application/json:
               schema:
                 $ref: '#/components/schemas/Quotes'
-              example: '{ quotes:[ { contact:{ contactID:"00000000-0000-0000-000-000000000000" }, lineItems:[ { description:"Foobar", quantity:1.0, unitAmount:20.0, accountCode:"12775" } ], date:"2020-02-01" } ] }'
+              example: '{ quotes: [{ contact: { contactID: "00000000-0000-0000-000-000000000000" }, lineItems: [{ description: "Foobar", quantity: 1.0, unitAmount: 20.0, accountCode: "12775" }], date:"2020-02-01" }]}'
     post:
       security:
         - OAuth2: [accounting.transactions]
@@ -11673,6 +11572,7 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
         - Accounting
       operationId: updateOrCreateQuotes
       x-hasAccountingValidationError: true
+      x-ruby-requestBody: 'quotes = { quotes: [{ contact: { contact_id: "00000000-0000-0000-000-000000000000" }, line_items: [{ description: "Foobar", quantity: 1.0, unit_amount: 20.0, account_code: "12775" }], date: "2020-02-01" }]}'
       summary: Allows you to update OR create one or more quotes
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
@@ -11736,7 +11636,7 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
             application/json:
               schema:
                 $ref: '#/components/schemas/Quotes'
-              example: '{ quotes:[ { contact:{ contactID:"00000000-0000-0000-000-000000000000" }, lineItems:[ { description:"Foobar", quantity:1.0, unitAmount:20.0, accountCode:"12775" } ], date:"2020-02-01" } ] }'
+              example: '{ quotes: [{ contact: { contactID: "00000000-0000-0000-000-000000000000" }, lineItems: [{ description: "Foobar", quantity: 1.0, unitAmount: 20.0, accountCode: "12775" }], date: "2020-02-01" }]}'
   '/Quotes/{QuoteID}':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -11830,6 +11730,7 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
         - Accounting
       operationId: updateQuote
       x-hasAccountingValidationError: true
+      x-ruby-requestBody: 'quotes = { quotes: [{ reference: "I am an update", contact: { contact_id: "00000000-0000-0000-000-000000000000" }, date: "2020-02-01" }]}'
       summary: Allows you to update a specified quote
       parameters:
         - required: true
@@ -11898,7 +11799,7 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
             application/json:
               schema:
                 $ref: '#/components/schemas/Quotes'
-              example: '{quotes:[{reference:"I am an update",contact:{contactID:"00000000-0000-0000-000-000000000000"},date:"2020-02-01"}]}'
+              example: '{ quotes: [{ reference: "I am an update", contact: { contactID: "00000000-0000-0000-000-000000000000" }, date: "2020-02-01" }]}'
   '/Quotes/{QuoteID}/History':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -11945,7 +11846,7 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
           $ref: '#/components/responses/400Error'
       requestBody:
         $ref: '#/components/requestBodies/historyRecords'
-  '/Quotes/{QuotesID}/pdf':
+  '/Quotes/{QuoteID}/pdf':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     x-related-model: Quote
@@ -12306,6 +12207,7 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
         - Accounting
       operationId: createReceipt
       x-hasAccountingValidationError: true
+      x-ruby-requestBody: 'receipts = { receipts: [ { contact: { contact_id: "00000000-0000-0000-000-000000000000" }, line_items: [{ description: "Foobar", quantity: 2.0, unit_amount: 20.0, account_code: "400", tax_type: XeroRuby::Accounting::TaxType::NONE, line_amount: 40.0 }], user: { user_id: "00000000-0000-0000-000-000000000000" }, line_amount_types: XeroRuby::Accounting::INCLUSIVE, status: XeroRuby::Accounting::Receipt::DRAFT, date: nil }]}'
       summary: Allows you to create draft expense claim receipts for any user
       parameters:
         - $ref: '#/components/parameters/unitdp'
@@ -12427,10 +12329,10 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
         required: true
         description: Receipts with an array of Receipt object in body of request
         content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Receipts'
-              example: '{ receipts:[ { contact:{ contactID:"00000000-0000-0000-000-000000000000" }, lineItems:[ { description:"Foobar", quantity:2.0, unitAmount:20.0, accountCode:"400", taxType:"NONE", lineAmount:40.0 } ], user:{ userID:"00000000-0000-0000-000-000000000000" }, lineAmountTypes: LineAmountTypes.Inclusive, status: Receipt.StatusEnum.DRAFT , date: null} ] }'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Receipts'
+            example: '{ receipts: [{ contact: { contactID: "00000000-0000-0000-000-000000000000" }, lineItems: [{ description: "Foobar", quantity: 2.0, unitAmount: 20.0, accountCode: "400", taxType: TaxType.NONE, lineAmount: 40.0 }], user: { userID: "00000000-0000-0000-000-000000000000" }, lineAmountTypes: LineAmountTypes.Inclusive, status: Receipt.StatusEnum.DRAFT, date: null} ] }'
   '/Receipts/{ReceiptID}':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -12584,6 +12486,7 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
         - Accounting
       operationId: updateReceipt
       x-hasAccountingValidationError: true
+      x-ruby-requestBody: 'receipts = { receipts: [{ user: { user_id: "00000000-0000-0000-000-000000000000" }, reference: "Foobar", date: "2020-01-01", contact: {}, line_items: [] }]}'
       summary: Allows you to retrieve a specified draft expense claim receipts
       parameters:
         - required: true
@@ -12711,7 +12614,7 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
             application/json:
               schema:
                 $ref: '#/components/schemas/Receipts'
-              example: '{ receipts:[ { user:{ userID:"00000000-0000-0000-000-000000000000" }, reference:"Foobar", date: "2020-01-01",contact: {},lineItems: []} ] }'
+              example: '{ receipts: [{ user: { userID: "00000000-0000-0000-000-000000000000" }, reference: "Foobar", date: "2020-01-01", contact: {}, lineItems: [] }]}'
   '/Receipts/{ReceiptID}/Attachments':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -17348,6 +17251,7 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
         - Accounting
       operationId: createTaxRates
       x-hasAccountingValidationError: true
+      x-ruby-requestBody: 'tax_rates = { tax_rates: [{ name: "CA State Tax", tax_components: [{ name: "State Tax", rate: 2.25 }]}]}'
       summary: Allows you to create one or more Tax Rates      
       responses:
         '200':
@@ -17394,7 +17298,7 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
             application/json:
               schema:
                 $ref: '#/components/schemas/TaxRates'
-              example: '{ taxRates:[ { name:"CA State Tax", taxComponents:[ { name:"State Tax", rate:2.25 } ] } ] }'
+              example: '{ taxRates: [{ name: "CA State Tax", taxComponents: [{ name: "State Tax", rate: 2.25 }]}]}'
     post:
       security:
         - OAuth2: [accounting.settings]
@@ -17402,6 +17306,7 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
         - Accounting
       operationId: updateTaxRate
       x-hasAccountingValidationError: true
+      x-ruby-requestBody: 'tax_rates = { tax_rates: [{ name: "State Tax NY", tax_components: [{ name: "State Tax", rate: 2.25 }], status: XeroRuby::Accounting::TaxRate::Deleted, report_tax_type: XeroRuby::Accounting::TaxRate::INPUT }]}'
       summary: Allows you to update Tax Rates
       responses:
         '200':
@@ -17444,24 +17349,10 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
       requestBody:
         required: true
         content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TaxRates'
-              example: '{  
-                           taxRates:[  
-                              {  
-                                 name:"State Tax NY",
-                                 taxComponents:[  
-                                    {  
-                                       name:"State Tax",
-                                       rate:2.25
-                                    }
-                                 ],
-                                 status:"DELETED",
-                                 reportTaxType:"INPUT"
-                              }
-                           ]
-                        }'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaxRates'
+            example: '{ taxRates: [{ name: "State Tax NY", taxComponents: [{ name: "State Tax", rate: 2.25 }], status: TaxRate.StatusEnum.Deleted, reportTaxType: TaxRate.ReportTaxTypeEnum.INPUT }]}'
   /TrackingCategories:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -17554,12 +17445,10 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
         required: true
         description: TrackingCategory object in body of request
         content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TrackingCategory'
-              example: '{  
-                           name:"FooBar"
-                        }'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TrackingCategory'
+            example: '{ name: "FooBar" }'
   '/TrackingCategories/{TrackingCategoryID}':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -17644,12 +17533,10 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
       requestBody:
         required: true
         content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TrackingCategory'
-              example: '{  
-                           name:"Avengers"
-                        }'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TrackingCategory'
+            example: '{ name: "Avengers" }'
     delete:
       security:
         - OAuth2: [accounting.settings]
@@ -17740,12 +17627,10 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
         required: true
         description: TrackingOption object in body of request
         content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TrackingOption'
-              example: '{  
-                           name:"Bar"
-                        }'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TrackingOption'
+            example: '{ name: " Bar" }'
   '/TrackingCategories/{TrackingCategoryID}/Options/{TrackingOptionID}':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -17804,12 +17689,10 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
       requestBody:
         required: true
         content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TrackingOption'
-              example: '{  
-                           name:"Vision"
-                        }'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TrackingOption'
+            example: '{ name: "Vision" }'
     delete:
       security:
         - OAuth2: [accounting.settings]
