@@ -882,6 +882,56 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PayItems'
+              example: '{
+                          "Id": "8c15b526-ea07-42e6-9351-1fa00a9516ea",
+                          "Status": "OK",
+                          "ProviderName": "java-sdk-oauth2-dev-02",
+                          "DateTimeUTC": "/Date(1593448963288)/",
+                          "PayItems": {
+                            "EarningsRates": [
+                              {
+                                "EarningsRateID": "1fa4e226-b711-46ba-a8a7-4344c9c5fb87",
+                                "Name": "MyRate",
+                                "EarningsType": "ORDINARYTIMEEARNINGS",
+                                "RateType": "MULTIPLE",
+                                "AccountCode": "400",
+                                "Multiplier": 1.5,
+                                "IsExemptFromTax": true,
+                                "IsExemptFromSuper": true,
+                                "AccrueLeave": false,
+                                "IsReportableAsW1": false,
+                                "UpdatedDateUTC": "/Date(1593448963210+0000)/",
+                                "CurrentRecord": true
+                              },
+                              {
+                                "EarningsRateID": "c6905c26-0716-4746-9098-608545e04dd2",
+                                "Name": "Redundancy",
+                                "EarningsType": "LUMPSUMD",
+                                "RateType": "FIXEDAMOUNT",
+                                "AccountCode": "477",
+                                "IsExemptFromTax": true,
+                                "IsExemptFromSuper": true,
+                                "IsReportableAsW1": true,
+                                "UpdatedDateUTC": "/Date(1476729649000+0000)/",
+                                "CurrentRecord": true
+                              },
+                              {
+                                "EarningsRateID": "33820094-656e-4db3-b04b-8bd3e2db0a9b",
+                                "Name": "ETP Leave Earning",
+                                "EarningsType": "EMPLOYMENTTERMINATIONPAYMENT",
+                                "RateType": "RATEPERUNIT",
+                                "AccountCode": "477",
+                                "TypeOfUnits": "Hours",
+                                "IsExemptFromTax": false,
+                                "IsExemptFromSuper": true,
+                                "IsReportableAsW1": true,
+                                "UpdatedDateUTC": "/Date(1520900705000+0000)/",
+                                "EmploymentTerminationPaymentType": "O",
+                                "CurrentRecord": true
+                              }
+                            ]
+                          }
+                        }'
         '400':
           description: invalid input, object invalid - TODO
       requestBody:
@@ -890,34 +940,25 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/PayItem'
-            example: '
-                        {
-                          "EarningsRates": [
-                            {
-                              "Name": "MyRate",
-                              "AccountCode": "400",
-                              "TypeOfUnits": "4.00",
-                              "IsExemptFromTax": true,
-                              "IsExemptFromSuper": true,
-                              "IsReportableAsW1": false,
-                              "EarningsType": "FIXED",
-                              "EarningsRateID": "ab874dfb-ab09-4c91-954e-43acf6fc23b4",
-                              "RateType": "FIXEDAMOUNT",
-                              "RatePerUnit": "10.0",
-                              "Multiplier": 1.5,
-                              "AccrueLeave": 1,
-                              "Amount": 5,
-                              "EmploymentTerminationPaymentType": "O"
-                            }
-                          ],
-                          "DeductionTypes": [
-                            {
-                              "Name": "My Deduction",
-                              "AccountCode": "400"
-                            }
-                          ]
-                        }
-                      '
+            example: '{
+                        "EarningsRates": [
+                          {
+                            "Name": "MyRate",
+                            "AccountCode": "400",
+                            "TypeOfUnits": "4.00",
+                            "IsExemptFromTax": true,
+                            "IsExemptFromSuper": true,
+                            "IsReportableAsW1": false,
+                            "EarningsType": "ORDINARYTIMEEARNINGS",
+                            "EarningsRateID": "1fa4e226-b711-46ba-a8a7-4344c9c5fb87",
+                            "RateType": "MULTIPLE",
+                            "RatePerUnit": "10.0",
+                            "Multiplier": 1.5,
+                            "Amount": 5,
+                            "EmploymentTerminationPaymentType": "O"
+                          }
+                        ]
+                      }'
   /PayrollCalendars:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -3224,9 +3265,8 @@ components:
           example: 1.5
         AccrueLeave:
           description: Indicates that this earnings rate should accrue leave. Only applicable if RateType is MULTIPLE
-          type: number
-          format: double
-          example: 1.5
+          type: boolean
+          example: false
         Amount:
           description: Optional Amount for FIXEDAMOUNT RateType EarningsRate
           type: number
@@ -3310,8 +3350,9 @@ components:
           example: e0eb6747-7c17-4075-b804-989f8d4e5d39
         NormalEntitlement:
           description: The number of units the employee is entitled to each year
-          type: integer
-          example: 152
+          type: number
+          format: double
+          example: 152.0000
         LeaveLoadingRate:
           description: Enter an amount here if your organisation pays an additional percentage on top of ordinary earnings when your employees take leave (typically 17.5%)
           type: integer
