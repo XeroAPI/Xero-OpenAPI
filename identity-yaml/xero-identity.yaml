@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: "2.2.2"
+  version: "2.2.6"
   title: Xero oAuth 2 identity service
   description: This specifing endpoints related to managing authentication tokens and identity for Xero API
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
@@ -100,7 +100,7 @@ components:
         tenantName:
           description: Xero tenant name
           type: string
-        createdDateUTC:
+        createdDateUtc:
           description: The date when the user connected this tenant to your app
           type: string
           format: date-time
@@ -151,6 +151,9 @@ components:
           description: token used to refresh an expired access token
           type: string
   securitySchemes:
+    BasicAuth:    
+      type: http
+      scheme: basic
     OAuth2:
       type: oauth2
       description: For more information
