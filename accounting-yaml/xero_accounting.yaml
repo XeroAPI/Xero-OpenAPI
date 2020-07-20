@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Accounting API
-  version: "2.2.7"
+  version: "2.2.8"
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
   contact:
     name: "Xero Platform Team"
@@ -985,6 +985,18 @@ paths:
                                   "Code":"088",
                                   "Name":"Business Wells Fargo"
                                },
+                               "BatchPayment": {
+                                  "Account": {
+                                    "AccountID": "6f7594f2-f059-4d56-9e67-47ac9733bfe9"
+                                  },
+                                  "BatchPaymentID": "b54aa50c-794c-461b-89d1-846e1b84d9c0",
+                                  "Date": "\/Date(1476316800000+0000)\/",
+                                  "Type": "RECBATCH",
+                                  "Status": "AUTHORISED",
+                                  "TotalAmount": "12.00",
+                                  "UpdatedDateUTC": "\/Date(1476392487037+0000)\/",
+                                  "IsReconciled": "false"
+                                },
                                "Type":"RECEIVE",
                                "IsReconciled":false,
                                "PrepaymentID":"cb62750f-b49c-464b-a45b-e2e2c514c8a9",
@@ -1414,6 +1426,18 @@ paths:
                                 "Code": "088",
                                 "Name": "Business Wells Fargo"
                               },
+                              "BatchPayment": {
+                                  "Account": {
+                                    "AccountID": "6f7594f2-f059-4d56-9e67-47ac9733bfe9"
+                                  },
+                                  "BatchPaymentID": "b54aa50c-794c-461b-89d1-846e1b84d9c0",
+                                  "Date": "\/Date(1476316800000+0000)\/",
+                                  "Type": "RECBATCH",
+                                  "Status": "AUTHORISED",
+                                  "TotalAmount": "12.00",
+                                  "UpdatedDateUTC": "\/Date(1476392487037+0000)\/",
+                                  "IsReconciled": "false"
+                                },
                               "Type": "RECEIVE",
                               "IsReconciled": false,
                               "CurrencyRate": 1.000000,
@@ -2403,29 +2427,29 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/HistoryRetrieved'
-    put:
-      security:
-        - OAuth2: [accounting.transactions]
-      tags:
-        - Accounting
-      operationId: createBankTransferHistoryRecord
-      x-hasAccountingValidationError: true
-      parameters:
-        - required: true
-          in: path
-          name: BankTransferID
-          description: Xero generated unique identifier for a bank transfer
-          example: "00000000-0000-0000-000-000000000000"
-          schema:
-            type: string
-            format: uuid
-      responses:
-        '200':
-          $ref: '#/components/responses/HistoryRecordCreated'
-        '400':
-          $ref: '#/components/responses/400Error'
-      requestBody:
-        $ref: '#/components/requestBodies/historyRecords'
+    #put:
+    #  security:
+    #    - OAuth2: [accounting.transactions]
+    #  tags:
+    #    - Accounting
+    #  operationId: createBankTransferHistoryRecord
+    #  x-hasAccountingValidationError: true
+    #  parameters:
+    #    - required: true
+    #      in: path
+    #      name: BankTransferID
+    #      description: Xero generated unique identifier for a bank transfer
+    #      example: "00000000-0000-0000-000-000000000000"
+    #      schema:
+    #        type: string
+    #        format: uuid
+    #  responses:
+    #    '200':
+    #      $ref: '#/components/responses/HistoryRecordCreated'
+    #    '400':
+    #      $ref: '#/components/responses/400Error'
+    #  requestBody:
+    #    $ref: '#/components/requestBodies/historyRecords'
   /BrandingThemes:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -3834,30 +3858,30 @@ paths:
       responses:
         '200':
           $ref: '#/components/responses/HistoryRetrieved'
-    put:
-      security:
-        - OAuth2: [accounting.contacts]
-      tags:
-        - Accounting
-      operationId: createContactHistory
-      x-hasAccountingValidationError: true
-      summary: Allows you to retrieve a history records of an Contact
-      parameters:
-        - required: true
-          in: path
-          name: ContactID
-          description: Unique identifier for a Contact
-          example: "00000000-0000-0000-000-000000000000"
-          schema:
-            type: string
-            format: uuid
-      requestBody:
-        $ref: '#/components/requestBodies/historyRecords'
-      responses:
-        '200':
-          $ref: '#/components/responses/HistoryRecordCreated'
-        '400':
-          $ref: '#/components/responses/400Error'
+    #put:
+    #  security:
+    #    - OAuth2: [accounting.contacts]
+    #  tags:
+    #    - Accounting
+    #  operationId: createContactHistory
+    #  x-hasAccountingValidationError: true
+    #  summary: Allows you to retrieve a history records of an Contact
+    #  parameters:
+    #    - required: true
+    #      in: path
+    #      name: ContactID
+    #      description: Unique identifier for a Contact
+    #      example: "00000000-0000-0000-000-000000000000"
+    #      schema:
+    #        type: string
+    #        format: uuid
+    #  requestBody:
+    #    $ref: '#/components/requestBodies/historyRecords'
+    #  responses:
+    #    '200':
+    #      $ref: '#/components/responses/HistoryRecordCreated'
+    #    '400':
+    #      $ref: '#/components/responses/400Error'
   /ContactGroups:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -5956,28 +5980,28 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
       responses:
         '200':
           $ref: '#/components/responses/HistoryRetrieved'
-    put:
-      security:
-        - OAuth2: [accounting.transactions]
-      tags:
-        - Accounting
-      operationId: createExpenseClaimHistory
-      x-hasAccountingValidationError: true
-      summary: Allows you to create a history records of an ExpenseClaim
-      parameters:
-        - required: true
-          in: path
-          name: ExpenseClaimID
-          description: Unique identifier for a ExpenseClaim
-          example: "00000000-0000-0000-000-000000000000"
-          schema:
-            type: string
-            format: uuid
-      responses:
-        '200':
-          $ref: '#/components/responses/HistoryRecordCreated'
-      requestBody:
-        $ref: '#/components/requestBodies/historyRecords'
+    #put:
+    #  security:
+    #    - OAuth2: [accounting.transactions]
+    #  tags:
+    #    - Accounting
+    #  operationId: createExpenseClaimHistory
+    #  x-hasAccountingValidationError: true
+    #  summary: Allows you to create a history records of an ExpenseClaim
+    #  parameters:
+    #    - required: true
+    #      in: path
+    #      name: ExpenseClaimID
+    #      description: Unique identifier for a ExpenseClaim
+    #      example: "00000000-0000-0000-000-000000000000"
+    #      schema:
+    #        type: string
+    #        format: uuid
+    #  responses:
+    #    '200':
+    #      $ref: '#/components/responses/HistoryRecordCreated'
+    #  requestBody:
+    #    $ref: '#/components/requestBodies/historyRecords'
   /Invoices:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -7588,28 +7612,28 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
       responses:
         '200':
           $ref: '#/components/responses/HistoryRetrieved'
-    put:
-      security:
-        - OAuth2: [accounting.settings]
-      tags:
-        - Accounting
-      operationId: createItemHistory
-      x-hasAccountingValidationError: true
-      summary: Allows you to create a history record for items
-      parameters:
-        - required: true
-          in: path
-          name: ItemID
-          description: Unique identifier for an Item
-          example: "00000000-0000-0000-000-000000000000"
-          schema:
-            type: string
-            format: uuid
-      responses:
-        '200':
-          $ref: '#/components/responses/HistoryRecordCreated'
-      requestBody:
-        $ref: '#/components/requestBodies/historyRecords'
+    #put:
+    #  security:
+    #    - OAuth2: [accounting.settings]
+    #  tags:
+    #    - Accounting
+    #  operationId: createItemHistory
+    #  x-hasAccountingValidationError: true
+    #  summary: Allows you to create a history record for items
+    #  parameters:
+    #    - required: true
+    #      in: path
+    #      name: ItemID
+    #      description: Unique identifier for an Item
+    #      example: "00000000-0000-0000-000-000000000000"
+    #      schema:
+    #        type: string
+    #        format: uuid
+    #  responses:
+    #    '200':
+    #      $ref: '#/components/responses/HistoryRecordCreated'
+    #  requestBody:
+    #    $ref: '#/components/requestBodies/historyRecords'
   /Journals:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -9368,51 +9392,51 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
       responses:
         '200':
           $ref: '#/components/responses/HistoryRetrieved'
-    put:
-      security:
-        - OAuth2: [accounting.transactions]
-      tags:
-        - Accounting
-      operationId: createOverpaymentHistory
-      x-hasAccountingValidationError: true
-      summary: Allows you to create history records of an Overpayment
-      parameters:
-        - required: true
-          in: path
-          name: OverpaymentID
-          description: Unique identifier for a Overpayment
-          example: "00000000-0000-0000-000-000000000000"
-          schema:
-            type: string
-            format: uuid
-      responses:
-        '200':
-          $ref: '#/components/responses/HistoryRecordCreated'
-        '400':
-          description: A failed request due to validation error - API is not able to create HistoryRecord for Overpayments
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              example: '{
-                          "ErrorNumber": 10,
-                          "Type": "ValidationException",
-                          "Message": "A validation exception occurred",
-                          "Elements": [
-                            {
-                              "DateUTCString": "2019-03-12T22:30:13",
-                              "DateUTC": "\/Date(1552429813667)\/",
-                              "Details": "Hello World",
-                              "ValidationErrors": [
-                                {
-                                  "Message": "The document with the supplied id was not found for this endpoint."
-                                }
-                              ]
-                            }
-                          ]
-                        }'
-      requestBody:
-        $ref: '#/components/requestBodies/historyRecords'
+    #put:
+    #  security:
+    #    - OAuth2: [accounting.transactions]
+    #  tags:
+    #    - Accounting
+    #  operationId: createOverpaymentHistory
+    #  x-hasAccountingValidationError: true
+    #  summary: Allows you to create history records of an Overpayment
+    #  parameters:
+    #    - required: true
+    #      in: path
+    #      name: OverpaymentID
+    #      description: Unique identifier for a Overpayment
+    #      example: "00000000-0000-0000-000-000000000000"
+    #      schema:
+    #        type: string
+    #        format: uuid
+    #  responses:
+    #    '200':
+    ##      $ref: '#/components/responses/HistoryRecordCreated'
+    #    '400':
+    #      description: A failed request due to validation error - API is not able to create HistoryRecord for Overpayments
+    #      content:
+    #        application/json:
+    #          schema:
+    #            $ref: '#/components/schemas/Error'
+    #          example: '{
+    #                      "ErrorNumber": 10,
+    #                      "Type": "ValidationException",
+    #                      "Message": "A validation exception occurred",
+    #                      "Elements": [
+    #                        {
+    #                          "DateUTCString": "2019-03-12T22:30:13",
+    #                         "DateUTC": "\/Date(1552429813667)\/",
+    #                          "Details": "Hello World",
+    #                          "ValidationErrors": [
+    #                            {
+    #                              "Message": "The document with the supplied id was not found for this endpoint."
+    #                            }
+    #                          ]
+    #                        }
+    #                      ]
+    #                    }'
+    #  requestBody:
+    #    $ref: '#/components/requestBodies/historyRecords'
   /Payments:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -9459,6 +9483,19 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
                           "Payments": [
                             {
                               "PaymentID": "99ea7f6b-c513-4066-bc27-b7c65dcd76c2",
+                              "BatchPaymentID": "b54aa50c-794c-461b-89d1-846e1b84d9c0",
+                              "BatchPayment": {
+                                "Account": {
+                                  "AccountID": "5690f1e8-1d02-4893-90c2-ee1a69eff942"
+                                },
+                                "BatchPaymentID": "b54aa50c-794c-461b-89d1-846e1b84d9c0",
+                                "Date": "\/Date(1552521600000+0000)\/",
+                                "Type": "RECBATCH",
+                                "Status": "AUTHORISED",
+                                "TotalAmount": "50.00",
+                                "UpdatedDateUTC": "\/Date(1541176592690+0000)\/",
+                                "IsReconciled": "false"
+                              },
                               "Date": "\/Date(1543449600000+0000)\/",
                               "BankAmount": 46.00,
                               "Amount": 46.00,
@@ -9780,6 +9817,19 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
                           "Payments": [
                             {
                               "PaymentID": "99ea7f6b-c513-4066-bc27-b7c65dcd76c2",
+                              "BatchPaymentID": "b54aa50c-794c-461b-89d1-846e1b84d9c0",
+                              "BatchPayment": {
+                                "Account": {
+                                  "AccountID": "5690f1e8-1d02-4893-90c2-ee1a69eff942"
+                                },
+                                "BatchPaymentID": "b54aa50c-794c-461b-89d1-846e1b84d9c0",
+                                "Date": "\/Date(1543449600000+0000)\/",
+                                "Type": "RECBATCH",
+                                "Status": "AUTHORISED",
+                                "TotalAmount": "50.00",
+                                "UpdatedDateUTC": "\/Date(1541176592690+0000)\/",
+                                "IsReconciled": "false"
+                              },
                               "Date": "\/Date(1543449600000+0000)\/",
                               "BankAmount": 46.00,
                               "Amount": 46.00,
@@ -9981,51 +10031,51 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
       responses:
         '200':
           $ref: '#/components/responses/HistoryRetrieved'
-    put:
-      security:
-        - OAuth2: [accounting.transactions]
-      tags:
-        - Accounting
-      operationId: createPaymentHistory
-      x-hasAccountingValidationError: true
-      summary: Allows you to create a history record for a payment
-      parameters:
-        - required: true
-          in: path
-          name: PaymentID
-          description: Unique identifier for a Payment
-          example: "00000000-0000-0000-000-000000000000"
-          schema:
-            type: string
-            format: uuid
-      responses:
-        '200':
-          $ref: '#/components/responses/HistoryRecordCreated'
-        '400':
-          description: A failed request due to validation error - API is not able to create HistoryRecord for Payments
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              example: '{
-                          "ErrorNumber": 10,
-                          "Type": "ValidationException",
-                          "Message": "A validation exception occurred",
-                          "Elements": [
-                            {
-                              "DateUTCString": "2019-03-12T22:30:13",
-                              "DateUTC": "\/Date(1552429813667)\/",
-                              "Details": "Hello World",
-                              "ValidationErrors": [
-                                {
-                                  "Message": "The document with the supplied id was not found for this endpoint."
-                                }
-                              ]
-                            }
-                          ]
-                        }'
-      requestBody:
-        $ref: '#/components/requestBodies/historyRecords'
+    #put:
+    #  security:
+    #    - OAuth2: [accounting.transactions]
+    #  tags:
+    #    - Accounting
+    #  operationId: createPaymentHistory
+    #  x-hasAccountingValidationError: true
+    #  summary: Allows you to create a history record for a payment
+    #  parameters:
+    #    - required: true
+    #      in: path
+    #      name: PaymentID
+    #      description: Unique identifier for a Payment
+    #      example: "00000000-0000-0000-000-000000000000"
+    #      schema:
+    #        type: string
+    #        format: uuid
+    #  responses:
+    #    '200':
+    #      $ref: '#/components/responses/HistoryRecordCreated'
+    #    '400':
+    #      description: A failed request due to validation error - API is not able to create HistoryRecord for Payments
+    #      content:
+    #        application/json:
+    #          schema:
+    #            $ref: '#/components/schemas/Error'
+    #          example: '{
+    #                      "ErrorNumber": 10,
+    #                      "Type": "ValidationException",
+    #                      "Message": "A validation exception occurred",
+    #                      "Elements": [
+    #                        {
+    #                          "DateUTCString": "2019-03-12T22:30:13",
+    #                          "DateUTC": "\/Date(1552429813667)\/",
+    #                          "Details": "Hello World",
+    #                          "ValidationErrors": [
+    #                            {
+    #                              "Message": "The document with the supplied id was not found for this endpoint."
+    #                            }
+    #                          ]
+    #                        }
+    #                      ]
+    #                    }'
+    #  requestBody:
+    #    $ref: '#/components/requestBodies/historyRecords'
   /PaymentServices:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -10427,51 +10477,51 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
       responses:
         '200':
           $ref: '#/components/responses/HistoryRetrieved'
-    put:
-      security:
-        - OAuth2: [accounting.transactions]
-      tags:
-        - Accounting
-      operationId: createPrepaymentHistory
-      x-hasAccountingValidationError: true
-      summary: Allows you to create a history record for an Prepayment
-      parameters:
-        - required: true
-          in: path
-          name: PrepaymentID
-          description: Unique identifier for a PrePayment
-          example: "00000000-0000-0000-000-000000000000"
-          schema:
-            type: string
-            format: uuid
-      responses:
-        '200':
-          $ref: '#/components/responses/HistoryRecordCreated'
-        '400':
-          description: Unsupported - return response incorrect exception, API is not able to create HistoryRecord for Expense Claims
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              example: ' {
-                            "ErrorNumber": 10,
-                            "Type": "ValidationException",
-                            "Message": "A validation exception occurred",
-                            "Elements": [
-                              {
-                                "DateUTCString": "2019-03-14T00:15:35",
-                                "DateUTC": "\/Date(1552522535440)\/",
-                                "Details": "Hello World",
-                                "ValidationErrors": [
-                                  {
-                                    "Message": "The document with the supplied id was not found for this endpoint."
-                                  }
-                                ]
-                              }
-                            ]
-                          }'
-      requestBody:
-        $ref: '#/components/requestBodies/historyRecords'
+    #put:
+    #  security:
+    #    - OAuth2: [accounting.transactions]
+    #  tags:
+    #    - Accounting
+    #  operationId: createPrepaymentHistory
+    #  x-hasAccountingValidationError: true
+    #  summary: Allows you to create a history record for an Prepayment
+    #  parameters:
+    #    - required: true
+    #      in: path
+    #      name: PrepaymentID
+    #      description: Unique identifier for a PrePayment
+    #      example: "00000000-0000-0000-000-000000000000"
+    #      schema:
+    #        type: string
+    #        format: uuid
+    #  responses:
+    #    '200':
+    #      $ref: '#/components/responses/HistoryRecordCreated'
+    #    '400':
+    #      description: Unsupported - return response incorrect exception, API is not able to create HistoryRecord for Expense Claims
+    #      content:
+    #        application/json:
+    #          schema:
+    #            $ref: '#/components/schemas/Error'
+    #          example: ' {
+    #                        "ErrorNumber": 10,
+    #                        "Type": "ValidationException",
+    #                        "Message": "A validation exception occurred",
+    #                        "Elements": [
+    #                          {
+    #                            "DateUTCString": "2019-03-14T00:15:35",
+    #                            "DateUTC": "\/Date(1552522535440)\/",
+    #                            "Details": "Hello World",
+    #                            "ValidationErrors": [
+    #                              {
+    #                                "Message": "The document with the supplied id was not found for this endpoint."
+    #                              }
+    #                            ]
+    #                          }
+    #                        ]
+    #                      }'
+    #  requestBody:
+    #    $ref: '#/components/requestBodies/historyRecords'
   /PurchaseOrders:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -12963,51 +13013,51 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
       responses:
         '200':
           $ref: '#/components/responses/HistoryRetrieved'
-    put:
-      security:
-        - OAuth2: [accounting.transactions]
-      tags:
-        - Accounting
-      operationId: createReceiptHistory
-      x-hasAccountingValidationError: true
-      summary: Allows you to retrieve a history records of an Receipt
-      parameters:
-        - required: true
-          in: path
-          name: ReceiptID
-          description: Unique identifier for a Receipt
-          example: "00000000-0000-0000-000-000000000000"
-          schema:
-            type: string
-            format: uuid
-      responses:
-        '200':
-          $ref: '#/components/responses/HistoryRecordCreated'
-        '400':
-          description: Unsupported - return response incorrect exception, API is not able to create HistoryRecord for Receipts
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-              example: '{
-                          "ErrorNumber": 10,
-                          "Type": "ValidationException",
-                          "Message": "A validation exception occurred",
-                          "Elements": [
-                            {
-                              "DateUTCString": "2019-03-15T21:51:50",
-                              "DateUTC": "\/Date(1552686710791)\/",
-                              "Details": "Hello World",
-                              "ValidationErrors": [
-                                {
-                                  "Message": "The document with the supplied id was not found for this endpoint."
-                                }
-                              ]
-                            }
-                          ]
-                        }'
-      requestBody:
-        $ref: '#/components/requestBodies/historyRecords'
+    #put:
+    # security:
+    #    - OAuth2: [accounting.transactions]
+    #  tags:
+    #    - Accounting
+    #  operationId: createReceiptHistory
+    #  x-hasAccountingValidationError: true
+    #  summary: Allows you to retrieve a history records of an Receipt
+    #  parameters:
+    #    - required: true
+    #      in: path
+    #      name: ReceiptID
+    #      description: Unique identifier for a Receipt
+    #      example: "00000000-0000-0000-000-000000000000"
+    #      schema:
+    #        type: string
+    #        format: uuid
+    #  responses:
+    #    '200':
+    #      $ref: '#/components/responses/HistoryRecordCreated'
+    #    '400':
+    #      description: Unsupported - return response incorrect exception, API is not able to create HistoryRecord for Receipts
+    #      content:
+    #        application/json:
+    #          schema:
+    #            $ref: '#/components/schemas/Error'
+    #          example: '{
+    #                      "ErrorNumber": 10,
+    #                      "Type": "ValidationException",
+    #                      "Message": "A validation exception occurred",
+    #                      "Elements": [
+    #                        {
+    #                          "DateUTCString": "2019-03-15T21:51:50",
+    #                          "DateUTC": "\/Date(1552686710791)\/",
+    #                          "Details": "Hello World",
+    #                          "ValidationErrors": [
+    #                            {
+    #                              "Message": "The document with the supplied id was not found for this endpoint."
+    #                            }
+    #                          ]
+    #                        }
+    #                      ]
+    #                    }'
+    #  requestBody:
+    #    $ref: '#/components/requestBodies/historyRecords'
   /RepeatingInvoices:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -13474,30 +13524,30 @@ contact: {}, date:"2020-01-01", user:{} } ] } ] }'
       responses:
         '200':
           $ref: '#/components/responses/HistoryRetrieved'
-    put:
-      security:
-        - OAuth2: [accounting.transactions]
-      tags:
-        - Accounting
-      operationId: createRepeatingInvoiceHistory
-      x-hasAccountingValidationError: true
-      summary: Allows you to create history for a repeating invoice
-      parameters:
-        - required: true
-          in: path
-          name: RepeatingInvoiceID
-          description: Unique identifier for a Repeating Invoice
-          example: "00000000-0000-0000-000-000000000000"
-          schema:
-            type: string
-            format: uuid
-      responses:
-        '200':
-          $ref: '#/components/responses/HistoryRecordCreated'
-        '400':
-          $ref: '#/components/responses/400Error'
-      requestBody:
-        $ref: '#/components/requestBodies/historyRecords'
+    #put:
+    #  security:
+    #    - OAuth2: [accounting.transactions]
+    #  tags:
+    #    - Accounting
+    #  operationId: createRepeatingInvoiceHistory
+    #  x-hasAccountingValidationError: true
+    #  summary: Allows you to create history for a repeating invoice
+    #  parameters:
+    #    - required: true
+    #      in: path
+    #      name: RepeatingInvoiceID
+    #      description: Unique identifier for a Repeating Invoice
+    #      example: "00000000-0000-0000-000-000000000000"
+    #      schema:
+    #        type: string
+    #        format: uuid
+    #  responses:
+    #    '200':
+    #      $ref: '#/components/responses/HistoryRecordCreated'
+    #    '400':
+    #      $ref: '#/components/responses/400Error'
+    #  requestBody:
+    #    $ref: '#/components/requestBodies/historyRecords'
   '/Reports/TenNinetyNine':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
