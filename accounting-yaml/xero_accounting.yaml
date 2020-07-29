@@ -18390,6 +18390,7 @@ components:
             Setting currency is only supported on overpayments.
           type: number
           format: double
+          x-is-money: true
         Url:
           description: URL link to a source document – shown as “Go to App Name”
           type: string
@@ -18407,14 +18408,17 @@ components:
           description: Total of bank transaction excluding taxes
           type: number
           format: double
+          x-is-money: true
         TotalTax:
           description: Total tax on bank transaction
           type: number
           format: double
+          x-is-money: true
         Total:
           description: Total of bank transaction tax inclusive
           type: number
           format: double
+          x-is-money: true
         BankTransactionID:
           description: Xero generated unique identifier for bank transaction
           type: string
@@ -18486,10 +18490,12 @@ components:
           description: LineItem Quantity
           type: number
           format: double
+          x-is-money: true
         UnitAmount:
           description: LineItem Unit Amount
           type: number
           format: double
+          x-is-money: true
         ItemCode:
           description: See Items
           type: string
@@ -18504,6 +18510,7 @@ components:
             the calculated <TaxAmount> is not correct.
           type: number
           format: double
+          x-is-money: true
         LineAmount:
           description: If you wish to omit either of the <Quantity> or <UnitAmount> you can provide a LineAmount and Xero will calculate the missing amount for
             you. The line amount reflects the discounted price if a DiscountRate
@@ -18511,6 +18518,7 @@ components:
             DiscountRate)/100)
           type: number
           format: double
+          x-is-money: true
         Tracking:
           description: Optional Tracking Category – see Tracking.  Any LineItem can have a  maximum of 2 <TrackingCategory> elements.
           type: array
@@ -18521,10 +18529,12 @@ components:
             support discounts
           type: number
           format: double
+          x-is-money: true
         DiscountAmount:
           description: Discount amount being applied to a line item. Only supported on ACCREC invoices - ACCPAY invoices and credit notes in Xero do not support discounts.
           type: number
           format: double
+          x-is-money: true
         RepeatingInvoiceID:
           description:  The Xero identifier for a Repeating Invoice
           example: "00000000-0000-0000-000-000000000000"
@@ -18575,6 +18585,7 @@ components:
           description: 'amount of the transaction'
           type: number
           format: double
+          x-is-money: true
         Date:
           description: The date of the Transfer YYYY-MM-DD
           type: string
@@ -18591,6 +18602,7 @@ components:
           readOnly: true
           type: number
           format: double
+          x-is-money: true
         FromBankTransactionID:
           description: The Bank Transaction ID for the source account
           readOnly: true
@@ -18678,6 +18690,7 @@ components:
             outstanding amount owing on the invoice e.g. 200.00
           type: number
           format: double
+          x-is-money: true
         Payments:
           description: An array of payments
           type: array
@@ -18967,6 +18980,7 @@ components:
           readOnly: true
           type: number
           format: double
+          x-is-money: true
         Balances:
           $ref: '#/components/schemas/Balances'
         Attachments: 
@@ -19009,18 +19023,22 @@ components:
         Outstanding:
           type: number
           format: double
+          x-is-money: true
         Overdue:          
           type: number
           format: double
+          x-is-money: true
     AccountsPayable:
       type: object
       properties:
         Outstanding:
           type: number
           format: double
+          x-is-money: true
         Overdue:
           type: number
           format: double
+          x-is-money: true
     CISSettings:
       type: object
       x-isObjectArray: true
@@ -19161,14 +19179,17 @@ components:
           description: The subtotal of the credit note excluding taxes
           type: number
           format: double
+          x-is-money: true
         TotalTax:
           description: The total tax on the credit note
           type: number
           format: double
+          x-is-money: true
         Total:
           description: The total of the Credit Note(subtotal + total tax)
           type: number
           format: double
+          x-is-money: true
         UpdatedDateUTC:
           description: UTC timestamp of last update to the credit note
           type: string
@@ -19208,10 +19229,12 @@ components:
             specified, the XE.com day rate is used
           type: number
           format: double
+          x-is-money: true
         RemainingCredit:
           description: The remaining credit balance on the Credit Note
           type: number
           format: double
+          x-is-money: true
         Allocations:
           description: See Allocations
           type: array
@@ -19274,6 +19297,7 @@ components:
           description: the amount being applied to the invoice
           type: number
           format: double
+          x-is-money: true
         Date:
           description:   the date the allocation is applied YYYY-MM-DD. 
           type: string
@@ -19744,16 +19768,19 @@ components:
           readOnly: true
           type: number
           format: double
+          x-is-money: true
         AmountDue:
           description: The amount due to be paid for an expense claim
           readOnly: true
           type: number
           format: double
+          x-is-money: true
         AmountPaid:
           description: The amount still to pay for an expense claim
           readOnly: true
           type: number
           format: double
+          x-is-money: true
         PaymentDueDate:
           description: The date when the expense claim is due to be paid YYYY-MM-DD
           readOnly: true
@@ -19876,6 +19903,7 @@ components:
             specified, the XE.com day rate is used. (max length = [18].[6])
           type: number
           format: double
+          x-is-money: true
         Status:
           description: See Invoice Status Codes
           type: string
@@ -19907,26 +19935,31 @@ components:
           readOnly: true
           type: number
           format: double
+          x-is-money: true
         SubTotal:
           description: Total of invoice excluding taxes
           readOnly: true
           type: number
           format: double
+          x-is-money: true
         TotalTax:
           description: Total tax on invoice
           readOnly: true
           type: number
           format: double
+          x-is-money: true
         Total:
           description: Total of Invoice tax inclusive (i.e. SubTotal + TotalTax). This will be ignored if it doesn’t equal the sum of the LineAmounts
           readOnly: true
           type: number
           format: double
+          x-is-money: true
         TotalDiscount:
           description: Total of discounts applied on the invoice line items
           readOnly: true
           type: number
           format: double
+          x-is-money: true
         InvoiceID:
           description: Xero generated unique identifier for invoice
           type: string
@@ -19964,11 +19997,13 @@ components:
           readOnly: true
           type: number
           format: double
+          x-is-money: true
         AmountPaid:
           description: Sum of payments received for invoice
           readOnly: true
           type: number
           format: double
+          x-is-money: true
         FullyPaidOnDate:
           description: The date the invoice was fully paid. Only returned on fully paid
             invoices
@@ -19983,6 +20018,7 @@ components:
           readOnly: true
           type: number
           format: double
+          x-is-money: true
         UpdatedDateUTC:
           description: Last modified date UTC format
           type: string
@@ -20112,10 +20148,12 @@ components:
             accounting.
           type: number
           format: double
+          x-is-money: true
         QuantityOnHand:
           description: The quantity of the item on hand
           type: number
           format: double
+          x-is-money: true
         UpdatedDateUTC:
           description: Last modified date in UTC format
           type: string
@@ -20149,6 +20187,7 @@ components:
             querystring parameter to your request.
           type: number
           format: double
+          x-is-money: true
         AccountCode:
           description:  Default account code to be used for purchased/sale. Not applicable to the purchase details of tracked items
           type: string
@@ -20268,16 +20307,19 @@ components:
           description: Net amount of journal line. This will be a positive value for a debit and negative for a credit
           type: number
           format: double
+          x-is-money: true
           example: 4130.98
         GrossAmount:
           description: Gross amount of journal line (NetAmount + TaxAmount).
           type: number
           format: double
+          x-is-money: true
           example: 4130.98
         TaxAmount:
           description: Total tax on a journal line
           type: number
           format: double
+          x-is-money: true
           readOnly: true
           example: 0.00
         TaxType:
@@ -20465,6 +20507,7 @@ components:
           description: 'total for line. Debits are positive, credits are negative value'
           type: number
           format: double
+          x-is-money: true
           example: -2569.00
         AccountCode:
           description: See Accounts
@@ -20487,6 +20530,7 @@ components:
           readOnly: true
           type: number
           format: double
+          x-is-money: true
           example: 0.00
         IsBlank:
           description: is the line blank
@@ -21151,14 +21195,17 @@ components:
           description: The subtotal of the overpayment excluding taxes
           type: number
           format: double
+          x-is-money: true
         TotalTax:
           description: The total tax on the overpayment
           type: number
           format: double
+          x-is-money: true
         Total:
           description: The total of the overpayment (subtotal + total tax)
           type: number
           format: double
+          x-is-money: true
         UpdatedDateUTC:
           description: UTC timestamp of last update to the overpayment
           type: string
@@ -21179,10 +21226,12 @@ components:
             specified, the XE.com day rate is used
           type: number
           format: double
+          x-is-money: true
         RemainingCredit:
           description: The remaining credit balance on the overpayment
           type: number
           format: double
+          x-is-money: true
         Allocations:
           description: See Allocations
           type: array
@@ -21263,11 +21312,13 @@ components:
             currency invoices and credit notes e.g. 0.7500
           type: number
           format: double
+          x-is-money: true
         Amount:
           description: The amount of the payment. Must be less than or equal to the
             outstanding amount owing on the invoice e.g. 200.00
           type: number
           format: double
+          x-is-money: true
         Reference:
           description: An optional description for the payment e.g. Direct Debit
           type: string
@@ -21381,14 +21432,17 @@ components:
           description: The subtotal of the prepayment excluding taxes
           type: number
           format: double
+          x-is-money: true
         TotalTax:
           description: The total tax on the prepayment
           type: number
           format: double
+          x-is-money: true
         Total:
           description: The total of the prepayment(subtotal + total tax)
           type: number
           format: double
+          x-is-money: true
         Reference:
           description: Returns Invoice number field. Reference field isn't available.
           type: string
@@ -21413,10 +21467,12 @@ components:
             specified, the XE.com day rate is used
           type: number
           format: double
+          x-is-money: true
         RemainingCredit:
           description: The remaining credit balance on the prepayment
           type: number
           format: double
+          x-is-money: true
         Allocations:
           description: See Allocations
           type: array
@@ -21528,26 +21584,31 @@ components:
           description: The currency rate for a multicurrency purchase order. If no rate is specified, the XE.com day rate is used.
           type: number
           format: double
+          x-is-money: true
         SubTotal:
           description: Total of purchase order excluding taxes
           readOnly: true
           type: number
           format: double
+          x-is-money: true
         TotalTax:
           description: Total tax on purchase order
           readOnly: true
           type: number
           format: double
+          x-is-money: true
         Total:
           description: Total of Purchase Order tax inclusive (i.e. SubTotal + TotalTax)
           readOnly: true
           type: number
           format: double
+          x-is-money: true
         TotalDiscount:
           description: Total of discounts applied on the purchase order line items
           readOnly: true
           type: number
           format: double
+          x-is-money: true
         HasAttachments:
           description: boolean to indicate if a purchase order has an attachment
           readOnly: true
@@ -21650,21 +21711,25 @@ components:
           readOnly: true
           type: number
           format: double
+          x-is-money: true
         TotalTax:
           description: Total tax on quote
           readOnly: true
           type: number
           format: double
+          x-is-money: true
         Total:
           description: Total of Quote tax inclusive (i.e. SubTotal + TotalTax). This will be ignored if it doesn’t equal the sum of the LineAmounts
           readOnly: true
           type: number
           format: double
+          x-is-money: true
         TotalDiscount:
           description: Total of discounts applied on the quote line items
           readOnly: true
           type: number
           format: double
+          x-is-money: true
         Title:
           description: Title text for the quote
           type: string
@@ -21750,14 +21815,17 @@ components:
           description: Total of receipt excluding taxes
           type: number
           format: double
+          x-is-money: true
         TotalTax:
           description: Total tax on receipt
           type: number
           format: double
+          x-is-money: true
         Total:
           description: Total of receipt tax inclusive (i.e. SubTotal + TotalTax)
           type: number
           format: double
+          x-is-money: true
         ReceiptID:
           description: Xero generated unique identifier for receipt
           type: string
@@ -21861,14 +21929,17 @@ components:
           description: Total of invoice excluding taxes
           type: number
           format: double
+          x-is-money: true
         TotalTax:
           description: Total tax on invoice
           type: number
           format: double
+          x-is-money: true
         Total:
           description: Total of Invoice tax inclusive (i.e. SubTotal + TotalTax)
           type: number
           format: double
+          x-is-money: true
         RepeatingInvoiceID:
           description: Xero generated unique identifier for repeating invoice template
           type: string
@@ -22043,54 +22114,67 @@ components:
           description: Box 1 on 1099 Form
           type: number
           format: double
+          x-is-money: true
         Box2: 
           description: Box 2 on 1099 Form
           type: number
           format: double
+          x-is-money: true
         Box3: 
           description: Box 3 on 1099 Form
           type: number
           format: double
+          x-is-money: true
         Box4: 
           description: Box 4 on 1099 Form
           type: number
           format: double
+          x-is-money: true
         Box5: 
           description: Box 5 on 1099 Form
           type: number
           format: double
+          x-is-money: true
         Box6: 
           description: Box 6 on 1099 Form
           type: number
           format: double
+          x-is-money: true
         Box7: 
           description: Box 7 on 1099 Form
           type: number
           format: double
+          x-is-money: true
         Box8: 
           description: Box 8 on 1099 Form
           type: number
           format: double
+          x-is-money: true
         Box9: 
           description: Box 9 on 1099 Form
           type: number
           format: double
+          x-is-money: true
         Box10: 
           description: Box 10 on 1099 Form
           type: number
           format: double
+          x-is-money: true
         Box11: 
           description: Box 11 on 1099 Form
           type: number
           format: double
+          x-is-money: true
         Box13: 
           description: Box 13 on 1099 Form
           type: number
           format: double
+          x-is-money: true
         Box14: 
           description: Box 14 on 1099 Form
           type: number
           format: double
+          x-is-money: true
         Name:
           description: Contact name on 1099 Form
           type: string
@@ -22364,11 +22448,13 @@ components:
           readOnly: true
           type: number
           format: double
+          x-is-money: true
         EffectiveRate:
           description: Effective Tax Rate (decimal to 4dp) e.g 12.5000
           readOnly: true
           type: number
           format: double
+          x-is-money: true
       type: object
     TaxComponent:
       externalDocs:
@@ -22381,6 +22467,7 @@ components:
           description: Tax Rate (up to 4dp)
           type: number
           format: double
+          x-is-money: true
         IsCompound:
           description: Boolean to describe if Tax rate is compounded.
           type: boolean
