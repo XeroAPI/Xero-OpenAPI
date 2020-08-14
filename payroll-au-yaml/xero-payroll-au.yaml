@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: '2.2.11'
+  version: '2.2.12'
   title: 'Xero Payroll AU'
   description: 'This is the Xero Payroll API for orgs in Australia region.'
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
@@ -3292,10 +3292,8 @@ components:
           example: 1.5
         AccrueLeave:
           description: Indicates that this earnings rate should accrue leave. Only applicable if RateType is MULTIPLE
-          type: number
-          format: double
-          x-is-money: true
-          example: 1.5
+          type: boolean
+          example: false
         Amount:
           description: Optional Amount for FIXEDAMOUNT RateType EarningsRate
           type: number
@@ -3385,8 +3383,9 @@ components:
           example: 152.0000
         LeaveLoadingRate:
           description: Enter an amount here if your organisation pays an additional percentage on top of ordinary earnings when your employees take leave (typically 17.5%)
-          type: integer
-          example: 12
+          type: number
+          format: double
+          example: 2.0000
         UpdatedDateUTC:
           description: Last modified timestamp
           type: string
@@ -3585,7 +3584,6 @@ components:
       type: object
       required:
       - EarningsRateID
-      - CalculationType
       properties:
         EarningsRateID:
           description: Xero unique id for earnings rate
