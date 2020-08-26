@@ -556,7 +556,32 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmployeeLeaves'
-              example: ''
+              example: '{
+                          "id": "8d136348-5df4-4298-80b5-41ddaa990533",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-08-26T16:57:18.4657329",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null,
+                          "leave": [
+                            {
+                              "leaveID": "e311d45f-122e-4fbf-b068-4e3f92dd2729",
+                              "leaveTypeID": "0441497f-5dc7-4cd3-a90d-f2e07e21b2a6",
+                              "description": "Holiday Pay Payout",
+                              "startDate": "2019-07-01T00:00:00",
+                              "endDate": "2019-07-07T00:00:00",
+                              "periods": [
+                                {
+                                  "periodStartDate": "2019-07-01T00:00:00",
+                                  "periodEndDate": "2019-07-07T00:00:00",
+                                  "numberOfUnits": 36,
+                                  "periodStatus": "Completed"
+                                }
+                              ],
+                              "updatedDateUTC": "2019-09-24T05:08:44"
+                            }
+                          ]
+                        }'
     post:
       security:
         - OAuth2: [payroll.employees]
@@ -812,7 +837,23 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmployeeLeaveSetupObject'
-              example: ''
+              example: '{
+                          "id": "b157ba08-ea32-4bbd-bf29-fa0f79d22c64",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-08-26T16:50:48.7245664",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null,
+                          "leaveSetup": {
+                            "includeHolidayPay": null,
+                            "holidayPayOpeningBalance": 10,
+                            "annualLeaveOpeningBalance": 100,
+                            "negativeAnnualLeaveBalancePaidAmount": null,
+                            "sickLeaveHoursToAccrueAnnually": 20,
+                            "sickLeaveMaximumHoursToAccrue": null,
+                            "sickLeaveOpeningBalance": 10
+                          }
+                        }'
         '400':
           description: validation error for a bad request
           content:
@@ -825,7 +866,12 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/EmployeeLeaveSetup'
-            example: ''
+            example: '{
+                        "holidayPayOpeningBalance": 10,
+                        "annualLeaveOpeningBalance": 100,
+                        "sickLeaveHoursToAccrueAnnually": 20,
+                        "sickLeaveOpeningBalance": 10
+                      }'
   /Employees/{EmployeeId}/LeaveTypes:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
