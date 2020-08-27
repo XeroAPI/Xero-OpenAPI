@@ -1208,7 +1208,32 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmployeePayTemplates'
-              example: ''
+              example: '{
+                          "id": "0d72f88e-c5cf-4114-a76b-730ddebcf170",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-08-27T15:09:19.0627389",
+                          "httpStatusCode": "OK",
+                          "pagination": {
+                            "page": 1,
+                            "pageSize": 100,
+                            "pageCount": 0,
+                            "itemCount": 0
+                          },
+                          "problem": null,
+                          "payTemplate": {
+                            "employeeID": "68342973-c405-4b86-b5d3-d7b877c27995",
+                            "earningTemplates": [
+                              {
+                                "payTemplateEarningID": "1527cf6c-93db-41bf-aba2-9d6af1d3c499",
+                                "ratePerUnit": 20,
+                                "numberOfUnits": 8,
+                                "fixedAmount": null,
+                                "earningsRateID": "f9d8f5b5-9049-47f4-8541-35e200f750a5",
+                                "name": "Ordinary Time"
+                              }
+                            ]
+                          }
+                        }'
         '400':
           description: validation error for a bad request
           content:
@@ -1384,7 +1409,32 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmployeePayTemplates'
-              example: ''
+              example: '{
+                          "id": "cef00cf4-2bf6-4ef0-a293-dc12dc4d9e8c",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-08-27T15:01:52.9369043",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null,
+                          "earningTemplates": [
+                            {
+                              "payTemplateEarningID": "1527cf6c-93db-41bf-aba2-9d6af1d3c499",
+                              "ratePerUnit": 20,
+                              "numberOfUnits": 8,
+                              "fixedAmount": null,
+                              "earningsRateID": "f9d8f5b5-9049-47f4-8541-35e200f750a5",
+                              "name": "Ordinary Time"
+                            },
+                            {
+                              "payTemplateEarningID": "92e757cc-b026-404d-804e-9dc2047a03e6",
+                              "ratePerUnit": 0,
+                              "numberOfUnits": 8,
+                              "fixedAmount": null,
+                              "earningsRateID": "65b83d94-f20f-45e1-85ae-387fcf460c26",
+                              "name": "Salary"
+                            }
+                          ]
+                        }'
         '400':
           description: validation error for a bad request
           content:
@@ -1397,7 +1447,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/EarningsTemplates'
-            example: ''
+            example: '[{"ratePerUnit":20.0,"numberOfUnits":8.0,"earningsRateID":"f9d8f5b5-9049-47f4-8541-35e200f750a5"},{"ratePerUnit":0.0,"numberOfUnits":8.0,"earningsRateID":"65b83d94-f20f-45e1-85ae-387fcf460c26"}]'
   /Deductions:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -3562,8 +3612,8 @@ components:
           $ref: '#/components/schemas/Pagination'
         problem:
           $ref: '#/components/schemas/Problem'
-        earningTemplates:
-          $ref: '#/components/schemas/EarningsTemplates'
+        payTemplates:
+          $ref: '#/components/schemas/EmployeePayTemplate'
     EmployeePayTemplate:
       type: object
       required:
