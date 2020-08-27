@@ -879,7 +879,28 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LeavePeriods'
-              example: ''
+              example: '{
+                          "id": "d55c453d-1d1d-4938-b5ef-fe8f690dd3cd",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-08-27T13:35:49.4407417",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null,
+                          "periods": [
+                            {
+                              "periodStartDate": "2020-02-24T00:00:00",
+                              "periodEndDate": "2020-03-01T00:00:00",
+                              "numberOfUnits": 0,
+                              "periodStatus": null
+                            },
+                            {
+                              "periodStartDate": "2020-03-02T00:00:00",
+                              "periodEndDate": "2020-03-08T00:00:00",
+                              "numberOfUnits": 0,
+                              "periodStatus": null
+                            }
+                          ]
+                        }'
         '400':
           description: validation error for a bad request
           content:
@@ -975,7 +996,28 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmployeeLeaveTypes'
-              example: ''
+              example: '{
+                          "id": "0425d7c5-a0bd-4a7c-bda6-b3da89f21eb3",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-08-27T14:25:16.004485",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null,
+                          "leaveTypes": [
+                            {
+                              "leaveTypeID": "0441497f-5dc7-4cd3-a90d-f2e07e21b2a6",
+                              "scheduleOfAccrual": "PercentageOfGrossEarnings",
+                              "hoursAccruedAnnually": 0,
+                              "maximumToAccrue": 0,
+                              "openingBalance": 0,
+                              "rateAccruedHourly": null,
+                              "percentageOfGrossEarnings": 8,
+                              "includeHolidayPayEveryPay": true,
+                              "showAnnualLeaveInAdvance": null,
+                              "annualLeaveTotalAmountPaid": null
+                            }
+                          ]
+                        }'
         '400':
           description: validation error for a bad request
           content:
@@ -1006,7 +1048,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmployeeLeaveTypeObject'
-              example: ''
+              example: '{
+                          "id": "2040c10b-9b95-4c4d-8160-e3afbf7dcdea",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-08-27T14:31:54.3370081",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null,
+                          "leaveType": {
+                            "leaveTypeID": "35da97ae-05b9-427f-9a98-69157ba42cec",
+                            "scheduleOfAccrual": "AnnuallyAfter6Months",
+                            "hoursAccruedAnnually": 10,
+                            "maximumToAccrue": 80,
+                            "openingBalance": 100,
+                            "rateAccruedHourly": null,
+                            "percentageOfGrossEarnings": 0,
+                            "includeHolidayPayEveryPay": null,
+                            "showAnnualLeaveInAdvance": null,
+                            "annualLeaveTotalAmountPaid": null
+                          }
+                        }'
         '400':
           description: validation error for a bad request
           content:
@@ -1019,7 +1080,14 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/EmployeeLeaveType'
-            example: ''
+            example: '{
+                        "leaveTypeID": "35da97ae-05b9-427f-9a98-69157ba42cec",
+                        "scheduleOfAccrual": "AnnuallyAfter6Months",
+                        "hoursAccruedAnnually": 10,
+                        "maximumToAccrue": 80,
+                        "openingBalance": 100,
+                        "rateAccruedHourly": 3.5
+                      }'
   /Employees/{EmployeeId}/PaymentMethods:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -1121,7 +1189,7 @@ paths:
         - OAuth2: [payroll.employees.read, payroll.employees]
       tags:
         - PayrollNz
-      operationId: getEmployeePayTemplate
+      operationId: getEmployeePayTemplates
       x-hasPayrollUkProblem: true
       summary: searches employee pay templates
       parameters:
@@ -1139,7 +1207,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EmployeePayTemplateObject'
+                $ref: '#/components/schemas/EmployeePayTemplates'
               example: ''
         '400':
           description: validation error for a bad request
@@ -1147,7 +1215,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Problem'
-  # 503?
   /Employees/{EmployeeId}/PayTemplates/earnings:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -1175,6 +1242,22 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EarningsTemplateObject'
+              example: '{
+                          "id": "7c49262f-7d71-401d-9d73-10fd0822f28e",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-08-27T14:48:24.6032145",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null,
+                          "earningTemplate": {
+                            "payTemplateEarningID": "11b4e492-5d56-4eac-a9ce-687d7b9a4a84",
+                            "ratePerUnit": 20,
+                            "numberOfUnits": 8,
+                            "fixedAmount": null,
+                            "earningsRateID": "f9d8f5b5-9049-47f4-8541-35e200f750a5",
+                            "name": "Ordinary Time"
+                          }
+                        }'
         '400':
           description: validation error for a bad request
           content:
@@ -1187,6 +1270,12 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/EarningsTemplate'
+            example: '{
+                        "ratePerUnit": 20,
+                        "numberOfUnits": 8,
+                        "earningsRateID": "f9d8f5b5-9049-47f4-8541-35e200f750a5",
+                        "name": "My New One"
+                      }'
   /Employees/{EmployeeId}/PayTemplates/earnings/{PayTemplateEarningID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -2204,7 +2293,45 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SalaryAndWages'
-              example: ''
+              example: '{
+                          "id": "cddf04cb-0f43-464a-91fb-9dc94b6bd3b7",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-08-27T00:25:03.6697493",
+                          "httpStatusCode": "OK",
+                          "pagination": {
+                            "page": 1,
+                            "pageSize": 100,
+                            "pageCount": 1,
+                            "itemCount": 2
+                          },
+                          "problem": null,
+                          "salaryAndWages": [
+                            {
+                              "salaryAndWagesID": "b0026f5a-fa8e-43aa-95e4-cec3c0972e39",
+                              "earningsRateID": "f9d8f5b5-9049-47f4-8541-35e200f750a5",
+                              "numberOfUnitsPerWeek": 0,
+                              "ratePerUnit": 25,
+                              "numberOfUnitsPerDay": 0,
+                              "daysPerWeek": 0,
+                              "effectiveFrom": "2019-02-07T00:00:00",
+                              "annualSalary": 25,
+                              "status": "Active",
+                              "paymentType": "Hourly"
+                            },
+                            {
+                              "salaryAndWagesID": "0211c70c-93d5-4da1-a570-b66d8df2ca15",
+                              "earningsRateID": "f9d8f5b5-9049-47f4-8541-35e200f750a5",
+                              "numberOfUnitsPerWeek": 2,
+                              "ratePerUnit": null,
+                              "numberOfUnitsPerDay": 2,
+                              "daysPerWeek": 1,
+                              "effectiveFrom": "2020-05-01T00:00:00",
+                              "annualSalary": 100,
+                              "status": "Active",
+                              "paymentType": "Salary"
+                            }
+                          ]
+                        }'
         '400':
           description: validation error for a bad request
           content:
@@ -2235,7 +2362,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SalaryAndWageObject'
-              example: ''
+              example: '{
+                          "id": "0e1f635e-479a-4403-a1ec-f86ffa248a62",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-08-27T00:22:47.464262",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null,
+                          "salaryAndWages": {
+                            "salaryAndWagesID": "0211c70c-93d5-4da1-a570-b66d8df2ca15",
+                            "earningsRateID": "f9d8f5b5-9049-47f4-8541-35e200f750a5",
+                            "numberOfUnitsPerWeek": 2,
+                            "ratePerUnit": null,
+                            "numberOfUnitsPerDay": 2,
+                            "daysPerWeek": 1,
+                            "effectiveFrom": "2020-05-01T00:00:00",
+                            "annualSalary": 100,
+                            "status": "Active",
+                            "paymentType": "Salary"
+                          }
+                        }'
         '400':
           description: validation error for a bad request
           content:
@@ -2248,7 +2394,17 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/SalaryAndWage'
-            example: ''
+            example: '{
+                        "earningsRateID": "f9d8f5b5-9049-47f4-8541-35e200f750a5",
+                        "numberOfUnitsPerWeek": 2,
+                        "ratePerUnit": 10,
+                        "numberOfUnitsPerDay": 2,
+                        "daysPerWeek": 1,
+                        "effectiveFrom": "2020-05-01",
+                        "annualSalary": 100,
+                        "status": "Active",
+                        "paymentType": "Salary"
+                      }'
   /Employees/{EmployeeId}/SalaryAndWages/{SalaryAndWagesID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -2284,7 +2440,28 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SalaryAndWages'
-              example: ''
+              example: '{
+                          "id": "5b709700-3185-4822-a1d0-40d0297a9391",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-08-27T00:25:03.8641784",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null,
+                          "salaryAndWages": [
+                            {
+                              "salaryAndWagesID": "b0026f5a-fa8e-43aa-95e4-cec3c0972e39",
+                              "earningsRateID": "f9d8f5b5-9049-47f4-8541-35e200f750a5",
+                              "numberOfUnitsPerWeek": 0,
+                              "ratePerUnit": 25,
+                              "numberOfUnitsPerDay": 0,
+                              "daysPerWeek": 0,
+                              "effectiveFrom": "2019-02-07T00:00:00",
+                              "annualSalary": 25,
+                              "status": "Active",
+                              "paymentType": "Hourly"
+                            }
+                          ]
+                        }'
     put:
       security:
         - OAuth2: [payroll.employees]
@@ -2317,7 +2494,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SalaryAndWageObject'
-              example: ''
+              example: '{
+                          "id": "150ff877-fbd0-448b-b241-eabbc0e5a2bf",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-08-27T00:25:11.4976642",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null,
+                          "salaryAndWages": {
+                            "salaryAndWagesID": "1912d614-99d0-43e6-8d63-5b539dcfe358",
+                            "earningsRateID": "f9d8f5b5-9049-47f4-8541-35e200f750a5",
+                            "numberOfUnitsPerWeek": 3,
+                            "ratePerUnit": null,
+                            "numberOfUnitsPerDay": 3,
+                            "daysPerWeek": 1,
+                            "effectiveFrom": "2020-05-15T00:00:00",
+                            "annualSalary": 101,
+                            "status": "Active",
+                            "paymentType": "Salary"
+                          }
+                        }'
         '400':
           description: validation error for a bad request
           content:
@@ -2330,7 +2526,17 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/SalaryAndWage'
-            example: ''
+            example: '{
+                        "earningsRateID": "f9d8f5b5-9049-47f4-8541-35e200f750a5",
+                        "numberOfUnitsPerWeek": 3,
+                        "ratePerUnit": 11,
+                        "numberOfUnitsPerDay": 3,
+                        "daysPerWeek": 1,
+                        "effectiveFrom": "2020-05-15",
+                        "annualSalary": 101,
+                        "status": "Active",
+                        "paymentType": "Salary"
+                      }'
     delete:
       security:
         - OAuth2: [payroll.employees]
@@ -2358,6 +2564,18 @@ paths:
       responses:
         '200':
           description: deletion successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SalaryAndWageObject'
+              example: '{
+                      "id": "d75498f3-8d33-49a4-a2a5-22e8340181db",
+                      "providerName": "java-sdk-oauth2-dev-02",
+                      "dateTimeUTC": "2020-08-27T00:25:11.5391097",
+                      "httpStatusCode": "OK",
+                      "pagination": null,
+                      "problem": null
+                    }'
   /PayRuns:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
