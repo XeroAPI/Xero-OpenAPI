@@ -1336,7 +1336,22 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EarningsTemplateObject'
-              example: ''
+              example: '{
+                          "id": "565c6bbe-29e9-4512-8ba4-9acc0af21d13",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-08-27T18:54:08.6524341",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null,
+                          "earningTemplate": {
+                            "payTemplateEarningID": "1527cf6c-93db-41bf-aba2-9d6af1d3c499",
+                            "ratePerUnit": 25,
+                            "numberOfUnits": 4,
+                            "fixedAmount": null,
+                            "earningsRateID": "f9d8f5b5-9049-47f4-8541-35e200f750a5",
+                            "name": "Ordinary Time"
+                          }
+                        }'
         '400':
           description: validation error for a bad request
           content:
@@ -1349,7 +1364,11 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/EarningsTemplate'
-            example: ''
+            example: '{
+                        "ratePerUnit": 25,
+                        "numberOfUnits": 4,
+                        "earningsRateID": "f9d8f5b5-9049-47f4-8541-35e200f750a5"
+                      }'
     delete:
       security:
         - OAuth2: [payroll.employees]
@@ -1381,7 +1400,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EarningsTemplateObject'
-              example: ''
+              example: '{
+                          "id": "4f80827f-80b4-4899-918e-6eac4a85c222",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-08-27T18:54:09.1368544",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null
+                        }'
   /Employees/{EmployeeId}/paytemplateearnings:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -1472,7 +1498,37 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Deductions'
-              example: ''
+              example: '{
+                          "id": "56c69b4d-e25d-4215-8a53-2aea72ef4b88",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-08-27T20:43:53.931198",
+                          "httpStatusCode": "OK",
+                          "pagination": {
+                            "page": 1,
+                            "pageSize": 100,
+                            "pageCount": 1,
+                            "itemCount": 4
+                          },
+                          "problem": null,
+                          "deductions": [
+                            {
+                              "deductionId": "a3760fe4-68a4-4e38-8326-fe616af7dc74",
+                              "deductionName": "KiwiSaver Voluntary Contributions",
+                              "deductionCategory": "KiwiSaverVoluntaryContributions",
+                              "liabilityAccountId": "26c57f04-0436-40cc-9cd9-1a21185d88bb",
+                              "currentRecord": true,
+                              "standardAmount": null
+                            },
+                            {
+                              "deductionId": "a131596e-2f83-4f6c-9573-99c4cbfcefd1",
+                              "deductionName": "Rent",
+                              "deductionCategory": "NzOther",
+                              "liabilityAccountId": "26c57f04-0436-40cc-9cd9-1a21185d88bb",
+                              "currentRecord": true,
+                              "standardAmount": 200
+                            }
+                          ]
+                        }'
     post:
       security:
         - OAuth2: [payroll.settings]
@@ -1488,7 +1544,22 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DeductionObject'
-              example: ''
+              example: '{
+                          "id": "3c8fcfd4-642d-48ba-a1e4-727317b9658d",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-08-27T20:43:54.9563295",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null,
+                          "deduction": {
+                            "deductionId": "0ee805eb-f5b0-4061-9b35-d9ea550da04e",
+                            "deductionName": "My new deducation",
+                            "deductionCategory": "NzOther",
+                            "liabilityAccountId": "568f2e9a-0870-46cc-8678-f83f132ed4e3",
+                            "currentRecord": true,
+                            "standardAmount": null
+                          }
+                        }'
         '400':
           description: validation error for a bad request
           content:
@@ -1501,7 +1572,11 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Deduction'
-            example: ''
+            example: '{
+                        "deductionName": "My new deducation",
+                        "deductionCategory": "NzOther",
+                        "liabilityAccountId": "568f2e9a-0870-46cc-8678-f83f132ed4e3"
+                      }'
   /Deductions/{deductionId}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -1528,7 +1603,22 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DeductionObject'
-              example: ''
+              example: '{
+                          "id": "8225eb1c-3dd8-4c5c-ba8e-db87e95012c8",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-08-27T20:43:54.846821",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null,
+                          "deduction": {
+                            "deductionId": "a3760fe4-68a4-4e38-8326-fe616af7dc74",
+                            "deductionName": "KiwiSaver Voluntary Contributions",
+                            "deductionCategory": "KiwiSaverVoluntaryContributions",
+                            "liabilityAccountId": "26c57f04-0436-40cc-9cd9-1a21185d88bb",
+                            "currentRecord": true,
+                            "standardAmount": null
+                          }
+                        }'
   /StatutoryDeductions:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -1687,7 +1777,37 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LeaveTypes'
-              example: ''
+              example: '{
+                          "id": "e1d38a1e-2595-40af-8a6e-6df5c8636c2c",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-08-27T20:49:58.4095603",
+                          "httpStatusCode": "OK",
+                          "pagination": {
+                            "page": 1,
+                            "pageSize": 100,
+                            "pageCount": 1,
+                            "itemCount": 15
+                          },
+                          "problem": null,
+                          "leaveTypes": [
+                            {
+                              "leaveTypeID": "b0b1b79e-2a25-46c2-ad08-ca25ef48d7e4",
+                              "name": "Annual Leave",
+                              "isPaidLeave": true,
+                              "showOnPayslip": true,
+                              "updatedDateUTC": "2019-09-22T23:09:32",
+                              "isActive": true
+                            },
+                            {
+                              "leaveTypeID": "71b548db-6e40-4b64-be8b-f6a71455d8ab",
+                              "name": "Annual Leave - Cash Up",
+                              "isPaidLeave": true,
+                              "showOnPayslip": true,
+                              "updatedDateUTC": "2019-09-22T23:09:32",
+                              "isActive": true
+                            }
+                          ]
+                        }'
     post:
       security:
         - OAuth2: [payroll.settings]
@@ -1703,7 +1823,22 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LeaveTypeObject'
-              example: ''
+              example: '{
+                          "id": "64aae3cf-528d-448c-879c-e48b06911477",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-08-27T20:49:59.9135451",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null,
+                          "leaveType": {
+                            "leaveTypeID": "80464f55-b5c9-4d05-84c7-219d98baa3e2",
+                            "name": "My wqwhhiktun Leave",
+                            "isPaidLeave": false,
+                            "showOnPayslip": true,
+                            "updatedDateUTC": "2020-08-27T20:49:59.8315619",
+                            "isActive": true
+                          }
+                        }'
         '400':
           description: validation error for a bad request
           content:
@@ -1716,7 +1851,11 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/LeaveType'
-            example: ''
+            example: '{
+                        "name": "My wqwhhiktun Leave",
+                        "isPaidLeave": false,
+                        "showOnPayslip": true
+                      }'
   /LeaveTypes/{LeaveTypeID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -1743,7 +1882,22 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LeaveTypeObject'
-              example: ''
+              example: '{
+                          "id": "f9e8b606-8899-4467-af16-04430b745939",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-08-27T20:49:58.7293665",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null,
+                          "leaveType": {
+                            "leaveTypeID": "b0b1b79e-2a25-46c2-ad08-ca25ef48d7e4",
+                            "name": "Annual Leave",
+                            "isPaidLeave": true,
+                            "showOnPayslip": true,
+                            "updatedDateUTC": "2019-09-22T23:09:32",
+                            "isActive": true
+                          }
+                        }'
   /Reimbursements:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -1768,7 +1922,32 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Reimbursements'
-              example: ''
+              example: '{
+                          "id": "042d7df0-0e87-4213-820f-64fd9ab87e7a",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-08-27T21:59:44.5592312",
+                          "httpStatusCode": "OK",
+                          "pagination": {
+                            "page": 1,
+                            "pageSize": 100,
+                            "pageCount": 1,
+                            "itemCount": 3
+                          },
+                          "problem": null,
+                          "reimbursements": [
+                            {
+                              "reimbursementID": "ddf9b572-5861-4f97-a109-9d612df52242",
+                              "name": "Mileage",
+                              "accountID": "36d33c5d-7dea-4911-9ed0-7fccc16f2b5f",
+                              "currentRecord": true,
+                              "standardAmount": null,
+                              "standardTypeOfUnits": "km",
+                              "standardRatePerUnit": 0.79,
+                              "reimbursementCategory": "NoGST",
+                              "calculationType": "RatePerUnit"
+                            }
+                          ]
+                        }'
     post:
       security:
         - OAuth2: [payroll.settings]
@@ -1784,7 +1963,25 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ReimbursementObject'
-              example: ''
+              example: '{
+                          "id": "4d09a332-3e4e-4f9d-a00f-dc9a54cd632f",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-08-27T23:25:30.5238274",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null,
+                          "reimbursement": {
+                            "reimbursementID": "c7a8e7fd-b4f1-4f7b-9256-1b3edaa72de7",
+                            "name": "My new Reimburse",
+                            "accountID": "fa5cdc43-643b-4ad8-b4ac-3ffe0d0f4488",
+                            "currentRecord": true,
+                            "standardAmount": null,
+                            "standardTypeOfUnits": null,
+                            "standardRatePerUnit": null,
+                            "reimbursementCategory": "GSTInclusive",
+                            "calculationType": "FixedAmount"
+                          }
+                        }'
         '400':
           description: validation error for a bad request
           content:
@@ -1797,7 +1994,12 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Reimbursement'
-            example: ''
+            example: '{
+                        "name": "My new Reimburse",
+                        "accountID": "fa5cdc43-643b-4ad8-b4ac-3ffe0d0f4488",
+                        "reimbursementCategory": "GSTInclusive",
+                        "calculationType": "FixedAmount"
+                      }'
   /Reimbursements/{ReimbursementID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -1824,7 +2026,25 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ReimbursementObject'
-              example: ''
+              example: '{
+                          "id": "dba0ee55-764a-41bc-a1ed-cf7c88ab4164",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-08-27T21:59:46.5643076",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null,
+                          "reimbursement": {
+                            "reimbursementID": "0d4e5476-1147-4a2c-9db4-ab6a15f81f1d",
+                            "name": "GST",
+                            "accountID": null,
+                            "currentRecord": true,
+                            "standardAmount": null,
+                            "standardTypeOfUnits": null,
+                            "standardRatePerUnit": null,
+                            "reimbursementCategory": "GST",
+                            "calculationType": null
+                          }
+                        }'
   /Timesheets:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -3803,9 +4023,14 @@ components:
           type: number
           format: double
     StatutoryDeductions:
-      type: array
-      items:
-        $ref: '#/components/schemas/StatutoryDeduction'
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        problem:
+          $ref: '#/components/schemas/Problem'
+        statutoryDeductions:
+          $ref: '#/components/schemas/StatutoryDeduction'
     StatutoryDeductionObject:
       type: object
       properties:
@@ -4996,6 +5221,9 @@ components:
         calculationType:
           description: Calculation type for the transaction can be 'Fixed Amount' or 'Balance'
           type: string
+          enum:
+            - FixedAmount
+            - Balance
     TrackingCategories:
       type: object
       properties:
