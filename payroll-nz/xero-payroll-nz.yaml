@@ -606,7 +606,30 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmployeeLeaveObject'
-              example: ''
+              example: '{
+                          "id": "14ce3e0c-c4ac-4176-bb1c-dfb30efa0098",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-08-26T20:29:55.4086404",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null,
+                          "leave": {
+                            "leaveID": "82a04ba6-a5cc-4e7d-86d4-b9f381a494e8",
+                            "leaveTypeID": "b0b1b79e-2a25-46c2-ad08-ca25ef48d7e4",
+                            "description": "Creating a Desription",
+                            "startDate": "2020-04-24T00:00:00",
+                            "endDate": "2020-04-26T00:00:00",
+                            "periods": [
+                              {
+                                "periodStartDate": "2020-04-20T00:00:00",
+                                "periodEndDate": "2020-04-26T00:00:00",
+                                "numberOfUnits": 0,
+                                "periodStatus": "Approved"
+                              }
+                            ],
+                            "updatedDateUTC": "2020-08-26T20:29:55.2151561"
+                          }
+                        }'
         '400':
           description: validation error for a bad request
           content:
@@ -619,43 +642,15 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/EmployeeLeave'
-            example: ''
+            example: '{
+                        "leaveTypeID": "b0b1b79e-2a25-46c2-ad08-ca25ef48d7e4",
+                        "description": "Creating a Desription",
+                        "startDate": "2020-04-24",
+                        "endDate": "2020-04-26"
+                      }'
   /Employees/{EmployeeId}/Leave/{LeaveID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
-    get: 
-      security:
-        - OAuth2: [payroll.employees.read,payroll.employees]
-      tags:
-        - PayrollNz
-      operationId: getEmployeeLeave
-      x-hasPayrollUkProblem: true
-      summary: retrieve a single employee leave record
-      parameters:
-        - name: EmployeeId
-          in: path
-          required: true
-          description: Employee id for single object
-          schema: 
-            type: string
-            format: uuid
-            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
-        - name: LeaveID
-          in: path
-          required: true
-          description: Leave id for single object
-          schema: 
-            type: string
-            format: uuid
-            example: c4be24e5-e840-4c92-9eaa-2d86cd596314
-      responses:
-        '200':
-          description: search results matching criteria
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/EmployeeLeaveObject'
-              example: ''
     put:
       security:
         - OAuth2: [payroll.employees]
@@ -688,7 +683,30 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmployeeLeaveObject'
-              example: ''
+              example: '{
+                          "id": "58969c8b-327f-4d72-a281-8a0992b0d01c",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-08-26T20:29:55.8432792",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null,
+                          "leave": {
+                            "leaveID": "82a04ba6-a5cc-4e7d-86d4-b9f381a494e8",
+                            "leaveTypeID": "b0b1b79e-2a25-46c2-ad08-ca25ef48d7e4",
+                            "description": "Creating a Desription",
+                            "startDate": "2020-04-24T00:00:00",
+                            "endDate": "2020-04-26T00:00:00",
+                            "periods": [
+                              {
+                                "periodStartDate": "2020-04-20T00:00:00",
+                                "periodEndDate": "2020-04-26T00:00:00",
+                                "numberOfUnits": 1,
+                                "periodStatus": "Approved"
+                              }
+                            ],
+                            "updatedDateUTC": "2020-08-26T20:29:55.8854536"
+                          }
+                        }'
         '400':
           description: validation error for a bad request
           content:
@@ -701,7 +719,20 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/EmployeeLeave'
-            example: ''
+            example: '{
+                        "leaveTypeID": "b0b1b79e-2a25-46c2-ad08-ca25ef48d7e4",
+                        "description": "Creating a Desription",
+                        "startDate": "2020-04-24",
+                        "endDate": "2020-04-26",
+                        "periods": [
+                          {
+                            "periodStartDate": "2020-04-20",
+                            "periodEndDate": "2020-04-26",
+                            "numberOfUnits": 1,
+                            "periodStatus": "Approved"
+                          }
+                        ]
+                      }'
     delete:
       security:
         - OAuth2: [payroll.employees]
@@ -734,7 +765,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmployeeLeaveObject'
-              example: ''
+              example: '{
+                          "id": "2f34cc47-452f-4e56-9918-e2f430619e57",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-08-26T22:11:10.809249",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null
+                        }'
   /Employees/{EmployeeId}/LeaveBalances:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -762,7 +800,45 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmployeeLeaveBalances'
-              example: ''
+              example: '{
+                          "id": "db1cf5cb-5acf-4f68-8e23-7c52cf8999ac",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-08-26T22:26:48.0448356",
+                          "httpStatusCode": "OK",
+                          "pagination": {
+                            "page": 1,
+                            "pageSize": 100,
+                            "pageCount": 1,
+                            "itemCount": 4
+                          },
+                          "problem": null,
+                          "leaveBalances": [
+                            {
+                              "name": "Holiday Pay",
+                              "leaveTypeID": "0441497f-5dc7-4cd3-a90d-f2e07e21b2a6",
+                              "balance": 0,
+                              "typeOfUnits": "Dollars"
+                            },
+                            {
+                              "name": "Annual Leave",
+                              "leaveTypeID": "b0b1b79e-2a25-46c2-ad08-ca25ef48d7e4",
+                              "balance": 0,
+                              "typeOfUnits": "Hours"
+                            },
+                            {
+                              "name": "Sick Leave",
+                              "leaveTypeID": "f2f994cf-1899-46f3-ad4f-5d92d78c3719",
+                              "balance": 0,
+                              "typeOfUnits": "Hours"
+                            },
+                            {
+                              "name": "Alternative Holidays",
+                              "leaveTypeID": "34129765-11cb-4d8c-b568-84a2219beda3",
+                              "balance": 0,
+                              "typeOfUnits": "Hours"
+                            }
+                          ]
+                        }'
   /Employees/{EmployeeId}/LeavePeriods:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -971,7 +1047,28 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PaymentMethodObject'
-              example: ''
+              example: '{
+                          "id": "8ce6977b-3b83-47a4-81b8-13aafa5bedb5",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-08-26T23:34:53.6856317",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null,
+                          "paymentMethod": {
+                            "bankAccounts": [
+                              {
+                                "accountName": "Casual Worker",
+                                "accountNumber": "0607050201419000",
+                                "sortCode": null,
+                                "particulars": null,
+                                "code": null,
+                                "dollarAmount": null,
+                                "reference": "",
+                                "calculationType": "Balance"
+                              }
+                            ]
+                          }
+                        }'
         '400':
           description: validation error for a bad request
           content:
@@ -1922,7 +2019,39 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PayRunCalendars'
-              example: ''
+              example: '{
+                          "id": "5723854c-a68e-4b4c-bc68-508b1ce53567",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-08-26T23:54:48.3357097",
+                          "httpStatusCode": "OK",
+                          "pagination": {
+                            "page": 1,
+                            "pageSize": 100,
+                            "pageCount": 1,
+                            "itemCount": 2
+                          },
+                          "problem": null,
+                          "payRunCalendars": [
+                            {
+                              "payrollCalendarID": "9aa56064-990f-4ad3-a189-d966d8f6a030",
+                              "name": "Weekly",
+                              "calendarType": "Weekly",
+                              "periodStartDate": "2019-07-08T00:00:00",
+                              "periodEndDate": "2019-07-14T00:00:00",
+                              "paymentDate": "2019-07-16T00:00:00",
+                              "updatedDateUTC": "2019-09-24T05:08:45"
+                            },
+                            {
+                              "payrollCalendarID": "f6931b89-d9c8-4f25-b4fa-268b5fd24197",
+                              "name": "Monthly",
+                              "calendarType": "Monthly",
+                              "periodStartDate": "2019-08-01T00:00:00",
+                              "periodEndDate": "2019-08-31T00:00:00",
+                              "paymentDate": "2019-08-23T00:00:00",
+                              "updatedDateUTC": "2019-09-24T03:11:16"
+                            }
+                          ]
+                        }'
     post:
       security:
         - OAuth2: [payroll.settings]
@@ -1938,7 +2067,23 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PayRunCalendarObject'
-              example: ''
+              example: '{
+                          "id": "0c3bef01-2190-4789-9920-6edad91319a9",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-08-26T23:54:49.3159839",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null,
+                          "payRunCalendar": {
+                            "payrollCalendarID": "54e9706a-c4e8-45ff-9c63-6fcac7ee7cde",
+                            "name": "My Weekly Cal",
+                            "calendarType": "Weekly",
+                            "periodStartDate": "2020-05-01T00:00:00",
+                            "periodEndDate": "2020-05-07T00:00:00",
+                            "paymentDate": "2020-05-15T00:00:00",
+                            "updatedDateUTC": "2020-08-26T23:54:49.4863322"
+                          }
+                        }'
         '400':
           description: validation error for a bad request
           content:
@@ -1951,7 +2096,12 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/PayRunCalendar'
-            example: ''
+            example: '{
+                        "name": "My Weekly Cal",
+                        "calendarType": "Weekly",
+                        "periodStartDate": "2020-05-01",
+                        "paymentDate": "2020-05-15"
+                      }'
   /PayRunCalendars/{PayRunCalendarID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -1979,20 +2129,20 @@ paths:
               schema:
                 $ref: '#/components/schemas/PayRunCalendarObject'
               example: '{
-                          "id": "dae942a3-b4fb-4b24-839b-14e1073f8cca",
+                          "id": "3188a2d6-d078-4e06-966a-8043ff9b852d",
                           "providerName": "java-sdk-oauth2-dev-02",
-                          "dateTimeUTC": "2020-04-13T16:48:49.6902155",
+                          "dateTimeUTC": "2020-08-26T23:54:48.4398063",
                           "httpStatusCode": "OK",
                           "pagination": null,
                           "problem": null,
                           "payRunCalendar": {
-                            "payrollCalendarID": "216d80e6-af55-47b1-b718-9457c3f5d2fe",
-                            "name": "Weekly ",
+                            "payrollCalendarID": "9aa56064-990f-4ad3-a189-d966d8f6a030",
+                            "name": "Weekly",
                             "calendarType": "Weekly",
-                            "periodStartDate": "2020-02-10T00:00:00",
-                            "periodEndDate": "2020-02-16T00:00:00",
-                            "paymentDate": "2020-02-17T00:00:00",
-                            "updatedDateUTC": "2020-02-13T16:53:54"
+                            "periodStartDate": "2019-07-08T00:00:00",
+                            "periodEndDate": "2019-07-14T00:00:00",
+                            "paymentDate": "2019-07-16T00:00:00",
+                            "updatedDateUTC": "2019-09-24T05:08:45"
                           }
                         }'
   /PayRunCalendars/{PayrollCalendarID}:
@@ -3916,6 +4066,10 @@ components:
           description: The Number of Units per day for the corresponding salary and wages
           type: number
           format: double 
+        daysPerWeek:
+          description: The days per week for the salary.
+          type: number
+          format: integer 
         effectiveFrom:
           description: The effective date of the corresponding salary and wages
           type: string
