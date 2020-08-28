@@ -515,7 +515,22 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmployeeOpeningBalancesObject'
-              example: ''
+              example: '{
+                          "id": "33fda176-8a78-423e-b3b7-02269400d857",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-08-28T19:55:36.539949",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null,
+                          "openingBalances": [
+                            {
+                              "periodEndDate": "2020-10-01T00:00:00",
+                              "daysPaid": 3,
+                              "unpaidWeeks": 2,
+                              "grossEarnings": 40
+                            }
+                          ]
+                        }'
         '400':
           description: validation error for a bad request
           content:
@@ -528,7 +543,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/EmployeeOpeningBalances'
-            example: ''
+            example: '[{"periodEndDate":"2020-10-01","daysPaid":3,"unpaidWeeks":2,"grossEarnings":40.0}]'
   /Employees/{EmployeeId}/Leave:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -3528,7 +3543,9 @@ components:
         problem:
           $ref: '#/components/schemas/Problem'
         openingBalances:
-          $ref: '#/components/schemas/EmployeeOpeningBalance'
+          type: array
+          items:
+            $ref: '#/components/schemas/EmployeeOpeningBalance'
     EmployeeOpeningBalances:
       type: array
       items:
