@@ -1642,6 +1642,35 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/StatutoryDeductions'
+              example: '{
+                          "id": "a0f3b98f-7d50-477b-9c08-b58a5fcd7dc1",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-08-27T23:46:21.0212854",
+                          "httpStatusCode": "OK",
+                          "pagination": {
+                            "page": 1,
+                            "pageSize": 100,
+                            "pageCount": 1,
+                            "itemCount": 8
+                          },
+                          "problem": null,
+                          "statutoryDeductions": [
+                            {
+                              "id": "e3731829-9801-4809-a1a1-bbe40cd18b7e",
+                              "name": "Child Support",
+                              "liabilityAccountId": "fa5cdc43-643b-4ad8-b4ac-3ffe0d0f4488",
+                              "statutoryDeductionCategory": "ChildSupport",
+                              "currentRecord": true
+                            },
+                            {
+                              "id": "9aba1f27-2646-4eb4-9832-d8430fb5f438",
+                              "name": "Student Loan",
+                              "liabilityAccountId": "fa5cdc43-643b-4ad8-b4ac-3ffe0d0f4488",
+                              "statutoryDeductionCategory": "StudentLoan",
+                              "currentRecord": true
+                            }
+                          ]
+                        }'
   /StatutoryDeductions/{Id}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -1667,6 +1696,45 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/StatutoryDeductionObject'
+              example: '{
+                          "id": "8fa95115-b1df-4036-b517-0dba789740ac",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-08-28T00:01:57.6562992",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null,
+                          "statutoryDeduction": {
+                            "id": "e3731829-9801-4809-a1a1-bbe40cd18b7e",
+                            "name": "Child Support",
+                            "liabilityAccountId": "fa5cdc43-643b-4ad8-b4ac-3ffe0d0f4488",
+                            "statutoryDeductionCategory": "ChildSupport",
+                            "currentRecord": true
+                          }
+                        }'
+  /superannuations:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    get:
+      security:
+        - OAuth2: [payroll.settings.read, payroll.settings]
+      tags:
+        - PayrollNZ
+      operationId: getSuperannuations
+      summary: searches statutory deductions
+      parameters:
+        - in: query
+          name: page
+          description: Page number which specifies the set of records to retrieve. By default the number of the records per set is 100.
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Superannuations'
+              example: ''
   /EarningsRates:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -1691,7 +1759,57 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EarningsRates'
-              example: ''
+              example: '{
+                          "id": "4e91a3a6-adbb-4f8e-8f7c-6c1e00d29b16",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-08-28T18:25:57.0647738",
+                          "httpStatusCode": "OK",
+                          "pagination": {
+                            "page": 1,
+                            "pageSize": 100,
+                            "pageCount": 1,
+                            "itemCount": 15
+                          },
+                          "problem": null,
+                          "earningsRates": [
+                            {
+                              "earningsRateID": "f9d8f5b5-9049-47f4-8541-35e200f750a5",
+                              "name": "Ordinary Time",
+                              "earningsType": "RegularEarnings",
+                              "rateType": "RatePerUnit",
+                              "typeOfUnits": "hours",
+                              "currentRecord": true,
+                              "expenseAccountID": "1c91e520-a12b-45cc-8194-99950858e5bf",
+                              "fixedAmount": null,
+                              "ratePerUnit": null,
+                              "multipleOfOrdinaryEarningsRate": null
+                            },
+                            {
+                              "earningsRateID": "31407b3e-0967-4ae0-a7f1-3df4e6481a2e",
+                              "name": "ACC (First Week)",
+                              "earningsType": "OtherGrossEarnings",
+                              "rateType": "MultipleOfOrdinaryEarningsRate",
+                              "typeOfUnits": "hours",
+                              "currentRecord": true,
+                              "expenseAccountID": "1c91e520-a12b-45cc-8194-99950858e5bf",
+                              "fixedAmount": null,
+                              "ratePerUnit": null,
+                              "multipleOfOrdinaryEarningsRate": 0.8
+                            },
+                            {
+                              "earningsRateID": "6e5a4cf2-aa38-4558-a46e-f6998dad239b",
+                              "name": "Directors Fees",
+                              "earningsType": "WithholdingIncome",
+                              "rateType": "FixedAmount",
+                              "typeOfUnits": null,
+                              "currentRecord": true,
+                              "expenseAccountID": "1c91e520-a12b-45cc-8194-99950858e5bf",
+                              "fixedAmount": 1000,
+                              "ratePerUnit": null,
+                              "multipleOfOrdinaryEarningsRate": null
+                            }
+                          ]
+                        }'
     post:
       security:
         - OAuth2: [payroll.settings]
@@ -1707,7 +1825,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EarningsRateObject'
-              example: ''
+              example: '{
+                          "id": "9ba4dd01-1aa0-4873-92ad-f0f8137b5784",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-08-28T18:25:57.8141393",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null,
+                          "earningsRate": {
+                            "earningsRateID": "4369b0ef-a64d-42e1-bb6d-f2fc984de133",
+                            "name": "My Earnings Rate",
+                            "earningsType": "RegularEarnings",
+                            "rateType": "RatePerUnit",
+                            "typeOfUnits": "hours",
+                            "currentRecord": true,
+                            "expenseAccountID": "e4eb36f6-97e3-4427-a394-dd4e1b355c2e",
+                            "fixedAmount": null,
+                            "ratePerUnit": null,
+                            "multipleOfOrdinaryEarningsRate": null
+                          }
+                        }'
         '400':
           description: validation error for a bad request
           content:
@@ -1720,7 +1857,13 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/EarningsRate'
-            example: ''
+            example: '{
+                        "name": "My Earnings Rate",
+                        "earningsType": "RegularEarnings",
+                        "rateType": "RatePerUnit",
+                        "typeOfUnits": "hours",
+                        "expenseAccountID": "e4eb36f6-97e3-4427-a394-dd4e1b355c2e"
+                      }'
   /EarningsRates/{EarningsRateID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -1747,7 +1890,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EarningsRateObject'
-              example: ''
+              example: '{
+                          "id": "49a6310e-7ea1-4154-a667-f15ea457c523",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-08-28T18:25:57.8191994",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null,
+                          "earningsRate": {
+                            "earningsRateID": "f9d8f5b5-9049-47f4-8541-35e200f750a5",
+                            "name": "Ordinary Time",
+                            "earningsType": "RegularEarnings",
+                            "rateType": "RatePerUnit",
+                            "typeOfUnits": "hours",
+                            "currentRecord": true,
+                            "expenseAccountID": "1c91e520-a12b-45cc-8194-99950858e5bf",
+                            "fixedAmount": null,
+                            "ratePerUnit": null,
+                            "multipleOfOrdinaryEarningsRate": null
+                          }
+                        }'
   /LeaveTypes:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -2951,7 +3113,7 @@ paths:
         - OAuth2: [payroll.payslip.read, payroll.payslip]
       tags:
         - PayrollNz
-      operationId: getPayslips
+      operationId: getPaySlips
       x-hasPayrollUkProblem: true
       summary: searches payslips
       parameters:
@@ -3039,18 +3201,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TrackingCategories'
-              example: '{
-                          "id": "e56628f7-a25e-4d23-88c5-56e2895e2143",
-                          "providerName": "java-sdk-oauth2-dev-02",
-                          "dateTimeUTC": "2020-04-10T21:13:21.498344",
-                          "httpStatusCode": "OK",
-                          "pagination": null,
-                          "problem": null,
-                          "trackingCategories": {
-                            "employeeGroupsTrackingCategoryID": "9d8ad8f6-0d0f-41e0-8851-ef47e8b54ae6",
-                            "timesheetTrackingCategoryID": "1d7d2015-10e7-4ecb-8b44-f331c8b63e2d"
-                          }
-                        }'
+              example: ''
 components:
   securitySchemes:
     OAuth2:
@@ -3389,12 +3540,12 @@ components:
           example: "2020-07-01T00:00:00"
         daysPaid:
           description: The paid number of days.
-          type: number
-          format: integer
+          type: integer
+          format: int32
         unpaidWeeks:
           description: The number of unpaid weeks.
-          type: number
-          format: integer
+          type: integer
+          format: int32
         grossEarnings:
           description: The gross earnings during the period.
           type: number
@@ -3884,7 +4035,7 @@ components:
         name:
           description: The read-only name of the Earning Template.
           type: string
-    Benefits:
+    Superannuations:
       type: object
       properties:
         pagination:
@@ -3895,7 +4046,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Benefit'
-    BenefitObject:
+    SuperannuationObject:
       type: object
       properties:
         pagination:
@@ -3911,22 +4062,20 @@ components:
         - category
         - liabilityAccountId
         - expenseAccountId
-        - calculationType
-        - percentage
-        - standardAmount
       properties:
         id:
-          description: unique identifier in Xero
+          description: The Xero identifier for superannuation
           type: string
           format: uuid
         name:
-          description: Name of the employer pension
+          description: Name of the superannuations
           type: string
         category:
-          description: Category type of the employer pension
+          description: Superannuations Category type
           type: string
           enum:
-          - StakeholderPension
+          - KiwiSaver
+          - ComplyingFund
           - Other
         liabilityAccountId:
           description: Xero identifier for Liability Account
@@ -3936,37 +4085,26 @@ components:
           description: Xero identifier for Expense Account
           type: string
           format: uuid
-        standardAmount:
-          description: Standard amount of the employer pension
-          type: number
-          format: double
-        percentage:
-          description: Percentage of gross of the employer pension
-          type: number
-          format: double
-        calculationType:
-          description: Calculation Type of the employer pension (FixedAmount or PercentageOfGross).
+        CalculationTypeNZ:
+          description: Calculation Type of the superannuation either FixedAmount or PercentageOfTaxableEarnings
           type: string
           enum:
             - FixedAmount
-            - PercentageOfGross
+            - PercentageOfTaxableEarnings
+        standardAmount:
+          description: Standard amount of the superannuation
+          type: number
+          format: double
+        percentage:
+          description: Percentage of Taxable Earnings of the superannuation
+          type: number
+          format: double
+        companyMax:
+          description: Company Maximum amount of the superannuation
+          type: number
+          format: double
         currentRecord:
           description: Identifier of a record is active or not.
-          type: boolean
-        subjectToNIC:
-          description: Identifier of subject To NIC
-          type: boolean
-        subjectToPension:
-          description: Identifier of subject To pension
-          type: boolean
-        subjectToTax:
-          description: Identifier of subject To Tax
-          type: boolean
-        isCalculatingOnQualifyingEarnings:
-          description: Identifier of calculating on qualifying earnings
-          type: boolean
-        showBalanceToEmployee:
-          description: display the balance to employee
           type: boolean
     Deductions:
       type: object
