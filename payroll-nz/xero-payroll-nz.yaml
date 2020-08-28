@@ -490,7 +490,27 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmployeeOpeningBalancesObject'
-              example: ''
+              example: '{
+                          "id": "b2a42e1e-c68d-4492-a1fc-c3c57ae41f2b",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-08-28T20:00:07.7343966",
+                          "httpStatusCode": "OK",
+                          "pagination": {
+                            "page": 1,
+                            "pageSize": 100,
+                            "pageCount": 1,
+                            "itemCount": 8
+                          },
+                          "problem": null,
+                          "openingBalances": [
+                            {
+                              "periodEndDate": "2020-10-01T00:00:00",
+                              "daysPaid": 3,
+                              "unpaidWeeks": 2,
+                              "grossEarnings": 40
+                            }
+                          ]
+                        }'
     post:
       security:
         - OAuth2: [payroll.employees]
@@ -2258,7 +2278,31 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Timesheets'
-              example: ''
+              example: '{
+                          "id": "a7bdff3c-143c-4f5e-b960-0b0b516e3d54",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-08-28T21:07:39.0921081",
+                          "httpStatusCode": "OK",
+                          "pagination": {
+                            "page": 1,
+                            "pageSize": 100,
+                            "pageCount": 1,
+                            "itemCount": 1
+                          },
+                          "problem": null,
+                          "timesheets": [
+                            {
+                              "timesheetID": "f2a2aff0-9944-411e-bc58-44f22304188d",
+                              "payrollCalendarID": "f6931b89-d9c8-4f25-b4fa-268b5fd24197",
+                              "employeeID": "272a7559-1b8f-4d3a-977b-d05578cb9546",
+                              "startDate": "2020-08-01T00:00:00",
+                              "endDate": "2020-08-31T00:00:00",
+                              "status": "Draft",
+                              "totalHours": 17,
+                              "updatedDateUTC": "2020-08-28T20:50:40"
+                            }
+                          ]
+                        }'
     post:
       security:
         - OAuth2: [payroll.timesheets]
@@ -2274,7 +2318,40 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TimesheetObject'
-              example: ''
+              example: '{
+                          "id": "6bc78197-fbc3-4da7-9412-80d375013ef6",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-08-28T21:07:41.7980254",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null,
+                          "timesheet": {
+                            "timesheetID": "d227445a-4188-453a-a196-48163a38188c",
+                            "payrollCalendarID": "9aa56064-990f-4ad3-a189-d966d8f6a030",
+                            "employeeID": "68342973-c405-4b86-b5d3-d7b877c27995",
+                            "startDate": "2020-04-13T00:00:00",
+                            "endDate": "2020-04-19T00:00:00",
+                            "status": "Draft",
+                            "totalHours": 14,
+                            "updatedDateUTC": "2020-08-28T21:07:41.9676218",
+                            "timesheetLines": [
+                              {
+                                "timesheetLineID": "ebeda184-6f42-4c44-a19c-3c0308578153",
+                                "date": "2020-04-15T00:00:00",
+                                "earningsRateID": "f9d8f5b5-9049-47f4-8541-35e200f750a5",
+                                "trackingItemID": null,
+                                "numberOfUnits": 6
+                              },
+                              {
+                                "timesheetLineID": "e8e9d84f-d01d-4ab9-9584-3996c898b89c",
+                                "date": "2020-04-13T00:00:00",
+                                "earningsRateID": "f9d8f5b5-9049-47f4-8541-35e200f750a5",
+                                "trackingItemID": null,
+                                "numberOfUnits": 8
+                              }
+                            ]
+                          }
+                        }'
         '400':
           description: validation error for a bad request
           content:
@@ -2287,7 +2364,24 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Timesheet'
-            example: ''
+            example: '{
+                        "payrollCalendarID": "9aa56064-990f-4ad3-a189-d966d8f6a030",
+                        "employeeID": "68342973-c405-4b86-b5d3-d7b877c27995",
+                        "startDate": "2020-04-13",
+                        "endDate": "2020-04-19",
+                        "timesheetLines": [
+                          {
+                            "date": "2020-04-13",
+                            "earningsRateID": "f9d8f5b5-9049-47f4-8541-35e200f750a5",
+                            "numberOfUnits": 8
+                          },
+                          {
+                            "date": "2020-04-15",
+                            "earningsRateID": "f9d8f5b5-9049-47f4-8541-35e200f750a5",
+                            "numberOfUnits": 6
+                          }
+                        ]
+                      }'
   /Timesheets/{TimesheetID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -2314,7 +2408,47 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TimesheetObject'
-              example: ''
+              example: '{
+                          "id": "3bf1554e-8367-481d-961c-d67fb4ad2e02",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-08-28T21:07:39.0637818",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null,
+                          "timesheet": {
+                            "timesheetID": "f2a2aff0-9944-411e-bc58-44f22304188d",
+                            "payrollCalendarID": "f6931b89-d9c8-4f25-b4fa-268b5fd24197",
+                            "employeeID": "272a7559-1b8f-4d3a-977b-d05578cb9546",
+                            "startDate": "2020-08-01T00:00:00",
+                            "endDate": "2020-08-31T00:00:00",
+                            "status": "Draft",
+                            "totalHours": 17,
+                            "updatedDateUTC": "2020-08-28T20:50:40",
+                            "timesheetLines": [
+                              {
+                                "timesheetLineID": "3397aab1-6cac-4804-a72b-00f396b04a08",
+                                "date": "2020-08-01T00:00:00",
+                                "earningsRateID": "f9d8f5b5-9049-47f4-8541-35e200f750a5",
+                                "trackingItemID": null,
+                                "numberOfUnits": 7
+                              },
+                              {
+                                "timesheetLineID": "11f3608f-c53a-474d-ba17-053849de318b",
+                                "date": "2020-08-02T00:00:00",
+                                "earningsRateID": "f9d8f5b5-9049-47f4-8541-35e200f750a5",
+                                "trackingItemID": null,
+                                "numberOfUnits": 5
+                              },
+                              {
+                                "timesheetLineID": "f5b416b7-d431-4d54-baff-9cd6de620c70",
+                                "date": "2020-08-03T00:00:00",
+                                "earningsRateID": "f9d8f5b5-9049-47f4-8541-35e200f750a5",
+                                "trackingItemID": null,
+                                "numberOfUnits": 5
+                              }
+                            ]
+                          }
+                        }'
     delete:
       security:
         - OAuth2: [payroll.timesheets]
@@ -2337,6 +2471,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TimesheetLine'
+              example: '{
+                          "id": "6a451302-2307-46f1-8d11-507b53337af9",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-08-28T21:07:41.4217222",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null
+                        }'
         '400':
           description: validation error for a bad request
           content:
@@ -2369,7 +2511,21 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TimesheetLineObject'
-              example: ''
+              example: '{
+                          "id": "4c5168bb-344b-4c97-acb7-fb4f5eea8b94",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-08-28T21:07:39.5955147",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null,
+                          "timesheetLine": {
+                            "timesheetLineID": "10c3c63e-6cd0-4630-861f-08a2baa657fa",
+                            "date": "2020-08-03T00:00:00",
+                            "earningsRateID": "f9d8f5b5-9049-47f4-8541-35e200f750a5",
+                            "trackingItemID": null,
+                            "numberOfUnits": 1
+                          }
+                        }'
         '400':
           description: validation error for a bad request
           content:
@@ -2382,7 +2538,11 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/TimesheetLine'
-            example: ''
+            example: '{
+                        "date": "2020-08-03",
+                        "earningsRateID": "f9d8f5b5-9049-47f4-8541-35e200f750a5",
+                        "numberOfUnits": 1
+                      }'
   /Timesheets/{TimesheetID}/Approve:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -2409,7 +2569,54 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TimesheetObject'
-              example: ''
+              example: '{
+                          "id": "9828b7ba-d1e8-4208-ac3d-2203c1c5dffc",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-08-28T21:07:40.3918669",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null,
+                          "timesheet": {
+                            "timesheetID": "f2a2aff0-9944-411e-bc58-44f22304188d",
+                            "payrollCalendarID": "f6931b89-d9c8-4f25-b4fa-268b5fd24197",
+                            "employeeID": "272a7559-1b8f-4d3a-977b-d05578cb9546",
+                            "startDate": "2020-08-01T00:00:00",
+                            "endDate": "2020-08-31T00:00:00",
+                            "status": "Approved",
+                            "totalHours": 13,
+                            "updatedDateUTC": "2020-08-28T21:07:40.5613405",
+                            "timesheetLines": [
+                              {
+                                "timesheetLineID": "10c3c63e-6cd0-4630-861f-08a2baa657fa",
+                                "date": "2020-08-03T00:00:00",
+                                "earningsRateID": "f9d8f5b5-9049-47f4-8541-35e200f750a5",
+                                "trackingItemID": null,
+                                "numberOfUnits": 1
+                              },
+                              {
+                                "timesheetLineID": "3397aab1-6cac-4804-a72b-00f396b04a08",
+                                "date": "2020-08-04T00:00:00",
+                                "earningsRateID": "f9d8f5b5-9049-47f4-8541-35e200f750a5",
+                                "trackingItemID": null,
+                                "numberOfUnits": 2
+                              },
+                              {
+                                "timesheetLineID": "11f3608f-c53a-474d-ba17-053849de318b",
+                                "date": "2020-08-02T00:00:00",
+                                "earningsRateID": "f9d8f5b5-9049-47f4-8541-35e200f750a5",
+                                "trackingItemID": null,
+                                "numberOfUnits": 5
+                              },
+                              {
+                                "timesheetLineID": "f5b416b7-d431-4d54-baff-9cd6de620c70",
+                                "date": "2020-08-03T00:00:00",
+                                "earningsRateID": "f9d8f5b5-9049-47f4-8541-35e200f750a5",
+                                "trackingItemID": null,
+                                "numberOfUnits": 5
+                              }
+                            ]
+                          }
+                        }'
         '400':
           description: validation error for a bad request
           content:
@@ -2442,7 +2649,54 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TimesheetObject'
-              example: ''
+              example: '{
+                          "id": "e00ef52c-36bc-4842-9ad4-a4eddb1dff58",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-08-28T21:07:41.3053619",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null,
+                          "timesheet": {
+                            "timesheetID": "f2a2aff0-9944-411e-bc58-44f22304188d",
+                            "payrollCalendarID": "f6931b89-d9c8-4f25-b4fa-268b5fd24197",
+                            "employeeID": "272a7559-1b8f-4d3a-977b-d05578cb9546",
+                            "startDate": "2020-08-01T00:00:00",
+                            "endDate": "2020-08-31T00:00:00",
+                            "status": "Draft",
+                            "totalHours": 13,
+                            "updatedDateUTC": "2020-08-28T21:07:41.2608622",
+                            "timesheetLines": [
+                              {
+                                "timesheetLineID": "10c3c63e-6cd0-4630-861f-08a2baa657fa",
+                                "date": "2020-08-03T00:00:00",
+                                "earningsRateID": "f9d8f5b5-9049-47f4-8541-35e200f750a5",
+                                "trackingItemID": null,
+                                "numberOfUnits": 1
+                              },
+                              {
+                                "timesheetLineID": "3397aab1-6cac-4804-a72b-00f396b04a08",
+                                "date": "2020-08-04T00:00:00",
+                                "earningsRateID": "f9d8f5b5-9049-47f4-8541-35e200f750a5",
+                                "trackingItemID": null,
+                                "numberOfUnits": 2
+                              },
+                              {
+                                "timesheetLineID": "11f3608f-c53a-474d-ba17-053849de318b",
+                                "date": "2020-08-02T00:00:00",
+                                "earningsRateID": "f9d8f5b5-9049-47f4-8541-35e200f750a5",
+                                "trackingItemID": null,
+                                "numberOfUnits": 5
+                              },
+                              {
+                                "timesheetLineID": "f5b416b7-d431-4d54-baff-9cd6de620c70",
+                                "date": "2020-08-03T00:00:00",
+                                "earningsRateID": "f9d8f5b5-9049-47f4-8541-35e200f750a5",
+                                "trackingItemID": null,
+                                "numberOfUnits": 5
+                              }
+                            ]
+                          }
+                        }'
         '400':
           description: validation error for a bad request
           content:
@@ -2482,7 +2736,21 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TimesheetLineObject'
-              example: ''
+              example: '{
+                          "id": "d9085b67-1d28-4374-bc51-3130ebef70d1",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-08-28T21:07:39.9074596",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null,
+                          "timesheetLine": {
+                            "timesheetLineID": "3397aab1-6cac-4804-a72b-00f396b04a08",
+                            "date": "2020-08-04T00:00:00",
+                            "earningsRateID": "f9d8f5b5-9049-47f4-8541-35e200f750a5",
+                            "trackingItemID": null,
+                            "numberOfUnits": 2
+                          }
+                        }'
         '400':
           description: validation error for a bad request
           content:
@@ -2495,7 +2763,11 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/TimesheetLine'
-            example: ''
+            example: '{
+                        "date": "2020-08-04",
+                        "earningsRateID": "f9d8f5b5-9049-47f4-8541-35e200f750a5",
+                        "numberOfUnits": 2
+                      }'
     delete:
       security:
         - OAuth2: [payroll.timesheets]
@@ -2525,6 +2797,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TimesheetLine'
+              example: '{
+                          "id": "5bc9ca8a-8f17-42cf-9a41-cc842af17d96",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-08-28T22:01:51.861069",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null
+                        }'
         '400':
           description: validation error for a bad request
           content:
@@ -3055,7 +3335,35 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PayRuns'
-              example: ''
+              example: '{
+                          "id": "e0cd2ad5-e5ab-4533-8b3b-e9e4b7c361e4",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-08-28T23:01:56.762619",
+                          "httpStatusCode": "OK",
+                          "pagination": {
+                            "page": 1,
+                            "pageSize": 100,
+                            "pageCount": 1,
+                            "itemCount": 1
+                          },
+                          "problem": null,
+                          "payRuns": [
+                            {
+                              "payRunID": "8ba9831d-38e4-43d4-808e-472a5d195bce",
+                              "payrollCalendarID": "9aa56064-990f-4ad3-a189-d966d8f6a030",
+                              "periodStartDate": "2019-06-10T00:00:00",
+                              "periodEndDate": "2019-06-16T00:00:00",
+                              "paymentDate": "2019-06-18T00:00:00",
+                              "totalCost": 6735.81,
+                              "totalPay": 4524.81,
+                              "payRunStatus": "Draft",
+                              "payRunType": "Scheduled",
+                              "calendarType": "Weekly",
+                              "postedDateTime": null,
+                              "payslipMessage": null
+                            }
+                          ]
+                        }'
   /PayRuns/{PayRunID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -3082,7 +3390,49 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PayRunObject'
-              example: ''
+              example: '{
+                          "id": "0719cbe6-6e63-4c64-b29c-b18d9a4e1182",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-08-28T23:01:57.3773969",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null,
+                          "payRun": {
+                            "payRunID": "8ba9831d-38e4-43d4-808e-472a5d195bce",
+                            "payrollCalendarID": "9aa56064-990f-4ad3-a189-d966d8f6a030",
+                            "periodStartDate": "2019-06-10T00:00:00",
+                            "periodEndDate": "2019-06-16T00:00:00",
+                            "paymentDate": "2019-06-18T00:00:00",
+                            "totalCost": 6735.81,
+                            "totalPay": 4524.81,
+                            "payRunStatus": "Draft",
+                            "payRunType": "Scheduled",
+                            "calendarType": "Weekly",
+                            "postedDateTime": null,
+                            "paySlips": [
+                              {
+                                "paySlipID": "51a01760-cf9d-4ba1-bf3a-2065d4f8e073",
+                                "employeeID": "68342973-c405-4b86-b5d3-d7b877c27995",
+                                "lastEdited": "2020-08-28T21:58:08",
+                                "firstName": "Tony",
+                                "lastName": "Starkmzamlagmdison",
+                                "totalEarnings": 648,
+                                "grossEarnings": 648,
+                                "totalPay": 525,
+                                "totalEmployerTaxes": 3.32,
+                                "totalEmployeeTaxes": 103.56,
+                                "totalDeductions": 0,
+                                "totalReimbursements": 0,
+                                "totalStatutoryDeductions": 19.44,
+                                "totalSuperannuation": 19.44,
+                                "bacsHash": null,
+                                "paymentMethod": "Electronically"
+                              }
+                            ],
+                            "payslipMessage": null,
+                            "invalidPayeeIDs": null
+                          }
+                        }'
     put:
       security:
         - OAuth2: [payroll.payruns]
@@ -3151,7 +3501,146 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Payslips'
-              example: ''
+              example: '{
+                          "id": "2c78ae0f-c41a-45ce-b51a-9e31d16ba569",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-08-28T22:55:58.6809685",
+                          "httpStatusCode": "OK",
+                          "pagination": {
+                            "page": 1,
+                            "pageSize": 100,
+                            "pageCount": 1,
+                            "itemCount": 6
+                          },
+                          "problem": null,
+                          "paySlips": [
+                            {
+                              "paySlipID": "17d88883-686a-400f-9551-34fa366effc4",
+                              "employeeID": "68342973-c405-4b86-b5d3-d7b877c27995",
+                              "payRunID": "be103bd8-321b-419f-8177-48280560771a",
+                              "lastEdited": "2019-09-23T02:13:29",
+                              "firstName": "Tony",
+                              "lastName": "Starkmzamlagmdison",
+                              "totalEarnings": 162,
+                              "grossEarnings": 162,
+                              "totalPay": 137.88,
+                              "totalEmployerTaxes": 0.7,
+                              "totalEmployeeTaxes": 19.26,
+                              "totalDeductions": 0,
+                              "totalReimbursements": 0,
+                              "totalStatutoryDeductions": 4.86,
+                              "totalSuperannuation": 4.86,
+                              "bacsHash": null,
+                              "paymentMethod": "Electronically",
+                              "earningsLines": [
+                                {
+                                  "earningsLineID": "f9d8f5b5-9049-47f4-8541-35e200f750a5",
+                                  "earningsRateID": "f9d8f5b5-9049-47f4-8541-35e200f750a5",
+                                  "displayName": "Ordinary Time",
+                                  "ratePerUnit": 25,
+                                  "numberOfUnits": 6,
+                                  "fixedAmount": null,
+                                  "amount": 150,
+                                  "isLinkedToTimesheet": false,
+                                  "isAverageDailyPayRate": null,
+                                  "isSystemGenerated": true
+                                }
+                              ],
+                              "leaveEarningsLines": [
+                                {
+                                  "earningsLineID": "0441497f-5dc7-4cd3-a90d-f2e07e21b2a6",
+                                  "earningsRateID": "39b3560a-5d2f-4538-924a-4349dc86396e",
+                                  "displayName": "Holiday Pay",
+                                  "ratePerUnit": null,
+                                  "numberOfUnits": null,
+                                  "fixedAmount": 12,
+                                  "amount": 12,
+                                  "isLinkedToTimesheet": false,
+                                  "isAverageDailyPayRate": null,
+                                  "isSystemGenerated": true
+                                }
+                              ],
+                              "timesheetEarningsLines": [],
+                              "deductionLines": [],
+                              "reimbursementLines": [],
+                              "leaveAccrualLines": [
+                                {
+                                  "leaveTypeID": "0441497f-5dc7-4cd3-a90d-f2e07e21b2a6",
+                                  "numberOfUnits": 12
+                                },
+                                {
+                                  "leaveTypeID": "b0b1b79e-2a25-46c2-ad08-ca25ef48d7e4",
+                                  "numberOfUnits": 0
+                                },
+                                {
+                                  "leaveTypeID": "f2f994cf-1899-46f3-ad4f-5d92d78c3719",
+                                  "numberOfUnits": 0
+                                },
+                                {
+                                  "leaveTypeID": "34129765-11cb-4d8c-b568-84a2219beda3",
+                                  "numberOfUnits": 0
+                                }
+                              ],
+                              "superannuationLines": [
+                                {
+                                  "superannuationTypeID": "563273ea-0dae-4f82-86a4-e0db77c008ea",
+                                  "displayName": "KiwiSaver",
+                                  "amount": 4.86,
+                                  "fixedAmount": null,
+                                  "percentage": 3,
+                                  "manualAdjustment": false
+                                }
+                              ],
+                              "paymentLines": [
+                                {
+                                  "paymentLineID": "a300f7c3-e934-4e67-84c5-d8687cf4a2b4",
+                                  "amount": 137.88,
+                                  "accountNumber": "0607050201419000",
+                                  "sortCode": null,
+                                  "accountName": "Casual Worker"
+                                }
+                              ],
+                              "employeeTaxLines": [
+                                {
+                                  "taxLineID": "1d7c6670-c227-4de9-a7fc-fbf7ec16a804",
+                                  "description": null,
+                                  "amount": 19.26,
+                                  "globalTaxTypeID": 11,
+                                  "manualAdjustment": false
+                                }
+                              ],
+                              "employerTaxLines": [
+                                {
+                                  "taxLineID": "b790f489-9bbf-4979-a987-53dddf8b648f",
+                                  "description": null,
+                                  "amount": 0.7,
+                                  "globalTaxTypeID": 10,
+                                  "manualAdjustment": false
+                                }
+                              ],
+                              "statutoryDeductionLines": [
+                                {
+                                  "statutoryDeductionTypeID": "b5efd8d1-0c93-4a14-a314-b5cba4a4e6b3",
+                                  "amount": 4.86,
+                                  "fixedAmount": null,
+                                  "manualAdjustment": null
+                                }
+                              ],
+                              "taxSettings": {
+                                "periodUnits": 1,
+                                "periodType": "weeks",
+                                "taxCode": "M",
+                                "specialTaxRate": null,
+                                "lumpSumTaxCode": "SB",
+                                "lumpSumAmount": null
+                              },
+                              "grossEarningsHistory": {
+                                "daysPaid": 1,
+                                "unpaidWeeks": 0
+                              }
+                            }
+                          ]
+                        }'
   /Payslips/{PayslipID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -3178,7 +3667,139 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PayslipObject'
-              example: ''
+              example: '{
+                          "id": "cdd35c09-984f-4c37-a257-3918e7ecc625",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-08-28T22:55:59.3854985",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null,
+                          "paySlip": {
+                            "paySlipID": "17d88883-686a-400f-9551-34fa366effc4",
+                            "employeeID": "68342973-c405-4b86-b5d3-d7b877c27995",
+                            "payRunID": "be103bd8-321b-419f-8177-48280560771a",
+                            "lastEdited": "2019-09-23T02:13:29",
+                            "firstName": "Tony",
+                            "lastName": "Starkmzamlagmdison",
+                            "totalEarnings": 162,
+                            "grossEarnings": 162,
+                            "totalPay": 137.88,
+                            "totalEmployerTaxes": 0.7,
+                            "totalEmployeeTaxes": 19.26,
+                            "totalDeductions": 0,
+                            "totalReimbursements": 0,
+                            "totalStatutoryDeductions": 4.86,
+                            "totalSuperannuation": 4.86,
+                            "bacsHash": null,
+                            "paymentMethod": "Electronically",
+                            "earningsLines": [
+                              {
+                                "earningsLineID": "f9d8f5b5-9049-47f4-8541-35e200f750a5",
+                                "earningsRateID": "f9d8f5b5-9049-47f4-8541-35e200f750a5",
+                                "displayName": "Ordinary Time",
+                                "ratePerUnit": 25,
+                                "numberOfUnits": 6,
+                                "fixedAmount": null,
+                                "amount": 150,
+                                "isLinkedToTimesheet": false,
+                                "isAverageDailyPayRate": null,
+                                "isSystemGenerated": true
+                              }
+                            ],
+                            "leaveEarningsLines": [
+                              {
+                                "earningsLineID": "0441497f-5dc7-4cd3-a90d-f2e07e21b2a6",
+                                "earningsRateID": "39b3560a-5d2f-4538-924a-4349dc86396e",
+                                "displayName": "Holiday Pay",
+                                "ratePerUnit": null,
+                                "numberOfUnits": null,
+                                "fixedAmount": 12,
+                                "amount": 12,
+                                "isLinkedToTimesheet": false,
+                                "isAverageDailyPayRate": null,
+                                "isSystemGenerated": true
+                              }
+                            ],
+                            "timesheetEarningsLines": [],
+                            "deductionLines": [],
+                            "reimbursementLines": [],
+                            "leaveAccrualLines": [
+                              {
+                                "leaveTypeID": "0441497f-5dc7-4cd3-a90d-f2e07e21b2a6",
+                                "numberOfUnits": 12
+                              },
+                              {
+                                "leaveTypeID": "b0b1b79e-2a25-46c2-ad08-ca25ef48d7e4",
+                                "numberOfUnits": 0
+                              },
+                              {
+                                "leaveTypeID": "f2f994cf-1899-46f3-ad4f-5d92d78c3719",
+                                "numberOfUnits": 0
+                              },
+                              {
+                                "leaveTypeID": "34129765-11cb-4d8c-b568-84a2219beda3",
+                                "numberOfUnits": 0
+                              }
+                            ],
+                            "superannuationLines": [
+                              {
+                                "superannuationTypeID": "563273ea-0dae-4f82-86a4-e0db77c008ea",
+                                "displayName": "KiwiSaver",
+                                "amount": 4.86,
+                                "fixedAmount": null,
+                                "percentage": 3,
+                                "manualAdjustment": false
+                              }
+                            ],
+                            "paymentLines": [
+                              {
+                                "paymentLineID": "a300f7c3-e934-4e67-84c5-d8687cf4a2b4",
+                                "amount": 137.88,
+                                "accountNumber": "0607050201419000",
+                                "sortCode": null,
+                                "accountName": "Casual Worker"
+                              }
+                            ],
+                            "employeeTaxLines": [
+                              {
+                                "taxLineID": "1d7c6670-c227-4de9-a7fc-fbf7ec16a804",
+                                "description": null,
+                                "amount": 19.26,
+                                "globalTaxTypeID": 11,
+                                "manualAdjustment": false
+                              }
+                            ],
+                            "employerTaxLines": [
+                              {
+                                "taxLineID": "b790f489-9bbf-4979-a987-53dddf8b648f",
+                                "description": null,
+                                "amount": 0.7,
+                                "globalTaxTypeID": 10,
+                                "manualAdjustment": false
+                              }
+                            ],
+                            "statutoryDeductionLines": [
+                              {
+                                "statutoryDeductionTypeID": "b5efd8d1-0c93-4a14-a314-b5cba4a4e6b3",
+                                "amount": 4.86,
+                                "fixedAmount": null,
+                                "manualAdjustment": null
+                              }
+                            ],
+                            "taxSettings": {
+                              "periodUnits": 1,
+                              "periodType": "weeks",
+                              "taxCode": "M",
+                              "specialTaxRate": null,
+                              "lumpSumTaxCode": "SB",
+                              "lumpSumAmount": null
+                            },
+                            "grossEarningsHistory": {
+                              "daysPaid": 1,
+                              "unpaidWeeks": 0
+                            }
+                          }
+                        }'
   /Settings:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -3197,7 +3818,42 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Settings'
-              example: ''
+              example: '{
+                          "id": "e9da0a69-a3a5-4f6d-9227-8a2d3558e594",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-08-28T22:18:40.4518638",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null,
+                          "settings": {
+                            "accounts": [
+                              {
+                                "accountID": "fa5cdc43-643b-4ad8-b4ac-3ffe0d0f4488",
+                                "type": "PAYELIABILITY",
+                                "code": "825",
+                                "name": "PAYE Payable"
+                              },
+                              {
+                                "accountID": "e529775e-ea49-4a19-86f0-8d3e1ecda2cd",
+                                "type": "WAGESPAYABLE",
+                                "code": "814",
+                                "name": "Wages Payable - Payroll"
+                              },
+                              {
+                                "accountID": "1c91e520-a12b-45cc-8194-99950858e5bf",
+                                "type": "WAGESEXPENSE",
+                                "code": "477",
+                                "name": "Salaries"
+                              },
+                              {
+                                "accountID": "ac993f75-035b-433c-82e0-7b7a2d40802c",
+                                "type": "BANK",
+                                "code": "090",
+                                "name": "Business Bank Account"
+                              }
+                            ]
+                          }
+                        }'
   /settings/trackingCategories:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -3216,7 +3872,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TrackingCategories'
-              example: ''
+              example: '{
+                          "id": "a4012eae-c4e4-4134-b4cf-9263e2900eab",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-08-28T22:18:50.0075482",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null,
+                          "trackingCategories": {
+                            "employeeGroupsTrackingCategoryID": "351953c4-8127-4009-88c3-f9cd8c9cbe9f",
+                            "timesheetTrackingCategoryID": "f8c0b291-be04-497a-a083-dd9cd19658b5"
+                          }
+                        }'
 components:
   securitySchemes:
     OAuth2:
