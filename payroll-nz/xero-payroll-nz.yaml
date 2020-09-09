@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: '2.2.12'
+  version: '2.2.15'
   title: 'Xero Payroll NZ'
   description: 'This is the Xero Payroll API for orgs in the NZ region.'
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
@@ -3470,7 +3470,7 @@ paths:
             schema:
               $ref: '#/components/schemas/PayRun'
             example: ''
-  /Payslips:
+  /PaySlips:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
@@ -3500,7 +3500,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Payslips'
+                $ref: '#/components/schemas/PaySlips'
               example: '{
                           "id": "2c78ae0f-c41a-45ce-b51a-9e31d16ba569",
                           "providerName": "java-sdk-oauth2-dev-02",
@@ -3641,7 +3641,7 @@ paths:
                             }
                           ]
                         }'
-  /Payslips/{PayslipID}:
+  /PaySlips/{PaySlipID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
@@ -3654,7 +3654,7 @@ paths:
       summary: retrieve a single payslip by id
       parameters:
         - in: path
-          name: PayslipID
+          name: PaySlipID
           required: true
           description: Identifier for the payslip
           schema:
@@ -3666,7 +3666,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PayslipObject'
+                $ref: '#/components/schemas/PaySlipObject'
               example: '{
                           "id": "cdd35c09-984f-4c37-a257-3918e7ecc625",
                           "providerName": "java-sdk-oauth2-dev-02",
@@ -3800,6 +3800,43 @@ paths:
                             }
                           }
                         }'
+    put:
+      security:
+        - OAuth2: [payroll.employees]
+      tags:
+        - PayrollNz
+      operationId: updatePaySlipLineItems
+      x-hasPayrollUkProblem: true
+      summary: creates employee pay slip
+      parameters:
+        - in: path
+          name: PaySlipID
+          required: true
+          description: Identifier for the payslip
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaySlipObject'
+              example: ''
+        '400':
+          description: validation error for a bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaySlip'
+            example: ''
   /Settings:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -5496,8 +5533,8 @@ components:
         paySlips:
           type: array
           items:
-            $ref: '#/components/schemas/Payslip'
-    PayslipObject:
+            $ref: '#/components/schemas/PaySlip'
+    PaySlipObject:
       type: object
       properties:
         pagination:
@@ -5505,8 +5542,8 @@ components:
         problem:
           $ref: '#/components/schemas/Problem'
         paySlip:
-          $ref: '#/components/schemas/Payslip'
-    Payslips:
+          $ref: '#/components/schemas/PaySlip'
+    PaySlips:
       type: object
       properties:
         pagination:
@@ -5516,12 +5553,12 @@ components:
         paySlips:
           type: array
           items:
-            $ref: '#/components/schemas/Payslip'
-    Payslip:
+            $ref: '#/components/schemas/PaySlip'
+    PaySlip:
       type: object
       properties:
         paySlipID:
-          description: The Xero identifier for a Payslip
+          description: The Xero identifier for a PaySlip
           type: string
           format: uuid 
         employeeID:
