@@ -2918,7 +2918,7 @@ paths:
                         "periodStartDate": "2020-05-01",
                         "paymentDate": "2020-05-15"
                       }'
-  /PayRunCalendars/{PayRunCalendarID}:
+  /PayRunCalendars/{PayrollCalendarID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
@@ -2931,7 +2931,7 @@ paths:
       summary: retrieve a single payrun calendar by id
       parameters:
         - in: path
-          name: PayRunCalendarID
+          name: PayrollCalendarID
           required: true
           description: Identifier for the payrun calendars
           schema:
@@ -2961,33 +2961,6 @@ paths:
                             "updatedDateUTC": "2019-09-24T05:08:45"
                           }
                         }'
-  /PayRunCalendars/{PayrollCalendarID}:
-    parameters:
-      - $ref: '#/components/parameters/requiredHeader'
-    get:
-      security:
-        - OAuth2: [payroll.settings.read, payroll.settings]
-      tags:
-        - PayrollNz
-      operationId: getPayRunCalendarByPayrollCalendarId
-      x-hasPayrollUkProblem: true
-      summary: retrieve a single payrun calendar by payroll calendar id
-      parameters:
-        - in: path
-          name: PayrollCalendarID
-          required: true
-          description: Identifier for the payroll calendars
-          schema:
-            type: string
-            format: uuid
-      responses:
-        '200':
-          description: search results matching criteria
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PayRunCalendarObject'
-              example: ''
   /Employees/{EmployeeId}/SalaryAndWages:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -3364,6 +3337,43 @@ paths:
                             }
                           ]
                         }'
+    post:
+      security:
+        - OAuth2: [payroll.payruns]
+      tags:
+        - PayrollNz
+      operationId: updatePayRun
+      x-hasPayrollUkProblem: true
+      summary: update a pay run
+      parameters:
+        - in: path
+          name: PayRunID
+          required: true
+          description: Identifier for the pay run
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PayRunObject'
+              example: ''
+        '400':
+          description: validation error for a bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PayRun'
+            example: ''
   /PayRuns/{PayRunID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -3456,7 +3466,139 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PayRunObject'
-              example: ''
+              example: '{
+                          "id": "23f35831-dcf0-4e88-8ea1-26fd19100129",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-09-10T17:38:14.8294283",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null,
+                          "payRun": {
+                            "payRunID": "8ba9831d-38e4-43d4-808e-472a5d195bce",
+                            "payrollCalendarID": "9aa56064-990f-4ad3-a189-d966d8f6a030",
+                            "periodStartDate": "2019-06-10T00:00:00",
+                            "periodEndDate": "2019-06-16T00:00:00",
+                            "paymentDate": "2019-07-01T00:00:00",
+                            "totalCost": 9806.03,
+                            "totalPay": 6362.53,
+                            "payRunStatus": "Draft",
+                            "payRunType": "Scheduled",
+                            "calendarType": "Weekly",
+                            "postedDateTime": null,
+                            "paySlips": [
+                              {
+                                "paySlipID": "51a01760-cf9d-4ba1-bf3a-2065d4f8e073",
+                                "employeeID": "68342973-c405-4b86-b5d3-d7b877c27995",
+                                "lastEdited": "2020-09-10T17:20:23",
+                                "firstName": "Tony",
+                                "lastName": "Starkwpjgdjxdvwson",
+                                "totalEarnings": 3628.8,
+                                "grossEarnings": 3628.8,
+                                "totalPay": 2362.72,
+                                "totalEmployerTaxes": 18.9,
+                                "totalEmployeeTaxes": 1057.22,
+                                "totalDeductions": 100,
+                                "totalReimbursements": 0,
+                                "totalStatutoryDeductions": 108.86,
+                                "totalSuperannuation": 108.86,
+                                "bacsHash": null,
+                                "paymentMethod": "Electronically"
+                              },
+                              {
+                                "paySlipID": "499bb866-40fd-44ea-a2d9-91e79e5ac08e",
+                                "employeeID": "1c4f0c92-03ad-43f2-a690-ee51397ece6a",
+                                "lastEdited": "2019-09-24T03:14:29",
+                                "firstName": "GST",
+                                "lastName": "Contractor",
+                                "totalEarnings": 800,
+                                "grossEarnings": 800,
+                                "totalPay": 760,
+                                "totalEmployerTaxes": 0,
+                                "totalEmployeeTaxes": 160,
+                                "totalDeductions": 0,
+                                "totalReimbursements": 120,
+                                "totalStatutoryDeductions": 0,
+                                "totalSuperannuation": 0,
+                                "bacsHash": null,
+                                "paymentMethod": "Electronically"
+                              },
+                              {
+                                "paySlipID": "f98b6411-7755-41f7-8d89-a3475eadf866",
+                                "employeeID": "2e63a4ff-e911-44fc-8290-a65ec7299b30",
+                                "lastEdited": "2019-09-24T03:14:06",
+                                "firstName": "Dairy",
+                                "lastName": "Milker",
+                                "totalEarnings": 1353.85,
+                                "grossEarnings": 1353.85,
+                                "totalPay": 726.83,
+                                "totalEmployerTaxes": 22.11,
+                                "totalEmployeeTaxes": 290.97,
+                                "totalDeductions": 200,
+                                "totalReimbursements": 21.33,
+                                "totalStatutoryDeductions": 157.38,
+                                "totalSuperannuation": 67.69,
+                                "bacsHash": null,
+                                "paymentMethod": "Electronically"
+                              },
+                              {
+                                "paySlipID": "0923bc21-900e-4660-b37c-127c59bd4b12",
+                                "employeeID": "9126967a-99a1-4b46-a0f3-43e28737756e",
+                                "lastEdited": "2019-09-24T03:14:15",
+                                "firstName": "General",
+                                "lastName": "Manager",
+                                "totalEarnings": 1730.77,
+                                "grossEarnings": 1730.77,
+                                "totalPay": 1151.71,
+                                "totalEmployerTaxes": 22.77,
+                                "totalEmployeeTaxes": 410.6,
+                                "totalDeductions": 30,
+                                "totalReimbursements": 0,
+                                "totalStatutoryDeductions": 138.46,
+                                "totalSuperannuation": 69.23,
+                                "bacsHash": null,
+                                "paymentMethod": "Electronically"
+                              },
+                              {
+                                "paySlipID": "df88d132-3cd6-43f3-8c4a-28ca53406138",
+                                "employeeID": "ae679eeb-8708-4e3b-afe9-2de117a7f68f",
+                                "lastEdited": "2019-09-24T03:18:06",
+                                "firstName": "Part-time",
+                                "lastName": "Worker",
+                                "totalEarnings": 450,
+                                "grossEarnings": 450,
+                                "totalPay": 339.45,
+                                "totalEmployerTaxes": 2.27,
+                                "totalEmployeeTaxes": 66.15,
+                                "totalDeductions": 0,
+                                "totalReimbursements": 0,
+                                "totalStatutoryDeductions": 44.4,
+                                "totalSuperannuation": 13.5,
+                                "bacsHash": null,
+                                "paymentMethod": "Electronically"
+                              },
+                              {
+                                "paySlipID": "ae8d94e8-c30f-4b19-88df-a68c1bda2b90",
+                                "employeeID": "45e50e4b-7979-4d3b-b943-8c4f0cb9df3d",
+                                "lastEdited": "2019-09-24T03:18:25",
+                                "firstName": "Permanent",
+                                "lastName": "Worker",
+                                "totalEarnings": 1400,
+                                "grossEarnings": 1400,
+                                "totalPay": 1021.82,
+                                "totalEmployerTaxes": 13.86,
+                                "totalEmployeeTaxes": 300.18,
+                                "totalDeductions": 22,
+                                "totalReimbursements": 0,
+                                "totalStatutoryDeductions": 56,
+                                "totalSuperannuation": 42,
+                                "bacsHash": null,
+                                "paymentMethod": "Electronically"
+                              }
+                            ],
+                            "payslipMessage": null,
+                            "invalidPayeeIDs": null
+                          }
+                        }'
         '400':
           description: validation error for a bad request
           content:
@@ -3469,7 +3611,9 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/PayRun'
-            example: ''
+            example: '{
+                        "paymentDate": "2019-07-01"
+                      }'
   /PaySlips:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -3823,7 +3967,166 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PaySlipObject'
-              example: ''
+              example: '{
+                          "id": "b1ef343b-8980-4dea-b900-e7616e258bbc",
+                          "providerName": "java-sdk-oauth2-dev-02",
+                          "dateTimeUTC": "2020-09-10T17:20:24.2970169",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null,
+                          "paySlip": {
+                            "paySlipID": "51a01760-cf9d-4ba1-bf3a-2065d4f8e073",
+                            "employeeID": "68342973-c405-4b86-b5d3-d7b877c27995",
+                            "payRunID": "8ba9831d-38e4-43d4-808e-472a5d195bce",
+                            "lastEdited": "2020-09-10T17:20:23.7335017",
+                            "firstName": "Tony",
+                            "lastName": "Starkwpjgdjxdvwson",
+                            "totalEarnings": 3628.8,
+                            "grossEarnings": 3628.8,
+                            "totalPay": 2362.72,
+                            "totalEmployerTaxes": 18.9,
+                            "totalEmployeeTaxes": 1057.22,
+                            "totalDeductions": 100,
+                            "totalReimbursements": 0,
+                            "totalStatutoryDeductions": 108.86,
+                            "totalSuperannuation": 108.86,
+                            "bacsHash": null,
+                            "paymentMethod": "Electronically",
+                            "earningsLines": [
+                              {
+                                "earningsLineID": "f9d8f5b5-9049-47f4-8541-35e200f750a5",
+                                "earningsRateID": "f9d8f5b5-9049-47f4-8541-35e200f750a5",
+                                "displayName": "Ordinary Time",
+                                "ratePerUnit": 25,
+                                "numberOfUnits": 0,
+                                "fixedAmount": null,
+                                "amount": 0,
+                                "isLinkedToTimesheet": false,
+                                "isAverageDailyPayRate": null,
+                                "isSystemGenerated": true
+                              },
+                              {
+                                "earningsLineID": "65b83d94-f20f-45e1-85ae-387fcf460c26",
+                                "earningsRateID": "65b83d94-f20f-45e1-85ae-387fcf460c26",
+                                "displayName": "Salary",
+                                "ratePerUnit": 0,
+                                "numberOfUnits": 8,
+                                "fixedAmount": null,
+                                "amount": 0,
+                                "isLinkedToTimesheet": false,
+                                "isAverageDailyPayRate": null,
+                                "isSystemGenerated": false
+                              }
+                            ],
+                            "leaveEarningsLines": [
+                              {
+                                "earningsLineID": "0441497f-5dc7-4cd3-a90d-f2e07e21b2a6",
+                                "earningsRateID": "39b3560a-5d2f-4538-924a-4349dc86396e",
+                                "displayName": "Holiday Pay",
+                                "ratePerUnit": null,
+                                "numberOfUnits": null,
+                                "fixedAmount": 268.8,
+                                "amount": 268.8,
+                                "isLinkedToTimesheet": false,
+                                "isAverageDailyPayRate": null,
+                                "isSystemGenerated": true
+                              }
+                            ],
+                            "timesheetEarningsLines": [],
+                            "deductionLines": [
+                              {
+                                "deductionTypeID": "a3760fe4-68a4-4e38-8326-fe616af7dc74",
+                                "displayName": "KiwiSaver Voluntary Contributions",
+                                "amount": 100,
+                                "subjectToTax": null,
+                                "percentage": null
+                              }
+                            ],
+                            "reimbursementLines": [],
+                            "leaveAccrualLines": [
+                              {
+                                "leaveTypeID": "0441497f-5dc7-4cd3-a90d-f2e07e21b2a6",
+                                "numberOfUnits": 268.8
+                              },
+                              {
+                                "leaveTypeID": "b0b1b79e-2a25-46c2-ad08-ca25ef48d7e4",
+                                "numberOfUnits": 0
+                              },
+                              {
+                                "leaveTypeID": "f2f994cf-1899-46f3-ad4f-5d92d78c3719",
+                                "numberOfUnits": 0
+                              },
+                              {
+                                "leaveTypeID": "34129765-11cb-4d8c-b568-84a2219beda3",
+                                "numberOfUnits": 0
+                              }
+                            ],
+                            "superannuationLines": [
+                              {
+                                "superannuationTypeID": "563273ea-0dae-4f82-86a4-e0db77c008ea",
+                                "displayName": "KiwiSaver",
+                                "amount": 108.86,
+                                "fixedAmount": 3,
+                                "percentage": 3,
+                                "manualAdjustment": false
+                              }
+                            ],
+                            "paymentLines": [
+                              {
+                                "paymentLineID": "6dc42925-2a11-4041-ac9a-4098e77791d5",
+                                "amount": 2262.72,
+                                "accountNumber": "0607050201419000",
+                                "sortCode": null,
+                                "accountName": "Casual Worker"
+                              },
+                              {
+                                "paymentLineID": "30d6d414-426b-417d-8d0d-d05ca0e5bc88",
+                                "amount": 100,
+                                "accountNumber": "1234448494848373",
+                                "sortCode": null,
+                                "accountName": "test"
+                              }
+                            ],
+                            "employeeTaxLines": [
+                              {
+                                "taxLineID": "2faf8f5d-6446-4bea-a2cd-d5cd7e8b9384",
+                                "description": null,
+                                "amount": 1057.22,
+                                "globalTaxTypeID": 11,
+                                "manualAdjustment": false
+                              }
+                            ],
+                            "employerTaxLines": [
+                              {
+                                "taxLineID": "caa8d4fa-0949-460d-90f5-f43ec9f3db12",
+                                "description": null,
+                                "amount": 18.9,
+                                "globalTaxTypeID": 10,
+                                "manualAdjustment": false
+                              }
+                            ],
+                            "statutoryDeductionLines": [
+                              {
+                                "statutoryDeductionTypeID": "b5efd8d1-0c93-4a14-a314-b5cba4a4e6b3",
+                                "amount": 108.86,
+                                "fixedAmount": null,
+                                "manualAdjustment": null
+                              }
+                            ],
+                            "taxSettings": {
+                              "periodUnits": 1,
+                              "periodType": "weeks",
+                              "taxCode": "M",
+                              "specialTaxRate": null,
+                              "lumpSumTaxCode": "SB",
+                              "lumpSumAmount": null
+                            },
+                            "grossEarningsHistory": {
+                              "daysPaid": 3,
+                              "unpaidWeeks": 0
+                            }
+                          }
+                        }'
         '400':
           description: validation error for a bad request
           content:
@@ -3836,7 +4139,101 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/PaySlip'
-            example: ''
+            example: '{
+                        "earningsLines": [
+                          {
+                            "earningsLineID": "f9d8f5b5-9049-47f4-8541-35e200f750a5",
+                            "earningsRateID": "f9d8f5b5-9049-47f4-8541-35e200f750a5",
+                            "displayName": "Ordinary Time",
+                            "ratePerUnit": 25,
+                            "numberOfUnits": 0,
+                            "amount": 0,
+                            "isLinkedToTimesheet": false,
+                            "isSystemGenerated": true
+                          },
+                          {
+                            "earningsLineID": "65b83d94-f20f-45e1-85ae-387fcf460c26",
+                            "earningsRateID": "65b83d94-f20f-45e1-85ae-387fcf460c26",
+                            "displayName": "Salary",
+                            "ratePerUnit": 0,
+                            "numberOfUnits": 8,
+                            "amount": 0,
+                            "isLinkedToTimesheet": false,
+                            "isSystemGenerated": false
+                          }
+                        ],
+                        "leaveEarningsLines": [
+                          {
+                            "earningsLineID": "0441497f-5dc7-4cd3-a90d-f2e07e21b2a6",
+                            "earningsRateID": "39b3560a-5d2f-4538-924a-4349dc86396e",
+                            "displayName": "Holiday Pay",
+                            "fixedAmount": 268.8,
+                            "amount": 268.8,
+                            "isLinkedToTimesheet": false,
+                            "isSystemGenerated": true
+                          }
+                        ],
+                        "deductionLines": [
+                          {
+                            "deductionTypeID": "a3760fe4-68a4-4e38-8326-fe616af7dc74",
+                            "amount": 100
+                          }
+                        ],
+                        "leaveAccrualLines": [
+                          {
+                            "leaveTypeID": "0441497f-5dc7-4cd3-a90d-f2e07e21b2a6",
+                            "numberOfUnits": 268.8
+                          },
+                          {
+                            "leaveTypeID": "b0b1b79e-2a25-46c2-ad08-ca25ef48d7e4",
+                            "numberOfUnits": 0
+                          },
+                          {
+                            "leaveTypeID": "f2f994cf-1899-46f3-ad4f-5d92d78c3719",
+                            "numberOfUnits": 0
+                          },
+                          {
+                            "leaveTypeID": "34129765-11cb-4d8c-b568-84a2219beda3",
+                            "numberOfUnits": 0
+                          }
+                        ],
+                        "superannuationLines": [
+                          {
+                            "superannuationTypeID": "563273ea-0dae-4f82-86a4-e0db77c008ea",
+                            "displayName": "KiwiSaver",
+                            "amount": 108.86,
+                            "fixedAmount": 3,
+                            "percentage": 3,
+                            "manualAdjustment": false
+                          }
+                        ],
+                        "employeeTaxLines": [
+                          {
+                            "taxLineID": "1084146b-e890-489c-aed3-06de80f63d84",
+                            "amount": 1057.22,
+                            "globalTaxTypeID": "11",
+                            "manualAdjustment": false
+                          }
+                        ],
+                        "employerTaxLines": [
+                          {
+                            "taxLineID": "6f9eb8cd-0f4a-440b-939c-bdb0f6ad694c",
+                            "amount": 18.9,
+                            "globalTaxTypeID": "10",
+                            "manualAdjustment": false
+                          }
+                        ],
+                        "statutoryDeductionLines": [
+                          {
+                            "statutoryDeductionTypeID": "b5efd8d1-0c93-4a14-a314-b5cba4a4e6b3",
+                            "amount": 108.86
+                          }
+                        ],
+                        "grossEarningsHistory": {
+                          "daysPaid": 3,
+                          "unpaidWeeks": 0
+                        }
+                      }'
   /Settings:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
