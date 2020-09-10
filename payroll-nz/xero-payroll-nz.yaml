@@ -3337,35 +3337,6 @@ paths:
                             }
                           ]
                         }'
-    post:
-      security:
-        - OAuth2: [payroll.payruns]
-      tags:
-        - PayrollNz
-      operationId: createPayRun
-      x-hasPayrollUkProblem: true
-      summary: create a pay run
-      responses:
-        '200':
-          description: created payrun results
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PayRunObject'
-              example: ''
-        '400':
-          description: validation error for a bad request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Problem'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PayRun'
-            example: ''
   /PayRuns/{PayRunID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
