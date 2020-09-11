@@ -1770,6 +1770,61 @@ paths:
               schema:
                 $ref: '#/components/schemas/Superannuations'
               example: ''
+    post:
+      security:
+        - OAuth2: [payroll.settings]
+      tags:
+        - PayrollNz
+      operationId: createSuperannuation
+      x-hasPayrollUkProblem: true
+      summary: create a new earnings rate
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuperannuationObject'
+              example: ''
+        '400':
+          description: validation error for a bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Superannuation'
+            example: ''
+  /superannuations/{SuperannuationID}:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    get:
+      security:
+        - OAuth2: [payroll.settings.read, payroll.settings]
+      tags:
+        - PayrollNZ
+      operationId: getSuperannuations
+      summary: searches for a unique superannuation
+      parameters:
+        - in: path
+          name: SuperannuationID
+          required: true
+          description: Identifier for the superannuation
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Superannuations'
+              example: ''
   /EarningsRates:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
