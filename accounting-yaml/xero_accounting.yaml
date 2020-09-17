@@ -1,14 +1,14 @@
 openapi: 3.0.0
 info:
   title: Accounting API
-  version: "2.2.14"
+  version: "2.2.15"
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
   contact:
     name: "Xero Platform Team"
     email: "api@xero.com"
     url: "https://developer.xero.com"
 servers:
-  - description: Xero Accounting API servers
+  - description: Xero Accounting API server
     url: https://api.xero.com/api.xro/2.0
 paths:
   /Accounts:
@@ -7143,6 +7143,7 @@ paths:
       tags:
         - Accounting
       operationId: emailInvoice
+      x-hasAccountingValidationError: true
       summary: Allows you to email a copy of invoice to related Contact
       parameters:
         - required: true
@@ -13475,7 +13476,7 @@ paths:
     x-related-model: Report
     get:
       security:
-        - OAuth2: [accounting.reports.read]
+        - OAuth2: [accounting.reports.tenninetynine.read]
       tags:
         - Accounting
       operationId: getReportTenNinetyNine
@@ -17914,6 +17915,7 @@ components:
             accounting.transactions: Grant read-write access to bank transactions, credit notes, invoices, repeating invoices
             accounting.transactions.read: Grant read-only access to invoices
             accounting.reports.read: Grant read-only access to accounting reports
+            accounting.reports.tenninetynine.read: Grant read-only access to 1099 reports
             accounting.journals.read: Grant read-only access to journals
             accounting.settings: Grant read-write access to organisation and account settings
             accounting.settings.read: Grant read-only access to organisation and account settings
@@ -18150,7 +18152,6 @@ components:
           description: 
             Customer defined alpha numeric account code e.g 200 or SALES (max
             length = 10)
-          maxLength: 10
           type: string
           example: 4400
         Name:
@@ -18259,9 +18260,7 @@ components:
         UpdatedDateUTC:
           description: Last modified date UTC format
           type: string
-          format: date-time
-          #x-is-msdate-time: true
-          x-is-msdate-time-temp: true
+          x-is-msdate-time: true
           example: "/Date(1573755038314)/"
           readOnly: true
         AddToWatchlist:
@@ -18373,8 +18372,7 @@ components:
         Date:
           description: Date of transaction – YYYY-MM-DD
           type: string
-          format: date
-          x-is-msdate-temp: true
+          x-is-msdate: true
         Reference:
           description: 
             Reference for the transaction. Only supported for SPEND and RECEIVE
@@ -18439,9 +18437,7 @@ components:
         UpdatedDateUTC:
           description: Last modified date UTC format
           type: string
-          format: date-time
-          #x-is-msdate-time: true
-          x-is-msdate-time-temp: true
+          x-is-msdate-time: true
           example: "/Date(1573755038314)/"
           readOnly: true
         HasAttachments:
@@ -18588,9 +18584,7 @@ components:
         Date:
           description: The date of the Transfer YYYY-MM-DD
           type: string
-          format: date
-          #x-is-msdate: true
-          x-is-msdate-temp: true
+          x-is-msdate: true
         BankTransferID:
           description: The identifier of the Bank Transfer
           readOnly: true
@@ -18621,9 +18615,7 @@ components:
         CreatedDateUTC:
           description: UTC timestamp of creation date of bank transfer
           type: string
-          format: date-time
-          #x-is-msdate-time: true
-          x-is-msdate-time-temp: true
+          x-is-msdate-time: true
           example: "/Date(1573755038314)/"
           readOnly: true
         ValidationErrors: 
@@ -18681,9 +18673,7 @@ components:
         Date:
           description: Date the payment is being made (YYYY-MM-DD) e.g. 2009-09-06
           type: string
-          format: date
-          #x-is-msdate: true
-          x-is-msdate-temp: true
+          x-is-msdate: true
         Amount:
           description: The amount of the payment. Must be less than or equal to the
             outstanding amount owing on the invoice e.g. 200.00
@@ -18716,9 +18706,7 @@ components:
         UpdatedDateUTC:
           description: UTC timestamp of last update to the payment
           type: string
-          format: date-time
-          #x-is-msdate-time: true
-          x-is-msdate-time-temp: true
+          x-is-msdate-time: true
           example: "/Date(1573755038314)/"
           readOnly: true
         IsReconciled:
@@ -18787,9 +18775,7 @@ components:
         CreatedDateUTC:
           description: UTC timestamp of creation date of branding theme
           type: string
-          format: date-time
-          #x-is-msdate-time: true
-          x-is-msdate-time-temp: true
+          x-is-msdate-time: true
           example: "/Date(1573755038314)/"
           readOnly: true
       type: object
@@ -18956,9 +18942,7 @@ components:
         UpdatedDateUTC:
           description: UTC timestamp of last update to contact
           type: string
-          format: date-time
-          #x-is-msdate-time: true
-          x-is-msdate-time-temp: true
+          x-is-msdate-time: true
           example: "/Date(1573755038314)/"
           readOnly: true
         ContactGroups:
@@ -19153,9 +19137,7 @@ components:
           description: The date the credit note is issued YYYY-MM-DD. If the Date element is not specified then it will default to the current date based on
             the timezone setting of the organisation
           type: string
-          format: date
-          #x-is-msdate: true
-          x-is-msdate-temp: true
+          x-is-msdate: true
         Status:
           description: See Credit Note Status Codes
           type: string
@@ -19192,9 +19174,7 @@ components:
         UpdatedDateUTC:
           description: UTC timestamp of last update to the credit note
           type: string
-          format: date-time
-          #x-is-msdate-time: true
-          x-is-msdate-time-temp: true
+          x-is-msdate-time: true
           example: "/Date(1573755038314)/"
           readOnly: true
         CurrencyCode:
@@ -19204,9 +19184,7 @@ components:
         FullyPaidOnDate:
           description: Date when credit note was fully paid(UTC format)
           type: string
-          format: date
-          #x-is-msdate: true
-          x-is-msdate-temp: true
+          x-is-msdate: true
         CreditNoteID:
           description: Xero generated unique identifier
           type: string
@@ -19300,9 +19278,7 @@ components:
         Date:
           description:   the date the allocation is applied YYYY-MM-DD. 
           type: string
-          format: date
-          #x-is-msdate: true
-          x-is-msdate-temp: true
+          x-is-msdate: true
         StatusAttributeString:
           description: A string to indicate if a invoice status
           type: string
@@ -19704,9 +19680,7 @@ components:
           $ref: '#/components/schemas/ExternalLink'
         UpdatedDateUTC:
           type: string
-          format: date-time
-          #x-is-msdate-time: true
-          x-is-msdate-time-temp: true
+          x-is-msdate-time: true
           example: "/Date(1573755038314)/"
           readOnly: true
         StatusAttributeString:
@@ -19758,9 +19732,7 @@ components:
         UpdatedDateUTC:
           description: Last modified date UTC format
           type: string
-          format: date-time
-          #x-is-msdate-time: true
-          x-is-msdate-time-temp: true
+          x-is-msdate-time: true
           example: "/Date(1573755038314)/"
           readOnly: true
         Total:
@@ -19785,16 +19757,12 @@ components:
           description: The date when the expense claim is due to be paid YYYY-MM-DD
           readOnly: true
           type: string
-          format: date
-          #x-is-msdate: true
-          x-is-msdate-temp: true
+          x-is-msdate: true
         ReportingDate:
           description: The date the expense claim will be reported in Xero YYYY-MM-DD
           readOnly: true
           type: string
-          format: date
-          #x-is-msdate: true
-          x-is-msdate-temp: true
+          x-is-msdate: true
         ReceiptID:
           description: The Xero identifier for the Receipt e.g.  e59a2c7f-1306-4078-a0f3-73537afcbba9
           type: string
@@ -19824,9 +19792,7 @@ components:
         DateUTC:
           description: UTC timestamp of creation date of branding theme
           type: string
-          format: date-time
-          #x-is-msdate-time: true
-          x-is-msdate-time-temp: true
+          x-is-msdate-time: true
           example: "/Date(1573755038314)/"
           readOnly: true
       type: object
@@ -19866,15 +19832,11 @@ components:
             specified it will default to the current date based on the timezone
             setting of the organisation
           type: string
-          format: date
-          #x-is-msdate: true
-          x-is-msdate-temp: true
+          x-is-msdate: true
         DueDate:
           description: Date invoice is due – YYYY-MM-DD
           type: string
-          format: date
-          #x-is-msdate: true
-          x-is-msdate-temp: true
+          x-is-msdate: true
         LineAmountTypes:
           $ref: '#/components/schemas/LineAmountTypes'
           type: string
@@ -19921,15 +19883,11 @@ components:
         ExpectedPaymentDate:
           description: Shown on sales invoices (Accounts Receivable) when this has been set
           type: string
-          format: date
-          #x-is-msdate: true
-          x-is-msdate-temp: true
+          x-is-msdate: true
         PlannedPaymentDate:
           description: Shown on bills (Accounts Payable) when this has been set
-          type: string
-          format: date          
-          #x-is-msdate: true
-          x-is-msdate-temp: true
+          type: string         
+          x-is-msdate: true
         CISDeduction:
           description: CIS deduction for UK contractors
           readOnly: true
@@ -20009,9 +19967,7 @@ components:
             invoices
           readOnly: true
           type: string
-          format: date
-          #x-is-msdate: true
-          x-is-msdate-temp: true
+          x-is-msdate: true
         AmountCredited:
           description: Sum of all credit notes, over-payments and pre-payments applied to
             invoice
@@ -20022,9 +19978,7 @@ components:
         UpdatedDateUTC:
           description: Last modified date UTC format
           type: string
-          format: date-time
-          #x-is-msdate-time: true
-          x-is-msdate-time-temp: true
+          x-is-msdate-time: true
           example: "/Date(1573755038314)/"
           readOnly: true
         CreditNotes:
@@ -20157,9 +20111,7 @@ components:
         UpdatedDateUTC:
           description: Last modified date in UTC format
           type: string
-          format: date-time
-          #x-is-msdate-time: true
-          x-is-msdate-time-temp: true
+          x-is-msdate-time: true
           example: "/Date(1573755038314)/"
           readOnly: true
         ItemID:
@@ -20217,18 +20169,14 @@ components:
         JournalDate:
           description: Date the journal was posted
           type: string
-          format: date
-          #x-is-msdate: true
-          x-is-msdate-temp: true
+          x-is-msdate: true
         JournalNumber:
           description: Xero generated journal number
           type: integer
         CreatedDateUTC:
           description: Created date UTC format
           type: string
-          format: date-time
-          #x-is-msdate-time: true
-          x-is-msdate-time-temp: true
+          x-is-msdate-time: true
           example: "/Date(1573755038314)/"
           readOnly: true
         Reference:
@@ -20395,9 +20343,7 @@ components:
         UpdatedDateUTC:
           description: The last modified date in UTC format
           type: string
-          format: date-time
-          #x-is-msdate-time: true
-          x-is-msdate-time-temp: true
+          x-is-msdate-time: true
           example: "/Date(1573755038314)/"
           readOnly: true
         SourceTransactionTypeCode:
@@ -20437,9 +20383,7 @@ components:
         Date:
           description: Date journal was posted – YYYY-MM-DD
           type: string
-          format: date
-          #x-is-msdate: true
-          x-is-msdate-temp: true
+          x-is-msdate: true
         LineAmountTypes:
           $ref: '#/components/schemas/LineAmountTypes'
           type: string
@@ -20468,9 +20412,7 @@ components:
         UpdatedDateUTC:
           description: Last modified date UTC format
           type: string
-          format: date-time
-          #x-is-msdate-time: true
-          x-is-msdate-time-temp: true
+          x-is-msdate-time: true
           example: "/Date(1573755038314)/"
           readOnly: true
         ManualJournalID:
@@ -20671,21 +20613,15 @@ components:
         PeriodLockDate:
           description: Shown if set. See lock dates
           type: string
-          format: date
-          #x-is-msdate: true
-          x-is-msdate-temp: true
+          x-is-msdate: true
         EndOfYearLockDate:
           description: Shown if set. See lock dates
           type: string
-          format: date
-          #x-is-msdate: true
-          x-is-msdate-temp: true
+          x-is-msdate: true
         CreatedDateUTC:
           description: Timestamp when the organisation was created in Xero
           type: string
-          format: date-time
-          #x-is-msdate-time: true
-          x-is-msdate-time-temp: true
+          x-is-msdate-time: true
           example: "/Date(1573755038314)/"
           readOnly: true
         Timezone:
@@ -21177,9 +21113,7 @@ components:
         Date:
           description: The date the overpayment is created YYYY-MM-DD
           type: string
-          format: date
-          #x-is-msdate: true
-          x-is-msdate-temp: true
+          x-is-msdate: true
         Status:
           description: See Overpayment Status Codes
           type: string
@@ -21213,9 +21147,7 @@ components:
         UpdatedDateUTC:
           description: UTC timestamp of last update to the overpayment
           type: string
-          format: date-time
-          #x-is-msdate-time: true
-          x-is-msdate-time-temp: true
+          x-is-msdate-time: true
           example: "/Date(1573755038314)/"
           readOnly: true
         CurrencyCode:
@@ -21308,9 +21240,7 @@ components:
         Date:
           description: Date the payment is being made (YYYY-MM-DD) e.g. 2009-09-06
           type: string
-          format: date
-          #x-is-msdate: true
-          x-is-msdate-temp: true
+          x-is-msdate: true
         CurrencyRate:
           description: Exchange rate when payment is received. Only used for non base
             currency invoices and credit notes e.g. 0.7500
@@ -21352,9 +21282,7 @@ components:
         UpdatedDateUTC:
           description: UTC timestamp of last update to the payment
           type: string
-          format: date-time
-          #x-is-msdate-time: true
-          x-is-msdate-time-temp: true
+          x-is-msdate-time: true
           example: "/Date(1573755038314)/"
           readOnly: true
         PaymentID:
@@ -21414,9 +21342,7 @@ components:
         Date:
           description: The date the prepayment is created YYYY-MM-DD
           type: string
-          format: date
-          #x-is-msdate: true
-          x-is-msdate-temp: true
+          x-is-msdate: true
         Status:
           description: See Prepayment Status Codes
           type: string
@@ -21454,9 +21380,7 @@ components:
         UpdatedDateUTC:
           description: UTC timestamp of last update to the prepayment
           type: string
-          format: date-time
-          #x-is-msdate-time: true
-          x-is-msdate-time-temp: true
+          x-is-msdate-time: true
           example: "/Date(1573755038314)/"
           readOnly: true
         CurrencyCode:
@@ -21522,15 +21446,11 @@ components:
           description: Date purchase order was issued – YYYY-MM-DD. If the Date element is not specified then it will default to the current date based on the
             timezone setting of the organisation
           type: string
-          format: date
-          #x-is-msdate: true
-          x-is-msdate-temp: true
+          x-is-msdate: true
         DeliveryDate:
           description: Date the goods are to be delivered – YYYY-MM-DD
           type: string
-          format: date
-          #x-is-msdate: true
-          x-is-msdate-temp: true
+          x-is-msdate: true
         LineAmountTypes:
           $ref: '#/components/schemas/LineAmountTypes'
           type: string
@@ -21577,9 +21497,7 @@ components:
         ExpectedArrivalDate:
           description: The date the goods are expected to arrive.
           type: string
-          format: date
-          #x-is-msdate: true
-          x-is-msdate-temp: true
+          x-is-msdate: true
         PurchaseOrderID:
           description: Xero generated unique identifier for purchase order
           type: string
@@ -21622,9 +21540,7 @@ components:
         UpdatedDateUTC:
           description: Last modified date UTC format
           type: string
-          format: date-time
-          #x-is-msdate-time: true
-          x-is-msdate-time-temp: true
+          x-is-msdate-time: true
           example: "/Date(1573755038314)/"
           readOnly: true
         StatusAttributeString:
@@ -21685,18 +21601,14 @@ components:
         Date:
           description: Date quote was issued – YYYY-MM-DD. If the Date element is not specified it will default to the current date based on the timezone setting of the organisation
           type: string
-          format: date
-          #x-is-msdate: true
-          x-is-msdate-temp: true
+          x-is-msdate: true
         DateString:
           description: Date the quote was issued (YYYY-MM-DD)
           type: string
         ExpiryDate:
           description: Date the quote expires – YYYY-MM-DD.
           type: string
-          format: date
-          #x-is-msdate: true
-          x-is-msdate-temp: true
+          x-is-msdate: true
         ExpiryDateString:
           description: Date the quote expires – YYYY-MM-DD.
           type: string
@@ -21749,9 +21661,7 @@ components:
         UpdatedDateUTC:
           description: Last modified date UTC format
           type: string
-          format: date-time
-          #x-is-msdate-time: true
-          x-is-msdate-time-temp: true
+          x-is-msdate-time: true
           example: "/Date(1573755038314)/"
           readOnly: true
         LineAmountTypes:
@@ -21799,9 +21709,7 @@ components:
         Date:
           description: Date of receipt – YYYY-MM-DD
           type: string
-          format: date
-          #x-is-msdate: true
-          x-is-msdate-temp: true
+          x-is-msdate: true
         Contact:
           $ref: '#/components/schemas/Contact'
         LineItems:
@@ -21851,9 +21759,7 @@ components:
         UpdatedDateUTC:
           description: Last modified date UTC format
           type: string
-          format: date-time
-          #x-is-msdate-time: true
-          x-is-msdate-time-temp: true
+          x-is-msdate-time: true
           example: "/Date(1573755038314)/"
           readOnly: true
         HasAttachments:
@@ -22003,9 +21909,7 @@ components:
         UpdatedDateUTC:
           description: Updated Date
           type: string
-          format: date-time
-          #x-is-msdate-time: true
-          x-is-msdate-time-temp: true
+          x-is-msdate-time: true
           example: "/Date(1573755038314)/"
           readOnly: true
         Fields:
@@ -22104,9 +22008,7 @@ components:
         UpdatedDateUTC:
           description: Updated Date
           type: string
-          format: date-time
-          #x-is-msdate-time: true
-          x-is-msdate-time-temp: true
+          x-is-msdate-time: true
           example: "/Date(1573755038314)/"
           readOnly: true
         Contacts:
@@ -22238,22 +22140,15 @@ components:
           description: Date the first invoice of the current version of the repeating
             schedule was generated (changes when repeating invoice is edited)
           type: string
-          format: date
-          #x-is-msdate: true
-          x-is-msdate-temp: true
+          x-is-msdate: true
         NextScheduledDate:
-          description: The calendar date of the next invoice in the schedule to be
-            generated
+          description: The calendar date of the next invoice in the schedule to be generated
           type: string
-          format: date
-          #x-is-msdate: true
-          x-is-msdate-temp: true
+          x-is-msdate: true
         EndDate:
           description: Invoice end date – only returned if the template has an end date set
           type: string
-          format: date
-          #x-is-msdate: true
-          x-is-msdate-temp: true
+          x-is-msdate: true
       type: object
     TaxRates:
       type: object
@@ -22595,9 +22490,7 @@ components:
         UpdatedDateUTC:
           description: Timestamp of last change to user
           type: string
-          format: date-time
-          #x-is-msdate-time: true
-          x-is-msdate-time-temp: true
+          x-is-msdate-time: true
           example: "/Date(1573755038314)/"
           readOnly: true
         IsSubscriber:
