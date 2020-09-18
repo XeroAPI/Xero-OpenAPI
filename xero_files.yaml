@@ -15,7 +15,11 @@ tags:
     description: Operations available to regular developers
 paths:
   /Files:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     get:
+      security:
+        - OAuth2: [files.read]
       tags:
         - Files
       operationId: getFiles
@@ -55,6 +59,8 @@ paths:
         '400':
           description: bad input parameter - TODO
     post:
+      security:
+        - OAuth2: [files]
       tags:
         - Files
       summary: upload an File
@@ -95,7 +101,11 @@ paths:
                 mimeType:
                   type: string
   /Files/{FileId}:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     get:
+      security:
+        - OAuth2: [files.read]
       tags:
         - Files
       summary: searches for file by unique id
@@ -117,6 +127,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/FileObject'
     put:
+      security:
+        - OAuth2: [files]
       tags:
         - Files
       summary: Update a file 
@@ -144,6 +156,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/FileObject'
     delete:
+      security:
+        - OAuth2: [files]
       tags:
         - Files
       summary: delete a file
@@ -166,7 +180,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/FileResponse204'
   /Files/{FileId}/Content:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     get:
+      security:
+        - OAuth2: [files.read]
       tags:
         - Files
       summary: searches files to retrieve the data
@@ -190,7 +208,11 @@ paths:
                 type: string
                 format: binary
   /Files/{FileId}/Associations:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     get:
+      security:
+        - OAuth2: [files.read]
       tags:
         - Files
       summary: searches files
@@ -216,6 +238,8 @@ paths:
                 items:
                   $ref: '#/components/schemas/Association'
     post:
+      security:
+        - OAuth2: [files]
       tags:
         - Files
       summary: create a new association
@@ -245,7 +269,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/Association'
   /Files/{FileId}/Associations/{ObjectId}:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     delete:
+      security:
+        - OAuth2: [files]
       tags:
         - Files
       summary: create a new association
@@ -278,7 +306,11 @@ paths:
         '400':
           description: bad input parameter - TODO
   /Associations/{ObjectId}:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     get:
+      security:
+        - OAuth2: [files.read]
       tags:
         - Files
       summary: searches files
@@ -303,7 +335,11 @@ paths:
                 items:
                   $ref: '#/components/schemas/Association'
   /Folders:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     get:
+      security:
+        - OAuth2: [files.read]
       tags:
         - Files
       summary: searches folder
@@ -333,6 +369,8 @@ paths:
         '400':
           description: bad input parameter - TODO
     post:
+      security:
+        - OAuth2: [files]
       tags:
         - Files
       summary: create a new folder
@@ -353,7 +391,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/Folder'
   /Folders/{FolderId}:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     get:
+      security:
+        - OAuth2: [files.read]
       tags:
         - Files
       summary: searches specific folder by id
@@ -378,6 +420,8 @@ paths:
         '400':
           description: bad input parameter - TODO
     put:
+      security:
+        - OAuth2: [files]
       tags:
         - Files
       summary: update folder
@@ -408,6 +452,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/Folder'
     delete:
+      security:
+        - OAuth2: [files]
       tags:
         - Files
       summary: delete a folder
@@ -432,7 +478,11 @@ paths:
         '400':
           description: bad input parameter - TODO
   /Inbox:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     get:
+      security:
+        - OAuth2: [files.read]
       tags:
         - Files
       summary: searches inbox folder 
@@ -448,6 +498,29 @@ paths:
         '400':
           description: bad input parameter - TODO
 components:
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      description: For more information
+      flows: 
+        authorizationCode:
+          authorizationUrl: 'https://login.xero.com/identity/connect/authorize'
+          tokenUrl: 'https://identity.xero.com/connect/token'
+          scopes:
+            email: Grant read-only access to your email
+            openid: Grant read-only access to your open id
+            profile: your profile information
+            files: Grant read-write access to files and folders
+            files.read: Grant read-only access to files and folders
+  parameters:
+    requiredHeader: 
+      in: header
+      name: xero-tenant-id
+      description: Xero identifier for Tenant
+      example: YOUR_XERO_TENANT_ID
+      schema:
+        type: string
+      required: true
   schemas:
     Files:
       type: object
