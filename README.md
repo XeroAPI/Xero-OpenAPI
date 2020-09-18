@@ -6,16 +6,16 @@ This repository holds the official Xero [OpenAPI](https://www.openapis.org/) des
 
 OpenAPI spec 3.0
 In Release (used for one or more SDKs)
-* [Accounting](https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/master/accounting-yaml/xero_accounting.yaml)
-* [Identity](https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/master/identity-yaml/xero-identity.yaml)
-* [Bank Feeds](https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/master/bankfeeds-yaml/xero_bankfeeds.yaml)
-* [Fixed Assets](https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/master/assets-yaml/xero_assets.yaml)
-* [Project](https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/master/projects-yaml/Xero-projects.yaml)
-* [Payroll AU](https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/master/payroll-au-yaml/xero-payroll-au.yaml)
-* [Payroll UK -beta](https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/master/payroll-uk-yaml/xero-payroll-uk.yaml)
+* [Accounting](https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/master/xero_accounting.yaml)
+* [Identity](https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/master/xero-identity.yaml)
+* [Bank Feeds](https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/master/xero_bankfeeds.yaml)
+* [Fixed Assets](https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/master/xero_assets.yaml)
+* [Project](https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/master/xero-projects.yaml)
+* [Payroll AU](https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/master/xero-payroll-au.yaml)
+* [Payroll UK](https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/master/xero-payroll-uk.yaml)
+* [Payroll NZ](https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/master/xero-payroll-nz.yaml)
 
 In Development
-* Payroll NZ
 * Files
 * Xero HQ
 
