@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Accounting API
-  version: "2.3.0"
+  version: "2.3.1"
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
   contact:
     name: "Xero Platform Team"
@@ -11691,29 +11691,28 @@ paths:
               schema:
                 $ref: '#/components/schemas/Quotes'
               example: '{ quotes: [{ contact: { contactID: "00000000-0000-0000-000-000000000000" }, lineItems: [{ description: "Foobar", quantity: 1.0, unitAmount: 20.0, accountCode: "12775" }], date: "2020-02-01" }]}'
-  '/Quotes/{QuoteID}':
+  '/Quotes/{QuoteNumber}':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     x-related-model: Quote
     get:
       security:
-        - OAuth2: [accounting.transactions.read]
+        - OAuth2: ['accounting.transactions.read']
       tags:
         - Accounting
-      operationId: getQuote
-      summary: Allows you to retrieve a specified quote
+      operationId: getQuoteByNumber
+      summary: Allows you to retrieve a specified quote by the quote number
       parameters:
         - required: true
           in: path
-          name: QuoteID
-          description: Unique identifier for an Quote
-          example: "00000000-0000-0000-000-000000000000"
+          name: QuoteNumber
+          description: Unique identifier for a Quote
+          example: "QU01234"
           schema:
             type: string
-            format: uuid
       responses:
         '200':
-          description: Success - return response of type Quotes array with specified Quote
+          description: Success - return response of type Quote array for specified Quote
           content:
             application/json:
               schema:
@@ -11777,24 +11776,29 @@ paths:
                             }
                         ]
                       }'
+  '/Quotes/{QuoteID}':
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    x-related-model: Quote
     get:
       security:
-        - OAuth2: ['accounting.transactions.read']
+        - OAuth2: [accounting.transactions.read]
       tags:
         - Accounting
-      operationId: getQuoteByNumber
+      operationId: getQuote
       summary: Allows you to retrieve a specified quote
       parameters:
         - required: true
           in: path
-          name: QuoteNumber
-          description: Unique identifier for a Quote
-          example: "QU01234"
+          name: QuoteID
+          description: Unique identifier for an Quote
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
+            format: uuid
       responses:
         '200':
-          description: Success - return response of type Quote array for specified Quote
+          description: Success - return response of type Quotes array with specified Quote
           content:
             application/json:
               schema:
