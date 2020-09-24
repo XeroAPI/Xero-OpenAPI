@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: '2.2.10'
+  version: '2.3.0'
   title: 'Xero Payroll AU'
   description: 'This is the Xero Payroll API for orgs in Australia region.'
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
@@ -835,7 +835,7 @@ paths:
                                 "Name": "Annual Leave",
                                 "TypeOfUnits": "Hours",
                                 "NormalEntitlement": 152,
-                                "LeaveLoadingRate": 1,
+                                "LeaveLoadingRate": 1.0,
                                 "IsPaidLeave": true,
                                 "ShowOnPayslip": true,
                                 "UpdatedDateUTC": "/Date(1573620853000+0000)/",
@@ -3292,10 +3292,8 @@ components:
           example: 1.5
         AccrueLeave:
           description: Indicates that this earnings rate should accrue leave. Only applicable if RateType is MULTIPLE
-          type: number
-          format: double
-          x-is-money: true
-          example: 1.5
+          type: boolean
+          example: false
         Amount:
           description: Optional Amount for FIXEDAMOUNT RateType EarningsRate
           type: number
@@ -3385,8 +3383,9 @@ components:
           example: 152.0000
         LeaveLoadingRate:
           description: Enter an amount here if your organisation pays an additional percentage on top of ordinary earnings when your employees take leave (typically 17.5%)
-          type: integer
-          example: 12
+          type: number
+          format: double
+          example: 2.0000
         UpdatedDateUTC:
           description: Last modified timestamp
           type: string
@@ -3462,7 +3461,6 @@ components:
     TaxDeclaration:
       required:
         - EmployeeID
-        - EmploymentBasis
       properties:
         EmployeeID:
           description: Address line 1 for employee home address
@@ -3585,7 +3583,6 @@ components:
       type: object
       required:
       - EarningsRateID
-      - CalculationType
       properties:
         EarningsRateID:
           description: Xero unique id for earnings rate
@@ -3765,7 +3762,19 @@ components:
           type: boolean
           example: true
         NumberOfUnits:
-          description: Leave number of units
+          description: Number of units for leave line.
+          type: number
+          format: double
+          x-is-money: true
+          example: 2.5
+        AnnualNumberOfUnits:
+          description: Hours of leave accrued each year
+          type: number
+          format: double
+          x-is-money: true
+          example: 2.5
+        FullTimeNumberOfUnitsPerPeriod:
+          description: Normal ordinary earnings number of units for leave line.
           type: number
           format: double
           x-is-money: true
@@ -4000,7 +4009,7 @@ components:
           example: 2187a42b-639a-45cb-9eed-cd4ae488306a
         EmployeeNumber:
           description: The memberhsip number assigned to the employee by the super fund.
-          type: number
+          type: string
           example: 1234
     AccountType:
       description: See Account Types

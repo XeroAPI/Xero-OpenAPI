@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: '2.2.10'
+  version: '2.3.0'
   title: 'Xero Payroll UK'
   description: 'This is the Xero Payroll API for orgs in the UK region.'
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
@@ -11,7 +11,7 @@ info:
 tags:
   - name: PayrollUk
 servers:
-  - description: Xero Payroll AU API
+  - description: Xero Payroll UK API
     url: https://api.xero.com/payroll.xro/2.0
 paths:
   /Employees:
@@ -3969,7 +3969,7 @@ paths:
         - OAuth2: [payroll.payslip.read, payroll.payslip]
       tags:
         - PayrollUk
-      operationId: getPayslips
+      operationId: getPaySlips
       x-hasPayrollUkProblem: true
       summary: searches payslips
       parameters:
@@ -5079,7 +5079,6 @@ components:
         - expenseAccountId
         - calculationType
         - percentage
-        - standardAmount
       properties:
         id:
           description: unique identifier in Xero
@@ -5160,9 +5159,7 @@ components:
       type: object
       required:
         - deductionName
-        - deductionCategory
         - liabilityAccountId
-        - calculationType
       properties:
         deductionId:
           description: The Xero identifier for Deduction
@@ -5175,10 +5172,15 @@ components:
           description: Deduction Category type
           type: string
           enum:
+            - CapitalContributions
+            - ChildCareVoucher
+            - MakingGood
+            - PostgraduateLoanDeductions
+            - PrivateUsePayments
+            - SalarySacrifice
             - StakeholderPension
             - StakeholderPensionPostTax
-            - ChildCareVoucher
-            - SalarySacrifice
+            - StudentLoanDeductions
             - UkOther
         liabilityAccountId:
           description: Xero identifier for Liability Account
@@ -5350,16 +5352,21 @@ components:
           description: Indicates how an employee will be paid when taking this type of earning
           type: string
           enum:
-            - OvertimeEarnings
             - Allowance
-            - RegularEarnings
-            - Commission
+            - Backpay
             - Bonus
+            - Commission
+            - LumpSum
+            - OtherEarnings
+            - OvertimeEarnings
+            - RegularEarnings
+            - StatutoryAdoptionPay
+            - StatutoryMaternityPay
+            - StatutoryPaternityPay
+            - StatutorySharedParentalPay
+            - StatutorySickPay
             - Tips(Direct)
             - Tips(Non-Direct)
-            - Backpay
-            - OtherEarnings
-            - LumpSum
         rateType:
           description: Indicates the type of the earning rate
           type: string
@@ -5711,8 +5718,6 @@ components:
       required:
         - earningsRateID
         - numberOfUnitsPerWeek
-        - ratePerUnit
-        - numberOfUnitsPerDay
         - effectiveFrom
         - annualSalary
         - status
@@ -5753,6 +5758,7 @@ components:
           enum:
             - Active
             - Pending
+            - History
         paymentType:
           description: The type of the payment of the corresponding salary and wages
           type: string
