@@ -11422,6 +11422,266 @@ paths:
           $ref: '#/components/responses/400Error'
       requestBody:
         $ref: '#/components/requestBodies/historyRecords'
+  '/PurchaseOrders/{PurchaseOrderID}/Attachments':
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    x-related-model: Account
+    get:
+      security:
+        - OAuth2: [accounting.attachments.read]
+      tags:
+        - Accounting
+      operationId: getPurchaseOrdersAttachments
+      summary: Allows you to retrieve attachments for purchase orders
+      parameters:
+        - required: true
+          in: path
+          name: PurchaseOrderID
+          description: Unique identifier for Purchase Orders object
+          example: "00000000-0000-0000-000-000000000000"
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Success - return response of type Attachments array of Purchase Orders 
+          x-isAttachment: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Attachments'
+              example: '{
+                  "Id": "dfc29f55-8ddd-4921-a82c-bcc0798d207f",
+                  "Status": "OK",
+                  "ProviderName": "Xero API Partner",
+                  "DateTimeUTC": "/Date(1602100184437)/",
+                  "Attachments": [
+                      {
+                          "AttachmentID": "dce4eaa7-c8a9-4867-9434-95832b427d3b",
+                          "FileName": "xero-dev1.png",
+                          "Url": "https://api.xero.com/api.xro/2.0/PurchaseOrders/93369c9b-c481-4e21-aaab-bb19e9a26efe/Attachments/2D_2.png",
+                          "MimeType": "image/png",
+                          "ContentLength": 98715
+                      },
+                      {
+                          "AttachmentID": "e58bd37b-e47f-451a-a42c-f946ef229c3e",
+                          "FileName": "xero-dev2.png",
+                          "Url": "https://api.xero.com/api.xro/2.0/PurchaseOrders/93369c9b-c481-4e21-aaab-bb19e9a26efe/Attachments/2D.png",
+                          "MimeType": "image/png",
+                          "ContentLength": 82529
+                      },
+                      {
+                          "AttachmentID": "c8faa564-223f-45e4-a5a1-94430a5b52c1",
+                          "FileName": "xero-dev3.png",
+                          "Url": "https://api.xero.com/api.xro/2.0/PurchaseOrders/93369c9b-c481-4e21-aaab-bb19e9a26efe/Attachments/Screen%20Shot%202020-09-12%20at%204.31.14%20pm.png",
+                          "MimeType": "image/png",
+                          "ContentLength": 146384
+                      }
+                  ]
+              }'
+  '/PurchaseOrders/{PurchaseOrderID}/Attachments/{AttachmentID}':
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    x-related-model: Account
+    get:
+      security:
+        - OAuth2: [accounting.attachments.read]
+      tags:
+        - Accounting
+      operationId: getPurchaseOrderAttachmentById
+      summary: Allows you to retrieve specific Attachment on purchase order
+      parameters:
+        - required: true
+          in: path
+          name: PurchaseOrderID
+          description: Unique identifier for Purchase Order object
+          example: "00000000-0000-0000-000-000000000000"
+          schema:
+            type: string
+            format: uuid
+        - required: true
+          in: path
+          name: AttachmentID
+          description: Unique identifier for Attachment object
+          example: "00000000-0000-0000-000-000000000000"
+          schema:
+            type: string
+            format: uuid
+        - required: true
+          in: header
+          name: contentType
+          description: The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf 
+          example: image/jpg
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success - return response of attachment for Account as binary data 
+          content:
+             application/octet-stream:
+              schema:
+                type: string
+                format: binary
+  '/PurchaseOrders/{PurchaseOrderID}/Attachments/{FileName}':
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    x-related-model: Account
+    get:
+      security:
+        - OAuth2: [accounting.attachments.read]
+      tags:
+        - Accounting
+      operationId: getPurchaseOrder≠AttachmentByFileName
+      summary: Allows you to retrieve Attachment on a Purchase Order by Filename
+      parameters:
+        - required: true
+          in: path
+          name: PurchaseOrderID
+          description: Unique identifier for Purchase Order object
+          example: "00000000-0000-0000-000-000000000000"
+          schema:
+            type: string
+            format: uuid
+        - required: true
+          in: path
+          name: FileName
+          description: Name of the attachment
+          example: "xero-dev.jpg"
+          schema:
+            type: string
+        - required: true
+          in: header
+          name: contentType
+          description: The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf 
+          example: image/jpg
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success - return response of attachment for Purchase Order as binary data 
+          content:
+             application/octet-stream:
+              schema:
+                type: string
+                format: binary
+    post:
+      security:
+        - OAuth2: [accounting.attachments]
+      tags:
+        - Accounting
+      operationId: updatePurchaseOrderAttachmentByFileName
+      x-hasAccountingValidationError: true
+      summary: Allows you to update Attachment on Purchase Order by Filename
+      parameters:
+        - required: true
+          in: path
+          name: PurchaseOrderID
+          description: Unique identifier for Purchase Order object
+          example: "00000000-0000-0000-000-000000000000"
+          schema:
+            type: string
+            format: uuid
+        - required: true
+          in: path
+          name: FileName
+          description: Name of the attachment
+          example: "xero-dev.png"
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success - return response of type Attachments array of Attachment 
+          x-isAttachment: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Attachments'
+              example: '{
+                    "Id": "aeff9be0-54c2-45dd-8e3d-aa4f8af0fbd7",
+                    "Status": "OK",
+                    "ProviderName": "Xero API Partner",
+                    "DateTimeUTC": "/Date(1602100086197)/",
+                    "Attachments": [
+                        {
+                            "AttachmentID": "dce4eaa7-c8a9-4867-9434-95832b427d3b",
+                            "FileName": "xero-dev.png",
+                            "Url": "https://api.xero.com/api.xro/2.0/PurchaseOrders/93369c9b-c481-4e21-aaab-bb19e9a26efe/Attachments/2D_2.png",
+                            "MimeType": "image/png",
+                            "ContentLength": 98715
+                        }
+                    ]
+                }'
+        '400':
+          description: Validation Error - some data was incorrect returns response of type Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      requestBody:
+        required: true
+        description: Byte array of file in body of request
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: byte
+    put:
+      security:
+        - OAuth2: [accounting.attachments]
+      tags:
+        - Accounting
+      operationId: createPurchaseOrderAttachmentByFileName
+      x-hasAccountingValidationError: true
+      summary: Allows you to create Attachment on Purchase Order
+      parameters:
+        - required: true
+          in: path
+          name: PurchaseOrderID
+          description: Unique identifier for Purchase Order object
+          example: 00000000-0000-0000-000-000000000000
+          schema:
+            type: string
+            format: uuid
+        - required: true
+          in: path
+          name: FileName
+          description: Name of the attachment
+          example: xero-dev.png
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success - return response of type Attachments array of Attachment 
+          x-isAttachment: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Attachments'
+              example: '{
+                    "Id": "c728a4a4-179e-4bbd-a2d5-63e7f9ceba92",
+                    "Status": "OK",
+                    "ProviderName": "Xero API Partner",
+                    "DateTimeUTC": "/Date(1602099934723)/",
+                    "Attachments": [
+                        {
+                            "AttachmentID": "e58bd37b-e47f-451a-a42c-f946ef229c3e",
+                            "FileName": "xero-dev.png",
+                            "Url": "https://api.xero.com/api.xro/2.0/PurchaseOrders/93369c9b-c481-4e21-aaab-bb19e9a26efe/Attachments/2D.png",
+                            "MimeType": "image/png",
+                            "ContentLength": 82529
+                        }
+                    ]
+                }'
+        '400':
+          $ref: '#/components/responses/400Error'
+      requestBody:
+        required: true
+        description: Byte array of file in body of request
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: byte
   /Quotes:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
