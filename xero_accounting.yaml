@@ -8851,6 +8851,56 @@ paths:
                             }
                           ]
                         }'
+  '/Organisation/Actions':
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    x-related-model: Organisation
+    get:
+      security:
+        - OAuth2: [accounting.settings.read]
+      tags:
+        - Accounting
+      operationId: getOrganisationActions
+      summary: Retrieve a list of the key actions your app has permission to perform in the connected organisation.
+      responses:
+        '200':
+          description: Success - return response of type Actions array with all key actions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organisations'
+              example: '{
+                        "Actions":[
+                            {
+                              "Name":"UseMulticurrency",
+                              "Status":"ALLOWED"
+                            },
+                            {
+                              "Name":"CreateApprovedBill",
+                              "Status":"NOT-ALLOWED"
+                            },
+                            {
+                              "Name":"CreateDraftBill",
+                              "Status":"ALLOWED"
+                            },
+                            {
+                              "Name":"CreateRepeatingBill",
+                              "Status":"NOT-ALLOWED"
+                            },
+                            {
+                              "Name":"CreateApprovedInvoice",
+                              "Status":"ALLOWED"
+                            },
+                            {
+                              "Name":"AttachFilesIntoInvoice",
+                              "Status":"ALLOWED"
+                            },
+                            {
+                              "Name":"CreateDraftInvoice",
+                              "Status":"ALLOWED"
+                            }
+                        ]
+                      }'
   '/Organisation/{OrganisationID}/CISSettings':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
