@@ -8868,7 +8868,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Organisations'
+                $ref: '#/components/schemas/Actions'
               example: '{
                         "Actions":[
                             {
@@ -19044,7 +19044,6 @@ components:
         Details:
           description: (Non-NZ Only) These details are sent to the org’s bank as a reference for the batch payment transaction. They will also show with the batch payment transaction in the bank reconciliation Find & Match screen. Depending on your individual bank, the detail may also show on the bank statement imported into Xero. Maximum field length = 18
           type: string
-          maxLength: 18
           example: Hello World
         Code:
           description: (NZ Only) Optional references for the batch payment transaction. It will also show with the batch payment transaction in the bank reconciliation Find & Match screen. Depending on your individual bank, the detail may also show on the bank statement you import into Xero. 
@@ -20805,6 +20804,28 @@ components:
           type: boolean
           example: false
       type: object
+    Actions:
+      type: object
+      x-isObjectArray: true
+      properties:
+        Actions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Action'    
+    Action:
+      externalDocs:
+        url: 'http://developer.xero.com/documentation/api/organisation/'
+      properties:
+        Name:
+          description: Name of the actions for this organisation
+          type: string
+          example: UseMulticurrency
+        Status:
+          description: Status of the action for this organisation
+          type: string
+          enum:
+            - ALLOWED
+            - NOT-ALLOWED
     Organisations:
       type: object
       x-isObjectArray: true
