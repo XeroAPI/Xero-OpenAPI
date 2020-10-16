@@ -8868,7 +8868,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Organisations'
+                $ref: '#/components/schemas/Actions'
               example: '{
                         "Actions":[
                             {
@@ -20805,6 +20805,28 @@ components:
           type: boolean
           example: false
       type: object
+    Actions:
+      type: object
+      x-isObjectArray: true
+      properties:
+        Actions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Action'    
+    Action:
+      externalDocs:
+        url: 'http://developer.xero.com/documentation/api/organisation/'
+      properties:
+        Name:
+          description: Name of the actions for this organisation
+          type: string
+          example: UseMulticurrency
+        Status:
+          description: Status of the action for this organisation
+          type: string
+          enum:
+            - ALLOWED
+            - NOT-ALLOWED
     Organisations:
       type: object
       x-isObjectArray: true
