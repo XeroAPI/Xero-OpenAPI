@@ -74,6 +74,7 @@ paths:
       operationId: createAccount
       x-hasAccountingValidationError: true
       x-ruby-requestBody: 'account = { code: "123456", name: "Foobar", type: XeroRuby::Accounting::AccountType::EXPENSE, description: "Hello World" }'
+      x-node-requestBody: '{ code: "123456", name: "Foobar", type: AccountType.EXPENSE, description: "Hello World" }'
       summary: Allows you to create a new chart of accounts
       x-php:
           - '$account = new XeroAPI\XeroPHP\Models\Accounting\Account;'
@@ -144,7 +145,12 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Account'
-            example: '{ code: "123456", name: "Foobar", type: AccountType.EXPENSE, description: "Hello World" }'
+            example: '{
+                        "Code":"123456",
+                        "Name":"Foobar",
+                        "Type":"EXPENSE",
+                        "Description":"Hello World"
+                      }'
   '/Accounts/{AccountID}':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -202,6 +208,8 @@ paths:
         - Accounting
       operationId: updateAccount
       x-hasAccountingValidationError: true
+      x-ruby-requestBody: '{ accounts: [{ code: "123456", name: "BarFoo", account_id: "00000000-0000-0000-000-000000000000", type: XeroRuby::Accounting::Account::EXPENSE, description: "GoodBye World", tax_type: XeroRuby::Accounting::TaxType::NONE }]}'
+      x-node-requestBody: '{ accounts: [{ code: "123456", name: "BarFoo", accountID: "00000000-0000-0000-000-000000000000", type: AccountType.EXPENSE, description: "GoodBye World", taxType: TaxType.INPUT }]}'
       summary: Allows you to update a chart of accounts
       parameters:
         - required: true
@@ -274,7 +282,24 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Accounts'
-            example: '{ accounts: [{ code: "123456", name: "BarFoo", accountID: "00000000-0000-0000-000-000000000000", type: AccountType.EXPENSE, description: "GoodBye World", taxType: TaxType.INPUT }]}'
+            example: '{  
+                        "Accounts":[  
+                          {  
+                              "Code":"123456",
+                              "Name":"BarFoo",
+                              "AccountID":"99ce6032-0678-4aa0-8148-240c75fee33a",
+                              "Type":"EXPENSE",
+                              "Description":"GoodBye World",
+                              "TaxType":"INPUT",
+                              "EnablePaymentsToAccount":false,
+                              "ShowInExpenseClaims":false,
+                              "Class":"EXPENSE",
+                              "ReportingCode":"EXP",
+                              "ReportingCodeName":"Expense",
+                              "UpdatedDateUTC":"2019-02-21T16:29:47.96-08:00"
+                          }
+                        ]
+                      }'
     delete:
       security:
         - OAuth2: [accounting.settings]
@@ -740,71 +765,71 @@ paths:
               schema:
                 $ref: '#/components/schemas/BatchPayments'
               example: '{
-                        "Id": "424745ed-6356-46ad-87d4-3585f9062fb4",
-                        "Status": "OK",
-                        "ProviderName": "Xero API Partner",
-                        "DateTimeUTC": "\/Date(1550865988111)\/",
-                        "BatchPayments": [
-                          {
-                            "Account": {
-                              "AccountID": "5ec2f302-cd60-4f8b-a915-9229dd45e6fa"
-                            },
-                            "Reference": "Foobar123",
-                            "BatchPaymentID": "d318c343-208e-49fe-b04a-45642349bcf1",
-                            "DateString": "2019-02-22T00:00:00",
-                            "Date": "\/Date(1550793600000+0000)\/",
-                            "Payments": [
-                              {
-                                "Invoice": {
-                                  "InvoiceID": "3323652c-155e-433b-8a73-4dde7cfbf410",
-                                  "Payments": [],
-                                  "CreditNotes": [],
-                                  "Prepayments": [],
-                                  "Overpayments": [],
-                                  "HasErrors": false,
-                                  "IsDiscounted": false,
-                                  "LineItems": []
-                                },
-                                "PaymentID": "c05098fa-ae3c-4f00-80ec-0a9df07dedff",
-                                "Amount": 1.00
+                          "Id": "424745ed-6356-46ad-87d4-3585f9062fb4",
+                          "Status": "OK",
+                          "ProviderName": "Xero API Partner",
+                          "DateTimeUTC": "\/Date(1550865988111)\/",
+                          "BatchPayments": [
+                            {
+                              "Account": {
+                                "AccountID": "5ec2f302-cd60-4f8b-a915-9229dd45e6fa"
                               },
-                              {
-                                "Invoice": {
-                                  "InvoiceID": "e4abafb4-1f5b-4d9f-80b3-9a7b815bc302",
-                                  "Payments": [],
-                                  "CreditNotes": [],
-                                  "Prepayments": [],
-                                  "Overpayments": [],
-                                  "HasErrors": false,
-                                  "IsDiscounted": false,
-                                  "LineItems": []
+                              "Reference": "Foobar123",
+                              "BatchPaymentID": "d318c343-208e-49fe-b04a-45642349bcf1",
+                              "DateString": "2019-02-22T00:00:00",
+                              "Date": "\/Date(1550793600000+0000)\/",
+                              "Payments": [
+                                {
+                                  "Invoice": {
+                                    "InvoiceID": "3323652c-155e-433b-8a73-4dde7cfbf410",
+                                    "Payments": [],
+                                    "CreditNotes": [],
+                                    "Prepayments": [],
+                                    "Overpayments": [],
+                                    "HasErrors": false,
+                                    "IsDiscounted": false,
+                                    "LineItems": []
+                                  },
+                                  "PaymentID": "c05098fa-ae3c-4f00-80ec-0a9df07dedff",
+                                  "Amount": 1.00
                                 },
-                                "PaymentID": "96409489-2f7d-4804-9a6d-6b939b0e038a",
-                                "Amount": 1.00
-                              },
-                              {
-                                "Invoice": {
-                                  "InvoiceID": "e6039672-b161-40cd-b07b-a0178e7186ad",
-                                  "Payments": [],
-                                  "CreditNotes": [],
-                                  "Prepayments": [],
-                                  "Overpayments": [],
-                                  "HasErrors": false,
-                                  "IsDiscounted": false,
-                                  "LineItems": []
+                                {
+                                  "Invoice": {
+                                    "InvoiceID": "e4abafb4-1f5b-4d9f-80b3-9a7b815bc302",
+                                    "Payments": [],
+                                    "CreditNotes": [],
+                                    "Prepayments": [],
+                                    "Overpayments": [],
+                                    "HasErrors": false,
+                                    "IsDiscounted": false,
+                                    "LineItems": []
+                                  },
+                                  "PaymentID": "96409489-2f7d-4804-9a6d-6b939b0e038a",
+                                  "Amount": 1.00
                                 },
-                                "PaymentID": "d2796067-bf71-4f06-b386-81f1454fa866",
-                                "Amount": 1.00
-                              }
-                            ],
-                            "Type": "RECBATCH",
-                            "Status": "AUTHORISED",
-                            "TotalAmount": 3.00,
-                            "UpdatedDateUTC": "\/Date(1550865987783+0000)\/",
-                            "IsReconciled": false
-                          }
-                        ]
-                      }'
+                                {
+                                  "Invoice": {
+                                    "InvoiceID": "e6039672-b161-40cd-b07b-a0178e7186ad",
+                                    "Payments": [],
+                                    "CreditNotes": [],
+                                    "Prepayments": [],
+                                    "Overpayments": [],
+                                    "HasErrors": false,
+                                    "IsDiscounted": false,
+                                    "LineItems": []
+                                  },
+                                  "PaymentID": "d2796067-bf71-4f06-b386-81f1454fa866",
+                                  "Amount": 1.00
+                                }
+                              ],
+                              "Type": "RECBATCH",
+                              "Status": "AUTHORISED",
+                              "TotalAmount": 3.00,
+                              "UpdatedDateUTC": "\/Date(1550865987783+0000)\/",
+                              "IsReconciled": false
+                            }
+                          ]
+                        }'
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
@@ -815,26 +840,28 @@ paths:
               schema:
                 $ref: '#/components/schemas/BatchPayments'
               example: '{
-                          batchPayments: [
+                          "BatchPayments": [
                             {
-                            account: {
-                              accountID: "00000000-0000-0000-000-000000000000"
-                            },
-                            reference: "ref",
-                            date: "2018-08-01",
-                            payments: [
-                              { 
-                                account: { code: "001" },
-                                date: "2019-12-31",
-                                amount: 500,
-                                invoice: {
-                                  invoiceID: "00000000-0000-0000-000-000000000000",
-                                  lineItems: [],
-                                  contact: {},
-                                  type: Invoice.TypeEnum.ACCPAY
+                              "Account": {
+                                "AccountID": "00000000-0000-0000-000-000000000000"
+                              },
+                              "Reference": "ref",
+                              "Date": "2018-08-01",
+                              "Payments": [
+                                {
+                                  "Account": {
+                                    "Code": "001"
+                                  },
+                                  "Date": "2019-12-31",
+                                  "Amount": 500,
+                                  "Invoice": {
+                                    "InvoiceID": "00000000-0000-0000-000-000000000000",
+                                    "LineItems": [],
+                                    "Contact": {},
+                                    "Type": "ACCPAY"
+                                  }
                                 }
-                                }
-                            ]
+                              ]
                             }
                           ]
                         }'
@@ -866,20 +893,20 @@ paths:
               schema:
                 $ref: '#/components/schemas/HistoryRecords'
               example: '{
-                        "Id": "c58e2f9c-baad-42a4-8bb7-f32b6f88fa04",
-                        "Status": "OK",
-                        "ProviderName": "Xero API Partner",
-                        "DateTimeUTC": "\/Date(1550898452503)\/",
-                        "HistoryRecords": [
-                          {
-                            "Changes": "Approved",
-                            "DateUTCString": "2017-11-28T18:29:52",
-                            "DateUTC": "\/Date(1511893792813+0000)\/",
-                            "User": "Sidney Maestre",
-                            "Details": ""
-                          }
-                        ]
-                      }'
+                          "Id": "c58e2f9c-baad-42a4-8bb7-f32b6f88fa04",
+                          "Status": "OK",
+                          "ProviderName": "Xero API Partner",
+                          "DateTimeUTC": "\/Date(1550898452503)\/",
+                          "HistoryRecords": [
+                            {
+                              "Changes": "Approved",
+                              "DateUTCString": "2017-11-28T18:29:52",
+                              "DateUTC": "\/Date(1511893792813+0000)\/",
+                              "User": "Buzz Lightyear",
+                              "Details": ""
+                            }
+                          ]
+                        }'
     put:
       security:
         - OAuth2: [accounting.transactions]
@@ -905,19 +932,19 @@ paths:
               schema:
                 $ref: '#/components/schemas/HistoryRecords'
               example: '{
-                      "Id": "d7525479-3392-44c0-bb37-ff4a0b5df5bd",
-                      "Status": "OK",
-                      "ProviderName": "Xero API Partner",
-                      "DateTimeUTC": "\/Date(1550899400362)\/",
-                      "HistoryRecords": [
-                        {
-                          "DateUTCString": "2019-02-23T05:23:20",
-                          "DateUTC": "\/Date(1550899400362)\/",
-                          "Details": "Hello World",
-                          "ValidationErrors": []
-                        }
-                      ]
-                    }'
+                          "Id": "d7525479-3392-44c0-bb37-ff4a0b5df5bd",
+                          "Status": "OK",
+                          "ProviderName": "Xero API Partner",
+                          "DateTimeUTC": "\/Date(1550899400362)\/",
+                          "HistoryRecords": [
+                            {
+                              "DateUTCString": "2019-02-23T05:23:20",
+                              "DateUTC": "\/Date(1550899400362)\/",
+                              "Details": "Hello World",
+                              "ValidationErrors": []
+                            }
+                          ]
+                        }'
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
@@ -961,146 +988,116 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/BankTransactions'
-              example: '{  
-                         "Id":"18e7e80c-5dca-4a57-974e-8b572cc5efe8",
-                         "Status":"OK",
-                         "ProviderName":"Xero API Partner",
-                         "DateTimeUTC":"\/Date(1551212901659)\/",
-                         "BankTransactions":[  
-                            {  
-                               "BankTransactionID":"db54aab0-ad40-4ced-bcff-0940ba20db2c",
-                               "BankAccount":{  
-                                  "AccountID":"6f7594f2-f059-4d56-9e67-47ac9733bfe9",
-                                  "Code":"088",
-                                  "Name":"Business Wells Fargo"
-                               },
-                               "BatchPayment": {
-                                  "Account": {
-                                    "AccountID": "6f7594f2-f059-4d56-9e67-47ac9733bfe9"
-                                  },
-                                  "BatchPaymentID": "b54aa50c-794c-461b-89d1-846e1b84d9c0",
-                                  "Date": "\/Date(1476316800000+0000)\/",
-                                  "Type": "RECBATCH",
-                                  "Status": "AUTHORISED",
-                                  "TotalAmount": "12.00",
-                                  "UpdatedDateUTC": "\/Date(1476392487037+0000)\/",
-                                  "IsReconciled": "false"
+              example: '{
+                          "Id": "18e7e80c-5dca-4a57-974e-8b572cc5efe8",
+                          "Status": "OK",
+                          "ProviderName": "Xero API Partner",
+                          "DateTimeUTC": "/Date(1551212901659)/",
+                          "BankTransactions": [
+                            {
+                              "BankTransactionID": "db54aab0-ad40-4ced-bcff-0940ba20db2c",
+                              "BankAccount": {
+                                "AccountID": "6f7594f2-f059-4d56-9e67-47ac9733bfe9",
+                                "Code": "088",
+                                "Name": "Business Wells Fargo"
+                              },
+                              "BatchPayment": {
+                                "Account": {
+                                  "AccountID": "6f7594f2-f059-4d56-9e67-47ac9733bfe9"
                                 },
-                               "Type":"RECEIVE",
-                               "IsReconciled":false,
-                               "PrepaymentID":"cb62750f-b49c-464b-a45b-e2e2c514c8a9",
-                               "HasAttachments":true,
-                               "Contact":{  
-                                  "ContactID":"9c2c64de-12c9-4167-b503-e2c0e1aa1f49",
-                                  "Name":"sam",
-                                  "Addresses":[  
-
-                                  ],
-                                  "Phones":[  
-
-                                  ],
-                                  "ContactGroups":[  
-
-                                  ],
-                                  "ContactPersons":[  
-
-                                  ],
-                                  "HasValidationErrors":false
-                               },
-                               "DateString":"2016-10-13T00:00:00",
-                               "Date":"\/Date(1476316800000+0000)\/",
-                               "Status":"AUTHORISED",
-                               "LineAmountTypes":"Exclusive",
-                               "LineItems":[  
-
-                               ],
-                               "SubTotal":10.00,
-                               "TotalTax":0.00,
-                               "Total":10.00,
-                               "UpdatedDateUTC":"\/Date(1476389616437+0000)\/",
-                               "CurrencyCode":"USD"
+                                "BatchPaymentID": "b54aa50c-794c-461b-89d1-846e1b84d9c0",
+                                "Date": "/Date(1476316800000+0000)/",
+                                "Type": "RECBATCH",
+                                "Status": "AUTHORISED",
+                                "TotalAmount": "12.00",
+                                "UpdatedDateUTC": "/Date(1476392487037+0000)/",
+                                "IsReconciled": "false"
+                              },
+                              "Type": "RECEIVE",
+                              "IsReconciled": false,
+                              "PrepaymentID": "cb62750f-b49c-464b-a45b-e2e2c514c8a9",
+                              "HasAttachments": true,
+                              "Contact": {
+                                "ContactID": "9c2c64de-12c9-4167-b503-e2c0e1aa1f49",
+                                "Name": "sam",
+                                "Addresses": [],
+                                "Phones": [],
+                                "ContactGroups": [],
+                                "ContactPersons": [],
+                                "HasValidationErrors": false
+                              },
+                              "DateString": "2016-10-13T00:00:00",
+                              "Date": "/Date(1476316800000+0000)/",
+                              "Status": "AUTHORISED",
+                              "LineAmountTypes": "Exclusive",
+                              "LineItems": [],
+                              "SubTotal": 10,
+                              "TotalTax": 0,
+                              "Total": 10,
+                              "UpdatedDateUTC": "/Date(1476389616437+0000)/",
+                              "CurrencyCode": "USD"
                             },
-                            {  
-                               "BankTransactionID":"29a69c45-64ca-4805-a1cc-34990de837b3",
-                               "BankAccount":{  
-                                  "AccountID":"6f7594f2-f059-4d56-9e67-47ac9733bfe9",
-                                  "Code":"088",
-                                  "Name":"Business Wells Fargo"
-                               },
-                               "Type":"SPEND-OVERPAYMENT",
-                               "IsReconciled":false,
-                               "OverpaymentID":"7d457db3-3b0a-47e9-8b79-81252a7bcdcb",
-                               "HasAttachments":false,
-                               "Contact":{  
-                                  "ContactID":"9c2c64de-12c9-4167-b503-e2c0e1aa1f49",
-                                  "Name":"sam",
-                                  "Addresses":[  
-
-                                  ],
-                                  "Phones":[  
-
-                                  ],
-                                  "ContactGroups":[  
-
-                                  ],
-                                  "ContactPersons":[  
-
-                                  ],
-                                  "HasValidationErrors":false
-                               },
-                               "DateString":"2016-10-13T00:00:00",
-                               "Date":"\/Date(1476316800000+0000)\/",
-                               "Status":"AUTHORISED",
-                               "LineAmountTypes":"NoTax",
-                               "LineItems":[  
-
-                               ],
-                               "SubTotal":9.00,
-                               "TotalTax":0.00,
-                               "Total":9.00,
-                               "UpdatedDateUTC":"\/Date(1476389930500+0000)\/",
-                               "CurrencyCode":"USD"
+                            {
+                              "BankTransactionID": "29a69c45-64ca-4805-a1cc-34990de837b3",
+                              "BankAccount": {
+                                "AccountID": "6f7594f2-f059-4d56-9e67-47ac9733bfe9",
+                                "Code": "088",
+                                "Name": "Business Wells Fargo"
+                              },
+                              "Type": "SPEND-OVERPAYMENT",
+                              "IsReconciled": false,
+                              "OverpaymentID": "7d457db3-3b0a-47e9-8b79-81252a7bcdcb",
+                              "HasAttachments": false,
+                              "Contact": {
+                                "ContactID": "9c2c64de-12c9-4167-b503-e2c0e1aa1f49",
+                                "Name": "sam",
+                                "Addresses": [],
+                                "Phones": [],
+                                "ContactGroups": [],
+                                "ContactPersons": [],
+                                "HasValidationErrors": false
+                              },
+                              "DateString": "2016-10-13T00:00:00",
+                              "Date": "/Date(1476316800000+0000)/",
+                              "Status": "AUTHORISED",
+                              "LineAmountTypes": "NoTax",
+                              "LineItems": [],
+                              "SubTotal": 9,
+                              "TotalTax": 0,
+                              "Total": 9,
+                              "UpdatedDateUTC": "/Date(1476389930500+0000)/",
+                              "CurrencyCode": "USD"
                             },
-                            {  
-                               "BankTransactionID":"0b89bf5c-d40b-4514-96be-36a739fb0188",
-                               "BankAccount":{  
-                                  "AccountID":"6f7594f2-f059-4d56-9e67-47ac9733bfe9",
-                                  "Code":"088",
-                                  "Name":"Business Wells Fargo"
-                               },
-                               "Type":"SPEND-OVERPAYMENT",
-                               "IsReconciled":false,
-                               "OverpaymentID":"bf9b5f33-c0d6-4182-84a2-40848023e5a1",
-                               "HasAttachments":false,
-                               "Contact":{  
-                                  "ContactID":"9c2c64de-12c9-4167-b503-e2c0e1aa1f49",
-                                  "Name":"sam",
-                                  "Addresses":[  
-
-                                  ],
-                                  "Phones":[  
-
-                                  ],
-                                  "ContactGroups":[  
-
-                                  ],
-                                  "ContactPersons":[  
-
-                                  ],
-                                  "HasValidationErrors":false
-                               },
-                               "DateString":"2016-10-13T00:00:00",
-                               "Date":"\/Date(1476316800000+0000)\/",
-                               "Status":"AUTHORISED",
-                               "LineAmountTypes":"NoTax",
-                               "LineItems":[  
-
-                               ],
-                               "SubTotal":8.00,
-                               "TotalTax":0.00,
-                               "Total":8.00,
-                               "UpdatedDateUTC":"\/Date(1476392487037+0000)\/",
-                               "CurrencyCode":"USD"
+                            {
+                              "BankTransactionID": "0b89bf5c-d40b-4514-96be-36a739fb0188",
+                              "BankAccount": {
+                                "AccountID": "6f7594f2-f059-4d56-9e67-47ac9733bfe9",
+                                "Code": "088",
+                                "Name": "Business Wells Fargo"
+                              },
+                              "Type": "SPEND-OVERPAYMENT",
+                              "IsReconciled": false,
+                              "OverpaymentID": "bf9b5f33-c0d6-4182-84a2-40848023e5a1",
+                              "HasAttachments": false,
+                              "Contact": {
+                                "ContactID": "9c2c64de-12c9-4167-b503-e2c0e1aa1f49",
+                                "Name": "sam",
+                                "Addresses": [],
+                                "Phones": [],
+                                "ContactGroups": [],
+                                "ContactPersons": [],
+                                "HasValidationErrors": false
+                              },
+                              "DateString": "2016-10-13T00:00:00",
+                              "Date": "/Date(1476316800000+0000)/",
+                              "Status": "AUTHORISED",
+                              "LineAmountTypes": "NoTax",
+                              "LineItems": [],
+                              "SubTotal": 8,
+                              "TotalTax": 0,
+                              "Total": 8,
+                              "UpdatedDateUTC": "/Date(1476392487037+0000)/",
+                              "CurrencyCode": "USD"
                             }
                           ]
                         }'
@@ -1111,6 +1108,7 @@ paths:
         - Accounting
       operationId: createBankTransactions
       x-hasAccountingValidationError: true
+      x-node-requestBody: '{ bankTransactions: [{ type: BankTransaction.TypeEnum.SPEND, contact: { contactID: "00000000-0000-0000-000-000000000000" }, lineItems: [{ description: "Foobar", quantity: 1.0, unitAmount: 20.0, accountCode: "000" } ], bankAccount: { code: "000" }}]}'
       x-ruby-requestBody: 'bank_transactions = { bank_transactions: [{ type: XeroRuby::Accounting::BankTransaction::SPEND, contact: { contact_id: "00000000-0000-0000-000-000000000000" }, line_items: [{ description: "Foobar", quantity: 1.0, unit_amount: 20.0, account_code: "000" } ], bank_account: { code: "000" }}]}'
       summary: Allows you to create one or more spend or receive money transaction
       parameters:
@@ -1376,7 +1374,27 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/BankTransactions'
-            example: '{ bankTransactions: [{ type: BankTransaction.TypeEnum.SPEND, contact: { contactID: "00000000-0000-0000-000-000000000000" }, lineItems: [{ description: "Foobar", quantity: 1.0, unitAmount: 20.0, accountCode: "000" } ], bankAccount: { code: "000" }}]}'
+            example: '{
+                        "BankTransactions": [
+                          {
+                            "Type": "SPEND",
+                            "Contact": {
+                              "ContactID": "00000000-0000-0000-000-000000000000"
+                            },
+                            "Lineitems": [
+                              {
+                                "Description": "Foobar",
+                                "Quantity": 1,
+                                "UnitAmount": 20,
+                                "AccountCode": "400"
+                              }
+                            ],
+                            "BankAccount": {
+                              "Code": "088"
+                            }
+                          }
+                        ]
+                      }'
   '/BankTransactions/{BankTransactionID}':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -1530,6 +1548,7 @@ paths:
         - Accounting
       operationId: updateBankTransaction
       x-hasAccountingValidationError: true
+      x-node-requestBody: '{ bankTransactions: [{ type: BankTransaction.TypeEnum.SPEND, date: "2019-02-25", reference: "You just updated", status: BankTransaction.StatusEnum.AUTHORISED, bankTransactionID: "00000000-0000-0000-000-000000000000", lineItems: [], contact: {}, bankAccount: { accountID: "00000000-0000-0000-000-000000000000" }}]}'
       x-ruby-requestBody: '{ bank_transactions: [{ type: XeroRuby::Accounting::BankTransaction::SPEND, date: "2019-02-25", reference: "You just updated", status: XeroRuby::Accounting::BankTransaction::AUTHORISED, bank_transaction_id: "00000000-0000-0000-000-000000000000", line_items: [], contact: {}, bank_account: { account_id: "00000000-0000-0000-000-000000000000" }}]}'
       summary: Allows you to update a single spend or receive money transaction
       parameters:
@@ -1661,7 +1680,88 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/BankTransactions'
-            example: '{ bankTransactions: [{ type: BankTransaction.TypeEnum.SPEND, date: "2019-02-25", reference: "You just updated", status: BankTransaction.StatusEnum.AUTHORISED, bankTransactionID: "00000000-0000-0000-000-000000000000", lineItems: [], contact: {}, bankAccount: { accountID: "00000000-0000-0000-000-000000000000" }}]}'
+            example: '{
+                        "BankTransactions": [
+                          {
+                            "Type": "SPEND",
+                            "Contact": {
+                              "ContactID": "00000000-0000-0000-000-000000000000",
+                              "ContactStatus": "ACTIVE",
+                              "Name": "Buzz Lightyear",
+                              "FirstName": "Buzz",
+                              "LastName": "Lightyear",
+                              "EmailAddress": "buzz.Lightyear@email.com",
+                              "ContactPersons": [],
+                              "BankAccountDetails": "",
+                              "Addresses": [
+                                {
+                                  "AddressType": "STREET",
+                                  "City": "",
+                                  "Region": "",
+                                  "PostalCode": "",
+                                  "Country": ""
+                                },
+                                {
+                                  "AddressType": "POBOX",
+                                  "AddressLine1": "",
+                                  "AddressLine2": "",
+                                  "AddressLine3": "",
+                                  "AddressLine4": "",
+                                  "City": "Palo Alto",
+                                  "Region": "CA",
+                                  "PostalCode": "94020",
+                                  "Country": "United States"
+                                }
+                              ],
+                              "Phones": [
+                                {
+                                  "PhoneType": "DEFAULT",
+                                  "PhoneNumber": "847-1294",
+                                  "PhoneAreaCode": "(626)",
+                                  "PhoneCountryCode": ""
+                                },
+                                {
+                                  "PhoneType": "DDI",
+                                  "PhoneNumber": "",
+                                  "PhoneAreaCode": "",
+                                  "PhoneCountryCode": ""
+                                },
+                                {
+                                  "PhoneType": "FAX",
+                                  "PhoneNumber": "",
+                                  "PhoneAreaCode": "",
+                                  "PhoneCountryCode": ""
+                                },
+                                {
+                                  "PhoneType": "MOBILE",
+                                  "PhoneNumber": "",
+                                  "PhoneAreaCode": "",
+                                  "PhoneCountryCode": ""
+                                }
+                              ],
+                              "UpdatedDateUTC": "2017-08-21T13:49:04.227-07:00",
+                              "ContactGroups": []
+                            },
+                            "Lineitems": [],
+                            "BankAccount": {
+                              "Code": "088",
+                              "Name": "Business Wells Fargo",
+                              "AccountID": "00000000-0000-0000-000-000000000000"
+                            },
+                            "IsReconciled": false,
+                            "Date": "2019-02-25",
+                            "Reference": "You just updated",
+                            "CurrencyCode": "USD",
+                            "CurrencyRate": 1,
+                            "Status": "AUTHORISED",
+                            "LineAmountTypes": "Inclusive",
+                            "TotalTax": 1.74,
+                            "BankTransactionID": "00000000-0000-0000-000-000000000000",
+                            "UpdatedDateUTC": "2019-02-26T12:39:27.813-08:00"
+                          }
+                        ]
+                      }'
+
   '/BankTransactions/{BankTransactionID}/Attachments':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -1829,20 +1929,20 @@ paths:
               schema:
                 $ref: '#/components/schemas/Attachments'
               example: '{
-                            "Id": "572ad2fe-8c23-45aa-82f9-864485327685",
-                            "Status": "OK",
-                            "ProviderName": "Xero API Partner",
-                            "DateTimeUTC": "\/Date(1551286166630)\/",
-                            "Attachments": [
-                              {
-                                "AttachmentID": "4508a692-e52c-4ad8-a138-2f13e22bf57b",
-                                "FileName": "sample5.jpg",
-                                "Url": "https://api.xero.com/api.xro/2.0/BankTransactions/db54aab0-ad40-4ced-bcff-0940ba20db2c/Attachments/sample5.jpg",
-                                "MimeType": "image/jpg",
-                                "ContentLength": 2878711
-                              }
-                            ]
-                          }'
+                          "Id": "572ad2fe-8c23-45aa-82f9-864485327685",
+                          "Status": "OK",
+                          "ProviderName": "Xero API Partner",
+                          "DateTimeUTC": "\/Date(1551286166630)\/",
+                          "Attachments": [
+                            {
+                              "AttachmentID": "4508a692-e52c-4ad8-a138-2f13e22bf57b",
+                              "FileName": "sample5.jpg",
+                              "Url": "https://api.xero.com/api.xro/2.0/BankTransactions/db54aab0-ad40-4ced-bcff-0940ba20db2c/Attachments/sample5.jpg",
+                              "MimeType": "image/jpg",
+                              "ContentLength": 2878711
+                            }
+                          ]
+                        }'
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
@@ -1886,20 +1986,20 @@ paths:
               schema:
                 $ref: '#/components/schemas/Attachments'
               example: '{
-                            "Id": "572ad2fe-8c23-45aa-82f9-864485327685",
-                            "Status": "OK",
-                            "ProviderName": "Xero API Partner",
-                            "DateTimeUTC": "\/Date(1551286166630)\/",
-                            "Attachments": [
-                              {
-                                "AttachmentID": "4508a692-e52c-4ad8-a138-2f13e22bf57b",
-                                "FileName": "sample5.jpg",
-                                "Url": "https://api.xero.com/api.xro/2.0/BankTransactions/db54aab0-ad40-4ced-bcff-0940ba20db2c/Attachments/sample5.jpg",
-                                "MimeType": "image/jpg",
-                                "ContentLength": 2878711
-                              }
-                            ]
-                          }'
+                          "Id": "572ad2fe-8c23-45aa-82f9-864485327685",
+                          "Status": "OK",
+                          "ProviderName": "Xero API Partner",
+                          "DateTimeUTC": "\/Date(1551286166630)\/",
+                          "Attachments": [
+                            {
+                              "AttachmentID": "4508a692-e52c-4ad8-a138-2f13e22bf57b",
+                              "FileName": "sample5.jpg",
+                              "Url": "https://api.xero.com/api.xro/2.0/BankTransactions/db54aab0-ad40-4ced-bcff-0940ba20db2c/Attachments/sample5.jpg",
+                              "MimeType": "image/jpg",
+                              "ContentLength": 2878711
+                            }
+                          ]
+                        }'
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
@@ -2043,6 +2143,7 @@ paths:
         - Accounting
       operationId: createBankTransfer
       x-hasAccountingValidationError: true
+      x-node-requestBody: '{ bankTransfers: [{ fromBankAccount: { code: "000", accountID: "00000000-0000-0000-000-000000000000" }, toBankAccount: { code: "001", accountID: "00000000-0000-0000-000-000000000000" }, amount: "50.00" }]}'
       x-ruby-requestBody: 'bank_transfers = { bank_transfers: [{ from_bank_account: { code: "000", account_id: "00000000-0000-0000-000-000000000000" }, to_bank_account: { code: "001", account_id: "00000000-0000-0000-000-000000000000" }, amount: "50.00" }]}'
       summary: Allows you to create a bank transfers
       responses:
@@ -2089,7 +2190,49 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/BankTransfers'
-            example: '{ bankTransfers: [{ fromBankAccount: { code: "000", accountID: "00000000-0000-0000-000-000000000000" }, toBankAccount: { code: "001", accountID: "00000000-0000-0000-000-000000000000" }, amount: "50.00" }]}'
+            example: '{
+                        "BankTransfers": [
+                          {
+                            "FromBankAccount": {
+                              "Code": "090",
+                              "Name": "My Savings",
+                              "AccountID": "00000000-0000-0000-000-000000000000",
+                              "Type": "BANK",
+                              "BankAccountNumber": "123455",
+                              "Status": "ACTIVE",
+                              "BankAccountType": "BANK",
+                              "CurrencyCode": "USD",
+                              "TaxType": "NONE",
+                              "EnablePaymentsToAccount": false,
+                              "ShowInExpenseClaims": false,
+                              "Class": "ASSET",
+                              "ReportingCode": "ASS",
+                              "ReportingCodeName": "Assets",
+                              "HasAttachments": false,
+                              "UpdatedDateUTC": "2016-10-17T13:45:33.993-07:00"
+                            },
+                            "ToBankAccount": {
+                              "Code": "088",
+                              "Name": "Business Wells Fargo",
+                              "AccountID": "00000000-0000-0000-000-000000000000",
+                              "Type": "BANK",
+                              "BankAccountNumber": "123455",
+                              "Status": "ACTIVE",
+                              "BankAccountType": "BANK",
+                              "CurrencyCode": "USD",
+                              "TaxType": "NONE",
+                              "EnablePaymentsToAccount": false,
+                              "ShowInExpenseClaims": false,
+                              "Class": "ASSET",
+                              "ReportingCode": "ASS",
+                              "ReportingCodeName": "Assets",
+                              "HasAttachments": false,
+                              "UpdatedDateUTC": "2016-06-03T08:31:14.517-07:00"
+                            },
+                            "Amount": "50.00"
+                          }
+                        ]
+                      }'
   '/BankTransfers/{BankTransferID}':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -2551,7 +2694,7 @@ paths:
                           "PaymentServices": [
                             {
                               "PaymentServiceID": "8cc53aa4-ae01-45b9-b06c-69c42eeae61f",
-                              "PaymentServiceName": "Sidney Maestre",
+                              "PaymentServiceName": "Buzz Lightyear",
                               "PaymentServiceType": "PayPal"
                             },
                             {
@@ -2570,7 +2713,8 @@ paths:
         - Accounting
       operationId: createBrandingThemePaymentServices
       x-hasAccountingValidationError: true
-      x-ruby-requestBody: 'payment_service = { payment_service_id: "dede7858-14e3-4a46-bf95-4d4cc491e645", payment_service_name: "ACME Payments", payment_service_url: "https://www.payupnow.com/", pay_now_text: "Pay Now" }'
+      x-node-requestBody: '{ paymentServiceID: "00000000-0000-0000-0000-000000000000", paymentServiceName: "ACME Payments", paymentServiceUrl: "https://www.payupnow.com/", payNowText: "Pay Now" }'
+      x-ruby-requestBody: 'payment_service = { payment_service_id: "00000000-0000-0000-0000-000000000000", payment_service_name: "ACME Payments", payment_service_url: "https://www.payupnow.com/", pay_now_text: "Pay Now" }'
       summary: Allow for the creation of new custom payment service for specified Branding Theme
       parameters:
         - required: true
@@ -2595,7 +2739,7 @@ paths:
                          "DateTimeUTC":"\/Date(1551139338915)\/",
                          "PaymentServices":[  
                             {  
-                               "PaymentServiceID":"dede7858-14e3-4a46-bf95-4d4cc491e645",
+                               "PaymentServiceID":"00000000-0000-0000-0000-000000000000",
                                "PaymentServiceName":"ACME Payments",
                                "PaymentServiceUrl":"https://www.payupnow.com/",
                                "PaymentServiceType":"Custom",
@@ -2612,7 +2756,12 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/PaymentService'
-            example: '{  paymentServiceID: "dede7858-14e3-4a46-bf95-4d4cc491e645", paymentServiceName: "ACME Payments", paymentServiceUrl: "https://www.payupnow.com/", payNowText: "Pay Now" }'
+            example: '{  
+                         "PaymentServiceID":"00000000-0000-0000-0000-000000000000",
+                         "PaymentServiceName":"ACME Payments",
+                         "PaymentServiceUrl":"https://www.payupnow.com/",
+                         "PayNowText":"Pay Now"
+                      }'
   /Contacts:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -2817,6 +2966,7 @@ paths:
         - Accounting
       operationId: createContacts
       x-hasAccountingValidationError: true
+      x-node-requestBody: '{ contacts: [{ name: "Bruce Banner", emailAddress: "hulk@avengers.com", phones: [{ phoneType: Phone.PhoneTypeEnum.MOBILE, phoneNumber: "555-1212", phoneAreaCode: "415" }], paymentTerms: { bills: { day: 15, type: PaymentTermType.OFCURRENTMONTH }, sales: { day: 10, type: PaymentTermType.DAYSAFTERBILLMONTH }}}]}'
       x-ruby-requestBody: 'contacts = { contacts: [{ name: "Bruce Banner", email_address: "hulk@avengers.com", phones: [{ phone_type: XeroRuby::Accounting::Phone::MOBILE, phone_number: "555-1212", phone_area_code: "415" }], payment_terms: { bills: { day: 15, type: XeroRuby::Accounting::PaymentTermType::OFCURRENTMONTH }, sales: { day: 10, type: XeroRuby::Accounting::PaymentTermType::DAYSAFTERBILLMONTH }}}]}'
       summary: 'Allows you to create a multiple contacts (bulk) in a Xero organisation'
       parameters:
@@ -2917,8 +3067,8 @@ paths:
                             {
                               "ContactID": "00000000-0000-0000-0000-000000000000",
                               "AccountNumber": "12345-ABCD",
-                              "Name": "Sidney Maestre",
-                              "EmailAddress": "foo78858@bar.com",
+                              "Name": "Buzz Lightyear",
+                              "EmailAddress": "buzzlightyear@email.com",
                               "AccountsReceivableTaxType": "NONE",
                               "AccountsPayableTaxType": "INPUT",
                               "Addresses": [
@@ -2959,7 +3109,7 @@ paths:
                               "HasValidationErrors": true,
                               "ValidationErrors": [
                                 {
-                                  "Message": "The contact name Sidney Maestre is already assigned to another contact. The contact name must be unique across all active contacts."
+                                  "Message": "The contact name Buzz Lightyear is already assigned to another contact. The contact name must be unique across all active contacts."
                                 }
                               ]
                             }
@@ -2972,7 +3122,82 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Contacts'
-            example: '{ contacts: [{ name: "Bruce Banner", emailAddress: "hulk@avengers.com", phones: [{ phoneType: Phone.PhoneTypeEnum.MOBILE, phoneNumber: "555-1212", phoneAreaCode: "415" }], paymentTerms: { bills: { day: 15, type: PaymentTermType.OFCURRENTMONTH }, sales: { day: 10, type: PaymentTermType.DAYSAFTERBILLMONTH }}}]}'
+            example: '{
+                        "Id": "e997d6d7-6dad-4458-beb8-d9c1bf7f2edf",
+                        "Status": "OK",
+                        "ProviderName": "Xero API Partner",
+                        "DateTimeUTC": "/Date(1551399321121)/",
+                        "Contacts": [
+                          {
+                            "ContactID": "3ff6d40c-af9a-40a3-89ce-3c1556a25591",
+                            "ContactStatus": "ACTIVE",
+                            "Name": "Foo9987",
+                            "EmailAddress": "sid32476@blah.com",
+                            "BankAccountDetails": "",
+                            "Addresses": [
+                              {
+                                "AddressType": "STREET",
+                                "City": "",
+                                "Region": "",
+                                "PostalCode": "",
+                                "Country": ""
+                              },
+                              {
+                                "AddressType": "POBOX",
+                                "City": "",
+                                "Region": "",
+                                "PostalCode": "",
+                                "Country": ""
+                              }
+                            ],
+                            "Phones": [
+                              {
+                                "PhoneType": "DEFAULT",
+                                "PhoneNumber": "",
+                                "PhoneAreaCode": "",
+                                "PhoneCountryCode": ""
+                              },
+                              {
+                                "PhoneType": "DDI",
+                                "PhoneNumber": "",
+                                "PhoneAreaCode": "",
+                                "PhoneCountryCode": ""
+                              },
+                              {
+                                "PhoneType": "FAX",
+                                "PhoneNumber": "",
+                                "PhoneAreaCode": "",
+                                "PhoneCountryCode": ""
+                              },
+                              {
+                                "PhoneType": "MOBILE",
+                                "PhoneNumber": "555-1212",
+                                "PhoneAreaCode": "415",
+                                "PhoneCountryCode": ""
+                              }
+                            ],
+                            "UpdatedDateUTC": "/Date(1551399321043+0000)/",
+                            "ContactGroups": [],
+                            "IsSupplier": false,
+                            "IsCustomer": false,
+                            "SalesTrackingCategories": [],
+                            "PurchasesTrackingCategories": [],
+                            "PaymentTerms": {
+                              "Bills": {
+                                "Day": 15,
+                                "Type": "OFCURRENTMONTH"
+                              },
+                              "Sales": {
+                                "Day": 10,
+                                "Type": "DAYSAFTERBILLMONTH"
+                              }
+                            },
+                            "ContactPersons": [],
+                            "HasValidationErrors": false
+                          }
+                        ]
+                      }'
+
     post:
       security:
         - OAuth2: [accounting.contacts]
@@ -2998,10 +3223,10 @@ paths:
                           "DateTimeUTC": "\/Date(1551399321121)\/",
                           "Contacts": [
                             {
-                              "ContactID": "3ff6d40c-af9a-40a3-89ce-3c1556a25591",
+                              "ContactID": "00000000-0000-0000-0000-000000000000",
                               "ContactStatus": "ACTIVE",
-                              "Name": "Foo9987",
-                              "EmailAddress": "sid32476@blah.com",
+                              "Name": "Bruce Banner",
+                              "EmailAddress": "bruce@banner.com",
                               "BankAccountDetails": "",
                               "Addresses": [
                                 {
@@ -3080,8 +3305,8 @@ paths:
                             {
                               "ContactID": "00000000-0000-0000-0000-000000000000",
                               "AccountNumber": "12345-ABCD",
-                              "Name": "Sidney Maestre",
-                              "EmailAddress": "foo78858@bar.com",
+                              "Name": "Buzz Lightyear",
+                              "EmailAddress": "buzzlightyear@email.com",
                               "AccountsReceivableTaxType": "NONE",
                               "AccountsPayableTaxType": "INPUT",
                               "Addresses": [
@@ -3122,7 +3347,7 @@ paths:
                               "HasValidationErrors": true,
                               "ValidationErrors": [
                                 {
-                                  "Message": "The contact name Sidney Maestre is already assigned to another contact. The contact name must be unique across all active contacts."
+                                  "Message": "The contact name Buzz Lightyear is already assigned to another contact. The contact name must be unique across all active contacts."
                                 }
                               ]
                             }
@@ -6197,7 +6422,7 @@ paths:
         - Accounting
       operationId: createInvoices
       x-hasAccountingValidationError: true
-      x-ruby-requestBody: 'invoices = { invoices: [{ type: XeroRuby::Accounting::Invoice::ACCREC, contact: { contact_id: "00000000-0000-0000-000-000000000000" }, line_items: [{ description: "Acme Tires", quantity: 2.0, unit_amount: 20.0, account_code: "000", tax_type: TaxType.NONE, line_amount: 40.0 }], date: "2019-03-11", due_date: "2018-12-10", reference: "Website Design", status: XeroRuby::Accounting::Invoice::DRAFT }]}'
+      x-ruby-requestBody: 'invoices = { invoices: [{ type: XeroRuby::Accounting::Invoice::ACCREC, contact: { contact_id: "00000000-0000-0000-000-000000000000" }, line_items: [{ description: "Acme Tires", quantity: 2.0, unit_amount: 20.0, account_code: "000", tax_type: XeroRuby::Accounting::TaxType::NONE, line_amount: 40.0 }], date: "2019-03-11", due_date: "2018-12-10", reference: "Website Design", status: XeroRuby::Accounting::Invoice::DRAFT }]}'
       summary: Allows you to create one or more sales invoices or purchase bills
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
@@ -6350,7 +6575,7 @@ paths:
         - Accounting
       operationId: updateOrCreateInvoices
       x-hasAccountingValidationError: true
-      x-ruby-requestBody: 'invoices = { invoices: [{ type: XeroRuby::Accounting::Invoice::ACCREC, contact: { contact_id: "00000000-0000-0000-000-000000000000" }, line_items: [{ description: "Acme Tires", quantity: 2.0, unit_amount: 20.0, account_code: "000", tax_type: TaxType.NONE, line_amount: 40.0 }], date: "2019-03-11", due_date: "2018-12-10", reference: "Website Design", status: XeroRuby::Accounting::Invoice::DRAFT }]}'
+      x-ruby-requestBody: 'invoices = { invoices: [{ type: XeroRuby::Accounting::Invoice::ACCREC, contact: { contact_id: "00000000-0000-0000-000-000000000000" }, line_items: [{ description: "Acme Tires", quantity: 2.0, unit_amount: 20.0, account_code: "000", tax_type: XeroRuby::Accounting::TaxType::NONE, line_amount: 40.0 }], date: "2019-03-11", due_date: "2018-12-10", reference: "Website Design", status: XeroRuby::Accounting::Invoice::DRAFT }]}'
       summary: Allows you to update OR create one or more sales invoices or purchase bills
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
@@ -18180,9 +18405,9 @@ paths:
                           "Users": [
                             {
                               "UserID": "3c37ef1d-cd49-4589-9787-3c418ed8b6ac",
-                              "EmailAddress": "sid.maestre@xero.com",
-                              "FirstName": "Sidney",
-                              "LastName": "Maestre",
+                              "EmailAddress": "test@email.com",
+                              "FirstName": "Test",
+                              "LastName": "Xero",
                               "UpdatedDateUTC": "\/Date(1508523261613+0000)\/",
                               "IsSubscriber": false,
                               "OrganisationRole": "FINANCIALADVISER"
@@ -18233,9 +18458,9 @@ paths:
                           "Users": [
                             {
                               "UserID": "3c37ef1d-cd49-4589-9787-3c418ed8b6ac",
-                              "EmailAddress": "sid.maestre@xero.com",
-                              "FirstName": "Sidney",
-                              "LastName": "Maestre",
+                              "EmailAddress": "test@email.com",
+                              "FirstName": "Test",
+                              "LastName": "Xero",
                               "UpdatedDateUTC": "\/Date(1508523261613+0000)\/",
                               "IsSubscriber": false,
                               "OrganisationRole": "FINANCIALADVISER"
