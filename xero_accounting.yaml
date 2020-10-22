@@ -3205,6 +3205,7 @@ paths:
         - Accounting
       operationId: updateOrCreateContacts
       x-hasAccountingValidationError: true
+      x-nod-requestBody: '{ contacts: [{ name: "Bruce Banner", emailAddress: "hulk@avengers.com", phones: [{ phoneType: Phone.PhoneTypeEnum.MOBILE, phoneNumber: "555-1212", phoneAreaCode: "415" }], paymentTerms: { bills: { day: 15, type: PaymentTermType.OFCURRENTMONTH }, sales: { day: 10, type: PaymentTermType.DAYSAFTERBILLMONTH }}}]}'
       x-ruby-requestBody: '{ contacts: [{ name: "Bruce Banner", email_address: "hulk@avengers.com", phones: [{ phone_type: XeroRuby::Accounting::Phone::MOBILE, phone_number: "555-1212", phone_area_code: "415" }], payment_terms: { bills: { day: 15, type: XeroRuby::Accounting::PaymentTermType::OFCURRENTMONTH }, sales: { day: 10, type: XeroRuby::Accounting::PaymentTermType::OFCURRENTMONTHDAYSAFTERBILLMONTH }}}]}' 
       summary: 'Allows you to update OR create one or more contacts in a Xero organisation'
       parameters:
@@ -3359,7 +3360,31 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Contacts'
-            example: '{ contacts: [{ name: "Bruce Banner", emailAddress: "hulk@avengers.com", phones: [{ phoneType: Phone.PhoneTypeEnum.MOBILE, phoneNumber: "555-1212", phoneAreaCode: "415" }], paymentTerms: { bills: { day: 15, type: PaymentTermType.OFCURRENTMONTH }, sales: { day: 10, type: PaymentTermType.DAYSAFTERBILLMONTH }}}]}'
+            example: '{
+                        "Contacts": [
+                          {
+                            "Name": "Bruce Banner",
+                            "EmailAddress": "hulk@avengers.com",
+                            "Phones": [
+                              {
+                                "PhoneType": "MOBILE",
+                                "PhoneNumber": "555-1212",
+                                "PhoneAreaCode": "415"
+                              }
+                            ],
+                            "PaymentTerms": {
+                              "Bills": {
+                                "Day": 15,
+                                "Type": "OFCURRENTMONTH"
+                              },
+                              "Sales": {
+                                "Day": 10,
+                                "Type": "DAYSAFTERBILLMONTH"
+                              }
+                            }
+                          }
+                        ]
+                      }'
   '/Contacts/{ContactNumber}':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -3676,6 +3701,7 @@ paths:
         - Accounting
       operationId: updateContact
       x-hasAccountingValidationError: true
+      x-node-requestBody: '{ contacts: [{ contactID: "00000000-0000-0000-000-000000000000", name: "Thanos" }]}'
       x-ruby-requestBody: 'contacts = { contacts: [{ contact_id: "00000000-0000-0000-000-000000000000", name: "Thanos" }]}'
       parameters:
         - required: true
@@ -3777,7 +3803,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Contacts'
-            example: '{ contacts: [{ contactID: "00000000-0000-0000-000-000000000000", name: "Thanos" }]}'
+            example: '{ "Contacts": [{ "ContactID": "00000000-0000-0000-000-000000000000", "Name": "Thanos" }]}'
   '/Contacts/{ContactID}/Attachments':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -4156,6 +4182,7 @@ paths:
         - Accounting
       operationId: createContactGroup
       x-hasAccountingValidationError: true
+      x-node-requestBody: '{ contactGroups: [{ name: "VIPs" }]}'
       x-ruby-requestBody: 'contact_groups = { contact_groups: [{ name: "VIPs" }]}'
       summary: Allows you to create a contact group
       responses:
@@ -4211,7 +4238,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/ContactGroups'
-            example: '{ contactGroups: [{ name: "VIPs" }]}'
+            example: '{ "ContactGroups": [{ "Name": "VIPs" }]}'
   '/ContactGroups/{ContactGroupID}':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -4280,6 +4307,7 @@ paths:
         - Accounting
       operationId: updateContactGroup
       x-hasAccountingValidationError: true
+      x-node-requestBody: '{ contactGroups: [{ name: "Vendor" }]}'
       x-ruby-requestBody: 'contact_groups = { contact_groups: [{ name: "Vendor" }]}'
       summary: Allows you to update a Contact Group
       parameters:
@@ -4322,7 +4350,13 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/ContactGroups'
-            example: '{ contactGroups: [{ name: "Vendor" }]}'
+            example: '{  
+                        "ContactGroups":[  
+                          {  
+                            "Name":"Suppliers"
+                          }
+                        ]
+                      }'
   '/ContactGroups/{ContactGroupID}/Contacts':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -4334,6 +4368,7 @@ paths:
         - Accounting
       operationId: createContactGroupContacts
       x-hasAccountingValidationError: true
+      x-node-requestBody: '{ contacts: [{ contactID: "a3675fc4-f8dd-4f03-ba5b-f1870566bcd7" }, { contactID: "4e1753b9-018a-4775-b6aa-1bc7871cfee3" }]}'
       x-ruby-requestBody: 'contacts = { contacts: [{ contact_id: "a3675fc4-f8dd-4f03-ba5b-f1870566bcd7" }, { contact_id: "4e1753b9-018a-4775-b6aa-1bc7871cfee3" }]}'
       summary: Allows you to add Contacts to a Contact Group
       parameters:
@@ -4387,7 +4422,16 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Contacts'
-            example: '{ contacts: [{ contactID: "a3675fc4-f8dd-4f03-ba5b-f1870566bcd7" }, { contactID: "4e1753b9-018a-4775-b6aa-1bc7871cfee3" }]}'
+            example: '{
+                        "Contacts": [
+                          {
+                            "ContactID": "a3675fc4-f8dd-4f03-ba5b-f1870566bcd7"
+                          },
+                          {
+                            "ContactID": "4e1753b9-018a-4775-b6aa-1bc7871cfee3"
+                          }
+                        ]
+                      }'
     delete:
       security:
         - OAuth2: [accounting.contacts]
@@ -4569,6 +4613,7 @@ paths:
         - Accounting
       operationId: createCreditNotes
       x-hasAccountingValidationError: true
+      x-node-requestBody: '{ creditNotes: [{ type: CreditNote.TypeEnum.ACCPAYCREDIT, contact: { contactID: "430fa14a-f945-44d3-9f97-5df5e28441b8" }, date: "2019-01-05", lineItems: [{ description: "Foobar", quantity: 2.0, unitAmount: 20.0, accountCode: "400" }]}]}'
       x-ruby-requestBody: 'credit_notes = { credit_notes: [{ type: XeroRuby::Accounting::CreditNote::ACCPAYCREDIT, contact: { contact_id: "430fa14a-f945-44d3-9f97-5df5e28441b8" }, date: "2019-01-05", line_items: [{ description: "Foobar", quantity: 2.0, unit_amount: 20.0, account_code: "400" }]}]}'
       summary: Allows you to create a credit note
       parameters:
@@ -4694,7 +4739,25 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/CreditNotes'
-            example: '{ creditNotes: [{ type: CreditNote.TypeEnum.ACCPAYCREDIT, contact: { contactID: "430fa14a-f945-44d3-9f97-5df5e28441b8" }, date: "2019-01-05", lineItems: [{ description: "Foobar", quantity: 2.0, unitAmount: 20.0, accountCode: "400" }]}]}'
+            example: '{  
+                        "CreditNotes":[  
+                          {  
+                            "Type":"ACCPAYCREDIT",
+                            "Contact":{  
+                              "ContactID":"430fa14a-f945-44d3-9f97-5df5e28441b8"
+                            },
+                            "Date":"2019-01-05",
+                            "LineItems":[  
+                              {  
+                                "Description":"Foobar",
+                                "Quantity":2.0,
+                                "UnitAmount":20.0,
+                                "AccountCode":"400"
+                              }
+                            ]
+                          }
+                        ]
+                      }'
     post:
       security:
         - OAuth2: [accounting.transactions]
@@ -4702,6 +4765,7 @@ paths:
         - Accounting
       operationId: updateOrCreateCreditNotes
       x-hasAccountingValidationError: true
+      x-node-requestBody: '{ creditNotes: [{ type: CreditNote.TypeEnum.ACCPAYCREDIT, contact: { contactID: "00000000-0000-0000-000-000000000000" }, date: "2019-01-05", lineItems: [{ description: "Foobar", quantity: 2.0, unitAmount: 20.0, accountCode: "400" }]}]}'
       x-ruby-requestBody: 'credit_notes = { credit_notes: [{ type: XeroRuby::Accounting::CreditNote::ACCPAYCREDIT, contact: { contact_id: "00000000-0000-0000-000-000000000000" }, date: "2019-01-05", line_items: [{ description: "Foobar", quantity: 2.0, unit_amount: 20.0, account_code: "400" }]}]}'
       summary: Allows you to update OR create one or more credit notes
       parameters:
@@ -4827,7 +4891,27 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/CreditNotes'
-            example: '{ creditNotes: [{ type: CreditNote.TypeEnum.ACCPAYCREDIT, contact: { contactID: "00000000-0000-0000-000-000000000000" }, date: "2019-01-05", lineItems: [{ description: "Foobar", quantity: 2.0, unitAmount: 20.0, accountCode: "400" }]}]}'
+            example: '{  
+                       "CreditNotes":[  
+                          {  
+                            "Type":"ACCPAYCREDIT",
+                            "Contact":{  
+                              "ContactID":"430fa14a-f945-44d3-9f97-5df5e28441b8"
+                            },
+                            "Date":"2019-01-05",
+                            "Status":"AUTHORISED",
+                            "Reference": "HelloWorld",
+                            "LineItems":[  
+                              {  
+                                "Description":"Foobar",
+                                "Quantity":2.0,
+                                "UnitAmount":20.0,
+                                "AccountCode":"400"
+                              }
+                            ]
+                          }
+                       ]
+                    }'
   '/CreditNotes/{CreditNoteID}':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -4981,6 +5065,7 @@ paths:
         - Accounting
       operationId: updateCreditNote
       x-hasAccountingValidationError: true
+      x-node-requestBody: '{ creditNotes: [{ type: CreditNote.TypeEnum.ACCPAYCREDIT, contact: { contactID: "00000000-0000-0000-000-000000000000" }, date: "2019-01-05", status: CreditNote.StatusEnum.AUTHORISED, reference: "Mind stone", lineItems: [{ description: "Infinity Stones", quantity: 1.0, unitAmount: 100.0, accountCode: "400" } ]}]}'
       x-ruby-requestBody: 'credit_notes = { credit_notes: [{ type: XeroRuby::Accounting::CreditNote::ACCPAYCREDIT, contact: { contact_id: "00000000-0000-0000-000-000000000000" }, date: "2019-01-05", status: XeroRuby::Accounting::CreditNote::AUTHORISED, reference: "Mind stone", line_items: [{ description: "Infinity Stones", quantity: 1.0, unit_amount: 100.0, account_code: "400" } ]}]}'
       summary: Allows you to update a specific credit note
       parameters:
@@ -5107,7 +5192,27 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/CreditNotes'
-            example: '{ creditNotes: [{ type: CreditNote.TypeEnum.ACCPAYCREDIT, contact: { contactID: "00000000-0000-0000-000-000000000000" }, date: "2019-01-05", status: CreditNote.StatusEnum.AUTHORISED, reference: "Mind stone", lineItems: [{ description: "Infinity Stones", quantity: 1.0, unitAmount: 100.0, accountCode: "400" } ]}]}'
+            example: '{
+                        "CreditNotes": [
+                          {
+                            "Type": "ACCPAYCREDIT",
+                            "Contact": {
+                              "ContactID": "430fa14a-f945-44d3-9f97-5df5e28441b8"
+                            },
+                            "Date": "2019-01-05",
+                            "Status": "AUTHORISED",
+                            "Reference": "HelloWorld",
+                            "LineItems": [
+                              {
+                                "Description": "Foobar",
+                                "Quantity": 2,
+                                "UnitAmount": 20,
+                                "AccountCode": "400"
+                              }
+                            ]
+                          }
+                        ]
+                      }'
   '/CreditNotes/{CreditNoteID}/Attachments':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -5391,6 +5496,7 @@ paths:
         - Accounting
       operationId: createCreditNoteAllocation
       x-hasAccountingValidationError: true
+      x-node-requestBody: '{ allocations: [{ amount: 1.0, date: "2019-03-05", invoice: { invoiceID: "c45720a1-ade3-4a38-a064-d15489be6841", lineItems:[], type: Invoice.TypeEnum.ACCPAY, contact: {}}}]}'
       x-ruby-requestBody: 'allocations = { allocations: [{ amount: 1.0, date: "2019-03-05", invoice: { invoice_id: "c45720a1-ade3-4a38-a064-d15489be6841", line_items: [], type: XeroRuby::Accounting::Invoice::ACCPAY, contact: {} }}]}'
       summary: Allows you to create Allocation on CreditNote
       parameters:
@@ -5448,7 +5554,18 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Allocations'
-            example: '{ allocations: [{ amount: 1.0, date: "2019-03-05", invoice: { invoiceID: "c45720a1-ade3-4a38-a064-d15489be6841", lineItems:[], type: Invoice.TypeEnum.ACCPAY, contact: {}}}]}'
+            example: '{
+                        "Allocations": [
+                          {
+                            "Invoice": {
+                              "LineItems": [],
+                              "InvoiceID": "c45720a1-ade3-4a38-a064-d15489be6841"
+                            },
+                            "Amount": 1,
+                            "Date": "2019-03-05"
+                          }
+                        ]
+                      }'
   '/CreditNotes/{CreditNoteID}/History':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -5547,6 +5664,7 @@ paths:
         - Accounting
       operationId: createCurrency
       x-hasAccountingValidationError: true
+      x-node-requestBody: '{ code: CurrencyCode.USD, description: "United States Dollar" }'
       x-ruby-requestBody: 'currency = { code: XeroRuby::Accounting::CurrencyCode::USD, description: "United States Dollar" }'
       responses:
         '200':
@@ -5562,7 +5680,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Currency'
-              example: '{ code: CurrencyCode.USD, description: "United States Dollar" }'
+              example: '{
+                          "Code": "USD",
+                          "Description": "United States Dollar"
+                        }'
   /Employees:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -5644,6 +5765,7 @@ paths:
         - Accounting
       operationId: createEmployees
       x-hasAccountingValidationError: true
+      x-node-requestBody: '{ employees: [{ firstName: "Nick", lastName: "Fury", externalLink: { url: "http://twitter.com/#!/search/Nick+Fury" }}]}'
       x-ruby-requestBody: 'employees = { employees: [{ first_name: "Nick", last_name: "Fury", externalink: { url: "http://twitter.com/#!/search/Nick+Fury" }}]}'
       summary: Allows you to create new employees used in Xero payrun
       parameters:
@@ -5683,7 +5805,17 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Employees'
-              example: '{ employees: [{ firstName: "Nick", lastName: "Fury", externalLink: { url: "http://twitter.com/#!/search/Nick+Fury" }}]}'
+              example: '{
+                          "Employees": [
+                            {
+                              "FirstName": "Nick",
+                              "LastName": "Fury",
+                              "ExternalLink": {
+                                "Url": "http://twitter.com/#!/search/Nick+Fury"
+                              }
+                            }
+                          ]
+                        }'
     post:
       security:
         - OAuth2: [accounting.settings]
@@ -5691,6 +5823,7 @@ paths:
         - Accounting
       operationId: updateOrCreateEmployees
       x-hasAccountingValidationError: true
+      x-node-requestBody: '{ employees: [{ firstName: "Nick", lastName: "Fury", externalLink: { url: "http://twitter.com/#!/search/Nick+Fury" }}]}'
       x-ruby-requestBody: 'employees = { employees: [{ first_name: "Nick", last_name: "Fury", external_link: { url: "http://twitter.com/#!/search/Nick+Fury" }}]}'
       summary: Allows you to create a single new employees used in Xero payrun
       parameters:
@@ -5730,7 +5863,17 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Employees'
-              example: '{ employees: [{ firstName: "Nick", lastName: "Fury", externalLink: { url: "http://twitter.com/#!/search/Nick+Fury" }}]}'
+              example: '{
+                          "Employees": [
+                            {
+                              "FirstName": "Nick",
+                              "LastName": "Fury",
+                              "ExternalLink": {
+                                "Url": "http://twitter.com/#!/search/Nick+Fury"
+                              }
+                            }
+                          ]
+                        }'
   '/Employees/{EmployeeID}':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -5845,6 +5988,7 @@ paths:
         - Accounting
       operationId: createExpenseClaims
       x-hasAccountingValidationError: true
+      x-node-requestBody: '{ expenseClaims: [{ status: ExpenseClaim.StatusEnum.SUBMITTED, user: { userID: "d1164823-0ac1-41ad-987b-b4e30fe0b273" }, receipts: [{ receiptID: "dc1c7f6d-0a4c-402f-acac-551d62ce5816", lineItems: [], contact: {}, user: {}, date: "2018-01-01" }]}]}'
       x-ruby-requestBody: 'expense_claims = { expense_claims: [{ status: XeroRuby::Accounting::ExpenseClaim::SUBMITTED, user: { user_id: "d1164823-0ac1-41ad-987b-b4e30fe0b273" }, receipts: [{ receipt_id: "dc1c7f6d-0a4c-402f-acac-551d62ce5816", line_items: [], contact: {}, user: {}, date: "2018-01-01" }]}]}'
       summary: Allows you to retrieve expense claims 
       requestBody:
@@ -5854,7 +5998,22 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ExpenseClaims'
-              example: '{ expenseClaims: [{ status: ExpenseClaim.StatusEnum.SUBMITTED, user: { userID: "d1164823-0ac1-41ad-987b-b4e30fe0b273" }, receipts: [{ receiptID: "dc1c7f6d-0a4c-402f-acac-551d62ce5816", lineItems: [], contact: {}, user: {}, date: "2018-01-01" }]}]}'
+              example: '{
+                          "ExpenseClaims": [
+                            {
+                              "Status": "SUBMITTED",
+                              "User": {
+                                "UserID": "d1164823-0ac1-41ad-987b-b4e30fe0b273"
+                              },
+                              "Receipts": [
+                                {
+                                  "Lineitems": [],
+                                  "ReceiptID": "dc1c7f6d-0a4c-402f-acac-551d62ce5816"
+                                }
+                              ]
+                            }
+                          ]
+                        }'
       responses:
         '200':
           description: Success - return response of type ExpenseClaims array with newly created ExpenseClaim
