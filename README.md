@@ -65,3 +65,5 @@ https://github.com/XeroAPI/Xero-OpenAPI/blob/b69c3d350b915786a8de96c5838a7bb8b9a
 
 better:
 https://github.com/XeroAPI/Xero-OpenAPI/commit/9ac8b996c156145c7b4ebc78a5735771759191a6
+
+x-ruby-param ? should I change that example: to `x-node-param:` ?
