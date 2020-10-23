@@ -73,8 +73,8 @@ paths:
         - Accounting
       operationId: createAccount
       x-hasAccountingValidationError: true
-      x-ruby-requestBody: 'account = { code: "123456", name: "Foobar", type: XeroRuby::Accounting::AccountType::EXPENSE, description: "Hello World" }'
       x-node-requestBody: '{ code: "123456", name: "Foobar", type: AccountType.EXPENSE, description: "Hello World" }'
+      x-ruby-requestBody: 'account = { code: "123456", name: "Foobar", type: XeroRuby::Accounting::AccountType::EXPENSE, description: "Hello World" }'
       summary: Allows you to create a new chart of accounts
       x-php:
           - '$account = new XeroAPI\XeroPHP\Models\Accounting\Account;'
@@ -753,6 +753,7 @@ paths:
         - Accounting
       operationId: createBatchPayment
       x-hasAccountingValidationError: true
+      x-node-requestBody: '{ batchPayments: [{ account: { accountId: "00000000-0000-0000-000-000000000000" }, reference: "ref", date: "2018-08-01", payments: [{  account: { code: "001" }, date: "2019-12-31", amount: 500, invoice: { invoiceId: "00000000-0000-0000-000-000000000000", lineItems: [], contact: {}, type: Invoice.TypeEnum.ACCPAY }}]}]}'
       x-ruby-requestBody: 'batch_payments = { batch_payments: [{ account: { account_id: "00000000-0000-0000-000-000000000000" }, reference: "ref", date: "2018-08-01", payments: [{  account: { code: "001" }, date: "2019-12-31", amount: 500, invoice: { invoice_id: "00000000-0000-0000-000-000000000000", line_items: [], contact: {}, type: XeroRuby::Accounting::Invoice::ACCPAY }}]}]}'
       summary: Create one or many BatchPayments for invoices
       parameters:
@@ -1246,6 +1247,7 @@ paths:
         - Accounting
       operationId: updateOrCreateBankTransactions
       x-hasAccountingValidationError: true
+      x-node-requestBody: '{ bankTransactions: [{ type: BankTransaction.TypeEnum.SPEND, contact: { contactId: "00000000-0000-0000-000-000000000000" }, lineItems: [{ description: "Foobar", quantity: 1.0, unitAmount: 20.0, accountCode: "000" }], bankAccount: { code: "000" }}]}'
       x-ruby-requestBody: 'bank_transactions = { bank_transactions: [{ type: XeroRuby::Accounting::BankTransaction::SPEND, contact: { contact_id: "00000000-0000-0000-000-000000000000" }, line_items: [{ description: "Foobar", quantity: 1.0, unit_amount: 20.0, account_code: "000" }], bank_account: { code: "000" }}]}'
       summary: Allows you to update or create one or more spend or receive money transaction
       parameters:
@@ -2733,17 +2735,17 @@ paths:
               schema:
                 $ref: '#/components/schemas/PaymentServices'
               example: '{  
-                         "Id":"918feecb-067a-4ed9-841b-571c04eaada3",
-                         "Status":"OK",
-                         "ProviderName":"Xero API Partner",
-                         "DateTimeUTC":"\/Date(1551139338915)\/",
-                         "PaymentServices":[  
+                         "Id": "918feecb-067a-4ed9-841b-571c04eaada3",
+                         "Status": "OK",
+                         "ProviderName": "Xero API Partner",
+                         "DateTimeUTC": "\/Date(1551139338915)\/",
+                         "PaymentServices": [  
                             {  
-                               "PaymentServiceID":"00000000-0000-0000-0000-000000000000",
-                               "PaymentServiceName":"ACME Payments",
-                               "PaymentServiceUrl":"https://www.payupnow.com/",
-                               "PaymentServiceType":"Custom",
-                               "PayNowText":"Pay Now"
+                               "PaymentServiceID": "00000000-0000-0000-0000-000000000000",
+                               "PaymentServiceName": "ACME Payments",
+                               "PaymentServiceUrl": "https://www.payupnow.com/",
+                               "PaymentServiceType": "Custom",
+                               "PayNowText": "Pay Now"
                             }
                          ]
                       }'
@@ -2757,10 +2759,10 @@ paths:
             schema:
               $ref: '#/components/schemas/PaymentService'
             example: '{  
-                         "PaymentServiceID":"00000000-0000-0000-0000-000000000000",
-                         "PaymentServiceName":"ACME Payments",
-                         "PaymentServiceUrl":"https://www.payupnow.com/",
-                         "PayNowText":"Pay Now"
+                        "PaymentServiceID": "00000000-0000-0000-0000-000000000000",
+                        "PaymentServiceName": "ACME Payments",
+                        "PaymentServiceUrl": "https://www.payupnow.com/",
+                        "PayNowText": "Pay Now"
                       }'
   /Contacts:
     parameters:
@@ -3205,7 +3207,7 @@ paths:
         - Accounting
       operationId: updateOrCreateContacts
       x-hasAccountingValidationError: true
-      x-nod-requestBody: '{ contacts: [{ name: "Bruce Banner", emailAddress: "hulk@avengers.com", phones: [{ phoneType: Phone.PhoneTypeEnum.MOBILE, phoneNumber: "555-1212", phoneAreaCode: "415" }], paymentTerms: { bills: { day: 15, type: PaymentTermType.OFCURRENTMONTH }, sales: { day: 10, type: PaymentTermType.DAYSAFTERBILLMONTH }}}]}'
+      x-node-requestBody: '{ contacts: [{ name: "Bruce Banner", emailAddress: "hulk@avengers.com", phones: [{ phoneType: Phone.PhoneTypeEnum.MOBILE, phoneNumber: "555-1212", phoneAreaCode: "415" }], paymentTerms: { bills: { day: 15, type: PaymentTermType.OFCURRENTMONTH }, sales: { day: 10, type: PaymentTermType.DAYSAFTERBILLMONTH }}}]}'
       x-ruby-requestBody: '{ contacts: [{ name: "Bruce Banner", email_address: "hulk@avengers.com", phones: [{ phone_type: XeroRuby::Accounting::Phone::MOBILE, phone_number: "555-1212", phone_area_code: "415" }], payment_terms: { bills: { day: 15, type: XeroRuby::Accounting::PaymentTermType::OFCURRENTMONTH }, sales: { day: 10, type: XeroRuby::Accounting::PaymentTermType::OFCURRENTMONTHDAYSAFTERBILLMONTH }}}]}' 
       summary: 'Allows you to update OR create one or more contacts in a Xero organisation'
       parameters:
