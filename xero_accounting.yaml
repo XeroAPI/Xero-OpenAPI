@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Accounting API
-  version: "2.3.6"
+  version: "2.3.7"
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
   contact:
     name: "Xero Platform Team"
@@ -9352,6 +9352,53 @@ paths:
             schema:
               type: string
               format: byte
+  '/ManualJournals/{ManualJournalID}/History':
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    x-related-model: ManualJournal
+    get:
+      security:
+        - OAuth2: [accounting.transactions.read]
+      tags:
+        - Accounting
+      operationId: getManualJournalsHistory
+      summary: Allows you to retrieve history from a manual journal
+      parameters:
+        - required: true
+          in: path
+          name: ManualJournalID
+          description: Xero generated unique identifier for a manual journal
+          example: "00000000-0000-0000-000-000000000000"
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          $ref: '#/components/responses/HistoryRetrieved'
+    put:
+      security:
+        - OAuth2: [accounting.transactions]
+      tags:
+        - Accounting
+      operationId: createManualJournalHistoryRecord
+      x-hasAccountingValidationError: true
+      summary: Allows you to create history record for a manual journal
+      parameters:
+        - required: true
+          in: path
+          name: ManualJournalID
+          description: Xero generated unique identifier for a manual journal
+          example: "00000000-0000-0000-000-000000000000"
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          $ref: '#/components/responses/HistoryRecordCreated'
+        '400':
+          $ref: '#/components/responses/400Error'
+      requestBody:
+        $ref: '#/components/requestBodies/historyRecords'
   /Organisation:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
