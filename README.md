@@ -58,3 +58,12 @@ This software is published under the [MIT License](http://en.wikipedia.org/wiki/
 	WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 	FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 	OTHER DEALINGS IN THE SOFTWARE.
+
+
+https://github.com/XeroAPI/Xero-OpenAPI/blob/b69c3d350b915786a8de96c5838a7bb8b9a4f99b/accounting-yaml/Xero_accounting_2.0.0_swagger.yaml
+
+
+better:
+https://github.com/XeroAPI/Xero-OpenAPI/commit/9ac8b996c156145c7b4ebc78a5735771759191a6
+
+x-ruby-param ? should I change that example: to `x-node-param:` ?
