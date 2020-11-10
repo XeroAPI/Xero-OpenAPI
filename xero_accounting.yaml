@@ -23414,7 +23414,6 @@ components:
             $ref: '#/components/schemas/ConversionBalances'
     ConversionBalances:
       description: Balance supplied for each account that has a value as at the conversion date.
-      type: object
       properties:
         AccountCode:
           description: The account code for a account
@@ -23424,13 +23423,12 @@ components:
           type: number
           format: double
         BalanceDetails:
-          description: An array to specify multiple currency balances of an account
           type: array
           items:
             $ref: '#/components/schemas/BalanceDetails'
+      type: object
     BalanceDetails:
       description: An array to specify multiple currency balances of an account
-      type: object
       properties:
         Balance:
           description: The opening balances of the account. Debits are positive, credits are negative values
@@ -23444,6 +23442,7 @@ components:
           type: number
           format: double
           x-is-money: true
+      type: object
     ImportSummary:
       externalDocs:
         url: 'https://developer.xero.com/documentation/api-guides/conversions'
