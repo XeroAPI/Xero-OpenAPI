@@ -18197,7 +18197,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ImportSummary'
+                $ref: '#/components/schemas/ImportSummaryObject'
               example: '{
                           "Id": "80dcb65b-4d14-4350-84e6-1438a809244a",
                           "Status": "OK",
@@ -23442,53 +23442,65 @@ components:
           format: double
           x-is-money: true
       type: object
-    ImportSummary:
+    ImportSummaryObject:
       externalDocs:
         url: 'https://developer.xero.com/documentation/api-guides/conversions'
       properties:
+        ImportSummary:
+          $ref: '#/components/schemas/ImportSummary'
+    ImportSummary:
+      externalDocs:
+        url: 'https://developer.xero.com/documentation/api-guides/conversions'
+      description: A summary of the import from setup endpoint
+      type: object
+      properties:
         Accounts:
-          description: A summary of the accounts changes
-          type: object
-          properties:
-            Total:
-              description: The total number of accounts in the org
-              type: number
-              format: integer
-            New:
-              description: The number of new accounts created
-              type: number
-              format: integer
-            Updated:
-              description: The number of accounts updated
-              type: number
-              format: integer
-            Deleted:
-              description: The number of accounts deleted
-              type: number
-              format: integer
-            Locked:
-              description: The number of locked accounts
-              type: number
-              format: integer
-            System:
-              description: The number of system accounts
-              type: number
-              format: integer
-            Errored:
-              description: The number of accounts that had an error
-              type: number
-              format: integer
-            Present:
-              type: boolean
-            NewOrUpdated:
-              description: The number of new or updated accounts
-              type: number
-              format: integer
+          $ref: '#/components/schemas/ImportSummaryAccount'
         Organisation:
-          type: object
-          properties:
-            Present:
-              type: boolean
+          $ref: '#/components/schemas/ImportSummaryOrganisation'
+    ImportSummaryAccount:
+      description: A summary of the accounts changes
+      type: object
+      properties:
+        Total:
+          description: The total number of accounts in the org
+          type: number
+          format: integer
+        New:
+          description: The number of new accounts created
+          type: number
+          format: integer
+        Updated:
+          description: The number of accounts updated
+          type: number
+          format: integer
+        Deleted:
+          description: The number of accounts deleted
+          type: number
+          format: integer
+        Locked:
+          description: The number of locked accounts
+          type: number
+          format: integer
+        System:
+          description: The number of system accounts
+          type: number
+          format: integer
+        Errored:
+          description: The number of accounts that had an error
+          type: number
+          format: integer
+        Present:
+          type: boolean
+        NewOrUpdated:
+          description: The number of new or updated accounts
+          type: number
+          format: integer
+    ImportSummaryOrganisation:
+      type: object
+      properties:
+        Present:
+          type: boolean
     TaxRate:
       externalDocs:
         url: 'http://developer.xero.com/documentation/api/tax-rates/'
