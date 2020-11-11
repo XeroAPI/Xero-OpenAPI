@@ -18197,7 +18197,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ImportSummary'
+                $ref: '#/components/schemas/ImportSummaryObject'
               example: '{
                           "Id": "80dcb65b-4d14-4350-84e6-1438a809244a",
                           "Status": "OK",
@@ -19380,7 +19380,6 @@ components:
             - ''
         ReportingCode:
           description: Shown if set
-          readOnly: true
           type: string
         ReportingCodeName:
           description: Shown if set
@@ -23389,103 +23388,119 @@ components:
       externalDocs:
         url: 'https://developer.xero.com/documentation/api-guides/conversions'
       properties:
-        Accounts:
-          description: See Accounts
-          type: array
-          items:
-            $ref: '#/components/schemas/Accounts'
         ConversionDate:
-          description: The date when the organisation starts using Xero
-          type: object
-          properties:
-            Month: 
-              description: The month the organisation starts using Xero. Value is an integer between 1 and 12
-              type: number
-              format: integer
-              example: 1
-            Year:
-              description: The year the organisation starts using Xero. Value is an integer greater than 2006
-              type: number
-              format: integer
-              example: 2020
+          $ref: '#/components/schemas/ConversionDate'
         ConversionBalances:
           description: Balance supplied for each account that has a value as at the conversion date.
           type: array
           items:
-            type: object
-            properties:
-              AccountCode:
-                description: The account code for a account
-                type: string
-              Balance:
-                description: The opening balances of the account. Debits are positive, credits are negative values
-                type: number
-                format: double
-              BalanceDetails:
-                description: An array to specify multiple currency balances of an account
-                type: array
-                items:
-                  type: object
-                  properties:
-                    Balance:
-                      description: The opening balances of the account. Debits are positive, credits are negative values
-                      type: number
-                      format: double
-                    CurrencyCode:
-                      description: The currency of the balance (Not required for base currency)
-                      type: string
-                    CurrencyRate: 
-                      description: (Optional) Exchange rate to base currency when money is spent or received. If not specified, XE rate for the day is applied
-                      type: number
-                      format: double
-                      x-is-money: true
-    ImportSummary:
+            $ref: '#/components/schemas/ConversionBalances'
+        Accounts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Account'
+    ConversionDate:
+      description: The date when the organisation starts using Xero
+      type: object
+      properties:
+        Month: 
+          description: The month the organisation starts using Xero. Value is an integer between 1 and 12
+          type: integer
+          example: 1
+        Year:
+          description: The year the organisation starts using Xero. Value is an integer greater than 2006
+          type: integer
+          example: 2020
+    ConversionBalances:
+      description: Balance supplied for each account that has a value as at the conversion date.
+      properties:
+        AccountCode:
+          description: The account code for a account
+          type: string
+        Balance:
+          description: The opening balances of the account. Debits are positive, credits are negative values
+          type: number
+          format: double
+        BalanceDetails:
+          type: array
+          items:
+            $ref: '#/components/schemas/BalanceDetails'
+      type: object
+    BalanceDetails:
+      description: An array to specify multiple currency balances of an account
+      properties:
+        Balance:
+          description: The opening balances of the account. Debits are positive, credits are negative values
+          type: number
+          format: double
+        CurrencyCode:
+          description: The currency of the balance (Not required for base currency)
+          type: string
+        CurrencyRate: 
+          description: (Optional) Exchange rate to base currency when money is spent or received. If not specified, XE rate for the day is applied
+          type: number
+          format: double
+          x-is-money: true
+      type: object
+    ImportSummaryObject:
       externalDocs:
         url: 'https://developer.xero.com/documentation/api-guides/conversions'
       properties:
+        ImportSummary:
+          $ref: '#/components/schemas/ImportSummary'
+    ImportSummary:
+      externalDocs:
+        url: 'https://developer.xero.com/documentation/api-guides/conversions'
+      description: A summary of the import from setup endpoint
+      type: object
+      properties:
         Accounts:
-          description: A summary of the accounts changes
-          type: object
-          properties:
-            Total:
-              description: The total number of accounts in the org
-              type: number
-              format: integer
-            New:
-              description: The number of new accounts created
-              type: number
-              format: integer
-            Updated:
-              description: The number of accounts updated
-              type: number
-              format: integer
-            Deleted:
-              description: The number of accounts deleted
-              type: number
-              format: integer
-            Locked:
-              description: The number of locked accounts
-              type: number
-              format: integer
-            System:
-              description: The number of system accounts
-              type: number
-              format: integer
-            Errored:
-              description: The number of accounts that had an error
-              type: number
-              format: integer
-            Present:
-              type: boolean
-            NewOrUpdated:
-              description: The number of new or updated accounts
-              type: number
-              format: integer
+          $ref: '#/components/schemas/ImportSummaryAccounts'
         Organisation:
-          type: object
-          properties:
-            Present:
-              type: boolean
+          $ref: '#/components/schemas/ImportSummaryOrganisation'
+    ImportSummaryAccounts:
+      description: A summary of the accounts changes
+      type: object
+      properties:
+        Total:
+          description: The total number of accounts in the org
+          type: number
+          format: integer
+        New:
+          description: The number of new accounts created
+          type: number
+          format: integer
+        Updated:
+          description: The number of accounts updated
+          type: number
+          format: integer
+        Deleted:
+          description: The number of accounts deleted
+          type: number
+          format: integer
+        Locked:
+          description: The number of locked accounts
+          type: number
+          format: integer
+        System:
+          description: The number of system accounts
+          type: number
+          format: integer
+        Errored:
+          description: The number of accounts that had an error
+          type: number
+          format: integer
+        Present:
+          type: boolean
+        NewOrUpdated:
+          description: The number of new or updated accounts
+          type: number
+          format: integer
+    ImportSummaryOrganisation:
+      type: object
+      properties:
+        Present:
+          type: boolean
     TaxRate:
       externalDocs:
         url: 'http://developer.xero.com/documentation/api/tax-rates/'
