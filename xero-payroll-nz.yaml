@@ -5660,16 +5660,21 @@ components:
           description: Indicates how an employee will be paid when taking this type of earning
           type: string
           enum:
-            - OvertimeEarnings
             - Allowance
-            - RegularEarnings
-            - Commission
+            - Backpay
             - Bonus
+            - Commission
+            - DiscretionaryPayments
+            - HolidayPay
+            - LumpSum
+            - OtherEarnings
+            - OtherGrossEarnings
+            - OvertimeEarnings
+            - RegularEarnings
+            - SalarySacrificeForKiwiSaver
             - Tips(Direct)
             - Tips(Non-Direct)
-            - Backpay
-            - OtherEarnings
-            - LumpSum
+            - WithholdingIncome
         rateType:
           description: Indicates the type of the earning rate
           type: string
@@ -6005,8 +6010,6 @@ components:
           $ref: '#/components/schemas/PaymentMethod'
     PaymentMethod:
       type: object
-      required:
-        - paymentMethod
       properties:
         paymentMethod:
           description: The payment method code
@@ -6044,7 +6047,6 @@ components:
       required:
         - earningsRateID
         - numberOfUnitsPerWeek
-        - ratePerUnit
         - numberOfUnitsPerDay
         - effectiveFrom
         - annualSalary
