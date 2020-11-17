@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Accounting API
-  version: "2.4.4"
+  version: "2.5.0"
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
   contact:
     name: "Xero Platform Team"
@@ -19780,7 +19780,7 @@ components:
         Reference:
           description: (NZ Only) Optional references for the batch payment transaction. It will also show with the batch payment transaction in the bank reconciliation Find & Match screen. Depending on your individual bank, the detail may also show on the bank statement you import into Xero. 
           type: string
-          maxLength: 12
+          maxLength: 255
         Particulars:
           description: (NZ Only) Optional references for the batch payment transaction. It will also show with the batch payment transaction in the bank reconciliation Find & Match screen. Depending on your individual bank, the detail may also show on the bank statement you import into Xero. 
           type: string
@@ -20269,6 +20269,10 @@ components:
         Date:
           description: The date the credit note is issued YYYY-MM-DD. If the Date element is not specified then it will default to the current date based on
             the timezone setting of the organisation
+          type: string
+          x-is-msdate: true
+        DueDate:
+          description: Date invoice is due – YYYY-MM-DD
           type: string
           x-is-msdate: true
         Status:
