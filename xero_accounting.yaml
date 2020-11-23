@@ -72,17 +72,10 @@ paths:
       tags:
         - Accounting
       operationId: createAccount
+      summary: Allows you to create a new chart of accounts
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ code: "123456", name: "Foobar", type: AccountType.EXPENSE, description: "Hello World" }'
-      x-ruby-requestBody: 'account = { code: "123456", name: "Foobar", type: XeroRuby::Accounting::AccountType::EXPENSE, description: "Hello World" }'
-      summary: Allows you to create a new chart of accounts
-      x-php:
-          - '$account = new XeroAPI\XeroPHP\Models\Accounting\Account;'
-          - '$account->setCode("987654321");'
-          - '$account->setName("FooBar");'
-          - '$account->setType("EXPENSE");'
-          - '$account->setDescription("Hello World");'
-          - '$result = $apiInstance->createAccount($xeroTenantId,$account);'
+      x-ruby-requestBody: 'account = { code: "123456", name: "Foobar", type: XeroRuby::Accounting::AccountType::EXPENSE, description: "Hello World" }'      
       x-example:
         - code:
           key: code
@@ -99,6 +92,9 @@ paths:
           nonString: "true"
           php: XeroAPI\XeroPHP\Models\Accounting\AccountType::EXPENSE
           node: AccountType.EXPENSE
+          ruby: XeroRuby::Accounting::AccountType::EXPENSE
+          python: AccountType.EXPENSE
+          java: com.xero.models.accounting.AccountType.EXPENSE
         - description:
           key: description
           keyPascal: Description
