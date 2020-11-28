@@ -77,14 +77,20 @@ paths:
       x-node-requestBody: '{ code: "123456", name: "Foobar", type: AccountType.EXPENSE, description: "Hello World" }'
       x-ruby-requestBody: 'account = { code: "123456", name: "Foobar", type: XeroRuby::Accounting::AccountType::EXPENSE, description: "Hello World" }'      
       x-example:
+        - Contact:
+          is_object: true
+          key: contact
+          keyPascal: Contact
         - code:
           key: code
           keyPascal: Code
           default: 123456
+          object: contact
         - name:
           key: name
           keyPascal: Name
           default: FooBar
+          object: contact
         - type:
           key: type
           keyPascal: Type
@@ -96,10 +102,12 @@ paths:
           python: AccountType.EXPENSE
           java: com.xero.models.accounting.AccountType.EXPENSE
           csharp: Account.ClassEnum.EXPENSE
+          object: contact
         - description:
           key: description
           keyPascal: Description
           default: "Hello World"
+          object: contact
       responses:
         '200':
           description: Success - created new Account and return response of type Accounts array with new Account 
@@ -3009,7 +3017,6 @@ paths:
           is_array_add: true
           key: contacts
           keyPascal: Contacts
-          default: Contact
           object: contact
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
