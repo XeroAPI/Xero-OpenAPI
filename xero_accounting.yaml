@@ -231,10 +231,70 @@ paths:
       tags: 
         - Accounting
       operationId: updateAccount
+      summary: Allows you to update a chart of accounts
       x-hasAccountingValidationError: true
       x-ruby-requestBody: '{ accounts: [{ code: "123456", name: "BarFoo", account_id: "00000000-0000-0000-000-000000000000", type: XeroRuby::Accounting::Account::EXPENSE, description: "GoodBye World", tax_type: XeroRuby::Accounting::TaxType::NONE }]}'
       x-node-requestBody: '{ accounts: [{ code: "123456", name: "BarFoo", accountID: "00000000-0000-0000-000-000000000000", type: AccountType.EXPENSE, description: "GoodBye World", taxType: TaxType.INPUT }]}'
-      summary: Allows you to update a chart of accounts
+      x-example:
+        - accounts:
+          is_array: true
+          key: accounts
+          keyPascal: Accounts
+        - account:
+          is_object: true
+          key: account
+          keyPascal: Account
+        - code:
+          key: code
+          keyPascal: Code
+          default: 123456
+          object: account
+        - name:
+          key: name
+          keyPascal: Name
+          default: BarFoo
+          object: account
+        - accountId:
+          key: accountID
+          keyPascal: AccountID
+          keySnake: account_id
+          default: 00000000-0000-0000-000-000000000000
+          object: account
+        - type:
+          nonString: "true"
+          key: type
+          keyPascal: Type
+          default: EXPENSE
+          php: XeroAPI\XeroPHP\Models\Accounting\AccountType::EXPENSE
+          node: AccountType.EXPENSE
+          ruby: XeroRuby::Accounting::AccountType::EXPENSE
+          python: AccountType.EXPENSE
+          java: com.xero.models.accounting.Phone.PhoneTypeEnum.MOBILE
+          csharp: Account.ClassEnum.EXPENSE
+          object: account
+        - description:
+          key: description
+          keyPascal: Description
+          default: Goodbye World
+          object: account
+        - taxType:
+          nonString: "true"
+          key: taxType
+          keyPascal: TaxType
+          default: NONE
+          php: XeroAPI\XeroPHP\Models\Accounting\TaxType::NONE
+          node: TaxType.NONE
+          ruby: XeroRuby::Accounting::TaxType::NONE
+          python: TaxType.NONE
+          java: com.xero.models.accounting.TaxType.NONE
+          csharp: TaxType.ClassEnum.NONE
+          object: account
+        - accounts:
+          is_array_add: true
+          key: accounts
+          keyPascal: Accounts
+          java: Accounts
+          object: account
       parameters:
         - required: true
           in: path
