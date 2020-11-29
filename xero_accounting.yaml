@@ -2978,45 +2978,66 @@ paths:
       x-node-requestBody: '{ contacts: [{ name: "Bruce Banner", emailAddress: "hulk@avengers.com", phones: [{ phoneType: Phone.PhoneTypeEnum.MOBILE, phoneNumber: "555-1212", phoneAreaCode: "415" }], paymentTerms: { bills: { day: 15, type: PaymentTermType.OFCURRENTMONTH }, sales: { day: 10, type: PaymentTermType.DAYSAFTERBILLMONTH }}}]}'
       x-ruby-requestBody: 'contacts = { contacts: [{ name: "Bruce Banner", email_address: "hulk@avengers.com", phones: [{ phone_type: XeroRuby::Accounting::Phone::MOBILE, phone_number: "555-1212", phone_area_code: "415" }], payment_terms: { bills: { day: 15, type: XeroRuby::Accounting::PaymentTermType::OFCURRENTMONTH }, sales: { day: 10, type: XeroRuby::Accounting::PaymentTermType::DAYSAFTERBILLMONTH }}}]}'      
       x-example:
-        - Contacts:
+        - contacts:
           is_array: true
           key: contacts
           keyPascal: Contacts
-        - Contact:
+        - contact:
           is_object: true
           key: contact
           keyPascal: Contact
-        - code:
-          key: code
-          keyPascal: Code
-          default: 123456
-          object: contact
         - name:
           key: name
           keyPascal: Name
-          default: FooBar
+          default: Bruce Banner
           object: contact
-        - type:
-          key: type
-          keyPascal: Type
-          default: EXPENSE
+        - emailAddress:
+          key: emailAddress
+          keyPascal: EmailAddress
+          default: hulk@avengers.com
+          object: contact
+        - phones:
+          is_array: true
+          key: phones
+          keyPascal: Phones
+        - phone:
+          is_object: true
+          key: phone
+          keyPascal: Phone
+        - phoneNumber:
+          key: phoneNumber
+          keyPascal: PhoneNumber
+          default: 555-1212
+          object: phone
+        - phoneType:
           nonString: "true"
+          key: phoneType
+          keyPascal: PhoneType
+          default: MOBILE
           php: XeroAPI\XeroPHP\Models\Accounting\AccountType::EXPENSE
           node: AccountType.EXPENSE
           ruby: XeroRuby::Accounting::AccountType::EXPENSE
           python: AccountType.EXPENSE
-          java: com.xero.models.accounting.AccountType.EXPENSE
+          java: com.xero.models.accounting.Phone.PhoneTypeEnum.MOBILE
           csharp: Account.ClassEnum.EXPENSE
+          object: phone
+        - phones:
+          is_array_add: true
+          key: phones
+          keyPascal: Phones
+          java: Phones
+          object: phone
+        - phone:
+          nonString: "true"
+          key: phone
+          keyPascal: Phone
+          default: phones
           object: contact
-        - description:
-          key: description
-          keyPascal: Description
-          default: "Hello World"
-          object: contact
-        - Contacts:
+        - contacts:
           is_array_add: true
           key: contacts
           keyPascal: Contacts
+          java: Contacts
           object: contact
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
