@@ -849,6 +849,15 @@ paths:
           keyPascal: Code
           default: "001"
           object: bankAccount
+        - invoice:
+          is_object: true
+          key: invoice
+          keyPascal: Invoice
+        - invoiceId:
+          key: invoiceId
+          keyPascal: InvoiceId
+          default: "00000000-0000-0000-000-000000000000"
+          object: invoice
         - batchPayments:
           is_array: true
           key: batchPayments
@@ -895,9 +904,10 @@ paths:
           default: bankAccount
           object: payment
         - date:
+          nonString: "true"
           key: date
           keyPascal: Date
-          default: "2020-10-31"
+          default: currDate
           object: payment
         - amount:
           key: amount
@@ -905,9 +915,10 @@ paths:
           default: 500
           object: payment
         - invoice:
+          nonString: "true"
           key: invoice
           keyPascal: Invoice
-          default: bar
+          default: invoice
           object: payment
         - payments:
           is_array_add: true
