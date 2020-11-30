@@ -254,12 +254,6 @@ paths:
           keyPascal: Name
           default: BarFoo
           object: account
-        - accountId:
-          key: accountID
-          keyPascal: AccountID
-          keySnake: account_id
-          default: 00000000-0000-0000-000-000000000000
-          object: account
         - type:
           nonString: "true"
           key: type
@@ -832,10 +826,79 @@ paths:
       tags:
         - Accounting
       operationId: createBatchPayment
+      summary: Create one or many BatchPayments for invoices
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ batchPayments: [{ account: { accountId: "00000000-0000-0000-000-000000000000" }, reference: "ref", date: "2018-08-01", payments: [{  account: { code: "001" }, date: "2019-12-31", amount: 500, invoice: { invoiceId: "00000000-0000-0000-000-000000000000", lineItems: [], contact: {}, type: Invoice.TypeEnum.ACCPAY }}]}]}'
       x-ruby-requestBody: 'batch_payments = { batch_payments: [{ account: { account_id: "00000000-0000-0000-000-000000000000" }, reference: "ref", date: "2018-08-01", payments: [{  account: { code: "001" }, date: "2019-12-31", amount: 500, invoice: { invoice_id: "00000000-0000-0000-000-000000000000", line_items: [], contact: {}, type: XeroRuby::Accounting::Invoice::ACCPAY }}]}]}'
-      summary: Create one or many BatchPayments for invoices
+      x-example:
+        - batchPayments:
+          is_array: true
+          key: batchPayments
+          keyPascal: BatchPayments
+        - batchPayment:
+          is_object: true
+          key: batchPayment
+          keyPascal: BatchPayment
+        - account:
+          key: account
+          keyPascal: Account
+          object: batchPayment
+        - reference:
+          key: reference
+          keyPascal: reference
+          default: ref.101
+          object: batchPayment
+        - date:
+          key: date
+          keyPascal: date
+          default: ref.101
+          object: batchPayment
+        - payments:
+          is_array: true
+          key: payments
+          keyPascal: Payments
+        - payment:
+          is_object: true
+          key: payment
+          keyPascal: Payment
+        - account:
+          key: account
+          keyPascal: Account
+          default: "{ code: "001" }"
+          object: payment
+        - date:
+          key: date
+          keyPascal: Date
+          default: "2020-10-31"
+          object: payment
+        - amount:
+          key: amount
+          keyPascal: Amount
+          default: 500
+          object: payment
+        - invoice:
+          key: invoice
+          keyPascal: Invoice
+          default: "{ invoiceId: "00000000-0000-0000-000-000000000000", lineItems: [], contact: {}, type: Invoice.TypeEnum.ACCPAY }"
+          object: payment
+        - payments:
+          is_array_add: true
+          key: payments
+          keyPascal: Payments
+          java: Payments
+          object: payment
+        - payment:
+          nonString: "true"
+          key: payment
+          keyPascal: Payment
+          default: payments
+          object: batchPayment
+        - batchPayments:
+          is_array_add: true
+          key: batchPayments
+          keyPascal: BatchPayments
+          java: BatchPayments
+          object: batchPayment
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
       responses:
