@@ -831,6 +831,24 @@ paths:
       x-node-requestBody: '{ batchPayments: [{ account: { accountId: "00000000-0000-0000-000-000000000000" }, reference: "ref", date: "2018-08-01", payments: [{  account: { code: "001" }, date: "2019-12-31", amount: 500, invoice: { invoiceId: "00000000-0000-0000-000-000000000000", lineItems: [], contact: {}, type: Invoice.TypeEnum.ACCPAY }}]}]}'
       x-ruby-requestBody: 'batch_payments = { batch_payments: [{ account: { account_id: "00000000-0000-0000-000-000000000000" }, reference: "ref", date: "2018-08-01", payments: [{  account: { code: "001" }, date: "2019-12-31", amount: 500, invoice: { invoice_id: "00000000-0000-0000-000-000000000000", line_items: [], contact: {}, type: XeroRuby::Accounting::Invoice::ACCPAY }}]}]}'
       x-example:
+        - paymentAccount:
+          is_object: true
+          key: paymentAccount
+          keyPascal: Account
+        - accountId:
+          key: accountId
+          keyPascal: AccountId
+          default: 00000000-0000-0000-000-000000000000
+          object: paymentAccount
+        - bankAccount:
+          is_object: true
+          key: bankAccount
+          keyPascal: Account
+        - code:
+          key: code
+          keyPascal: Code
+          default: 001
+          object: bankAccount
         - batchPayments:
           is_array: true
           key: batchPayments
@@ -840,17 +858,19 @@ paths:
           key: batchPayment
           keyPascal: BatchPayment
         - account:
+          nonString: "true"
           key: account
           keyPascal: Account
+          default: paymentAccount
           object: batchPayment
         - reference:
           key: reference
-          keyPascal: reference
+          keyPascal: Reference
           default: ref.101
           object: batchPayment
         - date:
           key: date
-          keyPascal: date
+          keyPascal: Date
           default: ref.101
           object: batchPayment
         - payments:
@@ -862,9 +882,10 @@ paths:
           key: payment
           keyPascal: Payment
         - account:
+          nonString: "true"
           key: account
           keyPascal: Account
-          default: foo
+          default: bankAccount
           object: payment
         - date:
           key: date
