@@ -1893,10 +1893,93 @@ paths:
       tags:
         - Accounting
       operationId: updateBankTransaction
+      summary: Allows you to update a single spend or receive money transaction
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ bankTransactions: [{ type: BankTransaction.TypeEnum.SPEND, date: "2019-02-25", reference: "You just updated", status: BankTransaction.StatusEnum.AUTHORISED, bankTransactionID: "00000000-0000-0000-000-000000000000", lineItems: [], contact: {}, bankAccount: { accountID: "00000000-0000-0000-000-000000000000" }}]}'
-      x-ruby-requestBody: '{ bank_transactions: [{ type: XeroRuby::Accounting::BankTransaction::SPEND, date: "2019-02-25", reference: "You just updated", status: XeroRuby::Accounting::BankTransaction::AUTHORISED, bank_transaction_id: "00000000-0000-0000-000-000000000000", line_items: [], contact: {}, bank_account: { account_id: "00000000-0000-0000-000-000000000000" }}]}'
-      summary: Allows you to update a single spend or receive money transaction
+      x-ruby-requestBody: '{ bank_transactions: [{ type: XeroRuby::Accounting::BankTransaction::SPEND, date: "2019-02-25", reference: "You just updated", status: XeroRuby::Accounting::BankTransaction::AUTHORISED, bank_transaction_id: "00000000-0000-0000-000-000000000000", line_items: [], contact: {}, bank_account: { account_id: "00000000-0000-0000-000-000000000000" }}]}'      
+      x-example:
+        - bankTransactions:
+          is_array: true
+          key: bankTransactions
+          keyPascal: BankTransactions
+        - bankTransaction:
+          is_object: true
+          key: bankTransaction
+          keyPascal: BankTransaction
+        - reference:
+          key: reference
+          keyPascal: Reference
+          default: You just updated
+          object: bankTransaction
+        - contact:
+          is_object: true
+          key: contact
+          keyPascal: Contact
+        - contactID:
+          is_uuid: true
+          key: contactId
+          keyPascal: ContactID
+          default: 00000000-0000-0000-000-000000000000
+          object: contact
+        - set_contact:
+          nonString: "true"
+          key: contact
+          keyPascal: Contact
+          default: contact
+          object: bankTransaction
+        - lineItem:
+          is_object: true
+          key: lineItem
+          keyPascal: LineItem
+        - description:
+          key: description
+          keyPascal: Description
+          default: Foobar
+          object: lineItem
+        - quantity:
+          nonString: true
+          key: quantity
+          keyPascal: Quantity
+          default: 1.0
+          object: lineItem
+        - unitAmount:
+          nonString: true
+          key: unitAmount
+          keyPascal: UnitAmount
+          default: 20.0
+          object: lineItem
+        - accountCode:
+          key: accountCode
+          keyPascal: AccountCode
+          default: "000"
+          object: lineItem
+        - add_lineitems:
+          is_array_add: true
+          key: bankTransaction
+          keyPascal: LineItem
+          java: LineItems
+          object: lineItem
+        - bankAccount:
+          is_object: true
+          key: bankAccount
+          keyPascal: Account
+        - code:
+          key: code
+          keyPascal: Code
+          default: "001"
+          object: bankAccount
+        - set_bankaccount:
+          nonString: true
+          key: bankAccount
+          keyPascal: BankAccount
+          default: bankAccount
+          object: bankTransaction
+        - add_bankTransaction:
+          is_array_add: true
+          key: bankTransactions
+          keyPascal: BankTransactions
+          java: BankTransactions
+          object: bankTransaction
       parameters:
         - required: true
           in: path
