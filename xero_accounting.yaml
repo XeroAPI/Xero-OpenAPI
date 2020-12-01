@@ -1289,10 +1289,72 @@ paths:
       tags:
         - Accounting
       operationId: createBankTransactions
+      summary: Allows you to create one or more spend or receive money transaction
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ bankTransactions: [{ type: BankTransaction.TypeEnum.SPEND, contact: { contactID: "00000000-0000-0000-000-000000000000" }, lineItems: [{ description: "Foobar", quantity: 1.0, unitAmount: 20.0, accountCode: "000" } ], bankAccount: { code: "000" }}]}'
       x-ruby-requestBody: 'bank_transactions = { bank_transactions: [{ type: XeroRuby::Accounting::BankTransaction::SPEND, contact: { contact_id: "00000000-0000-0000-000-000000000000" }, line_items: [{ description: "Foobar", quantity: 1.0, unit_amount: 20.0, account_code: "000" } ], bank_account: { code: "000" }}]}'
-      summary: Allows you to create one or more spend or receive money transaction
+      x-example:
+        - bankTransactions:
+          is_array: true
+          key: bankTransactions
+          keyPascal: BankTransactions
+        - bankTransaction:
+          is_object: true
+          key: bankTransaction
+          keyPascal: bankTransaction
+        - phoneType:
+          nonString: "true"
+          key: phoneType
+          keyPascal: PhoneType
+          default: MOBILE
+          php: XeroAPI\XeroPHP\Models\Accounting\AccountType::EXPENSE
+          node: AccountType.EXPENSE
+          ruby: XeroRuby::Accounting::AccountType::EXPENSE
+          python: AccountType.EXPENSE
+          java: com.xero.models.accounting.Phone.PhoneTypeEnum.MOBILE
+          csharp: Account.ClassEnum.EXPENSE
+          object: phone
+        - name:
+          key: name
+          keyPascal: Name
+          default: Bruce Banner
+          object: contact
+        - emailAddress:
+          key: emailAddress
+          keyPascal: EmailAddress
+          default: hulk@avengers.com
+          object: contact
+        - phones:
+          is_array: true
+          key: phones
+          keyPascal: Phones
+        - phone:
+          is_object: true
+          key: phone
+          keyPascal: Phone
+        - phoneNumber:
+          key: phoneNumber
+          keyPascal: PhoneNumber
+          default: 555-1212
+          object: phone
+        - phones:
+          is_array_add: true
+          key: phones
+          keyPascal: Phones
+          java: Phones
+          object: phone
+        - phone:
+          nonString: "true"
+          key: phone
+          keyPascal: Phone
+          default: phones
+          object: contact
+        - bankTransactions:
+          is_array_add: true
+          key: bankTransactions
+          keyPascal: BankTransactions
+          java: BankTransactions
+          object: bankTransaction
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
         - $ref: '#/components/parameters/unitdp'
@@ -3159,7 +3221,7 @@ paths:
           default: hulk@avengers.com
           object: contact
         - phones:
-          is_array: true
+          is_list: true
           key: phones
           keyPascal: Phones
         - phone:
@@ -3184,10 +3246,9 @@ paths:
           csharp: Account.ClassEnum.EXPENSE
           object: phone
         - phones:
-          is_array_add: true
+          is_list_add: true
           key: phones
           keyPascal: Phones
-          java: Phones
           object: phone
         - phone:
           nonString: "true"
