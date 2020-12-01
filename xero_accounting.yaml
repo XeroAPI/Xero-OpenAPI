@@ -1500,10 +1500,100 @@ paths:
       tags:
         - Accounting
       operationId: updateOrCreateBankTransactions
+      summary: Allows you to update or create one or more spend or receive money transaction
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ bankTransactions: [{ type: BankTransaction.TypeEnum.SPEND, contact: { contactId: "00000000-0000-0000-000-000000000000" }, lineItems: [{ description: "Foobar", quantity: 1.0, unitAmount: 20.0, accountCode: "000" }], bankAccount: { code: "000" }}]}'
       x-ruby-requestBody: 'bank_transactions = { bank_transactions: [{ type: XeroRuby::Accounting::BankTransaction::SPEND, contact: { contact_id: "00000000-0000-0000-000-000000000000" }, line_items: [{ description: "Foobar", quantity: 1.0, unit_amount: 20.0, account_code: "000" }], bank_account: { code: "000" }}]}'
-      summary: Allows you to update or create one or more spend or receive money transaction
+      x-example:
+        - bankTransactions:
+          is_array: true
+          key: bankTransactions
+          keyPascal: BankTransactions
+        - bankTransaction:
+          is_object: true
+          key: bankTransaction
+          keyPascal: BankTransaction
+        - type:
+          nonString: "true"
+          key: type
+          keyPascal: Type
+          default: SPEND
+          php: XeroAPI\XeroPHP\Models\Accounting\BankTransaction::TYPE_SPEND
+          node: BankTransaction.TypeEnum.SPEND
+          ruby: XeroRuby::Accounting::BankTransaction::SPEND
+          python: AccountType.EXPENSE
+          java: com.xero.models.accounting.BankTransaction.TypeEnum.SPEND
+          csharp: Account.ClassEnum.EXPENSE
+          object: bankTransaction
+        - contact:
+          is_object: true
+          key: contact
+          keyPascal: Contact
+        - contactID:
+          is_uuid: true
+          key: contactId
+          keyPascal: ContactID
+          default: 00000000-0000-0000-000-000000000000
+          object: contact
+        - set_contact:
+          nonString: "true"
+          key: contact
+          keyPascal: Contact
+          default: contact
+          object: bankTransaction
+        - lineItem:
+          is_object: true
+          key: lineItem
+          keyPascal: LineItem
+        - description:
+          key: description
+          keyPascal: Description
+          default: Foobar
+          object: lineItem
+        - quantity:
+          nonString: true
+          key: quantity
+          keyPascal: Quantity
+          default: 1.0
+          object: lineItem
+        - unitAmount:
+          nonString: true
+          key: unitAmount
+          keyPascal: UnitAmount
+          default: 20.0
+          object: lineItem
+        - accountCode:
+          key: accountCode
+          keyPascal: AccountCode
+          default: "000"
+          object: lineItem
+        - set_lineitems:
+          is_array_add: true
+          key: lineItem
+          keyPascal: LineItem
+          java: LineItems
+          object: bankTransaction
+        - bankAccount:
+          is_object: true
+          key: bankAccount
+          keyPascal: Account
+        - code:
+          key: code
+          keyPascal: Code
+          default: "001"
+          object: bankAccount
+        - set_bankaccount:
+          nonString: true
+          key: bankAccount
+          keyPascal: BankAccount
+          default: bankAccount
+          object: bankTransaction
+        - add_bankTransaction:
+          is_array_add: true
+          key: bankTransactions
+          keyPascal: BankTransactions
+          java: BankTransactions
+          object: bankTransaction
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
         - $ref: '#/components/parameters/unitdp'
