@@ -2587,10 +2587,45 @@ paths:
       tags:
         - Accounting
       operationId: createBankTransfer
+      summary: Allows you to create a bank transfers
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ bankTransfers: [{ fromBankAccount: { code: "000", accountID: "00000000-0000-0000-000-000000000000" }, toBankAccount: { code: "001", accountID: "00000000-0000-0000-000-000000000000" }, amount: "50.00" }]}'
       x-ruby-requestBody: 'bank_transfers = { bank_transfers: [{ from_bank_account: { code: "000", account_id: "00000000-0000-0000-000-000000000000" }, to_bank_account: { code: "001", account_id: "00000000-0000-0000-000-000000000000" }, amount: "50.00" }]}'
-      summary: Allows you to create a bank transfers
+      x-example:
+        - bankTransfers:
+          is_array: true
+          key: bankTransfers
+          keyPascal: BankTransfers
+        - bankTransfer:
+          is_object: true
+          key: bankTransfer
+          keyPascal: BankTransfer
+        - fromBankAccount:
+          is_object: true
+          key: fromBankAccount
+          keyPascal: Account
+        - code:
+          key: code
+          keyPascal: Code
+          default: 00000000-0000-0000-000-000000000000
+          object: fromBankAccount
+        - accountID:
+          key: accountID
+          keyPascal: AccountID
+          default: 00000000-0000-0000-000-000000000000
+          object: fromBankAccount
+        - set_fromBankAccount:
+          nonString: "true"
+          key: fromBankAccount
+          keyPascal: FromBankAccount
+          default: fromBankAccount
+          object: bankTransfer
+        - add_bankTransfer:
+          is_array_add: true
+          key: bankTransfers
+          keyPascal: BankTransfers
+          java: BankTransfers
+          object: bankTransfer
       responses:
         '200':
           description: Success - return response of BankTransfers array of one BankTransfer 
