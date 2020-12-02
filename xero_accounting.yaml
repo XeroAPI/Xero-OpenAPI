@@ -6588,10 +6588,59 @@ paths:
       tags:
         - Accounting
       operationId: createCreditNoteAllocation
+      summary: Allows you to create Allocation on CreditNote
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ allocations: [{ amount: 1.0, date: "2019-03-05", invoice: { invoiceID: "c45720a1-ade3-4a38-a064-d15489be6841", lineItems: [], type: Invoice.TypeEnum.ACCPAY, contact: {} }}]}'
       x-ruby-requestBody: 'allocations = { allocations: [{ amount: 1.0, date: "2019-03-05", invoice: { invoice_id: "c45720a1-ade3-4a38-a064-d15489be6841", line_items: [], type: XeroRuby::Accounting::Invoice::ACCPAY, contact: {} }}]}'
-      summary: Allows you to create Allocation on CreditNote
+      x-example:
+        - allocations:
+          is_array: true
+          key: allocations
+          keyPascal: Allocations
+        - allocation:
+          is_object: true
+          key: allocation
+          keyPascal: Allocation
+        - amount:
+          nonString: true
+          key: amount
+          keyPascal: Amount
+          default: 1.0
+          object: allocation
+        - currDate:
+          is_date: true
+          key: currDate
+          keyPascal: Date
+          java_datatype: LocalDate
+          default: "LocalDate.of(2020, Month.OCTOBER, 10)"
+        - date:
+          nonString: true
+          key: date
+          keyPascal: Date
+          default: currDate
+          object: allocation
+        - invoice:
+          is_object: true
+          key: invoice
+          keyPascal: Invoice
+        - invoiceID:
+          is_uuid: true
+          key: invoiceID
+          keyPascal: InvoiceID
+          default: 00000000-0000-0000-000-000000000000
+          object: invoice
+        - set_invoice:
+          nonString: "true"
+          key: invoice
+          keyPascal: Invoice
+          default: invoice
+          object: allocation
+        - add_allocation:
+          is_array_add: true
+          key: allocations
+          keyPascal: Allocations
+          java: Allocations
+          object: allocation
       parameters:
         - required: true
           in: path
