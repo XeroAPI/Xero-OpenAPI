@@ -865,8 +865,8 @@ paths:
         - currDate:
           is_date: true
           key: currDate
-          keyPascal: CurrDate
-          java: LocalDate
+          keyPascal: Date
+          java_datatype: LocalDate
           default: "LocalDate.now()"
         - date:
           nonString: "true"
@@ -5406,10 +5406,106 @@ paths:
       tags:
         - Accounting
       operationId: createCreditNotes
+      summary: Allows you to create a credit note
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ creditNotes: [{ type: CreditNote.TypeEnum.ACCPAYCREDIT, contact: { contactID: "430fa14a-f945-44d3-9f97-5df5e28441b8" }, date: "2019-01-05", lineItems: [{ description: "Foobar", quantity: 2.0, unitAmount: 20.0, accountCode: "400" }]}]}'
       x-ruby-requestBody: 'credit_notes = { credit_notes: [{ type: XeroRuby::Accounting::CreditNote::ACCPAYCREDIT, contact: { contact_id: "430fa14a-f945-44d3-9f97-5df5e28441b8" }, date: "2019-01-05", line_items: [{ description: "Foobar", quantity: 2.0, unit_amount: 20.0, account_code: "400" }]}]}'
-      summary: Allows you to create a credit note
+      x-example:
+        - creditNotes:
+          is_array: true
+          key: creditNotes
+          keyPascal: CreditNotes
+        - creditNote:
+          is_object: true
+          key: creditNote
+          keyPascal: CreditNote
+        - type:
+          nonString: "true"
+          key: type
+          keyPascal: Type
+          default: ACCPAYCREDIT
+          php: CreditNote.xxx
+          node: CreditNote.TypeEnum.ACCPAYCREDIT
+          ruby: XeroRuby::Accounting::CreditNote::ACCPAYCREDIT
+          python: CreditNote.xxx
+          java: CreditNote.xxx
+          csharp: CreditNote.xxx
+          object: creditNote
+        - contact:
+          is_object: true
+          key: contact
+          keyPascal: Contact
+        - contactID:
+          is_uuid: true
+          key: contactId
+          keyPascal: ContactID
+          default: 00000000-0000-0000-000-000000000000
+          object: contact
+        - set_contact:
+          nonString: "true"
+          key: contact
+          keyPascal: Contact
+          default: contact
+          object: creditNote
+        - currDate:
+          is_date: true
+          key: currDate
+          keyPascal: Date
+          java_datatype: LocalDate
+          default: "LocalDate.now()"
+        - date:
+          nonString: "true"
+          key: date
+          keyPascal: Date
+          default: currDate
+          object: batchPayment
+        - lineItems:
+          is_list: true
+          key: lineItem
+          keyPascal: LineItem
+        - lineItem:
+          is_object: true
+          key: lineItem
+          keyPascal: LineItem
+        - description:
+          key: description
+          keyPascal: Description
+          default: Foobar
+          object: lineItem
+        - quantity:
+          nonString: true
+          key: quantity
+          keyPascal: Quantity
+          default: 1.0
+          object: lineItem
+        - unitAmount:
+          nonString: true
+          key: unitAmount
+          keyPascal: UnitAmount
+          default: 20.0
+          object: lineItem
+        - accountCode:
+          key: accountCode
+          keyPascal: AccountCode
+          default: "000"
+          object: lineItem
+        - add_lineitems:
+          is_list_add: true
+          key: lineItems
+          keyPascal: LineItems
+          object: lineItem
+        - set_lineitem:
+          nonString: "true"
+          key: lineItem
+          keyPascal: LineItem
+          default: lineItem
+          object: creditNote
+        - add_bankTransaction:
+          is_array_add: true
+          key: creditNotes
+          keyPascal: CreditNotes
+          java: CreditNotes
+          object: creditNote
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
         - $ref: '#/components/parameters/unitdp'
