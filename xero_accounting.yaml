@@ -5424,11 +5424,11 @@ paths:
           key: type
           keyPascal: Type
           default: ACCPAYCREDIT
-          php: CreditNote.xxx
+          php: XeroAPI\XeroPHP\Models\Accounting\CreditNote::TYPE_ACCPAYCREDIT
           node: CreditNote.TypeEnum.ACCPAYCREDIT
           ruby: XeroRuby::Accounting::CreditNote::ACCPAYCREDIT
           python: CreditNote.xxx
-          java: CreditNote.xxx
+          java: com.xero.models.accounting.CreditNote.TypeEnum.ACCPAYCREDIT
           csharp: CreditNote.xxx
           object: creditNote
         - contact:
@@ -5452,7 +5452,7 @@ paths:
           key: currDate
           keyPascal: Date
           java_datatype: LocalDate
-          default: "LocalDate.now()"
+          default: "LocalDate.of(2020, Month.OCTOBER, 10)"
         - date:
           nonString: "true"
           key: date
@@ -5496,7 +5496,7 @@ paths:
           object: lineItem
         - set_lineitem:
           nonString: "true"
-          key: lineItem
+          key: lineItems
           keyPascal: LineItem
           default: lineItem
           object: creditNote
@@ -5654,10 +5654,106 @@ paths:
       tags:
         - Accounting
       operationId: updateOrCreateCreditNotes
+      summary: Allows you to update OR create one or more credit notes
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ creditNotes: [{ type: CreditNote.TypeEnum.ACCPAYCREDIT, contact: { contactID: "00000000-0000-0000-000-000000000000" }, date: "2019-01-05", lineItems: [{ description: "Foobar", quantity: 2.0, unitAmount: 20.0, accountCode: "400" }]}]}'
       x-ruby-requestBody: 'credit_notes = { credit_notes: [{ type: XeroRuby::Accounting::CreditNote::ACCPAYCREDIT, contact: { contact_id: "00000000-0000-0000-000-000000000000" }, date: "2019-01-05", line_items: [{ description: "Foobar", quantity: 2.0, unit_amount: 20.0, account_code: "400" }]}]}'
-      summary: Allows you to update OR create one or more credit notes
+      x-example:
+        - creditNotes:
+          is_array: true
+          key: creditNotes
+          keyPascal: CreditNotes
+        - creditNote:
+          is_object: true
+          key: creditNote
+          keyPascal: CreditNote
+        - type:
+          nonString: "true"
+          key: type
+          keyPascal: Type
+          default: ACCPAYCREDIT
+          php: XeroAPI\XeroPHP\Models\Accounting\CreditNote::TYPE_ACCPAYCREDIT
+          node: CreditNote.TypeEnum.ACCPAYCREDIT
+          ruby: XeroRuby::Accounting::CreditNote::ACCPAYCREDIT
+          python: CreditNote.xxx
+          java: com.xero.models.accounting.CreditNote.TypeEnum.ACCPAYCREDIT
+          csharp: CreditNote.xxx
+          object: creditNote
+        - contact:
+          is_object: true
+          key: contact
+          keyPascal: Contact
+        - contactID:
+          is_uuid: true
+          key: contactId
+          keyPascal: ContactID
+          default: 00000000-0000-0000-000-000000000000
+          object: contact
+        - set_contact:
+          nonString: "true"
+          key: contact
+          keyPascal: Contact
+          default: contact
+          object: creditNote
+        - currDate:
+          is_date: true
+          key: currDate
+          keyPascal: Date
+          java_datatype: LocalDate
+          default: "LocalDate.of(2020, Month.OCTOBER, 10)"
+        - date:
+          nonString: "true"
+          key: date
+          keyPascal: Date
+          default: currDate
+          object: batchPayment
+        - lineItems:
+          is_list: true
+          key: lineItem
+          keyPascal: LineItem
+        - lineItem:
+          is_object: true
+          key: lineItem
+          keyPascal: LineItem
+        - description:
+          key: description
+          keyPascal: Description
+          default: Foobar
+          object: lineItem
+        - quantity:
+          nonString: true
+          key: quantity
+          keyPascal: Quantity
+          default: 1.0
+          object: lineItem
+        - unitAmount:
+          nonString: true
+          key: unitAmount
+          keyPascal: UnitAmount
+          default: 20.0
+          object: lineItem
+        - accountCode:
+          key: accountCode
+          keyPascal: AccountCode
+          default: "000"
+          object: lineItem
+        - add_lineitems:
+          is_list_add: true
+          key: lineItems
+          keyPascal: LineItems
+          object: lineItem
+        - set_lineitem:
+          nonString: "true"
+          key: lineItems
+          keyPascal: LineItem
+          default: lineItem
+          object: creditNote
+        - add_bankTransaction:
+          is_array_add: true
+          key: creditNotes
+          keyPascal: CreditNotes
+          java: CreditNotes
+          object: creditNote
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
         - $ref: '#/components/parameters/unitdp'
@@ -5953,10 +6049,123 @@ paths:
       tags:
         - Accounting
       operationId: updateCreditNote
+      summary: Allows you to update a specific credit note
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ creditNotes: [{ type: CreditNote.TypeEnum.ACCPAYCREDIT, contact: { contactID: "00000000-0000-0000-000-000000000000" }, date: "2019-01-05", status: CreditNote.StatusEnum.AUTHORISED, reference: "Mind stone", lineItems: [{ description: "Infinity Stones", quantity: 1.0, unitAmount: 100.0, accountCode: "400" } ]}]}'
       x-ruby-requestBody: 'credit_notes = { credit_notes: [{ type: XeroRuby::Accounting::CreditNote::ACCPAYCREDIT, contact: { contact_id: "00000000-0000-0000-000-000000000000" }, date: "2019-01-05", status: XeroRuby::Accounting::CreditNote::AUTHORISED, reference: "Mind stone", line_items: [{ description: "Infinity Stones", quantity: 1.0, unit_amount: 100.0, account_code: "400" } ]}]}'
-      summary: Allows you to update a specific credit note
+      x-example:
+        - creditNotes:
+          is_array: true
+          key: creditNotes
+          keyPascal: CreditNotes
+        - creditNote:
+          is_object: true
+          key: creditNote
+          keyPascal: CreditNote
+        - type:
+          nonString: "true"
+          key: type
+          keyPascal: Type
+          default: ACCPAYCREDIT
+          php: XeroAPI\XeroPHP\Models\Accounting\CreditNote::TYPE_ACCPAYCREDIT
+          node: CreditNote.TypeEnum.ACCPAYCREDIT
+          ruby: XeroRuby::Accounting::CreditNote::ACCPAYCREDIT
+          python: CreditNote.xxx
+          java: com.xero.models.accounting.CreditNote.TypeEnum.ACCPAYCREDIT
+          csharp: CreditNote.xxx
+          object: creditNote
+        - status:
+          nonString: "true"
+          key: status
+          keyPascal: Status
+          default: ACCPAYCREDIT
+          php: XeroAPI\XeroPHP\Models\Accounting\CreditNote::STATUS_AUTHORISED
+          node: CreditNote.StatusEnum.AUTHORISED
+          ruby: XeroRuby::Accounting::CreditNote::AUTHORISED
+          python: CreditNote.xxx
+          java: com.xero.models.accounting.Invoice.StatusEnum.AUTHORISED
+          csharp: CreditNote.xxx
+          object: creditNote
+        - reference:
+          key: reference
+          keyPascal: Reference
+          default: My ref.
+          object: creditNote
+        - contact:
+          is_object: true
+          key: contact
+          keyPascal: Contact
+        - contactID:
+          is_uuid: true
+          key: contactId
+          keyPascal: ContactID
+          default: 00000000-0000-0000-000-000000000000
+          object: contact
+        - set_contact:
+          nonString: "true"
+          key: contact
+          keyPascal: Contact
+          default: contact
+          object: creditNote
+        - currDate:
+          is_date: true
+          key: currDate
+          keyPascal: Date
+          java_datatype: LocalDate
+          default: "LocalDate.of(2020, Month.OCTOBER, 10)"
+        - date:
+          nonString: "true"
+          key: date
+          keyPascal: Date
+          default: currDate
+          object: batchPayment
+        - lineItems:
+          is_list: true
+          key: lineItem
+          keyPascal: LineItem
+        - lineItem:
+          is_object: true
+          key: lineItem
+          keyPascal: LineItem
+        - description:
+          key: description
+          keyPascal: Description
+          default: Foobar
+          object: lineItem
+        - quantity:
+          nonString: true
+          key: quantity
+          keyPascal: Quantity
+          default: 1.0
+          object: lineItem
+        - unitAmount:
+          nonString: true
+          key: unitAmount
+          keyPascal: UnitAmount
+          default: 20.0
+          object: lineItem
+        - accountCode:
+          key: accountCode
+          keyPascal: AccountCode
+          default: "000"
+          object: lineItem
+        - add_lineitems:
+          is_list_add: true
+          key: lineItems
+          keyPascal: LineItems
+          object: lineItem
+        - set_lineitem:
+          nonString: "true"
+          key: lineItems
+          keyPascal: LineItem
+          default: lineItem
+          object: creditNote
+        - add_bankTransaction:
+          is_array_add: true
+          key: creditNotes
+          keyPascal: CreditNotes
+          java: CreditNotes
+          object: creditNote
       parameters:
         - required: true
           in: path
