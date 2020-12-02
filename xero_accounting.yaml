@@ -3228,7 +3228,7 @@ paths:
           object: paymentService
         - paymentServiceUrl:
           key: paymentServiceUrl
-          keyPascal: PaymentServiceUrlescription
+          keyPascal: PaymentServiceUrl
           default: "https://www.payupnow.com/"
           object: paymentService
         - payNowText:
@@ -3784,10 +3784,71 @@ paths:
       tags:
         - Accounting
       operationId: updateOrCreateContacts
+      summary: 'Allows you to update OR create one or more contacts in a Xero organisation'
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ contacts: [{ name: "Bruce Banner", emailAddress: "hulk@avengers.com", phones: [{ phoneType: Phone.PhoneTypeEnum.MOBILE, phoneNumber: "555-1212", phoneAreaCode: "415" }], paymentTerms: { bills: { day: 15, type: PaymentTermType.OFCURRENTMONTH }, sales: { day: 10, type: PaymentTermType.DAYSAFTERBILLMONTH }}}]}'
-      x-ruby-requestBody: '{ contacts: [{ name: "Bruce Banner", email_address: "hulk@avengers.com", phones: [{ phone_type: XeroRuby::Accounting::Phone::MOBILE, phone_number: "555-1212", phone_area_code: "415" }], payment_terms: { bills: { day: 15, type: XeroRuby::Accounting::PaymentTermType::OFCURRENTMONTH }, sales: { day: 10, type: XeroRuby::Accounting::PaymentTermType::OFCURRENTMONTHDAYSAFTERBILLMONTH }}}]}' 
-      summary: 'Allows you to update OR create one or more contacts in a Xero organisation'
+      x-ruby-requestBody: '{ contacts: [{ name: "Bruce Banner", email_address: "hulk@avengers.com", phones: [{ phone_type: XeroRuby::Accounting::Phone::MOBILE, phone_number: "555-1212", phone_area_code: "415" }], payment_terms: { bills: { day: 15, type: XeroRuby::Accounting::PaymentTermType::OFCURRENTMONTH }, sales: { day: 10, type: XeroRuby::Accounting::PaymentTermType::OFCURRENTMONTHDAYSAFTERBILLMONTH }}}]}'
+      x-example:
+        - contacts:
+          is_array: true
+          key: contacts
+          keyPascal: Contacts
+        - contact:
+          is_object: true
+          key: contact
+          keyPascal: Contact
+        - name:
+          key: name
+          keyPascal: Name
+          default: Bruce Banner
+          object: contact
+        - emailAddress:
+          key: emailAddress
+          keyPascal: EmailAddress
+          default: hulk@avengers.com
+          object: contact
+        - phones:
+          is_list: true
+          key: phones
+          keyPascal: Phone
+        - phone:
+          is_object: true
+          key: phone
+          keyPascal: Phone
+        - phoneNumber:
+          key: phoneNumber
+          keyPascal: PhoneNumber
+          default: 555-1212
+          object: phone
+        - phoneType:
+          nonString: "true"
+          key: phoneType
+          keyPascal: PhoneType
+          default: MOBILE
+          php: XeroAPI\XeroPHP\Models\Accounting\AccountType::EXPENSE
+          node: AccountType.EXPENSE
+          ruby: XeroRuby::Accounting::AccountType::EXPENSE
+          python: AccountType.EXPENSE
+          java: com.xero.models.accounting.Phone.PhoneTypeEnum.MOBILE
+          csharp: Account.ClassEnum.EXPENSE
+          object: phone
+        - add_phone:
+          is_list_add: true
+          key: phones
+          keyPascal: Phones
+          object: phone
+        - set_phones:
+          nonString: "true"
+          key: phones
+          keyPascal: Phones
+          default: phones
+          object: contact
+        - add_contact:
+          is_array_add: true
+          key: contacts
+          keyPascal: Contacts
+          java: Contacts
+          object: contact
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
       responses:
@@ -4278,9 +4339,36 @@ paths:
       tags:
         - Accounting
       operationId: updateContact
+      summary: 'Allows you to update one contact in a Xero organisation'
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ contacts: [{ contactID: "00000000-0000-0000-000-000000000000", name: "Thanos" }]}'
       x-ruby-requestBody: 'contacts = { contacts: [{ contact_id: "00000000-0000-0000-000-000000000000", name: "Thanos" }]}'
+      x-example:
+        - contacts:
+          is_array: true
+          key: contacts
+          keyPascal: Contacts
+        - contact:
+          is_object: true
+          key: contact
+          keyPascal: Contact
+        - contactID:
+          is_uuid: true
+          key: contactID
+          keyPascal: ContactID
+          default: 00000000-0000-0000-0000-000000000000
+          object: contact
+        - name:
+          key: name
+          keyPascal: Name
+          default: Thanos
+          object: contact
+        - add_contact:
+          is_array_add: true
+          key: contacts
+          keyPascal: Contacts
+          java: Contacts
+          object: contact
       parameters:
         - required: true
           in: path
