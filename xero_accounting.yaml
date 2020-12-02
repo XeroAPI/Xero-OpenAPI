@@ -4841,10 +4841,30 @@ paths:
       tags:
         - Accounting
       operationId: createContactGroup
+      summary: Allows you to create a contact group
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ contactGroups: [{ name: "VIPs" }]}'
       x-ruby-requestBody: 'contact_groups = { contact_groups: [{ name: "VIPs" }]}'
-      summary: Allows you to create a contact group
+      x-example:
+        - contactGroups:
+          is_array: true
+          key: contactGroups
+          keyPascal: ContactGroups
+        - contact:
+          is_object: true
+          key: contactGroup
+          keyPascal: ContactGroup
+        - name:
+          key: name
+          keyPascal: Name
+          default: VIPs
+          object: contactGroup
+        - add_ContactGroup:
+          is_array_add: true
+          key: contactGroups
+          keyPascal: ContactGroups
+          java: ContactGroups
+          object: contactGroup
       responses:
         '200':
           description: Success - return response of type Contact Groups array of newly created Contact Group
