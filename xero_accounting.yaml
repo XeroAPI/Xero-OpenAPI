@@ -2607,7 +2607,7 @@ paths:
         - code:
           key: code
           keyPascal: Code
-          default: 00000000-0000-0000-000-000000000000
+          default: "000"
           object: fromBankAccount
         - accountID:
           is_uuid: true
@@ -2628,7 +2628,7 @@ paths:
         - code:
           key: code
           keyPascal: Code
-          default: 00000000-0000-0000-000-000000000000
+          default: "000"
           object: toBankAccount
         - accountID:
           is_uuid: true
@@ -3206,10 +3206,36 @@ paths:
       tags:
         - Accounting
       operationId: createBrandingThemePaymentServices
+      summary: Allow for the creation of new custom payment service for specified Branding Theme
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ paymentServiceID: "00000000-0000-0000-0000-000000000000", paymentServiceName: "ACME Payments", paymentServiceUrl: "https://www.payupnow.com/", payNowText: "Pay Now" }'
       x-ruby-requestBody: 'payment_service = { payment_service_id: "00000000-0000-0000-0000-000000000000", payment_service_name: "ACME Payments", payment_service_url: "https://www.payupnow.com/", pay_now_text: "Pay Now" }'
-      summary: Allow for the creation of new custom payment service for specified Branding Theme
+      x-example:
+        - object:
+          is_object: true
+          key: paymentService
+          keyPascal: PaymentService
+        - paymentServiceID:
+          is_uuid: true
+          key: paymentServiceID
+          keyPascal: PaymentServiceID
+          default: 00000000-0000-0000-0000-000000000000
+          object: paymentService
+        - paymentServiceName:
+          key: paymentServiceName
+          keyPascal: PaymentServiceName
+          default: ACME Payments
+          object: paymentService
+        - paymentServiceUrl:
+          key: paymentServiceUrl
+          keyPascal: PaymentServiceUrlescription
+          default: "https://www.payupnow.com/"
+          object: paymentService
+        - payNowText:
+          key: payNowText
+          keyPascal: PayNowText
+          default: Pay Now
+          object: paymentService
       parameters:
         - required: true
           in: path
