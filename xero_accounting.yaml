@@ -7029,10 +7029,35 @@ paths:
       tags:
         - Accounting
       operationId: updateOrCreateEmployees
+      summary: Allows you to create a single new employees used in Xero payrun
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ employees: [{ firstName: "Nick", lastName: "Fury", externalLink: { url: "http://twitter.com/#!/search/Nick+Fury" }}]}'
       x-ruby-requestBody: 'employees = { employees: [{ first_name: "Nick", last_name: "Fury", external_link: { url: "http://twitter.com/#!/search/Nick+Fury" }}]}'
-      summary: Allows you to create a single new employees used in Xero payrun
+      x-example:
+        - employees:
+          is_array: true
+          key: employees
+          keyPascal: Employees
+        - employee:
+          is_object: true
+          key: employee
+          keyPascal: Employee
+        - firstName:
+          key: firstName
+          keyPascal: FirstName
+          default: Nick
+          object: employee
+        - lastName:
+          key: lastName
+          keyPascal: LastName
+          default: Fury
+          object: employee
+        - add_employee:
+          is_array_add: true
+          key: employees
+          keyPascal: Employees
+          java: Employees
+          object: employee
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
       responses:
@@ -7192,10 +7217,85 @@ paths:
       tags:
         - Accounting
       operationId: createExpenseClaims
+      summary: Allows you to retrieve expense claims 
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ expenseClaims: [{ status: ExpenseClaim.StatusEnum.SUBMITTED, user: { userID: "d1164823-0ac1-41ad-987b-b4e30fe0b273" }, receipts: [{ receiptID: "dc1c7f6d-0a4c-402f-acac-551d62ce5816", lineItems: [], contact: {}, user: {}, date: "2018-01-01" }]}]}'
       x-ruby-requestBody: 'expense_claims = { expense_claims: [{ status: XeroRuby::Accounting::ExpenseClaim::SUBMITTED, user: { user_id: "d1164823-0ac1-41ad-987b-b4e30fe0b273" }, receipts: [{ receipt_id: "dc1c7f6d-0a4c-402f-acac-551d62ce5816", line_items: [], contact: {}, user: {}, date: "2018-01-01" }]}]}'
-      summary: Allows you to retrieve expense claims 
+      x-example:
+        - expenseClaims:
+          is_array: true
+          key: expenseClaims
+          keyPascal: ExpenseClaims
+        - expenseClaim:
+          is_object: true
+          key: expenseClaim
+          keyPascal: ExpenseClaim
+        - status:
+          nonString: true
+          key: status
+          keyPascal: Status
+          default: SUBMITTED
+          php: XeroAPI\XeroPHP\Models\Accounting\ExpenseClaim::STATUS_SUBMITTED
+          node: ExpenseClaim.StatusEnum.SUBMITTED
+          ruby: XeroRuby::Accounting::ExpenseClaim::SUBMITTED
+          python: ExpenseClaim.xxx
+          java: com.xero.models.accounting.ExpenseClaim.StatusEnum.SUBMITTED
+          csharp: ExpenseClaim.xxx
+          object: expenseClaim
+        - user:
+          is_object: true
+          key: user
+          keyPascal: User
+        - userID:
+          is_uuid: true
+          key: userID
+          keyPascal: UserID
+          default: 00000000-0000-0000-000-000000000000
+          object: user
+        - set_user:
+          nonString: "true"
+          key: user
+          keyPascal: User
+          default: user
+          object: expenseClaim
+        - receipts:
+          is_array: true
+          key: receipts
+          keyPascal: Receipts
+        - receipt:
+          is_object: true
+          key: receipt
+          keyPascal: Receipt
+        - receiptID:
+          is_uuid: true
+          key: receiptID
+          keyPascal: receiptID
+          default: 00000000-0000-0000-000-000000000000
+          object: receipt
+        - currDate:
+          is_date: true
+          key: currDate
+          keyPascal: Date
+          java_datatype: LocalDate
+          default: "LocalDate.of(2020, Month.OCTOBER, 10)"
+        - date:
+          nonString: "true"
+          key: date
+          keyPascal: Date
+          default: currDate
+          object: receipt
+        - set_receipt:
+          nonString: "true"
+          key: receipt
+          keyPascal: Receipt
+          default: receipt
+          object: expenseClaim
+        - add_expenseClaim:
+          is_array_add: true
+          key: expenseClaims
+          keyPascal: expenseClaims
+          java: expenseClaims
+          object: expenseClaim
       requestBody:
         required: true
         description: ExpenseClaims with array of ExpenseClaim object in body of request
