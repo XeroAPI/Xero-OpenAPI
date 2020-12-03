@@ -8051,7 +8051,7 @@ paths:
           key: dueDateValue
           keyPascal: Date
           java_datatype: LocalDate
-          default: "LocalDate.of(2020, Month.OCTOBER, 10)"
+          default: "LocalDate.of(2020, Month.OCTOBER, 28)"
         - dueDate:
           nonString: "true"
           key: date
@@ -8295,10 +8295,135 @@ paths:
       tags:
         - Accounting
       operationId: updateOrCreateInvoices
+      summary: Allows you to update OR create one or more sales invoices or purchase bills
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ invoices: [{ type: Invoice.TypeEnum.ACCREC, contact: { contactID:"00000000-0000-0000-000-000000000000" }, lineItems:[ { description:"Acme Tires", quantity:2.0, unitAmount:20.0, accountCode:"200", taxType:"NONE", lineAmount:40.0 } ], date: "2019-03-11", dueDate:"2018-12-10", reference:"Website Design", status: Invoice.StatusEnum.AUTHORISED } ] }'
       x-ruby-requestBody: 'invoices = { invoices: [{ type: XeroRuby::Accounting::Invoice::ACCREC, contact: { contact_id: "00000000-0000-0000-000-000000000000" }, line_items: [{ description: "Acme Tires", quantity: 2.0, unit_amount: 20.0, account_code: "000", tax_type: XeroRuby::Accounting::TaxType::NONE, line_amount: 40.0 }], date: "2019-03-11", due_date: "2018-12-10", reference: "Website Design", status: XeroRuby::Accounting::Invoice::DRAFT }]}'
-      summary: Allows you to update OR create one or more sales invoices or purchase bills
+      x-example:
+        - invoices:
+          is_array: true
+          key: invoices
+          keyPascal: Invoices
+        - invoice:
+          is_object: true
+          key: invoice
+          keyPascal: Invoice
+        - type:
+          nonString: "true"
+          key: type
+          keyPascal: Type
+          default: ACCREC
+          php: XeroAPI\XeroPHP\Models\Accounting\Invoice::TYPE_ACCREC
+          node: Invoice.TypeEnum.ACCREC
+          ruby: XeroRuby::Accounting::Invoice::ACCREC
+          python: Invoice.xxx
+          java: com.xero.models.accounting.Invoice.TypeEnum.ACCREC
+          csharp: Invoice.xxx
+          object: invoice
+        - contact:
+          is_object: true
+          key: contact
+          keyPascal: Contact
+        - contactID:
+          is_uuid: true
+          key: contactId
+          keyPascal: ContactID
+          default: 00000000-0000-0000-000-000000000000
+          object: contact
+        - set_contact:
+          nonString: "true"
+          key: contact
+          keyPascal: Contact
+          default: contact
+          object: invoice
+        - dateValue:
+          is_date: true
+          key: dateValue
+          keyPascal: Date
+          java_datatype: LocalDate
+          default: "LocalDate.of(2020, Month.OCTOBER, 10)"
+        - date:
+          nonString: "true"
+          key: date
+          keyPascal: Date
+          default: dateValue
+          object: invoice
+        - dueDateValue:
+          is_date: true
+          key: dueDateValue
+          keyPascal: Date
+          java_datatype: LocalDate
+          default: "LocalDate.of(2020, Month.OCTOBER, 28)"
+        - dueDate:
+          nonString: "true"
+          key: date
+          keyPascal: Date
+          default: dueDateValue
+          object: invoice
+        - lineItems:
+          is_list: true
+          key: lineItem
+          keyPascal: LineItem
+        - lineItem:
+          is_object: true
+          key: lineItem
+          keyPascal: LineItem
+        - description:
+          key: description
+          keyPascal: Description
+          default: Foobar
+          object: lineItem
+        - quantity:
+          nonString: true
+          key: quantity
+          keyPascal: Quantity
+          default: 1.0
+          object: lineItem
+        - unitAmount:
+          nonString: true
+          key: unitAmount
+          keyPascal: UnitAmount
+          default: 20.0
+          object: lineItem
+        - accountCode:
+          key: accountCode
+          keyPascal: AccountCode
+          default: "000"
+          object: lineItem
+        - add_lineitems:
+          is_list_add: true
+          key: lineItems
+          keyPascal: LineItems
+          object: lineItem
+        - set_lineitem:
+          nonString: "true"
+          key: lineItems
+          keyPascal: LineItems
+          default: lineItems
+          object: invoice
+        - reference:
+          key: reference
+          keyPascal: Reference
+          default: Website Design
+          object: invoice
+        - status:
+          nonString: "true"
+          key: status
+          keyPascal: Status
+          default: DRAFT
+          php: XeroAPI\XeroPHP\Models\Accounting\Invoice::STATUS_DRAFT
+          node: Invoice.StatusEnum.DRAFT
+          ruby: XeroRuby::Accounting::Invoice::DRAFT
+          python: Invoice.xxx
+          java: com.xero.models.accounting.Invoice.StatusEnum.DRAFT
+          csharp: Invoice.xxx
+          object: invoice
+        - add_invoice:
+          is_array_add: true
+          key: invoices
+          keyPascal: Invoices
+          java: Invoices
+          object: invoice
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
         - $ref: '#/components/parameters/unitdp'
@@ -8650,10 +8775,42 @@ paths:
       tags:
         - Accounting
       operationId: updateInvoice
+      summary: Allows you to update a specified sales invoices or purchase bills
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ invoices: [{ reference: "I am Iron Man", invoiceID: "00000000-0000-0000-000-000000000000", lineItems: [], contact: {}, type: Invoice.TypeEnum.ACCPAY }]}'
       x-ruby-requestBody: 'invoices = { invoices: [{ reference: "I am Iron Man", invoice_id: "00000000-0000-0000-000-000000000000", line_items: [], contact: {}, type: XeroRuby::Accounting::Invoice::ACCPAY }]}'
-      summary: Allows you to update a specified sales invoices or purchase bills
+      x-example:
+        - invoices:
+          is_array: true
+          key: invoices
+          keyPascal: Invoices
+        - invoice:
+          is_object: true
+          key: invoice
+          keyPascal: Invoice
+        - type:
+          nonString: "true"
+          key: type
+          keyPascal: Type
+          default: ACCREC
+          php: XeroAPI\XeroPHP\Models\Accounting\Invoice::TYPE_ACCREC
+          node: Invoice.TypeEnum.ACCREC
+          ruby: XeroRuby::Accounting::Invoice::ACCREC
+          python: Invoice.xxx
+          java: com.xero.models.accounting.Invoice.TypeEnum.ACCREC
+          csharp: Invoice.xxx
+          object: invoice
+        - reference:
+          key: reference
+          keyPascal: Reference
+          default: I am Iron man
+          object: invoice
+        - add_invoice:
+          is_array_add: true
+          key: invoices
+          keyPascal: Invoices
+          java: Invoices
+          object: invoice
       parameters:
         - required: true
           in: path
