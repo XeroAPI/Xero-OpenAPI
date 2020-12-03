@@ -9456,10 +9456,60 @@ paths:
       tags:
         - Accounting
       operationId: createItems
+      summary: Allows you to create one or more items
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ items: [{ code: "abcXYZ123", name: "HelloWorld11", description: "Foobar", inventoryAssetAccountCode: "140", purchaseDetails: { cOGSAccountCode: "500" }}]}'
       x-ruby-requestBody: 'items = { items: [{ code: "abcXYZ123", name: "HelloWorld11", description: "Foobar", inventory_asset_account_code: "140", purchase_details: { cogs_account_code: "500" }}]}'
-      summary: Allows you to create one or more items
+      x-example:
+        - items:
+          is_array: true
+          key: items
+          keyPascal: Items
+        - item:
+          is_object: true
+          key: item
+          keyPascal: Item
+        - code:
+          key: code
+          keyPascal: Code
+          default: abcXYZ123
+          object: item
+        - name:
+          key: name
+          keyPascal: Name
+          default: HelloWorld
+          object: item
+        - description:
+          key: description
+          keyPascal: Description
+          default: Foobar
+          object: item
+        - inventoryAssetAccountCode:
+          key: inventoryAssetAccountCode
+          keyPascal: InventoryAssetAccountCode
+          default: 140
+          object: item
+        - purchaseDetails:
+          is_object: true
+          key: purchaseDetails
+          keyPascal: PurchaseDetails
+        - cOGSAccountCode:
+          key: cOGSAccountCode
+          keyPascal: COGSAccountCode
+          default: 500
+          object: purchaseDetails
+        - set_purchaseDetails:
+          nonString: true
+          key: purchaseDetails
+          keyPascal: PurchaseDetails
+          default: purchaseDetails
+          object: item
+        - add_employee:
+          is_array_add: true
+          key: employees
+          keyPascal: Employees
+          java: Employees
+          object: employee
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
         - $ref: '#/components/parameters/unitdp'
