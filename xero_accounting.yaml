@@ -6946,10 +6946,35 @@ paths:
       tags:
         - Accounting
       operationId: createEmployees
+      summary: Allows you to create new employees used in Xero payrun
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ employees: [{ firstName: "Nick", lastName: "Fury", externalLink: { url: "http://twitter.com/#!/search/Nick+Fury" }}]}'
       x-ruby-requestBody: 'employees = { employees: [{ first_name: "Nick", last_name: "Fury", externalink: { url: "http://twitter.com/#!/search/Nick+Fury" }}]}'
-      summary: Allows you to create new employees used in Xero payrun
+      x-example:
+        - employees:
+          is_array: true
+          key: employees
+          keyPascal: Employees
+        - employee:
+          is_object: true
+          key: employee
+          keyPascal: Employee
+        - firstName:
+          key: firstName
+          keyPascal: FirstName
+          default: Nick
+          object: employee
+        - lastName:
+          key: lastName
+          keyPascal: LastName
+          default: Fury
+          object: employee
+        - add_employee:
+          is_array_add: true
+          key: employees
+          keyPascal: Employees
+          java: Employees
+          object: employee
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
       responses:
