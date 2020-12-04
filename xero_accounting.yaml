@@ -12334,9 +12334,9 @@ paths:
           keyPascal: Amount
           default: 1.0
           object: payment
-        - currDate:
+        - dateValue:
           is_date: true
-          key: currDate
+          key: dateValue
           keyPascal: Date
           java_datatype: LocalDate
           default: "LocalDate.of(2020, Month.OCTOBER, 10)"
@@ -12344,7 +12344,7 @@ paths:
           nonString: true
           key: date
           keyPascal: Date
-          default: currDate
+          default: dateValue
           object: payment
         - add_payment:
           is_array_add: true
@@ -12467,10 +12467,74 @@ paths:
       tags:
         - Accounting
       operationId: createPayment
+      summary: Allows you to create a single payment for invoices or credit notes  
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ invoice: { invoiceID: "00000000-0000-0000-000-000000000000", lineItems: [], contact: {}, type: Invoice.TypeEnum.ACCPAY }, account: { code: "970" }, date: "2019-03-12", amount: 1.0 }'
       x-ruby-requestBody: 'invoice = { invoice: { invoice_id: "00000000-0000-0000-000-000000000000", line_items: [], contact: {}, type: XeroRuby::Accounting::Invoice::ACCPAY }, account: { code: "970" }, date: "2019-03-12", amount: 1.0 }'
-      summary: Allows you to create a single payment for invoices or credit notes  
+      x-example:
+        - payments:
+          is_array: true
+          key: payments
+          keyPascal: Payments
+        - payment:
+          is_object: true
+          key: payment
+          keyPascal: Payment
+        - invoice:
+          is_object: true
+          key: invoice
+          keyPascal: Invoice
+        - invoiceID:
+          is_uuid: true
+          key: invoiceID
+          keyPascal: InvoiceID
+          default: 00000000-0000-0000-000-000000000000
+          object: invoice
+        - set_invoice:
+          nonString: true
+          key: invoice
+          keyPascal: Invoice
+          default: invoice
+          object: payment
+        - account:
+          is_object: true
+          key: account
+          keyPascal: Account
+        - code:
+          key: code
+          keyPascal: Code
+          default: "001"
+          object: account
+        - set_account:
+          nonString: true
+          key: account
+          keyPascal: Account
+          default: account
+          object: payment
+        - amount:
+          nonString: true
+          key: amount
+          keyPascal: Amount
+          default: 1.0
+          object: payment
+        - dateValue:
+          is_date: true
+          key: dateValue
+          keyPascal: Date
+          java_datatype: LocalDate
+          default: "LocalDate.of(2020, Month.OCTOBER, 10)"
+        - date:
+          nonString: true
+          key: date
+          keyPascal: Date
+          default: dateValue
+          object: payment
+        - add_payment:
+          is_array_add: true
+          key: payments
+          keyPascal: Payments
+          java: Payments
+          object: payment
       responses:
         '200':
           description: Success - return response of type Payments array for newly created Payment
@@ -12705,10 +12769,27 @@ paths:
       tags:
         - Accounting
       operationId: deletePayment
+      summary: Allows you to update a specified payment for invoices and credit notes
       x-node-requestBody: '{ status: "DELETED" }'
       x-ruby-requestBody: 'payments = { status: "DELETED" }'
       x-hasAccountingValidationError: true
-      summary: Allows you to update a specified payment for invoices and credit notes
+      x-example:
+        - payment:
+          is_object: true
+          key: payment
+          keyPascal: Payment
+        - type:
+          nonString: "true"
+          key: type
+          keyPascal: Type
+          default: DELETED
+          php: XeroAPI\XeroPHP\Models\Accounting\Payment::STATUS_DELETED
+          node: Payment.StatusEnum.DELETED
+          ruby: XeroRuby::Accounting::Payment::DELETED
+          python: Payment.xxx
+          java: com.xero.models.accounting.Payment.StatusEnum.DELETED
+          csharp: Payment.xxx
+          object: payment
       parameters:
         - required: true
           in: path
@@ -12934,10 +13015,40 @@ paths:
       tags:
         - Accounting
       operationId: createPaymentService
+      summary: Allows you to create payment services
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ paymentServices: [{ paymentServiceName: "PayUpNow", paymentServiceUrl: "https://www.payupnow.com/", payNowText: "Time To Pay" }]}'
       x-ruby-requestBody: 'payment_services = { payment_services: [{ payment_service_name: "PayUpNow", payment_service_url: "https://www.payupnow.com/", pay_now_text: "Time To Pay" }]}'
-      summary: Allows you to create payment services
+      x-example:
+        - paymentServices:
+          is_array: true
+          key: paymentServices
+          keyPascal: PaymentServices
+        - object:
+          is_object: true
+          key: paymentService
+          keyPascal: PaymentService
+        - paymentServiceName:
+          key: paymentServiceName
+          keyPascal: PaymentServiceName
+          default: ACME Payments
+          object: paymentService
+        - paymentServiceUrl:
+          key: paymentServiceUrl
+          keyPascal: PaymentServiceUrl
+          default: "https://www.payupnow.com/"
+          object: paymentService
+        - payNowText:
+          key: payNowText
+          keyPascal: PayNowText
+          default: Pay Now
+          object: paymentService
+        - add_paymentService:
+          is_array_add: true
+          key: paymentServices
+          keyPascal: PaymentServices
+          java: PaymentServices
+          object: paymentService
       responses:
         '200':
           description: Success - return response of type PaymentServices array for newly created PaymentService
