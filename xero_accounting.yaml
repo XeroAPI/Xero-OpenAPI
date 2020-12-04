@@ -16562,10 +16562,58 @@ paths:
       tags:
         - Accounting
       operationId: updateReceipt
+      summary: Allows you to retrieve a specified draft expense claim receipts
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ receipts: [{ user: { userID: "00000000-0000-0000-000-000000000000" }, reference: "Foobar", date: "2020-01-01", contact: {}, lineItems: [] }]}'
       x-ruby-requestBody: 'receipts = { receipts: [{ user: { user_id: "00000000-0000-0000-000-000000000000" }, reference: "Foobar", date: "2020-01-01", contact: {}, line_items: [] }]}'
-      summary: Allows you to retrieve a specified draft expense claim receipts
+      x-example:
+        - receipts:
+          is_array: true
+          key: receipts
+          keyPascal: Receipts
+        - receipt:
+          is_object: true
+          key: receipt
+          keyPascal: Receipt
+        - user:
+          is_object: true
+          key: user
+          keyPascal: User
+        - userID:
+          is_uuid: true
+          key: userID
+          keyPascal: UserID
+          default: 00000000-0000-0000-000-000000000000
+          object: user
+        - set_user:
+          nonString: true
+          key: user
+          keyPascal: User
+          default: user
+          object: receipt
+        - reference:
+          key: reference
+          keyPascal: Reference
+          default: Foobar
+          object: receipt
+        - dateValue:
+          is_date: true
+          key: dateValue
+          keyPascal: Date
+          java_datatype: LocalDate
+          default: "LocalDate.of(2020, Month.OCTOBER, 10)"
+        - date:
+          nonString: true
+          key: date
+          keyPascal: Date
+          default: dateValue
+          object: receipt
+        - add_receipt:
+          is_array_add: true
+          key: receipts
+          keyPascal: Receipts
+          java: Receipts
+          object: receipt
       parameters:
         - required: true
           in: path
