@@ -10610,40 +10610,55 @@ paths:
           keyPascal: Date
           default: dateValue
           object: manualJournal
-        - journalLines:
-          is_list: true
-          key: journalLines
-          keyPascal: JournalLine
-        - journalLine:
+        - credit:
           is_object: true
-          key: journalLine
-          keyPascal: JournalLine
+          key: credit
+          keyPascal: ManualJournalLine
         - lineAmount:
           nonString: true
           key: lineAmount
           keyPascal: LineAmount
           default: 100.0
-          object: journalLine
+          object: credit
         - accountCode:
           key: accountCode
           keyPascal: AccountCode
           default: 400
-          object: journalLine
+          object: credit
         - description:
           key: description
           keyPascal: Description
           default: "Hello there"
-          object: journalLine
-        - add_journalLine:
+          object: credit
+        - add_credit:
           is_list_add: true
-          key: journalLines
+          key: credit
           keyPascal: JournalLines
-          object: journalLine
-        - set_journalLines:
+          object: manualJournal
+        - debit:
+          is_object: true
+          key: debit
+          keyPascal: ManualJournalLine
+        - lineAmount:
           nonString: true
-          key: journalLines
+          key: lineAmount
+          keyPascal: LineAmount
+          default: -100.0
+          object: debit
+        - accountCode:
+          key: accountCode
+          keyPascal: AccountCode
+          default: 120
+          object: debit
+        - description:
+          key: description
+          keyPascal: Description
+          default: "Hello there"
+          object: debit
+        - add_debit:
+          is_list_add: true
+          key: debit
           keyPascal: JournalLines
-          default: journalLines
           object: manualJournal
         - add_manualJournal:
           is_array_add: true
