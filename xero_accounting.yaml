@@ -9504,12 +9504,12 @@ paths:
           keyPascal: PurchaseDetails
           default: purchaseDetails
           object: item
-        - add_employee:
+        - add_item:
           is_array_add: true
-          key: employees
-          keyPascal: Employees
-          java: Employees
-          object: employee
+          key: items
+          keyPascal: Items
+          java: Items
+          object: item
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
         - $ref: '#/components/parameters/unitdp'
@@ -9573,10 +9573,40 @@ paths:
       tags:
         - Accounting
       operationId: updateOrCreateItems
+      summary: Allows you to update or create one or more items
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ items: [{ code: "ItemCode123", name: "ItemName XYZ", description: "Item Description ABC" }]}'
       x-ruby-requestBody: 'items = { items: [{ code: "ItemCode123", name: "ItemName XYZ", description: "Item Description ABC" }]}'
-      summary: Allows you to update or create one or more items
+      x-example:
+        - items:
+          is_array: true
+          key: items
+          keyPascal: Items
+        - item:
+          is_object: true
+          key: item
+          keyPascal: Item
+        - code:
+          key: code
+          keyPascal: Code
+          default: abcXYZ123
+          object: item
+        - name:
+          key: name
+          keyPascal: Name
+          default: HelloWorld
+          object: item
+        - description:
+          key: description
+          keyPascal: Description
+          default: Foobar
+          object: item
+        - add_item:
+          is_array_add: true
+          key: items
+          keyPascal: Items
+          java: Items
+          object: item
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
         - $ref: '#/components/parameters/unitdp'
@@ -9695,10 +9725,35 @@ paths:
       tags:
         - Accounting
       operationId: updateItem
+      summary: Allows you to update a specified item
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ items: [{ code: "ItemCode123", description: "Description 123" }]}'
       x-ruby-requestBody: 'items = { items: [{ code: "ItemCode123", description: "Description 123" }]}'
-      summary: Allows you to update a specified item
+      x-example:
+        - items:
+          is_array: true
+          key: items
+          keyPascal: Items
+        - item:
+          is_object: true
+          key: item
+          keyPascal: Item
+        - code:
+          key: code
+          keyPascal: Code
+          default: ItemCode123
+          object: item
+        - description:
+          key: description
+          keyPascal: Description
+          default: Goodbye
+          object: item
+        - add_item:
+          is_array_add: true
+          key: items
+          keyPascal: Items
+          java: Items
+          object: item
       parameters:
         - required: true
           in: path
@@ -10185,10 +10240,27 @@ paths:
       tags:
         - Accounting
       operationId: createLinkedTransaction
+      summary: Allows you to create linked transactions (billable expenses)
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ sourceTransactionID: "00000000-0000-0000-000-000000000000", sourceLineItemID: "00000000-0000-0000-000-000000000000" }'
       x-ruby-requestBody: 'linked_transaction = { source_transaction_id: "00000000-0000-0000-000-000000000000", source_line_item_id: "00000000-0000-0000-000-000000000000" }'
-      summary: Allows you to create linked transactions (billable expenses)
+      x-example:
+        - linkedTransaction:
+          is_object: true
+          key: linkedTransaction
+          keyPascal: LinkedTransaction
+        - sourceTransactionID:
+          is_uuid: true
+          key: sourceTransactionID
+          keyPascal: SourceTransactionID
+          default: 00000000-0000-0000-000-000000000000
+          object: linkedTransaction
+        - sourceLineItemID:
+          is_uuid: true
+          key: sourceLineItemID
+          keyPascal: SourceLineItemID
+          default: 00000000-0000-0000-000-000000000000
+          object: linkedTransaction
       responses:
         '200':
           description: Success - return response of type LinkedTransactions array with newly created LinkedTransaction
@@ -10287,10 +10359,37 @@ paths:
       tags:
         - Accounting
       operationId: updateLinkedTransaction
+      summary: Allows you to update a specified linked transactions (billable expenses)
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ linkedTransactions: [{ sourceLineItemID: "00000000-0000-0000-000-000000000000", contactID: "00000000-0000-0000-000-000000000000" }]}'
       x-ruby-requestBody: 'linked_transactions = { linked_transactions: [{ source_line_item_id: "00000000-0000-0000-000-000000000000", contact_id: "00000000-0000-0000-000-000000000000" }]}'
-      summary: Allows you to update a specified linked transactions (billable expenses)
+      x-example:
+        - linkedTransactions:
+          is_array: true
+          key: linkedTransactions
+          keyPascal: LinkedTransactions
+        - linkedTransaction:
+          is_object: true
+          key: linkedTransaction
+          keyPascal: LinkedTransaction
+        - sourceLineItemID:
+          is_uuid: true
+          key: sourceLineItemID
+          keyPascal: SourceLineItemID
+          default: 00000000-0000-0000-000-000000000000
+          object: linkedTransaction
+        - contactID:
+          is_uuid: true
+          key: contactID
+          keyPascal: ContactID
+          default: 00000000-0000-0000-000-000000000000
+          object: linkedTransaction
+        - add_linkedTransaction:
+          is_array_add: true
+          key: linkedTransactions
+          keyPascal: LinkedTransactions
+          java: LinkedTransactions
+          object: linkedTransaction
       parameters:
         - required: true
           in: path
