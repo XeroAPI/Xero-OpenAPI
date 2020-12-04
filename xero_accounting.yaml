@@ -10658,9 +10658,10 @@ paths:
           object: debit
         - add_debit:
           is_array_add: true
-          key: debit
+          key: manualJournal
           keyPascal: JournalLines
-          object: manualJournal
+          java: JournalLines
+          object: debit
         - add_manualJournal:
           is_array_add: true
           key: manualJournals
@@ -21523,10 +21524,10 @@ paths:
           keyPascal: Name
           default: CA State Tax
           object: taxRate
-        - taxComponents:
+        - taxComponent:
           is_object: true
-          key: taxComponents
-          keyPascal: TaxComponents
+          key: taxComponent
+          keyPascal: TaxComponent
         - name:
           key: name
           keyPascal: Name
@@ -21538,12 +21539,12 @@ paths:
           keyPascal: Rate
           default: 2.25
           object: taxComponents
-        - set_taxComponents:
-          nonString: true
-          key: taxComponent
-          keyPascal: TaxComponent
-          default: taxComponent
-          object: taxRate
+        - add_taxComponent:
+          is_array_add: true
+          key: taxRate
+          keyPascal: TaxComponents
+          java: TaxComponents
+          object: taxComponent
         - add_taxRate:
           is_array_add: true
           key: taxRates
