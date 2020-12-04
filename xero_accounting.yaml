@@ -13982,10 +13982,94 @@ paths:
       tags:
         - Accounting
       operationId: updateOrCreatePurchaseOrders
+      summary: Allows you to update or create one or more purchase orders
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ purchaseOrders: [ { contact: { contactID: "00000000-0000-0000-000-000000000000" }, lineItems: [{ description: "Foobar", quantity: 1.0, unitAmount: 20.0, accountCode: "710" }], date: "2019-03-13" }]}'
       x-ruby-requestBody: 'purchase_orders = { purchase_orders: [{ contact: { contact_id: "00000000-0000-0000-000-000000000000" }, line_items: [{ description: "Foobar", quantity: 1.0, unitAmount: 20.0, accountCode: "710" }], date: "2019-03-13" }]}'
-      summary: Allows you to update or create one or more purchase orders
+      x-example:
+        - purchaseOrders:
+          is_array: true
+          key: purchaseOrders
+          keyPascal: PurchaseOrders
+        - purchaseOrder:
+          is_object: true
+          key: purchaseOrder
+          keyPascal: PurchaseOrder
+        - contact:
+          is_object: true
+          key: contact
+          keyPascal: Contact
+        - contactID:
+          is_uuid: true
+          key: contactId
+          keyPascal: ContactID
+          default: 00000000-0000-0000-000-000000000000
+          object: contact
+        - set_contact:
+          nonString: true
+          key: contact
+          keyPascal: Contact
+          default: contact
+          object: purchaseOrder
+        - lineItems:
+          is_list: true
+          key: lineItem
+          keyPascal: LineItem
+        - lineItem:
+          is_object: true
+          key: lineItem
+          keyPascal: LineItem
+        - description:
+          key: description
+          keyPascal: Description
+          default: Foobar
+          object: lineItem
+        - quantity:
+          nonString: true
+          key: quantity
+          keyPascal: Quantity
+          default: 1.0
+          object: lineItem
+        - unitAmount:
+          nonString: true
+          key: unitAmount
+          keyPascal: UnitAmount
+          default: 20.0
+          object: lineItem
+        - accountCode:
+          key: accountCode
+          keyPascal: AccountCode
+          default: "000"
+          object: lineItem
+        - add_lineitems:
+          is_list_add: true
+          key: lineItems
+          keyPascal: LineItems
+          object: lineItem
+        - set_lineitem:
+          nonString: true
+          key: lineItems
+          keyPascal: LineItems
+          default: lineItems
+          object: purchaseOrder
+        - dateValue:
+          is_date: true
+          key: dateValue
+          keyPascal: Date
+          java_datatype: LocalDate
+          default: "LocalDate.of(2020, Month.OCTOBER, 10)"
+        - date:
+          nonString: true
+          key: date
+          keyPascal: Date
+          default: dateValue
+          object: purchaseOrder
+        - add_purchaseOrder:
+          is_array_add: true
+          key: purchaseOrders
+          keyPascal: PurchaseOrders
+          java: PurchaseOrders
+          object: purchaseOrder
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
       responses:
@@ -14314,10 +14398,30 @@ paths:
       tags:
         - Accounting
       operationId: updatePurchaseOrder
+      summary: Allows you to update a specified purchase order
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ purchaseOrders:[ { attentionTo: "Peter Parker", lineItems: [], contact: {} }]}'
       x-ruby-requestBody: 'purchase_orders = { purchase_orders: [ { attention_to: "Peter Parker", line_items: [], contact: {} }]}'
-      summary: Allows you to update a specified purchase order
+      x-example:
+        - purchaseOrders:
+          is_array: true
+          key: purchaseOrders
+          keyPascal: PurchaseOrders
+        - purchaseOrder:
+          is_object: true
+          key: purchaseOrder
+          keyPascal: PurchaseOrder
+        - attentionTo:
+          key: attentionTo
+          keyPascal: AttentionTo
+          default: Peter Parker
+          object: purchaseOrder
+        - add_purchaseOrder:
+          is_array_add: true
+          key: purchaseOrders
+          keyPascal: PurchaseOrders
+          java: PurchaseOrders
+          object: purchaseOrder
       parameters:
         - required: true
           in: path
@@ -15056,10 +15160,94 @@ paths:
       tags:
         - Accounting
       operationId: createQuotes
+      summary: Allows you to create one or more quotes
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ quotes: [{ contact: { contactID: "00000000-0000-0000-000-000000000000" }, lineItems: [{ description: "Foobar", quantity: 1.0, unitAmount: 20.0, accountCode: "12775" }], date: "2020-02-01" }]}'
       x-ruby-requestBody: 'quotes = { quotes: [{ contact: { contact_id: "00000000-0000-0000-000-000000000000" }, line_items: [{ description: "Foobar", quantity: 1.0, unit_amount: 20.0, account_code: "12775" }], date: "2020-02-01" }]}'
-      summary: Allows you to create one or more quotes
+      x-example:
+        - quotes:
+          is_array: true
+          key: quotes
+          keyPascal: Quotes
+        - quote:
+          is_object: true
+          key: quote
+          keyPascal: Quote
+        - contact:
+          is_object: true
+          key: contact
+          keyPascal: Contact
+        - contactID:
+          is_uuid: true
+          key: contactId
+          keyPascal: ContactID
+          default: 00000000-0000-0000-000-000000000000
+          object: contact
+        - set_contact:
+          nonString: true
+          key: contact
+          keyPascal: Contact
+          default: contact
+          object: quote
+        - lineItems:
+          is_list: true
+          key: lineItem
+          keyPascal: LineItem
+        - lineItem:
+          is_object: true
+          key: lineItem
+          keyPascal: LineItem
+        - description:
+          key: description
+          keyPascal: Description
+          default: Foobar
+          object: lineItem
+        - quantity:
+          nonString: true
+          key: quantity
+          keyPascal: Quantity
+          default: 1.0
+          object: lineItem
+        - unitAmount:
+          nonString: true
+          key: unitAmount
+          keyPascal: UnitAmount
+          default: 20.0
+          object: lineItem
+        - accountCode:
+          key: accountCode
+          keyPascal: AccountCode
+          default: "000"
+          object: lineItem
+        - add_lineitems:
+          is_list_add: true
+          key: lineItems
+          keyPascal: LineItems
+          object: lineItem
+        - set_lineitem:
+          nonString: true
+          key: lineItems
+          keyPascal: LineItems
+          default: lineItems
+          object: quote
+        - dateValue:
+          is_date: true
+          key: dateValue
+          keyPascal: Date
+          java_datatype: LocalDate
+          default: "LocalDate.of(2020, Month.OCTOBER, 10)"
+        - date:
+          nonString: true
+          key: date
+          keyPascal: Date
+          default: dateValue
+          object: quote
+        - add_quote:
+          is_array_add: true
+          key: quotes
+          keyPascal: Quotes
+          java: Quotes
+          object: quote
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
       responses:
@@ -15147,10 +15335,94 @@ paths:
       tags:
         - Accounting
       operationId: updateOrCreateQuotes
+      summary: Allows you to update OR create one or more quotes
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ quotes: [{ contact: { contactID: "00000000-0000-0000-000-000000000000" }, lineItems: [{ description: "Foobar", quantity: 1.0, unitAmount: 20.0, accountCode: "12775" }], date: "2020-02-01" }]}'
       x-ruby-requestBody: 'quotes = { quotes: [{ contact: { contact_id: "00000000-0000-0000-000-000000000000" }, line_items: [{ description: "Foobar", quantity: 1.0, unit_amount: 20.0, account_code: "12775" }], date: "2020-02-01" }]}'
-      summary: Allows you to update OR create one or more quotes
+      x-example:
+        - quotes:
+          is_array: true
+          key: quotes
+          keyPascal: Quotes
+        - quote:
+          is_object: true
+          key: quote
+          keyPascal: Quote
+        - contact:
+          is_object: true
+          key: contact
+          keyPascal: Contact
+        - contactID:
+          is_uuid: true
+          key: contactId
+          keyPascal: ContactID
+          default: 00000000-0000-0000-000-000000000000
+          object: contact
+        - set_contact:
+          nonString: true
+          key: contact
+          keyPascal: Contact
+          default: contact
+          object: quote
+        - lineItems:
+          is_list: true
+          key: lineItem
+          keyPascal: LineItem
+        - lineItem:
+          is_object: true
+          key: lineItem
+          keyPascal: LineItem
+        - description:
+          key: description
+          keyPascal: Description
+          default: Foobar
+          object: lineItem
+        - quantity:
+          nonString: true
+          key: quantity
+          keyPascal: Quantity
+          default: 1.0
+          object: lineItem
+        - unitAmount:
+          nonString: true
+          key: unitAmount
+          keyPascal: UnitAmount
+          default: 20.0
+          object: lineItem
+        - accountCode:
+          key: accountCode
+          keyPascal: AccountCode
+          default: "000"
+          object: lineItem
+        - add_lineitems:
+          is_list_add: true
+          key: lineItems
+          keyPascal: LineItems
+          object: lineItem
+        - set_lineitem:
+          nonString: true
+          key: lineItems
+          keyPascal: LineItems
+          default: lineItems
+          object: quote
+        - dateValue:
+          is_date: true
+          key: dateValue
+          keyPascal: Date
+          java_datatype: LocalDate
+          default: "LocalDate.of(2020, Month.OCTOBER, 10)"
+        - date:
+          nonString: true
+          key: date
+          keyPascal: Date
+          default: dateValue
+          object: quote
+        - add_quote:
+          is_array_add: true
+          key: quotes
+          keyPascal: Quotes
+          java: Quotes
+          object: quote
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
       responses:
@@ -15322,10 +15594,58 @@ paths:
       tags:
         - Accounting
       operationId: updateQuote
+      summary: Allows you to update a specified quote
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ quotes: [{ reference: "I am an update", contact: { contactID: "00000000-0000-0000-000-000000000000" }, date: "2020-02-01" }]}'
       x-ruby-requestBody: 'quotes = { quotes: [{ reference: "I am an update", contact: { contact_id: "00000000-0000-0000-000-000000000000" }, date: "2020-02-01" }]}'
-      summary: Allows you to update a specified quote
+      x-example:
+        - quotes:
+          is_array: true
+          key: quotes
+          keyPascal: Quotes
+        - quote:
+          is_object: true
+          key: quote
+          keyPascal: Quote
+        - reference:
+          key: reference
+          keyPascal: Reference
+          default: I am an update
+          object: quote
+        - contact:
+          is_object: true
+          key: contact
+          keyPascal: Contact
+        - contactID:
+          is_uuid: true
+          key: contactId
+          keyPascal: ContactID
+          default: 00000000-0000-0000-000-000000000000
+          object: contact
+        - set_contact:
+          nonString: true
+          key: contact
+          keyPascal: Contact
+          default: contact
+          object: quote
+        - dateValue:
+          is_date: true
+          key: dateValue
+          keyPascal: Date
+          java_datatype: LocalDate
+          default: "LocalDate.of(2020, Month.OCTOBER, 10)"
+        - date:
+          nonString: true
+          key: date
+          keyPascal: Date
+          default: dateValue
+          object: quote
+        - add_quote:
+          is_array_add: true
+          key: quotes
+          keyPascal: Quotes
+          java: Quotes
+          object: quote
       parameters:
         - required: true
           in: path
@@ -15828,10 +16148,122 @@ paths:
       tags:
         - Accounting
       operationId: createReceipt
+      summary: Allows you to create draft expense claim receipts for any user
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ receipts: [{ contact: { contactID: "00000000-0000-0000-000-000000000000" }, lineItems: [{ description: "Foobar", quantity: 2.0, unitAmount: 20.0, accountCode: "400", taxType: TaxType.NONE, lineAmount: 40.0 }], user: { userID: "00000000-0000-0000-000-000000000000" }, lineAmountTypes: LineAmountTypes.Inclusive, status: Receipt.StatusEnum.DRAFT, date: null} ] }'
       x-ruby-requestBody: 'receipts = { receipts: [ { contact: { contact_id: "00000000-0000-0000-000-000000000000" }, line_items: [{ description: "Foobar", quantity: 2.0, unit_amount: 20.0, account_code: "400", tax_type: XeroRuby::Accounting::TaxType::NONE, line_amount: 40.0 }], user: { user_id: "00000000-0000-0000-000-000000000000" }, line_amount_types: XeroRuby::Accounting::INCLUSIVE, status: XeroRuby::Accounting::Receipt::DRAFT, date: nil }]}'
-      summary: Allows you to create draft expense claim receipts for any user
+      x-example:
+        - receipts:
+          is_array: true
+          key: receipts
+          keyPascal: Receipts
+        - receipt:
+          is_object: true
+          key: receipt
+          keyPascal: Receipt
+        - contact:
+          is_object: true
+          key: contact
+          keyPascal: Contact
+        - contactID:
+          is_uuid: true
+          key: contactId
+          keyPascal: ContactID
+          default: 00000000-0000-0000-000-000000000000
+          object: contact
+        - set_contact:
+          nonString: true
+          key: contact
+          keyPascal: Contact
+          default: contact
+          object: receipt
+        - lineItems:
+          is_list: true
+          key: lineItem
+          keyPascal: LineItem
+        - lineItem:
+          is_object: true
+          key: lineItem
+          keyPascal: LineItem
+        - description:
+          key: description
+          keyPascal: Description
+          default: Foobar
+          object: lineItem
+        - quantity:
+          nonString: true
+          key: quantity
+          keyPascal: Quantity
+          default: 1.0
+          object: lineItem
+        - unitAmount:
+          nonString: true
+          key: unitAmount
+          keyPascal: UnitAmount
+          default: 20.0
+          object: lineItem
+        - accountCode:
+          key: accountCode
+          keyPascal: AccountCode
+          default: "000"
+          object: lineItem
+        - add_lineitems:
+          is_list_add: true
+          key: lineItems
+          keyPascal: LineItems
+          object: lineItem
+        - set_lineitem:
+          nonString: true
+          key: lineItems
+          keyPascal: LineItems
+          default: lineItems
+          object: receipt
+        - user:
+          is_object: true
+          key: user
+          keyPascal: User
+        - userID:
+          is_uuid: true
+          key: userID
+          keyPascal: UserID
+          default: 00000000-0000-0000-000-000000000000
+          object: user
+        - set_user:
+          nonString: true
+          key: user
+          keyPascal: User
+          default: user
+          object: receipt
+        - lineAmountTypes:
+          nonString: true
+          key: lineAmountTypes
+          keyPascal: LineAmountTypes
+          default: INCLUSIVE
+          php: XeroAPI\XeroPHP\Models\Accounting\LineAmountTypes::INCLUSIVE
+          node: LineAmountTypes.Inclusive
+          ruby: XeroRuby::Accounting::INCLUSIVE
+          python: LineAmountTypes.xxx
+          java: com.xero.models.accounting.LineAmountTypes.INCLUSIVE
+          csharp: LineAmountTypes.xxx
+          object: receipt
+        - status:
+          nonString: true
+          key: status
+          keyPascal: Status
+          default: DRAFT
+          php: XeroAPI\XeroPHP\Models\Accounting\Receipt::STATUS_DRAFT
+          node: Receipt.StatusEnum.DRAFT
+          ruby: XeroRuby::Accounting::Receipt::DRAFT
+          python: Receipt.xxx
+          java: com.xero.models.accounting.Receipt.StatusEnum.DRAFT
+          csharp: Receipt.xxx
+          object: receipt
+        - add_receipt:
+          is_array_add: true
+          key: receipts
+          keyPascal: Receipts
+          java: Receipts
+          object: receipt
       parameters:
         - $ref: '#/components/parameters/unitdp'
       responses:
