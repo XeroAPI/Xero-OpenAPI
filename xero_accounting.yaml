@@ -10600,14 +10600,14 @@ paths:
           java_datatype: LocalDate
           default: "LocalDate.of(2020, Month.OCTOBER, 10)"
         - date:
-          nonString: "true"
+          nonString: true
           key: date
           keyPascal: Date
           default: dateValue
           object: manualJournal
         - journalLines:
           is_list: true
-          key: journalLine
+          key: journalLines
           keyPascal: JournalLine
         - journalLine:
           is_object: true
@@ -10629,16 +10629,16 @@ paths:
           keyPascal: Description
           default: "Hello there"
           object: journalLine
-        - add_lineitems:
+        - add_journalLine:
           is_list_add: true
-          key: lineItems
-          keyPascal: LineItems
-          object: lineItem
-        - set_lineitem:
+          key: journalLines
+          keyPascal: JournalLines
+          object: journalLine
+        - set_journalLines:
           nonString: "true"
-          key: lineItems
-          keyPascal: LineItems
-          default: lineItems
+          key: journalLines
+          keyPascal: JournalLines
+          default: journalLines
           object: manualJournal
         - add_manualJournal:
           is_array_add: true
@@ -10750,10 +10750,77 @@ paths:
       tags:
         - Accounting
       operationId: updateOrCreateManualJournals
+      summary: Allows you to create a single manual journal
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ manualJournals: [{ narration: "Foo bar", journalLines: [{ lineAmount: 100.0, accountCode: "400", description: "Hello there" },{ lineAmount: -100.0, accountCode: "400", description: "Goodbye", tracking: [{ name: "Simpsons", option: "Bart" }]}], date: "2019-03-14" }]}'
       x-ruby-requestBody: 'manual_journals = { manual_journals: [{ narration: "Foo bar", date: "2019-03-14", journal_lines: [{ line_amount: 100.0, account_code: "400", description: "Hello there" },{ line_amount: -100.0, account_code: "400", description: "Goodbye", tracking: [{ name: "Simpsons", option: "Bart" }]}] }]}'
-      summary: Allows you to create a single manual journal
+      x-example:
+        - manualJournals:
+          is_array: true
+          key: manualJournals
+          keyPascal: ManualJournals
+        - manualJournal:
+          is_object: true
+          key: manualJournal
+          keyPascal: ManualJournal
+        - narration:
+          key: narration
+          keyPascal: Narration
+          default: Foobar
+          object: manualJournal
+        - dateValue:
+          is_date: true
+          key: dateValue
+          keyPascal: Date
+          java_datatype: LocalDate
+          default: "LocalDate.of(2020, Month.OCTOBER, 10)"
+        - date:
+          nonString: true
+          key: date
+          keyPascal: Date
+          default: dateValue
+          object: manualJournal
+        - journalLines:
+          is_list: true
+          key: journalLines
+          keyPascal: JournalLine
+        - journalLine:
+          is_object: true
+          key: journalLine
+          keyPascal: JournalLine
+        - lineAmount:
+          nonString: true
+          key: lineAmount
+          keyPascal: LineAmount
+          default: 100.0
+          object: journalLine
+        - accountCode:
+          key: accountCode
+          keyPascal: AccountCode
+          default: 400
+          object: journalLine
+        - description:
+          key: description
+          keyPascal: Description
+          default: "Hello there"
+          object: journalLine
+        - add_journalLine:
+          is_list_add: true
+          key: journalLines
+          keyPascal: JournalLines
+          object: journalLine
+        - set_journalLines:
+          nonString: "true"
+          key: journalLines
+          keyPascal: JournalLines
+          default: journalLines
+          object: manualJournal
+        - add_manualJournal:
+          is_array_add: true
+          key: manualJournals
+          keyPascal: ManualJournals
+          java: ManualJournals
+          object: manualJournal
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
       responses:
@@ -10940,10 +11007,36 @@ paths:
       tags:
         - Accounting
       operationId: updateManualJournal
+      summary: Allows you to update a specified manual journal
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ manualJournals: [{ narration: "Hello Xero", manualJournalId: "00000000-0000-0000-000-000000000000", journalLines: [] }]}'
       x-ruby-requestBody: 'manual_journals = { manual_journals: [{ narration: "Hello Xero", manual_journal_id: "00000000-0000-0000-000-000000000000", journal_lines: [] }]}'
-      summary: Allows you to update a specified manual journal
+      x-example:
+        - manualJournals:
+          is_array: true
+          key: manualJournals
+          keyPascal: ManualJournals
+        - manualJournal:
+          is_object: true
+          key: manualJournal
+          keyPascal: ManualJournal
+        - narration:
+          key: narration
+          keyPascal: Narration
+          default: Foobar
+          object: manualJournal
+        - manualJournalId:
+          is_uuid: true
+          key: manualJournalId
+          keyPascal: ManualJournalId
+          default: 00000000-0000-0000-000-000000000000
+          object: manualJournal
+        - add_manualJournal:
+          is_array_add: true
+          key: manualJournals
+          keyPascal: ManualJournals
+          java: ManualJournals
+          object: manualJournal
       parameters:
         - required: true
           in: path
