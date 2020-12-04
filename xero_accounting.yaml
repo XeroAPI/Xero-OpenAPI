@@ -21484,10 +21484,51 @@ paths:
       tags:
         - Accounting
       operationId: createTaxRates
+      summary: Allows you to create one or more Tax Rates      
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ taxRates: [{ name: "CA State Tax", taxComponents: [{ name: "State Tax", rate: 2.25 }]}]}'
       x-ruby-requestBody: 'tax_rates = { tax_rates: [{ name: "CA State Tax", tax_components: [{ name: "State Tax", rate: 2.25 }]}]}'
-      summary: Allows you to create one or more Tax Rates      
+      x-example:
+        - taxRates:
+          is_array: true
+          key: taxRates
+          keyPascal: TaxRates
+        - taxRate:
+          is_object: true
+          key: taxRate
+          keyPascal: TaxRate
+        - name:
+          key: name
+          keyPascal: Name
+          default: CA State Tax
+          object: taxRate
+        - taxComponents:
+          is_object: true
+          key: taxComponents
+          keyPascal: TaxComponents
+        - name:
+          key: name
+          keyPascal: Name
+          default: State Tax
+          object: taxComponents
+        - rate:
+          nonString: true
+          key: rate
+          keyPascal: Rate
+          default: 2.25
+          object: taxComponents
+        - set_taxComponents:
+          nonString: true
+          key: taxComponent
+          keyPascal: TaxComponent
+          default: taxComponent
+          object: taxRate
+        - add_taxRate:
+          is_array_add: true
+          key: taxRates
+          keyPascal: TaxRates
+          java: TaxRates
+          object: taxRate
       responses:
         '200':
           description: Success - return response of type TaxRates array newly created TaxRate
