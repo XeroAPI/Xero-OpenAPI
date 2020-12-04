@@ -11928,10 +11928,59 @@ paths:
       tags:
         - Accounting
       operationId: createOverpaymentAllocations
+      summary: Allows you to create a single allocation for an overpayment
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ allocations: [{ invoice: { invoiceID: "00000000-0000-0000-000-000000000000", lineItems: [], contact: {}, type: Invoice.TypeEnum.ACCPAY }, amount: 10.0, date: "2019-03-12" }]}'
       x-ruby-requestBody: 'allocations = { allocations: [{ invoice: { invoice_id: "00000000-0000-0000-000-000000000000", line_items: [], contact: {}, type: XeroRuby::Accounting::Invoice::ACCPAY }, amount: 10.0, date: "2019-03-12" }]}'
-      summary: Allows you to create a single allocation for an overpayment
+      x-example:
+        - allocations:
+          is_array: true
+          key: allocations
+          keyPascal: Allocations
+        - allocation:
+          is_object: true
+          key: allocation
+          keyPascal: Allocation
+        - amount:
+          nonString: true
+          key: amount
+          keyPascal: Amount
+          default: 1.0
+          object: allocation
+        - currDate:
+          is_date: true
+          key: currDate
+          keyPascal: Date
+          java_datatype: LocalDate
+          default: "LocalDate.of(2020, Month.OCTOBER, 10)"
+        - date:
+          nonString: true
+          key: date
+          keyPascal: Date
+          default: currDate
+          object: allocation
+        - invoice:
+          is_object: true
+          key: invoice
+          keyPascal: Invoice
+        - invoiceID:
+          is_uuid: true
+          key: invoiceID
+          keyPascal: InvoiceID
+          default: 00000000-0000-0000-000-000000000000
+          object: invoice
+        - set_invoice:
+          nonString: "true"
+          key: invoice
+          keyPascal: Invoice
+          default: invoice
+          object: allocation
+        - add_allocation:
+          is_array_add: true
+          key: allocations
+          keyPascal: Allocations
+          java: Allocations
+          object: allocation
       parameters:
         - required: true
           in: path
@@ -12235,10 +12284,74 @@ paths:
       tags:
         - Accounting
       operationId: createPayments
+      summary: Allows you to create multiple payments for invoices or credit notes
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ payments: [{ invoice: { invoiceID: "00000000-0000-0000-000-000000000000", lineItems: [], contact: {}, type: Invoice.TypeEnum.ACCPAY }, account: { code: "970" }, date: "2019-03-12", amount: 1.0 }]}'
       x-ruby-requestBody: 'payments = { payments: [{ invoice: { invoice_id: "00000000-0000-0000-000-000000000000", line_items: [], contact: {}, type: XeroRuby::Accounting::Invoice::ACCPAY }, account: { code: "970" }, date: "2019-03-12", amount: 1.0 }]}'
-      summary: Allows you to create multiple payments for invoices or credit notes
+      x-example:
+        - payments:
+          is_array: true
+          key: payments
+          keyPascal: Payments
+        - payment:
+          is_object: true
+          key: payment
+          keyPascal: Payment
+        - invoice:
+          is_object: true
+          key: invoice
+          keyPascal: Invoice
+        - invoiceID:
+          is_uuid: true
+          key: invoiceID
+          keyPascal: InvoiceID
+          default: 00000000-0000-0000-000-000000000000
+          object: invoice
+        - set_invoice:
+          nonString: true
+          key: invoice
+          keyPascal: Invoice
+          default: invoice
+          object: payment
+        - account:
+          is_object: true
+          key: account
+          keyPascal: Account
+        - code:
+          key: code
+          keyPascal: Code
+          default: "001"
+          object: account
+        - set_account:
+          nonString: true
+          key: account
+          keyPascal: Account
+          default: account
+          object: payment
+        - amount:
+          nonString: true
+          key: amount
+          keyPascal: Amount
+          default: 1.0
+          object: payment
+        - currDate:
+          is_date: true
+          key: currDate
+          keyPascal: Date
+          java_datatype: LocalDate
+          default: "LocalDate.of(2020, Month.OCTOBER, 10)"
+        - date:
+          nonString: true
+          key: date
+          keyPascal: Date
+          default: currDate
+          object: payment
+        - add_payment:
+          is_array_add: true
+          key: payments
+          keyPascal: Payments
+          java: Payments
+          object: payment
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
       responses:
