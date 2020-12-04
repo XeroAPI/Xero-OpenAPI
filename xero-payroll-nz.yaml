@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: '2.5.0'
+  version: '2.6.0'
   title: 'Xero Payroll NZ'
   description: 'This is the Xero Payroll API for orgs in the NZ region.'
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
@@ -5970,15 +5970,7 @@ components:
           description: Name of the calendar
           type: string
         calendarType:
-          description: Type of the calendar
-          type: string
-          enum:
-            - Weekly
-            - Fortnightly
-            - FourWeekly
-            - Monthly
-            - Annual
-            - Quarterly
+          $ref: '#/components/schemas/CalendarType'
         periodStartDate:
           description: Period start date of the calendar
           type: string
@@ -6172,15 +6164,7 @@ components:
           - Unscheduled
           - EarlierYearUpdate
         calendarType:
-          description: Calendar type of the pay run
-          type: string
-          enum:
-          - Weekly
-          - Fortnightly
-          - FourWeekly
-          - Monthly
-          - Annual
-          - Quarterly
+          $ref: '#/components/schemas/CalendarType'
         postedDateTime:
           description: Posted date time of the pay run
           type: string
@@ -6190,6 +6174,17 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/PaySlip'
+    CalendarType:
+      description: Calendar type of the pay run
+      type: string
+      enum:
+      - Weekly
+      - Fortnightly
+      - FourWeekly
+      - Monthly
+      - Annual
+      - Quarterly
+      - TwiceMonthly
     PaySlipObject:
       type: object
       properties:
@@ -6641,8 +6636,9 @@ components:
       properties:
         periodUnits:
           description: The number of units for the period type
-          type: integer
-          format: int32
+          type: number
+          format: double
+          x-is-money: true
         periodType:
           description: The type of period ("weeks" or "months")
           type: string
