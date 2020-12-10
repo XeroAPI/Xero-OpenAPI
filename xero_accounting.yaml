@@ -16111,7 +16111,8 @@ paths:
         - in: query
           name: where
           description: Filter by an any element
-          example: Status=="' + Receipt.StatusEnum.DRAFT + '"
+          example: Status=='DRAFT'
+          x-example-java: Status==&apos;&quot; + Receipt.StatusEnum.DRAFT + &quot;&apos;
           x-ruby-param: Status==#{XeroRuby::Accounting::Receipt::DRAFT}
           schema:
             type: string
@@ -17125,7 +17126,8 @@ paths:
         - in: query
           name: where
           description: Filter by an any element
-          example: Status=="' + RepeatingInvoice.StatusEnum.DRAFT + '"
+          example: Status=='DRAFT'
+          x-example-java: Status==&apos;&quot; + RepeatingInvoice.StatusEnum.DRAFT + &quot;&apos;
           x-ruby-param: Status==#{XeroRuby::Accounting::RepeatingInvoice::DRAFT}
           schema:
             type: string
@@ -21294,6 +21296,78 @@ paths:
         - Accounting
       operationId: postSetup
       summary: Allows you to set the chart of accounts, the conversion date and conversion balances
+      x-example:
+        - Setup:
+          is_object: true
+          key: setup
+          keyPascal: Setup
+        - accounts:
+          is_list: true
+          key: accounts
+          keyPascal: Account
+        - account:
+          is_object: true
+          key: account
+          keyPascal: Account
+        - code:
+          key: code
+          keyPascal: Code
+          default: 123
+          object: account
+        - name:
+          key: name
+          keyPascal: Name
+          default: 1.0
+          object: account
+        - type:
+          key: type
+          keyPascal: Type
+          default: EXPENSE
+          nonString: true
+          php: XeroAPI\XeroPHP\Models\Accounting\AccountType::EXPENSE
+          node: AccountType.EXPENSE
+          ruby: XeroRuby::Accounting::AccountType::EXPENSE
+          python: AccountType.EXPENSE
+          java: com.xero.models.accounting.AccountType.EXPENSE
+          csharp: Account.ClassEnum.EXPENSE
+          object: account
+        - add_accounts:
+          is_list_add: true
+          key: accounts
+          keyPascal: Accounts
+          object: account
+        - set_accounts:
+          nonString: true
+          key: accounts
+          keyPascal: Accounts
+          default: accounts
+          object: setup
+        - conversionDate:
+          is_object: true
+          key: conversionDate
+          keyPascal: ConversionDate
+        - month:
+          nonString: true
+          key: month
+          keyPascal: Month
+          default: 10
+          object: conversionDate
+        - year:
+          nonString: true
+          key: year
+          keyPascal: Year
+          default: 2020
+          object: conversionDate
+        - conversionBalances:
+          is_list: true
+          key: conversionBalances
+          keyPascal: ConversionBalances
+        - set_conversionBalances:
+          nonString: true
+          key: conversionBalances
+          keyPascal: ConversionBalances
+          default: conversionBalances
+          object: setup
       responses:
         '200':
           description: Success - returns a summary of the chart of accounts updates
@@ -21376,7 +21450,8 @@ paths:
         - in: query
           name: where
           description: Filter by an any element
-          example: Status=="' + TaxRate.StatusEnum.ACTIVE + '"
+          example: Status=='ACTIVE'
+          x-example-java: Status==&apos;&quot; + TaxRate.StatusEnum.ACTIVE + &quot;&apos;
           x-ruby-param: Status==#{XeroRuby::Accounting::TaxRate::ACTIVE}
           schema:
             type: string
@@ -21769,7 +21844,8 @@ paths:
         - in: query
           name: where
           description: Filter by an any element
-          example: Status=="' + TrackingCategory.StatusEnum.ACTIVE + '"
+          example: Status=='ACTIVE'
+          x-example-java: Status==&apos;&quot; + TrackingCategory.StatusEnum.ACTIVE + &quot;&apos;
           x-ruby-param: Status==#{XeroRuby::Accounting::TrackingCategory::ACTIVE}
           schema:
             type: string
