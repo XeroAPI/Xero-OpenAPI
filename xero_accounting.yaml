@@ -21746,53 +21746,29 @@ paths:
         - name:
           key: name
           keyPascal: Name
-          default: NY State Tax
+          default: CA State Tax
           object: taxRate
-        - taxComponents:
+        - taxComponent:
           is_object: true
-          key: taxComponents
-          keyPascal: TaxComponents
+          key: taxComponent
+          keyPascal: TaxComponent
         - name:
           key: name
           keyPascal: Name
           default: State Tax
-          object: taxComponents
+          object: taxComponent
         - rate:
           nonString: true
           key: rate
           keyPascal: Rate
           default: 2.25
-          object: taxComponents
-        - set_taxComponents:
-          nonString: true
-          key: taxComponent
-          keyPascal: TaxComponent
-          default: taxComponent
-          object: taxRate
-        - status:
-          nonString: true
-          key: status
-          keyPascal: Status
-          default: DELETED
-          php: XeroAPI\XeroPHP\Models\Accounting\TaxRate::STATUS_DELETED
-          node: TaxRate.StatusEnum.DELETED
-          ruby: XeroRuby::Accounting::TaxRate::Deleted
-          python: TaxRate.xxx
-          java: com.xero.models.accounting.TaxRate.StatusEnum.DELETED
-          csharp: TaxRate.xxx
-          object: taxRate
-        - reportTaxType:
-          nonString: true
-          key: reportTaxType
-          keyPascal: ReportTaxType
-          default: INPUT
-          php: XeroAPI\XeroPHP\Models\Accounting\TaxRate::REPORT_TAX_TYPE_INPUT
-          node: TaxRate.ReportTaxTypeEnum.INPUT
-          ruby: XeroRuby::Accounting::TaxRate::INPUT
-          python: TaxRate.xxx
-          java: com.xero.models.accounting.TaxRate.ReportTaxTypeEnum.INPUT
-          csharp: TaxRate.xxx
-          object: taxRate
+          object: taxComponent
+        - add_taxComponent:
+          is_array_add: true
+          key: taxRate
+          keyPascal: TaxComponents
+          java: TaxComponents
+          object: taxComponent
         - add_taxRate:
           is_array_add: true
           key: taxRates
