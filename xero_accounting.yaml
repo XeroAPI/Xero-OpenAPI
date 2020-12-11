@@ -20176,7 +20176,10 @@ components:
           type: boolean
         Rate:
           description: CIS Deduction rate for the contact if he is a subcontractor. If the contact is not CISEnabled, then the rate is not returned
-          type: integer
+          type: number
+          format: double
+          readOnly: true
+          x-is-money: true 
     CISOrgSetting:
       externalDocs:
         url: 'https://developer.xero.com/documentation/api/organisation'
@@ -20189,7 +20192,10 @@ components:
           type: boolean
         Rate:
           description: CIS Deduction rate for the organisation
-          type: integer
+          type: number
+          format: double
+          readOnly: true
+          x-is-money: true 
     ContactPerson:
       externalDocs:
         url: 'http://developer.xero.com/documentation/api/contacts/'
@@ -20312,6 +20318,18 @@ components:
           type: number
           format: double
           x-is-money: true
+        CISDeduction:
+          description: CIS deduction for UK contractors
+          readOnly: true
+          type: number
+          format: double
+          x-is-money: true
+        CISRate:
+          description: CIS Deduction rate for the organisation
+          type: number
+          format: double
+          readOnly: true
+          x-is-money: true 
         UpdatedDateUTC:
           description: UTC timestamp of last update to the credit note
           type: string
@@ -21038,6 +21056,12 @@ components:
           type: number
           format: double
           x-is-money: true
+        CISRate:
+          description: CIS Deduction rate for the organisation
+          type: number
+          format: double
+          readOnly: true
+          x-is-money: true 
         SubTotal:
           description: Total of invoice excluding taxes
           readOnly: true
