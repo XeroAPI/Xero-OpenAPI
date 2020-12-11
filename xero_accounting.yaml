@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Accounting API
-  version: "2.6.1"
+  version: "2.7.0"
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
   contact:
     name: "Xero Platform Team"
@@ -19202,7 +19202,7 @@ components:
                       ]
                     }'
   schemas:
-    Address:
+    AddressForOrganisation:
       externalDocs:
         url: 'http://developer.xero.com/documentation/api/types'
       properties:
@@ -19213,6 +19213,53 @@ components:
           - POBOX    
           - STREET    
           - DELIVERY
+        AddressLine1:
+          description: max length = 500
+          maxLength: 500
+          type: string
+        AddressLine2:
+          description: max length = 500
+          maxLength: 500
+          type: string
+        AddressLine3:
+          description: max length = 500
+          maxLength: 500
+          type: string
+        AddressLine4:
+          description: max length = 500
+          maxLength: 500
+          type: string
+        City:
+          description: max length = 255
+          maxLength: 255
+          type: string
+        Region:
+          description: max length = 255
+          maxLength: 255
+          type: string
+        PostalCode:
+          description: max length = 50
+          maxLength: 50
+          type: string
+        Country:
+          description: 'max length = 50, [A-Z], [a-z] only'
+          maxLength: 50
+          type: string
+        AttentionTo:
+          description: max length = 255
+          maxLength: 255
+          type: string
+      type: object
+    Address:
+      externalDocs:
+        url: 'http://developer.xero.com/documentation/api/types'
+      properties:
+        AddressType:
+          description: define the type of address 
+          type: string
+          enum:
+          - POBOX    
+          - STREET
         AddressLine1:
           description: max length = 500
           maxLength: 500
@@ -21868,7 +21915,7 @@ components:
           description: Address details for organisation – see Addresses
           type: array
           items:
-            $ref: '#/components/schemas/Address'
+            $ref: '#/components/schemas/AddressForOrganisation'
         Phones:
           description: Phones details for organisation – see Phones
           type: array
