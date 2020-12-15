@@ -4,7 +4,7 @@ servers:
     url: https://api.xero.com/files.xro/1.0/
 info:
   title: Xero Files API
-  version: "2.6.0"
+  version: "2.7.0"
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
   contact:
     name: "Xero Platform Team"
@@ -547,51 +547,48 @@ components:
         - releaseDate
       properties:
         Name:
-          description: TODO
+          description: File Name
           type: string
           example: File2.jpg
         MimeType:
-          description: TODO
+          description: MimeType of the file (image/png, image/jpeg, application/pdf, etc..)
           type: string
           example: image/jpeg 
         Size:
-          description: TODO
+          description: Numeric value in bytes
           type: integer
-          example: 3615   
-        CreatedDateUTC:
-          description: TODO
+          example: 3615
+        CreatedDateUtc:
+          description: Created date in UTC
           type: string
-          format: date-time
-          example: '2014-12-04T23:08:14.0630000'
-        UpdatedDateUTC:
-          description: TODO
+          example: '2020-12-03T19:04:58.6970000'
+        UpdatedDateUtc:
+          description: Updated date in UTC
           type: string
-          format: date-time
-          example: '2014-12-04T23:08:14.0630000'
+          example: '2020-12-03T19:04:58.6970000'
         User:
           $ref: '#/components/schemas/User'
         Id:
-          description: TODO
+          description: File object's UUID
           type: string
           format: uuid
           example: d290f1ee-6c54-4b01-90e6-d701748f0851
         FolderId:
-          description: TODO
+          description: Folder relation object's UUID
           type: string
           format: uuid
           example: 0f8ccf21-7267-4268-9167-a1e2c40c84c8
     User:
       required:
-        - FirstName
-        - LastName
+        - Id
       properties:
-        UserID:
+        Id:
           description: Xero identifier
           type: string
           format: uuid
           example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
-        EmailAddress:
-          description: Email address of user
+        Name:
+          description: Key is Name, but returns Email address of user who created the file
           type: string
           example: john.smith@mail.com
         FirstName:
@@ -602,26 +599,10 @@ components:
           description: Last name of user
           type: string
           example: Smith
-        UpdatedDateUTC:
+        FullName:
           description: Last name of user
           type: string
-          format: date-time
-          example: Date(1516230549137+0000)
-        IsSubscriber:
-          description: Boolean to indicate if user is the subscriber
-          type: boolean
-          example: true
-        OrganisationRole:
-          description: Boolean to indicate if user is the subscriber
-          type: string
-          example: STANDARD
-          enum:
-          - READONLY
-          - INVOICEONLY  
-          - STANDARD  
-          - FINANCIALADVISER  
-          - MANAGEDCLIENT  
-          - CASHBOOKCLIENT
+          example: Smith
       type: object
     Folders:
       type: object
@@ -689,61 +670,61 @@ components:
       description: The Object Type
       type: string
       enum:
-      - Account
+      - Unknown
       - Accpay
-      - AccPayCred
-      - AccPayPaym
+      - AccPayCredit
+      - AccPayPayment
       - AccRec
-      - AccRecCred
-      - AccRecPaym
+      - AccRecCredit
+      - AccRecPayment
       - Adjustment
-      - ApCreditPa
-      - ApOverPaym
-      - ApOverPaym
-      - ApOverPaym
-      - ApPrepayme
-      - ApPrepayme
-      - ApPrepayme
-      - ArCreditPa
-      - ArOverpaym
-      - ArOverPaym
-      - ArOverpaym
-      - ArPrepayme
-      - ArPrepayme
-      - ArPrepayme
-      - Bank
-      - Business
+      - ApCreditPayment
+      - ApOverPayment
+      - ApOverPaymentPayment
+      - ApOverPaymentSourcePayment
+      - ApPrepayment
+      - ApPrepaymentPayment
+      - ApPrepaymentSourcePayment
+      - ArCreditPayment
+      - ArOverPayment
+      - ArOverpaymentPayment
+      - ArOverpaymentSourcePayment
+      - ArPrepayment
+      - ArPrepaymentPayment
+      - ArPrepaymentSourcePayment
       - CashPaid
       - CashRec
+      - ExpPayment
+      - ManJournal
+      - PurchaseOrder
+      - Receipt
+      - Transfer
+      - Account
       - Contact
-      - Current
-      - Currliab
-      - Depreciatn
-      - DirectCost
+      - Business
       - Employee
+      - Person
+      - User
+      - Org
+      - FixedAsset
+      - PayRun
+      - PriceListItem
+      - Bank
+      - Current
       - Equity
       - Expense
-      - ExpPayment
       - Fixed
-      - FixedAsset
       - Liability
-      - ManJournal
-      - NonCurren
-      - Org
-      - OtherIncom
-      - Overheads
-      - PayRun
-      - Person
       - Prepayment
-      - PriceListI
-      - PurchaseOr
-      - Receipt
       - Revenue
       - Sales
+      - Overheads
+      - Depreciatn
+      - OtherIncome
+      - DirectCosts
+      - Currliab
       - Termliab
-      - Transfer
-      - Unknown
-      - User
+      - NonCurrent
     FileResponse204:
       externalDocs:
         url: 'https://developer.xero.com/documentation/files-api/files#DELETE'

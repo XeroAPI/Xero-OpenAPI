@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Accounting API
-  version: "2.6.0"
+  version: "2.7.0"
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
   contact:
     name: "Xero Platform Team"
@@ -10254,18 +10254,21 @@ paths:
           example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
+            format: uuid
         - in: query
           name: SourceTransactionID
           description: Filter by the SourceTransactionID. Get the linked transactions created from a particular ACCPAY invoice
           example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
+            format: uuid
         - in: query
           name: ContactID
           description: Filter by the ContactID. Get all the linked transactions that have been assigned to a particular customer.
           example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
+            format: uuid
         - in: query
           name: Status
           description: Filter by the combination of ContactID and Status. Get  the linked transactions associaed to a  customer and with a status
@@ -10278,6 +10281,7 @@ paths:
           example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
+            format: uuid
       responses:
         '200':
           description: Success - return response of type LinkedTransactions array with all LinkedTransaction
@@ -22607,7 +22611,7 @@ components:
                       ]
                     }'
   schemas:
-    Address:
+    AddressForOrganisation:
       externalDocs:
         url: 'http://developer.xero.com/documentation/api/types'
       properties:
@@ -22618,6 +22622,53 @@ components:
           - POBOX    
           - STREET    
           - DELIVERY
+        AddressLine1:
+          description: max length = 500
+          maxLength: 500
+          type: string
+        AddressLine2:
+          description: max length = 500
+          maxLength: 500
+          type: string
+        AddressLine3:
+          description: max length = 500
+          maxLength: 500
+          type: string
+        AddressLine4:
+          description: max length = 500
+          maxLength: 500
+          type: string
+        City:
+          description: max length = 255
+          maxLength: 255
+          type: string
+        Region:
+          description: max length = 255
+          maxLength: 255
+          type: string
+        PostalCode:
+          description: max length = 50
+          maxLength: 50
+          type: string
+        Country:
+          description: 'max length = 50, [A-Z], [a-z] only'
+          maxLength: 50
+          type: string
+        AttentionTo:
+          description: max length = 255
+          maxLength: 255
+          type: string
+      type: object
+    Address:
+      externalDocs:
+        url: 'http://developer.xero.com/documentation/api/types'
+      properties:
+        AddressType:
+          description: define the type of address 
+          type: string
+          enum:
+          - POBOX    
+          - STREET
         AddressLine1:
           description: max length = 500
           maxLength: 500
@@ -23581,7 +23632,10 @@ components:
           type: boolean
         Rate:
           description: CIS Deduction rate for the contact if he is a subcontractor. If the contact is not CISEnabled, then the rate is not returned
-          type: integer
+          type: number
+          format: double
+          readOnly: true
+          x-is-money: true 
     CISOrgSetting:
       externalDocs:
         url: 'https://developer.xero.com/documentation/api/organisation'
@@ -23594,7 +23648,10 @@ components:
           type: boolean
         Rate:
           description: CIS Deduction rate for the organisation
-          type: integer
+          type: number
+          format: double
+          readOnly: true
+          x-is-money: true 
     ContactPerson:
       externalDocs:
         url: 'http://developer.xero.com/documentation/api/contacts/'
@@ -23717,6 +23774,18 @@ components:
           type: number
           format: double
           x-is-money: true
+        CISDeduction:
+          description: CIS deduction for UK contractors
+          readOnly: true
+          type: number
+          format: double
+          x-is-money: true
+        CISRate:
+          description: CIS Deduction rate for the organisation
+          type: number
+          format: double
+          readOnly: true
+          x-is-money: true 
         UpdatedDateUTC:
           description: UTC timestamp of last update to the credit note
           type: string
@@ -24396,8 +24465,7 @@ components:
           maxLength: 255
           type: string
         Reference:
-          description: ACCREC only – additional reference number (max length = 255)
-          maxLength: 255
+          description: ACCREC only – additional reference number
           type: string
         BrandingThemeID:
           description: See BrandingThemes
@@ -24444,6 +24512,12 @@ components:
           type: number
           format: double
           x-is-money: true
+        CISRate:
+          description: CIS Deduction rate for the organisation
+          type: number
+          format: double
+          readOnly: true
+          x-is-money: true 
         SubTotal:
           description: Total of invoice excluding taxes
           readOnly: true
@@ -25250,7 +25324,7 @@ components:
           description: Address details for organisation – see Addresses
           type: array
           items:
-            $ref: '#/components/schemas/Address'
+            $ref: '#/components/schemas/AddressForOrganisation'
         Phones:
           description: Phones details for organisation – see Phones
           type: array
