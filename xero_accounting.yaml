@@ -1319,29 +1319,6 @@ paths:
       x-node-requestBody: '{ bankTransactions: [{ type: BankTransaction.TypeEnum.SPEND, contact: { contactID: "00000000-0000-0000-000-000000000000" }, lineItems: [{ description: "Foobar", quantity: 1.0, unitAmount: 20.0, accountCode: "000" } ], bankAccount: { code: "000" }}]}'
       x-ruby-requestBody: 'bank_transactions = { bank_transactions: [{ type: XeroRuby::Accounting::BankTransaction::SPEND, contact: { contact_id: "00000000-0000-0000-000-000000000000" }, line_items: [{ description: "Foobar", quantity: 1.0, unit_amount: 20.0, account_code: "000" } ], bank_account: { code: "000" }}]}'
       x-example:
-        - bankTransactions:
-          is_array: true
-          key: bankTransactions
-          keyPascal: BankTransactions
-          keySnake: bank_transactions
-        - bankTransaction:
-          is_object: true
-          key: bankTransaction
-          keyPascal: BankTransaction
-          keySnake: bank_transaction
-        - type:
-          nonString: true
-          key: type
-          keyPascal: Type
-          default: RECEIVE
-          php: XeroAPI\XeroPHP\Models\Accounting\BankTransaction::TYPE_RECEIVE
-          node: BankTransaction.TypeEnum.RECEIVE
-          ruby: XeroRuby::Accounting::BankTransaction::RECEIVE
-          python: BankTransaction.Type.RECEIVE
-          java: com.xero.models.accounting.BankTransaction.TypeEnum.RECEIVE
-          csharp: BankTransaction.TypeEnum.RECEIVE
-          object: bankTransaction
-          objectSnake: bank_transaction
         - contact:
           is_object: true
           key: contact
@@ -1353,14 +1330,6 @@ paths:
           keySnake: contact_id
           default: 00000000-0000-0000-000-000000000000
           object: contact
-        - set_contact:
-          is_variable: true
-          nonString: true
-          key: contact
-          keyPascal: Contact
-          default: contact
-          object: bankTransaction
-          objectSnake: bank_transaction
         - lineItem:
           is_object: true
           key: lineItem
@@ -1394,14 +1363,6 @@ paths:
           default: "000"
           object: lineItem
           objectSnake: line_item
-        - add_lineitems:
-          is_array_add: true
-          key: bankTransaction
-          keyPascal: LineItems
-          keySnake: bank_transaction
-          java: LineItems
-          object: lineItem
-          objectSnake: line_item
         - bankAccount:
           is_object: true
           key: bankAccount
@@ -1415,6 +1376,40 @@ paths:
           default: 00000000-0000-0000-000-000000000000
           object: bankAccount
           objectSnake: bank_account
+        - bankTransaction:
+          is_object: true
+          key: bankTransaction
+          keyPascal: BankTransaction
+          keySnake: bank_transaction
+        - type:
+          nonString: true
+          key: type
+          keyPascal: Type
+          default: RECEIVE
+          php: XeroAPI\XeroPHP\Models\Accounting\BankTransaction::TYPE_RECEIVE
+          node: BankTransaction.TypeEnum.RECEIVE
+          ruby: XeroRuby::Accounting::BankTransaction::RECEIVE
+          python: BankTransaction.Type.RECEIVE
+          java: com.xero.models.accounting.BankTransaction.TypeEnum.RECEIVE
+          csharp: BankTransaction.TypeEnum.RECEIVE
+          object: bankTransaction
+          objectSnake: bank_transaction
+        - set_contact:
+          is_variable: true
+          nonString: true
+          key: contact
+          keyPascal: Contact
+          default: contact
+          object: bankTransaction
+          objectSnake: bank_transaction
+        - add_lineitems:
+          is_array_add: true
+          key: bankTransaction
+          keyPascal: LineItems
+          keySnake: bank_transaction
+          java: LineItems
+          object: lineItem
+          objectSnake: line_item
         - set_bankaccount:
           is_variable: true
           nonString: true
@@ -1425,6 +1420,11 @@ paths:
           default: bankAccount
           object: bankTransaction
           objectSnake: bank_transaction
+        - bankTransactions:
+          is_array: true
+          key: bankTransactions
+          keyPascal: BankTransactions
+          keySnake: bank_transactions
         - add_bankTransaction:
           is_array_add: true
           key: bankTransactions
