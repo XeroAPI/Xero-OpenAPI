@@ -10888,6 +10888,25 @@ paths:
           keyPascal: Narration
           default: Foobar
           object: manualJournal
+        - dateValue:
+          is_date: true
+          key: dateValue
+          keyPascal: Date
+          java_datatype: LocalDate
+          default: "LocalDate.of(2020, Month.OCTOBER, 10)"
+          java: "LocalDate.of(2020, Month.OCTOBER, 10)"
+          php: "new DateTime('2019-10-10')"
+        - date:
+          is_variable: true
+          nonString: true
+          key: date
+          keyPascal: Date
+          default: dateValue
+          object: manualJournal
+        - manualJournalLines:
+          is_list: true
+          key: manualJournalLines
+          keyPascal: ManualJournalLine
         - credit:
           is_object: true
           key: credit
@@ -10909,10 +10928,9 @@ paths:
           default: "Hello there"
           object: credit
         - add_credit:
-          is_array_add: true
-          key: manualJournal
-          keyPascal: JournalLines
-          java: JournalLines
+          is_list_add: true
+          key: manualJournalLines
+          keyPascal: ManualJournalLine
           object: credit
         - debit:
           is_object: true
@@ -10935,28 +10953,23 @@ paths:
           default: "Hello there"
           object: debit
         - add_debit:
-          is_array_add: true
-          key: manualJournal
-          keyPascal: JournalLines
-          java: JournalLines
+          is_list_add: true
+          key: manualJournalLines
+          keyPascal: ManualJournalLine
           object: debit
-        - dateValue:
-          is_date: true
-          key: dateValue
-          keyPascal: Date
-          java_datatype: LocalDate
-          default: "LocalDate.of(2020, Month.OCTOBER, 10)"
-        - date:
+        - set_manualJournalLines:
+          is_variable: true
           nonString: true
-          key: date
-          keyPascal: Date
-          default: dateValue
+          key: manualJournalLines
+          keyPascal: JournalLines
+          default: manualJournalLines
           object: manualJournal
         - add_manualJournal:
           is_array_add: true
           key: manualJournals
           keyPascal: ManualJournals
           java: ManualJournals
+          php: manualJournals
           object: manualJournal
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
