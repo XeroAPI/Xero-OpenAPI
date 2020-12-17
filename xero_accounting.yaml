@@ -7097,10 +7097,6 @@ paths:
       x-node-requestBody: '{ employees: [{ firstName: "Nick", lastName: "Fury", externalLink: { url: "http://twitter.com/#!/search/Nick+Fury" }}]}'
       x-ruby-requestBody: 'employees = { employees: [{ first_name: "Nick", last_name: "Fury", externalink: { url: "http://twitter.com/#!/search/Nick+Fury" }}]}'
       x-example:
-        - employees:
-          is_array: true
-          key: employees
-          keyPascal: Employees
         - employee:
           is_object: true
           key: employee
@@ -7108,14 +7104,22 @@ paths:
         - firstName:
           key: firstName
           keyPascal: FirstName
+          keySnake: first_name
           default: Nick
           object: employee
         - lastName:
+          is_last: true
           key: lastName
           keyPascal: LastName
+          keySnake: last_name
           default: Fury
           object: employee
+        - employees:
+          is_array: true
+          key: employees
+          keyPascal: Employees
         - add_employee:
+          is_last: true
           is_array_add: true
           key: employees
           keyPascal: Employees
