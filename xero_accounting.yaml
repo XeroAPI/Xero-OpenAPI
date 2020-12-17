@@ -5513,51 +5513,18 @@ paths:
           java: "LocalDate.now()"
           php: "new DateTime('2019-12-10')"
           python: "dateutil.parser.parse('2020-12-03T00:00:00Z')"
-        - creditNotes:
-          is_array: true
-          key: creditNotes
-          keyPascal: CreditNotes
-        - creditNote:
-          is_object: true
-          key: creditNote
-          keyPascal: CreditNote
-        - type:
-          nonString: true
-          key: type
-          keyPascal: Type
-          default: ACCPAYCREDIT
-          php: XeroAPI\XeroPHP\Models\Accounting\CreditNote::TYPE_ACCPAYCREDIT
-          node: CreditNote.TypeEnum.ACCPAYCREDIT
-          ruby: XeroRuby::Accounting::CreditNote::ACCPAYCREDIT
-          python: CreditNote.xxx
-          java: com.xero.models.accounting.CreditNote.TypeEnum.ACCPAYCREDIT
-          csharp: CreditNote.xxx
-          object: creditNote
         - contact:
           is_object: true
           key: contact
           keyPascal: Contact
         - contactID:
+          is_last: true
           is_uuid: true
           key: contactId
           keyPascal: ContactID
+          keySnake: contact_id
           default: 00000000-0000-0000-000-000000000000
           object: contact
-        - set_contact:
-          is_variable: true
-          nonString: true
-          key: contact
-          keyPascal: Contact
-          default: contact
-          object: creditNote
-        - date:
-          is_variable: true
-          nonString: true
-          key: date
-          keyPascal: Date
-          default: currDate
-          python: curr_date
-          object: creditNote
         - lineItems:
           is_list: true
           key: lineItems
@@ -5593,18 +5560,57 @@ paths:
           key: lineItems
           keyPascal: LineItems
           object: lineItem
+        - creditNote:
+          is_object: true
+          key: creditNote
+          keyPascal: CreditNote
+        - type:
+          nonString: true
+          key: type
+          keyPascal: Type
+          default: ACCPAYCREDIT
+          php: XeroAPI\XeroPHP\Models\Accounting\CreditNote::TYPE_ACCPAYCREDIT
+          node: CreditNote.TypeEnum.ACCPAYCREDIT
+          ruby: XeroRuby::Accounting::CreditNote::ACCPAYCREDIT
+          python_string: ACCPAYCREDIT
+          java: com.xero.models.accounting.CreditNote.TypeEnum.ACCPAYCREDIT
+          csharp: CreditNote.xxx
+          object: creditNote
+        - set_contact:
+          is_variable: true
+          nonString: true
+          key: contact
+          keyPascal: Contact
+          default: contact
+          object: creditNote
+        - date:
+          is_variable: true
+          nonString: true
+          key: date
+          keyPascal: Date
+          default: currDate
+          python: curr_date
+          object: creditNote
         - set_lineitem:
+          is_last: true
           is_variable: true
           nonString: true
           key: lineItems
           keyPascal: LineItems
           default: lineItems
           object: creditNote
+        - creditNotes:
+          is_object: true
+          key: creditNotes
+          keyPascal: CreditNotes
         - add_bankTransaction:
+          is_last: true
           is_array_add: true
           key: creditNotes
           keyPascal: CreditNotes
+          keySnake: credit_notes
           java: CreditNotes
+          python: credit_note
           object: creditNote
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
