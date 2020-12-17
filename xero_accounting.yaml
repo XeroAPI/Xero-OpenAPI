@@ -3618,10 +3618,38 @@ paths:
       x-node-requestBody: '{ contacts: [{ name: "Bruce Banner", emailAddress: "hulk@avengers.com", phones: [{ phoneType: Phone.PhoneTypeEnum.MOBILE, phoneNumber: "555-1212", phoneAreaCode: "415" }], paymentTerms: { bills: { day: 15, type: PaymentTermType.OFCURRENTMONTH }, sales: { day: 10, type: PaymentTermType.DAYSAFTERBILLMONTH }}}]}'
       x-ruby-requestBody: 'contacts = { contacts: [{ name: "Bruce Banner", email_address: "hulk@avengers.com", phones: [{ phone_type: XeroRuby::Accounting::Phone::MOBILE, phone_number: "555-1212", phone_area_code: "415" }], payment_terms: { bills: { day: 15, type: XeroRuby::Accounting::PaymentTermType::OFCURRENTMONTH }, sales: { day: 10, type: XeroRuby::Accounting::PaymentTermType::DAYSAFTERBILLMONTH }}}]}'      
       x-example:
-        - contacts:
-          is_array: true
-          key: contacts
-          keyPascal: Contacts
+        - phones:
+          is_list: true
+          key: phones
+          keyPascal: Phone
+        - phone:
+          is_object: true
+          key: phone
+          keyPascal: Phone
+        - phoneNumber:
+          key: phoneNumber
+          keyPascal: PhoneNumber
+          keySnake: phone_number
+          default: 555-1212
+          object: phone
+        - phoneType:
+          nonString: true
+          key: phoneType
+          keyPascal: PhoneType
+          keySnake: phone_type
+          default: MOBILE
+          php: XeroAPI\XeroPHP\Models\Accounting\Phone::PHONE_TYPE_MOBILE
+          node: PhoneType.MOBILE
+          ruby: XeroRuby::Accounting::PhoneType::MOBILE
+          python_string: MOBILE
+          java: com.xero.models.accounting.Phone.PhoneTypeEnum.MOBILE
+          csharp: Phone.TypeEnum.MOBILE
+          object: phone
+        - add_phone:
+          is_list_add: true
+          key: phones
+          keyPascal: Phones
+          object: phone
         - contact:
           is_object: true
           key: contact
@@ -3634,46 +3662,23 @@ paths:
         - emailAddress:
           key: emailAddress
           keyPascal: EmailAddress
+          keySnake: email_address
           default: hulk@avengers.com
           object: contact
-        - phones:
-          is_list: true
-          key: phones
-          keyPascal: Phone
-        - phone:
-          is_object: true
-          key: phone
-          keyPascal: Phone
-        - phoneNumber:
-          key: phoneNumber
-          keyPascal: PhoneNumber
-          default: 555-1212
-          object: phone
-        - phoneType:
-          nonString: true
-          key: phoneType
-          keyPascal: PhoneType
-          default: MOBILE
-          php: XeroAPI\XeroPHP\Models\Accounting\Phone::PHONE_TYPE_MOBILE
-          node: PhoneType.MOBILE
-          ruby: XeroRuby::Accounting::PhoneType::MOBILE
-          python: PhoneType.MOBILE
-          java: com.xero.models.accounting.Phone.PhoneTypeEnum.MOBILE
-          csharp: Phone.TypeEnum.MOBILE
-          object: phone
-        - add_phone:
-          is_list_add: true
-          key: phones
-          keyPascal: Phones
-          object: phone
         - set_phones:
+          is_last: true
           is_variable: true
           nonString: true
           key: phones
           keyPascal: Phones
           default: phones
           object: contact
+        - contacts:
+          is_object: true
+          key: contacts
+          keyPascal: Contacts
         - add_contact:
+          is_last: true
           is_array_add: true
           key: contacts
           keyPascal: Contacts
