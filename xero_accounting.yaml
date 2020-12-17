@@ -829,6 +829,14 @@ paths:
       x-node-requestBody: '{ batchPayments: [{ account: { accountId: "00000000-0000-0000-000-000000000000" }, reference: "ref", date: "2018-08-01", payments: [{  account: { code: "001" }, date: "2019-12-31", amount: 500, invoice: { invoiceId: "00000000-0000-0000-000-000000000000", lineItems: [], contact: {}, type: Invoice.TypeEnum.ACCPAY }}]}]}'
       x-ruby-requestBody: 'batch_payments = { batch_payments: [{ account: { account_id: "00000000-0000-0000-000-000000000000" }, reference: "ref", date: "2018-08-01", payments: [{  account: { code: "001" }, date: "2019-12-31", amount: 500, invoice: { invoice_id: "00000000-0000-0000-000-000000000000", line_items: [], contact: {}, type: XeroRuby::Accounting::Invoice::ACCPAY }}]}]}'
       x-example:
+        - currDate:
+          is_date: true
+          key: currDate
+          keyPascal: Date
+          java_datatype: LocalDate
+          default: "LocalDate.now()"
+          java: "LocalDate.now()"
+          php: "new DateTime('2019-12-10')"
         - paymentAccount:
           is_object: true
           key: paymentAccount
@@ -919,14 +927,6 @@ paths:
           keyPascal: Account
           default: paymentAccount
           object: batchPayment
-        - currDate:
-          is_date: true
-          key: currDate
-          keyPascal: Date
-          java_datatype: LocalDate
-          default: "LocalDate.now()"
-          java: "LocalDate.now()"
-          php: "new DateTime('2019-12-10')"
         - date:
           is_variable: true
           nonString: true
