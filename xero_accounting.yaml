@@ -2667,59 +2667,69 @@ paths:
       x-node-requestBody: '{ bankTransfers: [{ fromBankAccount: { code: "000", accountID: "00000000-0000-0000-000-000000000000" }, toBankAccount: { code: "001", accountID: "00000000-0000-0000-000-000000000000" }, amount: "50.00" }]}'
       x-ruby-requestBody: 'bank_transfers = { bank_transfers: [{ from_bank_account: { code: "000", account_id: "00000000-0000-0000-000-000000000000" }, to_bank_account: { code: "001", account_id: "00000000-0000-0000-000-000000000000" }, amount: "50.00" }]}'
       x-example:
-        - bankTransfers:
-          is_array: true
-          key: bankTransfers
-          keyPascal: BankTransfers
-        - bankTransfer:
-          is_object: true
-          key: bankTransfer
-          keyPascal: BankTransfer
-        - amount:
-          nonString: true
-          key: amount
-          keyPascal: Amount
-          default: 1.0
-          object: bankTransfer
         - fromBankAccount:
           is_object: true
           key: fromBankAccount
           keyPascal: Account
         - accountID:
+          is_last: true
           is_uuid: true
           key: accountID
           keyPascal: AccountID
+          keySnake: account_id
           default: 00000000-0000-0000-000-000000000000
           object: fromBankAccount
-        - set_fromBankAccount:
-          is_variable: true
-          nonString: true
-          key: fromBankAccount
-          keyPascal: FromBankAccount
-          default: fromBankAccount
-          object: bankTransfer
         - toBankAccount:
           is_object: true
           key: toBankAccount
           keyPascal: Account
         - accountID:
+          is_last: true
           is_uuid: true
           key: accountID
           keyPascal: AccountID
+          keySnake: account_id
           default: 00000000-0000-0000-000-000000000000
           object: toBankAccount
+        - bankTransfer:
+          is_object: true
+          key: bankTransfer
+          keyPascal: BankTransfer
+        - set_fromBankAccount:
+          is_variable: true
+          nonString: true
+          key: fromBankAccount
+          keyPascal: FromBankAccount
+          keySnake: from_bank_account
+          default: fromBankAccount
+          object: bankTransfer
         - set_toBankAccount:
           is_variable: true
           nonString: true
           key: toBankAccount
           keyPascal: ToBankAccount
+          keySnake: to_bank_account
           default: toBankAccount
           object: bankTransfer
+        - amount:
+          is_last: true
+          nonString: true
+          key: amount
+          keyPascal: Amount
+          default: 1.0
+          object: bankTransfer
+        - bankTransfers:
+          is_object: true
+          key: bankTransfers
+          keyPascal: BankTransfers
         - add_bankTransfer:
+          is_last: true
           is_array_add: true
           key: bankTransfers
           keyPascal: BankTransfers
+          keySnake: bank_transfers
           java: BankTransfers
+          python: bank_transfer
           object: bankTransfer
       responses:
         '200':
