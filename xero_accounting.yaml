@@ -4991,24 +4991,29 @@ paths:
       x-node-requestBody: '{ contactGroups: [{ name: "VIPs" }]}'
       x-ruby-requestBody: 'contact_groups = { contact_groups: [{ name: "VIPs" }]}'
       x-example:
-        - contactGroups:
-          is_array: true
-          key: contactGroups
-          keyPascal: ContactGroups
         - contact:
           is_object: true
           key: contactGroup
           keyPascal: ContactGroup
+          keySnake: contact_group
         - name:
+          is_last: true
           key: name
           keyPascal: Name
           default: VIPs
           object: contactGroup
+        - contactGroups:
+          is_array: true
+          key: contactGroups
+          keyPascal: ContactGroups
         - add_ContactGroup:
+          is_last: true
           is_array_add: true
           key: contactGroups
           keyPascal: ContactGroups
+          keySnake: contact_groups
           java: ContactGroups
+          python: contact_group
           object: contactGroup
       responses:
         '200':
