@@ -834,9 +834,11 @@ paths:
           key: paymentAccount
           keyPascal: Account
         - accountID:
+          is_last: true
           is_uuid: true
           key: accountId
           keyPascal: AccountID
+          keySnake: account_id
           default: 00000000-0000-0000-000-000000000000
           object: paymentAccount
         - bankAccount:
@@ -844,19 +846,72 @@ paths:
           key: bankAccount
           keyPascal: Account
         - accountID:
+          is_last: true
           is_uuid: true
           key: accountID
           keyPascal: AccountID
+          keySnake: account_id
           default: 00000000-0000-0000-000-000000000000
           object: bankAccount
-        - batchPayments:
-          is_array: true
-          key: batchPayments
-          keyPascal: BatchPayments
+        - invoice:
+          is_object: true
+          key: invoice
+          keyPascal: Invoice
+        - invoiceID:
+          is_last: true
+          is_uuid: true
+          key: invoiceID
+          keyPascal: InvoiceID
+          keySnake: invoice_id
+          default: "00000000-0000-0000-000-000000000000"
+          object: invoice
+        - payment:
+          is_object: true
+          key: payment
+          keyPascal: Payment
+        - set_bankaccount:
+          is_variable: true
+          nonString: true
+          key: account
+          keyPascal: Account
+          default: bankAccount
+          object: payment
+        - date:
+          is_variable: true
+          nonString: true
+          key: date
+          keyPascal: Date
+          default: currDate
+          object: payment
+        - amount:
+          is_last: true
+          nonString: true
+          key: amount
+          keyPascal: Amount
+          default: 1.00
+          object: payment
+        - set_invoice:
+          is_variable: true
+          nonString: true
+          key: invoice
+          keyPascal: Invoice
+          default: invoice
+          object: payment
+        - payments:
+          is_list: true
+          key: payments
+          keyPascal: Payment
+        - add_payments:
+          is_last: true
+          is_list_add: true
+          key: payments
+          keyPascal: Payments
+          object: payment
         - batchPayment:
           is_object: true
           key: batchPayment
           keyPascal: BatchPayment
+          keySnake: batch_payment
         - set_paymentaccount:
           is_variable: true
           nonString: true
@@ -879,68 +934,26 @@ paths:
           keyPascal: Date
           default: currDate
           object: batchPayment
-        - payments:
-          is_list: true
-          key: payments
-          keyPascal: Payment
-        - payment:
-          is_object: true
-          key: payment
-          keyPascal: Payment
-        - set_bankaccount:
-          is_variable: true
-          nonString: true
-          key: account
-          keyPascal: Account
-          default: bankAccount
-          object: payment
-        - date:
-          is_variable: true
-          nonString: true
-          key: date
-          keyPascal: Date
-          default: currDate
-          object: payment
-        - amount:
-          nonString: true
-          key: amount
-          keyPascal: Amount
-          default: 1.00
-          object: payment
-        - invoice:
-          is_object: true
-          key: invoice
-          keyPascal: Invoice
-        - invoiceID:
-          is_uuid: true
-          key: invoiceID
-          keyPascal: InvoiceID
-          default: "00000000-0000-0000-000-000000000000"
-          object: invoice
-        - set_invoice:
-          is_variable: true
-          nonString: true
-          key: invoice
-          keyPascal: Invoice
-          default: invoice
-          object: payment
-        - add_payments:
-          is_list_add: true
-          key: payments
-          keyPascal: Payments
-          object: payment
         - set_payments:
+          is_last: true
           is_variable: true
           nonString: true
           key: payments
           keyPascal: Payments
           default: payments
           object: batchPayment
+        - batchPayments:
+          is_array: true
+          key: batchPayments
+          keyPascal: BatchPayments
         - add_batchPayments:
+          is_last: true
           is_array_add: true
           key: batchPayments
           keyPascal: BatchPayments
+          keySnake: batch_payments
           java: BatchPayments
+          python: batch_payment
           object: batchPayment
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
