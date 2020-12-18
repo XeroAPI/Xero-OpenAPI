@@ -5563,6 +5563,7 @@ paths:
           keyPascal: LineItems
           keySnake: line_items
         - add_lineitems:
+          is_last: true
           is_list_add: true
           key: lineItems
           keyPascal: LineItems
@@ -7423,6 +7424,7 @@ paths:
           key: receipts
           keyPascal: Receipt
         - add_receipts:
+          is_last: true
           is_list_add: true
           key: receipts
           keyPascal: Receipts
@@ -10935,7 +10937,6 @@ paths:
           is_object: true
           key: manualJournals
           keyPascal: ManualJournals
-          keySnake: manual_journals
         - add_manualJournal:
           is_last: true
           is_array_add: true
@@ -12706,24 +12707,42 @@ paths:
       x-node-requestBody: '{ payments: [{ invoice: { invoiceID: "00000000-0000-0000-000-000000000000", lineItems: [], contact: {}, type: Invoice.TypeEnum.ACCPAY }, account: { code: "970" }, date: "2019-03-12", amount: 1.0 }]}'
       x-ruby-requestBody: 'payments = { payments: [{ invoice: { invoice_id: "00000000-0000-0000-000-000000000000", line_items: [], contact: {}, type: XeroRuby::Accounting::Invoice::ACCPAY }, account: { code: "970" }, date: "2019-03-12", amount: 1.0 }]}'
       x-example:
-        - payments:
-          is_array: true
-          key: payments
-          keyPascal: Payments
-        - payment:
-          is_object: true
-          key: payment
-          keyPascal: Payment
+        - dateValue:
+          is_date: true
+          key: dateValue
+          keyPascal: Date
+          keySnake: date_value
+          java_datatype: LocalDate
+          default: "LocalDate.of(2020, Month.OCTOBER, 10)"
+          java: "LocalDate.now()"
+          php: "new DateTime('2020-10-10')"
+          python: "dateutil.parser.parse('2020-10-10T00:00:00Z')"
         - invoice:
           is_object: true
           key: invoice
           keyPascal: Invoice
         - invoiceID:
+          is_last: true
           is_uuid: true
           key: invoiceID
           keyPascal: InvoiceID
           default: 00000000-0000-0000-000-000000000000
           object: invoice
+        - account:
+          is_object: true
+          key: account
+          keyPascal: Account
+        - accountID:
+          is_last: true
+          key: accountID
+          keyPascal: AccountID
+          keySnake: account_id
+          default: 00000000-0000-0000-000-000000000000
+          object: account
+        - payment:
+          is_object: true
+          key: payment
+          keyPascal: Payment
         - set_invoice:
           is_variable: true
           nonString: true
@@ -12731,15 +12750,6 @@ paths:
           keyPascal: Invoice
           default: invoice
           object: payment
-        - account:
-          is_object: true
-          key: account
-          keyPascal: Account
-        - accountID:
-          key: accountID
-          keyPascal: AccountID
-          default: 00000000-0000-0000-000-000000000000
-          object: account
         - set_account:
           is_variable: true
           nonString: true
@@ -12753,21 +12763,19 @@ paths:
           keyPascal: Amount
           default: 1.0
           object: payment
-        - dateValue:
-          is_date: true
-          key: dateValue
-          keyPascal: Date
-          java_datatype: LocalDate
-          default: "LocalDate.of(2020, Month.OCTOBER, 10)"
-          java: "LocalDate.now()"
-          php: "new DateTime('2019-12-10')"
         - date:
+          is_last: true
           is_variable: true
           nonString: true
           key: date
           keyPascal: Date
           default: dateValue
+          python: date_value
           object: payment
+        - payments:
+          is_object: true
+          key: payments
+          keyPascal: Payments
         - add_payment:
           is_array_add: true
           key: payments
