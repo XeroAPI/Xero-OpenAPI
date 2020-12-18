@@ -9687,10 +9687,18 @@ paths:
       x-node-requestBody: '{ items: [{ code: "abcXYZ123", name: "HelloWorld11", description: "Foobar", inventoryAssetAccountCode: "140", purchaseDetails: { cOGSAccountCode: "500" }}]}'
       x-ruby-requestBody: 'items = { items: [{ code: "abcXYZ123", name: "HelloWorld11", description: "Foobar", inventory_asset_account_code: "140", purchase_details: { cogs_account_code: "500" }}]}'
       x-example:
-        - items:
-          is_array: true
-          key: items
-          keyPascal: Items
+        - purchaseDetails:
+          is_object: true
+          key: purchaseDetails
+          keyPascal: Purchase
+          keySnake: purchase_details
+        - cOGSAccountCode:
+          is_last: true
+          key: cOGSAccountCode
+          keyPascal: CoGSAccountCode
+          keySnake: cogs_account_code
+          default: 500
+          object: purchaseDetails
         - item:
           is_object: true
           key: item
@@ -9713,25 +9721,25 @@ paths:
         - inventoryAssetAccountCode:
           key: inventoryAssetAccountCode
           keyPascal: InventoryAssetAccountCode
+          keySnake: inventory_asset_account_code
           default: 140
           object: item
-        - purchaseDetails:
-          is_object: true
-          key: purchaseDetails
-          keyPascal: Purchase
-        - cOGSAccountCode:
-          key: cOGSAccountCode
-          keyPascal: CoGSAccountCode
-          default: 500
-          object: purchaseDetails
         - set_purchaseDetails:
+          is_last: true
           is_variable: true
           nonString: true
           key: purchaseDetails
           keyPascal: PurchaseDetails
+          keySnake: purchase_details
           default: purchaseDetails
+          python: purchase_details
           object: item
+        - items:
+          is_object: true
+          key: items
+          keyPascal: Items
         - add_item:
+          is_last: true
           is_array_add: true
           key: items
           keyPascal: Items
