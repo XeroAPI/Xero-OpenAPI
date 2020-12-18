@@ -16675,39 +16675,40 @@ paths:
       x-node-requestBody: '{ receipts: [{ contact: { contactID: "00000000-0000-0000-000-000000000000" }, lineItems: [{ description: "Foobar", quantity: 2.0, unitAmount: 20.0, accountCode: "400", taxType: TaxType.NONE, lineAmount: 40.0 }], user: { userID: "00000000-0000-0000-000-000000000000" }, lineAmountTypes: LineAmountTypes.Inclusive, status: Receipt.StatusEnum.DRAFT, date: null} ] }'
       x-ruby-requestBody: 'receipts = { receipts: [ { contact: { contact_id: "00000000-0000-0000-000-000000000000" }, line_items: [{ description: "Foobar", quantity: 2.0, unit_amount: 20.0, account_code: "400", tax_type: XeroRuby::Accounting::TaxType::NONE, line_amount: 40.0 }], user: { user_id: "00000000-0000-0000-000-000000000000" }, line_amount_types: XeroRuby::Accounting::INCLUSIVE, status: XeroRuby::Accounting::Receipt::DRAFT, date: nil }]}'
       x-example:
-        - receipts:
-          is_array: true
-          key: receipts
-          keyPascal: Receipts
-        - receipt:
-          is_object: true
-          key: receipt
-          keyPascal: Receipt
         - contact:
           is_object: true
           key: contact
           keyPascal: Contact
         - contactID:
+          is_last: true
           is_uuid: true
           key: contactId
           keyPascal: ContactID
+          keySnake: contact_id
           default: 00000000-0000-0000-000-000000000000
           object: contact
-        - set_contact:
-          is_variable: true
-          nonString: true
-          key: contact
-          keyPascal: Contact
-          default: contact
-          object: receipt
+        - user:
+          is_object: true
+          key: user
+          keyPascal: User
+        - userID:
+          is_last: true
+          is_uuid: true
+          key: userID
+          keyPascal: UserID
+          keySnake: user_id
+          default: 00000000-0000-0000-000-000000000000
+          object: user
         - lineItems:
           is_list: true
           key: lineItems
           keyPascal: LineItem
+          keySnake: line_items
         - lineItem:
           is_object: true
           key: lineItem
           keyPascal: LineItem
+          keySnake: line_item
         - description:
           key: description
           keyPascal: Description
@@ -16723,41 +16724,48 @@ paths:
           nonString: true
           key: unitAmount
           keyPascal: UnitAmount
+          keySnake: unit_amount
           default: 20.0
           object: lineItem
         - accountCode:
+          is_last: true
           key: accountCode
           keyPascal: AccountCode
+          keySnake: account_code
           default: "000"
           object: lineItem
         - add_lineitems:
+          is_last: true
           is_list_add: true
           key: lineItems
           keyPascal: LineItems
+          keySnake: line_items
           object: lineItem
-        - set_lineitem:
+          python: line_item
+        - receipt:
+          is_object: true
+          key: receipt
+          keyPascal: Receipt
+        - set_contact:
           is_variable: true
           nonString: true
-          key: lineItems
-          keyPascal: LineItems
-          default: lineItems
+          key: contact
+          keyPascal: Contact
+          default: contact
           object: receipt
-        - user:
-          is_object: true
-          key: user
-          keyPascal: User
-        - userID:
-          is_uuid: true
-          key: userID
-          keyPascal: UserID
-          default: 00000000-0000-0000-000-000000000000
-          object: user
         - set_user:
           is_variable: true
           nonString: true
           key: user
           keyPascal: User
           default: user
+          object: receipt
+        - set_lineitem:
+          is_variable: true
+          nonString: true
+          key: lineItems
+          keyPascal: LineItems
+          default: lineItems
           object: receipt
         - lineAmountTypes:
           nonString: true
@@ -16767,11 +16775,12 @@ paths:
           php: XeroAPI\XeroPHP\Models\Accounting\LineAmountTypes::INCLUSIVE
           node: LineAmountTypes.Inclusive
           ruby: XeroRuby::Accounting::INCLUSIVE
-          python: LineAmountTypes.xxx
+          python_string: INCLUSIVE
           java: com.xero.models.accounting.LineAmountTypes.INCLUSIVE
           csharp: LineAmountTypes.xxx
           object: receipt
         - status:
+          is_last: true
           nonString: true
           key: status
           keyPascal: Status
@@ -16779,11 +16788,16 @@ paths:
           php: XeroAPI\XeroPHP\Models\Accounting\Receipt::STATUS_DRAFT
           node: Receipt.StatusEnum.DRAFT
           ruby: XeroRuby::Accounting::Receipt::DRAFT
-          python: Receipt.xxx
+          python_string: DRAFT
           java: com.xero.models.accounting.Receipt.StatusEnum.DRAFT
           csharp: Receipt.xxx
           object: receipt
+        - receipts:
+          is_object: true
+          key: receipts
+          keyPascal: Receipts
         - add_receipt:
+          is_last: true
           is_array_add: true
           key: receipts
           keyPascal: Receipts
