@@ -12778,6 +12778,7 @@ paths:
           key: payments
           keyPascal: Payments
         - add_payment:
+          is_last: true
           is_array_add: true
           key: payments
           keyPascal: Payments
@@ -12974,6 +12975,7 @@ paths:
           key: payments
           keyPascal: Payments
         - add_payment:
+          is_last: true
           is_array_add: true
           key: payments
           keyPascal: Payments
@@ -13457,30 +13459,36 @@ paths:
       x-node-requestBody: '{ paymentServices: [{ paymentServiceName: "PayUpNow", paymentServiceUrl: "https://www.payupnow.com/", payNowText: "Time To Pay" }]}'
       x-ruby-requestBody: 'payment_services = { payment_services: [{ payment_service_name: "PayUpNow", payment_service_url: "https://www.payupnow.com/", pay_now_text: "Time To Pay" }]}'
       x-example:
-        - paymentServices:
-          is_array: true
-          key: paymentServices
-          keyPascal: PaymentServices
         - object:
           is_object: true
           key: paymentService
           keyPascal: PaymentService
+          keySnake: payment_service
         - paymentServiceName:
           key: paymentServiceName
           keyPascal: PaymentServiceName
+          keySnake: payment_service_name
           default: ACME Payments
           object: paymentService
         - paymentServiceUrl:
           key: paymentServiceUrl
           keyPascal: PaymentServiceUrl
+          keySnake: payment_service_url
           default: "https://www.payupnow.com/"
           object: paymentService
         - payNowText:
+          is_last: true
           key: payNowText
           keyPascal: PayNowText
+          keySnake: pay_now_text
           default: Pay Now
           object: paymentService
+        - paymentServices:
+          is_object: true
+          key: paymentServices
+          keyPascal: PaymentServices
         - add_paymentService:
+          is_last: true
           is_array_add: true
           key: paymentServices
           keyPascal: PaymentServices
