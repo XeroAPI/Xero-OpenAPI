@@ -12346,10 +12346,18 @@ paths:
           java: "LocalDate.now()"
           php: "new DateTime('2019-12-10')"
           python: "dateutil.parser.parse('2020-12-03T00:00:00Z')"
-        - allocations:
-          is_array: true
-          key: allocations
-          keyPascal: Allocations
+        - invoice:
+          is_object: true
+          key: invoice
+          keyPascal: Invoice
+        - invoiceID:
+          is_last: true
+          is_uuid: true
+          key: invoiceID
+          keyPascal: InvoiceID
+          keySnake: invoice_id
+          default: 00000000-0000-0000-000-000000000000
+          object: invoice
         - allocation:
           is_object: true
           key: allocation
@@ -12368,24 +12376,20 @@ paths:
           default: currDate
           python: curr_date
           object: allocation
-        - invoice:
-          is_object: true
-          key: invoice
-          keyPascal: Invoice
-        - invoiceID:
-          is_uuid: true
-          key: invoiceID
-          keyPascal: InvoiceID
-          default: 00000000-0000-0000-000-000000000000
-          object: invoice
         - set_invoice:
+          is_last: true
           is_variable: true
           nonString: true
           key: invoice
           keyPascal: Invoice
           default: invoice
           object: allocation
+        - allocations:
+          is_object: true
+          key: allocations
+          keyPascal: Allocations
         - add_allocation:
+          is_last: true
           is_array_add: true
           key: allocations
           keyPascal: Allocations
