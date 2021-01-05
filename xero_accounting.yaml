@@ -21812,14 +21812,6 @@ paths:
       operationId: postSetup
       summary: Allows you to set the chart of accounts, the conversion date and conversion balances
       x-example:
-        - Setup:
-          is_object: true
-          key: setup
-          keyPascal: Setup
-        - accounts:
-          is_list: true
-          key: accounts
-          keyPascal: Account
         - account:
           is_object: true
           key: account
@@ -21835,6 +21827,7 @@ paths:
           default: Business supplies
           object: account
         - type:
+          is_last: true
           key: type
           keyPascal: Type
           default: EXPENSE
@@ -21846,11 +21839,20 @@ paths:
           java: com.xero.models.accounting.AccountType.EXPENSE
           csharp: Account.ClassEnum.EXPENSE
           object: account
+        - accounts:
+          is_list: true
+          key: accounts
+          keyPascal: Account
         - add_accounts:
+          is_last: true
           is_list_add: true
           key: accounts
           keyPascal: Accounts
           object: account
+        - Setup:
+          is_object: true
+          key: setup
+          keyPascal: Setup
         - set_accounts:
           is_variable: true
           nonString: true
@@ -21862,6 +21864,7 @@ paths:
           is_object: true
           key: conversionDate
           keyPascal: ConversionDate
+          keySnake: conversion_date
         - month:
           nonString: true
           key: month
@@ -21869,6 +21872,7 @@ paths:
           default: 10
           object: conversionDate
         - year:
+          is_last: true
           nonString: true
           key: year
           keyPascal: Year
@@ -21879,17 +21883,21 @@ paths:
           nonString: true
           key: conversionDate
           keyPascal: ConversionDate
+          keySnake: conversion_date
           default: conversionDate
           object: setup
         - conversionBalances:
           is_list: true
           key: conversionBalances
           keyPascal: ConversionBalances
+          keySnake: conversion_balances
         - set_conversionBalances:
+          is_last: true
           is_variable: true
           nonString: true
           key: conversionBalances
           keyPascal: ConversionBalances
+          keySnake: conversion_balances
           default: conversionBalances
           object: setup
       responses:
