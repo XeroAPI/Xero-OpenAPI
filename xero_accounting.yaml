@@ -9970,6 +9970,7 @@ paths:
           default: HelloWorld
           object: item
         - description:
+          is_last: true
           key: description
           keyPascal: Description
           default: Foobar
@@ -15100,24 +15101,29 @@ paths:
       x-node-requestBody: '{ purchaseOrders:[ { attentionTo: "Peter Parker", lineItems: [], contact: {} }]}'
       x-ruby-requestBody: 'purchase_orders = { purchase_orders: [ { attention_to: "Peter Parker", line_items: [], contact: {} }]}'
       x-example:
-        - purchaseOrders:
-          is_array: true
-          key: purchaseOrders
-          keyPascal: PurchaseOrders
         - purchaseOrder:
           is_object: true
           key: purchaseOrder
           keyPascal: PurchaseOrder
+          keySnake: purchase_order
         - attentionTo:
+          is_last: true
           key: attentionTo
           keyPascal: AttentionTo
           default: Peter Parker
           object: purchaseOrder
+        - purchaseOrders:
+          is_object: true
+          key: purchaseOrders
+          keyPascal: PurchaseOrders
         - add_purchaseOrder:
+          is_last: true
           is_array_add: true
           key: purchaseOrders
           keyPascal: PurchaseOrders
+          keySnake: purchase_orders
           java: PurchaseOrders
+          python: purchase_order
           object: purchaseOrder
       parameters:
         - required: true
