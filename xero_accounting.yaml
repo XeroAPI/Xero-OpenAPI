@@ -11202,38 +11202,21 @@ paths:
       x-node-requestBody: '{ manualJournals: [{ narration: "Foo bar", journalLines: [{ lineAmount: 100.0, accountCode: "400", description: "Hello there" },{ lineAmount: -100.0, accountCode: "400", description: "Goodbye", tracking: [{ name: "Simpsons", option: "Bart" }]}], date: "2019-03-14" }]}'
       x-ruby-requestBody: 'manual_journals = { manual_journals: [{ narration: "Foo bar", date: "2019-03-14", journal_lines: [{ line_amount: 100.0, account_code: "400", description: "Hello there" },{ line_amount: -100.0, account_code: "400", description: "Goodbye", tracking: [{ name: "Simpsons", option: "Bart" }]}] }]}'
       x-example:
-        - manualJournals:
-          is_array: true
-          key: manualJournals
-          keyPascal: ManualJournals
-        - manualJournal:
-          is_object: true
-          key: manualJournal
-          keyPascal: ManualJournal
-        - narration:
-          key: narration
-          keyPascal: Narration
-          default: Foobar
-          object: manualJournal
         - dateValue:
           is_date: true
           key: dateValue
           keyPascal: Date
+          keySnake: date_value
           java_datatype: LocalDate
           default: "LocalDate.of(2020, Month.OCTOBER, 10)"
           java: "LocalDate.of(2020, Month.OCTOBER, 10)"
           php: "new DateTime('2019-10-10')"
-        - date:
-          is_variable: true
-          nonString: true
-          key: date
-          keyPascal: Date
-          default: dateValue
-          object: manualJournal
+          python: "dateutil.parser.parse('2020-12-03T00:00:00Z')"
         - manualJournalLines:
           is_list: true
           key: manualJournalLines
           keyPascal: ManualJournalLine
+          keySnake: manual_journal_lines
         - credit:
           is_object: true
           key: credit
@@ -11242,22 +11225,27 @@ paths:
           nonString: true
           key: lineAmount
           keyPascal: LineAmount
+          keySnake: line_amount
           default: 100.0
           object: credit
         - accountCode:
           key: accountCode
           keyPascal: AccountCode
+          keySnake: account_code
           default: 400
           object: credit
         - description:
+          is_last: true
           key: description
           keyPascal: Description
           default: "Hello there"
           object: credit
         - add_credit:
+          is_last: true
           is_list_add: true
           key: manualJournalLines
           keyPascal: ManualJournalLine
+          keySnake: manual_journal_lines
           object: credit
         - debit:
           is_object: true
@@ -11267,36 +11255,69 @@ paths:
           nonString: true
           key: lineAmount
           keyPascal: LineAmount
+          keySnake: line_amount
           default: -100.0
           object: debit
         - accountCode:
           key: accountCode
           keyPascal: AccountCode
+          keySnake: account_code
           default: 120
           object: debit
         - description:
+          is_last: true
           key: description
           keyPascal: Description
           default: "Hello there"
           object: debit
         - add_debit:
+          is_last: true
           is_list_add: true
           key: manualJournalLines
           keyPascal: ManualJournalLine
+          keySnake: manual_journal_lines
           object: debit
+        - manualJournal:
+          is_object: true
+          key: manualJournal
+          keyPascal: ManualJournal
+          keySnake: manual_journal
+        - narration:
+          key: narration
+          keyPascal: Narration
+          default: Foobar
+          object: manualJournal
+        - date:
+          is_variable: true
+          nonString: true
+          key: date
+          keyPascal: Date
+          default: dateValue
+          python: date_value
+          object: manualJournal
         - set_manualJournalLines:
+          is_last: true
           is_variable: true
           nonString: true
           key: manualJournalLines
           keyPascal: JournalLines
+          keySnake: journal_lines
           default: manualJournalLines
+          python: manual_journal_lines
           object: manualJournal
+        - manualJournals:
+          is_object: true
+          key: manualJournals
+          keyPascal: ManualJournals
         - add_manualJournal:
+          is_last: true
           is_array_add: true
           key: manualJournals
           keyPascal: ManualJournals
+          keySnake: manual_journals
           java: ManualJournals
           php: manualJournals
+          python: manual_journal
           object: manualJournal
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
@@ -14638,39 +14659,33 @@ paths:
       x-node-requestBody: '{ purchaseOrders: [ { contact: { contactID: "00000000-0000-0000-000-000000000000" }, lineItems: [{ description: "Foobar", quantity: 1.0, unitAmount: 20.0, accountCode: "710" }], date: "2019-03-13" }]}'
       x-ruby-requestBody: 'purchase_orders = { purchase_orders: [{ contact: { contact_id: "00000000-0000-0000-000-000000000000" }, line_items: [{ description: "Foobar", quantity: 1.0, unitAmount: 20.0, accountCode: "710" }], date: "2019-03-13" }]}'
       x-example:
-        - purchaseOrders:
-          is_array: true
-          key: purchaseOrders
-          keyPascal: PurchaseOrders
-        - purchaseOrder:
-          is_object: true
-          key: purchaseOrder
-          keyPascal: PurchaseOrder
+        - dateValue:
+          is_date: true
+          key: dateValue
+          keyPascal: Date
+          keySnake: date_value
+          java_datatype: LocalDate
+          default: "LocalDate.of(2020, Month.OCTOBER, 10)"
+          java: "LocalDate.now()"
+          php: "new DateTime('2019-12-10')"
+          python: "dateutil.parser.parse('2020-12-03T00:00:00Z')"
         - contact:
           is_object: true
           key: contact
           keyPascal: Contact
         - contactID:
+          is_last: true
           is_uuid: true
           key: contactId
           keyPascal: ContactID
+          keySnake: contact_id
           default: 00000000-0000-0000-000-000000000000
           object: contact
-        - set_contact:
-          is_variable: true
-          nonString: true
-          key: contact
-          keyPascal: Contact
-          default: contact
-          object: purchaseOrder
-        - lineItems:
-          is_list: true
-          key: lineItems
-          keyPascal: LineItem
         - lineItem:
           is_object: true
           key: lineItem
           keyPascal: LineItem
+          keySnake: line_item
         - description:
           key: description
           keyPascal: Description
@@ -14686,45 +14701,71 @@ paths:
           nonString: true
           key: unitAmount
           keyPascal: UnitAmount
+          keySnake: unit_amount
           default: 20.0
           object: lineItem
         - accountCode:
+          is_last: true
           key: accountCode
           keyPascal: AccountCode
+          keySnake: account_code
           default: "000"
           object: lineItem
+        - lineItems:
+          is_list: true
+          key: lineItems
+          keyPascal: LineItem
+          keySnake: line_items
         - add_lineitems:
+          is_last: true
           is_list_add: true
           key: lineItems
           keyPascal: LineItems
+          keySnake: line_items
+          python: line_item
           object: lineItem
+        - purchaseOrder:
+          is_object: true
+          key: purchaseOrder
+          keyPascal: PurchaseOrder
+          keySnake: purchase_order
+        - set_contact:
+          is_variable: true
+          nonString: true
+          key: contact
+          keyPascal: Contact
+          default: contact
+          object: purchaseOrder
         - set_lineitem:
           is_variable: true
           nonString: true
           key: lineItems
           keyPascal: LineItems
+          keySnake: line_items
           default: lineItems
+          python: line_items
           object: purchaseOrder
-        - dateValue:
-          is_date: true
-          key: dateValue
-          keyPascal: Date
-          java_datatype: LocalDate
-          default: "LocalDate.of(2020, Month.OCTOBER, 10)"
-          java: "LocalDate.now()"
-          php: "new DateTime('2020-12-10')"
         - date:
+          is_last: true
           is_variable: true
           nonString: true
           key: date
           keyPascal: Date
           default: dateValue
+          python: date_value
           object: purchaseOrder
+        - purchaseOrders:
+          is_object: true
+          key: purchaseOrders
+          keyPascal: PurchaseOrders
         - add_purchaseOrder:
+          is_last: true
           is_array_add: true
           key: purchaseOrders
           keyPascal: PurchaseOrders
+          keySnake: purchase_orders
           java: PurchaseOrders
+          python: purchase_order
           object: purchaseOrder
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
@@ -16020,39 +16061,33 @@ paths:
       x-node-requestBody: '{ quotes: [{ contact: { contactID: "00000000-0000-0000-000-000000000000" }, lineItems: [{ description: "Foobar", quantity: 1.0, unitAmount: 20.0, accountCode: "12775" }], date: "2020-02-01" }]}'
       x-ruby-requestBody: 'quotes = { quotes: [{ contact: { contact_id: "00000000-0000-0000-000-000000000000" }, line_items: [{ description: "Foobar", quantity: 1.0, unit_amount: 20.0, account_code: "12775" }], date: "2020-02-01" }]}'
       x-example:
-        - quotes:
-          is_array: true
-          key: quotes
-          keyPascal: Quotes
-        - quote:
-          is_object: true
-          key: quote
-          keyPascal: Quote
+        - dateValue:
+          is_date: true
+          key: dateValue
+          keyPascal: Date
+          keySnake: date_value
+          java_datatype: LocalDate
+          default: "LocalDate.of(2020, Month.OCTOBER, 10)"
+          java: "LocalDate.now()"
+          php: "new DateTime('2019-12-10')"
+          python: "dateutil.parser.parse('2020-12-03T00:00:00Z')"
         - contact:
           is_object: true
           key: contact
           keyPascal: Contact
         - contactID:
+          is_last: true
           is_uuid: true
           key: contactId
           keyPascal: ContactID
+          keySnake: contact_id
           default: 00000000-0000-0000-000-000000000000
           object: contact
-        - set_contact:
-          is_variable: true
-          nonString: true
-          key: contact
-          keyPascal: Contact
-          default: contact
-          object: quote
-        - lineItems:
-          is_list: true
-          key: lineItems
-          keyPascal: LineItem
         - lineItem:
           is_object: true
           key: lineItem
           keyPascal: LineItem
+          keySnake: line_item
         - description:
           key: description
           keyPascal: Description
@@ -16068,41 +16103,64 @@ paths:
           nonString: true
           key: unitAmount
           keyPascal: UnitAmount
+          keySnake: unit_amount
           default: 20.0
           object: lineItem
         - accountCode:
+          is_last: true
           key: accountCode
           keyPascal: AccountCode
+          keySnake: account_code
           default: "000"
           object: lineItem
+        - lineItems:
+          is_list: true
+          key: lineItems
+          keyPascal: LineItem
+          keySnake: line_items
         - add_lineitems:
+          is_last: true
           is_list_add: true
           key: lineItems
           keyPascal: LineItems
+          keySnake: line_items
           object: lineItem
+          python: line_item
+        - quote:
+          is_object: true
+          key: quote
+          keyPascal: Quote
+        - set_contact:
+          is_variable: true
+          nonString: true
+          key: contact
+          keyPascal: Contact
+          default: contact
+          object: quote
         - set_lineitem:
           is_variable: true
           nonString: true
           key: lineItems
           keyPascal: LineItems
+          keySnake: line_items
           default: lineItems
+          python: line_items
           object: quote
-        - dateValue:
-          is_date: true
-          key: dateValue
-          keyPascal: Date
-          java_datatype: LocalDate
-          default: "LocalDate.of(2020, Month.OCTOBER, 10)"
-          java: "LocalDate.now()"
-          php: "new DateTime('2019-12-10')"
         - date:
+          is_last: true
           is_variable: true
           nonString: true
           key: date
           keyPascal: Date
           default: dateValue
+          python: date_value
           object: quote
+        - quotes:
+          is_object: true
+          key: quotes
+          keyPascal: Quotes
         - add_quote:
+          is_last: true
           is_array_add: true
           key: quotes
           keyPascal: Quotes
