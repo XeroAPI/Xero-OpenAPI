@@ -266,7 +266,6 @@ paths:
           csharp: Account.ClassEnum.EXPENSE
           object: account
         - description:
-          is_last: true
           key: description
           keyPascal: Description
           default: "Hello World"
@@ -4527,6 +4526,7 @@ paths:
           default: Thanos
           object: contact
         - contactID:
+          is_last: true
           is_uuid: true
           key: contactID
           keyPascal: ContactID
@@ -5191,24 +5191,29 @@ paths:
       x-node-requestBody: '{ contactGroups: [{ name: "Vendor" }]}'
       x-ruby-requestBody: 'contact_groups = { contact_groups: [{ name: "Vendor" }]}'
       x-example:
-        - contactGroups:
-          is_array: true
-          key: contactGroups
-          keyPascal: ContactGroups
         - contact:
           is_object: true
           key: contactGroup
           keyPascal: ContactGroup
+          keySnake: contact_group
         - name:
+          is_last: true
           key: name
           keyPascal: Name
           default: Vendor
           object: contactGroup
+        - contactGroups:
+          is_object: true
+          key: contactGroups
+          keyPascal: ContactGroups
         - add_ContactGroup:
+          is_last: true
           is_array_add: true
           key: contactGroups
           keyPascal: ContactGroups
+          keySnake: contact_groups
           java: ContactGroups
+          python: contact_group
           object: contactGroup
       parameters:
         - required: true
@@ -5651,7 +5656,7 @@ paths:
           is_object: true
           key: creditNotes
           keyPascal: CreditNotes
-        - add_bankTransaction:
+        - add_creditNote:
           is_last: true
           is_array_add: true
           key: creditNotes
@@ -6226,76 +6231,23 @@ paths:
           java: "LocalDate.now()"
           php: "new DateTime('2019-12-10')"
           python: "dateutil.parser.parse('2020-12-03T00:00:00Z')"
-        - creditNotes:
-          is_array: true
-          key: creditNotes
-          keyPascal: CreditNotes
-        - creditNote:
-          is_object: true
-          key: creditNote
-          keyPascal: CreditNote
-        - type:
-          nonString: true
-          key: type
-          keyPascal: Type
-          default: ACCPAYCREDIT
-          php: XeroAPI\XeroPHP\Models\Accounting\CreditNote::TYPE_ACCPAYCREDIT
-          node: CreditNote.TypeEnum.ACCPAYCREDIT
-          ruby: XeroRuby::Accounting::CreditNote::ACCPAYCREDIT
-          python: CreditNote.xxx
-          java: com.xero.models.accounting.CreditNote.TypeEnum.ACCPAYCREDIT
-          csharp: CreditNote.xxx
-          object: creditNote
-        - status:
-          nonString: true
-          key: status
-          keyPascal: Status
-          default: ACCPAYCREDIT
-          php: XeroAPI\XeroPHP\Models\Accounting\CreditNote::STATUS_AUTHORISED
-          node: CreditNote.StatusEnum.AUTHORISED
-          ruby: XeroRuby::Accounting::CreditNote::AUTHORISED
-          python: CreditNote.xxx
-          java: com.xero.models.accounting.CreditNote.StatusEnum.AUTHORISED
-          csharp: CreditNote.xxx
-          object: creditNote
-        - reference:
-          key: reference
-          keyPascal: Reference
-          default: My ref.
-          object: creditNote
         - contact:
           is_object: true
           key: contact
           keyPascal: Contact
         - contactID:
+          is_last: true
           is_uuid: true
           key: contactId
           keyPascal: ContactID
+          keySnake: contact_id
           default: 00000000-0000-0000-000-000000000000
           object: contact
-        - set_contact:
-          is_variable: true
-          nonString: true
-          key: contact
-          keyPascal: Contact
-          default: contact
-          object: creditNote
-        - date:
-          is_variable: true
-          nonString: true
-          key: date
-          keyPascal: Date
-          default: currDate
-          python: curr_date
-          object: creditNote
-        - lineItems:
-          is_list: true
-          key: lineItems
-          keyPascal: LineItem
         - lineItem:
           is_object: true
           key: lineItem
           keyPascal: LineItem
+          keySnake: line_item
         - description:
           key: description
           keyPascal: Description
@@ -6311,30 +6263,100 @@ paths:
           nonString: true
           key: unitAmount
           keyPascal: UnitAmount
+          keySnake: unit_amount
           default: 20.0
           object: lineItem
         - accountCode:
+          is_last: true
           key: accountCode
           keyPascal: AccountCode
+          keySnake: account_code
           default: "000"
           object: lineItem
+        - lineItems:
+          is_list: true
+          key: lineItems
+          keyPascal: LineItems
+          keySnake: line_items
         - add_lineitems:
+          is_last: true
           is_list_add: true
           key: lineItems
           keyPascal: LineItems
+          keySnake: line_items
+          python: line_item
           object: lineItem
+        - creditNote:
+          is_object: true
+          key: creditNote
+          keyPascal: CreditNote
+          keySnake: credit_note
+        - type:
+          nonString: true
+          key: type
+          keyPascal: Type
+          default: ACCPAYCREDIT
+          php: XeroAPI\XeroPHP\Models\Accounting\CreditNote::TYPE_ACCPAYCREDIT
+          node: CreditNote.TypeEnum.ACCPAYCREDIT
+          ruby: XeroRuby::Accounting::CreditNote::ACCPAYCREDIT
+          python_string: ACCPAYCREDIT
+          java: com.xero.models.accounting.CreditNote.TypeEnum.ACCPAYCREDIT
+          csharp: CreditNote.xxx
+          object: creditNote
+        - status:
+          nonString: true
+          key: status
+          keyPascal: Status
+          default: AUTHORISED
+          php: XeroAPI\XeroPHP\Models\Accounting\CreditNote::STATUS_AUTHORISED
+          node: CreditNote.StatusEnum.AUTHORISED
+          ruby: XeroRuby::Accounting::CreditNote::AUTHORISED
+          python_string: AUTHORISED
+          java: com.xero.models.accounting.CreditNote.StatusEnum.AUTHORISED
+          csharp: CreditNote.xxx
+          object: creditNote
+        - reference:
+          key: reference
+          keyPascal: Reference
+          default: My ref.
+          object: creditNote
+        - set_contact:
+          is_variable: true
+          nonString: true
+          key: contact
+          keyPascal: Contact
+          default: contact
+          object: creditNote
+        - date:
+          is_variable: true
+          nonString: true
+          key: date
+          keyPascal: Date
+          default: currDate
+          python: curr_date
+          object: creditNote
         - set_lineitem:
+          is_last: true
           is_variable: true
           nonString: true
           key: lineItems
           keyPascal: LineItems
+          keySnake: line_items
           default: lineItems
+          python: line_items
           object: creditNote
-        - add_bankTransaction:
+        - creditNotes:
+          is_object: true
+          key: creditNotes
+          keyPascal: CreditNotes
+        - add_creditNote:
+          is_last: true
           is_array_add: true
           key: creditNotes
           keyPascal: CreditNotes
+          keySnake: credit_notes
           java: CreditNotes
+          python: credit_note
           object: creditNote
       parameters:
         - required: true
