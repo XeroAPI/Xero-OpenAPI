@@ -17349,24 +17349,30 @@ paths:
       x-node-requestBody: '{ receipts: [{ user: { userID: "00000000-0000-0000-000-000000000000" }, reference: "Foobar", date: "2020-01-01", contact: {}, lineItems: [] }]}'
       x-ruby-requestBody: 'receipts = { receipts: [{ user: { user_id: "00000000-0000-0000-000-000000000000" }, reference: "Foobar", date: "2020-01-01", contact: {}, line_items: [] }]}'
       x-example:
-        - receipts:
-          is_array: true
-          key: receipts
-          keyPascal: Receipts
-        - receipt:
-          is_object: true
-          key: receipt
-          keyPascal: Receipt
+        - dateValue:
+          is_date: true
+          key: dateValue
+          keyPascal: Date
+          java_datatype: LocalDate
+          default: "LocalDate.of(2020, Month.OCTOBER, 10)"
+          java: "LocalDate.now()"
+          php: "new DateTime('2019-12-10')"
         - user:
           is_object: true
           key: user
           keyPascal: User
         - userID:
+          is_last: true
           is_uuid: true
           key: userID
           keyPascal: UserID
+          keySnake: user_id
           default: 00000000-0000-0000-000-000000000000
           object: user
+        - receipt:
+          is_object: true
+          key: receipt
+          keyPascal: Receipt
         - set_user:
           is_variable: true
           nonString: true
@@ -17379,14 +17385,6 @@ paths:
           keyPascal: Reference
           default: Foobar
           object: receipt
-        - dateValue:
-          is_date: true
-          key: dateValue
-          keyPascal: Date
-          java_datatype: LocalDate
-          default: "LocalDate.of(2020, Month.OCTOBER, 10)"
-          java: "LocalDate.now()"
-          php: "new DateTime('2019-12-10')"
         - date:
           is_variable: true
           nonString: true
@@ -17394,7 +17392,12 @@ paths:
           keyPascal: Date
           default: dateValue
           object: receipt
+        - receipts:
+          is_object: true
+          key: receipts
+          keyPascal: Receipts
         - add_receipt:
+          is_last: true
           is_array_add: true
           key: receipts
           keyPascal: Receipts
