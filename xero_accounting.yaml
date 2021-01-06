@@ -11417,38 +11417,21 @@ paths:
       x-node-requestBody: '{ manualJournals: [{ narration: "Hello Xero", manualJournalId: "00000000-0000-0000-000-000000000000", journalLines: [] }]}'
       x-ruby-requestBody: 'manual_journals = { manual_journals: [{ narration: "Hello Xero", manual_journal_id: "00000000-0000-0000-000-000000000000", journal_lines: [] }]}'
       x-example:
-        - manualJournals:
-          is_array: true
-          key: manualJournals
-          keyPascal: ManualJournals
-        - manualJournal:
-          is_object: true
-          key: manualJournal
-          keyPascal: ManualJournal
-        - narration:
-          key: narration
-          keyPascal: Narration
-          default: Foobar
-          object: manualJournal
         - dateValue:
           is_date: true
           key: dateValue
           keyPascal: Date
+          keySnake: date_value
           java_datatype: LocalDate
           default: "LocalDate.of(2020, Month.OCTOBER, 10)"
           java: "LocalDate.of(2020, Month.OCTOBER, 10)"
           php: "new DateTime('2019-10-10')"
-        - date:
-          is_variable: true
-          nonString: true
-          key: date
-          keyPascal: Date
-          default: dateValue
-          object: manualJournal
+          python: "dateutil.parser.parse('2020-12-03T00:00:00Z')"
         - manualJournalLines:
           is_list: true
           key: manualJournalLines
           keyPascal: ManualJournalLine
+          keySnake: manual_journal_lines
         - credit:
           is_object: true
           key: credit
@@ -11457,22 +11440,27 @@ paths:
           nonString: true
           key: lineAmount
           keyPascal: LineAmount
+          keySnake: line_amount
           default: 100.0
           object: credit
         - accountCode:
           key: accountCode
           keyPascal: AccountCode
+          keySnake: account_code
           default: 400
           object: credit
         - description:
+          is_last: true
           key: description
           keyPascal: Description
           default: "Hello there"
           object: credit
         - add_credit:
+          is_last: true
           is_list_add: true
           key: manualJournalLines
           keyPascal: ManualJournalLine
+          keySnake: manual_journal_lines
           object: credit
         - debit:
           is_object: true
@@ -11482,36 +11470,69 @@ paths:
           nonString: true
           key: lineAmount
           keyPascal: LineAmount
+          keySnake: line_amount
           default: -100.0
           object: debit
         - accountCode:
           key: accountCode
           keyPascal: AccountCode
+          keySnake: account_code
           default: 120
           object: debit
         - description:
+          is_last: true
           key: description
           keyPascal: Description
           default: "Hello there"
           object: debit
         - add_debit:
+          is_last: true
           is_list_add: true
           key: manualJournalLines
           keyPascal: ManualJournalLine
+          keySnake: manual_journal_lines
           object: debit
+        - manualJournal:
+          is_object: true
+          key: manualJournal
+          keyPascal: ManualJournal
+          keySnake: manual_journal
+        - narration:
+          key: narration
+          keyPascal: Narration
+          default: Foobar
+          object: manualJournal
+        - date:
+          is_variable: true
+          nonString: true
+          key: date
+          keyPascal: Date
+          default: dateValue
+          python: date_value
+          object: manualJournal
         - set_manualJournalLines:
+          is_last: true
           is_variable: true
           nonString: true
           key: manualJournalLines
           keyPascal: JournalLines
+          keySnake: journal_lines
           default: manualJournalLines
+          python: manual_journal_lines
           object: manualJournal
+        - manualJournals:
+          is_object: true
+          key: manualJournals
+          keyPascal: ManualJournals
         - add_manualJournal:
+          is_last: true
           is_array_add: true
           key: manualJournals
           keyPascal: ManualJournals
+          keySnake: manual_journals
           java: ManualJournals
           php: manualJournals
+          python: manual_journal
           object: manualJournal
       parameters:
         - required: true
