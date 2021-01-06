@@ -9085,20 +9085,22 @@ paths:
       x-node-requestBody: '{ invoices: [{ reference: "I am Iron Man", invoiceID: "00000000-0000-0000-000-000000000000", lineItems: [], contact: {}, type: Invoice.TypeEnum.ACCPAY }]}'
       x-ruby-requestBody: 'invoices = { invoices: [{ reference: "I am Iron Man", invoice_id: "00000000-0000-0000-000-000000000000", line_items: [], contact: {}, type: XeroRuby::Accounting::Invoice::ACCPAY }]}'
       x-example:
-        - invoices:
-          is_array: true
-          key: invoices
-          keyPascal: Invoices
         - invoice:
           is_object: true
           key: invoice
           keyPascal: Invoice
         - reference:
+          is_last: true
           key: reference
           keyPascal: Reference
           default: I am Iron man
           object: invoice
+        - invoices:
+          is_object: true
+          key: invoices
+          keyPascal: Invoices
         - add_invoice:
+          is_last: true
           is_array_add: true
           key: invoices
           keyPascal: Invoices
