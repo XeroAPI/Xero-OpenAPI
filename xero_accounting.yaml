@@ -10683,26 +10683,29 @@ paths:
       x-node-requestBody: '{ linkedTransactions: [{ sourceLineItemID: "00000000-0000-0000-000-000000000000", contactID: "00000000-0000-0000-000-000000000000" }]}'
       x-ruby-requestBody: 'linked_transactions = { linked_transactions: [{ source_line_item_id: "00000000-0000-0000-000-000000000000", contact_id: "00000000-0000-0000-000-000000000000" }]}'
       x-example:
-        - linkedTransactions:
-          is_array: true
-          key: linkedTransactions
-          keyPascal: LinkedTransactions
         - linkedTransaction:
           is_object: true
           key: linkedTransaction
           keyPascal: LinkedTransaction
+          keySnake: linked_transaction
         - sourceLineItemID:
           is_uuid: true
           key: sourceLineItemID
           keyPascal: SourceLineItemID
+          keySnake: source_line_item_id
           default: 00000000-0000-0000-000-000000000000
           object: linkedTransaction
         - contactID:
+          is_last: true
           is_uuid: true
           key: contactID
           keyPascal: ContactID
           default: 00000000-0000-0000-000-000000000000
           object: linkedTransaction
+        - linkedTransactions:
+          is_object: true
+          key: linkedTransactions
+          keyPascal: LinkedTransactions
         - add_linkedTransaction:
           is_array_add: true
           key: linkedTransactions
