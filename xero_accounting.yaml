@@ -16348,10 +16348,28 @@ paths:
       x-node-requestBody: '{ quotes: [{ reference: "I am an update", contact: { contactID: "00000000-0000-0000-000-000000000000" }, date: "2020-02-01" }]}'
       x-ruby-requestBody: 'quotes = { quotes: [{ reference: "I am an update", contact: { contact_id: "00000000-0000-0000-000-000000000000" }, date: "2020-02-01" }]}'
       x-example:
-        - quotes:
-          is_array: true
-          key: quotes
-          keyPascal: Quotes
+        - dateValue:
+          is_date: true
+          key: dateValue
+          keyPascal: Date
+          keySnake: date_value
+          java_datatype: LocalDate
+          default: "LocalDate.of(2020, Month.OCTOBER, 10)"
+          java: "LocalDate.now()"
+          php: "new DateTime('2019-12-10')"
+          python: "dateutil.parser.parse('2020-12-03T00:00:00Z')"
+        - contact:
+          is_object: true
+          key: contact
+          keyPascal: Contact
+        - contactID:
+          is_last: true
+          is_uuid: true
+          key: contactId
+          keyPascal: ContactID
+          keySnake: contact_id
+          default: 00000000-0000-0000-000-000000000000
+          object: contact
         - quote:
           is_object: true
           key: quote
@@ -16361,16 +16379,6 @@ paths:
           keyPascal: Reference
           default: I am an update
           object: quote
-        - contact:
-          is_object: true
-          key: contact
-          keyPascal: Contact
-        - contactID:
-          is_uuid: true
-          key: contactId
-          keyPascal: ContactID
-          default: 00000000-0000-0000-000-000000000000
-          object: contact
         - set_contact:
           is_variable: true
           nonString: true
@@ -16378,22 +16386,21 @@ paths:
           keyPascal: Contact
           default: contact
           object: quote
-        - dateValue:
-          is_date: true
-          key: dateValue
-          keyPascal: Date
-          java_datatype: LocalDate
-          default: "LocalDate.of(2020, Month.OCTOBER, 10)"
-          java: "LocalDate.now()"
-          php: "new DateTime('2019-12-10')"
         - date:
+          is_last: true
           is_variable: true
           nonString: true
           key: date
           keyPascal: Date
           default: dateValue
+          python: date_value
           object: quote
+        - quotes:
+          is_object: true
+          key: quotes
+          keyPascal: Quotes
         - add_quote:
+          is_last: true
           is_array_add: true
           key: quotes
           keyPascal: Quotes
