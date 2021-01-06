@@ -239,10 +239,6 @@ paths:
       x-ruby-requestBody: '{ accounts: [{ code: "123456", name: "BarFoo", account_id: "00000000-0000-0000-000-000000000000", type: XeroRuby::Accounting::Account::EXPENSE, description: "GoodBye World", tax_type: XeroRuby::Accounting::TaxType::NONE }]}'
       x-node-requestBody: '{ accounts: [{ code: "123456", name: "BarFoo", accountID: "00000000-0000-0000-000-000000000000", type: AccountType.EXPENSE, description: "GoodBye World", taxType: TaxType.INPUT }]}'
       x-example:
-        - accounts:
-          is_array: true
-          key: accounts
-          keyPascal: Accounts
         - account:
           is_object: true
           key: account
@@ -258,10 +254,10 @@ paths:
           default: BarFoo
           object: account
         - type:
-          nonString: true
           key: type
           keyPascal: Type
           default: EXPENSE
+          nonString: true
           php: XeroAPI\XeroPHP\Models\Accounting\AccountType::EXPENSE
           node: AccountType.EXPENSE
           ruby: XeroRuby::Accounting::AccountType::EXPENSE
@@ -270,16 +266,24 @@ paths:
           csharp: Account.ClassEnum.EXPENSE
           object: account
         - description:
+          is_last: true
           key: description
           keyPascal: Description
-          default: Goodbye World
+          default: "Hello World"
           object: account
         - taxType:
+          is_last: true
           key: taxType
           keyPascal: TaxType
+          keySnake: tax_type
           default: NONE
           object: account
         - accounts:
+          is_array: true
+          key: accounts
+          keyPascal: Accounts
+        - accounts:
+          is_last: true
           is_array_add: true
           key: accounts
           keyPascal: Accounts
