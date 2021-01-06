@@ -7286,10 +7286,6 @@ paths:
       x-node-requestBody: '{ employees: [{ firstName: "Nick", lastName: "Fury", externalLink: { url: "http://twitter.com/#!/search/Nick+Fury" }}]}'
       x-ruby-requestBody: 'employees = { employees: [{ first_name: "Nick", last_name: "Fury", external_link: { url: "http://twitter.com/#!/search/Nick+Fury" }}]}'
       x-example:
-        - employees:
-          is_array: true
-          key: employees
-          keyPascal: Employees
         - employee:
           is_object: true
           key: employee
@@ -7297,14 +7293,22 @@ paths:
         - firstName:
           key: firstName
           keyPascal: FirstName
+          keySnake: first_name
           default: Nick
           object: employee
         - lastName:
+          is_last: true
           key: lastName
           keyPascal: LastName
+          keySnake: last_name
           default: Fury
           object: employee
+        - employees:
+          is_object: true
+          key: employees
+          keyPascal: Employees
         - add_employee:
+          is_last: true
           is_array_add: true
           key: employees
           keyPascal: Employees
@@ -8639,81 +8643,43 @@ paths:
       x-node-requestBody: '{ invoices: [{ type: Invoice.TypeEnum.ACCREC, contact: { contactID:"00000000-0000-0000-000-000000000000" }, lineItems:[ { description:"Acme Tires", quantity:2.0, unitAmount:20.0, accountCode:"200", taxType:"NONE", lineAmount:40.0 } ], date: "2019-03-11", dueDate:"2018-12-10", reference:"Website Design", status: Invoice.StatusEnum.AUTHORISED } ] }'
       x-ruby-requestBody: 'invoices = { invoices: [{ type: XeroRuby::Accounting::Invoice::ACCREC, contact: { contact_id: "00000000-0000-0000-000-000000000000" }, line_items: [{ description: "Acme Tires", quantity: 2.0, unit_amount: 20.0, account_code: "000", tax_type: XeroRuby::Accounting::TaxType::NONE, line_amount: 40.0 }], date: "2019-03-11", due_date: "2018-12-10", reference: "Website Design", status: XeroRuby::Accounting::Invoice::DRAFT }]}'
       x-example:
-        - invoices:
-          is_array: true
-          key: invoices
-          keyPascal: Invoices
-        - invoice:
-          is_object: true
-          key: invoice
-          keyPascal: Invoice
-        - type:
-          nonString: true
-          key: type
-          keyPascal: Type
-          default: ACCREC
-          php: XeroAPI\XeroPHP\Models\Accounting\Invoice::TYPE_ACCREC
-          node: Invoice.TypeEnum.ACCREC
-          ruby: XeroRuby::Accounting::Invoice::ACCREC
-          python: Invoice.xxx
-          java: com.xero.models.accounting.Invoice.TypeEnum.ACCREC
-          csharp: Invoice.xxx
-          object: invoice
+        - dateValue:
+          is_date: true
+          key: dateValue
+          keyPascal: Date
+          keySnake: date_value
+          java_datatype: LocalDate
+          default: "LocalDate.of(2020, Month.OCTOBER, 10)"
+          java: "LocalDate.of(2020, Month.OCTOBER, 10)"
+          php: "new DateTime('2020-10-10')"
+          python: "dateutil.parser.parse('2020-10-10T00:00:00Z')"
+        - dueDateValue:
+          is_date: true
+          key: dueDateValue
+          keyPascal: Date
+          keySnake: due_date_value
+          java_datatype: LocalDate
+          default: "LocalDate.of(2020, Month.OCTOBER, 28)"
+          java: "LocalDate.of(2020, Month.OCTOBER, 28)"
+          php: "new DateTime('2020-10-28')"
+          python: "dateutil.parser.parse('2020-10-28T00:00:00Z')"
         - contact:
           is_object: true
           key: contact
           keyPascal: Contact
         - contactID:
+          is_last: true
           is_uuid: true
           key: contactId
           keyPascal: ContactID
+          keySnake: contact_id
           default: 00000000-0000-0000-000-000000000000
           object: contact
-        - set_contact:
-          is_variable: true
-          nonString: true
-          key: contact
-          keyPascal: Contact
-          default: contact
-          object: invoice
-        - dateValue:
-          is_date: true
-          key: dateValue
-          keyPascal: Date
-          java_datatype: LocalDate
-          default: "LocalDate.of(2020, Month.OCTOBER, 10)"
-          java: "LocalDate.now()"
-          php: "new DateTime('2020-12-10')"
-        - date:
-          is_variable: true
-          nonString: true
-          key: date
-          keyPascal: Date
-          default: dateValue
-          object: invoice
-        - dueDateValue:
-          is_date: true
-          key: dueDateValue
-          keyPascal: Date
-          java_datatype: LocalDate
-          default: "LocalDate.of(2020, Month.OCTOBER, 10)"
-          java: "LocalDate.now()"
-          php: "new DateTime('2020-12-10')"
-        - dueDate:
-          is_variable: true
-          nonString: true
-          key: date
-          keyPascal: Date
-          default: dueDateValue
-          object: invoice
-        - lineItems:
-          is_list: true
-          key: lineItems
-          keyPascal: LineItem
         - lineItem:
           is_object: true
           key: lineItem
           keyPascal: LineItem
+          keySnake: line_item
         - description:
           key: description
           keyPascal: Description
@@ -8729,24 +8695,77 @@ paths:
           nonString: true
           key: unitAmount
           keyPascal: UnitAmount
+          keySnake: unit_amount
           default: 20.0
           object: lineItem
         - accountCode:
+          is_last: true
           key: accountCode
           keyPascal: AccountCode
+          keySnake: account_code
           default: "000"
           object: lineItem
+        - lineItems:
+          is_list: true
+          key: lineItems
+          keyPascal: LineItem
+          keySnake: line_items
         - add_lineitems:
+          is_last: true
           is_list_add: true
           key: lineItems
           keyPascal: LineItems
+          keySnake: line_items
+          python: line_item
           object: lineItem
+        - invoice:
+          is_object: true
+          key: invoice
+          keyPascal: Invoice
+        - type:
+          nonString: true
+          key: type
+          keyPascal: Type
+          default: ACCREC
+          php: XeroAPI\XeroPHP\Models\Accounting\Invoice::TYPE_ACCREC
+          node: Invoice.TypeEnum.ACCREC
+          ruby: XeroRuby::Accounting::Invoice::ACCREC
+          python_string: ACCREC
+          java: com.xero.models.accounting.Invoice.TypeEnum.ACCREC
+          csharp: Invoice.xxx
+          object: invoice
+        - set_contact:
+          is_variable: true
+          nonString: true
+          key: contact
+          keyPascal: Contact
+          default: contact
+          object: invoice
+        - date:
+          is_variable: true
+          nonString: true
+          key: date
+          keyPascal: Date
+          default: dateValue
+          python: date_value
+          object: invoice
+        - dueDate:
+          is_variable: true
+          nonString: true
+          key: dueDate
+          keyPascal: Date
+          keySnake: due_date
+          default: dueDateValue
+          python: due_date_value
+          object: invoice
         - set_lineitem:
           is_variable: true
           nonString: true
           key: lineItems
           keyPascal: LineItems
+          keySnake: line_items
           default: lineItems
+          python: line_items
           object: invoice
         - reference:
           key: reference
@@ -8754,6 +8773,7 @@ paths:
           default: Website Design
           object: invoice
         - status:
+          is_last: true
           nonString: true
           key: status
           keyPascal: Status
@@ -8761,11 +8781,16 @@ paths:
           php: XeroAPI\XeroPHP\Models\Accounting\Invoice::STATUS_DRAFT
           node: Invoice.StatusEnum.DRAFT
           ruby: XeroRuby::Accounting::Invoice::DRAFT
-          python: Invoice.xxx
+          python_string: DRAFT 
           java: com.xero.models.accounting.Invoice.StatusEnum.DRAFT
           csharp: Invoice.xxx
           object: invoice
+        - invoices:
+          is_object: true
+          key: invoices
+          keyPascal: Invoices
         - add_invoice:
+          is_last: true
           is_array_add: true
           key: invoices
           keyPascal: Invoices
@@ -9930,10 +9955,6 @@ paths:
       x-node-requestBody: '{ items: [{ code: "ItemCode123", name: "ItemName XYZ", description: "Item Description ABC" }]}'
       x-ruby-requestBody: 'items = { items: [{ code: "ItemCode123", name: "ItemName XYZ", description: "Item Description ABC" }]}'
       x-example:
-        - items:
-          is_array: true
-          key: items
-          keyPascal: Items
         - item:
           is_object: true
           key: item
@@ -9953,7 +9974,12 @@ paths:
           keyPascal: Description
           default: Foobar
           object: item
+        - items:
+          is_object: true
+          key: items
+          keyPascal: Items
         - add_item:
+          is_last: true
           is_array_add: true
           key: items
           keyPascal: Items
