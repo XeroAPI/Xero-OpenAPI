@@ -4517,26 +4517,27 @@ paths:
       x-node-requestBody: '{ contacts: [{ contactID: "00000000-0000-0000-000-000000000000", name: "Thanos" }]}'
       x-ruby-requestBody: 'contacts = { contacts: [{ contact_id: "00000000-0000-0000-000-000000000000", name: "Thanos" }]}'
       x-example:
-        - contacts:
-          is_array: true
-          key: contacts
-          keyPascal: Contacts
         - contact:
           is_object: true
           key: contact
           keyPascal: Contact
+        - name:
+          key: name
+          keyPascal: Name
+          default: Thanos
+          object: contact
         - contactID:
           is_uuid: true
           key: contactID
           keyPascal: ContactID
           default: 00000000-0000-0000-0000-000000000000
           object: contact
-        - name:
-          key: name
-          keyPascal: Name
-          default: Thanos
-          object: contact
+        - contacts:
+          is_object: true
+          key: contacts
+          keyPascal: Contacts
         - add_contact:
+          is_last: true
           is_array_add: true
           key: contacts
           keyPascal: Contacts
