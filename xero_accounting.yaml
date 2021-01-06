@@ -1126,24 +1126,30 @@ paths:
       summary: Allows you to create a history record for a Batch Payment
       x-hasAccountingValidationError: true
       x-example:
-        - historyRecords:
-          is_array: true
-          key: historyRecords
-          keyPascal: HistoryRecords
         - historyRecord:
           is_object: true
           key: historyRecord
           keyPascal: HistoryRecord
+          keySnake: history_record
         - Details:
+          is_last: true
           key: details
           keyPascal: Details
           default: Hello World
           object: historyRecord
+        - historyRecords:
+          is_object: true
+          key: historyRecords
+          keyPascal: HistoryRecords
+          keySnake: history_records
         - add_historyRecord:
+          is_last: true
           is_array_add: true
           key: historyRecords
           keyPascal: HistoryRecords
+          keySnake: history_records
           java: HistoryRecords
+          python: history_record
           object: historyRecord 
       parameters:
         - required: true
