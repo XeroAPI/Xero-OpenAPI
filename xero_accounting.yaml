@@ -7755,47 +7755,18 @@ paths:
           java: "LocalDate.now()"
           php: "new DateTime('2019-12-10')"
           python: "dateutil.parser.parse('2020-12-03T00:00:00Z')"
-        - expenseClaims:
-          is_array: true
-          key: expenseClaims
-          keyPascal: ExpenseClaims
-        - expenseClaim:
-          is_object: true
-          key: expenseClaim
-          keyPascal: ExpenseClaim
-        - status:
-          nonString: true
-          key: status
-          keyPascal: Status
-          default: AUTHORISED
-          php: XeroAPI\XeroPHP\Models\Accounting\ExpenseClaim::STATUS_AUTHORISED
-          node: ExpenseClaim.StatusEnum.AUTHORISED
-          ruby: XeroRuby::Accounting::ExpenseClaim::AUTHORISED
-          python: ExpenseClaim.xxx
-          java: com.xero.models.accounting.ExpenseClaim.StatusEnum.AUTHORISED
-          csharp: ExpenseClaim.xxx
-          object: expenseClaim
         - user:
           is_object: true
           key: user
           keyPascal: User
         - userID:
+          is_last: true
           is_uuid: true
           key: userID
           keyPascal: UserID
+          keySnake: user_id
           default: 00000000-0000-0000-000-000000000000
           object: user
-        - set_user:
-          is_variable: true
-          nonString: true
-          key: user
-          keyPascal: User
-          default: user
-          object: expenseClaim
-        - receipts:
-          is_list: true
-          key: receipts
-          keyPascal: Receipt
         - receipt:
           is_object: true
           key: receipt
@@ -7804,9 +7775,11 @@ paths:
           is_uuid: true
           key: receiptID
           keyPascal: ReceiptID
+          keySnake: receipt_id
           default: 00000000-0000-0000-000-000000000000
           object: receipt
         - date:
+          is_last: true
           is_variable: true
           nonString: true
           key: date
@@ -7814,23 +7787,60 @@ paths:
           default: currDate
           python: curr_date
           object: receipt
+        - receipts:
+          is_list: true
+          key: receipts
+          keyPascal: Receipt
         - add_receipts:
+          is_last: true
           is_list_add: true
           key: receipts
           keyPascal: Receipts
           object: receipt
+        - expenseClaim:
+          is_object: true
+          key: expenseClaim
+          keyPascal: ExpenseClaim
+          keySnake: expense_claim
+        - status:
+          nonString: true
+          key: status
+          keyPascal: Status
+          default: SUBMITTED
+          php: XeroAPI\XeroPHP\Models\Accounting\ExpenseClaim::STATUS_SUBMITTED
+          node: ExpenseClaim.StatusEnum.SUBMITTED
+          ruby: XeroRuby::Accounting::ExpenseClaim::SUBMITTED
+          python_string: SUBMITTED
+          java: com.xero.models.accounting.ExpenseClaim.StatusEnum.SUBMITTED
+          csharp: ExpenseClaim.xxx
+          object: expenseClaim
+        - set_user:
+          is_variable: true
+          nonString: true
+          key: user
+          keyPascal: User
+          default: user
+          object: expenseClaim
         - set_receipt:
+          is_last: true
           is_variable: true
           nonString: true
           key: receipts
           keyPascal: Receipts
           default: receipts
           object: expenseClaim
-        - add_expenseClaim:
-          is_array_add: true
+        - expenseClaims:
+          is_object: true
           key: expenseClaims
           keyPascal: ExpenseClaims
+        - add_expenseClaim:
+          is_array_add: true
+          is_last: true
+          key: expenseClaims
+          keyPascal: ExpenseClaims
+          keySnake: expense_claims
           java: ExpenseClaims
+          python: expense_claim
           object: expenseClaim
       parameters:
         - required: true
