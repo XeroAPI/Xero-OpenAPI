@@ -22493,45 +22493,54 @@ paths:
       x-node-requestBody: '{ taxRates: [{ name: "State Tax NY", taxComponents: [{ name: "State Tax", rate: 2.25 }], status: TaxRate.StatusEnum.DELETED, reportTaxType: TaxRate.ReportTaxTypeEnum.INPUT }]}'
       x-ruby-requestBody: 'tax_rates = { tax_rates: [{ name: "State Tax NY", tax_components: [{ name: "State Tax", rate: 2.25 }], status: XeroRuby::Accounting::TaxRate::Deleted, report_tax_type: XeroRuby::Accounting::TaxRate::INPUT }]}'
       x-example:
-        - taxRates:
-          is_array: true
-          key: taxRates
-          keyPascal: TaxRates
-        - taxRate:
-          is_object: true
-          key: taxRate
-          keyPascal: TaxRate
-        - name:
-          key: name
-          keyPascal: Name
-          default: CA State Tax
-          object: taxRate
         - taxComponent:
           is_object: true
           key: taxComponent
           keyPascal: TaxComponent
+          keySnake: tax_component
         - name:
           key: name
           keyPascal: Name
           default: State Tax
           object: taxComponent
         - rate:
+          is_last: true
           nonString: true
           key: rate
           keyPascal: Rate
           default: 2.25
           object: taxComponent
+        - taxRate:
+          is_object: true
+          key: taxRate
+          keyPascal: TaxRate
+          keySnake: tax_rate
+        - name:
+          key: name
+          keyPascal: Name
+          default: CA State Tax
+          object: taxRate
         - add_taxComponent:
+          is_last: true
           is_array_add: true
           key: taxRate
           keyPascal: TaxComponents
+          keySnake: tax_components
           java: TaxComponents
+          python: tax_component
           object: taxComponent
+        - taxRates:
+          is_object: true
+          key: taxRates
+          keyPascal: TaxRates
         - add_taxRate:
+          is_last: true
           is_array_add: true
           key: taxRates
           keyPascal: TaxRates
+          keySnake: tax_rates
           java: TaxRates
+          python: tax_rate
           object: taxRate
       responses:
         '200':
@@ -22756,6 +22765,7 @@ paths:
           key: trackingCategory
           keyPascal: TrackingCategory
         - name:
+          is_last: true
           key: name
           keyPascal: Name
           default: Foobar
@@ -22920,6 +22930,7 @@ paths:
           key: trackingOption
           keyPascal: TrackingOption
         - name:
+          is_last: true
           key: name
           keyPascal: Name
           default: Foobar
