@@ -27,7 +27,9 @@ paths:
         - in: query
           name: where
           description: Filter by an any element
-          example: Status=="' + Account.StatusEnum.ACTIVE + '" AND Type=="' + Account.BankAccountTypeEnum.BANK + '"
+          example: Status==&quot;ACTIVE&quot; AND Type==&quot;BANK&quot;
+          x-example-java: Status==&quot;&apos; + Account.StatusEnum.ACTIVE+ &apos;&quot;
+          x-example-php: Status==&quot;&apos; . \XeroAPI\XeroPHP\Models\Accounting\Account::STATUS_ACTIVE . &apos;&quot;
           x-ruby-param: Status==#{XeroRuby::Accounting::Account::ACTIVE}
           schema:
             type: string
@@ -72,17 +74,43 @@ paths:
       tags:
         - Accounting
       operationId: createAccount
+      summary: Allows you to create a new chart of accounts
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ code: "123456", name: "Foobar", type: AccountType.EXPENSE, description: "Hello World" }'
-      x-ruby-requestBody: 'account = { code: "123456", name: "Foobar", type: XeroRuby::Accounting::AccountType::EXPENSE, description: "Hello World" }'
-      summary: Allows you to create a new chart of accounts
-      x-php:
-          - '$account = new XeroAPI\XeroPHP\Models\Accounting\Account;'
-          - '$account->setCode("987654321");'
-          - '$account->setName("FooBar");'
-          - '$account->setType("EXPENSE");'
-          - '$account->setDescription("Hello World");'
-          - '$result = $apiInstance->createAccount($xeroTenantId,$account);'
+      x-ruby-requestBody: 'account = { code: "123456", name: "Foobar", type: XeroRuby::Accounting::AccountType::EXPENSE, description: "Hello World" }'      
+      x-example:
+        - object:
+          is_object: true
+          key: account
+          keyPascal: Account
+        - code:
+          key: code
+          keyPascal: Code
+          default: 123456
+          object: account
+        - name:
+          key: name
+          keyPascal: Name
+          default: FooBar
+          object: account
+        - type:
+          key: type
+          keyPascal: Type
+          default: EXPENSE
+          nonString: true
+          php: XeroAPI\XeroPHP\Models\Accounting\AccountType::EXPENSE
+          node: AccountType.EXPENSE
+          ruby: XeroRuby::Accounting::AccountType::EXPENSE
+          python: AccountType.EXPENSE
+          java: com.xero.models.accounting.AccountType.EXPENSE
+          csharp: Account.ClassEnum.EXPENSE
+          object: account
+        - description:
+          is_last: true
+          key: description
+          keyPascal: Description
+          default: "Hello World"
+          object: account
       responses:
         '200':
           description: Success - created new Account and return response of type Accounts array with new Account 
@@ -206,10 +234,60 @@ paths:
       tags: 
         - Accounting
       operationId: updateAccount
+      summary: Allows you to update a chart of accounts
       x-hasAccountingValidationError: true
       x-ruby-requestBody: '{ accounts: [{ code: "123456", name: "BarFoo", account_id: "00000000-0000-0000-000-000000000000", type: XeroRuby::Accounting::Account::EXPENSE, description: "GoodBye World", tax_type: XeroRuby::Accounting::TaxType::NONE }]}'
       x-node-requestBody: '{ accounts: [{ code: "123456", name: "BarFoo", accountID: "00000000-0000-0000-000-000000000000", type: AccountType.EXPENSE, description: "GoodBye World", taxType: TaxType.INPUT }]}'
-      summary: Allows you to update a chart of accounts
+      x-example:
+        - account:
+          is_object: true
+          key: account
+          keyPascal: Account
+        - code:
+          key: code
+          keyPascal: Code
+          default: 123456
+          object: account
+        - name:
+          key: name
+          keyPascal: Name
+          default: BarFoo
+          object: account
+        - type:
+          key: type
+          keyPascal: Type
+          default: EXPENSE
+          nonString: true
+          php: XeroAPI\XeroPHP\Models\Accounting\AccountType::EXPENSE
+          node: AccountType.EXPENSE
+          ruby: XeroRuby::Accounting::AccountType::EXPENSE
+          python: AccountType.EXPENSE
+          java: com.xero.models.accounting.AccountType.EXPENSE
+          csharp: Account.ClassEnum.EXPENSE
+          object: account
+        - description:
+          key: description
+          keyPascal: Description
+          default: "Hello World"
+          object: account
+        - taxType:
+          is_last: true
+          key: taxType
+          keyPascal: TaxType
+          keySnake: tax_type
+          default: NONE
+          object: account
+        - accounts:
+          is_object: true
+          key: accounts
+          keyPascal: Accounts
+        - accounts:
+          is_last: true
+          is_array_add: true
+          key: accounts
+          keyPascal: Accounts
+          java: Accounts
+          object: account
       parameters:
         - required: true
           in: path
@@ -630,7 +708,9 @@ paths:
         - in: query
           name: where
           description: Filter by an any element
-          example: Status=="' + BatchPayment.StatusEnum.AUTHORISED + '"
+          example: Status=="AUTHORISED"
+          x-example-java: Status==&quot;&apos; + BatchPayment.StatusEnum.AUTHORISED + &apos;&quot;
+          x-example-php: Status==&quot;&apos; . XeroAPI\XeroPHP\Models\Accounting\BatchPayment::STATUS_AUTHORISED . &apos;&quot;
           x-ruby-param: Status==#{XeroRuby::Accounting::BatchPayment::AUTHORISED}
           schema:
             type: string
@@ -747,10 +827,145 @@ paths:
       tags:
         - Accounting
       operationId: createBatchPayment
+      summary: Create one or many BatchPayments for invoices
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ batchPayments: [{ account: { accountId: "00000000-0000-0000-000-000000000000" }, reference: "ref", date: "2018-08-01", payments: [{  account: { code: "001" }, date: "2019-12-31", amount: 500, invoice: { invoiceId: "00000000-0000-0000-000-000000000000", lineItems: [], contact: {}, type: Invoice.TypeEnum.ACCPAY }}]}]}'
       x-ruby-requestBody: 'batch_payments = { batch_payments: [{ account: { account_id: "00000000-0000-0000-000-000000000000" }, reference: "ref", date: "2018-08-01", payments: [{  account: { code: "001" }, date: "2019-12-31", amount: 500, invoice: { invoice_id: "00000000-0000-0000-000-000000000000", line_items: [], contact: {}, type: XeroRuby::Accounting::Invoice::ACCPAY }}]}]}'
-      summary: Create one or many BatchPayments for invoices
+      x-example:
+        - currDate:
+          is_date: true
+          key: currDate
+          keyPascal: Date
+          keySnake: curr_date
+          java_datatype: LocalDate
+          default: "LocalDate.now()"
+          java: "LocalDate.now()"
+          php: "new DateTime('2019-12-10')"
+          python: "dateutil.parser.parse('2020-12-03T00:00:00Z')"
+        - paymentAccount:
+          is_object: true
+          key: paymentAccount
+          keyPascal: Account
+          keySnake: payment_account
+        - accountID:
+          is_last: true
+          is_uuid: true
+          key: accountId
+          keyPascal: AccountID
+          keySnake: account_id
+          default: 00000000-0000-0000-000-000000000000
+          object: paymentAccount
+        - bankAccount:
+          is_object: true
+          key: bankAccount
+          keyPascal: Account
+          keySnake: bank_account
+        - accountID:
+          is_last: true
+          is_uuid: true
+          key: accountID
+          keyPascal: AccountID
+          keySnake: account_id
+          default: 00000000-0000-0000-000-000000000000
+          object: bankAccount
+        - invoice:
+          is_object: true
+          key: invoice
+          keyPascal: Invoice
+        - invoiceID:
+          is_last: true
+          is_uuid: true
+          key: invoiceID
+          keyPascal: InvoiceID
+          keySnake: invoice_id
+          default: "00000000-0000-0000-000-000000000000"
+          object: invoice
+        - payment:
+          is_object: true
+          key: payment
+          keyPascal: Payment
+        - set_bankaccount:
+          is_variable: true
+          nonString: true
+          key: account
+          keyPascal: Account
+          default: bankAccount
+          python: bank_account
+          object: payment
+        - date:
+          is_variable: true
+          nonString: true
+          key: date
+          keyPascal: Date
+          default: currDate
+          python: curr_date
+          object: payment
+        - amount:
+          nonString: true
+          key: amount
+          keyPascal: Amount
+          default: 1.00
+          object: payment
+        - set_invoice:
+          is_last: true
+          is_variable: true
+          nonString: true
+          key: invoice
+          keyPascal: Invoice
+          default: invoice
+          object: payment
+        - payments:
+          is_list: true
+          key: payments
+          keyPascal: Payment
+        - add_payments:
+          is_last: true
+          is_list_add: true
+          key: payments
+          keyPascal: Payments
+          object: payment
+        - batchPayment:
+          is_object: true
+          key: batchPayment
+          keyPascal: BatchPayment
+          keySnake: batch_payment
+        - set_paymentaccount:
+          is_variable: true
+          nonString: true
+          key: account
+          keyPascal: Account
+          default: paymentAccount
+          python: payment_account
+          object: batchPayment
+        - date:
+          is_variable: true
+          nonString: true
+          key: date
+          keyPascal: Date
+          default: currDate
+          python: curr_date
+          object: batchPayment
+        - set_payments:
+          is_last: true
+          is_variable: true
+          nonString: true
+          key: payments
+          keyPascal: Payments
+          default: payments
+          object: batchPayment
+        - batchPayments:
+          is_object: true
+          key: batchPayments
+          keyPascal: BatchPayments
+        - add_batchPayments:
+          is_last: true
+          is_array_add: true
+          key: batchPayments
+          keyPascal: BatchPayments
+          keySnake: batch_payments
+          java: BatchPayments
+          python: batch_payment
+          object: batchPayment
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
       responses:
@@ -908,8 +1123,34 @@ paths:
       tags:
         - Accounting
       operationId: createBatchPaymentHistoryRecord
-      x-hasAccountingValidationError: true
       summary: Allows you to create a history record for a Batch Payment
+      x-hasAccountingValidationError: true
+      x-example:
+        - historyRecord:
+          is_object: true
+          key: historyRecord
+          keyPascal: HistoryRecord
+          keySnake: history_record
+        - Details:
+          is_last: true
+          key: details
+          keyPascal: Details
+          default: Hello World
+          object: historyRecord
+        - historyRecords:
+          is_object: true
+          key: historyRecords
+          keyPascal: HistoryRecords
+          keySnake: history_records
+        - add_historyRecord:
+          is_last: true
+          is_array_add: true
+          key: historyRecords
+          keyPascal: HistoryRecords
+          keySnake: history_records
+          java: HistoryRecords
+          python: history_record
+          object: historyRecord 
       parameters:
         - required: true
           in: path
@@ -959,7 +1200,9 @@ paths:
         - in: query
           name: where
           description: Filter by an any element
-          example: Status=="' + BankTransaction.StatusEnum.AUTHORISED + '"
+          example: Status=="AUTHORISED"
+          x-example-java: Status==&quot;&apos; + BankTransaction.StatusEnum.AUTHORISED + &apos;&quot;
+          x-example-php: Status==&quot;&apos; . XeroAPI\XeroPHP\Models\Accounting\BankTransaction::STATUS_AUTHORISED . &apos;&quot;
           x-ruby-param: Status==#{XeroRuby::Accounting::BankTransaction::AUTHORISED}
           schema:
             type: string
@@ -1102,10 +1345,121 @@ paths:
       tags:
         - Accounting
       operationId: createBankTransactions
+      summary: Allows you to create one or more spend or receive money transaction
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ bankTransactions: [{ type: BankTransaction.TypeEnum.SPEND, contact: { contactID: "00000000-0000-0000-000-000000000000" }, lineItems: [{ description: "Foobar", quantity: 1.0, unitAmount: 20.0, accountCode: "000" } ], bankAccount: { code: "000" }}]}'
       x-ruby-requestBody: 'bank_transactions = { bank_transactions: [{ type: XeroRuby::Accounting::BankTransaction::SPEND, contact: { contact_id: "00000000-0000-0000-000-000000000000" }, line_items: [{ description: "Foobar", quantity: 1.0, unit_amount: 20.0, account_code: "000" } ], bank_account: { code: "000" }}]}'
-      summary: Allows you to create one or more spend or receive money transaction
+      x-example:
+        - contact:
+          is_object: true
+          key: contact
+          keyPascal: Contact
+        - contactID:
+          is_uuid: true
+          is_last: true
+          key: contactId
+          keyPascal: ContactID
+          keySnake: contact_id
+          default: 00000000-0000-0000-000-000000000000
+          object: contact
+        - lineItem:
+          is_object: true
+          key: lineItem
+          keyPascal: LineItem
+          keySnake: line_item
+        - description:
+          key: description
+          keyPascal: Description
+          default: Foobar
+          object: lineItem
+        - quantity:
+          nonString: true
+          key: quantity
+          keyPascal: Quantity
+          default: 1.0
+          object: lineItem
+        - unitAmount:
+          nonString: true
+          key: unitAmount
+          keyPascal: UnitAmount
+          keySnake: unit_amount
+          default: 20.0
+          object: lineItem
+        - accountCode:
+          is_last: true
+          key: accountCode
+          keyPascal: AccountCode
+          keySnake: account_code
+          default: "000"
+          object: lineItem
+        - bankAccount:
+          is_object: true
+          key: bankAccount
+          keyPascal: Account
+          keySnake: bank_account
+        - accountID:
+          is_last: true
+          is_uuid: true
+          key: accountID
+          keyPascal: AccountID
+          keySnake: account_id
+          default: 00000000-0000-0000-000-000000000000
+          object: bankAccount
+        - bankTransaction:
+          is_object: true
+          key: bankTransaction
+          keyPascal: BankTransaction
+          keySnake: bank_transaction
+        - type:
+          nonString: true
+          key: type
+          keyPascal: Type
+          default: RECEIVE
+          php: XeroAPI\XeroPHP\Models\Accounting\BankTransaction::TYPE_RECEIVE
+          node: BankTransaction.TypeEnum.RECEIVE
+          ruby: XeroRuby::Accounting::BankTransaction::RECEIVE
+          python_string: RECEIVE
+          java: com.xero.models.accounting.BankTransaction.TypeEnum.RECEIVE
+          csharp: BankTransaction.TypeEnum.RECEIVE
+          object: bankTransaction
+        - set_contact:
+          is_variable: true
+          nonString: true
+          key: contact
+          keyPascal: Contact
+          default: contact
+          object: bankTransaction
+        - add_lineitems:
+          is_array_add: true
+          key: bankTransaction
+          keyPascal: LineItems
+          keySnake: line_items
+          java: LineItems
+          python: line_item
+          object: lineItem
+        - set_bankaccount:
+          is_last: true
+          is_variable: true
+          nonString: true
+          key: bankAccount
+          keyPascal: BankAccount
+          keySnake: bank_account
+          python: bank_account
+          default: bankAccount
+          object: bankTransaction
+        - bankTransactions:
+          is_object: true
+          key: bankTransactions
+          keyPascal: BankTransactions
+        - add_bankTransaction:
+          is_last: true
+          is_array_add: true
+          key: bankTransactions
+          keyPascal: BankTransactions
+          keySnake: bank_transactions
+          java: BankTransactions
+          python: bank_transaction
+          object: bankTransaction
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
         - $ref: '#/components/parameters/unitdp'
@@ -1240,10 +1594,121 @@ paths:
       tags:
         - Accounting
       operationId: updateOrCreateBankTransactions
+      summary: Allows you to update or create one or more spend or receive money transaction
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ bankTransactions: [{ type: BankTransaction.TypeEnum.SPEND, contact: { contactId: "00000000-0000-0000-000-000000000000" }, lineItems: [{ description: "Foobar", quantity: 1.0, unitAmount: 20.0, accountCode: "000" }], bankAccount: { code: "000" }}]}'
       x-ruby-requestBody: 'bank_transactions = { bank_transactions: [{ type: XeroRuby::Accounting::BankTransaction::SPEND, contact: { contact_id: "00000000-0000-0000-000-000000000000" }, line_items: [{ description: "Foobar", quantity: 1.0, unit_amount: 20.0, account_code: "000" }], bank_account: { code: "000" }}]}'
-      summary: Allows you to update or create one or more spend or receive money transaction
+      x-example:
+        - contact:
+          is_object: true
+          key: contact
+          keyPascal: Contact
+        - contactID:
+          is_uuid: true
+          is_last: true
+          key: contactId
+          keyPascal: ContactID
+          keySnake: contact_id
+          default: 00000000-0000-0000-000-000000000000
+          object: contact
+        - lineItem:
+          is_object: true
+          key: lineItem
+          keyPascal: LineItem
+          keySnake: line_item
+        - description:
+          key: description
+          keyPascal: Description
+          default: Foobar
+          object: lineItem
+        - quantity:
+          nonString: true
+          key: quantity
+          keyPascal: Quantity
+          default: 1.0
+          object: lineItem
+        - unitAmount:
+          nonString: true
+          key: unitAmount
+          keyPascal: UnitAmount
+          keySnake: unit_amount
+          default: 20.0
+          object: lineItem
+        - accountCode:
+          is_last: true
+          key: accountCode
+          keyPascal: AccountCode
+          keySnake: account_code
+          default: "000"
+          object: lineItem
+        - bankAccount:
+          is_object: true
+          key: bankAccount
+          keyPascal: Account
+          keySnake: bank_account
+        - accountID:
+          is_last: true
+          is_uuid: true
+          key: accountID
+          keyPascal: AccountID
+          keySnake: account_id
+          default: 00000000-0000-0000-000-000000000000
+          object: bankAccount
+        - bankTransaction:
+          is_object: true
+          key: bankTransaction
+          keyPascal: BankTransaction
+          keySnake: bank_transaction
+        - type:
+          nonString: true
+          key: type
+          keyPascal: Type
+          default: RECEIVE
+          php: XeroAPI\XeroPHP\Models\Accounting\BankTransaction::TYPE_RECEIVE
+          node: BankTransaction.TypeEnum.RECEIVE
+          ruby: XeroRuby::Accounting::BankTransaction::RECEIVE
+          python_string: RECEIVE
+          java: com.xero.models.accounting.BankTransaction.TypeEnum.RECEIVE
+          csharp: BankTransaction.TypeEnum.RECEIVE
+          object: bankTransaction
+        - set_contact:
+          is_variable: true
+          nonString: true
+          key: contact
+          keyPascal: Contact
+          default: contact
+          object: bankTransaction
+        - add_lineitems:
+          is_array_add: true
+          key: bankTransaction
+          keyPascal: LineItems
+          keySnake: line_items
+          java: LineItems
+          python: line_item
+          object: lineItem
+        - set_bankaccount:
+          is_last: true
+          is_variable: true
+          nonString: true
+          key: bankAccount
+          keyPascal: BankAccount
+          keySnake: bank_account
+          python: bank_account
+          default: bankAccount
+          object: bankTransaction
+        - bankTransactions:
+          is_object: true
+          key: bankTransactions
+          keyPascal: BankTransactions
+        - add_bankTransaction:
+          is_last: true
+          is_array_add: true
+          key: bankTransactions
+          keyPascal: BankTransactions
+          keySnake: bank_transactions
+          java: BankTransactions
+          python: bank_transaction
+          object: bankTransaction
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
         - $ref: '#/components/parameters/unitdp'
@@ -1543,10 +2008,126 @@ paths:
       tags:
         - Accounting
       operationId: updateBankTransaction
+      summary: Allows you to update a single spend or receive money transaction
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ bankTransactions: [{ type: BankTransaction.TypeEnum.SPEND, date: "2019-02-25", reference: "You just updated", status: BankTransaction.StatusEnum.AUTHORISED, bankTransactionID: "00000000-0000-0000-000-000000000000", lineItems: [], contact: {}, bankAccount: { accountID: "00000000-0000-0000-000-000000000000" }}]}'
-      x-ruby-requestBody: '{ bank_transactions: [{ type: XeroRuby::Accounting::BankTransaction::SPEND, date: "2019-02-25", reference: "You just updated", status: XeroRuby::Accounting::BankTransaction::AUTHORISED, bank_transaction_id: "00000000-0000-0000-000-000000000000", line_items: [], contact: {}, bank_account: { account_id: "00000000-0000-0000-000-000000000000" }}]}'
-      summary: Allows you to update a single spend or receive money transaction
+      x-ruby-requestBody: '{ bank_transactions: [{ type: XeroRuby::Accounting::BankTransaction::SPEND, date: "2019-02-25", reference: "You just updated", status: XeroRuby::Accounting::BankTransaction::AUTHORISED, bank_transaction_id: "00000000-0000-0000-000-000000000000", line_items: [], contact: {}, bank_account: { account_id: "00000000-0000-0000-000-000000000000" }}]}'      
+      x-example:
+        - contact:
+          is_object: true
+          key: contact
+          keyPascal: Contact
+        - contactID:
+          is_uuid: true
+          is_last: true
+          key: contactId
+          keyPascal: ContactID
+          keySnake: contact_id
+          default: 00000000-0000-0000-000-000000000000
+          object: contact
+        - lineItem:
+          is_object: true
+          key: lineItem
+          keyPascal: LineItem
+          keySnake: line_item
+        - description:
+          key: description
+          keyPascal: Description
+          default: Foobar
+          object: lineItem
+        - quantity:
+          nonString: true
+          key: quantity
+          keyPascal: Quantity
+          default: 1.0
+          object: lineItem
+        - unitAmount:
+          nonString: true
+          key: unitAmount
+          keyPascal: UnitAmount
+          keySnake: unit_amount
+          default: 20.0
+          object: lineItem
+        - accountCode:
+          is_last: true
+          key: accountCode
+          keyPascal: AccountCode
+          keySnake: account_code
+          default: "000"
+          object: lineItem
+        - bankAccount:
+          is_object: true
+          key: bankAccount
+          keyPascal: Account
+          keySnake: bank_account
+        - accountID:
+          is_last: true
+          is_uuid: true
+          key: accountID
+          keyPascal: AccountID
+          keySnake: account_id
+          default: 00000000-0000-0000-000-000000000000
+          object: bankAccount
+        - bankTransaction:
+          is_object: true
+          key: bankTransaction
+          keyPascal: BankTransaction
+          keySnake: bank_transaction
+        - reference:
+          key: reference
+          keyPascal: Reference
+          default: You just updated
+          object: bankTransaction
+        - type:
+          nonString: true
+          key: type
+          keyPascal: Type
+          default: RECEIVE
+          php: XeroAPI\XeroPHP\Models\Accounting\BankTransaction::TYPE_RECEIVE
+          node: BankTransaction.TypeEnum.RECEIVE
+          ruby: XeroRuby::Accounting::BankTransaction::RECEIVE
+          python_string: RECEIVE
+          java: com.xero.models.accounting.BankTransaction.TypeEnum.RECEIVE
+          csharp: BankTransaction.TypeEnum.RECEIVE
+          object: bankTransaction
+        - set_contact:
+          is_variable: true
+          nonString: true
+          key: contact
+          keyPascal: Contact
+          default: contact
+          object: bankTransaction
+        - add_lineitems:
+          is_array_add: true
+          key: bankTransaction
+          keyPascal: LineItems
+          keySnake: line_items
+          java: LineItems
+          python: line_item
+          object: lineItem
+        - set_bankaccount:
+          is_last: true
+          is_variable: true
+          nonString: true
+          key: bankAccount
+          keyPascal: BankAccount
+          keySnake: bank_account
+          python: bank_account
+          default: bankAccount
+          object: bankTransaction
+        - bankTransactions:
+          is_object: true
+          key: bankTransactions
+          keyPascal: BankTransactions
+        - add_bankTransaction:
+          is_last: true
+          is_array_add: true
+          key: bankTransactions
+          keyPascal: BankTransactions
+          keySnake: bank_transactions
+          java: BankTransactions
+          python: bank_transaction
+          object: bankTransaction
       parameters:
         - required: true
           in: path
@@ -2032,8 +2613,34 @@ paths:
       tags:
         - Accounting
       operationId: createBankTransactionHistoryRecord
-      x-hasAccountingValidationError: true
       summary: Allows you to create history record for a bank transactions
+      x-hasAccountingValidationError: true   
+      x-example:
+        - historyRecord:
+          is_object: true
+          key: historyRecord
+          keyPascal: HistoryRecord
+          keySnake: history_record
+        - Details:
+          is_last: true
+          key: details
+          keyPascal: Details
+          default: Hello World
+          object: historyRecord
+        - historyRecords:
+          is_object: true
+          key: historyRecords
+          keyPascal: HistoryRecords
+          keySnake: history_records
+        - add_historyRecord:
+          is_last: true
+          is_array_add: true
+          key: historyRecords
+          keyPascal: HistoryRecords
+          keySnake: history_records
+          java: HistoryRecords
+          python: history_record
+          object: historyRecord 
       parameters:
         - required: true
           in: path
@@ -2134,10 +2741,76 @@ paths:
       tags:
         - Accounting
       operationId: createBankTransfer
+      summary: Allows you to create a bank transfers
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ bankTransfers: [{ fromBankAccount: { code: "000", accountID: "00000000-0000-0000-000-000000000000" }, toBankAccount: { code: "001", accountID: "00000000-0000-0000-000-000000000000" }, amount: "50.00" }]}'
       x-ruby-requestBody: 'bank_transfers = { bank_transfers: [{ from_bank_account: { code: "000", account_id: "00000000-0000-0000-000-000000000000" }, to_bank_account: { code: "001", account_id: "00000000-0000-0000-000-000000000000" }, amount: "50.00" }]}'
-      summary: Allows you to create a bank transfers
+      x-example:
+        - fromBankAccount:
+          is_object: true
+          key: fromBankAccount
+          keyPascal: Account
+        - accountID:
+          is_last: true
+          is_uuid: true
+          key: accountID
+          keyPascal: AccountID
+          keySnake: account_id
+          default: 00000000-0000-0000-000-000000000000
+          object: fromBankAccount
+        - toBankAccount:
+          is_object: true
+          key: toBankAccount
+          keyPascal: Account
+        - accountID:
+          is_last: true
+          is_uuid: true
+          key: accountID
+          keyPascal: AccountID
+          keySnake: account_id
+          default: 00000000-0000-0000-000-000000000000
+          object: toBankAccount
+        - bankTransfer:
+          is_object: true
+          key: bankTransfer
+          keyPascal: BankTransfer
+          keySnake: bank_transfer
+        - set_fromBankAccount:
+          is_variable: true
+          nonString: true
+          key: fromBankAccount
+          keyPascal: FromBankAccount
+          keySnake: from_bank_account
+          default: fromBankAccount
+          object: bankTransfer
+        - set_toBankAccount:
+          is_variable: true
+          nonString: true
+          key: toBankAccount
+          keyPascal: ToBankAccount
+          keySnake: to_bank_account
+          default: toBankAccount
+          object: bankTransfer
+        - amount:
+          is_last: true
+          nonString: true
+          key: amount
+          keyPascal: Amount
+          default: 1.0
+          object: bankTransfer
+        - bankTransfers:
+          is_object: true
+          key: bankTransfers
+          keyPascal: BankTransfers
+        - add_bankTransfer:
+          is_last: true
+          is_array_add: true
+          key: bankTransfers
+          keyPascal: BankTransfers
+          keySnake: bank_transfers
+          java: BankTransfers
+          python: bank_transfer
+          object: bankTransfer
       responses:
         '200':
           description: Success - return response of BankTransfers array of one BankTransfer 
@@ -2556,7 +3229,34 @@ paths:
       tags:
         - Accounting
       operationId: createBankTransferHistoryRecord
+      summary: Allows you to create history record for a bank transfers
       x-hasAccountingValidationError: true
+      x-example:
+        - historyRecord:
+          is_object: true
+          key: historyRecord
+          keyPascal: HistoryRecord
+          keySnake: history_record
+        - Details:
+          is_last: true
+          key: details
+          keyPascal: Details
+          default: Hello World
+          object: historyRecord
+        - historyRecords:
+          is_object: true
+          key: historyRecords
+          keyPascal: HistoryRecords
+          keySnake: history_records
+        - add_historyRecord:
+          is_last: true
+          is_array_add: true
+          key: historyRecords
+          keyPascal: HistoryRecords
+          keySnake: history_records
+          java: HistoryRecords
+          python: history_record
+          object: historyRecord 
       parameters:
         - required: true
           in: path
@@ -2696,10 +3396,36 @@ paths:
       tags:
         - Accounting
       operationId: createBrandingThemePaymentServices
+      summary: Allow for the creation of new custom payment service for specified Branding Theme
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ paymentServiceID: "00000000-0000-0000-0000-000000000000", paymentServiceName: "ACME Payments", paymentServiceUrl: "https://www.payupnow.com/", payNowText: "Pay Now" }'
       x-ruby-requestBody: 'payment_service = { payment_service_id: "00000000-0000-0000-0000-000000000000", payment_service_name: "ACME Payments", payment_service_url: "https://www.payupnow.com/", pay_now_text: "Pay Now" }'
-      summary: Allow for the creation of new custom payment service for specified Branding Theme
+      x-example:
+        - object:
+          is_object: true
+          key: paymentService
+          keyPascal: PaymentService
+        - paymentServiceID:
+          is_uuid: true
+          key: paymentServiceID
+          keyPascal: PaymentServiceID
+          default: 00000000-0000-0000-0000-000000000000
+          object: paymentService
+        - paymentServiceName:
+          key: paymentServiceName
+          keyPascal: PaymentServiceName
+          default: ACME Payments
+          object: paymentService
+        - paymentServiceUrl:
+          key: paymentServiceUrl
+          keyPascal: PaymentServiceUrl
+          default: "https://www.payupnow.com/"
+          object: paymentService
+        - payNowText:
+          key: payNowText
+          keyPascal: PayNowText
+          default: Pay Now
+          object: paymentService
       parameters:
         - required: true
           in: path
@@ -2761,7 +3487,9 @@ paths:
         - in: query
           name: where
           description: Filter by an any element
-          example: ContactStatus=="' + Contact.ContactStatusEnum.ACTIVE + '"
+          example: ContactStatus==&quot;ACTIVE&quot;
+          x-example-java: ContactStatus==&quot;&apos; + Contact.ContactStatusEnum.ACTIVE + &apos;&quot;
+          x-example-php: ContactStatus==&quot;&apos; . \XeroAPI\XeroPHP\Models\Accounting\Contact::CONTACT_STATUS_ACTIVE . &apos;&quot;
           x-ruby-param: ContactStatus==#{XeroRuby::Accounting::Contact::ACTIVE}
           schema:
             type: string
@@ -2776,7 +3504,9 @@ paths:
           description: Filter by a comma separated list of ContactIDs. Allows you to retrieve a specific set of contacts in a single call.
           style: form
           explode: false
-          example: "00000000-0000-0000-000-000000000000,00000000-0000-0000-000-000000000000"
+          example: '&quot;00000000-0000-0000-000-000000000000&quot;'
+          x-example-java: Arrays.asList(UUID.fromString("00000000-0000-0000-000-000000000000"))
+          x-example-php: '&quot;00000000-0000-0000-000-000000000000&quot;'
           schema:
             type: array
             items:
@@ -2948,10 +3678,79 @@ paths:
       tags:
         - Accounting
       operationId: createContacts
+      summary: 'Allows you to create a multiple contacts (bulk) in a Xero organisation'
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ contacts: [{ name: "Bruce Banner", emailAddress: "hulk@avengers.com", phones: [{ phoneType: Phone.PhoneTypeEnum.MOBILE, phoneNumber: "555-1212", phoneAreaCode: "415" }], paymentTerms: { bills: { day: 15, type: PaymentTermType.OFCURRENTMONTH }, sales: { day: 10, type: PaymentTermType.DAYSAFTERBILLMONTH }}}]}'
-      x-ruby-requestBody: 'contacts = { contacts: [{ name: "Bruce Banner", email_address: "hulk@avengers.com", phones: [{ phone_type: XeroRuby::Accounting::Phone::MOBILE, phone_number: "555-1212", phone_area_code: "415" }], payment_terms: { bills: { day: 15, type: XeroRuby::Accounting::PaymentTermType::OFCURRENTMONTH }, sales: { day: 10, type: XeroRuby::Accounting::PaymentTermType::DAYSAFTERBILLMONTH }}}]}'
-      summary: 'Allows you to create a multiple contacts (bulk) in a Xero organisation'
+      x-ruby-requestBody: 'contacts = { contacts: [{ name: "Bruce Banner", email_address: "hulk@avengers.com", phones: [{ phone_type: XeroRuby::Accounting::Phone::MOBILE, phone_number: "555-1212", phone_area_code: "415" }], payment_terms: { bills: { day: 15, type: XeroRuby::Accounting::PaymentTermType::OFCURRENTMONTH }, sales: { day: 10, type: XeroRuby::Accounting::PaymentTermType::DAYSAFTERBILLMONTH }}}]}'      
+      x-example:
+        - phone:
+          is_object: true
+          key: phone
+          keyPascal: Phone
+        - phoneNumber:
+          key: phoneNumber
+          keyPascal: PhoneNumber
+          keySnake: phone_number
+          default: 555-1212
+          object: phone
+        - phoneType:
+          is_last: true
+          nonString: true
+          key: phoneType
+          keyPascal: PhoneType
+          keySnake: phone_type
+          default: MOBILE
+          php: XeroAPI\XeroPHP\Models\Accounting\Phone::PHONE_TYPE_MOBILE
+          node: PhoneType.MOBILE
+          ruby: XeroRuby::Accounting::PhoneType::MOBILE
+          python_string: MOBILE
+          java: com.xero.models.accounting.Phone.PhoneTypeEnum.MOBILE
+          csharp: Phone.TypeEnum.MOBILE
+          object: phone
+        - phones:
+          is_list: true
+          key: phones
+          keyPascal: Phone
+        - add_phone:
+          is_last: true
+          is_list_add: true
+          key: phones
+          keyPascal: Phones
+          object: phone
+        - contact:
+          is_object: true
+          key: contact
+          keyPascal: Contact
+        - name:
+          key: name
+          keyPascal: Name
+          default: Bruce Banner
+          object: contact
+        - emailAddress:
+          key: emailAddress
+          keyPascal: EmailAddress
+          keySnake: email_address
+          default: hulk@avengers.com
+          object: contact
+        - set_phones:
+          is_last: true
+          is_variable: true
+          nonString: true
+          key: phones
+          keyPascal: Phones
+          default: phones
+          object: contact
+        - contacts:
+          is_object: true
+          key: contacts
+          keyPascal: Contacts
+        - add_contact:
+          is_last: true
+          is_array_add: true
+          key: contacts
+          keyPascal: Contacts
+          java: Contacts
+          object: contact
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
       responses:
@@ -3187,10 +3986,79 @@ paths:
       tags:
         - Accounting
       operationId: updateOrCreateContacts
+      summary: 'Allows you to update OR create one or more contacts in a Xero organisation'
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ contacts: [{ name: "Bruce Banner", emailAddress: "hulk@avengers.com", phones: [{ phoneType: Phone.PhoneTypeEnum.MOBILE, phoneNumber: "555-1212", phoneAreaCode: "415" }], paymentTerms: { bills: { day: 15, type: PaymentTermType.OFCURRENTMONTH }, sales: { day: 10, type: PaymentTermType.DAYSAFTERBILLMONTH }}}]}'
-      x-ruby-requestBody: '{ contacts: [{ name: "Bruce Banner", email_address: "hulk@avengers.com", phones: [{ phone_type: XeroRuby::Accounting::Phone::MOBILE, phone_number: "555-1212", phone_area_code: "415" }], payment_terms: { bills: { day: 15, type: XeroRuby::Accounting::PaymentTermType::OFCURRENTMONTH }, sales: { day: 10, type: XeroRuby::Accounting::PaymentTermType::OFCURRENTMONTHDAYSAFTERBILLMONTH }}}]}' 
-      summary: 'Allows you to update OR create one or more contacts in a Xero organisation'
+      x-ruby-requestBody: '{ contacts: [{ name: "Bruce Banner", email_address: "hulk@avengers.com", phones: [{ phone_type: XeroRuby::Accounting::Phone::MOBILE, phone_number: "555-1212", phone_area_code: "415" }], payment_terms: { bills: { day: 15, type: XeroRuby::Accounting::PaymentTermType::OFCURRENTMONTH }, sales: { day: 10, type: XeroRuby::Accounting::PaymentTermType::OFCURRENTMONTHDAYSAFTERBILLMONTH }}}]}'
+      x-example:
+        - phone:
+          is_object: true
+          key: phone
+          keyPascal: Phone
+        - phoneNumber:
+          key: phoneNumber
+          keyPascal: PhoneNumber
+          keySnake: phone_number
+          default: 555-1212
+          object: phone
+        - phoneType:
+          is_last: true
+          nonString: true
+          key: phoneType
+          keyPascal: PhoneType
+          keySnake: phone_type
+          default: MOBILE
+          php: XeroAPI\XeroPHP\Models\Accounting\Phone::PHONE_TYPE_MOBILE
+          node: PhoneType.MOBILE
+          ruby: XeroRuby::Accounting::PhoneType::MOBILE
+          python_string: MOBILE
+          java: com.xero.models.accounting.Phone.PhoneTypeEnum.MOBILE
+          csharp: Phone.TypeEnum.MOBILE
+          object: phone
+        - phones:
+          is_list: true
+          key: phones
+          keyPascal: Phone
+        - add_phone:
+          is_last: true
+          is_list_add: true
+          key: phones
+          keyPascal: Phones
+          object: phone
+        - contact:
+          is_object: true
+          key: contact
+          keyPascal: Contact
+        - name:
+          key: name
+          keyPascal: Name
+          default: Bruce Banner
+          object: contact
+        - emailAddress:
+          key: emailAddress
+          keyPascal: EmailAddress
+          keySnake: email_address
+          default: hulk@avengers.com
+          object: contact
+        - set_phones:
+          is_last: true
+          is_variable: true
+          nonString: true
+          key: phones
+          keyPascal: Phones
+          default: phones
+          object: contact
+        - contacts:
+          is_object: true
+          key: contacts
+          keyPascal: Contacts
+        - add_contact:
+          is_last: true
+          is_array_add: true
+          key: contacts
+          keyPascal: Contacts
+          java: Contacts
+          object: contact
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
       responses:
@@ -3681,9 +4549,38 @@ paths:
       tags:
         - Accounting
       operationId: updateContact
+      summary: 'Allows you to update one contact in a Xero organisation'
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ contacts: [{ contactID: "00000000-0000-0000-000-000000000000", name: "Thanos" }]}'
       x-ruby-requestBody: 'contacts = { contacts: [{ contact_id: "00000000-0000-0000-000-000000000000", name: "Thanos" }]}'
+      x-example:
+        - contact:
+          is_object: true
+          key: contact
+          keyPascal: Contact
+        - name:
+          key: name
+          keyPascal: Name
+          default: Thanos
+          object: contact
+        - contactID:
+          is_last: true
+          is_uuid: true
+          key: contactID
+          keyPascal: ContactID
+          default: 00000000-0000-0000-0000-000000000000
+          object: contact
+        - contacts:
+          is_object: true
+          key: contacts
+          keyPascal: Contacts
+        - add_contact:
+          is_last: true
+          is_array_add: true
+          key: contacts
+          keyPascal: Contacts
+          java: Contacts
+          object: contact
       parameters:
         - required: true
           in: path
@@ -4077,8 +4974,34 @@ paths:
       tags:
         - Accounting
       operationId: createContactHistory
-      x-hasAccountingValidationError: true
       summary: Allows you to retrieve a history records of an Contact
+      x-hasAccountingValidationError: true
+      x-example:
+        - historyRecord:
+          is_object: true
+          key: historyRecord
+          keyPascal: HistoryRecord
+          keySnake: history_record
+        - Details:
+          is_last: true
+          key: details
+          keyPascal: Details
+          default: Hello World
+          object: historyRecord
+        - historyRecords:
+          is_object: true
+          key: historyRecords
+          keyPascal: HistoryRecords
+          keySnake: history_records
+        - add_historyRecord:
+          is_last: true
+          is_array_add: true
+          key: historyRecords
+          keyPascal: HistoryRecords
+          keySnake: history_records
+          java: HistoryRecords
+          python: history_record
+          object: historyRecord 
       parameters:
         - required: true
           in: path
@@ -4110,7 +5033,9 @@ paths:
         - in: query
           name: where
           description: Filter by an any element
-          example: Status=="' + ContactGroup.StatusEnum.ACTIVE + '"
+          example: Status=="ACTIVE"
+          x-example-java: Status==&quot;&apos; + ContactGroup.StatusEnum.ACTIVE + &apos;&quot;
+          x-example-php: Status==&quot;&apos; . \XeroAPI\XeroPHP\Models\Accounting\ContactGroup::STATUS_ACTIVE . &apos;&quot;
           x-ruby-param: Status==#{XeroRuby::Accounting::ContactGroup::ACTIVE}
           schema:
             type: string
@@ -4156,10 +5081,35 @@ paths:
       tags:
         - Accounting
       operationId: createContactGroup
+      summary: Allows you to create a contact group
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ contactGroups: [{ name: "VIPs" }]}'
       x-ruby-requestBody: 'contact_groups = { contact_groups: [{ name: "VIPs" }]}'
-      summary: Allows you to create a contact group
+      x-example:
+        - contact:
+          is_object: true
+          key: contactGroup
+          keyPascal: ContactGroup
+          keySnake: contact_group
+        - name:
+          is_last: true
+          key: name
+          keyPascal: Name
+          default: VIPs
+          object: contactGroup
+        - contactGroups:
+          is_object: true
+          key: contactGroups
+          keyPascal: ContactGroups
+        - add_ContactGroup:
+          is_last: true
+          is_array_add: true
+          key: contactGroups
+          keyPascal: ContactGroups
+          keySnake: contact_groups
+          java: ContactGroups
+          python: contact_group
+          object: contactGroup
       responses:
         '200':
           description: Success - return response of type Contact Groups array of newly created Contact Group
@@ -4280,10 +5230,35 @@ paths:
       tags:
         - Accounting
       operationId: updateContactGroup
+      summary: Allows you to update a Contact Group
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ contactGroups: [{ name: "Vendor" }]}'
       x-ruby-requestBody: 'contact_groups = { contact_groups: [{ name: "Vendor" }]}'
-      summary: Allows you to update a Contact Group
+      x-example:
+        - contact:
+          is_object: true
+          key: contactGroup
+          keyPascal: ContactGroup
+          keySnake: contact_group
+        - name:
+          is_last: true
+          key: name
+          keyPascal: Name
+          default: Vendor
+          object: contactGroup
+        - contactGroups:
+          is_object: true
+          key: contactGroups
+          keyPascal: ContactGroups
+        - add_ContactGroup:
+          is_last: true
+          is_array_add: true
+          key: contactGroups
+          keyPascal: ContactGroups
+          keySnake: contact_groups
+          java: ContactGroups
+          python: contact_group
+          object: contactGroup
       parameters:
         - required: true
           in: path
@@ -4340,10 +5315,34 @@ paths:
       tags:
         - Accounting
       operationId: createContactGroupContacts
+      summary: Allows you to add Contacts to a Contact Group
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ contacts: [{ contactID: "a3675fc4-f8dd-4f03-ba5b-f1870566bcd7" }, { contactID: "4e1753b9-018a-4775-b6aa-1bc7871cfee3" }]}'
       x-ruby-requestBody: 'contacts = { contacts: [{ contact_id: "a3675fc4-f8dd-4f03-ba5b-f1870566bcd7" }, { contact_id: "4e1753b9-018a-4775-b6aa-1bc7871cfee3" }]}'
-      summary: Allows you to add Contacts to a Contact Group
+      x-example:
+        - contact:
+          is_object: true
+          key: contact
+          keyPascal: Contact
+        - contactID:
+          is_last: true
+          is_uuid: true
+          key: contactID
+          keyPascal: ContactID
+          keySnake: contact_id
+          default: 00000000-0000-0000-0000-000000000000
+          object: contact
+        - contacts:
+          is_object: true
+          key: contacts
+          keyPascal: Contacts
+        - add_contact:
+          is_last: true
+          is_array_add: true
+          key: contacts
+          keyPascal: Contacts
+          java: Contacts
+          object: contact
       parameters:
         - required: true
           in: path
@@ -4473,7 +5472,9 @@ paths:
         - in: query
           name: where
           description: Filter by an any element
-          example: Status=="' + CreditNote.StatusEnum.DRAFT + '"
+          example: Status=="DRAFT"
+          x-example-java: Status==&quot;&apos; + CreditNote.StatusEnum.DRAFT + &apos;&quot;
+          x-example-php: Status==&quot;&apos; . \XeroAPI\XeroPHP\Models\Accounting\CreditNote::STATUS_DRAFT . &apos;&quot;
           x-ruby-param: Status==#{XeroRuby::Accounting::CreditNote::DRAFT}
           schema:
             type: string
@@ -4583,10 +5584,131 @@ paths:
       tags:
         - Accounting
       operationId: createCreditNotes
+      summary: Allows you to create a credit note
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ creditNotes: [{ type: CreditNote.TypeEnum.ACCPAYCREDIT, contact: { contactID: "430fa14a-f945-44d3-9f97-5df5e28441b8" }, date: "2019-01-05", lineItems: [{ description: "Foobar", quantity: 2.0, unitAmount: 20.0, accountCode: "400" }]}]}'
       x-ruby-requestBody: 'credit_notes = { credit_notes: [{ type: XeroRuby::Accounting::CreditNote::ACCPAYCREDIT, contact: { contact_id: "430fa14a-f945-44d3-9f97-5df5e28441b8" }, date: "2019-01-05", line_items: [{ description: "Foobar", quantity: 2.0, unit_amount: 20.0, account_code: "400" }]}]}'
-      summary: Allows you to create a credit note
+      x-example:
+        - currDate:
+          is_date: true
+          key: currDate
+          keyPascal: Date
+          keySnake: curr_date
+          java_datatype: LocalDate
+          default: "LocalDate.now()"
+          java: "LocalDate.now()"
+          php: "new DateTime('2019-12-10')"
+          python: "dateutil.parser.parse('2020-12-03T00:00:00Z')"
+        - contact:
+          is_object: true
+          key: contact
+          keyPascal: Contact
+        - contactID:
+          is_last: true
+          is_uuid: true
+          key: contactId
+          keyPascal: ContactID
+          keySnake: contact_id
+          default: 00000000-0000-0000-000-000000000000
+          object: contact
+        - lineItem:
+          is_object: true
+          key: lineItem
+          keyPascal: LineItem
+          keySnake: line_item
+        - description:
+          key: description
+          keyPascal: Description
+          default: Foobar
+          object: lineItem
+        - quantity:
+          nonString: true
+          key: quantity
+          keyPascal: Quantity
+          default: 1.0
+          object: lineItem
+        - unitAmount:
+          nonString: true
+          key: unitAmount
+          keyPascal: UnitAmount
+          keySnake: unit_amount
+          default: 20.0
+          object: lineItem
+        - accountCode:
+          is_last: true
+          key: accountCode
+          keyPascal: AccountCode
+          keySnake: account_code
+          default: "000"
+          object: lineItem
+        - lineItems:
+          is_list: true
+          key: lineItems
+          keyPascal: LineItems
+          keySnake: line_items
+        - add_lineitems:
+          is_last: true
+          is_list_add: true
+          key: lineItems
+          keyPascal: LineItems
+          keySnake: line_items
+          python: line_item
+          object: lineItem
+        - creditNote:
+          is_object: true
+          key: creditNote
+          keyPascal: CreditNote
+          keySnake: credit_note
+        - type:
+          nonString: true
+          key: type
+          keyPascal: Type
+          default: ACCPAYCREDIT
+          php: XeroAPI\XeroPHP\Models\Accounting\CreditNote::TYPE_ACCPAYCREDIT
+          node: CreditNote.TypeEnum.ACCPAYCREDIT
+          ruby: XeroRuby::Accounting::CreditNote::ACCPAYCREDIT
+          python_string: ACCPAYCREDIT
+          java: com.xero.models.accounting.CreditNote.TypeEnum.ACCPAYCREDIT
+          csharp: CreditNote.xxx
+          object: creditNote
+        - set_contact:
+          is_variable: true
+          nonString: true
+          key: contact
+          keyPascal: Contact
+          default: contact
+          object: creditNote
+        - date:
+          is_variable: true
+          nonString: true
+          key: date
+          keyPascal: Date
+          default: currDate
+          python: curr_date
+          object: creditNote
+        - set_lineitem:
+          is_last: true
+          is_variable: true
+          nonString: true
+          key: lineItems
+          keyPascal: LineItems
+          keySnake: line_items
+          default: lineItems
+          python: line_items
+          object: creditNote
+        - creditNotes:
+          is_object: true
+          key: creditNotes
+          keyPascal: CreditNotes
+        - add_creditNote:
+          is_last: true
+          is_array_add: true
+          key: creditNotes
+          keyPascal: CreditNotes
+          keySnake: credit_notes
+          java: CreditNotes
+          python: credit_note
+          object: creditNote
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
         - $ref: '#/components/parameters/unitdp'
@@ -4735,10 +5857,131 @@ paths:
       tags:
         - Accounting
       operationId: updateOrCreateCreditNotes
+      summary: Allows you to update OR create one or more credit notes
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ creditNotes: [{ type: CreditNote.TypeEnum.ACCPAYCREDIT, contact: { contactID: "00000000-0000-0000-000-000000000000" }, date: "2019-01-05", lineItems: [{ description: "Foobar", quantity: 2.0, unitAmount: 20.0, accountCode: "400" }]}]}'
       x-ruby-requestBody: 'credit_notes = { credit_notes: [{ type: XeroRuby::Accounting::CreditNote::ACCPAYCREDIT, contact: { contact_id: "00000000-0000-0000-000-000000000000" }, date: "2019-01-05", line_items: [{ description: "Foobar", quantity: 2.0, unit_amount: 20.0, account_code: "400" }]}]}'
-      summary: Allows you to update OR create one or more credit notes
+      x-example:
+        - currDate:
+          is_date: true
+          key: currDate
+          keyPascal: Date
+          keySnake: curr_date
+          java_datatype: LocalDate
+          default: "LocalDate.now()"
+          java: "LocalDate.now()"
+          php: "new DateTime('2019-12-10')"
+          python: "dateutil.parser.parse('2020-12-03T00:00:00Z')"
+        - contact:
+          is_object: true
+          key: contact
+          keyPascal: Contact
+        - contactID:
+          is_last: true
+          is_uuid: true
+          key: contactId
+          keyPascal: ContactID
+          keySnake: contact_id
+          default: 00000000-0000-0000-000-000000000000
+          object: contact
+        - lineItem:
+          is_object: true
+          key: lineItem
+          keyPascal: LineItem
+          keySnake: line_item
+        - description:
+          key: description
+          keyPascal: Description
+          default: Foobar
+          object: lineItem
+        - quantity:
+          nonString: true
+          key: quantity
+          keyPascal: Quantity
+          default: 1.0
+          object: lineItem
+        - unitAmount:
+          nonString: true
+          key: unitAmount
+          keyPascal: UnitAmount
+          keySnake: unit_amount
+          default: 20.0
+          object: lineItem
+        - accountCode:
+          is_last: true
+          key: accountCode
+          keyPascal: AccountCode
+          keySnake: account_code
+          default: "000"
+          object: lineItem
+        - lineItems:
+          is_list: true
+          key: lineItems
+          keyPascal: LineItems
+          keySnake: line_items
+        - add_lineitems:
+          is_last: true
+          is_list_add: true
+          key: lineItems
+          keyPascal: LineItems
+          keySnake: line_items
+          python: line_item
+          object: lineItem
+        - creditNote:
+          is_object: true
+          key: creditNote
+          keyPascal: CreditNote
+          keySnake: credit_note
+        - type:
+          nonString: true
+          key: type
+          keyPascal: Type
+          default: ACCPAYCREDIT
+          php: XeroAPI\XeroPHP\Models\Accounting\CreditNote::TYPE_ACCPAYCREDIT
+          node: CreditNote.TypeEnum.ACCPAYCREDIT
+          ruby: XeroRuby::Accounting::CreditNote::ACCPAYCREDIT
+          python_string: ACCPAYCREDIT
+          java: com.xero.models.accounting.CreditNote.TypeEnum.ACCPAYCREDIT
+          csharp: CreditNote.xxx
+          object: creditNote
+        - set_contact:
+          is_variable: true
+          nonString: true
+          key: contact
+          keyPascal: Contact
+          default: contact
+          object: creditNote
+        - date:
+          is_variable: true
+          nonString: true
+          key: date
+          keyPascal: Date
+          default: currDate
+          python: curr_date
+          object: creditNote
+        - set_lineitem:
+          is_last: true
+          is_variable: true
+          nonString: true
+          key: lineItems
+          keyPascal: LineItems
+          keySnake: line_items
+          default: lineItems
+          python: line_items
+          object: creditNote
+        - creditNotes:
+          is_object: true
+          key: creditNotes
+          keyPascal: CreditNotes
+        - add_creditNote:
+          is_last: true
+          is_array_add: true
+          key: creditNotes
+          keyPascal: CreditNotes
+          keySnake: credit_notes
+          java: CreditNotes
+          python: credit_note
+          object: creditNote
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
         - $ref: '#/components/parameters/unitdp'
@@ -5034,10 +6277,148 @@ paths:
       tags:
         - Accounting
       operationId: updateCreditNote
+      summary: Allows you to update a specific credit note
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ creditNotes: [{ type: CreditNote.TypeEnum.ACCPAYCREDIT, contact: { contactID: "00000000-0000-0000-000-000000000000" }, date: "2019-01-05", status: CreditNote.StatusEnum.AUTHORISED, reference: "Mind stone", lineItems: [{ description: "Infinity Stones", quantity: 1.0, unitAmount: 100.0, accountCode: "400" } ]}]}'
       x-ruby-requestBody: 'credit_notes = { credit_notes: [{ type: XeroRuby::Accounting::CreditNote::ACCPAYCREDIT, contact: { contact_id: "00000000-0000-0000-000-000000000000" }, date: "2019-01-05", status: XeroRuby::Accounting::CreditNote::AUTHORISED, reference: "Mind stone", line_items: [{ description: "Infinity Stones", quantity: 1.0, unit_amount: 100.0, account_code: "400" } ]}]}'
-      summary: Allows you to update a specific credit note
+      x-example:
+        - currDate:
+          is_date: true
+          key: currDate
+          keyPascal: Date
+          keySnake: curr_date
+          java_datatype: LocalDate
+          default: "LocalDate.now()"
+          java: "LocalDate.now()"
+          php: "new DateTime('2019-12-10')"
+          python: "dateutil.parser.parse('2020-12-03T00:00:00Z')"
+        - contact:
+          is_object: true
+          key: contact
+          keyPascal: Contact
+        - contactID:
+          is_last: true
+          is_uuid: true
+          key: contactId
+          keyPascal: ContactID
+          keySnake: contact_id
+          default: 00000000-0000-0000-000-000000000000
+          object: contact
+        - lineItem:
+          is_object: true
+          key: lineItem
+          keyPascal: LineItem
+          keySnake: line_item
+        - description:
+          key: description
+          keyPascal: Description
+          default: Foobar
+          object: lineItem
+        - quantity:
+          nonString: true
+          key: quantity
+          keyPascal: Quantity
+          default: 1.0
+          object: lineItem
+        - unitAmount:
+          nonString: true
+          key: unitAmount
+          keyPascal: UnitAmount
+          keySnake: unit_amount
+          default: 20.0
+          object: lineItem
+        - accountCode:
+          is_last: true
+          key: accountCode
+          keyPascal: AccountCode
+          keySnake: account_code
+          default: "000"
+          object: lineItem
+        - lineItems:
+          is_list: true
+          key: lineItems
+          keyPascal: LineItems
+          keySnake: line_items
+        - add_lineitems:
+          is_last: true
+          is_list_add: true
+          key: lineItems
+          keyPascal: LineItems
+          keySnake: line_items
+          python: line_item
+          object: lineItem
+        - creditNote:
+          is_object: true
+          key: creditNote
+          keyPascal: CreditNote
+          keySnake: credit_note
+        - type:
+          nonString: true
+          key: type
+          keyPascal: Type
+          default: ACCPAYCREDIT
+          php: XeroAPI\XeroPHP\Models\Accounting\CreditNote::TYPE_ACCPAYCREDIT
+          node: CreditNote.TypeEnum.ACCPAYCREDIT
+          ruby: XeroRuby::Accounting::CreditNote::ACCPAYCREDIT
+          python_string: ACCPAYCREDIT
+          java: com.xero.models.accounting.CreditNote.TypeEnum.ACCPAYCREDIT
+          csharp: CreditNote.xxx
+          object: creditNote
+        - status:
+          nonString: true
+          key: status
+          keyPascal: Status
+          default: AUTHORISED
+          php: XeroAPI\XeroPHP\Models\Accounting\CreditNote::STATUS_AUTHORISED
+          node: CreditNote.StatusEnum.AUTHORISED
+          ruby: XeroRuby::Accounting::CreditNote::AUTHORISED
+          python_string: AUTHORISED
+          java: com.xero.models.accounting.CreditNote.StatusEnum.AUTHORISED
+          csharp: CreditNote.xxx
+          object: creditNote
+        - reference:
+          key: reference
+          keyPascal: Reference
+          default: My ref.
+          object: creditNote
+        - set_contact:
+          is_variable: true
+          nonString: true
+          key: contact
+          keyPascal: Contact
+          default: contact
+          object: creditNote
+        - date:
+          is_variable: true
+          nonString: true
+          key: date
+          keyPascal: Date
+          default: currDate
+          python: curr_date
+          object: creditNote
+        - set_lineitem:
+          is_last: true
+          is_variable: true
+          nonString: true
+          key: lineItems
+          keyPascal: LineItems
+          keySnake: line_items
+          default: lineItems
+          python: line_items
+          object: creditNote
+        - creditNotes:
+          is_object: true
+          key: creditNotes
+          keyPascal: CreditNotes
+        - add_creditNote:
+          is_last: true
+          is_array_add: true
+          key: creditNotes
+          keyPascal: CreditNotes
+          keySnake: credit_notes
+          java: CreditNotes
+          python: credit_note
+          object: creditNote
       parameters:
         - required: true
           in: path
@@ -5460,10 +6841,69 @@ paths:
       tags:
         - Accounting
       operationId: createCreditNoteAllocation
+      summary: Allows you to create Allocation on CreditNote
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ allocations: [{ amount: 1.0, date: "2019-03-05", invoice: { invoiceID: "c45720a1-ade3-4a38-a064-d15489be6841", lineItems: [], type: Invoice.TypeEnum.ACCPAY, contact: {} }}]}'
       x-ruby-requestBody: 'allocations = { allocations: [{ amount: 1.0, date: "2019-03-05", invoice: { invoice_id: "c45720a1-ade3-4a38-a064-d15489be6841", line_items: [], type: XeroRuby::Accounting::Invoice::ACCPAY, contact: {} }}]}'
-      summary: Allows you to create Allocation on CreditNote
+      x-example:
+        - currDate:
+          is_date: true
+          key: currDate
+          keyPascal: Date
+          keySnake: curr_date
+          java_datatype: LocalDate
+          default: "LocalDate.now()"
+          java: "LocalDate.now()"
+          php: "new DateTime('2019-12-10')"
+          python: "dateutil.parser.parse('2020-12-03T00:00:00Z')"
+        - invoice:
+          is_object: true
+          key: invoice
+          keyPascal: Invoice
+        - invoiceID:
+          is_last: true
+          is_uuid: true
+          key: invoiceID
+          keyPascal: InvoiceID
+          default: 00000000-0000-0000-000-000000000000
+          object: invoice
+        - allocation:
+          is_object: true
+          key: allocation
+          keyPascal: Allocation
+        - amount:
+          nonString: true
+          key: amount
+          keyPascal: Amount
+          default: 1.0
+          object: allocation
+        - date:
+          is_variable: true
+          nonString: true
+          key: date
+          keyPascal: Date
+          default: currDate
+          python: curr_date
+          object: allocation
+        - set_invoice:
+          is_last: true
+          is_variable: true
+          nonString: true
+          key: invoice
+          keyPascal: Invoice
+          default: invoice
+          object: allocation
+        - allocations:
+          is_object: true
+          key: allocations
+          keyPascal: Allocations
+        - add_allocation:
+          is_last: true
+          is_array_add: true
+          key: allocations
+          keyPascal: Allocations
+          java: Allocations
+          object: allocation
       parameters:
         - required: true
           in: path
@@ -5559,8 +6999,34 @@ paths:
       tags:
         - Accounting
       operationId: createCreditNoteHistory
-      x-hasAccountingValidationError: true
       summary: Allows you to retrieve a history records of an CreditNote
+      x-hasAccountingValidationError: true
+      x-example:
+        - historyRecord:
+          is_object: true
+          key: historyRecord
+          keyPascal: HistoryRecord
+          keySnake: history_record
+        - Details:
+          is_last: true
+          key: details
+          keyPascal: Details
+          default: Hello World
+          object: historyRecord
+        - historyRecords:
+          is_object: true
+          key: historyRecords
+          keyPascal: HistoryRecords
+          keySnake: history_records
+        - add_historyRecord:
+          is_last: true
+          is_array_add: true
+          key: historyRecords
+          keyPascal: HistoryRecords
+          keySnake: history_records
+          java: HistoryRecords
+          python: history_record
+          object: historyRecord 
       parameters:
         - required: true
           in: path
@@ -5591,8 +7057,9 @@ paths:
         - in: query
           name: where
           description: Filter by an any element
-          example: Status=="' + Currency.StatusEnum.ACTIVE + '"
-          x-ruby-param: Status==#{XeroRuby::Accounting::Currency::ACTIVE}
+          example: Code=="USD"
+          x-example-php: Code==&quot;&apos; . \XeroAPI\XeroPHP\Models\Accounting\CurrencyCode::USD . &apos;&quot;
+          x-ruby-param: Code==#{XeroRuby::Accounting::CurrencyCode::USD}
           schema:
             type: string
         - in: query
@@ -5626,9 +7093,33 @@ paths:
       tags:
         - Accounting
       operationId: createCurrency
+      summary: Allows you to create a new currency for an org
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ code: CurrencyCode.USD, description: "United States Dollar" }'
       x-ruby-requestBody: 'currency = { code: XeroRuby::Accounting::CurrencyCode::USD, description: "United States Dollar" }'
+      x-example:
+        - currency:
+          is_object: true
+          key: currency
+          keyPascal: Currency
+        - code:
+          nonString: true
+          key: code
+          keyPascal: Code
+          default: USD
+          php: XeroAPI\XeroPHP\Models\Accounting\CurrencyCode::USD
+          node: CurrencyCode.USD
+          ruby: XeroRuby::Accounting::CurrencyCode::USD
+          python: CurrencyCode.USD
+          java: com.xero.models.accounting.CurrencyCode.USD
+          csharp: CurrencyCode.xxx
+          object: currency
+        - description:
+          is_last: true
+          key: description
+          keyPascal: Description
+          default: United States Dollar
+          object: currency
       responses:
         '200':
           description: Unsupported - return response incorrect exception, API is not able to create new Currency
@@ -5662,14 +7153,16 @@ paths:
         - in: query
           name: where
           description: Filter by an any element
-          example: Status=="' + Employee.StatusEnum.ACTIVE + '"
+          example: Status=="ACTIVE"
+          x-example-java: Status==&quot;&apos; + Employee.StatusEnum.ACTIVE + &apos;&quot;
+          x-example-php: Status==&quot;&apos; . \XeroAPI\XeroPHP\Models\Accounting\Employee::STATUS_ACTIVE . &apos;&quot;
           x-ruby-param: Status==#{XeroRuby::Accounting::Employee::ACTIVE}
           schema:
             type: string
         - in: query
           name: order
           description: Order by an any element
-          example: ASC
+          example: LastName ASC
           schema:
             type: string
       responses:
@@ -5726,10 +7219,39 @@ paths:
       tags:
         - Accounting
       operationId: createEmployees
+      summary: Allows you to create new employees used in Xero payrun
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ employees: [{ firstName: "Nick", lastName: "Fury", externalLink: { url: "http://twitter.com/#!/search/Nick+Fury" }}]}'
       x-ruby-requestBody: 'employees = { employees: [{ first_name: "Nick", last_name: "Fury", externalink: { url: "http://twitter.com/#!/search/Nick+Fury" }}]}'
-      summary: Allows you to create new employees used in Xero payrun
+      x-example:
+        - employee:
+          is_object: true
+          key: employee
+          keyPascal: Employee
+        - firstName:
+          key: firstName
+          keyPascal: FirstName
+          keySnake: first_name
+          default: Nick
+          object: employee
+        - lastName:
+          is_last: true
+          key: lastName
+          keyPascal: LastName
+          keySnake: last_name
+          default: Fury
+          object: employee
+        - employees:
+          is_object: true
+          key: employees
+          keyPascal: Employees
+        - add_employee:
+          is_last: true
+          is_array_add: true
+          key: employees
+          keyPascal: Employees
+          java: Employees
+          object: employee
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
       responses:
@@ -5784,10 +7306,39 @@ paths:
       tags:
         - Accounting
       operationId: updateOrCreateEmployees
+      summary: Allows you to create a single new employees used in Xero payrun
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ employees: [{ firstName: "Nick", lastName: "Fury", externalLink: { url: "http://twitter.com/#!/search/Nick+Fury" }}]}'
       x-ruby-requestBody: 'employees = { employees: [{ first_name: "Nick", last_name: "Fury", external_link: { url: "http://twitter.com/#!/search/Nick+Fury" }}]}'
-      summary: Allows you to create a single new employees used in Xero payrun
+      x-example:
+        - employee:
+          is_object: true
+          key: employee
+          keyPascal: Employee
+        - firstName:
+          key: firstName
+          keyPascal: FirstName
+          keySnake: first_name
+          default: Nick
+          object: employee
+        - lastName:
+          is_last: true
+          key: lastName
+          keyPascal: LastName
+          keySnake: last_name
+          default: Fury
+          object: employee
+        - employees:
+          is_object: true
+          key: employees
+          keyPascal: Employees
+        - add_employee:
+          is_last: true
+          is_array_add: true
+          key: employees
+          keyPascal: Employees
+          java: Employees
+          object: employee
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
       responses:
@@ -5896,7 +7447,9 @@ paths:
         - in: query
           name: where
           description: Filter by an any element
-          example: Status=="' + ExpenseClaim.StatusEnum.SUBMITTED + '"
+          example: Status=="SUBMITTED"
+          x-example-java: Status==&quot;&apos; + ExpenseClaim.StatusEnum.SUBMITTED + &apos;&quot;
+          x-example-php: Status==&quot;&apos; . \XeroAPI\XeroPHP\Models\Accounting\ExpenseClaim::STATUS_SUBMITTED . &apos;&quot;
           x-ruby-param: Status==#{XeroRuby::Accounting::ExpenseClaim::SUBMITTED}
           schema:
             type: string
@@ -5947,10 +7500,108 @@ paths:
       tags:
         - Accounting
       operationId: createExpenseClaims
+      summary: Allows you to retrieve expense claims 
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ expenseClaims: [{ status: ExpenseClaim.StatusEnum.SUBMITTED, user: { userID: "d1164823-0ac1-41ad-987b-b4e30fe0b273" }, receipts: [{ receiptID: "dc1c7f6d-0a4c-402f-acac-551d62ce5816", lineItems: [], contact: {}, user: {}, date: "2018-01-01" }]}]}'
       x-ruby-requestBody: 'expense_claims = { expense_claims: [{ status: XeroRuby::Accounting::ExpenseClaim::SUBMITTED, user: { user_id: "d1164823-0ac1-41ad-987b-b4e30fe0b273" }, receipts: [{ receipt_id: "dc1c7f6d-0a4c-402f-acac-551d62ce5816", line_items: [], contact: {}, user: {}, date: "2018-01-01" }]}]}'
-      summary: Allows you to retrieve expense claims 
+      x-example:
+        - currDate:
+          is_date: true
+          key: currDate
+          keyPascal: Date
+          keySnake: curr_date
+          java_datatype: LocalDate
+          default: "LocalDate.now()"
+          java: "LocalDate.now()"
+          php: "new DateTime('2019-12-10')"
+          python: "dateutil.parser.parse('2020-12-03T00:00:00Z')"
+        - user:
+          is_object: true
+          key: user
+          keyPascal: User
+        - userID:
+          is_last: true
+          is_uuid: true
+          key: userID
+          keyPascal: UserID
+          keySnake: user_id
+          default: 00000000-0000-0000-000-000000000000
+          object: user
+        - receipt:
+          is_object: true
+          key: receipt
+          keyPascal: Receipt
+        - receiptID:
+          is_uuid: true
+          key: receiptID
+          keyPascal: ReceiptID
+          keySnake: receipt_id
+          default: 00000000-0000-0000-000-000000000000
+          object: receipt
+        - date:
+          is_last: true
+          is_variable: true
+          nonString: true
+          key: date
+          keyPascal: Date
+          default: currDate
+          python: curr_date
+          object: receipt
+        - receipts:
+          is_list: true
+          key: receipts
+          keyPascal: Receipt
+        - add_receipts:
+          is_last: true
+          is_list_add: true
+          key: receipts
+          keyPascal: Receipts
+          object: receipt
+        - expenseClaim:
+          is_object: true
+          key: expenseClaim
+          keyPascal: ExpenseClaim
+          keySnake: expense_claim
+        - status:
+          nonString: true
+          key: status
+          keyPascal: Status
+          default: SUBMITTED
+          php: XeroAPI\XeroPHP\Models\Accounting\ExpenseClaim::STATUS_SUBMITTED
+          node: ExpenseClaim.StatusEnum.SUBMITTED
+          ruby: XeroRuby::Accounting::ExpenseClaim::SUBMITTED
+          python_string: SUBMITTED
+          java: com.xero.models.accounting.ExpenseClaim.StatusEnum.SUBMITTED
+          csharp: ExpenseClaim.xxx
+          object: expenseClaim
+        - set_user:
+          is_variable: true
+          nonString: true
+          key: user
+          keyPascal: User
+          default: user
+          object: expenseClaim
+        - set_receipt:
+          is_last: true
+          is_variable: true
+          nonString: true
+          key: receipts
+          keyPascal: Receipts
+          default: receipts
+          object: expenseClaim
+        - expenseClaims:
+          is_object: true
+          key: expenseClaims
+          keyPascal: ExpenseClaims
+        - add_expenseClaim:
+          is_array_add: true
+          is_last: true
+          key: expenseClaims
+          keyPascal: ExpenseClaims
+          keySnake: expense_claims
+          java: ExpenseClaims
+          python: expense_claim
+          object: expenseClaim
       requestBody:
         required: true
         description: ExpenseClaims with array of ExpenseClaim object in body of request
@@ -6160,10 +7811,108 @@ paths:
       tags:
         - Accounting
       operationId: updateExpenseClaim
+      summary: Allows you to update specified expense claims 
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ expenseClaims: [{ status: ExpenseClaim.StatusEnum.AUTHORISED, user: { userID: "00000000-0000-0000-000-000000000000" }, receipts: [{ receiptID: "00000000-0000-0000-000-000000000000", lineItems: [], contact: {}, date: "2020-01-01", user: {} }]}]}'
       x-ruby-requestBody: 'expense_claims = { expense_claims: [{ status: XeroRuby::Accounting::ExpenseClaim::AUTHORISED, user: { user_id: "00000000-0000-0000-000-000000000000" }, receipts: [{ receipt_id: "00000000-0000-0000-000-000000000000", line_items: [], contact: {}, date: "2020-01-01", user: {} }]}]}'
-      summary: Allows you to update specified expense claims 
+      x-example:
+        - currDate:
+          is_date: true
+          key: currDate
+          keyPascal: Date
+          keySnake: curr_date
+          java_datatype: LocalDate
+          default: "LocalDate.now()"
+          java: "LocalDate.now()"
+          php: "new DateTime('2019-12-10')"
+          python: "dateutil.parser.parse('2020-12-03T00:00:00Z')"
+        - user:
+          is_object: true
+          key: user
+          keyPascal: User
+        - userID:
+          is_last: true
+          is_uuid: true
+          key: userID
+          keyPascal: UserID
+          keySnake: user_id
+          default: 00000000-0000-0000-000-000000000000
+          object: user
+        - receipt:
+          is_object: true
+          key: receipt
+          keyPascal: Receipt
+        - receiptID:
+          is_uuid: true
+          key: receiptID
+          keyPascal: ReceiptID
+          keySnake: receipt_id
+          default: 00000000-0000-0000-000-000000000000
+          object: receipt
+        - date:
+          is_last: true
+          is_variable: true
+          nonString: true
+          key: date
+          keyPascal: Date
+          default: currDate
+          python: curr_date
+          object: receipt
+        - receipts:
+          is_list: true
+          key: receipts
+          keyPascal: Receipt
+        - add_receipts:
+          is_last: true
+          is_list_add: true
+          key: receipts
+          keyPascal: Receipts
+          object: receipt
+        - expenseClaim:
+          is_object: true
+          key: expenseClaim
+          keyPascal: ExpenseClaim
+          keySnake: expense_claim
+        - status:
+          nonString: true
+          key: status
+          keyPascal: Status
+          default: SUBMITTED
+          php: XeroAPI\XeroPHP\Models\Accounting\ExpenseClaim::STATUS_SUBMITTED
+          node: ExpenseClaim.StatusEnum.SUBMITTED
+          ruby: XeroRuby::Accounting::ExpenseClaim::SUBMITTED
+          python_string: SUBMITTED
+          java: com.xero.models.accounting.ExpenseClaim.StatusEnum.SUBMITTED
+          csharp: ExpenseClaim.xxx
+          object: expenseClaim
+        - set_user:
+          is_variable: true
+          nonString: true
+          key: user
+          keyPascal: User
+          default: user
+          object: expenseClaim
+        - set_receipt:
+          is_last: true
+          is_variable: true
+          nonString: true
+          key: receipts
+          keyPascal: Receipts
+          default: receipts
+          object: expenseClaim
+        - expenseClaims:
+          is_object: true
+          key: expenseClaims
+          keyPascal: ExpenseClaims
+        - add_expenseClaim:
+          is_array_add: true
+          is_last: true
+          key: expenseClaims
+          keyPascal: ExpenseClaims
+          keySnake: expense_claims
+          java: ExpenseClaims
+          python: expense_claim
+          object: expenseClaim
       parameters:
         - required: true
           in: path
@@ -6305,8 +8054,34 @@ paths:
       tags:
         - Accounting
       operationId: createExpenseClaimHistory
-      x-hasAccountingValidationError: true
       summary: Allows you to create a history records of an ExpenseClaim
+      x-hasAccountingValidationError: true
+      x-example:
+        - historyRecord:
+          is_object: true
+          key: historyRecord
+          keyPascal: HistoryRecord
+          keySnake: history_record
+        - Details:
+          is_last: true
+          key: details
+          keyPascal: Details
+          default: Hello World
+          object: historyRecord
+        - historyRecords:
+          is_object: true
+          key: historyRecords
+          keyPascal: HistoryRecords
+          keySnake: history_records
+        - add_historyRecord:
+          is_last: true
+          is_array_add: true
+          key: historyRecords
+          keyPascal: HistoryRecords
+          keySnake: history_records
+          java: HistoryRecords
+          python: history_record
+          object: historyRecord 
       parameters:
         - required: true
           in: path
@@ -6336,7 +8111,9 @@ paths:
         - in: query
           name: where
           description: Filter by an any element
-          example: Status=="' + Invoice.StatusEnum.DRAFT + '"
+          example: Status=="DRAFT"
+          x-example-java: Status==&quot;&apos; + Invoice.StatusEnum.DRAFT + &apos;&quot;
+          x-example-php: Status==&quot;&apos; . \XeroAPI\XeroPHP\Models\Accounting\Invoice::STATUS_DRAFT . &apos;&quot;
           x-ruby-param: Status==#{XeroRuby::Accounting::Invoice::DRAFT}
           schema:
             type: string
@@ -6351,7 +8128,9 @@ paths:
           description: Filter by a comma-separated list of InvoicesIDs. 
           style: form
           explode: false
-          example: "00000000-0000-0000-000-000000000000,00000000-0000-0000-000-000000000000"
+          example: '&quot;00000000-0000-0000-000-000000000000&quot;'
+          x-example-java: Arrays.asList(UUID.fromString("00000000-0000-0000-000-000000000000"))
+          x-example-php: '&quot;00000000-0000-0000-000-000000000000&quot;'
           schema:
             type: array
             items:
@@ -6362,7 +8141,9 @@ paths:
           description: Filter by a comma-separated list of InvoiceNumbers. 
           style: form
           explode: false
-          example: "null"
+          example: '&quot;INV-001&quot;, &quot;INV-002&quot;'
+          x-example-java: Arrays.asList("INV-001","INV-002")
+          x-example-php: '&quot;INV-001&quot;, &quot;INV-002&quot;'
           schema:
             type: array
             items:
@@ -6372,7 +8153,9 @@ paths:
           description: Filter by a comma-separated list of ContactIDs. 
           style: form
           explode: false
-          example: "00000000-0000-0000-000-000000000000,00000000-0000-0000-000-000000000000"
+          example: '&quot;00000000-0000-0000-000-000000000000&quot;'
+          x-example-java: Arrays.asList(UUID.fromString("00000000-0000-0000-000-000000000000"))
+          x-example-php: '&quot;00000000-0000-0000-000-000000000000&quot;'
           schema:
             type: array
             items:
@@ -6382,7 +8165,9 @@ paths:
           name: Statuses
           description: Filter by a comma-separated list Statuses. For faster response times we recommend using these explicit parameters instead of passing OR conditions into the Where filter.
           explode: false
-          example: "null"
+          example: '&quot;DRAFT&quot;, &quot;SUBMITTED&quot;'
+          x-example-java: Arrays.asList("DRAFT","SUBMITTED")
+          x-example-php: '&quot;DRAFT&quot;, &quot;SUBMITTED&quot;'
           schema:
             type: array
             items:
@@ -6553,10 +8338,164 @@ paths:
       tags:
         - Accounting
       operationId: createInvoices
+      summary: Allows you to create one or more sales invoices or purchase bills
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ invoices: [{ type: Invoice.TypeEnum.ACCREC, contact: { contactID: "00000000-0000-0000-000-000000000000" }, lineItems: [{ description: "Acme Tires", quantity: 2.0, unitAmount: 20.0, accountCode: "000", taxType: TaxType.NONE, lineAmount: 40.0 }], date: "2019-03-11", dueDate: "2018-12-10", reference: "Website Design", status: Invoice.StatusEnum.DRAFT }]}'
       x-ruby-requestBody: 'invoices = { invoices: [{ type: XeroRuby::Accounting::Invoice::ACCREC, contact: { contact_id: "00000000-0000-0000-000-000000000000" }, line_items: [{ description: "Acme Tires", quantity: 2.0, unit_amount: 20.0, account_code: "000", tax_type: XeroRuby::Accounting::TaxType::NONE, line_amount: 40.0 }], date: "2019-03-11", due_date: "2018-12-10", reference: "Website Design", status: XeroRuby::Accounting::Invoice::DRAFT }]}'
-      summary: Allows you to create one or more sales invoices or purchase bills
+      x-example:
+        - dateValue:
+          is_date: true
+          key: dateValue
+          keyPascal: Date
+          keySnake: date_value
+          java_datatype: LocalDate
+          default: "LocalDate.of(2020, Month.OCTOBER, 10)"
+          java: "LocalDate.of(2020, Month.OCTOBER, 10)"
+          php: "new DateTime('2020-10-10')"
+          python: "dateutil.parser.parse('2020-10-10T00:00:00Z')"
+        - dueDateValue:
+          is_date: true
+          key: dueDateValue
+          keyPascal: Date
+          keySnake: due_date_value
+          java_datatype: LocalDate
+          default: "LocalDate.of(2020, Month.OCTOBER, 28)"
+          java: "LocalDate.of(2020, Month.OCTOBER, 28)"
+          php: "new DateTime('2020-10-28')"
+          python: "dateutil.parser.parse('2020-10-28T00:00:00Z')"
+        - contact:
+          is_object: true
+          key: contact
+          keyPascal: Contact
+        - contactID:
+          is_last: true
+          is_uuid: true
+          key: contactId
+          keyPascal: ContactID
+          keySnake: contact_id
+          default: 00000000-0000-0000-000-000000000000
+          object: contact
+        - lineItem:
+          is_object: true
+          key: lineItem
+          keyPascal: LineItem
+          keySnake: line_item
+        - description:
+          key: description
+          keyPascal: Description
+          default: Foobar
+          object: lineItem
+        - quantity:
+          nonString: true
+          key: quantity
+          keyPascal: Quantity
+          default: 1.0
+          object: lineItem
+        - unitAmount:
+          nonString: true
+          key: unitAmount
+          keyPascal: UnitAmount
+          keySnake: unit_amount
+          default: 20.0
+          object: lineItem
+        - accountCode:
+          is_last: true
+          key: accountCode
+          keyPascal: AccountCode
+          keySnake: account_code
+          default: "000"
+          object: lineItem
+        - lineItems:
+          is_list: true
+          key: lineItems
+          keyPascal: LineItem
+          keySnake: line_items
+        - add_lineitems:
+          is_last: true
+          is_list_add: true
+          key: lineItems
+          keyPascal: LineItems
+          keySnake: line_items
+          python: line_item
+          object: lineItem
+        - invoice:
+          is_object: true
+          key: invoice
+          keyPascal: Invoice
+        - type:
+          nonString: true
+          key: type
+          keyPascal: Type
+          default: ACCREC
+          php: XeroAPI\XeroPHP\Models\Accounting\Invoice::TYPE_ACCREC
+          node: Invoice.TypeEnum.ACCREC
+          ruby: XeroRuby::Accounting::Invoice::ACCREC
+          python_string: ACCREC
+          java: com.xero.models.accounting.Invoice.TypeEnum.ACCREC
+          csharp: Invoice.xxx
+          object: invoice
+        - set_contact:
+          is_variable: true
+          nonString: true
+          key: contact
+          keyPascal: Contact
+          default: contact
+          object: invoice
+        - date:
+          is_variable: true
+          nonString: true
+          key: date
+          keyPascal: Date
+          default: dateValue
+          python: date_value
+          object: invoice
+        - dueDate:
+          is_variable: true
+          nonString: true
+          key: dueDate
+          keyPascal: Date
+          keySnake: due_date
+          default: dueDateValue
+          python: due_date_value
+          object: invoice
+        - set_lineitem:
+          is_variable: true
+          nonString: true
+          key: lineItems
+          keyPascal: LineItems
+          keySnake: line_items
+          default: lineItems
+          python: line_items
+          object: invoice
+        - reference:
+          key: reference
+          keyPascal: Reference
+          default: Website Design
+          object: invoice
+        - status:
+          is_last: true
+          nonString: true
+          key: status
+          keyPascal: Status
+          default: DRAFT
+          php: XeroAPI\XeroPHP\Models\Accounting\Invoice::STATUS_DRAFT
+          node: Invoice.StatusEnum.DRAFT
+          ruby: XeroRuby::Accounting::Invoice::DRAFT
+          python_string: DRAFT 
+          java: com.xero.models.accounting.Invoice.StatusEnum.DRAFT
+          csharp: Invoice.xxx
+          object: invoice
+        - invoices:
+          is_object: true
+          key: invoices
+          keyPascal: Invoices
+        - add_invoice:
+          is_last: true
+          is_array_add: true
+          key: invoices
+          keyPascal: Invoices
+          java: Invoices
+          object: invoice
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
         - $ref: '#/components/parameters/unitdp'
@@ -6730,10 +8669,164 @@ paths:
       tags:
         - Accounting
       operationId: updateOrCreateInvoices
+      summary: Allows you to update OR create one or more sales invoices or purchase bills
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ invoices: [{ type: Invoice.TypeEnum.ACCREC, contact: { contactID:"00000000-0000-0000-000-000000000000" }, lineItems:[ { description:"Acme Tires", quantity:2.0, unitAmount:20.0, accountCode:"200", taxType:"NONE", lineAmount:40.0 } ], date: "2019-03-11", dueDate:"2018-12-10", reference:"Website Design", status: Invoice.StatusEnum.AUTHORISED } ] }'
       x-ruby-requestBody: 'invoices = { invoices: [{ type: XeroRuby::Accounting::Invoice::ACCREC, contact: { contact_id: "00000000-0000-0000-000-000000000000" }, line_items: [{ description: "Acme Tires", quantity: 2.0, unit_amount: 20.0, account_code: "000", tax_type: XeroRuby::Accounting::TaxType::NONE, line_amount: 40.0 }], date: "2019-03-11", due_date: "2018-12-10", reference: "Website Design", status: XeroRuby::Accounting::Invoice::DRAFT }]}'
-      summary: Allows you to update OR create one or more sales invoices or purchase bills
+      x-example:
+        - dateValue:
+          is_date: true
+          key: dateValue
+          keyPascal: Date
+          keySnake: date_value
+          java_datatype: LocalDate
+          default: "LocalDate.of(2020, Month.OCTOBER, 10)"
+          java: "LocalDate.of(2020, Month.OCTOBER, 10)"
+          php: "new DateTime('2020-10-10')"
+          python: "dateutil.parser.parse('2020-10-10T00:00:00Z')"
+        - dueDateValue:
+          is_date: true
+          key: dueDateValue
+          keyPascal: Date
+          keySnake: due_date_value
+          java_datatype: LocalDate
+          default: "LocalDate.of(2020, Month.OCTOBER, 28)"
+          java: "LocalDate.of(2020, Month.OCTOBER, 28)"
+          php: "new DateTime('2020-10-28')"
+          python: "dateutil.parser.parse('2020-10-28T00:00:00Z')"
+        - contact:
+          is_object: true
+          key: contact
+          keyPascal: Contact
+        - contactID:
+          is_last: true
+          is_uuid: true
+          key: contactId
+          keyPascal: ContactID
+          keySnake: contact_id
+          default: 00000000-0000-0000-000-000000000000
+          object: contact
+        - lineItem:
+          is_object: true
+          key: lineItem
+          keyPascal: LineItem
+          keySnake: line_item
+        - description:
+          key: description
+          keyPascal: Description
+          default: Foobar
+          object: lineItem
+        - quantity:
+          nonString: true
+          key: quantity
+          keyPascal: Quantity
+          default: 1.0
+          object: lineItem
+        - unitAmount:
+          nonString: true
+          key: unitAmount
+          keyPascal: UnitAmount
+          keySnake: unit_amount
+          default: 20.0
+          object: lineItem
+        - accountCode:
+          is_last: true
+          key: accountCode
+          keyPascal: AccountCode
+          keySnake: account_code
+          default: "000"
+          object: lineItem
+        - lineItems:
+          is_list: true
+          key: lineItems
+          keyPascal: LineItem
+          keySnake: line_items
+        - add_lineitems:
+          is_last: true
+          is_list_add: true
+          key: lineItems
+          keyPascal: LineItems
+          keySnake: line_items
+          python: line_item
+          object: lineItem
+        - invoice:
+          is_object: true
+          key: invoice
+          keyPascal: Invoice
+        - type:
+          nonString: true
+          key: type
+          keyPascal: Type
+          default: ACCREC
+          php: XeroAPI\XeroPHP\Models\Accounting\Invoice::TYPE_ACCREC
+          node: Invoice.TypeEnum.ACCREC
+          ruby: XeroRuby::Accounting::Invoice::ACCREC
+          python_string: ACCREC
+          java: com.xero.models.accounting.Invoice.TypeEnum.ACCREC
+          csharp: Invoice.xxx
+          object: invoice
+        - set_contact:
+          is_variable: true
+          nonString: true
+          key: contact
+          keyPascal: Contact
+          default: contact
+          object: invoice
+        - date:
+          is_variable: true
+          nonString: true
+          key: date
+          keyPascal: Date
+          default: dateValue
+          python: date_value
+          object: invoice
+        - dueDate:
+          is_variable: true
+          nonString: true
+          key: dueDate
+          keyPascal: Date
+          keySnake: due_date
+          default: dueDateValue
+          python: due_date_value
+          object: invoice
+        - set_lineitem:
+          is_variable: true
+          nonString: true
+          key: lineItems
+          keyPascal: LineItems
+          keySnake: line_items
+          default: lineItems
+          python: line_items
+          object: invoice
+        - reference:
+          key: reference
+          keyPascal: Reference
+          default: Website Design
+          object: invoice
+        - status:
+          is_last: true
+          nonString: true
+          key: status
+          keyPascal: Status
+          default: DRAFT
+          php: XeroAPI\XeroPHP\Models\Accounting\Invoice::STATUS_DRAFT
+          node: Invoice.StatusEnum.DRAFT
+          ruby: XeroRuby::Accounting::Invoice::DRAFT
+          python_string: DRAFT 
+          java: com.xero.models.accounting.Invoice.StatusEnum.DRAFT
+          csharp: Invoice.xxx
+          object: invoice
+        - invoices:
+          is_object: true
+          key: invoices
+          keyPascal: Invoices
+        - add_invoice:
+          is_last: true
+          is_array_add: true
+          key: invoices
+          keyPascal: Invoices
+          java: Invoices
+          object: invoice
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
         - $ref: '#/components/parameters/unitdp'
@@ -7085,10 +9178,32 @@ paths:
       tags:
         - Accounting
       operationId: updateInvoice
+      summary: Allows you to update a specified sales invoices or purchase bills
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ invoices: [{ reference: "I am Iron Man", invoiceID: "00000000-0000-0000-000-000000000000", lineItems: [], contact: {}, type: Invoice.TypeEnum.ACCPAY }]}'
       x-ruby-requestBody: 'invoices = { invoices: [{ reference: "I am Iron Man", invoice_id: "00000000-0000-0000-000-000000000000", line_items: [], contact: {}, type: XeroRuby::Accounting::Invoice::ACCPAY }]}'
-      summary: Allows you to update a specified sales invoices or purchase bills
+      x-example:
+        - invoice:
+          is_object: true
+          key: invoice
+          keyPascal: Invoice
+        - reference:
+          is_last: true
+          key: reference
+          keyPascal: Reference
+          default: I am Iron man
+          object: invoice
+        - invoices:
+          is_object: true
+          key: invoices
+          keyPascal: Invoices
+        - add_invoice:
+          is_last: true
+          is_array_add: true
+          key: invoices
+          keyPascal: Invoices
+          java: Invoices
+          object: invoice
       parameters:
         - required: true
           in: path
@@ -7542,8 +9657,14 @@ paths:
       tags:
         - Accounting
       operationId: emailInvoice
-      x-hasAccountingValidationError: true
       summary: Allows you to email a copy of invoice to related Contact
+      x-hasAccountingValidationError: true
+      x-example:
+        - requestEmpty:
+          is_last: true
+          is_object: true
+          key: requestEmpty
+          keyPascal: RequestEmpty
       parameters:
         - required: true
           in: path
@@ -7594,8 +9715,34 @@ paths:
       tags:
         - Accounting
       operationId: createInvoiceHistory
-      x-hasAccountingValidationError: true
       summary: Allows you to retrieve a history records of an invoice
+      x-hasAccountingValidationError: true
+      x-example:
+        - historyRecord:
+          is_object: true
+          key: historyRecord
+          keyPascal: HistoryRecord
+          keySnake: history_record
+        - Details:
+          is_last: true
+          key: details
+          keyPascal: Details
+          default: Hello World
+          object: historyRecord
+        - historyRecords:
+          is_object: true
+          key: historyRecords
+          keyPascal: HistoryRecords
+          keySnake: history_records
+        - add_historyRecord:
+          is_last: true
+          is_array_add: true
+          key: historyRecords
+          keyPascal: HistoryRecords
+          keySnake: history_records
+          java: HistoryRecords
+          python: history_record
+          object: historyRecord 
       parameters:
         - required: true
           in: path
@@ -7714,10 +9861,69 @@ paths:
       tags:
         - Accounting
       operationId: createItems
+      summary: Allows you to create one or more items
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ items: [{ code: "abcXYZ123", name: "HelloWorld11", description: "Foobar", inventoryAssetAccountCode: "140", purchaseDetails: { cOGSAccountCode: "500" }}]}'
       x-ruby-requestBody: 'items = { items: [{ code: "abcXYZ123", name: "HelloWorld11", description: "Foobar", inventory_asset_account_code: "140", purchase_details: { cogs_account_code: "500" }}]}'
-      summary: Allows you to create one or more items
+      x-example:
+        - purchaseDetails:
+          is_object: true
+          key: purchaseDetails
+          keyPascal: Purchase
+          keySnake: purchase_details
+        - cOGSAccountCode:
+          is_last: true
+          key: cOGSAccountCode
+          keyPascal: CoGSAccountCode
+          keySnake: cogs_account_code
+          default: 500
+          object: purchaseDetails
+        - item:
+          is_object: true
+          key: item
+          keyPascal: Item
+        - code:
+          key: code
+          keyPascal: Code
+          default: abcXYZ123
+          object: item
+        - name:
+          key: name
+          keyPascal: Name
+          default: HelloWorld
+          object: item
+        - description:
+          key: description
+          keyPascal: Description
+          default: Foobar
+          object: item
+        - inventoryAssetAccountCode:
+          key: inventoryAssetAccountCode
+          keyPascal: InventoryAssetAccountCode
+          keySnake: inventory_asset_account_code
+          default: 140
+          object: item
+        - set_purchaseDetails:
+          is_last: true
+          is_variable: true
+          nonString: true
+          key: purchaseDetails
+          keyPascal: PurchaseDetails
+          keySnake: purchase_details
+          default: purchaseDetails
+          python: purchase_details
+          object: item
+        - items:
+          is_object: true
+          key: items
+          keyPascal: Items
+        - add_item:
+          is_last: true
+          is_array_add: true
+          key: items
+          keyPascal: Items
+          java: Items
+          object: item
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
         - $ref: '#/components/parameters/unitdp'
@@ -7781,10 +9987,42 @@ paths:
       tags:
         - Accounting
       operationId: updateOrCreateItems
+      summary: Allows you to update or create one or more items
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ items: [{ code: "ItemCode123", name: "ItemName XYZ", description: "Item Description ABC" }]}'
       x-ruby-requestBody: 'items = { items: [{ code: "ItemCode123", name: "ItemName XYZ", description: "Item Description ABC" }]}'
-      summary: Allows you to update or create one or more items
+      x-example:
+        - item:
+          is_object: true
+          key: item
+          keyPascal: Item
+        - code:
+          key: code
+          keyPascal: Code
+          default: abcXYZ123
+          object: item
+        - name:
+          key: name
+          keyPascal: Name
+          default: HelloWorld
+          object: item
+        - description:
+          is_last: true
+          key: description
+          keyPascal: Description
+          default: Foobar
+          object: item
+        - items:
+          is_object: true
+          key: items
+          keyPascal: Items
+        - add_item:
+          is_last: true
+          is_array_add: true
+          key: items
+          keyPascal: Items
+          java: Items
+          object: item
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
         - $ref: '#/components/parameters/unitdp'
@@ -7903,10 +10141,37 @@ paths:
       tags:
         - Accounting
       operationId: updateItem
+      summary: Allows you to update a specified item
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ items: [{ code: "ItemCode123", description: "Description 123" }]}'
       x-ruby-requestBody: 'items = { items: [{ code: "ItemCode123", description: "Description 123" }]}'
-      summary: Allows you to update a specified item
+      x-example:
+        - item:
+          is_object: true
+          key: item
+          keyPascal: Item
+        - code:
+          key: code
+          keyPascal: Code
+          default: ItemCode123
+          object: item
+        - description:
+          is_last: true
+          key: description
+          keyPascal: Description
+          default: Goodbye
+          object: item
+        - items:
+          is_object: true
+          key: items
+          keyPascal: Items
+        - add_item:
+          is_last: true
+          is_array_add: true
+          key: items
+          keyPascal: Items
+          java: Items
+          object: item
       parameters:
         - required: true
           in: path
@@ -8011,8 +10276,34 @@ paths:
       tags:
         - Accounting
       operationId: createItemHistory
-      x-hasAccountingValidationError: true
       summary: Allows you to create a history record for items
+      x-hasAccountingValidationError: true
+      x-example:
+        - historyRecord:
+          is_object: true
+          key: historyRecord
+          keyPascal: HistoryRecord
+          keySnake: history_record
+        - Details:
+          is_last: true
+          key: details
+          keyPascal: Details
+          default: Hello World
+          object: historyRecord
+        - historyRecords:
+          is_object: true
+          key: historyRecords
+          keyPascal: HistoryRecords
+          keySnake: history_records
+        - add_historyRecord:
+          is_last: true
+          is_array_add: true
+          key: historyRecords
+          keyPascal: HistoryRecords
+          keySnake: history_records
+          java: HistoryRecords
+          python: history_record
+          object: historyRecord 
       parameters:
         - required: true
           in: path
@@ -8377,10 +10668,31 @@ paths:
       tags:
         - Accounting
       operationId: createLinkedTransaction
+      summary: Allows you to create linked transactions (billable expenses)
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ sourceTransactionID: "00000000-0000-0000-000-000000000000", sourceLineItemID: "00000000-0000-0000-000-000000000000" }'
       x-ruby-requestBody: 'linked_transaction = { source_transaction_id: "00000000-0000-0000-000-000000000000", source_line_item_id: "00000000-0000-0000-000-000000000000" }'
-      summary: Allows you to create linked transactions (billable expenses)
+      x-example:
+        - linkedTransaction:
+          is_object: true
+          key: linkedTransaction
+          keyPascal: LinkedTransaction
+          keySnake: linked_transaction
+        - sourceTransactionID:
+          is_uuid: true
+          key: sourceTransactionID
+          keyPascal: SourceTransactionID
+          keySnake: source_transaction_id
+          default: 00000000-0000-0000-000-000000000000
+          object: linkedTransaction
+        - sourceLineItemID:
+          is_last: true
+          is_uuid: true
+          key: sourceLineItemID
+          keyPascal: SourceLineItemID
+          keySnake: source_line_item_id
+          default: 00000000-0000-0000-000-000000000000
+          object: linkedTransaction
       responses:
         '200':
           description: Success - return response of type LinkedTransactions array with newly created LinkedTransaction
@@ -8479,10 +10791,43 @@ paths:
       tags:
         - Accounting
       operationId: updateLinkedTransaction
+      summary: Allows you to update a specified linked transactions (billable expenses)
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ linkedTransactions: [{ sourceLineItemID: "00000000-0000-0000-000-000000000000", contactID: "00000000-0000-0000-000-000000000000" }]}'
       x-ruby-requestBody: 'linked_transactions = { linked_transactions: [{ source_line_item_id: "00000000-0000-0000-000-000000000000", contact_id: "00000000-0000-0000-000-000000000000" }]}'
-      summary: Allows you to update a specified linked transactions (billable expenses)
+      x-example:
+        - linkedTransaction:
+          is_object: true
+          key: linkedTransaction
+          keyPascal: LinkedTransaction
+          keySnake: linked_transaction
+        - sourceLineItemID:
+          is_uuid: true
+          key: sourceLineItemID
+          keyPascal: SourceLineItemID
+          keySnake: source_line_item_id
+          default: 00000000-0000-0000-000-000000000000
+          object: linkedTransaction
+        - contactID:
+          is_last: true
+          is_uuid: true
+          key: contactID
+          keyPascal: ContactID
+          default: 00000000-0000-0000-000-000000000000
+          object: linkedTransaction
+        - linkedTransactions:
+          is_object: true
+          key: linkedTransactions
+          keyPascal: LinkedTransactions
+        - add_linkedTransaction:
+          is_last: true
+          is_array_add: true
+          key: linkedTransactions
+          keyPascal: LinkedTransactions
+          keySnake: linked_transactions
+          java: LinkedTransactions
+          python: linked_transaction
+          object: linkedTransaction
       parameters:
         - required: true
           in: path
@@ -8598,7 +10943,9 @@ paths:
         - in: query
           name: where
           description: Filter by an any element
-          example: Status=="' + ManualJournal.StatusEnum.DRAFT + '"
+          example: Status=="DRAFT"
+          x-example-java: Status==&quot;&apos; + ManualJournal.StatusEnum.DRAFT + &apos;&quot;
+          x-example-php: Status==&quot;&apos; . \XeroAPI\XeroPHP\Models\Accounting\ManualJournal::STATUS_DRAFT . &apos;&quot;
           x-ruby-param: Status==#{XeroRuby::Accounting::ManualJournal::DRAFT}
           schema:
             type: string
@@ -8668,10 +11015,128 @@ paths:
       tags:
         - Accounting
       operationId: createManualJournals
+      summary: Allows you to create one or more manual journals
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ manualJournals: [{ narration: "Foo bar", date: "2019-03-14", journalLines: [{ lineAmount: 100.0, accountCode: "400", description: "Hello there" }, { lineAmount: -100.0, accountCode: "400", description: "Goodbye", tracking: [{ name: "Simpson", option: "Bart" }] }]}]}'
       x-ruby-requestBody: 'manual_journals = { manual_journals: [{ narration: "Foo bar", date: "2019-03-14", journal_lines: [{ line_amount: 100.0, account_code: "400", description: "Hello there" }, { line_amount: -100.0, account_code: "400", description: "Goodbye", tracking: [{ name: "Simpson", option: "Bart" }] }]}]}'
-      summary: Allows you to create one or more manual journals
+      x-example:
+        - dateValue:
+          is_date: true
+          key: dateValue
+          keyPascal: Date
+          keySnake: date_value
+          java_datatype: LocalDate
+          default: "LocalDate.of(2020, Month.OCTOBER, 10)"
+          java: "LocalDate.of(2020, Month.OCTOBER, 10)"
+          php: "new DateTime('2019-10-10')"
+          python: "dateutil.parser.parse('2020-12-03T00:00:00Z')"
+        - manualJournalLines:
+          is_list: true
+          key: manualJournalLines
+          keyPascal: ManualJournalLine
+          keySnake: manual_journal_lines
+        - credit:
+          is_object: true
+          key: credit
+          keyPascal: ManualJournalLine
+        - lineAmount:
+          nonString: true
+          key: lineAmount
+          keyPascal: LineAmount
+          keySnake: line_amount
+          default: 100.0
+          object: credit
+        - accountCode:
+          key: accountCode
+          keyPascal: AccountCode
+          keySnake: account_code
+          default: 400
+          object: credit
+        - description:
+          is_last: true
+          key: description
+          keyPascal: Description
+          default: "Hello there"
+          object: credit
+        - add_credit:
+          is_last: true
+          is_list_add: true
+          key: manualJournalLines
+          keyPascal: ManualJournalLine
+          keySnake: manual_journal_lines
+          object: credit
+        - debit:
+          is_object: true
+          key: debit
+          keyPascal: ManualJournalLine
+        - lineAmount:
+          nonString: true
+          key: lineAmount
+          keyPascal: LineAmount
+          keySnake: line_amount
+          default: -100.0
+          object: debit
+        - accountCode:
+          key: accountCode
+          keyPascal: AccountCode
+          keySnake: account_code
+          default: 120
+          object: debit
+        - description:
+          is_last: true
+          key: description
+          keyPascal: Description
+          default: "Hello there"
+          object: debit
+        - add_debit:
+          is_last: true
+          is_list_add: true
+          key: manualJournalLines
+          keyPascal: ManualJournalLine
+          keySnake: manual_journal_lines
+          object: debit
+        - manualJournal:
+          is_object: true
+          key: manualJournal
+          keyPascal: ManualJournal
+          keySnake: manual_journal
+        - narration:
+          key: narration
+          keyPascal: Narration
+          default: Foobar
+          object: manualJournal
+        - date:
+          is_variable: true
+          nonString: true
+          key: date
+          keyPascal: Date
+          default: dateValue
+          python: date_value
+          object: manualJournal
+        - set_manualJournalLines:
+          is_last: true
+          is_variable: true
+          nonString: true
+          key: manualJournalLines
+          keyPascal: JournalLines
+          keySnake: journal_lines
+          default: manualJournalLines
+          python: manual_journal_lines
+          object: manualJournal
+        - manualJournals:
+          is_object: true
+          key: manualJournals
+          keyPascal: ManualJournals
+        - add_manualJournal:
+          is_last: true
+          is_array_add: true
+          key: manualJournals
+          keyPascal: ManualJournals
+          keySnake: manual_journals
+          java: ManualJournals
+          php: manualJournals
+          python: manual_journal
+          object: manualJournal
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
       responses:
@@ -8776,10 +11241,128 @@ paths:
       tags:
         - Accounting
       operationId: updateOrCreateManualJournals
+      summary: Allows you to create a single manual journal
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ manualJournals: [{ narration: "Foo bar", journalLines: [{ lineAmount: 100.0, accountCode: "400", description: "Hello there" },{ lineAmount: -100.0, accountCode: "400", description: "Goodbye", tracking: [{ name: "Simpsons", option: "Bart" }]}], date: "2019-03-14" }]}'
       x-ruby-requestBody: 'manual_journals = { manual_journals: [{ narration: "Foo bar", date: "2019-03-14", journal_lines: [{ line_amount: 100.0, account_code: "400", description: "Hello there" },{ line_amount: -100.0, account_code: "400", description: "Goodbye", tracking: [{ name: "Simpsons", option: "Bart" }]}] }]}'
-      summary: Allows you to create a single manual journal
+      x-example:
+        - dateValue:
+          is_date: true
+          key: dateValue
+          keyPascal: Date
+          keySnake: date_value
+          java_datatype: LocalDate
+          default: "LocalDate.of(2020, Month.OCTOBER, 10)"
+          java: "LocalDate.of(2020, Month.OCTOBER, 10)"
+          php: "new DateTime('2019-10-10')"
+          python: "dateutil.parser.parse('2020-12-03T00:00:00Z')"
+        - manualJournalLines:
+          is_list: true
+          key: manualJournalLines
+          keyPascal: ManualJournalLine
+          keySnake: manual_journal_lines
+        - credit:
+          is_object: true
+          key: credit
+          keyPascal: ManualJournalLine
+        - lineAmount:
+          nonString: true
+          key: lineAmount
+          keyPascal: LineAmount
+          keySnake: line_amount
+          default: 100.0
+          object: credit
+        - accountCode:
+          key: accountCode
+          keyPascal: AccountCode
+          keySnake: account_code
+          default: 400
+          object: credit
+        - description:
+          is_last: true
+          key: description
+          keyPascal: Description
+          default: "Hello there"
+          object: credit
+        - add_credit:
+          is_last: true
+          is_list_add: true
+          key: manualJournalLines
+          keyPascal: ManualJournalLine
+          keySnake: manual_journal_lines
+          object: credit
+        - debit:
+          is_object: true
+          key: debit
+          keyPascal: ManualJournalLine
+        - lineAmount:
+          nonString: true
+          key: lineAmount
+          keyPascal: LineAmount
+          keySnake: line_amount
+          default: -100.0
+          object: debit
+        - accountCode:
+          key: accountCode
+          keyPascal: AccountCode
+          keySnake: account_code
+          default: 120
+          object: debit
+        - description:
+          is_last: true
+          key: description
+          keyPascal: Description
+          default: "Hello there"
+          object: debit
+        - add_debit:
+          is_last: true
+          is_list_add: true
+          key: manualJournalLines
+          keyPascal: ManualJournalLine
+          keySnake: manual_journal_lines
+          object: debit
+        - manualJournal:
+          is_object: true
+          key: manualJournal
+          keyPascal: ManualJournal
+          keySnake: manual_journal
+        - narration:
+          key: narration
+          keyPascal: Narration
+          default: Foobar
+          object: manualJournal
+        - date:
+          is_variable: true
+          nonString: true
+          key: date
+          keyPascal: Date
+          default: dateValue
+          python: date_value
+          object: manualJournal
+        - set_manualJournalLines:
+          is_last: true
+          is_variable: true
+          nonString: true
+          key: manualJournalLines
+          keyPascal: JournalLines
+          keySnake: journal_lines
+          default: manualJournalLines
+          python: manual_journal_lines
+          object: manualJournal
+        - manualJournals:
+          is_object: true
+          key: manualJournals
+          keyPascal: ManualJournals
+        - add_manualJournal:
+          is_last: true
+          is_array_add: true
+          key: manualJournals
+          keyPascal: ManualJournals
+          keySnake: manual_journals
+          java: ManualJournals
+          php: manualJournals
+          python: manual_journal
+          object: manualJournal
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
       responses:
@@ -8966,10 +11549,128 @@ paths:
       tags:
         - Accounting
       operationId: updateManualJournal
+      summary: Allows you to update a specified manual journal
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ manualJournals: [{ narration: "Hello Xero", manualJournalId: "00000000-0000-0000-000-000000000000", journalLines: [] }]}'
       x-ruby-requestBody: 'manual_journals = { manual_journals: [{ narration: "Hello Xero", manual_journal_id: "00000000-0000-0000-000-000000000000", journal_lines: [] }]}'
-      summary: Allows you to update a specified manual journal
+      x-example:
+        - dateValue:
+          is_date: true
+          key: dateValue
+          keyPascal: Date
+          keySnake: date_value
+          java_datatype: LocalDate
+          default: "LocalDate.of(2020, Month.OCTOBER, 10)"
+          java: "LocalDate.of(2020, Month.OCTOBER, 10)"
+          php: "new DateTime('2019-10-10')"
+          python: "dateutil.parser.parse('2020-12-03T00:00:00Z')"
+        - manualJournalLines:
+          is_list: true
+          key: manualJournalLines
+          keyPascal: ManualJournalLine
+          keySnake: manual_journal_lines
+        - credit:
+          is_object: true
+          key: credit
+          keyPascal: ManualJournalLine
+        - lineAmount:
+          nonString: true
+          key: lineAmount
+          keyPascal: LineAmount
+          keySnake: line_amount
+          default: 100.0
+          object: credit
+        - accountCode:
+          key: accountCode
+          keyPascal: AccountCode
+          keySnake: account_code
+          default: 400
+          object: credit
+        - description:
+          is_last: true
+          key: description
+          keyPascal: Description
+          default: "Hello there"
+          object: credit
+        - add_credit:
+          is_last: true
+          is_list_add: true
+          key: manualJournalLines
+          keyPascal: ManualJournalLine
+          keySnake: manual_journal_lines
+          object: credit
+        - debit:
+          is_object: true
+          key: debit
+          keyPascal: ManualJournalLine
+        - lineAmount:
+          nonString: true
+          key: lineAmount
+          keyPascal: LineAmount
+          keySnake: line_amount
+          default: -100.0
+          object: debit
+        - accountCode:
+          key: accountCode
+          keyPascal: AccountCode
+          keySnake: account_code
+          default: 120
+          object: debit
+        - description:
+          is_last: true
+          key: description
+          keyPascal: Description
+          default: "Hello there"
+          object: debit
+        - add_debit:
+          is_last: true
+          is_list_add: true
+          key: manualJournalLines
+          keyPascal: ManualJournalLine
+          keySnake: manual_journal_lines
+          object: debit
+        - manualJournal:
+          is_object: true
+          key: manualJournal
+          keyPascal: ManualJournal
+          keySnake: manual_journal
+        - narration:
+          key: narration
+          keyPascal: Narration
+          default: Foobar
+          object: manualJournal
+        - date:
+          is_variable: true
+          nonString: true
+          key: date
+          keyPascal: Date
+          default: dateValue
+          python: date_value
+          object: manualJournal
+        - set_manualJournalLines:
+          is_last: true
+          is_variable: true
+          nonString: true
+          key: manualJournalLines
+          keyPascal: JournalLines
+          keySnake: journal_lines
+          default: manualJournalLines
+          python: manual_journal_lines
+          object: manualJournal
+        - manualJournals:
+          is_object: true
+          key: manualJournals
+          keyPascal: ManualJournals
+        - add_manualJournal:
+          is_last: true
+          is_array_add: true
+          key: manualJournals
+          keyPascal: ManualJournals
+          keySnake: manual_journals
+          java: ManualJournals
+          php: manualJournals
+          python: manual_journal
+          object: manualJournal
       parameters:
         - required: true
           in: path
@@ -9318,8 +12019,34 @@ paths:
       tags:
         - Accounting
       operationId: createManualJournalHistoryRecord
-      x-hasAccountingValidationError: true
       summary: Allows you to create history record for a manual journal
+      x-hasAccountingValidationError: true
+      x-example:
+        - historyRecord:
+          is_object: true
+          key: historyRecord
+          keyPascal: HistoryRecord
+          keySnake: history_record
+        - Details:
+          is_last: true
+          key: details
+          keyPascal: Details
+          default: Hello World
+          object: historyRecord
+        - historyRecords:
+          is_object: true
+          key: historyRecords
+          keyPascal: HistoryRecords
+          keySnake: history_records
+        - add_historyRecord:
+          is_last: true
+          is_array_add: true
+          key: historyRecords
+          keyPascal: HistoryRecords
+          keySnake: history_records
+          java: HistoryRecords
+          python: history_record
+          object: historyRecord 
       parameters:
         - required: true
           in: path
@@ -9511,14 +12238,16 @@ paths:
         - in: query
           name: where
           description: Filter by an any element
-          example: Status=="' + Overpayment.StatusEnum.AUTHORISED + '"
+          example: Status=="AUTHORISED"
+          x-example-java: Status==&quot;&apos; + Overpayment.StatusEnum.AUTHORISED + &apos;&quot;
+          x-example-php: Status==&quot;&apos; . \XeroAPI\XeroPHP\Models\Accounting\Overpayment::STATUS_AUTHORISED . &apos;&quot;
           x-ruby-param: Status==#{XeroRuby::Accounting::Overpayment::AUTHORISED}
           schema:
             type: string
         - in: query
           name: order
           description: Order by an any element
-          example: "RemainingCredit ASC"
+          example: "Status ASC"
           schema:
             type: string
         - in: query
@@ -9841,10 +12570,71 @@ paths:
       tags:
         - Accounting
       operationId: createOverpaymentAllocations
+      summary: Allows you to create a single allocation for an overpayment
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ allocations: [{ invoice: { invoiceID: "00000000-0000-0000-000-000000000000", lineItems: [], contact: {}, type: Invoice.TypeEnum.ACCPAY }, amount: 10.0, date: "2019-03-12" }]}'
       x-ruby-requestBody: 'allocations = { allocations: [{ invoice: { invoice_id: "00000000-0000-0000-000-000000000000", line_items: [], contact: {}, type: XeroRuby::Accounting::Invoice::ACCPAY }, amount: 10.0, date: "2019-03-12" }]}'
-      summary: Allows you to create a single allocation for an overpayment
+      x-example:
+        - currDate:
+          is_date: true
+          key: currDate
+          keyPascal: Date
+          keySnake: curr_date
+          java_datatype: LocalDate
+          default: "LocalDate.now()"
+          java: "LocalDate.now()"
+          php: "new DateTime('2019-12-10')"
+          python: "dateutil.parser.parse('2020-12-03T00:00:00Z')"
+        - invoice:
+          is_object: true
+          key: invoice
+          keyPascal: Invoice
+        - invoiceID:
+          is_last: true
+          is_uuid: true
+          key: invoiceID
+          keyPascal: InvoiceID
+          keySnake: invoice_id
+          default: 00000000-0000-0000-000-000000000000
+          object: invoice
+        - allocation:
+          is_object: true
+          key: allocation
+          keyPascal: Allocation
+        - amount:
+          nonString: true
+          key: amount
+          keyPascal: Amount
+          default: 1.0
+          object: allocation
+        - date:
+          is_last: true
+          is_variable: true
+          nonString: true
+          key: date
+          keyPascal: Date
+          default: currDate
+          python: curr_date
+          object: allocation
+        - set_invoice:
+          is_last: true
+          is_variable: true
+          nonString: true
+          key: invoice
+          keyPascal: Invoice
+          default: invoice
+          object: allocation
+        - allocations:
+          is_object: true
+          key: allocations
+          keyPascal: Allocations
+        - add_allocation:
+          is_last: true
+          is_array_add: true
+          key: allocations
+          keyPascal: Allocations
+          java: Allocations
+          object: allocation
       parameters:
         - required: true
           in: path
@@ -9942,8 +12732,34 @@ paths:
       tags:
         - Accounting
       operationId: createOverpaymentHistory
-      x-hasAccountingValidationError: true
       summary: Allows you to create history records of an Overpayment
+      x-hasAccountingValidationError: true
+      x-example:
+        - historyRecord:
+          is_object: true
+          key: historyRecord
+          keyPascal: HistoryRecord
+          keySnake: history_record
+        - Details:
+          is_last: true
+          key: details
+          keyPascal: Details
+          default: Hello World
+          object: historyRecord
+        - historyRecords:
+          is_object: true
+          key: historyRecords
+          keyPascal: HistoryRecords
+          keySnake: history_records
+        - add_historyRecord:
+          is_last: true
+          is_array_add: true
+          key: historyRecords
+          keyPascal: HistoryRecords
+          keySnake: history_records
+          java: HistoryRecords
+          python: history_record
+          object: historyRecord 
       parameters:
         - required: true
           in: path
@@ -9996,7 +12812,9 @@ paths:
         - in: query
           name: where
           description: Filter by an any element
-          example: Status=="' + Payment.StatusEnum.AUTHORISED + '"
+          example: Status=="AUTHORISED"
+          x-example-java: Status==&quot;&apos; + Payment.StatusEnum.AUTHORISED + &apos;&quot;
+          x-example-php: Status==&quot;&apos; . \XeroAPI\XeroPHP\Models\Accounting\Payment::STATUS_AUTHORISED . &apos;&quot;
           x-ruby-param: Status==#{XeroRuby::Accounting::Payment::AUTHORISED}
           schema:
             type: string
@@ -10128,10 +12946,88 @@ paths:
       tags:
         - Accounting
       operationId: createPayments
+      summary: Allows you to create multiple payments for invoices or credit notes
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ payments: [{ invoice: { invoiceID: "00000000-0000-0000-000-000000000000", lineItems: [], contact: {}, type: Invoice.TypeEnum.ACCPAY }, account: { code: "970" }, date: "2019-03-12", amount: 1.0 }]}'
       x-ruby-requestBody: 'payments = { payments: [{ invoice: { invoice_id: "00000000-0000-0000-000-000000000000", line_items: [], contact: {}, type: XeroRuby::Accounting::Invoice::ACCPAY }, account: { code: "970" }, date: "2019-03-12", amount: 1.0 }]}'
-      summary: Allows you to create multiple payments for invoices or credit notes
+      x-example:
+        - dateValue:
+          is_date: true
+          key: dateValue
+          keyPascal: Date
+          keySnake: date_value
+          java_datatype: LocalDate
+          default: "LocalDate.of(2020, Month.OCTOBER, 10)"
+          java: "LocalDate.now()"
+          php: "new DateTime('2020-10-10')"
+          python: "dateutil.parser.parse('2020-10-10T00:00:00Z')"
+        - invoice:
+          is_object: true
+          key: invoice
+          keyPascal: Invoice
+        - invoiceID:
+          is_last: true
+          is_uuid: true
+          key: invoiceID
+          keyPascal: InvoiceID
+          keySnake: invoice_id
+          default: 00000000-0000-0000-000-000000000000
+          object: invoice
+        - account:
+          is_object: true
+          key: account
+          keyPascal: Account
+        - accountID:
+          is_last: true
+          key: accountID
+          keyPascal: AccountID
+          keySnake: account_id
+          default: 00000000-0000-0000-000-000000000000
+          object: account
+        - payment:
+          is_object: true
+          key: payment
+          keyPascal: Payment
+        - set_invoice:
+          is_variable: true
+          nonString: true
+          key: invoice
+          keyPascal: Invoice
+          default: invoice
+          object: payment
+        - set_account:
+          is_variable: true
+          nonString: true
+          key: account
+          keyPascal: Account
+          default: account
+          object: payment
+        - amount:
+          nonString: true
+          key: amount
+          keyPascal: Amount
+          default: 1.0
+          object: payment
+        - date:
+          is_last: true
+          is_variable: true
+          nonString: true
+          key: date
+          keyPascal: Date
+          default: dateValue
+          python: date_value
+          object: payment
+        - payments:
+          is_object: true
+          key: payments
+          keyPascal: Payments
+        - add_payment:
+          is_last: true
+          is_array_add: true
+          key: payments
+          keyPascal: Payments
+          java: Payments
+          object: payment
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
       responses:
@@ -10247,10 +13143,88 @@ paths:
       tags:
         - Accounting
       operationId: createPayment
+      summary: Allows you to create a single payment for invoices or credit notes  
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ invoice: { invoiceID: "00000000-0000-0000-000-000000000000", lineItems: [], contact: {}, type: Invoice.TypeEnum.ACCPAY }, account: { code: "970" }, date: "2019-03-12", amount: 1.0 }'
       x-ruby-requestBody: 'invoice = { invoice: { invoice_id: "00000000-0000-0000-000-000000000000", line_items: [], contact: {}, type: XeroRuby::Accounting::Invoice::ACCPAY }, account: { code: "970" }, date: "2019-03-12", amount: 1.0 }'
-      summary: Allows you to create a single payment for invoices or credit notes  
+      x-example:
+        - dateValue:
+          is_date: true
+          key: dateValue
+          keyPascal: Date
+          keySnake: date_value
+          java_datatype: LocalDate
+          default: "LocalDate.of(2020, Month.OCTOBER, 10)"
+          java: "LocalDate.now()"
+          php: "new DateTime('2020-10-10')"
+          python: "dateutil.parser.parse('2020-10-10T00:00:00Z')"
+        - invoice:
+          is_object: true
+          key: invoice
+          keyPascal: Invoice
+        - invoiceID:
+          is_last: true
+          is_uuid: true
+          key: invoiceID
+          keyPascal: InvoiceID
+          keySnake: invoice_id
+          default: 00000000-0000-0000-000-000000000000
+          object: invoice
+        - account:
+          is_object: true
+          key: account
+          keyPascal: Account
+        - accountID:
+          is_last: true
+          key: accountID
+          keyPascal: AccountID
+          keySnake: account_id
+          default: 00000000-0000-0000-000-000000000000
+          object: account
+        - payment:
+          is_object: true
+          key: payment
+          keyPascal: Payment
+        - set_invoice:
+          is_variable: true
+          nonString: true
+          key: invoice
+          keyPascal: Invoice
+          default: invoice
+          object: payment
+        - set_account:
+          is_variable: true
+          nonString: true
+          key: account
+          keyPascal: Account
+          default: account
+          object: payment
+        - amount:
+          nonString: true
+          key: amount
+          keyPascal: Amount
+          default: 1.0
+          object: payment
+        - date:
+          is_last: true
+          is_variable: true
+          nonString: true
+          key: date
+          keyPascal: Date
+          default: dateValue
+          python: date_value
+          object: payment
+        - payments:
+          is_object: true
+          key: payments
+          keyPascal: Payments
+        - add_payment:
+          is_last: true
+          is_array_add: true
+          key: payments
+          keyPascal: Payments
+          java: Payments
+          object: payment
       responses:
         '200':
           description: Success - return response of type Payments array for newly created Payment
@@ -10485,10 +13459,21 @@ paths:
       tags:
         - Accounting
       operationId: deletePayment
+      summary: Allows you to update a specified payment for invoices and credit notes
       x-node-requestBody: '{ status: "DELETED" }'
       x-ruby-requestBody: 'payments = { status: "DELETED" }'
       x-hasAccountingValidationError: true
-      summary: Allows you to update a specified payment for invoices and credit notes
+      x-example:
+        - paymentDelete:
+          is_object: true
+          key: paymentDelete
+          keyPascal: PaymentDelete
+        - status:
+          is_last: true
+          key: status
+          keyPascal: Status
+          default: DELETED
+          object: paymentDelete
       parameters:
         - required: true
           in: path
@@ -10617,8 +13602,34 @@ paths:
       tags:
         - Accounting
       operationId: createPaymentHistory
-      x-hasAccountingValidationError: true
       summary: Allows you to create a history record for a payment
+      x-hasAccountingValidationError: true
+      x-example:
+        - historyRecord:
+          is_object: true
+          key: historyRecord
+          keyPascal: HistoryRecord
+          keySnake: history_record
+        - Details:
+          is_last: true
+          key: details
+          keyPascal: Details
+          default: Hello World
+          object: historyRecord
+        - historyRecords:
+          is_object: true
+          key: historyRecords
+          keyPascal: HistoryRecords
+          keySnake: history_records
+        - add_historyRecord:
+          is_last: true
+          is_array_add: true
+          key: historyRecords
+          keyPascal: HistoryRecords
+          keySnake: history_records
+          java: HistoryRecords
+          python: history_record
+          object: historyRecord 
       parameters:
         - required: true
           in: path
@@ -10694,10 +13705,46 @@ paths:
       tags:
         - Accounting
       operationId: createPaymentService
+      summary: Allows you to create payment services
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ paymentServices: [{ paymentServiceName: "PayUpNow", paymentServiceUrl: "https://www.payupnow.com/", payNowText: "Time To Pay" }]}'
       x-ruby-requestBody: 'payment_services = { payment_services: [{ payment_service_name: "PayUpNow", payment_service_url: "https://www.payupnow.com/", pay_now_text: "Time To Pay" }]}'
-      summary: Allows you to create payment services
+      x-example:
+        - object:
+          is_object: true
+          key: paymentService
+          keyPascal: PaymentService
+          keySnake: payment_service
+        - paymentServiceName:
+          key: paymentServiceName
+          keyPascal: PaymentServiceName
+          keySnake: payment_service_name
+          default: ACME Payments
+          object: paymentService
+        - paymentServiceUrl:
+          key: paymentServiceUrl
+          keyPascal: PaymentServiceUrl
+          keySnake: payment_service_url
+          default: "https://www.payupnow.com/"
+          object: paymentService
+        - payNowText:
+          is_last: true
+          key: payNowText
+          keyPascal: PayNowText
+          keySnake: pay_now_text
+          default: Pay Now
+          object: paymentService
+        - paymentServices:
+          is_object: true
+          key: paymentServices
+          keyPascal: PaymentServices
+        - add_paymentService:
+          is_last: true
+          is_array_add: true
+          key: paymentServices
+          keyPascal: PaymentServices
+          java: PaymentServices
+          object: paymentService
       responses:
         '200':
           description: Success - return response of type PaymentServices array for newly created PaymentService
@@ -10758,7 +13805,9 @@ paths:
         - in: query
           name: where
           description: Filter by an any element
-          example: Status=="' + Prepayment.StatusEnum.AUTHORISED + '"
+          example: Status=="AUTHORISED"
+          x-example-java: Status==&quot;&apos; + Prepayment.StatusEnum.AUTHORISED + &apos;&quot;
+          x-example-php: Status==&quot;&apos; . \XeroAPI\XeroPHP\Models\Accounting\Prepayment::STATUS_AUTHORISED . &apos;&quot;
           x-ruby-param: Status==#{XeroRuby::Accounting::Prepayment::AUTHORISED}
           schema:
             type: string
@@ -10975,10 +14024,70 @@ paths:
       tags:
         - Accounting
       operationId: createPrepaymentAllocations
+      summary: Allows you to create an Allocation for prepayments
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ allocations: [{ invoice: { invoiceID: "00000000-0000-0000-000-000000000000", lineItems: [], contact: {}, type: null }, amount: 1.0, date: "2019-03-13" }]}'
       x-ruby-requestBody: 'allocations = { allocations: [{ invoice: { invoice_id: "00000000-0000-0000-000-000000000000", line_items: [], contact: {}, type: null }, amount: 1.0, date: "2019-03-13" }]}'
-      summary: Allows you to create an Allocation for prepayments
+      x-example:
+        - currDate:
+          is_date: true
+          key: currDate
+          keyPascal: Date
+          keySnake: curr_date
+          java_datatype: LocalDate
+          default: "LocalDate.now()"
+          java: "LocalDate.now()"
+          php: "new DateTime('2019-12-10')"
+          python: "dateutil.parser.parse('2020-12-03T00:00:00Z')"
+        - invoice:
+          is_object: true
+          key: invoice
+          keyPascal: Invoice
+        - invoiceID:
+          is_last: true
+          is_uuid: true
+          key: invoiceID
+          keyPascal: InvoiceID
+          keySnake: invoice_id
+          default: 00000000-0000-0000-000-000000000000
+          object: invoice
+        - allocation:
+          is_object: true
+          key: allocation
+          keyPascal: Allocation
+        - set_invoice:
+          is_variable: true
+          nonString: true
+          key: invoice
+          keyPascal: Invoice
+          default: invoice
+          object: allocation
+        - amount:
+          nonString: true
+          key: amount
+          keyPascal: Amount
+          default: 1.0
+          object: allocation
+        - date:
+          is_last: true
+          is_variable: true
+          nonString: true
+          key: date
+          keyPascal: Date
+          default: currDate
+          python: curr_date
+          object: allocation
+        - allocations:
+          is_object: true
+          key: allocations
+          keyPascal: Allocations
+        - add_allocation:
+          is_last: true
+          is_array_add: true
+          key: allocations
+          keyPascal: Allocations
+          java: Allocations
+          object: allocation
       parameters:
         - required: true
           in: path
@@ -11074,8 +14183,34 @@ paths:
       tags:
         - Accounting
       operationId: createPrepaymentHistory
-      x-hasAccountingValidationError: true
       summary: Allows you to create a history record for an Prepayment
+      x-hasAccountingValidationError: true
+      x-example:
+        - historyRecord:
+          is_object: true
+          key: historyRecord
+          keyPascal: HistoryRecord
+          keySnake: history_record
+        - Details:
+          is_last: true
+          key: details
+          keyPascal: Details
+          default: Hello World
+          object: historyRecord
+        - historyRecords:
+          is_object: true
+          key: historyRecords
+          keyPascal: HistoryRecords
+          keySnake: history_records
+        - add_historyRecord:
+          is_last: true
+          is_array_add: true
+          key: historyRecords
+          keyPascal: HistoryRecords
+          keySnake: history_records
+          java: HistoryRecords
+          python: history_record
+          object: historyRecord 
       parameters:
         - required: true
           in: path
@@ -11324,10 +14459,119 @@ paths:
       tags:
         - Accounting
       operationId: createPurchaseOrders
+      summary: Allows you to create one or more purchase orders
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ purchaseOrders: [{ contact: { contactID: "00000000-0000-0000-000-000000000000" }, lineItems: [{ description: "Foobar", quantity: 1.0, unitAmount: 20.0, accountCode: "710" }], date: "2019-03-13" }]}'
       x-ruby-requestBody: 'purchase_orders = { purchase_orders: [{ contact: { contact_id: "00000000-0000-0000-000-000000000000" }, line_items: [{ description: "Foobar", quantity: 1.0, unitAmount: 20.0, account_code: "710" }], date: "2019-03-13" }]}'
-      summary: Allows you to create one or more purchase orders
+      x-example:
+        - dateValue:
+          is_date: true
+          key: dateValue
+          keyPascal: Date
+          keySnake: date_value
+          java_datatype: LocalDate
+          default: "LocalDate.of(2020, Month.OCTOBER, 10)"
+          java: "LocalDate.now()"
+          php: "new DateTime('2019-12-10')"
+          python: "dateutil.parser.parse('2020-12-03T00:00:00Z')"
+        - contact:
+          is_object: true
+          key: contact
+          keyPascal: Contact
+        - contactID:
+          is_last: true
+          is_uuid: true
+          key: contactId
+          keyPascal: ContactID
+          keySnake: contact_id
+          default: 00000000-0000-0000-000-000000000000
+          object: contact
+        - lineItem:
+          is_object: true
+          key: lineItem
+          keyPascal: LineItem
+          keySnake: line_item
+        - description:
+          key: description
+          keyPascal: Description
+          default: Foobar
+          object: lineItem
+        - quantity:
+          nonString: true
+          key: quantity
+          keyPascal: Quantity
+          default: 1.0
+          object: lineItem
+        - unitAmount:
+          nonString: true
+          key: unitAmount
+          keyPascal: UnitAmount
+          keySnake: unit_amount
+          default: 20.0
+          object: lineItem
+        - accountCode:
+          is_last: true
+          key: accountCode
+          keyPascal: AccountCode
+          keySnake: account_code
+          default: "000"
+          object: lineItem
+        - lineItems:
+          is_list: true
+          key: lineItems
+          keyPascal: LineItem
+          keySnake: line_items
+        - add_lineitems:
+          is_last: true
+          is_list_add: true
+          key: lineItems
+          keyPascal: LineItems
+          keySnake: line_items
+          python: line_item
+          object: lineItem
+        - purchaseOrder:
+          is_object: true
+          key: purchaseOrder
+          keyPascal: PurchaseOrder
+          keySnake: purchase_order
+        - set_contact:
+          is_variable: true
+          nonString: true
+          key: contact
+          keyPascal: Contact
+          default: contact
+          object: purchaseOrder
+        - set_lineitem:
+          is_variable: true
+          nonString: true
+          key: lineItems
+          keyPascal: LineItems
+          keySnake: line_items
+          default: lineItems
+          python: line_items
+          object: purchaseOrder
+        - date:
+          is_last: true
+          is_variable: true
+          nonString: true
+          key: date
+          keyPascal: Date
+          default: dateValue
+          python: date_value
+          object: purchaseOrder
+        - purchaseOrders:
+          is_object: true
+          key: purchaseOrders
+          keyPascal: PurchaseOrders
+        - add_purchaseOrder:
+          is_last: true
+          is_array_add: true
+          key: purchaseOrders
+          keyPascal: PurchaseOrders
+          keySnake: purchase_orders
+          java: PurchaseOrders
+          python: purchase_order
+          object: purchaseOrder
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
       responses:
@@ -11478,10 +14722,119 @@ paths:
       tags:
         - Accounting
       operationId: updateOrCreatePurchaseOrders
+      summary: Allows you to update or create one or more purchase orders
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ purchaseOrders: [ { contact: { contactID: "00000000-0000-0000-000-000000000000" }, lineItems: [{ description: "Foobar", quantity: 1.0, unitAmount: 20.0, accountCode: "710" }], date: "2019-03-13" }]}'
       x-ruby-requestBody: 'purchase_orders = { purchase_orders: [{ contact: { contact_id: "00000000-0000-0000-000-000000000000" }, line_items: [{ description: "Foobar", quantity: 1.0, unitAmount: 20.0, accountCode: "710" }], date: "2019-03-13" }]}'
-      summary: Allows you to update or create one or more purchase orders
+      x-example:
+        - dateValue:
+          is_date: true
+          key: dateValue
+          keyPascal: Date
+          keySnake: date_value
+          java_datatype: LocalDate
+          default: "LocalDate.of(2020, Month.OCTOBER, 10)"
+          java: "LocalDate.now()"
+          php: "new DateTime('2019-12-10')"
+          python: "dateutil.parser.parse('2020-12-03T00:00:00Z')"
+        - contact:
+          is_object: true
+          key: contact
+          keyPascal: Contact
+        - contactID:
+          is_last: true
+          is_uuid: true
+          key: contactId
+          keyPascal: ContactID
+          keySnake: contact_id
+          default: 00000000-0000-0000-000-000000000000
+          object: contact
+        - lineItem:
+          is_object: true
+          key: lineItem
+          keyPascal: LineItem
+          keySnake: line_item
+        - description:
+          key: description
+          keyPascal: Description
+          default: Foobar
+          object: lineItem
+        - quantity:
+          nonString: true
+          key: quantity
+          keyPascal: Quantity
+          default: 1.0
+          object: lineItem
+        - unitAmount:
+          nonString: true
+          key: unitAmount
+          keyPascal: UnitAmount
+          keySnake: unit_amount
+          default: 20.0
+          object: lineItem
+        - accountCode:
+          is_last: true
+          key: accountCode
+          keyPascal: AccountCode
+          keySnake: account_code
+          default: "000"
+          object: lineItem
+        - lineItems:
+          is_list: true
+          key: lineItems
+          keyPascal: LineItem
+          keySnake: line_items
+        - add_lineitems:
+          is_last: true
+          is_list_add: true
+          key: lineItems
+          keyPascal: LineItems
+          keySnake: line_items
+          python: line_item
+          object: lineItem
+        - purchaseOrder:
+          is_object: true
+          key: purchaseOrder
+          keyPascal: PurchaseOrder
+          keySnake: purchase_order
+        - set_contact:
+          is_variable: true
+          nonString: true
+          key: contact
+          keyPascal: Contact
+          default: contact
+          object: purchaseOrder
+        - set_lineitem:
+          is_variable: true
+          nonString: true
+          key: lineItems
+          keyPascal: LineItems
+          keySnake: line_items
+          default: lineItems
+          python: line_items
+          object: purchaseOrder
+        - date:
+          is_last: true
+          is_variable: true
+          nonString: true
+          key: date
+          keyPascal: Date
+          default: dateValue
+          python: date_value
+          object: purchaseOrder
+        - purchaseOrders:
+          is_object: true
+          key: purchaseOrders
+          keyPascal: PurchaseOrders
+        - add_purchaseOrder:
+          is_last: true
+          is_array_add: true
+          key: purchaseOrders
+          keyPascal: PurchaseOrders
+          keySnake: purchase_orders
+          java: PurchaseOrders
+          python: purchase_order
+          object: purchaseOrder
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
       responses:
@@ -11810,10 +15163,35 @@ paths:
       tags:
         - Accounting
       operationId: updatePurchaseOrder
+      summary: Allows you to update a specified purchase order
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ purchaseOrders:[ { attentionTo: "Peter Parker", lineItems: [], contact: {} }]}'
       x-ruby-requestBody: 'purchase_orders = { purchase_orders: [ { attention_to: "Peter Parker", line_items: [], contact: {} }]}'
-      summary: Allows you to update a specified purchase order
+      x-example:
+        - purchaseOrder:
+          is_object: true
+          key: purchaseOrder
+          keyPascal: PurchaseOrder
+          keySnake: purchase_order
+        - attentionTo:
+          is_last: true
+          key: attentionTo
+          keyPascal: AttentionTo
+          default: Peter Parker
+          object: purchaseOrder
+        - purchaseOrders:
+          is_object: true
+          key: purchaseOrders
+          keyPascal: PurchaseOrders
+        - add_purchaseOrder:
+          is_last: true
+          is_array_add: true
+          key: purchaseOrders
+          keyPascal: PurchaseOrders
+          keySnake: purchase_orders
+          java: PurchaseOrders
+          python: purchase_order
+          object: purchaseOrder
       parameters:
         - required: true
           in: path
@@ -12123,8 +15501,34 @@ paths:
       tags:
         - Accounting
       operationId: createPurchaseOrderHistory
-      x-hasAccountingValidationError: true
       summary: Allows you to create HistoryRecord for purchase orders
+      x-hasAccountingValidationError: true
+      x-example:
+        - historyRecord:
+          is_object: true
+          key: historyRecord
+          keyPascal: HistoryRecord
+          keySnake: history_record
+        - Details:
+          is_last: true
+          key: details
+          keyPascal: Details
+          default: Hello World
+          object: historyRecord
+        - historyRecords:
+          is_object: true
+          key: historyRecords
+          keyPascal: HistoryRecords
+          keySnake: history_records
+        - add_historyRecord:
+          is_last: true
+          is_array_add: true
+          key: historyRecords
+          keyPascal: HistoryRecords
+          keySnake: history_records
+          java: HistoryRecords
+          python: history_record
+          object: historyRecord 
       parameters:
         - required: true
           in: path
@@ -12444,6 +15848,7 @@ paths:
         - in: query
           name: Status
           description: Filter for quotes of a particular Status
+          example: "DRAFT"
           schema:
             type: string
         - in: query
@@ -12455,12 +15860,13 @@ paths:
         - in: query
           name: order
           description: Order by an any element
-          example: ASC
+          example: Status ASC
           schema:
             type: string
         - in: query
           name: QuoteNumber
           description: Filter by quote number (e.g. GET https://.../Quotes?QuoteNumber=QU-0001)
+          example: "QU-0001"
           schema:
             type: string
       responses:
@@ -12532,10 +15938,116 @@ paths:
       tags:
         - Accounting
       operationId: createQuotes
+      summary: Allows you to create one or more quotes
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ quotes: [{ contact: { contactID: "00000000-0000-0000-000-000000000000" }, lineItems: [{ description: "Foobar", quantity: 1.0, unitAmount: 20.0, accountCode: "12775" }], date: "2020-02-01" }]}'
       x-ruby-requestBody: 'quotes = { quotes: [{ contact: { contact_id: "00000000-0000-0000-000-000000000000" }, line_items: [{ description: "Foobar", quantity: 1.0, unit_amount: 20.0, account_code: "12775" }], date: "2020-02-01" }]}'
-      summary: Allows you to create one or more quotes
+      x-example:
+        - dateValue:
+          is_date: true
+          key: dateValue
+          keyPascal: Date
+          keySnake: date_value
+          java_datatype: LocalDate
+          default: "LocalDate.of(2020, Month.OCTOBER, 10)"
+          java: "LocalDate.now()"
+          php: "new DateTime('2019-12-10')"
+          python: "dateutil.parser.parse('2020-12-03T00:00:00Z')"
+        - contact:
+          is_object: true
+          key: contact
+          keyPascal: Contact
+        - contactID:
+          is_last: true
+          is_uuid: true
+          key: contactId
+          keyPascal: ContactID
+          keySnake: contact_id
+          default: 00000000-0000-0000-000-000000000000
+          object: contact
+        - lineItem:
+          is_object: true
+          key: lineItem
+          keyPascal: LineItem
+          keySnake: line_item
+        - description:
+          key: description
+          keyPascal: Description
+          default: Foobar
+          object: lineItem
+        - quantity:
+          nonString: true
+          key: quantity
+          keyPascal: Quantity
+          default: 1.0
+          object: lineItem
+        - unitAmount:
+          nonString: true
+          key: unitAmount
+          keyPascal: UnitAmount
+          keySnake: unit_amount
+          default: 20.0
+          object: lineItem
+        - accountCode:
+          is_last: true
+          key: accountCode
+          keyPascal: AccountCode
+          keySnake: account_code
+          default: "000"
+          object: lineItem
+        - lineItems:
+          is_list: true
+          key: lineItems
+          keyPascal: LineItem
+          keySnake: line_items
+        - add_lineitems:
+          is_last: true
+          is_list_add: true
+          key: lineItems
+          keyPascal: LineItems
+          keySnake: line_items
+          object: lineItem
+          python: line_item
+        - quote:
+          is_object: true
+          key: quote
+          keyPascal: Quote
+        - set_contact:
+          is_variable: true
+          nonString: true
+          key: contact
+          keyPascal: Contact
+          default: contact
+          object: quote
+        - set_lineitem:
+          is_variable: true
+          nonString: true
+          key: lineItems
+          keyPascal: LineItems
+          keySnake: line_items
+          default: lineItems
+          python: line_items
+          object: quote
+        - date:
+          is_last: true
+          is_variable: true
+          nonString: true
+          key: date
+          keyPascal: Date
+          default: dateValue
+          python: date_value
+          object: quote
+        - quotes:
+          is_object: true
+          key: quotes
+          keyPascal: Quotes
+        - add_quote:
+          is_last: true
+          is_array_add: true
+          key: quotes
+          keyPascal: Quotes
+          java: Quotes
+          object: quote
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
       responses:
@@ -12623,10 +16135,116 @@ paths:
       tags:
         - Accounting
       operationId: updateOrCreateQuotes
+      summary: Allows you to update OR create one or more quotes
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ quotes: [{ contact: { contactID: "00000000-0000-0000-000-000000000000" }, lineItems: [{ description: "Foobar", quantity: 1.0, unitAmount: 20.0, accountCode: "12775" }], date: "2020-02-01" }]}'
       x-ruby-requestBody: 'quotes = { quotes: [{ contact: { contact_id: "00000000-0000-0000-000-000000000000" }, line_items: [{ description: "Foobar", quantity: 1.0, unit_amount: 20.0, account_code: "12775" }], date: "2020-02-01" }]}'
-      summary: Allows you to update OR create one or more quotes
+      x-example:
+        - dateValue:
+          is_date: true
+          key: dateValue
+          keyPascal: Date
+          keySnake: date_value
+          java_datatype: LocalDate
+          default: "LocalDate.of(2020, Month.OCTOBER, 10)"
+          java: "LocalDate.now()"
+          php: "new DateTime('2019-12-10')"
+          python: "dateutil.parser.parse('2020-12-03T00:00:00Z')"
+        - contact:
+          is_object: true
+          key: contact
+          keyPascal: Contact
+        - contactID:
+          is_last: true
+          is_uuid: true
+          key: contactId
+          keyPascal: ContactID
+          keySnake: contact_id
+          default: 00000000-0000-0000-000-000000000000
+          object: contact
+        - lineItem:
+          is_object: true
+          key: lineItem
+          keyPascal: LineItem
+          keySnake: line_item
+        - description:
+          key: description
+          keyPascal: Description
+          default: Foobar
+          object: lineItem
+        - quantity:
+          nonString: true
+          key: quantity
+          keyPascal: Quantity
+          default: 1.0
+          object: lineItem
+        - unitAmount:
+          nonString: true
+          key: unitAmount
+          keyPascal: UnitAmount
+          keySnake: unit_amount
+          default: 20.0
+          object: lineItem
+        - accountCode:
+          is_last: true
+          key: accountCode
+          keyPascal: AccountCode
+          keySnake: account_code
+          default: "000"
+          object: lineItem
+        - lineItems:
+          is_list: true
+          key: lineItems
+          keyPascal: LineItem
+          keySnake: line_items
+        - add_lineitems:
+          is_last: true
+          is_list_add: true
+          key: lineItems
+          keyPascal: LineItems
+          keySnake: line_items
+          object: lineItem
+          python: line_item
+        - quote:
+          is_object: true
+          key: quote
+          keyPascal: Quote
+        - set_contact:
+          is_variable: true
+          nonString: true
+          key: contact
+          keyPascal: Contact
+          default: contact
+          object: quote
+        - set_lineitem:
+          is_variable: true
+          nonString: true
+          key: lineItems
+          keyPascal: LineItems
+          keySnake: line_items
+          default: lineItems
+          python: line_items
+          object: quote
+        - date:
+          is_last: true
+          is_variable: true
+          nonString: true
+          key: date
+          keyPascal: Date
+          default: dateValue
+          python: date_value
+          object: quote
+        - quotes:
+          is_object: true
+          key: quotes
+          keyPascal: Quotes
+        - add_quote:
+          is_last: true
+          is_array_add: true
+          key: quotes
+          keyPascal: Quotes
+          java: Quotes
+          object: quote
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
       responses:
@@ -12798,10 +16416,69 @@ paths:
       tags:
         - Accounting
       operationId: updateQuote
+      summary: Allows you to update a specified quote
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ quotes: [{ reference: "I am an update", contact: { contactID: "00000000-0000-0000-000-000000000000" }, date: "2020-02-01" }]}'
       x-ruby-requestBody: 'quotes = { quotes: [{ reference: "I am an update", contact: { contact_id: "00000000-0000-0000-000-000000000000" }, date: "2020-02-01" }]}'
-      summary: Allows you to update a specified quote
+      x-example:
+        - dateValue:
+          is_date: true
+          key: dateValue
+          keyPascal: Date
+          keySnake: date_value
+          java_datatype: LocalDate
+          default: "LocalDate.of(2020, Month.OCTOBER, 10)"
+          java: "LocalDate.now()"
+          php: "new DateTime('2019-12-10')"
+          python: "dateutil.parser.parse('2020-12-03T00:00:00Z')"
+        - contact:
+          is_object: true
+          key: contact
+          keyPascal: Contact
+        - contactID:
+          is_last: true
+          is_uuid: true
+          key: contactId
+          keyPascal: ContactID
+          keySnake: contact_id
+          default: 00000000-0000-0000-000-000000000000
+          object: contact
+        - quote:
+          is_object: true
+          key: quote
+          keyPascal: Quote
+        - reference:
+          key: reference
+          keyPascal: Reference
+          default: I am an update
+          object: quote
+        - set_contact:
+          is_variable: true
+          nonString: true
+          key: contact
+          keyPascal: Contact
+          default: contact
+          object: quote
+        - date:
+          is_last: true
+          is_variable: true
+          nonString: true
+          key: date
+          keyPascal: Date
+          default: dateValue
+          python: date_value
+          object: quote
+        - quotes:
+          is_object: true
+          key: quotes
+          keyPascal: Quotes
+        - add_quote:
+          is_last: true
+          is_array_add: true
+          key: quotes
+          keyPascal: Quotes
+          java: Quotes
+          object: quote
       parameters:
         - required: true
           in: path
@@ -12908,8 +16585,34 @@ paths:
       tags:
         - Accounting
       operationId: createQuoteHistory
-      x-hasAccountingValidationError: true
       summary: Allows you to retrieve a history records of an quote
+      x-hasAccountingValidationError: true
+      x-example:
+        - historyRecord:
+          is_object: true
+          key: historyRecord
+          keyPascal: HistoryRecord
+          keySnake: history_record
+        - Details:
+          is_last: true
+          key: details
+          keyPascal: Details
+          default: Hello World
+          object: historyRecord
+        - historyRecords:
+          is_object: true
+          key: historyRecords
+          keyPascal: HistoryRecords
+          keySnake: history_records
+        - add_historyRecord:
+          is_last: true
+          is_array_add: true
+          key: historyRecords
+          keyPascal: HistoryRecords
+          keySnake: history_records
+          java: HistoryRecords
+          python: history_record
+          object: historyRecord 
       parameters:
         - required: true
           in: path
@@ -13213,7 +16916,9 @@ paths:
         - in: query
           name: where
           description: Filter by an any element
-          example: Status=="' + Receipt.StatusEnum.DRAFT + '"
+          example: Status=="DRAFT"
+          x-example-java: Status==&quot;&apos; + Receipt.StatusEnum.DRAFT + &apos;&quot;
+          x-example-php: Status==&quot;&apos; . \XeroAPI\XeroPHP\Models\Accounting\Receipt::STATUS_DRAFT . &apos;&quot;
           x-ruby-param: Status==#{XeroRuby::Accounting::Receipt::DRAFT}
           schema:
             type: string
@@ -13284,10 +16989,142 @@ paths:
       tags:
         - Accounting
       operationId: createReceipt
+      summary: Allows you to create draft expense claim receipts for any user
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ receipts: [{ contact: { contactID: "00000000-0000-0000-000-000000000000" }, lineItems: [{ description: "Foobar", quantity: 2.0, unitAmount: 20.0, accountCode: "400", taxType: TaxType.NONE, lineAmount: 40.0 }], user: { userID: "00000000-0000-0000-000-000000000000" }, lineAmountTypes: LineAmountTypes.Inclusive, status: Receipt.StatusEnum.DRAFT, date: null} ] }'
       x-ruby-requestBody: 'receipts = { receipts: [ { contact: { contact_id: "00000000-0000-0000-000-000000000000" }, line_items: [{ description: "Foobar", quantity: 2.0, unit_amount: 20.0, account_code: "400", tax_type: XeroRuby::Accounting::TaxType::NONE, line_amount: 40.0 }], user: { user_id: "00000000-0000-0000-000-000000000000" }, line_amount_types: XeroRuby::Accounting::INCLUSIVE, status: XeroRuby::Accounting::Receipt::DRAFT, date: nil }]}'
-      summary: Allows you to create draft expense claim receipts for any user
+      x-example:
+        - contact:
+          is_object: true
+          key: contact
+          keyPascal: Contact
+        - contactID:
+          is_last: true
+          is_uuid: true
+          key: contactId
+          keyPascal: ContactID
+          keySnake: contact_id
+          default: 00000000-0000-0000-000-000000000000
+          object: contact
+        - user:
+          is_object: true
+          key: user
+          keyPascal: User
+        - userID:
+          is_last: true
+          is_uuid: true
+          key: userID
+          keyPascal: UserID
+          keySnake: user_id
+          default: 00000000-0000-0000-000-000000000000
+          object: user
+        - lineItem:
+          is_object: true
+          key: lineItem
+          keyPascal: LineItem
+          keySnake: line_item
+        - description:
+          key: description
+          keyPascal: Description
+          default: Foobar
+          object: lineItem
+        - quantity:
+          nonString: true
+          key: quantity
+          keyPascal: Quantity
+          default: 1.0
+          object: lineItem
+        - unitAmount:
+          nonString: true
+          key: unitAmount
+          keyPascal: UnitAmount
+          keySnake: unit_amount
+          default: 20.0
+          object: lineItem
+        - accountCode:
+          is_last: true
+          key: accountCode
+          keyPascal: AccountCode
+          keySnake: account_code
+          default: "000"
+          object: lineItem
+        - lineItems:
+          is_list: true
+          key: lineItems
+          keyPascal: LineItem
+          keySnake: line_items
+        - add_lineitems:
+          is_last: true
+          is_list_add: true
+          key: lineItems
+          keyPascal: LineItems
+          keySnake: line_items
+          object: lineItem
+          python: line_item
+        - receipt:
+          is_object: true
+          key: receipt
+          keyPascal: Receipt
+        - set_contact:
+          is_variable: true
+          nonString: true
+          key: contact
+          keyPascal: Contact
+          default: contact
+          object: receipt
+        - set_user:
+          is_variable: true
+          nonString: true
+          key: user
+          keyPascal: User
+          default: user
+          object: receipt
+        - set_lineitem:
+          is_variable: true
+          nonString: true
+          key: lineItems
+          keyPascal: LineItems
+          keySnake: line_items
+          default: lineItems
+          python: line_items
+          object: receipt
+        - lineAmountTypes:
+          nonString: true
+          key: lineAmountTypes
+          keyPascal: LineAmountTypes
+          keySnake: line_amount_types
+          default: INCLUSIVE
+          php: XeroAPI\XeroPHP\Models\Accounting\LineAmountTypes::INCLUSIVE
+          node: LineAmountTypes.Inclusive
+          ruby: XeroRuby::Accounting::INCLUSIVE
+          python: LineAmountTypes.INCLUSIVE
+          java: com.xero.models.accounting.LineAmountTypes.INCLUSIVE
+          csharp: LineAmountTypes.xxx
+          object: receipt
+        - status:
+          is_last: true
+          nonString: true
+          key: status
+          keyPascal: Status
+          default: DRAFT
+          php: XeroAPI\XeroPHP\Models\Accounting\Receipt::STATUS_DRAFT
+          node: Receipt.StatusEnum.DRAFT
+          ruby: XeroRuby::Accounting::Receipt::DRAFT
+          python_string: DRAFT
+          java: com.xero.models.accounting.Receipt.StatusEnum.DRAFT
+          csharp: Receipt.xxx
+          object: receipt
+        - receipts:
+          is_object: true
+          key: receipts
+          keyPascal: Receipts
+        - add_receipt:
+          is_last: true
+          is_array_add: true
+          key: receipts
+          keyPascal: Receipts
+          java: Receipts
+          object: receipt
       parameters:
         - $ref: '#/components/parameters/unitdp'
       responses:
@@ -13586,10 +17423,67 @@ paths:
       tags:
         - Accounting
       operationId: updateReceipt
+      summary: Allows you to retrieve a specified draft expense claim receipts
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ receipts: [{ user: { userID: "00000000-0000-0000-000-000000000000" }, reference: "Foobar", date: "2020-01-01", contact: {}, lineItems: [] }]}'
       x-ruby-requestBody: 'receipts = { receipts: [{ user: { user_id: "00000000-0000-0000-000-000000000000" }, reference: "Foobar", date: "2020-01-01", contact: {}, line_items: [] }]}'
-      summary: Allows you to retrieve a specified draft expense claim receipts
+      x-example:
+        - dateValue:
+          is_date: true
+          key: dateValue
+          keyPascal: Date
+          java_datatype: LocalDate
+          default: "LocalDate.of(2020, Month.OCTOBER, 10)"
+          java: "LocalDate.now()"
+          php: "new DateTime('2019-12-10')"
+          python: "dateutil.parser.parse('2020-10-10T00:00:00Z')"
+        - user:
+          is_object: true
+          key: user
+          keyPascal: User
+        - userID:
+          is_last: true
+          is_uuid: true
+          key: userID
+          keyPascal: UserID
+          keySnake: user_id
+          default: 00000000-0000-0000-000-000000000000
+          object: user
+        - receipt:
+          is_object: true
+          key: receipt
+          keyPascal: Receipt
+        - set_user:
+          is_variable: true
+          nonString: true
+          key: user
+          keyPascal: User
+          default: user
+          object: receipt
+        - reference:
+          key: reference
+          keyPascal: Reference
+          default: Foobar
+          object: receipt
+        - date:
+          is_last: true
+          is_variable: true
+          nonString: true
+          key: date
+          keyPascal: Date
+          default: dateValue
+          object: receipt
+        - receipts:
+          is_object: true
+          key: receipts
+          keyPascal: Receipts
+        - add_receipt:
+          is_last: true
+          is_array_add: true
+          key: receipts
+          keyPascal: Receipts
+          java: Receipts
+          object: receipt
       parameters:
         - required: true
           in: path
@@ -13994,8 +17888,34 @@ paths:
       tags:
         - Accounting
       operationId: createReceiptHistory
-      x-hasAccountingValidationError: true
       summary: Allows you to retrieve a history records of an Receipt
+      x-hasAccountingValidationError: true
+      x-example:
+        - historyRecord:
+          is_object: true
+          key: historyRecord
+          keyPascal: HistoryRecord
+          keySnake: history_record
+        - Details:
+          is_last: true
+          key: details
+          keyPascal: Details
+          default: Hello World
+          object: historyRecord
+        - historyRecords:
+          is_object: true
+          key: historyRecords
+          keyPascal: HistoryRecords
+          keySnake: history_records
+        - add_historyRecord:
+          is_last: true
+          is_array_add: true
+          key: historyRecords
+          keyPascal: HistoryRecords
+          keySnake: history_records
+          java: HistoryRecords
+          python: history_record
+          object: historyRecord 
       parameters:
         - required: true
           in: path
@@ -14047,7 +17967,9 @@ paths:
         - in: query
           name: where
           description: Filter by an any element
-          example: Status=="' + RepeatingInvoice.StatusEnum.DRAFT + '"
+          example: Status=="DRAFT"
+          x-example-java: Status==&quot;&apos; + RepeatingInvoice.StatusEnum.DRAFT + &apos;&quot;
+          x-example-php: Status==&quot;&apos; . \XeroAPI\XeroPHP\Models\Accounting\RepeatingInvoice::STATUS_DRAFT . &apos;&quot;
           x-ruby-param: Status==#{XeroRuby::Accounting::RepeatingInvoice::DRAFT}
           schema:
             type: string
@@ -14500,8 +18422,34 @@ paths:
       tags:
         - Accounting
       operationId: createRepeatingInvoiceHistory
-      x-hasAccountingValidationError: true
       summary: Allows you to create history for a repeating invoice
+      x-hasAccountingValidationError: true
+      x-example:
+        - historyRecord:
+          is_object: true
+          key: historyRecord
+          keyPascal: HistoryRecord
+          keySnake: history_record
+        - Details:
+          is_last: true
+          key: details
+          keyPascal: Details
+          default: Hello World
+          object: historyRecord
+        - historyRecords:
+          is_object: true
+          key: historyRecords
+          keyPascal: HistoryRecords
+          keySnake: history_records
+        - add_historyRecord:
+          is_last: true
+          is_array_add: true
+          key: historyRecords
+          keyPascal: HistoryRecords
+          keySnake: history_records
+          java: HistoryRecords
+          python: history_record
+          object: historyRecord 
       parameters:
         - required: true
           in: path
@@ -18196,6 +22144,97 @@ paths:
         - Accounting
       operationId: postSetup
       summary: Allows you to set the chart of accounts, the conversion date and conversion balances
+      x-example:
+        - account:
+          is_object: true
+          key: account
+          keyPascal: Account
+        - code:
+          key: code
+          keyPascal: Code
+          default: 123
+          object: account
+        - name:
+          key: name
+          keyPascal: Name
+          default: Business supplies
+          object: account
+        - type:
+          is_last: true
+          key: type
+          keyPascal: Type
+          default: EXPENSE
+          nonString: true
+          php: XeroAPI\XeroPHP\Models\Accounting\AccountType::EXPENSE
+          node: AccountType.EXPENSE
+          ruby: XeroRuby::Accounting::AccountType::EXPENSE
+          python: AccountType.EXPENSE
+          java: com.xero.models.accounting.AccountType.EXPENSE
+          csharp: Account.ClassEnum.EXPENSE
+          object: account
+        - accounts:
+          is_list: true
+          key: accounts
+          keyPascal: Account
+        - add_accounts:
+          is_last: true
+          is_list_add: true
+          key: accounts
+          keyPascal: Accounts
+          object: account
+        - conversionDate:
+          is_object: true
+          key: conversionDate
+          keyPascal: ConversionDate
+          keySnake: conversion_date
+        - month:
+          nonString: true
+          key: month
+          keyPascal: Month
+          default: 10
+          object: conversionDate
+        - year:
+          is_last: true
+          nonString: true
+          key: year
+          keyPascal: Year
+          default: 2020
+          object: conversionDate
+        - conversionBalances:
+          is_list: true
+          key: conversionBalances
+          keyPascal: ConversionBalances
+          keySnake: conversion_balances
+        - Setup:
+          is_object: true
+          key: setup
+          keyPascal: Setup
+        - set_accounts:
+          is_variable: true
+          nonString: true
+          key: accounts
+          keyPascal: Accounts
+          default: accounts
+          object: setup
+        - set_conversionDate:
+          is_variable: true
+          nonString: true
+          key: conversionDate
+          keyPascal: ConversionDate
+          keySnake: conversion_date
+          default: conversionDate
+          python: conversion_date
+          object: setup
+        - set_conversionBalances:
+          is_last: true
+          is_variable: true
+          nonString: true
+          key: conversionBalances
+          keyPascal: ConversionBalances
+          keySnake: conversion_balances
+          default: conversionBalances
+          python: conversion_balances
+          object: setup
       responses:
         '200':
           description: Success - returns a summary of the chart of accounts updates
@@ -18278,7 +22317,9 @@ paths:
         - in: query
           name: where
           description: Filter by an any element
-          example: Status=="' + TaxRate.StatusEnum.ACTIVE + '"
+          example: Status=="ACTIVE"
+          x-example-java: Status==&quot;&apos; + TaxRate.StatusEnum.ACTIVE + &apos;&quot;
+          x-example-php: Status==&quot;&apos; . \XeroAPI\XeroPHP\Models\Accounting\TaxRate::STATUS_ACTIVE . &apos;&quot;
           x-ruby-param: Status==#{XeroRuby::Accounting::TaxRate::ACTIVE}
           schema:
             type: string
@@ -18420,10 +22461,60 @@ paths:
       tags:
         - Accounting
       operationId: createTaxRates
+      summary: Allows you to create one or more Tax Rates      
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ taxRates: [{ name: "CA State Tax", taxComponents: [{ name: "State Tax", rate: 2.25 }]}]}'
       x-ruby-requestBody: 'tax_rates = { tax_rates: [{ name: "CA State Tax", tax_components: [{ name: "State Tax", rate: 2.25 }]}]}'
-      summary: Allows you to create one or more Tax Rates      
+      x-example:
+        - taxComponent:
+          is_object: true
+          key: taxComponent
+          keyPascal: TaxComponent
+          keySnake: tax_component
+        - name:
+          key: name
+          keyPascal: Name
+          default: State Tax
+          object: taxComponent
+        - rate:
+          is_last: true
+          nonString: true
+          key: rate
+          keyPascal: Rate
+          default: 2.25
+          object: taxComponent
+        - taxRate:
+          is_object: true
+          key: taxRate
+          keyPascal: TaxRate
+          keySnake: tax_rate
+        - name:
+          key: name
+          keyPascal: Name
+          default: CA State Tax
+          object: taxRate
+        - add_taxComponent:
+          is_last: true
+          is_array_add: true
+          key: taxRate
+          keyPascal: TaxComponents
+          keySnake: tax_components
+          java: TaxComponents
+          python: tax_component
+          object: taxComponent
+        - taxRates:
+          is_object: true
+          key: taxRates
+          keyPascal: TaxRates
+        - add_taxRate:
+          is_last: true
+          is_array_add: true
+          key: taxRates
+          keyPascal: TaxRates
+          keySnake: tax_rates
+          java: TaxRates
+          python: tax_rate
+          object: taxRate
       responses:
         '200':
           description: Success - return response of type TaxRates array newly created TaxRate
@@ -18488,10 +22579,60 @@ paths:
       tags:
         - Accounting
       operationId: updateTaxRate
+      summary: Allows you to update Tax Rates
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ taxRates: [{ name: "State Tax NY", taxComponents: [{ name: "State Tax", rate: 2.25 }], status: TaxRate.StatusEnum.DELETED, reportTaxType: TaxRate.ReportTaxTypeEnum.INPUT }]}'
       x-ruby-requestBody: 'tax_rates = { tax_rates: [{ name: "State Tax NY", tax_components: [{ name: "State Tax", rate: 2.25 }], status: XeroRuby::Accounting::TaxRate::Deleted, report_tax_type: XeroRuby::Accounting::TaxRate::INPUT }]}'
-      summary: Allows you to update Tax Rates
+      x-example:
+        - taxComponent:
+          is_object: true
+          key: taxComponent
+          keyPascal: TaxComponent
+          keySnake: tax_component
+        - name:
+          key: name
+          keyPascal: Name
+          default: State Tax
+          object: taxComponent
+        - rate:
+          is_last: true
+          nonString: true
+          key: rate
+          keyPascal: Rate
+          default: 2.25
+          object: taxComponent
+        - taxRate:
+          is_object: true
+          key: taxRate
+          keyPascal: TaxRate
+          keySnake: tax_rate
+        - name:
+          key: name
+          keyPascal: Name
+          default: CA State Tax
+          object: taxRate
+        - add_taxComponent:
+          is_last: true
+          is_array_add: true
+          key: taxRate
+          keyPascal: TaxComponents
+          keySnake: tax_components
+          java: TaxComponents
+          python: tax_component
+          object: taxComponent
+        - taxRates:
+          is_object: true
+          key: taxRates
+          keyPascal: TaxRates
+        - add_taxRate:
+          is_last: true
+          is_array_add: true
+          key: taxRates
+          keyPascal: TaxRates
+          keySnake: tax_rates
+          java: TaxRates
+          python: tax_rate
+          object: taxRate
       responses:
         '200':
           description: Success - return response of type TaxRates array updated TaxRate
@@ -18565,7 +22706,9 @@ paths:
         - in: query
           name: where
           description: Filter by an any element
-          example: Status=="' + TrackingCategory.StatusEnum.ACTIVE + '"
+          example: Status=="ACTIVE"
+          x-example-java: Status==&quot;&apos; + TrackingCategory.StatusEnum.ACTIVE + &apos;&quot;
+          x-example-php: Status==&quot;&apos; . \XeroAPI\XeroPHP\Models\Accounting\TrackingCategory::STATUS_ACTIVE . &apos;&quot;
           x-ruby-param: Status==#{XeroRuby::Accounting::TrackingCategory::ACTIVE}
           schema:
             type: string
@@ -18613,8 +22756,19 @@ paths:
       tags:
         - Accounting
       operationId: createTrackingCategory
-      x-hasAccountingValidationError: true
       summary: Allows you to create tracking categories
+      x-hasAccountingValidationError: true
+      x-example:
+        - trackingCategory:
+          is_object: true
+          key: trackingCategory
+          keyPascal: TrackingCategory
+        - name:
+          is_last: true
+          key: name
+          keyPascal: Name
+          default: Foobar
+          object: trackingCategory
       responses:
         '200':
           description: Success - return response of type TrackingCategories array of newly created TrackingCategory
@@ -18692,10 +22846,21 @@ paths:
       tags:
         - Accounting
       operationId: updateTrackingCategory
+      summary: Allows you to update tracking categories
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ name: "Avengers" }'
       x-ruby-requestBody: 'tracking_categories = { name: "Avengers" }'
-      summary: Allows you to update tracking categories
+      x-example:
+        - trackingCategory:
+          is_object: true
+          key: trackingCategory
+          keyPascal: TrackingCategory
+        - name:
+          is_last: true
+          key: name
+          keyPascal: Name
+          default: Foobar
+          object: trackingCategory
       parameters:
         - required: true
           in: path
@@ -18783,8 +22948,19 @@ paths:
       tags:
         - Accounting
       operationId: createTrackingOptions
-      x-hasAccountingValidationError: true
       summary: Allows you to create options for a specified tracking category
+      x-hasAccountingValidationError: true
+      x-example:
+        - trackingOption:
+          is_object: true
+          key: trackingOption
+          keyPascal: TrackingOption
+        - name:
+          is_last: true
+          key: name
+          keyPascal: Name
+          default: Foobar
+          object: trackingOption
       parameters:
         - required: true
           in: path
@@ -18837,8 +23013,19 @@ paths:
       tags:
         - Accounting
       operationId: updateTrackingOptions
-      x-hasAccountingValidationError: true
       summary: Allows you to update options for a specified tracking category
+      x-hasAccountingValidationError: true
+      x-example:
+        - trackingOption:
+          is_object: true
+          key: trackingOption
+          keyPascal: TrackingOption
+        - name:
+          is_last: true
+          key: name
+          keyPascal: Name
+          default: Foobar
+          object: trackingOption
       parameters:
         - required: true
           in: path
@@ -19120,6 +23307,7 @@ components:
       name: summarizeErrors
       description: If false return 200 OK and mix of successfully created objects and any with validation errors
       example: true
+      x-example-python: "True"
       schema:
         type: boolean
         default: false
