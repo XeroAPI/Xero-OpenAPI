@@ -74,7 +74,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Projects'
-              example: '{
+              example: {
                           "pagination":{
                               "page":1,
                               "pageSize":50,
@@ -145,7 +145,7 @@ paths:
                                 "status":"INPROGRESS"
                               }
                           ]
-                        }'
+                        }
         '400':
           $ref: '#/components/responses/400Error' 
     post:
@@ -162,13 +162,12 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/ProjectCreateOrUpdate'
-            example:
-              '{
-                "contactId":"00000000-0000-0000-000-000000000000",
+            example: {
+                "contactId": 00000000-0000-0000-0000-000000000000,
                 "name":"New Kitchen",
                 "deadlineUtc":"2019-12-10T12:59:59Z",
-                "estimateAmount":"99.99"
-               }'
+                "estimateAmount": 99.99
+            }
       responses:
         '201':
           description: OK/success, returns the new project object
@@ -176,7 +175,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Project'
-              example: '{ 
+              example:  { 
                           "projectId":"ed957eee-bc6f-4f52-a663-aa42e6af9620",
                           "contactId":"216830cb-9a68-487e-928b-c1a7ccc4fc81",
                           "name":"New Kitchen",
@@ -237,7 +236,7 @@ paths:
                               "value":99.99
                           },
                           "status":"INPROGRESS"
-                        }'
+                        }
         '400':
           $ref: '#/components/responses/400Error'
   '/projects/{projectId}':
@@ -266,7 +265,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Project'
-              example: '{
+              example:  {
                           "projectId":"b021e7cb-1903-4292-b48b-5b27b4271e3e",
                           "contactId":"216830cb-9a68-487e-928b-c1a7ccc4fc81",
                           "name":"FooProject28916",
@@ -327,7 +326,7 @@ paths:
                               "value":99.99
                           },
                           "status":"INPROGRESS"
-                        }'
+                        }
         '400':
           $ref: '#/components/responses/400Error' 
     put:
@@ -354,11 +353,11 @@ paths:
             schema:
               $ref: '#/components/schemas/ProjectCreateOrUpdate'
             example:
-              '{
+               {
                 "name": "New Kitchen",
                 "deadlineUtc": "2017-04-23T18:25:43.511Z",
                 "estimateAmount": 99.99
-                }'
+                }
       responses:
         '204':
           description: Success - return response 204 no content
@@ -389,9 +388,9 @@ paths:
             schema:
               $ref: '#/components/schemas/ProjectPatch'
             example:
-              '{
+               {
                 "status": "INPROGRESS"
-                }'
+                }
       responses:
         '204':
           description: Success - return response 204 no content
@@ -435,7 +434,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProjectUsers'
-              example: '{
+              example:  {
                           "pagination":{
                               "page":1,
                               "pageSize":50,
@@ -454,7 +453,7 @@ paths:
                                 "email":"api@test.xero.com"
                               }
                           ]
-                        }'
+                        }
         '400':
           $ref: '#/components/responses/400Error' 
   /projects/{projectId}/tasks:
@@ -493,8 +492,7 @@ paths:
           description: "taskIds	Search for all tasks that match a comma separated list of taskIds, i.e. GET https://.../tasks?taskIds={taskId},{taskId}"  
           schema:
             type: string
-        - name: chargeType
-          $ref: '#/components/parameters/chargeType'  
+        - $ref: '#/components/parameters/chargeType'  
       responses:
         '200':
           description: OK/success, returns a list of task objects
@@ -502,7 +500,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Tasks'
-              example: '{
+              example:  {
                           "pagination": {
                             "page": 1,
                             "pageSize": 50,
@@ -540,7 +538,7 @@ paths:
                               }
                             }
                           ]
-                        }'
+                        }
     # post:
     #   security:
     #     - OAuth2: [projects, projects.read]
@@ -608,7 +606,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Task'
-              example: '{
+              example:  {
                           "name": "Demolition",
                           "rate": {
                             "currency": "AUD",
@@ -636,7 +634,7 @@ paths:
                             "currency": "AUD",
                             "value": 0
                           }
-                        }'
+                        }
     # put:
     #   security:
     #     - OAuth2: [projects, projects.read]
@@ -788,7 +786,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TimeEntries'
-              example: '{
+              example:  {
                           "pagination":{
                               "page":1,
                               "pageSize":50,
@@ -819,7 +817,7 @@ paths:
                                 "status":"ACTIVE"
                               }
                           ]
-                        }'
+                        }
     post:
       security:
         - OAuth2: [projects, projects.read]
@@ -843,13 +841,13 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/TimeEntryCreateOrUpdate'
-            example: '{
+            example:  {
                         "userId":"740add2a-a703-4b8a-a670-1093919c2040",
                         "taskId":"7be77337-feec-4458-bb1b-dbaa5a4aafce",
                         "dateUtc":"2020-02-26T15:00:00Z",
                         "duration":30,
                         "description":"My description"
-                      }'
+                      }
       responses:
         '200':
           description: OK/success, returns the newly created time entry
@@ -857,7 +855,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TimeEntry'
-              example: '{
+              example:  {
                           "timeEntryId":"c6539534-f1d2-43a6-80df-3bd1f8aca24d",
                           "userId":"740add2a-a703-4b8a-a670-1093919c2040",
                           "projectId":"b021e7cb-1903-4292-b48b-5b27b4271e3e",
@@ -867,7 +865,7 @@ paths:
                           "duration":30,
                           "description":"My description",
                           "status":"ACTIVE"
-                        }'
+                        }
   /projects/{projectId}/time/{timeEntryId}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -901,7 +899,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TimeEntry'
-              example: '{
+              example:  {
                           "timeEntryId":"3cd35eca-704f-4bca-b258-236028ae8ed1",
                           "userId":"740add2a-a703-4b8a-a670-1093919c2040",
                           "projectId":"b021e7cb-1903-4292-b48b-5b27b4271e3e",
@@ -911,7 +909,7 @@ paths:
                           "duration":45,
                           "description":"My description",
                           "status":"ACTIVE"
-                        }'
+                        }
     put:
       security:
         - OAuth2: [projects, projects.read]
@@ -942,13 +940,13 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/TimeEntryCreateOrUpdate'
-            example: '{
+            example:  {
                         "userId":"740add2a-a703-4b8a-a670-1093919c2040",
                         "taskId":"7be77337-feec-4458-bb1b-dbaa5a4aafce",
                         "dateUtc":"2020-02-27T15:00:00Z",
                         "duration":45,
                         "description":"My UPDATED description"
-                      }'
+                      }
       responses:
         '204':
           description: Success - return response 204 no content
@@ -1055,7 +1053,6 @@ components:
       properties:      
         status:
           $ref: '#/components/schemas/ProjectStatus'
-          type: string
       required:
         - status
     Project:
@@ -1081,7 +1078,6 @@ components:
           description: Name of the project.
         currencyCode:
           $ref: '#/components/schemas/CurrencyCode'
-          type: string
         minutesLogged:
           type: integer
           example: 0
@@ -1124,7 +1120,6 @@ components:
         estimate:
           $ref: '#/components/schemas/Amount'
         status:
-          type: string
           $ref: '#/components/schemas/ProjectStatus'
       required:
         - name    
@@ -1180,7 +1175,6 @@ components:
       properties:
           currency:
             $ref: '#/components/schemas/CurrencyCode'
-            type: string
           value:
             type: number
             format: double
@@ -1392,17 +1386,15 @@ components:
         taskId:
           type: string
           format: uuid
-          example: '00000000-0000-0000-000-000000000000'
+          example: 00000000-0000-0000-0000-000000000000
           description: Identifier of the task.
         name:
           type: string
           description: Name of the task.
         rate:
           $ref: '#/components/schemas/Amount'
-          type: number
         chargeType:
           $ref: '#/components/schemas/ChargeType'
-          type: string
         estimateMinutes:
           type: number
           format: double
@@ -1410,7 +1402,7 @@ components:
         projectId:
           type: string
           format: uuid
-          example: '00000000-0000-0000-000-000000000000'
+          example: 00000000-0000-0000-0000-000000000000
           description: Identifier of the project task belongs to.
         totalMinutes:
           type: number
@@ -1418,7 +1410,6 @@ components:
           description: Total minutes which have been logged against the task. Logged by assigning a time entry to a task
         totalAmount:
           $ref: '#/components/schemas/Amount'
-          type: number
         minutesInvoiced:
           type: number
           format: double
@@ -1437,10 +1428,8 @@ components:
           description: Minutes logged against this task if its charge type is `NON_CHARGEABLE`.
         amountToBeInvoiced:
           $ref: '#/components/schemas/Amount'
-          type: number
         amountInvoiced:
           $ref: '#/components/schemas/Amount'
-          type: number
         status:
           type: string
           enum:
@@ -1468,7 +1457,6 @@ components:
           $ref: '#/components/schemas/Amount'
         chargeType:
           $ref: '#/components/schemas/ChargeType'
-          type: string
         estimateMinutes:
           type: integer
           description: "Estimated time to perform the task. EstimateMinutes has to be greater than 0 if provided."
@@ -1495,22 +1483,22 @@ components:
         timeEntryId:
           type: string
           format: uuid
-          example: '00000000-0000-0000-000-000000000000'
+          example: 00000000-0000-0000-0000-000000000000
           description: Identifier of the time entry.
         userId:
           type: string
           format: uuid
-          example: '00000000-0000-0000-000-000000000000'
+          example: 00000000-0000-0000-0000-000000000000
           description: The xero user identifier of the person who logged time.
         projectId:
           type: string
           format: uuid
-          example: '00000000-0000-0000-000-000000000000'
+          example: 00000000-0000-0000-0000-000000000000
           description: Identifier of the project, that the task (which the time entry is logged against) belongs to.
         taskId:
           type: string
           format: uuid
-          example: '00000000-0000-0000-000-000000000000'
+          example: 00000000-0000-0000-0000-000000000000
           description: Identifier of the task that time entry is logged against.
         dateUtc:
           type: string
@@ -1540,12 +1528,12 @@ components:
         userId:
           type: string
           format: uuid
-          example: '00000000-0000-0000-000-000000000000'
+          example: 00000000-0000-0000-0000-000000000000
           description: "The xero user identifier of the person logging the time."
         taskId:
           type: string
           format: uuid
-          example: '00000000-0000-0000-000-000000000000'
+          example: 00000000-0000-0000-0000-000000000000
           description: "Identifier of the task that time entry is logged against."
         dateUtc:
           type: string
