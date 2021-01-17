@@ -14,7 +14,6 @@ paths:
   /Accounts:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
-        type: string
     get:
       security:
         - OAuth2: [accounting.settings]
@@ -46,7 +45,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Accounts'
-              example: '{
+              example: {
                       "Accounts": [{
                         "AccountID": "ebd06280-af70-4bed-97c6-7451a454ad85",
                         "Code": "091",
@@ -66,7 +65,7 @@ paths:
                         "Description": "Income from any normal business activity",
                         "EnablePaymentsToAccount": false
                       }]
-                    }'
+                    }
       
     put:
       security:
@@ -118,7 +117,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Accounts'
-              example: '{
+              example: {
                           "Id": "11814c9d-3b5e-492e-93b0-fad16bf3244f",
                           "Status": "OK",
                           "ProviderName": "Xero API Partner",
@@ -140,14 +139,14 @@ paths:
                               "UpdatedDateUTC": "\/Date(1550793549320+0000)\/"
                             }
                           ]
-                        }'
+                        }
         '400':
           description: Validation Error - some data was incorrect returns response of type Error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-              example: '{
+              example: {
                           "ErrorNumber": 10,
                           "Type": "ValidationException",
                           "Message": "A validation exception occurred",
@@ -165,7 +164,7 @@ paths:
                               ]
                             }
                           ]
-                        }'
+                        }
       requestBody:
         required: true
         description: Account object in body of request 
@@ -173,13 +172,13 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Account'
-            example: '{
+            example: {
                         "Code":"123456",
                         "Name":"Foobar",
                         "Type":"EXPENSE",
                         "Description":"Hello World"
-                      }'
-  '/Accounts/{AccountID}':
+                      }
+  /Accounts/{AccountID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
@@ -194,7 +193,7 @@ paths:
           in: path
           name: AccountID
           description: Unique identifier for retrieving single object
-          example: "00000000-0000-0000-000-000000000000"
+          example: 00000000-0000-0000-0000-000000000000
           schema:
             type: string
             format: uuid
@@ -205,7 +204,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Accounts'
-              example: '{
+              example:  {
                           "Id": "323455cc-9511-4451-a873-248d2983f38e",
                           "Status": "OK",
                           "ProviderName": "Xero API Partner",
@@ -227,7 +226,7 @@ paths:
                               "UpdatedDateUTC": "\/Date(1550797359120+0000)\/"
                             }
                           ]
-                        }'
+                        }
     post:
       security:
         - OAuth2: [accounting.settings]
@@ -293,7 +292,7 @@ paths:
           in: path
           name: AccountID
           description: Unique identifier for retrieving single object
-          example: "00000000-0000-0000-000-000000000000"
+          example: 00000000-0000-0000-0000-000000000000
           schema:
             type: string
             format: uuid
@@ -304,7 +303,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Accounts'
-              example: '{
+              example:  {
                           "Id": "9012e75c-ec08-40a9-ae15-153fc1f35c4d",
                           "Status": "OK",
                           "ProviderName": "Xero API Partner",
@@ -326,14 +325,14 @@ paths:
                               "UpdatedDateUTC": "\/Date(1550795389333+0000)\/"
                             }
                           ]
-                        }'
+                        }
         '400':
           description: Validation Error - some data was incorrect returns response of type Error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-              example: '{
+              example:  {
                           "ErrorNumber": 10,
                           "Type": "ValidationException",
                           "Message": "A validation exception occurred",
@@ -351,7 +350,7 @@ paths:
                               ]
                             }
                           ]
-                        }'
+                        }
       requestBody:
         required: true
         description: Request of type Accounts array with one Account 
@@ -359,7 +358,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Accounts'
-            example: '{  
+            example:  {  
                         "Accounts":[  
                           {  
                               "Code":"123456",
@@ -376,7 +375,7 @@ paths:
                               "UpdatedDateUTC":"2019-02-21T16:29:47.96-08:00"
                           }
                         ]
-                      }'
+                      }
     delete:
       security:
         - OAuth2: [accounting.settings]
@@ -390,7 +389,7 @@ paths:
           in: path
           name: AccountID
           description: Unique identifier for retrieving single object
-          example: "00000000-0000-0000-000-000000000000"
+          example: 00000000-0000-0000-0000-000000000000
           schema:
             type: string
             format: uuid
@@ -401,7 +400,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Accounts'
-              example: '{
+              example:  {
                           "Id": "76bb0543-8efe-4acc-b7f6-67dfcdec37b4",
                           "Status": "OK",
                           "ProviderName": "Xero API Partner",
@@ -423,14 +422,14 @@ paths:
                               "UpdatedDateUTC": "\/Date(1550798217210+0000)\/"
                             }
                           ]
-                        }'
+                        }
         '400':
           description: Validation Error - some data was incorrect returns response of type Error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-              example: '{
+              example:  {
                           "ErrorNumber": 10,
                           "Type": "ValidationException",
                           "Message": "A validation exception occurred",
@@ -448,8 +447,8 @@ paths:
                               ]
                             }
                           ]
-                        }'
-  '/Accounts/{AccountID}/Attachments':
+                        }
+  /Accounts/{AccountID}/Attachments:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
@@ -464,7 +463,7 @@ paths:
           in: path
           name: AccountID
           description: Unique identifier for Account object
-          example: "00000000-0000-0000-000-000000000000"
+          example: 00000000-0000-0000-0000-000000000000
           schema:
             type: string
             format: uuid
@@ -476,7 +475,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Attachments'
-              example: '{
+              example:  {
                           "Id": "439c1573-3cd8-4697-a9f6-81fa651ee8f3",
                           "Status": "OK",
                           "ProviderName": "Xero API Partner",
@@ -490,50 +489,8 @@ paths:
                               "ContentLength": 2878711
                             }
                           ]
-                        }'
-  '/Accounts/{AccountID}/Attachments/{AttachmentID}':
-    parameters:
-      - $ref: '#/components/parameters/requiredHeader'
-    get:
-      security:
-        - OAuth2: [accounting.attachments.read]
-      tags:
-        - Accounting
-      operationId: getAccountAttachmentById
-      summary: Allows you to retrieve specific Attachment on Account
-      parameters:
-        - required: true
-          in: path
-          name: AccountID
-          description: Unique identifier for Account object
-          example: "00000000-0000-0000-000-000000000000"
-          schema:
-            type: string
-            format: uuid
-        - required: true
-          in: path
-          name: AttachmentID
-          description: Unique identifier for Attachment object
-          example: "00000000-0000-0000-000-000000000000"
-          schema:
-            type: string
-            format: uuid
-        - required: true
-          in: header
-          name: contentType
-          description: The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf 
-          example: image/jpg
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Success - return response of attachment for Account as binary data 
-          content:
-             application/octet-stream:
-              schema:
-                type: string
-                format: binary
-  '/Accounts/{AccountID}/Attachments/{FileName}':
+                        }
+  /Accounts/{AccountID}/Attachments/{FileName}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
@@ -548,7 +505,7 @@ paths:
           in: path
           name: AccountID
           description: Unique identifier for Account object
-          example: "00000000-0000-0000-000-000000000000"
+          example: 00000000-0000-0000-0000-000000000000
           schema:
             type: string
             format: uuid
@@ -587,7 +544,7 @@ paths:
           in: path
           name: AccountID
           description: Unique identifier for Account object
-          example: "00000000-0000-0000-000-000000000000"
+          example: 00000000-0000-0000-0000-000000000000
           schema:
             type: string
             format: uuid
@@ -606,7 +563,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Attachments'
-              example: '{
+              example:  {
                         "Id": "c8d6413a-1da2-4faa-9848-21f60443e906",
                         "Status": "OK",
                         "ProviderName": "Xero API Partner",
@@ -620,7 +577,7 @@ paths:
                             "ContentLength": 2878711
                           }
                         ]
-                      }'
+                      }
         '400':
           description: Validation Error - some data was incorrect returns response of type Error
           content:
@@ -648,7 +605,7 @@ paths:
           in: path
           name: AccountID
           description: Unique identifier for Account object
-          example: 00000000-0000-0000-000-000000000000
+          example: 00000000-0000-0000-0000-000000000000
           schema:
             type: string
             format: uuid
@@ -667,7 +624,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Attachments'
-              example: '{
+              example:  {
                           "Id": "724cdff5-bcd1-4c5c-977e-e864c24258e0",
                           "Status": "OK",
                           "ProviderName": "Xero API Partner",
@@ -681,7 +638,7 @@ paths:
                               "ContentLength": 2878711
                             }
                           ]
-                        }'
+                        }
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
@@ -1076,7 +1033,7 @@ paths:
                             }
                           ]
                         }'
-  '/BatchPayments/{BatchPaymentID}/History':
+  /BatchPayments/{BatchPaymentID}/History:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
@@ -1091,7 +1048,7 @@ paths:
           in: path
           name: BatchPaymentID
           description: Unique identifier for BatchPayment
-          example: "00000000-0000-0000-000-000000000000"
+          example: 00000000-0000-0000-0000-000000000000
           schema:
             type: string
             format: uuid
@@ -1102,7 +1059,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HistoryRecords'
-              example: '{
+              example:  {
                           "Id": "c58e2f9c-baad-42a4-8bb7-f32b6f88fa04",
                           "Status": "OK",
                           "ProviderName": "Xero API Partner",
@@ -1116,7 +1073,7 @@ paths:
                               "Details": ""
                             }
                           ]
-                        }'
+                        }
     put:
       security:
         - OAuth2: [accounting.transactions]
@@ -1156,7 +1113,7 @@ paths:
           in: path
           name: BatchPaymentID
           description: Unique identifier for BatchPayment
-          example: "00000000-0000-0000-000-000000000000"
+          example: 00000000-0000-0000-0000-000000000000
           schema:
             type: string
             format: uuid
@@ -1167,7 +1124,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HistoryRecords'
-              example: '{
+              example:  {
                           "Id": "d7525479-3392-44c0-bb37-ff4a0b5df5bd",
                           "Status": "OK",
                           "ProviderName": "Xero API Partner",
@@ -1180,7 +1137,7 @@ paths:
                               "ValidationErrors": []
                             }
                           ]
-                        }'
+                        }
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
@@ -1856,7 +1813,7 @@ paths:
                           }
                         ]
                       }'
-  '/BankTransactions/{BankTransactionID}':
+  /BankTransactions/{BankTransactionID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
@@ -1871,7 +1828,7 @@ paths:
           in: path
           name: BankTransactionID
           description: Xero generated unique identifier for a bank transaction
-          example: "00000000-0000-0000-000-000000000000"
+          example: 00000000-0000-0000-0000-000000000000
           schema:
             type: string
             format: uuid
@@ -2133,7 +2090,7 @@ paths:
           in: path
           name: BankTransactionID
           description: Xero generated unique identifier for a bank transaction
-          example: "00000000-0000-0000-000-000000000000"
+          example: 00000000-0000-0000-0000-000000000000
           schema:
             type: string
             format: uuid
@@ -2354,7 +2311,7 @@ paths:
           in: path
           name: BankTransactionID
           description: Xero generated unique identifier for a bank transaction
-          example: "00000000-0000-0000-000-000000000000"
+          example: 00000000-0000-0000-0000-000000000000
           schema:
             type: string
             format: uuid
@@ -2366,7 +2323,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Attachments'
-              example: '{
+              example: {
                           "Id": "c50798e1-29e9-4a30-a452-bb6e42e400c8",
                           "Status": "OK",
                           "ProviderName": "Xero API Partner",
@@ -2387,7 +2344,7 @@ paths:
                               "ContentLength": 2878711
                             }
                           ]
-                        }'
+                        }
   '/BankTransactions/{BankTransactionID}/Attachments/{AttachmentID}':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -2403,7 +2360,7 @@ paths:
           in: path
           name: BankTransactionID
           description: Xero generated unique identifier for a bank transaction
-          example: "00000000-0000-0000-000-000000000000"
+          example: 00000000-0000-0000-0000-000000000000
           schema:
             type: string
             format: uuid
@@ -2411,7 +2368,7 @@ paths:
           in: path
           name: AttachmentID
           description: Xero generated unique identifier for an attachment
-          example: "00000000-0000-0000-000-000000000000"
+          example: 00000000-0000-0000-0000-000000000000
           schema:
             type: string
             format: uuid
@@ -2445,7 +2402,7 @@ paths:
           in: path
           name: BankTransactionID
           description: Xero generated unique identifier for a bank transaction
-          example: "00000000-0000-0000-000-000000000000"
+          example: 00000000-0000-0000-0000-000000000000
           schema:
             type: string
             format: uuid
@@ -2484,7 +2441,7 @@ paths:
           in: path
           name: BankTransactionID
           description: Xero generated unique identifier for a bank transaction
-          example: "00000000-0000-0000-000-000000000000"
+          example: 00000000-0000-0000-0000-000000000000
           schema:
             type: string
             format: uuid
@@ -2503,7 +2460,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Attachments'
-              example: '{
+              example:  {
                           "Id": "572ad2fe-8c23-45aa-82f9-864485327685",
                           "Status": "OK",
                           "ProviderName": "Xero API Partner",
@@ -2517,7 +2474,7 @@ paths:
                               "ContentLength": 2878711
                             }
                           ]
-                        }'
+                        }
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
@@ -2541,7 +2498,7 @@ paths:
           in: path
           name: BankTransactionID
           description: Xero generated unique identifier for a bank transaction
-          example: "00000000-0000-0000-000-000000000000"
+          example: 00000000-0000-0000-0000-000000000000
           schema:
             type: string
             format: uuid
@@ -2560,7 +2517,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Attachments'
-              example: '{
+              example:  {
                           "Id": "572ad2fe-8c23-45aa-82f9-864485327685",
                           "Status": "OK",
                           "ProviderName": "Xero API Partner",
@@ -2574,7 +2531,7 @@ paths:
                               "ContentLength": 2878711
                             }
                           ]
-                        }'
+                        }
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
@@ -2600,7 +2557,7 @@ paths:
           in: path
           name: BankTransactionID
           description: Xero generated unique identifier for a bank transaction
-          example: "00000000-0000-0000-000-000000000000"
+          example: 00000000-0000-0000-0000-000000000000
           schema:
             type: string
             format: uuid
@@ -2646,7 +2603,7 @@ paths:
           in: path
           name: BankTransactionID
           description: Xero generated unique identifier for a bank transaction
-          example: "00000000-0000-0000-000-000000000000"
+          example: 00000000-0000-0000-0000-000000000000
           schema:
             type: string
             format: uuid
@@ -2688,7 +2645,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/BankTransfers'
-              example: '{
+              example:  {
                           "Id": "dfc0d130-9007-4a98-a5ef-6f01700f18e2",
                           "Status": "OK",
                           "ProviderName": "Xero API Partner",
@@ -2733,7 +2690,7 @@ paths:
                               "HasAttachments": false
                             }
                           ]
-                        }'
+                        }
 
     put:
       security:
@@ -2818,7 +2775,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/BankTransfers'
-              example: '{
+              example:  {
                           "Id": "ae767b68-affd-4e17-bac0-83eaf1854dcd",
                           "Status": "OK",
                           "ProviderName": "Xero API Partner",
@@ -2845,7 +2802,7 @@ paths:
                               "ValidationErrors": []
                             }
                           ]
-                        }'
+                        }
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
@@ -2855,7 +2812,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/BankTransfers'
-            example: '{
+            example:  {
                         "BankTransfers": [
                           {
                             "FromBankAccount": {
@@ -2897,7 +2854,7 @@ paths:
                             "Amount": "50.00"
                           }
                         ]
-                      }'
+                      }
   '/BankTransfers/{BankTransferID}':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -2913,7 +2870,7 @@ paths:
           in: path
           name: BankTransferID
           description: Xero generated unique identifier for a bank transfer
-          example: "00000000-0000-0000-000-000000000000"
+          example: 00000000-0000-0000-0000-000000000000
           schema:
             type: string
             format: uuid
@@ -2924,7 +2881,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/BankTransfers'
-              example: '{
+              example:  {
                           "Id": "1a5fa46d-5ece-4ef2-89b1-77c293b5d833",
                           "Status": "OK",
                           "ProviderName": "Xero API Partner",
@@ -2962,7 +2919,7 @@ paths:
                               ]
                             }
                           ]
-                        }'
+                        }
       
   '/BankTransfers/{BankTransferID}/Attachments':
     parameters:
@@ -2979,7 +2936,7 @@ paths:
           in: path
           name: BankTransferID
           description: Xero generated unique identifier for a bank transfer
-          example: "00000000-0000-0000-000-000000000000"
+          example: 00000000-0000-0000-0000-000000000000
           schema:
             type: string
             format: uuid
@@ -2991,7 +2948,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Attachments'
-              example: '{
+              example:  {
                           "Id": "5cb6b587-7b02-46b6-97fe-d8ad8f20321b",
                           "Status": "OK",
                           "ProviderName": "Xero API Partner",
@@ -3005,7 +2962,7 @@ paths:
                               "ContentLength": 2878711
                             }
                           ]
-                        }'
+                        }
   '/BankTransfers/{BankTransferID}/Attachments/{AttachmentID}':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -3021,7 +2978,7 @@ paths:
           in: path
           name: BankTransferID
           description: Xero generated unique identifier for a bank transfer
-          example: "00000000-0000-0000-000-000000000000"
+          example: 00000000-0000-0000-0000-000000000000
           schema:
             type: string
             format: uuid
@@ -3029,7 +2986,7 @@ paths:
           in: path
           name: AttachmentID
           description: Xero generated unique identifier for an Attachment to a bank transfer
-          example: "00000000-0000-0000-000-000000000000"
+          example: 00000000-0000-0000-0000-000000000000
           schema:
             type: string
             format: uuid
@@ -3063,7 +3020,7 @@ paths:
           in: path
           name: BankTransferID
           description: Xero generated unique identifier for a bank transfer
-          example: "00000000-0000-0000-000-000000000000"
+          example: 00000000-0000-0000-0000-000000000000
           schema:
             type: string
             format: uuid
@@ -3101,7 +3058,7 @@ paths:
           in: path
           name: BankTransferID
           description: Xero generated unique identifier for a bank transfer
-          example: "00000000-0000-0000-000-000000000000"
+          example: 00000000-0000-0000-0000-000000000000
           schema:
             type: string
             format: uuid
@@ -3120,7 +3077,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Attachments'
-              example: '{
+              example:  {
                           "Id": "c7810140-19c2-4ff7-b3ec-b7e95ce7becf",
                           "Status": "OK",
                           "ProviderName": "Xero API Partner",
@@ -3134,7 +3091,7 @@ paths:
                               "ContentLength": 2878711
                             }
                           ]
-                        }'
+                        }
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
@@ -3157,7 +3114,7 @@ paths:
           in: path
           name: BankTransferID
           description: Xero generated unique identifier for a bank transfer
-          example: "00000000-0000-0000-000-000000000000"
+          example: 00000000-0000-0000-0000-000000000000
           schema:
             type: string
             format: uuid
@@ -3176,7 +3133,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Attachments'
-              example: '{
+              example:  {
                           "Id": "b73ba149-76a9-4e7c-a5c6-b9230022f416",
                           "Status": "OK",
                           "ProviderName": "Xero API Partner",
@@ -3190,7 +3147,7 @@ paths:
                               "ContentLength": 2878711
                             }
                           ]
-                        }'
+                        }
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
@@ -3216,7 +3173,7 @@ paths:
           in: path
           name: BankTransferID
           description: Xero generated unique identifier for a bank transfer
-          example: "00000000-0000-0000-000-000000000000"
+          example: 00000000-0000-0000-0000-000000000000
           schema:
             type: string
             format: uuid
