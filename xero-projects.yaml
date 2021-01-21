@@ -15,7 +15,7 @@ servers:
   - description: Xero API server for projects
     url: 'https://api.xero.com/projects.xro/2.0'
 paths:
-  /projects:
+  /Projects:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
@@ -164,7 +164,7 @@ paths:
               $ref: '#/components/schemas/ProjectCreateOrUpdate'
             example:
               '{
-                "contactId":"00000000-0000-0000-0000-000000000000",
+                "contactId":"00000000-0000-0000-000-000000000000",
                 "name":"New Kitchen",
                 "deadlineUtc":"2019-12-10T12:59:59Z",
                 "estimateAmount":"99.99"
@@ -240,7 +240,7 @@ paths:
                         }'
         '400':
           $ref: '#/components/responses/400Error'
-  '/projects/{projectId}':
+  '/Projects/{ProjectId}':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
@@ -398,7 +398,7 @@ paths:
           x-isEmpty: true
         '400':
           $ref: '#/components/responses/400Error'
-  /projectsusers:
+  /Projectsusers:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
@@ -457,7 +457,7 @@ paths:
                         }'
         '400':
           $ref: '#/components/responses/400Error' 
-  /projects/{projectId}/tasks:
+  /Projects/{ProjectId}/Tasks:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
@@ -553,7 +553,7 @@ paths:
     #     - name: projectId
     #       in: path
     #       required: true
-    #       description: You can create a task on a specifid projectId
+    #       description: You can create a task on a specified projectId
     #       schema:
     #         type: string
     #         format: uuid
@@ -575,7 +575,7 @@ paths:
     #         application/json:
     #           schema:
     #             $ref: '#/components/schemas/Tasks'
-  /projects/{projectId}/tasks/{taskId}:
+  /Projects/{ProjectId}/Tasks/{TaskId}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
@@ -702,7 +702,7 @@ paths:
     #     '204':
     #       description: Success - return response 204 no content
     #       x-isEmpty: true
-  /projects/{projectId}/time:
+  /Projects/{ProjectId}/Time:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
@@ -759,7 +759,7 @@ paths:
             example: 10
         - name: states
           in: query
-          description: "Comma-separated list of states to find. Will find all time entries that are in the status of whatever’s specified.	"  
+          description: "Comma-separated list of states to find. Will find all time entries that are in the status of whatever is specified.	"  
           schema: 
             type: array
             items:
@@ -868,7 +868,7 @@ paths:
                           "description":"My description",
                           "status":"ACTIVE"
                         }'
-  /projects/{projectId}/time/{timeEntryId}:
+  /Projects/{ProjectId}/Time/{TimeEntryId}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
@@ -878,7 +878,7 @@ paths:
         - Project
       summary: Allows you to get a single time entry in a project
       operationId: getTimeEntry
-      description: Allows you to upget a single time entry in a project
+      description: Allows you to get a single time entry in a project
       parameters:
         - name: projectId
           in: path
@@ -1392,7 +1392,7 @@ components:
         taskId:
           type: string
           format: uuid
-          example: '00000000-0000-0000-0000-000000000000'
+          example: '00000000-0000-0000-000-000000000000'
           description: Identifier of the task.
         name:
           type: string
@@ -1410,7 +1410,7 @@ components:
         projectId:
           type: string
           format: uuid
-          example: '00000000-0000-0000-0000-000000000000'
+          example: '00000000-0000-0000-000-000000000000'
           description: Identifier of the project task belongs to.
         totalMinutes:
           type: number
@@ -1495,22 +1495,22 @@ components:
         timeEntryId:
           type: string
           format: uuid
-          example: '00000000-0000-0000-0000-000000000000'
+          example: '00000000-0000-0000-000-000000000000'
           description: Identifier of the time entry.
         userId:
           type: string
           format: uuid
-          example: '00000000-0000-0000-0000-000000000000'
+          example: '00000000-0000-0000-000-000000000000'
           description: The xero user identifier of the person who logged time.
         projectId:
           type: string
           format: uuid
-          example: '00000000-0000-0000-0000-000000000000'
+          example: '00000000-0000-0000-000-000000000000'
           description: Identifier of the project, that the task (which the time entry is logged against) belongs to.
         taskId:
           type: string
           format: uuid
-          example: '00000000-0000-0000-0000-000000000000'
+          example: '00000000-0000-0000-000-000000000000'
           description: Identifier of the task that time entry is logged against.
         dateUtc:
           type: string
@@ -1540,12 +1540,12 @@ components:
         userId:
           type: string
           format: uuid
-          example: '00000000-0000-0000-0000-000000000000'
+          example: '00000000-0000-0000-000-000000000000'
           description: "The xero user identifier of the person logging the time."
         taskId:
           type: string
           format: uuid
-          example: '00000000-0000-0000-0000-000000000000'
+          example: '00000000-0000-0000-000-000000000000'
           description: "Identifier of the task that time entry is logged against."
         dateUtc:
           type: string
