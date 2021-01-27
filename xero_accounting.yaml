@@ -21,7 +21,7 @@ paths:
       tags:
         - Accounting
       operationId: getAccounts
-      summary: Allows you to retrieve the full chart of accounts
+      summary: Retrieves the full chart of accounts
       parameters:
         - $ref: '#/components/parameters/ifModifiedSince'
         - in: query
@@ -67,14 +67,13 @@ paths:
                         "EnablePaymentsToAccount": false
                       }]
                     }'
-      
     put:
       security:
         - OAuth2: [accounting.settings]
       tags:
         - Accounting
       operationId: createAccount
-      summary: Allows you to create a new chart of accounts
+      summary: Creates a new chart of accounts
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ code: "123456", name: "Foobar", type: AccountType.EXPENSE, description: "Hello World" }'
       x-ruby-requestBody: 'account = { code: "123456", name: "Foobar", type: XeroRuby::Accounting::AccountType::EXPENSE, description: "Hello World" }'      
@@ -188,7 +187,7 @@ paths:
       tags:
         - Accounting
       operationId: getAccount
-      summary: Allows you to retrieve a single chart of accounts
+      summary: Retrieves a single chart of accounts by using a unique account Id
       parameters:
         - required: true
           in: path
@@ -234,7 +233,7 @@ paths:
       tags: 
         - Accounting
       operationId: updateAccount
-      summary: Allows you to update a chart of accounts
+      summary: Updates a chart of accounts
       x-hasAccountingValidationError: true
       x-ruby-requestBody: '{ accounts: [{ code: "123456", name: "BarFoo", account_id: "00000000-0000-0000-0000-000000000000", type: XeroRuby::Accounting::Account::EXPENSE, description: "GoodBye World", tax_type: XeroRuby::Accounting::TaxType::NONE }]}'
       x-node-requestBody: '{ accounts: [{ code: "123456", name: "BarFoo", accountID: "00000000-0000-0000-0000-000000000000", type: AccountType.EXPENSE, description: "GoodBye World", taxType: TaxType.INPUT }]}'
@@ -384,7 +383,7 @@ paths:
         - Accounting
       operationId: deleteAccount
       x-hasAccountingValidationError: true
-      summary: Allows you to delete a chart of accounts
+      summary: Deletes a chart of accounts
       parameters:
         - required: true
           in: path
@@ -458,7 +457,7 @@ paths:
       tags:
         - Accounting
       operationId: getAccountAttachments
-      summary: Allows you to retrieve Attachments for accounts
+      summary: Retrieves attachments for a specific accounts by using a unique account Id
       parameters:
         - required: true
           in: path
@@ -500,7 +499,7 @@ paths:
       tags:
         - Accounting
       operationId: getAccountAttachmentById
-      summary: Allows you to retrieve specific Attachment on Account
+      summary: Retrieves a specific attachment from a specific account using a unique attachment Id
       parameters:
         - required: true
           in: path
@@ -542,7 +541,7 @@ paths:
       tags:
         - Accounting
       operationId: getAccountAttachmentByFileName
-      summary: Allows you to retrieve Attachment on Account by Filename
+      summary: Retrieves an attachment for a specific account by filename
       parameters:
         - required: true
           in: path
@@ -581,7 +580,7 @@ paths:
         - Accounting
       operationId: updateAccountAttachmentByFileName
       x-hasAccountingValidationError: true
-      summary: Allows you to update Attachment on Account by Filename
+      summary: Updates attachment on a specific account by filename
       parameters:
         - required: true
           in: path
@@ -642,7 +641,7 @@ paths:
         - Accounting
       operationId: createAccountAttachmentByFileName
       x-hasAccountingValidationError: true
-      summary: Allows you to create Attachment on Account
+      summary: Creates an attachment on a specific account
       parameters:
         - required: true
           in: path
@@ -702,7 +701,7 @@ paths:
       tags:
         - Accounting
       operationId: getBatchPayments
-      summary: Retrieve either one or many BatchPayments for invoices
+      summary: Retrieves either one or many batch payments for invoices
       parameters:
         - $ref: '#/components/parameters/ifModifiedSince'
         - in: query
@@ -827,7 +826,7 @@ paths:
       tags:
         - Accounting
       operationId: createBatchPayment
-      summary: Create one or many BatchPayments for invoices
+      summary: Creates one or many batch payments for invoices
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ batchPayments: [{ account: { accountId: "00000000-0000-0000-0000-000000000000" }, reference: "ref", date: "2018-08-01", payments: [{  account: { code: "001" }, date: "2019-12-31", amount: 500, invoice: { invoiceId: "00000000-0000-0000-0000-000000000000", lineItems: [], contact: {}, type: Invoice.TypeEnum.ACCPAY }}]}]}'
       x-ruby-requestBody: 'batch_payments = { batch_payments: [{ account: { account_id: "00000000-0000-0000-0000-000000000000" }, reference: "ref", date: "2018-08-01", payments: [{  account: { code: "001" }, date: "2019-12-31", amount: 500, invoice: { invoice_id: "00000000-0000-0000-0000-000000000000", line_items: [], contact: {}, type: XeroRuby::Accounting::Invoice::ACCPAY }}]}]}'
@@ -1085,7 +1084,7 @@ paths:
       tags:
         - Accounting
       operationId: getBatchPaymentHistory
-      summary: Allows you to retrieve history from a Batch Payment
+      summary: Retrieves history from a specific batch payment
       parameters:
         - required: true
           in: path
@@ -1123,7 +1122,7 @@ paths:
       tags:
         - Accounting
       operationId: createBatchPaymentHistoryRecord
-      summary: Allows you to create a history record for a Batch Payment
+      summary: Creates a history record for a specific batch payment
       x-hasAccountingValidationError: true
       x-example:
         - historyRecord:
@@ -1194,7 +1193,7 @@ paths:
       tags:
         - Accounting
       operationId: getBankTransactions
-      summary: Allows you to retrieve any spend or receive money transactions
+      summary: Retrieves any spent or received money transactions
       parameters:
         - $ref: '#/components/parameters/ifModifiedSince'
         - in: query
@@ -1345,7 +1344,7 @@ paths:
       tags:
         - Accounting
       operationId: createBankTransactions
-      summary: Allows you to create one or more spend or receive money transaction
+      summary: Creates one or more spent or received money transaction
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ bankTransactions: [{ type: BankTransaction.TypeEnum.SPEND, contact: { contactID: "00000000-0000-0000-0000-000000000000" }, lineItems: [{ description: "Foobar", quantity: 1.0, unitAmount: 20.0, accountCode: "000" } ], bankAccount: { code: "000" }}]}'
       x-ruby-requestBody: 'bank_transactions = { bank_transactions: [{ type: XeroRuby::Accounting::BankTransaction::SPEND, contact: { contact_id: "00000000-0000-0000-0000-000000000000" }, line_items: [{ description: "Foobar", quantity: 1.0, unit_amount: 20.0, account_code: "000" } ], bank_account: { code: "000" }}]}'
@@ -1594,7 +1593,7 @@ paths:
       tags:
         - Accounting
       operationId: updateOrCreateBankTransactions
-      summary: Allows you to update or create one or more spend or receive money transaction
+      summary: Updates or creates one or more spent or received money transaction
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ bankTransactions: [{ type: BankTransaction.TypeEnum.SPEND, contact: { contactId: "00000000-0000-0000-0000-000000000000" }, lineItems: [{ description: "Foobar", quantity: 1.0, unitAmount: 20.0, accountCode: "000" }], bankAccount: { code: "000" }}]}'
       x-ruby-requestBody: 'bank_transactions = { bank_transactions: [{ type: XeroRuby::Accounting::BankTransaction::SPEND, contact: { contact_id: "00000000-0000-0000-0000-000000000000" }, line_items: [{ description: "Foobar", quantity: 1.0, unit_amount: 20.0, account_code: "000" }], bank_account: { code: "000" }}]}'
@@ -1865,7 +1864,7 @@ paths:
       tags:
         - Accounting
       operationId: getBankTransaction
-      summary: Allows you to retrieve a single spend or receive money transaction
+      summary: Retrieves a single spent or received money transaction by using a unique bank transaction Id
       parameters:
         - required: true
           in: path
@@ -2008,7 +2007,7 @@ paths:
       tags:
         - Accounting
       operationId: updateBankTransaction
-      summary: Allows you to update a single spend or receive money transaction
+      summary: Updates a single spent or received money transaction
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ bankTransactions: [{ type: BankTransaction.TypeEnum.SPEND, date: "2019-02-25", reference: "You just updated", status: BankTransaction.StatusEnum.AUTHORISED, bankTransactionID: "00000000-0000-0000-0000-000000000000", lineItems: [], contact: {}, bankAccount: { accountID: "00000000-0000-0000-0000-000000000000" }}]}'
       x-ruby-requestBody: '{ bank_transactions: [{ type: XeroRuby::Accounting::BankTransaction::SPEND, date: "2019-02-25", reference: "You just updated", status: XeroRuby::Accounting::BankTransaction::AUTHORISED, bank_transaction_id: "00000000-0000-0000-0000-000000000000", line_items: [], contact: {}, bank_account: { account_id: "00000000-0000-0000-0000-000000000000" }}]}'      
@@ -2338,7 +2337,6 @@ paths:
                           }
                         ]
                       }'
-
   '/BankTransactions/{BankTransactionId}/Attachments':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -2348,7 +2346,7 @@ paths:
       tags:
         - Accounting
       operationId: getBankTransactionAttachments
-      summary: Allows you to retrieve any attachments to bank transactions
+      summary: Retrieves any attachments from a specific bank transactions
       parameters:
         - required: true
           in: path
@@ -2397,7 +2395,7 @@ paths:
       tags:
         - Accounting
       operationId: getBankTransactionAttachmentById
-      summary: Allows you to retrieve Attachments on a specific BankTransaction
+      summary: Retrieves specific attachments from a specific BankTransaction using a unique attachment Id
       parameters:
         - required: true
           in: path
@@ -2439,7 +2437,7 @@ paths:
       tags:
         - Accounting
       operationId: getBankTransactionAttachmentByFileName
-      summary: Allows you to retrieve Attachments on BankTransaction by Filename
+      summary: Retrieves a specific attachment from a specific bank transaction by filename
       parameters:
         - required: true
           in: path
@@ -2478,7 +2476,7 @@ paths:
         - Accounting
       operationId: updateBankTransactionAttachmentByFileName
       x-hasAccountingValidationError: true
-      summary: Allows you to update an Attachment on BankTransaction by Filename
+      summary: Updates a specific attachment from a specific bank transaction by filename
       parameters:
         - required: true
           in: path
@@ -2535,7 +2533,7 @@ paths:
         - Accounting
       operationId: createBankTransactionAttachmentByFileName
       x-hasAccountingValidationError: true
-      summary: Allows you to create an Attachment on BankTransaction by Filename
+      summary: Creates an attachment for a specific bank transaction by filename
       parameters:
         - required: true
           in: path
@@ -2594,7 +2592,7 @@ paths:
       tags:
         - Accounting
       operationId: getBankTransactionsHistory
-      summary: Allows you to retrieve history from a bank transactions
+      summary: Retrieves history from a specific bank transaction using a unique bank transaction Id
       parameters:
         - required: true
           in: path
@@ -2613,7 +2611,7 @@ paths:
       tags:
         - Accounting
       operationId: createBankTransactionHistoryRecord
-      summary: Allows you to create history record for a bank transactions
+      summary: Creates a history record for a specific bank transactions
       x-hasAccountingValidationError: true   
       x-example:
         - historyRecord:
@@ -2666,7 +2664,7 @@ paths:
       tags:
         - Accounting
       operationId: getBankTransfers
-      summary: Allows you to retrieve all bank transfers
+      summary: Retrieves all bank transfers
       parameters:
         - $ref: '#/components/parameters/ifModifiedSince'
         - in: query
@@ -2734,14 +2732,13 @@ paths:
                             }
                           ]
                         }'
-
     put:
       security:
         - OAuth2: [accounting.transactions]
       tags:
         - Accounting
       operationId: createBankTransfer
-      summary: Allows you to create a bank transfers
+      summary: Creates a bank transfer
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ bankTransfers: [{ fromBankAccount: { code: "000", accountID: "00000000-0000-0000-0000-000000000000" }, toBankAccount: { code: "001", accountID: "00000000-0000-0000-0000-000000000000" }, amount: "50.00" }]}'
       x-ruby-requestBody: 'bank_transfers = { bank_transfers: [{ from_bank_account: { code: "000", account_id: "00000000-0000-0000-0000-000000000000" }, to_bank_account: { code: "001", account_id: "00000000-0000-0000-0000-000000000000" }, amount: "50.00" }]}'
@@ -2907,7 +2904,7 @@ paths:
       tags:
         - Accounting
       operationId: getBankTransfer
-      summary: Allows you to retrieve any bank transfers
+      summary: Retrieves specific bank transfers by using a unique bank transfer Id
       parameters:
         - required: true
           in: path
@@ -2963,7 +2960,6 @@ paths:
                             }
                           ]
                         }'
-      
   '/BankTransfers/{BankTransferId}/Attachments':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -2973,7 +2969,7 @@ paths:
       tags:
         - Accounting
       operationId: getBankTransferAttachments
-      summary: Allows you to retrieve Attachments from  bank transfers
+      summary: Retrieves attachments from a specific bank transfer
       parameters:
         - required: true
           in: path
@@ -3015,7 +3011,7 @@ paths:
       tags:
         - Accounting
       operationId: getBankTransferAttachmentById
-      summary: Allows you to retrieve Attachments on BankTransfer
+      summary: Retrieves a specific attachment from a specific bank transfer using a unique attachment ID
       parameters:
         - required: true
           in: path
@@ -3057,7 +3053,7 @@ paths:
       tags:
         - Accounting
       operationId: getBankTransferAttachmentByFileName
-      summary: Allows you to retrieve Attachments on BankTransfer by file name
+      summary: Retrieves a specific attachment on a specific bank transfer by file name
       parameters:
         - required: true
           in: path
@@ -3210,7 +3206,7 @@ paths:
       tags:
         - Accounting
       operationId: getBankTransferHistory
-      summary: Allows you to retrieve history from a bank transfers
+      summary: Retrieves history from a specific bank transfer using a unique bank transfer Id
       parameters:
         - required: true
           in: path
@@ -3229,7 +3225,7 @@ paths:
       tags:
         - Accounting
       operationId: createBankTransferHistoryRecord
-      summary: Allows you to create history record for a bank transfers
+      summary: Creates a history record for a specific bank transfer
       x-hasAccountingValidationError: true
       x-example:
         - historyRecord:
@@ -3282,7 +3278,7 @@ paths:
       tags:
         - Accounting
       operationId: getBrandingThemes
-      summary: Allows you to retrieve all the BrandingThemes
+      summary: Retrieves all the branding themes
       responses:
         '200':
           description: Success - return response of type BrandingThemes          
@@ -3313,7 +3309,7 @@ paths:
       tags:
         - Accounting
       operationId: getBrandingTheme
-      summary: Allows you to retrieve a specific BrandingThemes      
+      summary: Retrieves a specific branding theme using a unique branding theme Id
       parameters:
         - required: true
           in: path
@@ -3353,7 +3349,7 @@ paths:
       tags:
         - Accounting
       operationId: getBrandingThemePaymentServices
-      summary: Allows you to retrieve the Payment services for a Branding Theme
+      summary: Retrieves the payment services for a specific branding theme
       parameters:
         - required: true
           in: path
@@ -3396,7 +3392,7 @@ paths:
       tags:
         - Accounting
       operationId: createBrandingThemePaymentServices
-      summary: Allow for the creation of new custom payment service for specified Branding Theme
+      summary: Creates a new custom payment service for a specific branding theme
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ paymentServiceID: "00000000-0000-0000-0000-000000000000", paymentServiceName: "ACME Payments", paymentServiceUrl: "https://www.payupnow.com/", payNowText: "Pay Now" }'
       x-ruby-requestBody: 'payment_service = { payment_service_id: "00000000-0000-0000-0000-000000000000", payment_service_name: "ACME Payments", payment_service_url: "https://www.payupnow.com/", pay_now_text: "Pay Now" }'
@@ -3481,7 +3477,7 @@ paths:
       tags:
         - Accounting
       operationId: getContacts
-      summary: 'Allows you to retrieve all contacts in a Xero organisation'
+      summary: 'Retrieves all contacts in a Xero organisation'
       parameters:
         - $ref: '#/components/parameters/ifModifiedSince'
         - in: query
@@ -3678,7 +3674,7 @@ paths:
       tags:
         - Accounting
       operationId: createContacts
-      summary: 'Allows you to create a multiple contacts (bulk) in a Xero organisation'
+      summary: 'Creates multiple contacts (bulk) in a Xero organisation'
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ contacts: [{ name: "Bruce Banner", emailAddress: "hulk@avengers.com", phones: [{ phoneType: Phone.PhoneTypeEnum.MOBILE, phoneNumber: "555-1212", phoneAreaCode: "415" }], paymentTerms: { bills: { day: 15, type: PaymentTermType.OFCURRENTMONTH }, sales: { day: 10, type: PaymentTermType.DAYSAFTERBILLMONTH }}}]}'
       x-ruby-requestBody: 'contacts = { contacts: [{ name: "Bruce Banner", email_address: "hulk@avengers.com", phones: [{ phone_type: XeroRuby::Accounting::Phone::MOBILE, phone_number: "555-1212", phone_area_code: "415" }], payment_terms: { bills: { day: 15, type: XeroRuby::Accounting::PaymentTermType::OFCURRENTMONTH }, sales: { day: 10, type: XeroRuby::Accounting::PaymentTermType::DAYSAFTERBILLMONTH }}}]}'      
@@ -3979,14 +3975,13 @@ paths:
                           }
                         ]
                       }'
-
     post:
       security:
         - OAuth2: [accounting.contacts]
       tags:
         - Accounting
       operationId: updateOrCreateContacts
-      summary: 'Allows you to update OR create one or more contacts in a Xero organisation'
+      summary: 'Updates or creates one or more contacts in a Xero organisation'
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ contacts: [{ name: "Bruce Banner", emailAddress: "hulk@avengers.com", phones: [{ phoneType: Phone.PhoneTypeEnum.MOBILE, phoneNumber: "555-1212", phoneAreaCode: "415" }], paymentTerms: { bills: { day: 15, type: PaymentTermType.OFCURRENTMONTH }, sales: { day: 10, type: PaymentTermType.DAYSAFTERBILLMONTH }}}]}'
       x-ruby-requestBody: '{ contacts: [{ name: "Bruce Banner", email_address: "hulk@avengers.com", phones: [{ phone_type: XeroRuby::Accounting::Phone::MOBILE, phone_number: "555-1212", phone_area_code: "415" }], payment_terms: { bills: { day: 15, type: XeroRuby::Accounting::PaymentTermType::OFCURRENTMONTH }, sales: { day: 10, type: XeroRuby::Accounting::PaymentTermType::OFCURRENTMONTHDAYSAFTERBILLMONTH }}}]}'
@@ -4245,7 +4240,7 @@ paths:
       tags:
         - Accounting
       operationId: getContactByContactNumber
-      summary: 'Allows you to retrieve a single contact by Contact Number in a Xero organisation'
+      summary: 'Retrieves a specific contact by contact number in a Xero organisation'
       parameters:
         - required: true
           in: path
@@ -4398,7 +4393,7 @@ paths:
       tags:
         - Accounting
       operationId: getContact
-      summary: 'Allows you to retrieve a single contacts in a Xero organisation'
+      summary: 'Retrieves a specific contacts in a Xero organisation using a unique contact Id'
       parameters:
         - required: true
           in: path
@@ -4549,7 +4544,7 @@ paths:
       tags:
         - Accounting
       operationId: updateContact
-      summary: 'Allows you to update one contact in a Xero organisation'
+      summary: 'Updates a specific contact in a Xero organisation'
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ contacts: [{ contactID: "00000000-0000-0000-0000-000000000000", name: "Thanos" }]}'
       x-ruby-requestBody: 'contacts = { contacts: [{ contact_id: "00000000-0000-0000-0000-000000000000", name: "Thanos" }]}'
@@ -4692,7 +4687,7 @@ paths:
         - Accounting
       operationId: getContactAttachments
       x-hasAccountingValidationError: true
-      summary: 'Allows you to retrieve, add and update contacts in a Xero organisation'
+      summary: 'Retrieves attachments for a specific contact in a Xero organisation'
       responses:
         '200':
           description: Success - return response of type Attachments array with 0 to N Attachment
@@ -4734,7 +4729,7 @@ paths:
       tags:
         - Accounting
       operationId: getContactAttachmentById
-      summary: Allows you to retrieve Attachments on Contacts
+      summary: Retrieves a specific attachment from a specific contact using a unique attachment Id
       parameters:
         - required: true
           in: path
@@ -4776,7 +4771,7 @@ paths:
       tags:
         - Accounting
       operationId: getContactAttachmentByFileName
-      summary: Allows you to retrieve Attachments on Contacts by file name
+      summary: Retrieves a specific attachment from a specific contact by file name
       parameters:
         - required: true
           in: path
@@ -4929,7 +4924,7 @@ paths:
       tags:
         - Accounting
       operationId: getContactCISSettings
-      summary: 'Allows you to retrieve CISSettings for a contact in a Xero organisation'
+      summary: 'Retrieves CIS settings for a specific contact in a Xero organisation'
       parameters:
         - required: true
           in: path
@@ -4955,7 +4950,7 @@ paths:
       tags:
         - Accounting
       operationId: getContactHistory
-      summary: Allows you to retrieve a history records of an Contact
+      summary: Retrieves history records for a specific contact
       parameters:
         - required: true
           in: path
@@ -4974,7 +4969,7 @@ paths:
       tags:
         - Accounting
       operationId: createContactHistory
-      summary: Allows you to retrieve a history records of an Contact
+      summary: Creates a new history record for a specific contact
       x-hasAccountingValidationError: true
       x-example:
         - historyRecord:
@@ -5027,8 +5022,7 @@ paths:
       tags:
         - Accounting
       operationId: getContactGroups
-      summary: Allows you to retrieve the ContactID and Name of all the contacts in a
-        contact group
+      summary: Retrieves the contact Id and name of all the contacts in a contact group
       parameters:
         - in: query
           name: where
@@ -5074,14 +5068,13 @@ paths:
                             }
                           ]
                         }'
-
     put:
       security:
         - OAuth2: [accounting.contacts]
       tags:
         - Accounting
       operationId: createContactGroup
-      summary: Allows you to create a contact group
+      summary: Creates a contact group
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ contactGroups: [{ name: "VIPs" }]}'
       x-ruby-requestBody: 'contact_groups = { contact_groups: [{ name: "VIPs" }]}'
@@ -5173,7 +5166,7 @@ paths:
       tags:
         - Accounting
       operationId: getContactGroup
-      summary: Allows you to retrieve a unique Contact Group by ID
+      summary: Retrieves a specific contact group by using a unique contact group Id
       parameters:
         - required: true
           in: path
@@ -5230,7 +5223,7 @@ paths:
       tags:
         - Accounting
       operationId: updateContactGroup
-      summary: Allows you to update a Contact Group
+      summary: Updates a specific contact group
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ contactGroups: [{ name: "Vendor" }]}'
       x-ruby-requestBody: 'contact_groups = { contact_groups: [{ name: "Vendor" }]}'
@@ -5315,7 +5308,7 @@ paths:
       tags:
         - Accounting
       operationId: createContactGroupContacts
-      summary: Allows you to add Contacts to a Contact Group
+      summary: Creates contacts to a specific contact group
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ contacts: [{ contactID: "a3675fc4-f8dd-4f03-ba5b-f1870566bcd7" }, { contactID: "4e1753b9-018a-4775-b6aa-1bc7871cfee3" }]}'
       x-ruby-requestBody: 'contacts = { contacts: [{ contact_id: "a3675fc4-f8dd-4f03-ba5b-f1870566bcd7" }, { contact_id: "4e1753b9-018a-4775-b6aa-1bc7871cfee3" }]}'
@@ -5410,7 +5403,7 @@ paths:
       tags:
         - Accounting
       operationId: deleteContactGroupContacts
-      summary: Allows you to delete  all Contacts from a Contact Group
+      summary: Deletes all contacts from a specific contact group
       parameters:
         - required: true
           in: path
@@ -5433,7 +5426,7 @@ paths:
       tags:
         - Accounting
       operationId: deleteContactGroupContact
-      summary: Allows you to delete a specific Contact from a Contact Group
+      summary: Deletes a specific contact from a contact group using a unique contact Id
       parameters:
         - required: true
           in: path
@@ -5466,7 +5459,7 @@ paths:
       tags:
         - Accounting
       operationId: getCreditNotes
-      summary: Allows you to retrieve any credit notes
+      summary: Retrieves any credit notes
       parameters:
         - $ref: '#/components/parameters/ifModifiedSince'
         - in: query
@@ -5584,7 +5577,7 @@ paths:
       tags:
         - Accounting
       operationId: createCreditNotes
-      summary: Allows you to create a credit note
+      summary: Creates a new credit note
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ creditNotes: [{ type: CreditNote.TypeEnum.ACCPAYCREDIT, contact: { contactID: "430fa14a-f945-44d3-9f97-5df5e28441b8" }, date: "2019-01-05", lineItems: [{ description: "Foobar", quantity: 2.0, unitAmount: 20.0, accountCode: "400" }]}]}'
       x-ruby-requestBody: 'credit_notes = { credit_notes: [{ type: XeroRuby::Accounting::CreditNote::ACCPAYCREDIT, contact: { contact_id: "430fa14a-f945-44d3-9f97-5df5e28441b8" }, date: "2019-01-05", line_items: [{ description: "Foobar", quantity: 2.0, unit_amount: 20.0, account_code: "400" }]}]}'
@@ -5857,7 +5850,7 @@ paths:
       tags:
         - Accounting
       operationId: updateOrCreateCreditNotes
-      summary: Allows you to update OR create one or more credit notes
+      summary: Updates or creates one or more credit notes
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ creditNotes: [{ type: CreditNote.TypeEnum.ACCPAYCREDIT, contact: { contactID: "00000000-0000-0000-0000-000000000000" }, date: "2019-01-05", lineItems: [{ description: "Foobar", quantity: 2.0, unitAmount: 20.0, accountCode: "400" }]}]}'
       x-ruby-requestBody: 'credit_notes = { credit_notes: [{ type: XeroRuby::Accounting::CreditNote::ACCPAYCREDIT, contact: { contact_id: "00000000-0000-0000-0000-000000000000" }, date: "2019-01-05", line_items: [{ description: "Foobar", quantity: 2.0, unit_amount: 20.0, account_code: "400" }]}]}'
@@ -6135,7 +6128,7 @@ paths:
       tags:
         - Accounting
       operationId: getCreditNote
-      summary: Allows you to retrieve a specific credit note
+      summary: Retrieves a specific credit note using a unique credit note Id
       parameters:
         - required: true
           in: path
@@ -6277,7 +6270,7 @@ paths:
       tags:
         - Accounting
       operationId: updateCreditNote
-      summary: Allows you to update a specific credit note
+      summary: Updates a specific credit note
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ creditNotes: [{ type: CreditNote.TypeEnum.ACCPAYCREDIT, contact: { contactID: "00000000-0000-0000-0000-000000000000" }, date: "2019-01-05", status: CreditNote.StatusEnum.AUTHORISED, reference: "Mind stone", lineItems: [{ description: "Infinity Stones", quantity: 1.0, unitAmount: 100.0, accountCode: "400" } ]}]}'
       x-ruby-requestBody: 'credit_notes = { credit_notes: [{ type: XeroRuby::Accounting::CreditNote::ACCPAYCREDIT, contact: { contact_id: "00000000-0000-0000-0000-000000000000" }, date: "2019-01-05", status: XeroRuby::Accounting::CreditNote::AUTHORISED, reference: "Mind stone", line_items: [{ description: "Infinity Stones", quantity: 1.0, unit_amount: 100.0, account_code: "400" } ]}]}'
@@ -6573,7 +6566,7 @@ paths:
       tags:
         - Accounting
       operationId: getCreditNoteAttachments
-      summary: Allows you to retrieve Attachments for credit notes
+      summary: Retrieves attachments for a specific credit notes
       parameters:
         - required: true
           in: path
@@ -6615,7 +6608,7 @@ paths:
       tags:
         - Accounting
       operationId: getCreditNoteAttachmentById
-      summary: Allows you to retrieve Attachments on CreditNote
+      summary: Retrieves a specific attachment from a specific credit note using a unique attachment Id
       parameters:
         - required: true
           in: path
@@ -6657,7 +6650,7 @@ paths:
       tags:
         - Accounting
       operationId: getCreditNoteAttachmentByFileName
-      summary: Allows you to retrieve Attachments on CreditNote by file name
+      summary: Retrieves a specific attachment on a specific credit note by file name
       parameters:
         - required: true
           in: path
@@ -6696,7 +6689,7 @@ paths:
         - Accounting
       operationId: updateCreditNoteAttachmentByFileName
       x-hasAccountingValidationError: true
-      summary: Allows you to update Attachments on CreditNote by file name
+      summary: Updates attachments on a specific credit note by file name
       parameters:
         - required: true
           in: path
@@ -6753,7 +6746,7 @@ paths:
         - Accounting
       operationId: createCreditNoteAttachmentByFileName
       x-hasAccountingValidationError: true
-      summary: Allows you to create Attachments on CreditNote by file name
+      summary: Creates an attachment for a specific credit note
       parameters:
         - required: true
           in: path
@@ -6814,7 +6807,7 @@ paths:
         - Accounting
       operationId: getCreditNoteAsPdf
       x-path: '/CreditNotes/{CreditNoteID}'
-      summary: Allows you to retrieve Credit Note as PDF files
+      summary: Retrieves credit notes as PDF files
       parameters:
         - required: true
           in: path
@@ -6841,7 +6834,7 @@ paths:
       tags:
         - Accounting
       operationId: createCreditNoteAllocation
-      summary: Allows you to create Allocation on CreditNote
+      summary: Creates allocation for a specific credit note
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ allocations: [{ amount: 1.0, date: "2019-03-05", invoice: { invoiceID: "c45720a1-ade3-4a38-a064-d15489be6841", lineItems: [], type: Invoice.TypeEnum.ACCPAY, contact: {} }}]}'
       x-ruby-requestBody: 'allocations = { allocations: [{ amount: 1.0, date: "2019-03-05", invoice: { invoice_id: "c45720a1-ade3-4a38-a064-d15489be6841", line_items: [], type: XeroRuby::Accounting::Invoice::ACCPAY, contact: {} }}]}'
@@ -6980,7 +6973,7 @@ paths:
       tags:
         - Accounting
       operationId: getCreditNoteHistory
-      summary: Allows you to retrieve a history records of an CreditNote
+      summary: Retrieves history records of a specific credit note
       parameters:
         - required: true
           in: path
@@ -6999,7 +6992,7 @@ paths:
       tags:
         - Accounting
       operationId: createCreditNoteHistory
-      summary: Allows you to retrieve a history records of an CreditNote
+      summary: Retrieves history records of a specific credit note
       x-hasAccountingValidationError: true
       x-example:
         - historyRecord:
@@ -7052,7 +7045,7 @@ paths:
       tags:
         - Accounting
       operationId: getCurrencies
-      summary: Allows you to retrieve currencies for your organisation
+      summary: Retrieves currencies for your Xero organisation
       parameters:
         - in: query
           name: where
@@ -7093,7 +7086,7 @@ paths:
       tags:
         - Accounting
       operationId: createCurrency
-      summary: Allows you to create a new currency for an org
+      summary: Create a new currency for a Xero organisation
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ code: CurrencyCode.USD, description: "United States Dollar" }'
       x-ruby-requestBody: 'currency = { code: XeroRuby::Accounting::CurrencyCode::USD, description: "United States Dollar" }'
@@ -7147,7 +7140,7 @@ paths:
       tags:
         - Accounting
       operationId: getEmployees
-      summary: Allows you to retrieve employees used in Xero payrun
+      summary: Retrieves employees used in Xero payrun
       parameters:
         - $ref: '#/components/parameters/ifModifiedSince'
         - in: query
@@ -7219,7 +7212,7 @@ paths:
       tags:
         - Accounting
       operationId: createEmployees
-      summary: Allows you to create new employees used in Xero payrun
+      summary: Creates new employees used in Xero payrun
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ employees: [{ firstName: "Nick", lastName: "Fury", externalLink: { url: "http://twitter.com/#!/search/Nick+Fury" }}]}'
       x-ruby-requestBody: 'employees = { employees: [{ first_name: "Nick", last_name: "Fury", externallink: { url: "http://twitter.com/#!/search/Nick+Fury" }}]}'
@@ -7306,7 +7299,7 @@ paths:
       tags:
         - Accounting
       operationId: updateOrCreateEmployees
-      summary: Allows you to create a single new employees used in Xero payrun
+      summary: Creates a single new employees used in Xero payrun
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ employees: [{ firstName: "Nick", lastName: "Fury", externalLink: { url: "http://twitter.com/#!/search/Nick+Fury" }}]}'
       x-ruby-requestBody: 'employees = { employees: [{ first_name: "Nick", last_name: "Fury", external_link: { url: "http://twitter.com/#!/search/Nick+Fury" }}]}'
@@ -7396,7 +7389,7 @@ paths:
       tags:
         - Accounting
       operationId: getEmployee
-      summary: Allows you to retrieve a specific employee used in Xero payrun
+      summary: Retrieves a specific employee used in Xero payrun using a unique employee Id
       parameters:
         - required: true
           in: path
@@ -7441,7 +7434,7 @@ paths:
       tags:
         - Accounting
       operationId: getExpenseClaims
-      summary: Allows you to retrieve expense claims 
+      summary: Retrieves expense claims 
       parameters:
         - $ref: '#/components/parameters/ifModifiedSince'
         - in: query
@@ -7500,7 +7493,7 @@ paths:
       tags:
         - Accounting
       operationId: createExpenseClaims
-      summary: Allows you to retrieve expense claims 
+      summary: Creates expense claims 
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ expenseClaims: [{ status: ExpenseClaim.StatusEnum.SUBMITTED, user: { userID: "d1164823-0ac1-41ad-987b-b4e30fe0b273" }, receipts: [{ receiptID: "dc1c7f6d-0a4c-402f-acac-551d62ce5816", lineItems: [], contact: {}, user: {}, date: "2018-01-01" }]}]}'
       x-ruby-requestBody: 'expense_claims = { expense_claims: [{ status: XeroRuby::Accounting::ExpenseClaim::SUBMITTED, user: { user_id: "d1164823-0ac1-41ad-987b-b4e30fe0b273" }, receipts: [{ receipt_id: "dc1c7f6d-0a4c-402f-acac-551d62ce5816", line_items: [], contact: {}, user: {}, date: "2018-01-01" }]}]}'
@@ -7715,7 +7708,7 @@ paths:
       tags:
         - Accounting
       operationId: getExpenseClaim
-      summary: Allows you to retrieve a specified expense claim
+      summary: Retrieves a specific expense claim using a unique expense claim Id
       parameters:
         - required: true
           in: path
@@ -7811,7 +7804,7 @@ paths:
       tags:
         - Accounting
       operationId: updateExpenseClaim
-      summary: Allows you to update specified expense claims 
+      summary: Updates a specific expense claims 
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ expenseClaims: [{ status: ExpenseClaim.StatusEnum.AUTHORISED, user: { userID: "00000000-0000-0000-0000-000000000000" }, receipts: [{ receiptID: "00000000-0000-0000-0000-000000000000", lineItems: [], contact: {}, date: "2020-01-01", user: {} }]}]}'
       x-ruby-requestBody: 'expense_claims = { expense_claims: [{ status: XeroRuby::Accounting::ExpenseClaim::AUTHORISED, user: { user_id: "00000000-0000-0000-0000-000000000000" }, receipts: [{ receipt_id: "00000000-0000-0000-0000-000000000000", line_items: [], contact: {}, date: "2020-01-01", user: {} }]}]}'
@@ -8035,7 +8028,7 @@ paths:
       tags:
         - Accounting
       operationId: getExpenseClaimHistory
-      summary: Allows you to retrieve a history records of an ExpenseClaim
+      summary: Retrieves history records of a specific expense claim
       parameters:
         - required: true
           in: path
@@ -8054,7 +8047,7 @@ paths:
       tags:
         - Accounting
       operationId: createExpenseClaimHistory
-      summary: Allows you to create a history records of an ExpenseClaim
+      summary: Creates a history record for a specific expense claim
       x-hasAccountingValidationError: true
       x-example:
         - historyRecord:
@@ -8105,7 +8098,7 @@ paths:
       tags:
         - Accounting
       operationId: getInvoices
-      summary: Allows you to retrieve any sales invoices or purchase bills
+      summary: Retrieves sales invoices or purchase bills
       parameters:
         - $ref: '#/components/parameters/ifModifiedSince'
         - in: query
@@ -8338,7 +8331,7 @@ paths:
       tags:
         - Accounting
       operationId: createInvoices
-      summary: Allows you to create one or more sales invoices or purchase bills
+      summary: Creates one or more sales invoices or purchase bills
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ invoices: [{ type: Invoice.TypeEnum.ACCREC, contact: { contactID: "00000000-0000-0000-0000-000000000000" }, lineItems: [{ description: "Acme Tires", quantity: 2.0, unitAmount: 20.0, accountCode: "000", taxType: TaxType.NONE, lineAmount: 40.0 }], date: "2019-03-11", dueDate: "2018-12-10", reference: "Website Design", status: Invoice.StatusEnum.DRAFT }]}'
       x-ruby-requestBody: 'invoices = { invoices: [{ type: XeroRuby::Accounting::Invoice::ACCREC, contact: { contact_id: "00000000-0000-0000-0000-000000000000" }, line_items: [{ description: "Acme Tires", quantity: 2.0, unit_amount: 20.0, account_code: "000", tax_type: XeroRuby::Accounting::TaxType::NONE, line_amount: 40.0 }], date: "2019-03-11", due_date: "2018-12-10", reference: "Website Design", status: XeroRuby::Accounting::Invoice::DRAFT }]}'
@@ -8669,7 +8662,7 @@ paths:
       tags:
         - Accounting
       operationId: updateOrCreateInvoices
-      summary: Allows you to update OR create one or more sales invoices or purchase bills
+      summary: Updates or creates one or more sales invoices or purchase bills
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ invoices: [{ type: Invoice.TypeEnum.ACCREC, contact: { contactID:"00000000-0000-0000-0000-000000000000" }, lineItems:[ { description:"Acme Tires", quantity:2.0, unitAmount:20.0, accountCode:"200", taxType:"NONE", lineAmount:40.0 } ], date: "2019-03-11", dueDate:"2018-12-10", reference:"Website Design", status: Invoice.StatusEnum.AUTHORISED } ] }'
       x-ruby-requestBody: 'invoices = { invoices: [{ type: XeroRuby::Accounting::Invoice::ACCREC, contact: { contact_id: "00000000-0000-0000-0000-000000000000" }, line_items: [{ description: "Acme Tires", quantity: 2.0, unit_amount: 20.0, account_code: "000", tax_type: XeroRuby::Accounting::TaxType::NONE, line_amount: 40.0 }], date: "2019-03-11", due_date: "2018-12-10", reference: "Website Design", status: XeroRuby::Accounting::Invoice::DRAFT }]}'
@@ -9002,7 +8995,7 @@ paths:
       tags:
         - Accounting
       operationId: getInvoice
-      summary: Allows you to retrieve a specified sales invoice or purchase bill
+      summary: Retrieves a specific sales invoice or purchase bill using a unique invoice Id
       parameters:
         - required: true
           in: path
@@ -9178,7 +9171,7 @@ paths:
       tags:
         - Accounting
       operationId: updateInvoice
-      summary: Allows you to update a specified sales invoices or purchase bills
+      summary: Updates a specific sales invoices or purchase bills
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ invoices: [{ reference: "I am Iron Man", invoiceID: "00000000-0000-0000-0000-000000000000", lineItems: [], contact: {}, type: Invoice.TypeEnum.ACCPAY }]}'
       x-ruby-requestBody: 'invoices = { invoices: [{ reference: "I am Iron Man", invoice_id: "00000000-0000-0000-0000-000000000000", line_items: [], contact: {}, type: XeroRuby::Accounting::Invoice::ACCPAY }]}'
@@ -9345,7 +9338,7 @@ paths:
         - Accounting
       operationId: getInvoiceAsPdf
       x-path: '/Invoices/{InvoiceID}'
-      summary: Allows you to retrieve invoices or purchase bills as PDF files
+      summary: Retrieves invoices or purchase bills as PDF files
       parameters:
         - required: true
           in: path
@@ -9372,7 +9365,7 @@ paths:
       tags:
         - Accounting
       operationId: getInvoiceAttachments
-      summary: Allows you to retrieve Attachments on invoices or purchase bills
+      summary: Retrieves attachments for a specific invoice or purchase bill
       parameters:
         - required: true
           in: path
@@ -9411,8 +9404,7 @@ paths:
                                 "ContentLength": 2878711
                               }
                             ]
-                          }
-'
+                          }'
   '/Invoices/{InvoiceId}/Attachments/{AttachmentId}':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -9422,7 +9414,7 @@ paths:
       tags:
         - Accounting
       operationId: getInvoiceAttachmentById
-      summary: Allows you to retrieve a specified Attachment on invoices or purchase bills by it's ID
+      summary: Retrieves a specific attachment from a specific invoices or purchase bills by using a unique attachment Id
       parameters:
         - required: true
           in: path
@@ -9464,7 +9456,7 @@ paths:
       tags:
         - Accounting
       operationId: getInvoiceAttachmentByFileName
-      summary: Allows you to retrieve Attachment on invoices or purchase bills by it's filename
+      summary: Retrieves an attachment from a specific invoice or purchase bill by filename
       parameters:
         - required: true
           in: path
@@ -9503,7 +9495,7 @@ paths:
         - Accounting
       operationId: updateInvoiceAttachmentByFileName
       x-hasAccountingValidationError: true
-      summary: Allows you to update Attachment on invoices or purchase bills by it's filename
+      summary: Updates an attachment from a specific invoices or purchase bill by filename
       parameters:
         - required: true
           in: path
@@ -9560,7 +9552,7 @@ paths:
         - Accounting
       operationId: createInvoiceAttachmentByFileName
       x-hasAccountingValidationError: true
-      summary: Allows you to create an Attachment on invoices or purchase bills by it's filename
+      summary: Creates an attachment for a specific invoice or purchase bill by filename
       parameters:
         - required: true
           in: path
@@ -9620,7 +9612,7 @@ paths:
       tags:
         - Accounting
       operationId: getOnlineInvoice
-      summary: Allows you to retrieve a URL to an online invoice
+      summary: Retrieves a URL to an online invoice
       parameters:
         - required: true
           in: path
@@ -9657,7 +9649,7 @@ paths:
       tags:
         - Accounting
       operationId: emailInvoice
-      summary: Allows you to email a copy of invoice to related Contact
+      summary: Sends a copy of a specific invoice to related contact via email
       x-hasAccountingValidationError: true
       x-example:
         - requestEmpty:
@@ -9696,7 +9688,7 @@ paths:
       tags:
         - Accounting
       operationId: getInvoiceHistory
-      summary: Allows you to retrieve a history records of an invoice
+      summary: Retrieves history records for a specific invoice
       parameters:
         - required: true
           in: path
@@ -9715,7 +9707,7 @@ paths:
       tags:
         - Accounting
       operationId: createInvoiceHistory
-      summary: Allows you to retrieve a history records of an invoice
+      summary: Creates a history record for a specific invoice
       x-hasAccountingValidationError: true
       x-example:
         - historyRecord:
@@ -9768,7 +9760,7 @@ paths:
       tags:
         - Accounting
       operationId: getInvoiceReminders
-      summary: Allows you to retrieve invoice reminder settings
+      summary: Retrieves invoice reminder settings
       responses:
         '200':
           description: Success - return response of Invoice Reminders 
@@ -9796,7 +9788,7 @@ paths:
       tags:
         - Accounting
       operationId: getItems
-      summary: Allows you to retrieve any items
+      summary: Retrieves items
       parameters:
         - $ref: '#/components/parameters/ifModifiedSince'
         - in: query
@@ -9861,7 +9853,7 @@ paths:
       tags:
         - Accounting
       operationId: createItems
-      summary: Allows you to create one or more items
+      summary: Creates one or more items
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ items: [{ code: "abcXYZ123", name: "HelloWorld11", description: "Foobar", inventoryAssetAccountCode: "140", purchaseDetails: { cOGSAccountCode: "500" }}]}'
       x-ruby-requestBody: 'items = { items: [{ code: "abcXYZ123", name: "HelloWorld11", description: "Foobar", inventory_asset_account_code: "140", purchase_details: { cogs_account_code: "500" }}]}'
@@ -9987,7 +9979,7 @@ paths:
       tags:
         - Accounting
       operationId: updateOrCreateItems
-      summary: Allows you to update or create one or more items
+      summary: Updates or creates one or more items
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ items: [{ code: "ItemCode123", name: "ItemName XYZ", description: "Item Description ABC" }]}'
       x-ruby-requestBody: 'items = { items: [{ code: "ItemCode123", name: "ItemName XYZ", description: "Item Description ABC" }]}'
@@ -10084,7 +10076,7 @@ paths:
       tags:
         - Accounting
       operationId: getItem
-      summary: Allows you to retrieve a specified item
+      summary: Retrieves a specific item using a unique item Id
       parameters:
         - required: true
           in: path
@@ -10141,7 +10133,7 @@ paths:
       tags:
         - Accounting
       operationId: updateItem
-      summary: Allows you to update a specified item
+      summary: Updates a specific item
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ items: [{ code: "ItemCode123", description: "Description 123" }]}'
       x-ruby-requestBody: 'items = { items: [{ code: "ItemCode123", description: "Description 123" }]}'
@@ -10232,7 +10224,7 @@ paths:
       tags:
         - Accounting
       operationId: deleteItem
-      summary: Allows you to delete a specified item
+      summary: Deletes a specific item
       parameters:
         - required: true
           in: path
@@ -10257,7 +10249,7 @@ paths:
       tags:
         - Accounting
       operationId: getItemHistory
-      summary: Allows you to retrieve history for items
+      summary: Retrieves history for a specific item
       parameters:
         - required: true
           in: path
@@ -10276,7 +10268,7 @@ paths:
       tags:
         - Accounting
       operationId: createItemHistory
-      summary: Allows you to create a history record for items
+      summary: Creates a history record for a specific item
       x-hasAccountingValidationError: true
       x-example:
         - historyRecord:
@@ -10327,7 +10319,7 @@ paths:
       tags:
         - Accounting
       operationId: getJournals
-      summary: Allows you to retrieve any journals.
+      summary: Retrieves journals
       parameters:
         - $ref: '#/components/parameters/ifModifiedSince'
         - in: query
@@ -10522,7 +10514,7 @@ paths:
       tags:
         - Accounting
       operationId: getJournal
-      summary: Allows you to retrieve a specified journals.
+      summary: Retrieves a specific journal using a unique journal Id.
       parameters:
         - required: true
           in: path
@@ -10593,7 +10585,7 @@ paths:
       tags:
         - Accounting
       operationId: getLinkedTransactions
-      summary: Retrieve linked transactions (billable expenses)
+      summary: Retrieves linked transactions (billable expenses)
       parameters:
         - in: query
           name: page
@@ -10668,7 +10660,7 @@ paths:
       tags:
         - Accounting
       operationId: createLinkedTransaction
-      summary: Allows you to create linked transactions (billable expenses)
+      summary: Creates linked transactions (billable expenses)
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ sourceTransactionID: "00000000-0000-0000-0000-000000000000", sourceLineItemID: "00000000-0000-0000-0000-000000000000" }'
       x-ruby-requestBody: 'linked_transaction = { source_transaction_id: "00000000-0000-0000-0000-000000000000", source_line_item_id: "00000000-0000-0000-0000-000000000000" }'
@@ -10748,7 +10740,7 @@ paths:
       tags:
         - Accounting
       operationId: getLinkedTransaction
-      summary: Allows you to retrieve a specified linked transactions (billable expenses)
+      summary: Retrieves a specific linked transaction (billable expenses) using a unique linked transaction Id
       parameters:
         - required: true
           in: path
@@ -10791,7 +10783,7 @@ paths:
       tags:
         - Accounting
       operationId: updateLinkedTransaction
-      summary: Allows you to update a specified linked transactions (billable expenses)
+      summary: Updates a specific linked transactions (billable expenses)
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ linkedTransactions: [{ sourceLineItemID: "00000000-0000-0000-0000-000000000000", contactID: "00000000-0000-0000-0000-000000000000" }]}'
       x-ruby-requestBody: 'linked_transactions = { linked_transactions: [{ source_line_item_id: "00000000-0000-0000-0000-000000000000", contact_id: "00000000-0000-0000-0000-000000000000" }]}'
@@ -10912,7 +10904,7 @@ paths:
       tags:
         - Accounting
       operationId: deleteLinkedTransaction
-      summary: Allows you to delete a specified linked transactions (billable expenses)
+      summary: Deletes a specific linked transactions (billable expenses)
       parameters:
         - required: true
           in: path
@@ -10937,7 +10929,7 @@ paths:
       tags:
         - Accounting
       operationId: getManualJournals
-      summary: Allows you to retrieve any manual journals
+      summary: Retrieves manual journals
       parameters:
         - $ref: '#/components/parameters/ifModifiedSince'
         - in: query
@@ -11015,7 +11007,7 @@ paths:
       tags:
         - Accounting
       operationId: createManualJournals
-      summary: Allows you to create one or more manual journals
+      summary: Creates one or more manual journals
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ manualJournals: [{ narration: "Foo bar", date: "2019-03-14", journalLines: [{ lineAmount: 100.0, accountCode: "400", description: "Hello there" }, { lineAmount: -100.0, accountCode: "400", description: "Goodbye", tracking: [{ name: "Simpson", option: "Bart" }] }]}]}'
       x-ruby-requestBody: 'manual_journals = { manual_journals: [{ narration: "Foo bar", date: "2019-03-14", journal_lines: [{ line_amount: 100.0, account_code: "400", description: "Hello there" }, { line_amount: -100.0, account_code: "400", description: "Goodbye", tracking: [{ name: "Simpson", option: "Bart" }] }]}]}'
@@ -11241,7 +11233,7 @@ paths:
       tags:
         - Accounting
       operationId: updateOrCreateManualJournals
-      summary: Allows you to create a single manual journal
+      summary: Updates or creates a single manual journal
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ manualJournals: [{ narration: "Foo bar", journalLines: [{ lineAmount: 100.0, accountCode: "400", description: "Hello there" },{ lineAmount: -100.0, accountCode: "400", description: "Goodbye", tracking: [{ name: "Simpsons", option: "Bart" }]}], date: "2019-03-14" }]}'
       x-ruby-requestBody: 'manual_journals = { manual_journals: [{ narration: "Foo bar", date: "2019-03-14", journal_lines: [{ line_amount: 100.0, account_code: "400", description: "Hello there" },{ line_amount: -100.0, account_code: "400", description: "Goodbye", tracking: [{ name: "Simpsons", option: "Bart" }]}] }]}'
@@ -11470,7 +11462,7 @@ paths:
       tags:
         - Accounting
       operationId: getManualJournal
-      summary: Allows you to retrieve a specified manual journals
+      summary: Retrieves a specific manual journal
       parameters:
         - required: true
           in: path
@@ -11549,7 +11541,7 @@ paths:
       tags:
         - Accounting
       operationId: updateManualJournal
-      summary: Allows you to update a specified manual journal
+      summary: Updates a specific manual journal
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ manualJournals: [{ narration: "Hello Xero", manualJournalId: "00000000-0000-0000-0000-000000000000", journalLines: [] }]}'
       x-ruby-requestBody: 'manual_journals = { manual_journals: [{ narration: "Hello Xero", manual_journal_id: "00000000-0000-0000-0000-000000000000", journal_lines: [] }]}'
@@ -11754,7 +11746,7 @@ paths:
       tags:
         - Accounting
       operationId: getManualJournalAttachments
-      summary: Allows you to retrieve Attachment for manual journals
+      summary: Retrieves attachment for a specific manual journal
       parameters:
         - required: true
           in: path
@@ -11803,7 +11795,7 @@ paths:
       tags:
         - Accounting
       operationId: getManualJournalAttachmentById
-      summary: Allows you to retrieve specified Attachment on ManualJournals
+      summary: Allows you to retrieve a specific attachment from a specific manual journal using a unique attachment Id
       parameters:
         - required: true
           in: path
@@ -11845,7 +11837,7 @@ paths:
       tags:
         - Accounting
       operationId: getManualJournalAttachmentByFileName
-      summary: Allows you to retrieve specified Attachment on ManualJournal by file name
+      summary: Retrieves a specific attachment from a specific manual journal by file name
       parameters:
         - required: true
           in: path
@@ -11884,7 +11876,7 @@ paths:
         - Accounting
       operationId: updateManualJournalAttachmentByFileName
       x-hasAccountingValidationError: true
-      summary: Allows you to update a specified Attachment on ManualJournal by file name
+      summary: Updates a specific attachment from a specific manual journal by file name
       parameters:
         - required: true
           in: path
@@ -11941,7 +11933,7 @@ paths:
         - Accounting
       operationId: createManualJournalAttachmentByFileName
       x-hasAccountingValidationError: true
-      summary: Allows you to create a specified Attachment on ManualJournal by file name
+      summary: Creates a specific attachment for a specific manual journal by file name
       parameters:
         - required: true
           in: path
@@ -12000,7 +11992,7 @@ paths:
       tags:
         - Accounting
       operationId: getManualJournalsHistory
-      summary: Allows you to retrieve history from a manual journal
+      summary: Retrieves history for a specific manual journal
       parameters:
         - required: true
           in: path
@@ -12019,7 +12011,7 @@ paths:
       tags:
         - Accounting
       operationId: createManualJournalHistoryRecord
-      summary: Allows you to create history record for a manual journal
+      summary: Creates a history record for a specific manual journal
       x-hasAccountingValidationError: true
       x-example:
         - historyRecord:
