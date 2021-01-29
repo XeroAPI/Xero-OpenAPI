@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   version: '2.8.4'
-  title: 'Xero Payroll AU API'
+  title: 'Xero Payroll AU'
   description: 'This is the Xero Payroll API for orgs in Australia region.'
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
   contact:
@@ -9,7 +9,7 @@ info:
     email: "api@xero.com"
     url: "https://developer.xero.com"
   license:
-    name: MIT
+    name: MIT 
     url: 'https://github.com/XeroAPI/Xero-OpenAPI/blob/master/LICENSE'
 servers:
   - description: Xero Payroll AU API
@@ -27,7 +27,7 @@ paths:
       tags:
         - PayrollAu
       operationId: getEmployees
-      summary: Searches payroll employees
+      summary: searches employees
       parameters:
         - in: header
           name: If-Modified-Since
@@ -106,7 +106,7 @@ paths:
         - OAuth2: [payroll.employees]
       tags:
         - PayrollAu
-      summary: Creates a payroll employee
+      summary: Use this method to create a payroll employee
       operationId: createEmployee
       x-hasPayrollAuProblem: true
       responses:
@@ -194,14 +194,14 @@ paths:
         - OAuth2: [payroll.employees.read]
       tags:
         - PayrollAu
-      summary: Retrieves an employee's detail by unique employee id
+      summary: searches for an employee by unique id
       operationId: getEmployee
-      parameters:
+      parameters: 
         - name: EmployeeId
           in: path
           required: true
           description: Employee id for single object
-          schema:
+          schema: 
             type: string
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
@@ -327,15 +327,15 @@ paths:
         - OAuth2: [payroll.employees]
       tags:
         - PayrollAu
-      summary: Updates an employee's detail
+      summary: Update an Employee 
       operationId: updateEmployee
       description:  Update properties on a single employee
-      parameters:
+      parameters: 
         - name: EmployeeId
           in: path
           required: true
           description: Employee id for single object
-          schema:
+          schema: 
             type: string
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
@@ -401,7 +401,7 @@ paths:
       tags:
         - PayrollAu
       operationId: getLeaveApplications
-      summary:  Retrieves leave applications
+      summary: searches Leave Applications
       parameters:
         - in: header
           name: If-Modified-Since
@@ -505,17 +505,17 @@ paths:
                           ]
                         }'
         '400':
-          description: validation error for a bad request
-          content:
-            application/json:
-              schema:
+          description: validation error for a bad request         
+          content: 
+            application/json:               
+              schema:                 
                $ref: '#/components/schemas/APIException'
     post:
       security:
         - OAuth2: [payroll.leaveapplications]
       tags:
         - PayrollAu
-      summary: Creates a leave application
+      summary: Use this method to create a Leave Application
       operationId: createLeaveApplication
       x-hasPayrollAuProblem: true
       responses:
@@ -577,14 +577,14 @@ paths:
         - OAuth2: [payroll.leaveapplications.read]
       tags:
         - PayrollAu
-      summary: Retrieves a leave application by a unique leave application id
+      summary: searches for an Leave Application by unique id
       operationId: getLeaveApplication
-      parameters:
+      parameters: 
         - name: LeaveApplicationId
           in: path
           required: true
           description: Leave Application id for single object
-          schema:
+          schema: 
             type: string
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
@@ -625,14 +625,14 @@ paths:
         - OAuth2: [payroll.leaveapplications]
       tags:
         - PayrollAu
-      summary: Updates a specific leave application
+      summary: Use this method to update a Leave Application
       operationId: updateLeaveApplication
-      parameters:
+      parameters: 
         - name: LeaveApplicationId
           in: path
           required: true
           description: Leave Application id for single object
-          schema:
+          schema: 
             type: string
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
@@ -697,7 +697,7 @@ paths:
       tags:
         - PayrollAu
       operationId: getPayItems
-      summary: Retrieves pay items
+      summary: searches Pay Items
       parameters:
         - in: header
           name: If-Modified-Since
@@ -863,21 +863,21 @@ paths:
                           }
                         }'
         '400':
-          description: validation error for a bad request
-          content:
+          description: validation error for a bad request         
+          content: 
             application/json:
-              schema:
+              schema:                 
                $ref: '#/components/schemas/APIException'
     post:
       security:
         - OAuth2: [payroll.payitems]
       tags:
         - PayrollAu
-      summary: Creates a pay item
+      summary: Use this method to create a Pay Item
       operationId: createPayItem
       responses:
         '200':
-          description: A successful request - currently returns empty array for JSON
+          description: A successful request - currently returns empty array for JSON 
           content:
             application/json:
               schema:
@@ -968,7 +968,7 @@ paths:
       tags:
         - PayrollAu
       operationId: getPayrollCalendars
-      summary: retrieves payroll calendars
+      summary: searches Payroll Calendars
       parameters:
         - in: header
           name: If-Modified-Since
@@ -999,13 +999,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PayrollCalendars'
-              example: '{
+              example: '{ 
                           "Id":"a89fb36b-c573-42d8-88db-a947cbd6af5a",
                           "Status":"OK",
                           "ProviderName":"java-sdk-oauth2-dev-02",
                           "DateTimeUTC":"\/Date(1573611063408)\/",
-                          "PayrollCalendars":[
-                              {
+                          "PayrollCalendars":[ 
+                              { 
                                 "PayrollCalendarID":"78bb86b9-e1ea-47ac-b75d-f087a81931de",
                                 "Name":"Sid Weekly",
                                 "CalendarType":"WEEKLY",
@@ -1013,7 +1013,7 @@ paths:
                                 "PaymentDate":"\/Date(1573776000000+0000)\/",
                                 "UpdatedDateUTC":"\/Date(1573077687000+0000)\/"
                               },
-                              {
+                              { 
                                 "PayrollCalendarID":"22a05fc5-386d-4950-9842-3e7a6c812135",
                                 "Name":"Weekly",
                                 "CalendarType":"WEEKLY",
@@ -1024,17 +1024,17 @@ paths:
                           ]
                         }'
         '400':
-          description: validation error for a bad request
-          content:
-            application/json:
-              schema:
+          description: validation error for a bad request           
+          content: 
+            application/json:               
+              schema:                 
                 $ref: '#/components/schemas/APIException'
     post:
       security:
         - OAuth2: [payroll.payrollcalendars]
       tags:
         - PayrollAu
-      summary: Creates a Payroll Calendar
+      summary: Use this method to create a Payroll Calendars
       operationId: createPayrollCalendar
       x-hasPayrollAuProblem: true
       responses:
@@ -1070,8 +1070,8 @@ paths:
               type: array
               items:
                 $ref: '#/components/schemas/PayrollCalendar'
-            example: '[
-                        {
+            example: '[ 
+                        { 
                             "PayrollCalendarID":"78bb86b9-e1ea-47ac-b75d-f087a81931de",
                             "PayRunPeriodStartDate":"/Date(1572566400000+0000)/",
                             "PayRunPeriodEndDate":"/Date(1573084800000+0000)/",
@@ -1079,7 +1079,7 @@ paths:
                             "PaymentDate":"/Date(1573171200000+0000)/"
                         }
                       ]'
-  /PayrollCalendars/{PayrollCalendarId}:
+  /PayrollCalendars/{PayrollCalendarID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
@@ -1088,13 +1088,13 @@ paths:
       tags:
         - PayrollAu
       operationId: getPayrollCalendar
-      summary: Retrieves payroll calendar by using a unique payroll calendar ID
+      summary: searches Payroll Calendars
       parameters:
         - name: PayrollCalendarID
           in: path
           required: true
           description: Payroll Calendar id for single object
-          schema:
+          schema: 
             type: string
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
@@ -1105,13 +1105,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PayrollCalendars'
-              example: '{
+              example: '{ 
                           "Id":"8283e501-2a7f-4080-b3c9-579a51b55b94",
                           "Status":"OK",
                           "ProviderName":"java-sdk-oauth2-dev-02",
                           "DateTimeUTC":"\/Date(1573611453008)\/",
-                          "PayrollCalendars":[
-                              {
+                          "PayrollCalendars":[ 
+                              { 
                                 "PayrollCalendarID":"78bb86b9-e1ea-47ac-b75d-f087a81931de",
                                 "Name":"Sid Weekly",
                                 "CalendarType":"WEEKLY",
@@ -1122,10 +1122,10 @@ paths:
                           ]
                         }'
         '400':
-          description: validation error for a bad request
+          description: validation error for a bad request         
           content:
-            application/json:
-              schema:
+            application/json:    
+              schema: 
                 $ref: '#/components/schemas/APIException'
   /PayRuns:
     parameters:
@@ -1136,7 +1136,7 @@ paths:
       tags:
         - PayrollAu
       operationId: getPayRuns
-      summary: Retrieves pay runs
+      summary: searches PayRuns
       parameters:
         - in: header
           name: If-Modified-Since
@@ -1167,13 +1167,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PayRuns'
-              example: '{
+              example: '{ 
                           "Id":"31a0c577-5cb0-4c19-a1f5-9f4d6de951d4",
                           "Status":"OK",
                           "ProviderName":"java-sdk-oauth2-dev-02",
                           "DateTimeUTC":"\/Date(1573611063074)\/",
-                          "PayRuns":[
-                              {
+                          "PayRuns":[ 
+                              { 
                                 "PayRunID":"5de420bb-4ad2-405c-beb1-2610bcc2144e",
                                 "PayrollCalendarID":"78bb86b9-e1ea-47ac-b75d-f087a81931de",
                                 "PayRunPeriodStartDate":"\/Date(1572566400000+0000)\/",
@@ -1191,17 +1191,17 @@ paths:
                           ]
                         }'
         '400':
-          description: validation error for a bad request
-          content:
-            application/json:
-              schema:
+          description: validation error for a bad request       
+          content: 
+            application/json:           
+              schema:                 
                 $ref: '#/components/schemas/APIException'
     post:
       security:
         - OAuth2: [payroll.payruns]
       tags:
         - PayrollAu
-      summary: Creates a pay run
+      summary: Use this method to create a PayRun
       operationId: createPayRun
       x-hasPayrollAuProblem: true
       responses:
@@ -1247,7 +1247,7 @@ paths:
                           "PaymentDate": "/Date(1573171200000+0000)/"
                         }
                       ]'
-  /PayRuns/{PayRunId}:
+  /PayRuns/{PayRunID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
@@ -1255,14 +1255,14 @@ paths:
         - OAuth2: [payroll.payruns.read]
       tags:
         - PayrollAu
-      summary: Retrieves a pay run by using a unique pay run id
+      summary: searches for an payrun by unique id
       operationId: getPayRun
-      parameters:
+      parameters: 
         - name: PayRunID
           in: path
           required: true
           description: PayRun id for single object
-          schema:
+          schema: 
             type: string
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
@@ -1330,15 +1330,15 @@ paths:
         - OAuth2: [payroll.payruns]
       tags:
         - PayrollAu
-      summary: Updates a pay run
+      summary: Update a PayRun 
       operationId: updatePayRun
       description:  Update properties on a single PayRun
-      parameters:
+      parameters: 
         - name: PayRunID
           in: path
           required: true
           description: PayRun id for single object
-          schema:
+          schema: 
             type: string
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
@@ -1378,7 +1378,7 @@ paths:
                             "PayRunStatus": "POSTED"
                           }
                         ]'
-  /Payslip/{PayslipId}:
+  /Payslip/{PayslipID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
@@ -1386,14 +1386,14 @@ paths:
         - OAuth2: [payroll.payslip.read]
       tags:
         - PayrollAu
-      summary: Retrieves for a payslip by a unique payslip id
+      summary: searches for an payslip by unique id
       operationId: getPayslip
-      parameters:
+      parameters: 
         - name: PayslipID
           in: path
           required: true
           description: Payslip id for single object
-          schema:
+          schema: 
             type: string
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
@@ -1486,16 +1486,16 @@ paths:
         - OAuth2: [payroll.payslip]
       tags:
         - PayrollAu
-      summary: Updates a payslip
+      summary: Update a Payslip 
       operationId: updatePayslip
       x-hasPayrollAuError: true
       description:  Update lines on a single payslips
-      parameters:
+      parameters: 
         - name: PayslipID
           in: path
           required: true
           description: Payslip id for single object
-          schema:
+          schema: 
             type: string
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
@@ -1559,7 +1559,7 @@ paths:
       tags:
         - PayrollAu
       operationId: getSettings
-      summary: retrieves payroll settings
+      summary: retrieve settings
       responses:
         '200':
           description: payroll settings
@@ -1567,56 +1567,56 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SettingsObject'
-              example: '{
+              example: '{ 
                           "Id":"898a22ce-41d6-4553-b0b3-4cd486332dde",
                           "Status":"OK",
                           "ProviderName":"java-sdk-oauth2-dev-02",
                           "DateTimeUTC":"\/Date(1573585252781)\/",
-                          "Settings":{
-                              "Accounts":[
-                                {
+                          "Settings":{ 
+                              "Accounts":[ 
+                                { 
                                     "AccountID":"85bd2954-7ef5-4fbe-9e40-a1990d0fd63f",
                                     "Type":"BANK",
                                     "Code":"094",
                                     "Name":"Bank of A"
                                 },
-                                {
+                                { 
                                     "AccountID":"7e65fa75-1c64-43d7-b0b4-c05f196e2190",
                                     "Type":"WAGESPAYABLELIABILITY",
                                     "Code":"804",
                                     "Name":"Wages Payable - Payroll"
                                 },
-                                {
+                                { 
                                     "AccountID":"dbc164fa-0cdf-4848-92d3-0d1dc864c53f",
                                     "Type":"PAYGLIABILITY",
                                     "Code":"825",
                                     "Name":"PAYG Withholdings Payable"
                                 },
-                                {
+                                { 
                                     "AccountID":"7dad84d4-bc7a-482e-99b1-d879e4856578",
                                     "Type":"SUPERANNUATIONEXPENSE",
                                     "Code":"478",
                                     "Name":"Superannuation"
                                 },
-                                {
+                                { 
                                     "AccountID":"df3679fe-5ebc-42ce-a7ac-b4d36b520795",
                                     "Type":"SUPERANNUATIONLIABILITY",
                                     "Code":"826",
                                     "Name":"Superannuation Payable"
                                 },
-                                {
+                                { 
                                     "AccountID":"7e130864-5864-4c60-94eb-3c53c95da138",
                                     "Type":"WAGESEXPENSE",
                                     "Code":"477",
                                     "Name":"Wages and Salaries"
                                 }
                               ],
-                              "TrackingCategories":{
-                                "EmployeeGroups":{
+                              "TrackingCategories":{ 
+                                "EmployeeGroups":{ 
                                     "TrackingCategoryID":"a28f419f-6ec3-4dcf-9be0-7959ea983630",
                                     "TrackingCategoryName":"Foo70317"
                                 },
-                                "TimesheetCategories":{
+                                "TimesheetCategories":{ 
                                     "TrackingCategoryID":"89375aed-ed51-4624-9e5d-92db6bfa8974",
                                     "TrackingCategoryName":"Foo32551"
                                 }
@@ -1633,7 +1633,7 @@ paths:
       tags:
         - PayrollAu
       operationId: getSuperfunds
-      summary: retrieves superfunds
+      summary: searches SuperFunds
       parameters:
         - in: header
           name: If-Modified-Since
@@ -1664,20 +1664,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuperFunds'
-              example: '{
+              example: '{ 
                           "Id":"c5f5e907-e562-463c-b15c-1d6185fbb779",
                           "Status":"OK",
                           "ProviderName":"java-sdk-oauth2-dev-02",
                           "DateTimeUTC":"\/Date(1573570941142)\/",
-                          "SuperFunds":[
-                              {
+                          "SuperFunds":[ 
+                              { 
                                 "SuperFundID":"fde8e070-bf59-4e56-b1d7-c75a09474b8d",
                                 "Name":"Accumulate Plus (Commonwealth Bank Group Super)",
                                 "Type":"REGULATED",
                                 "USI":"OSF0001AU",
                                 "UpdatedDateUTC":"\/Date(1573510468000+0000)\/"
                               },
-                              {
+                              { 
                                 "SuperFundID":"69079de5-67ef-43bb-b5a5-3e7c2ccad7f0",
                                 "Name":"AMG Super",
                                 "Type":"REGULATED",
@@ -1687,17 +1687,17 @@ paths:
                           ]
                         }'
         '400':
-          description: validation error for a bad request
-          content:
-            application/json:
-              schema:
+          description: validation error for a bad request           
+          content: 
+            application/json:             
+              schema:                 
                 $ref: '#/components/schemas/APIException'
     post:
       security:
         - OAuth2: [payroll.superfunds]
       tags:
         - PayrollAu
-      summary: Creates a superfund
+      summary: Use this method to create a super fund
       operationId: createSuperfund
       x-hasPayrollAuProblem: true
       responses:
@@ -1707,13 +1707,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuperFunds'
-              example: '{
+              example: '{ 
                           "Id":"6101dc74-d7b5-4d75-8aa6-ba02697167d9",
                           "Status":"OK",
                           "ProviderName":"java-sdk-oauth2-dev-02",
                           "DateTimeUTC":"\/Date(1573583393024)\/",
-                          "SuperFunds":[
-                              {
+                          "SuperFunds":[ 
+                              { 
                                 "SuperFundID":"e02e44eb-2dba-4d5e-84da-8a0c3a4a4fef",
                                 "Name":"AMG Super",
                                 "Type":"REGULATED",
@@ -1735,8 +1735,8 @@ paths:
               type: array
               items:
                 $ref: '#/components/schemas/SuperFund'
-            example: '[
-                        {
+            example: '[ 
+                        { 
                             "usi":"PTC0133AU",
                             "Type":"REGULATED",
                             "Name":"Bar99359",
@@ -1745,7 +1745,7 @@ paths:
                             "USI":"PTC0133AU"
                         }
                       ]'
-  /Superfunds/{SuperFundId}:
+  /Superfunds/{SuperFundID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
@@ -1753,14 +1753,14 @@ paths:
         - OAuth2: [payroll.superfunds.read]
       tags:
         - PayrollAu
-      summary: Retrieves a superfund by using a unique superfund ID
+      summary: searches for an Superfund by unique id
       operationId: getSuperfund
-      parameters:
+      parameters: 
         - name: SuperFundID
           in: path
           required: true
           description: Superfund id for single object
-          schema:
+          schema: 
             type: string
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
@@ -1771,13 +1771,13 @@ paths:
              application/json:
               schema:
                 $ref: '#/components/schemas/SuperFunds'
-              example: '{
+              example: '{ 
                           "Id":"a023294b-3656-4202-8127-c3d77a794fa7",
                           "Status":"OK",
                           "ProviderName":"java-sdk-oauth2-dev-02",
                           "DateTimeUTC":"\/Date(1573571518603)\/",
-                          "SuperFunds":[
-                              {
+                          "SuperFunds":[ 
+                              { 
                                 "SuperFundID":"540f4327-dda2-4b36-9c2f-2fe1c93a72b5",
                                 "Name":"My Self Managed one",
                                 "Type":"SMSF",
@@ -1796,15 +1796,15 @@ paths:
         - OAuth2: [payroll.superfunds]
       tags:
         - PayrollAu
-      summary: Updates a superfund
+      summary: Update a Superfund 
       operationId: updateSuperfund
       description:  Update properties on a single Superfund
-      parameters:
+      parameters: 
         - name: SuperFundID
           in: path
           required: true
           description: Superfund id for single object
-          schema:
+          schema: 
             type: string
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
@@ -1815,13 +1815,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuperFunds'
-              example: '{
+              example: '{ 
                           "Id":"5805d551-10ba-43f5-ac08-9e482d35cdcb",
                           "Status":"OK",
                           "ProviderName":"java-sdk-oauth2-dev-02",
                           "DateTimeUTC":"\/Date(1573570941547)\/",
-                          "SuperFunds":[
-                              {
+                          "SuperFunds":[ 
+                              { 
                                 "SuperFundID":"fde8e070-bf59-4e56-b1d7-c75a09474b8d",
                                 "Name":"Accumulate Plus (Commonwealth Bank Group Super)",
                                 "Type":"REGULATED",
@@ -1839,8 +1839,8 @@ paths:
                 items:
                   $ref: '#/components/schemas/SuperFund'
               example: '
-                        [
-                          {
+                        [ 
+                          { 
                               "Type":"REGULATED",
                               "Name":"Nice23534"
                           }
@@ -1854,7 +1854,7 @@ paths:
       tags:
         - PayrollAu
       operationId: getSuperfundProducts
-      summary: Retrieves superfund products
+      summary: searches SuperfundProducts
       parameters:
         - in: query
           name: ABN
@@ -1875,13 +1875,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuperFundProducts'
-              example: '{
+              example: '{ 
                           "Id":"d1c101ee-2fd8-47a3-ad3d-bbc64139181c",
                           "Status":"OK",
                           "ProviderName":"java-sdk-oauth2-dev-02",
                           "DateTimeUTC":"\/Date(1573570720295)\/",
-                          "SuperFundProducts":[
-                              {
+                          "SuperFundProducts":[ 
+                              { 
                                 "USI":"OSF0001AU",
                                 "ABN":"24248426878",
                                 "ProductName":"Accumulate Plus (Commonwealth Bank Group Super)"
@@ -1889,10 +1889,10 @@ paths:
                           ]
                         }'
         '400':
-          description: validation error for a bad request
-          content:
-            application/json:
-              schema:
+          description: validation error for a bad request           
+          content: 
+            application/json:             
+              schema:                 
                 $ref: '#/components/schemas/APIException'
   /Timesheets:
     parameters:
@@ -1903,7 +1903,7 @@ paths:
       tags:
         - PayrollAu
       operationId: getTimesheets
-      summary: Retrieves timesheets
+      summary: searches timesheets
       parameters:
         - in: header
           name: If-Modified-Since
@@ -1934,23 +1934,23 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Timesheets'
-              example: '{
+              example: '{ 
                         "Id":"581271e7-d02d-4966-ae6c-2a4fb9c48e5a",
                         "Status":"OK",
                         "ProviderName":"java-sdk-oauth2-dev-02",
                         "DateTimeUTC":"\/Date(1573516183708)\/",
-                        "Timesheets":[
-                            {
+                        "Timesheets":[ 
+                            { 
                               "TimesheetID":"863bbd31-0447-4419-80d5-d733d5e723ba",
                               "EmployeeID":"b34e89ff-770d-4099-b7e5-f968767118bc",
                               "StartDate":"\/Date(1547769600000)\/",
                               "EndDate":"\/Date(1548288000000)\/",
                               "Status":"APPROVED",
                               "Hours":24.0000,
-                              "TimesheetLines":[
-                                  {
+                              "TimesheetLines":[ 
+                                  { 
                                     "EarningsRateID":"ab874dfb-ab09-4c91-954e-43acf6fc23b4",
-                                    "NumberOfUnits":[
+                                    "NumberOfUnits":[ 
                                         4.00,
                                         4.00,
                                         4.00,
@@ -1964,17 +1964,17 @@ paths:
                               ],
                               "UpdatedDateUTC":"\/Date(1572915827000+0000)\/"
                             },
-                            {
+                            { 
                               "TimesheetID":"544eb3a7-0d63-495b-90ae-f6aa3c26c2c8",
                               "EmployeeID":"7aa04979-ded5-44d9-b09a-793749425844",
                               "StartDate":"\/Date(1572566400000)\/",
                               "EndDate":"\/Date(1573084800000)\/",
                               "Status":"APPROVED",
                               "Hours":10.0000,
-                              "TimesheetLines":[
-                                  {
+                              "TimesheetLines":[ 
+                                  { 
                                     "EarningsRateID":"ab874dfb-ab09-4c91-954e-43acf6fc23b4",
-                                    "NumberOfUnits":[
+                                    "NumberOfUnits":[ 
                                         2.00,
                                         2.00,
                                         2.00,
@@ -1991,17 +1991,17 @@ paths:
                         ]
                       }'
         '400':
-          description: validation error for a bad request
-          content:
-            application/json:
-              schema:
+          description: validation error for a bad request           
+          content: 
+            application/json:               
+              schema:         
                 $ref: '#/components/schemas/APIException'
     post:
       security:
         - OAuth2: [payroll.timesheets]
       tags:
         - PayrollAu
-      summary: Creates a timesheet
+      summary: Use this method to create a timesheet
       operationId: createTimesheet
       x-hasPayrollAuProblem: true
       responses:
@@ -2011,24 +2011,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Timesheets'
-              example: '{
+              example: '{ 
                           "Id":"fa8416a1-e02b-4b6f-bad5-3c5a2dbba76e",
                           "Status":"OK",
                           "ProviderName":"java-sdk-oauth2-dev-02",
                           "DateTimeUTC":"\/Date(1573516185143)\/",
-                          "Timesheets":[
-                              {
+                          "Timesheets":[ 
+                              { 
                                 "TimesheetID":"a7eb0a79-8511-4ee7-b473-3a25f28abcb9",
                                 "EmployeeID":"b34e89ff-770d-4099-b7e5-f968767118bc",
                                 "StartDate":"\/Date(1573171200000+0000)\/",
                                 "EndDate":"\/Date(1573689600000+0000)\/",
                                 "Status":"DRAFT",
                                 "Hours":22.0,
-                                "TimesheetLines":[
-                                    {
+                                "TimesheetLines":[ 
+                                    { 
                                       "EarningsRateID":"ab874dfb-ab09-4c91-954e-43acf6fc23b4",
                                       "TrackingItemID":"af5e9ce2-2349-4136-be99-3561b189f473",
-                                      "NumberOfUnits":[
+                                      "NumberOfUnits":[ 
                                           2.0,
                                           10.0,
                                           0.0,
@@ -2054,17 +2054,17 @@ paths:
               type: array
               items:
                 $ref: '#/components/schemas/Timesheet'
-            example: '[
-                        {
+            example: '[ 
+                        { 
                             "EmployeeID":"b34e89ff-770d-4099-b7e5-f968767118bc",
                             "StartDate":"/Date(1573171200000+0000)/",
                             "EndDate":"/Date(1573689600000+0000)/",
                             "Status":"DRAFT",
-                            "TimesheetLines":[
-                              {
+                            "TimesheetLines":[ 
+                              { 
                                   "EarningsRateID":"ab874dfb-ab09-4c91-954e-43acf6fc23b4",
                                   "TrackingItemID":"af5e9ce2-2349-4136-be99-3561b189f473",
-                                  "NumberOfUnits":[
+                                  "NumberOfUnits":[ 
                                     2.0,
                                     10.0,
                                     0.0,
@@ -2077,7 +2077,7 @@ paths:
                             ]
                         }
                       ]'
-  /Timesheets/{TimesheetId}:
+  /Timesheets/{TimesheetID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
@@ -2085,14 +2085,14 @@ paths:
         - OAuth2: [payroll.timesheets.read]
       tags:
         - PayrollAu
-      summary: Retrieves a timesheet by using a unique timesheet id
+      summary: searches for an timesheet by unique id
       operationId: getTimesheet
-      parameters:
+      parameters: 
         - name: TimesheetID
           in: path
           required: true
           description: Timesheet id for single object
-          schema:
+          schema: 
             type: string
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
@@ -2103,22 +2103,22 @@ paths:
              application/json:
               schema:
                 $ref: '#/components/schemas/TimesheetObject'
-              example: '{
+              example: '{ 
                           "Id":"34f58840-6f35-442a-9da7-a487265a7767",
                           "Status":"OK",
                           "ProviderName":"java-sdk-oauth2-dev-02",
                           "DateTimeUTC":"\/Date(1573516184161)\/",
-                          "Timesheet":{
+                          "Timesheet":{ 
                               "TimesheetID":"df954ca3-3a70-47e9-9a3e-80711e7c5f90",
                               "EmployeeID":"b34e89ff-770d-4099-b7e5-f968767118bc",
                               "StartDate":"\/Date(1547164800000+0000)\/",
                               "EndDate":"\/Date(1547683200000+0000)\/",
                               "Status":"APPROVED",
                               "Hours":15.0000,
-                              "TimesheetLines":[
-                                {
+                              "TimesheetLines":[ 
+                                { 
                                     "EarningsRateID":"ab874dfb-ab09-4c91-954e-43acf6fc23b4",
-                                    "NumberOfUnits":[
+                                    "NumberOfUnits":[ 
                                       3.00,
                                       3.00,
                                       3.00,
@@ -2138,15 +2138,15 @@ paths:
         - OAuth2: [payroll.timesheets]
       tags:
         - PayrollAu
-      summary: Updates a timesheet
+      summary: Update a Timesheet 
       operationId: updateTimesheet
       description:  Update properties on a single timesheet
-      parameters:
+      parameters: 
         - name: TimesheetID
           in: path
           required: true
           description: Timesheet id for single object
-          schema:
+          schema: 
             type: string
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
@@ -2157,24 +2157,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Timesheets'
-              example: '{
+              example: '{ 
                           "Id":"42f97160-485a-400d-93e2-275f5b199694",
                           "Status":"OK",
                           "ProviderName":"3f93110a-df13-49c7-b82f-a069813df188",
                           "DateTimeUTC":"\/Date(1573516185258)\/",
-                          "Timesheets":[
-                              {
+                          "Timesheets":[ 
+                              { 
                                 "TimesheetID":"a7eb0a79-8511-4ee7-b473-3a25f28abcb9",
                                 "EmployeeID":"b34e89ff-770d-4099-b7e5-f968767118bc",
                                 "StartDate":"\/Date(1573171200000+0000)\/",
                                 "EndDate":"\/Date(1573689600000+0000)\/",
                                 "Status":"APPROVED",
                                 "Hours":22.0,
-                                "TimesheetLines":[
-                                    {
+                                "TimesheetLines":[ 
+                                    { 
                                       "EarningsRateID":"ab874dfb-ab09-4c91-954e-43acf6fc23b4",
                                       "TrackingItemID":"af5e9ce2-2349-4136-be99-3561b189f473",
-                                      "NumberOfUnits":[
+                                      "NumberOfUnits":[ 
                                           2.0,
                                           10.0,
                                           0.0,
@@ -2197,19 +2197,19 @@ paths:
               type: array
               items:
                 $ref: '#/components/schemas/Timesheet'
-            example: '[
-                        {
+            example: '[ 
+                        { 
                             "EmployeeID":"b34e89ff-770d-4099-b7e5-f968767118bc",
                             "StartDate":"/Date(1573171200000+0000)/",
                             "EndDate":"/Date(1573689600000+0000)/",
                             "Status":"APPROVED",
                             "Hours":22.0,
                             "TimesheetID":"a7eb0a79-8511-4ee7-b473-3a25f28abcb9",
-                            "TimesheetLines":[
-                              {
+                            "TimesheetLines":[ 
+                              { 
                                   "EarningsRateID":"ab874dfb-ab09-4c91-954e-43acf6fc23b4",
                                   "TrackingItemID":"af5e9ce2-2349-4136-be99-3561b189f473",
-                                  "NumberOfUnits":[
+                                  "NumberOfUnits":[ 
                                     2.0,
                                     10.0,
                                     0.0,
@@ -2228,7 +2228,7 @@ components:
     OAuth2:
       type: oauth2
       description: For more information visit https://developer.xero.com/documentation/oauth2/overview
-      flows:
+      flows: 
         authorizationCode:
           authorizationUrl: 'https://login.xero.com/identity/connect/authorize'
           tokenUrl: 'https://identity.xero.com/connect/token'
@@ -2247,7 +2247,7 @@ components:
             accounting.attachments: Grant read-write access to attachments
             accounting.attachments.read: Grant read-only access to attachments
             assets assets.read: Grant read-only access to fixed assets
-            bankfeeds: Grant read-write access to bankfeeds
+            bankfeeds: Grant read-write access to bankfeeds 
             files: Grant read-write access to files and folders
             files.read: Grant read-only access to files and folders
             payroll: Grant read-write access to payroll
@@ -2274,13 +2274,13 @@ components:
             projects: Grant read-write access to projects
             projects.read: Grant read-only access to projects
   parameters:
-    requiredHeader:
+    requiredHeader: 
       in: header
       name: Xero-Tenant-Id
       description: Xero identifier for Tenant
       schema:
         type: string
-      required: true
+      required: true 
   schemas:
     Employees:
       type: object
@@ -2309,7 +2309,7 @@ components:
           description: Date of birth of the employee (YYYY-MM-DD)
           type: string
           x-is-msdate: true
-          example: '/Date(322560000000+0000)/'
+          example: '/Date(322560000000+0000)/'   
         HomeAddress:
           $ref: '#/components/schemas/HomeAddress'
         StartDate:
@@ -2333,9 +2333,9 @@ components:
           description: The employee’s gender. See Employee Gender
           type: string
           enum:
-          - N   #Not Stated
-          - M   #Male
-          - F   #Female
+          - N   #Not Stated  
+          - M   #Male  
+          - F   #Female  
           - I   #Non-Binary
           example: F
         Phone:
@@ -2398,7 +2398,7 @@ components:
           $ref: '#/components/schemas/PayTemplate'
         OpeningBalances:
           $ref: '#/components/schemas/OpeningBalances'
-        TaxDeclaration:
+        TaxDeclaration: 
           $ref: '#/components/schemas/TaxDeclaration'
         LeaveBalances:
           type: array
@@ -2420,7 +2420,7 @@ components:
           readOnly: true
           x-is-msdate-time: true
           example: '/Date(1583967733054+0000)/'
-        ValidationErrors:
+        ValidationErrors: 
           description: Displays array of validation error messages from the API
           type: array
           items:
@@ -2459,12 +2459,12 @@ components:
           description: Start date of the leave (YYYY-MM-DD)
           type: string
           x-is-msdate: true
-          example: '/Date(322560000000+0000)/'
+          example: '/Date(322560000000+0000)/'   
         EndDate:
           description: End date of the leave (YYYY-MM-DD)
           type: string
           x-is-msdate: true
-          example: '/Date(322560000000+0000)/'
+          example: '/Date(322560000000+0000)/'   
         Description:
           description: The Description of the Leave
           type: string
@@ -2479,7 +2479,7 @@ components:
           readOnly: true
           x-is-msdate-time: true
           example: '/Date(1583967733054+0000)/'
-        ValidationErrors:
+        ValidationErrors: 
           description: Displays array of validation error messages from the API
           type: array
           items:
@@ -2497,18 +2497,18 @@ components:
           description: The Pay Period End Date (YYYY-MM-DD)
           type: string
           x-is-msdate: true
-          example: '/Date(322560000000+0000)/'
+          example: '/Date(322560000000+0000)/'   
         PayPeriodStartDate:
           description: The Pay Period Start Date (YYYY-MM-DD)
           type: string
           x-is-msdate: true
-          example: '/Date(322560000000+0000)/'
+          example: '/Date(322560000000+0000)/'   
         LeavePeriodStatus:
           $ref: '#/components/schemas/LeavePeriodStatus'
     LeavePeriodStatus:
       type: string
       enum:
-      - SCHEDULED  #The default status
+      - SCHEDULED  #The default status  
       - PROCESSED #A LeavePeriod is set to the "Processed" status when the Payrun associated with the LeavePeriod is "POSTED"
     PayItems:
       type: object
@@ -2556,12 +2556,12 @@ components:
           description: The start date of the upcoming pay period. The end date will be calculated based upon this date, and the calendar type selected (YYYY-MM-DD)
           type: string
           x-is-msdate: true
-          example: '/Date(322560000000+0000)/'
+          example: '/Date(322560000000+0000)/'   
         PaymentDate:
           description: The date on which employees will be paid for the upcoming pay period (YYYY-MM-DD)
           type: string
           x-is-msdate: true
-          example: '/Date(322560000000+0000)/'
+          example: '/Date(322560000000+0000)/'   
         PayrollCalendarID:
           description: Xero identifier
           type: string
@@ -2573,7 +2573,7 @@ components:
           readOnly: true
           x-is-msdate-time: true
           example: '/Date(1583967733054+0000)/'
-        ValidationErrors:
+        ValidationErrors: 
           description: Displays array of validation error messages from the API
           type: array
           items:
@@ -2607,12 +2607,12 @@ components:
           description: Period start date (YYYY-MM-DD)
           type: string
           x-is-msdate: true
-          example: '/Date(322560000000+0000)/'
+          example: '/Date(322560000000+0000)/'   
         EndDate:
           description: Period end date (YYYY-MM-DD)
           type: string
           x-is-msdate: true
-          example: '/Date(322560000000+0000)/'
+          example: '/Date(322560000000+0000)/'   
         Status:
           $ref: '#/components/schemas/TimesheetStatus'
         Hours:
@@ -2634,7 +2634,7 @@ components:
           readOnly: true
           x-is-msdate-time: true
           example: '/Date(1583967733054+0000)/'
-        ValidationErrors:
+        ValidationErrors: 
           description: Displays array of validation error messages from the API
           type: array
           items:
@@ -2684,32 +2684,32 @@ components:
         - PayrollCalendarID
       properties:
         PayrollCalendarID:
-          description: Xero identifier for pay run
+          description: Xero identifier for pay run  
           type: string
           format: uuid
           example: bfac31bd-ea62-4fc8-a5e7-7965d9504b15
         PayRunID:
-          description: Xero identifier for pay run
-          type: string
+          description: Xero identifier for pay run 
+          type: string 
           format: uuid
           example: bba1d10f-63b1-4692-b5c5-a99f869523a4
         PayRunPeriodStartDate:
-          description: Period Start Date for the PayRun (YYYY-MM-DD)
+          description: Period Start Date for the PayRun (YYYY-MM-DD)  
           type: string
           x-is-msdate: true
-          example: '/Date(322560000000+0000)/'
+          example: '/Date(322560000000+0000)/'   
         PayRunPeriodEndDate:
-          description: Period End Date for the PayRun (YYYY-MM-DD)
+          description: Period End Date for the PayRun (YYYY-MM-DD)  
           type: string
           x-is-msdate: true
-          example: '/Date(322560000000+0000)/'
+          example: '/Date(322560000000+0000)/'   
         PayRunStatus:
           $ref: '#/components/schemas/PayRunStatus'
         PaymentDate:
-          description: Payment Date for the PayRun (YYYY-MM-DD)
+          description: Payment Date for the PayRun (YYYY-MM-DD)  
           type: string
           x-is-msdate: true
-          example: '/Date(322560000000+0000)/'
+          example: '/Date(322560000000+0000)/'   
         PayslipMessage:
           description: Payslip message for the PayRun
           type: string
@@ -2761,7 +2761,7 @@ components:
           format: double
           x-is-money: true
           example: 862.5
-        ValidationErrors:
+        ValidationErrors: 
           description: Displays array of validation error messages from the API
           type: array
           items:
@@ -2775,7 +2775,7 @@ components:
           format: uuid
           example: 4729f087-8eec-49c1-8294-4d11a5a0a37c
         PayslipID:
-          description: Xero identifier for the payslip
+          description: Xero identifier for the payslip  
           type: string
           format: uuid
           example: f3c0874d-7cdd-459a-a95c-d90d51decc42
@@ -2890,7 +2890,7 @@ components:
           format: uuid
           example: 4729f087-8eec-49c1-8294-4d11a5a0a37c
         PayslipID:
-          description: Xero identifier for the payslip
+          description: Xero identifier for the payslip  
           type: string
           format: uuid
           example: f3c0874d-7cdd-459a-a95c-d90d51decc42
@@ -3024,9 +3024,9 @@ components:
           description:   Superannuation payment date for the current period (YYYY-MM-DD)
           type: string
           x-is-msdate: true
-          example: '/Date(322560000000+0000)/'
+          example: '/Date(322560000000+0000)/'   
         Percentage:
-          description: Superannuation percentage
+          description: Superannuation percentage  
           type: number
           format: double
           x-is-money: true
@@ -3093,19 +3093,19 @@ components:
       type: object
       properties:
         Accounts:
-          description: Payroll Account details for SuperExpense, SuperLiabilty, WagesExpense, PAYGLiability & WagesPayable.
+          description: Payroll Account details for SuperExpense, SuperLiabilty, WagesExpense, PAYGLiability & WagesPayable. 
           type: array
           items:
             $ref: '#/components/schemas/Account'
         TrackingCategories:
-          description: Tracking categories for Employees and Timesheets
+          description: Tracking categories for Employees and Timesheets 
           type: object
           properties:
             EmployeeGroups:
               description: The tracking category used for employees
               type: object
               properties:
-                TrackingCategoryID:
+                TrackingCategoryID: 
                   description: The identifier for the tracking category
                   type: string
                   format: uuid
@@ -3117,7 +3117,7 @@ components:
               description: The tracking category used for timesheets
               type: object
               properties:
-                TrackingCategoryID:
+                TrackingCategoryID: 
                   description: The identifier for the tracking category
                   type: string
                   format: uuid
@@ -3144,7 +3144,7 @@ components:
         - Type
       properties:
         SuperFundID:
-          description: Xero identifier for a super fund
+          description: Xero identifier for a super fund  
           type: string
           format: uuid
           example: bfac31bd-ea62-4fc8-a5e7-7965d9504b15
@@ -3165,7 +3165,7 @@ components:
         AccountNumber:
           description: The account number for the self managed super fund.
           type: string
-          example: 234234234
+          example: 234234234  
         AccountName:
           description: The account name for the self managed super fund.
           type: string
@@ -3192,7 +3192,7 @@ components:
           readOnly: true
           x-is-msdate-time: true
           example: '/Date(1583967733054+0000)/'
-        ValidationErrors:
+        ValidationErrors: 
           description: Displays array of validation error messages from the API
           type: array
           items:
@@ -3213,7 +3213,7 @@ components:
           type: string
           example: 839182848805
         USI:
-          description: The USI of the Regulated SuperFund
+          description: The USI of the Regulated SuperFund  
           type: string
           example: 839182848805001
         SPIN:
@@ -3675,7 +3675,7 @@ components:
         CalculationType:
           $ref: '#/components/schemas/SuperannuationCalculationType'
         MinimumMonthlyEarnings:
-          description: amount of minimum earnings
+          description: amount of mimimum earnings
           type: number
           format: double
           x-is-money: true
@@ -3784,7 +3784,7 @@ components:
           description: Opening Balance Date. (YYYY-MM-DD)
           type: string
           x-is-msdate: true
-          example: '/Date(322560000000+0000)/'
+          example: '/Date(322560000000+0000)/'   
         Tax:
           description: Opening Balance tax
           type: string
@@ -3833,13 +3833,13 @@ components:
     RateType:
       type: string
       enum:
-      - FIXEDAMOUNT
-      - MULTIPLE  #Multiple of Employee’s Ordinary Earnings Rate - an earnings rate which is derived from an employee’s ordinary earnings rate
+      - FIXEDAMOUNT    
+      - MULTIPLE  #Multiple of Employee’s Ordinary Earnings Rate - an earnings rate which is derived from an employee’s ordinary earnings rate  
       - RATEPERUNIT  #An earnings rate allowing entry of a rate per unit
-    EarningsType:
+    EarningsType: 
       type: string
       enum:
-      - FIXED
+      - FIXED    
       - ORDINARYTIMEEARNINGS
       - OVERTIMEEARNINGS
       - ALLOWANCE
@@ -3849,14 +3849,14 @@ components:
       - LUMPSUMB
       - BONUSESANDCOMMISSIONS
       - LUMPSUME
-    EmploymentTerminationPaymentType:
+    EmploymentTerminationPaymentType: 
       type: string
       enum:
-      - O
-      - R
-    AllowanceType:
+      - O  
+      - R  
+    AllowanceType: 
       type: string
-      enum:
+      enum: 
       - CAR
       - TRANSPORT
       - TRAVEL
@@ -3864,111 +3864,111 @@ components:
       - MEALS
       - JOBKEEPER
       - OTHER
-    CalendarType:
+    CalendarType: 
       type: string
       enum:
-      - WEEKLY
+      - WEEKLY  
       - FORTNIGHTLY
-      - FOURWEEKLY
-      - MONTHLY
-      - TWICEMONTHLY
-      - QUARTERLY
-    EarningsRateCalculationType:
+      - FOURWEEKLY  
+      - MONTHLY  
+      - TWICEMONTHLY  
+      - QUARTERLY  
+    EarningsRateCalculationType: 
       type: string
       enum:
-      - USEEARNINGSRATE
-      - ENTEREARNINGSRATE
+      - USEEARNINGSRATE  
+      - ENTEREARNINGSRATE    
       - ANNUALSALARY
-    DeductionTypeCalculationType:
+    DeductionTypeCalculationType: 
       type: string
       enum:
-      - FIXEDAMOUNT
-      - PRETAX
+      - FIXEDAMOUNT  
+      - PRETAX  
       - POSTTAX
-    LeaveLineCalculationType:
+    LeaveLineCalculationType: 
       description: Calculation type for leave line for Opening Balance on Employee
       type: string
       enum:
-      - NOCALCULATIONREQUIRED
+      - NOCALCULATIONREQUIRED  
       - FIXEDAMOUNTEACHPERIOD
       - ENTERRATEINPAYTEMPLATE
       - BASEDONORDINARYEARNINGS
       - ""
-    SuperannuationContributionType:
+    SuperannuationContributionType: 
       type: string
       enum:
-      - SGC
-      - SALARYSACRIFICE
-      - EMPLOYERADDITIONAL
+      - SGC  
+      - SALARYSACRIFICE  
+      - EMPLOYERADDITIONAL  
       - EMPLOYEE
-    SuperannuationCalculationType:
+    SuperannuationCalculationType: 
       type: string
       enum:
-      - FIXEDAMOUNT
-      - PERCENTAGEOFEARNINGS
-      - STATUTORY
-    PaymentFrequencyType:
+      - FIXEDAMOUNT  
+      - PERCENTAGEOFEARNINGS    
+      - STATUTORY  
+    PaymentFrequencyType: 
       type: string
       enum:
-      - WEEKLY
+      - WEEKLY  
       - MONTHLY
       - FORTNIGHTLY
       - QUARTERLY
       - TWICEMONTHLY
       - FOURWEEKLY
       - YEARLY
-    LeaveTypeContributionType:
+    LeaveTypeContributionType: 
       type: string
       enum:
-      - SGC
-      - SALARYSACRIFICE
-      - EMPLOYERADDITIONAL
+      - SGC  
+      - SALARYSACRIFICE  
+      - EMPLOYERADDITIONAL  
       - EMPLOYEE
-    EntitlementFinalPayPayoutType:
+    EntitlementFinalPayPayoutType: 
       type: string
       enum:
       - NOTPAIDOUT
-      - PAIDOUT
-    PayRunStatus:
+      - PAIDOUT  
+    PayRunStatus: 
       type: string
       enum:
       - DRAFT
       - POSTED
-    ManualTaxType:
+    ManualTaxType: 
       type: string
       enum:
-      - PAYGMANUAL
+      - PAYGMANUAL  
       - ETPOMANUAL
       - ETPRMANUAL
       - SCHEDULE5MANUAL
       - SCHEDULE5STSLMANUAL
-    SuperFundType:
+    SuperFundType: 
       type: string
       enum:
-      - REGULATED
+      - REGULATED  
       - SMSF
-    EmploymentBasis:
+    EmploymentBasis: 
       type: string
       enum:
-      - FULLTIME
-      - PARTTIME
-      - CASUAL
-      - LABOURHIRE
+      - FULLTIME  
+      - PARTTIME  
+      - CASUAL  
+      - LABOURHIRE  
       - SUPERINCOMESTREAM
-    TFNExemptionType:
+    TFNExemptionType: 
       type: string
       enum:
-      - NOTQUOTED
-      - PENDING
+      - NOTQUOTED  
+      - PENDING  
       - PENSIONER
       - UNDER18
-    ResidencyStatus:
+    ResidencyStatus: 
       type: string
       enum:
       - AUSTRALIANRESIDENT
-      - FOREIGNRESIDENT
+      - FOREIGNRESIDENT  
       - WORKINGHOLIDAYMAKER
-    TimesheetStatus:
+    TimesheetStatus: 
       type: string
       enum:
       - DRAFT
@@ -3980,7 +3980,7 @@ components:
       type: string
       description: Employee Status Types
       enum:
-      - ACTIVE   #Employee with no Termination Date.
+      - ACTIVE   #Employee with no Termination Date.  
       - TERMINATED  #Employee with a Termination Date.
     State:
       type: string
@@ -3991,7 +3991,7 @@ components:
       - NSW
       - NT
       - QLD
-      - SA
+      - SA 
       - TAS
       - VIC
       - WA
@@ -4012,7 +4012,7 @@ components:
           format: uuid
           example: 2187a42b-639a-45cb-9eed-cd4ae488306a
         EmployeeNumber:
-          description: The membership number assigned to the employee by the super fund.
+          description: The memberhsip number assigned to the employee by the super fund.
           type: string
           example: 1234
     AccountType:
@@ -4022,9 +4022,9 @@ components:
         - BANK
         - CURRENT
         - CURRLIAB
-        - DEPRECIATN
+        - DEPRECIATN  
         - DIRECTCOSTS
-        - EQUITY
+        - EQUITY  
         - EXPENSE
         - FIXED
         - INVENTORY
@@ -4046,8 +4046,8 @@ components:
       description: The object returned for a bad request
       type: object
       properties:
-        ErrorNumber:
-          description: The error number
+        ErrorNumber: 
+          description: The error number 
           type: number
           format: integer
           example: 16
@@ -4055,7 +4055,7 @@ components:
           description: The type of error
           type: string
           example: QueryParseException
-        Message:
+        Message: 
           description: The message describing the error
           type: string
           example: No property or field 'hi' exists in type 'Employee' (at index 0)

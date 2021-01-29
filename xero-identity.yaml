@@ -1,21 +1,21 @@
 openapi: 3.0.0
 info:
-  version: "2.8.3"
-  title: Xero OAuth 2 Identity Service API
-  description: These endpoints are related to managing authentication tokens and identity for Xero API
+  version: "2.8.4"
+  title: Xero oAuth 2 identity service
+  description: This specifing endpoints related to managing authentication tokens and identity for Xero API
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
   contact:
     name: "Xero Platform Team"
     email: "api@xero.com"
     url: "https://developer.xero.com"
   license:
-    name: MIT
+    name: MIT 
     url: 'https://github.com/XeroAPI/Xero-OpenAPI/blob/master/LICENSE'
 servers:
   - description: Xero Identity service API
     url: 'https://api.xero.com'
 paths:
-  /Connections:
+  /connections:
     get:
       security:
         - OAuth2: []
@@ -23,20 +23,20 @@ paths:
         - identity
       description: Override the base server url that include version
       operationId: getConnections
-      summary: Retrieves the connections for this user
+      summary: Allows you to retrieve the connections for this user
       parameters:
         - in: query
           required: false
           name: authEventId
           description: Filter by authEventId
-          example: "00000000-0000-0000-0000-000000000000"
+          example: "00000000-0000-0000-000-000000000000"
           schema:
             type: string
             format: uuid
       x-basepath: 'https://api.xero.com'
       responses:
         '200':
-          description: Success - return response of type Connections array with 0 to n Connection
+          description: Success - return response of type Connections array with 0 to n Connection  
           content:
             application/json:
               schema:
@@ -53,7 +53,7 @@ paths:
                             "updatedDateUtc": "2019-12-07T18:46:19.5187840"
                           }
                         ]'
-  '/Connections/{id}':
+  '/connections/{id}':
     delete:
       security:
         - OAuth2: []
@@ -61,7 +61,7 @@ paths:
         - identity
       description: Override the base server url that include version
       operationId: deleteConnection
-      summary: Deletes a connection for this user (i.e. disconnect a tenant)
+      summary: Allows you to delete a connection for this user (i.e. disconnect a tenant)
       x-basepath: 'https://api.xero.com'
       parameters:
         - required: true
@@ -73,7 +73,7 @@ paths:
             format: uuid
       responses:
         '204':
-          description: Success - connection has been deleted no content returned
+          description: Success - connection has been deleted no content returned 
         '404':
           description: Resource not found
 components:
@@ -151,13 +151,13 @@ components:
           description: token used to refresh an expired access token
           type: string
   securitySchemes:
-    BasicAuth:
+    BasicAuth:    
       type: http
       scheme: basic
     OAuth2:
       type: oauth2
       description: For more information
-      flows:
+      flows: 
         authorizationCode:
           authorizationUrl: 'https://login.xero.com/identity/connect/authorize'
           tokenUrl: 'https://identity.xero.com/connect/token'

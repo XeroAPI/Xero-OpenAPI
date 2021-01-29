@@ -5,7 +5,6 @@ servers:
 info:
   title: Xero Files API
   version: "2.8.4"
-  description: "These endpoints are specific to Xero Files API"
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
   contact:
     name: "Xero Platform Team"
@@ -24,7 +23,7 @@ paths:
       tags:
         - Files
       operationId: getFiles
-      summary: Retrieves files
+      summary: searches files
       parameters:
         - in: query
           name: pagesize
@@ -45,7 +44,7 @@ paths:
           description: values to sort by
           schema:
             type: string
-            enum:
+            enum: 
             - Name
             - Size
             - CreatedDateUTC
@@ -64,7 +63,7 @@ paths:
         - OAuth2: [files]
       tags:
         - Files
-      summary: Uploads a File
+      summary: upload an File
       operationId: uploadFile
       parameters:
         - in: query
@@ -88,9 +87,9 @@ paths:
       requestBody:
         content:
           multipart/form-data:
-            schema:
+            schema: 
               type: object
-              properties:
+              properties: 
                 body:
                   type: string
                   format: byte
@@ -109,14 +108,14 @@ paths:
         - OAuth2: [files.read]
       tags:
         - Files
-      summary: Retrieves a file by a unique file ID
+      summary: searches for file by unique id
       operationId: getFile
-      parameters:
+      parameters: 
         - name: FileId
           in: path
           required: true
           description: File id for single object
-          schema:
+          schema: 
             type: string
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
@@ -132,15 +131,15 @@ paths:
         - OAuth2: [files]
       tags:
         - Files
-      summary: Update a file
+      summary: Update a file 
       operationId: updateFile
-      description:  Updates file properties of a single file
-      parameters:
+      description:  Update properties on a single file
+      parameters: 
         - name: FileId
           in: path
           required: true
           description: File id for single object
-          schema:
+          schema: 
             type: string
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
@@ -161,15 +160,15 @@ paths:
         - OAuth2: [files]
       tags:
         - Files
-      summary: Deletes a specific file
+      summary: delete a file
       operationId: deleteFile
       description:  Delete a specific file
-      parameters:
+      parameters: 
         - name: FileId
           in: path
           required: true
           description: File id for single object
-          schema:
+          schema: 
             type: string
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
@@ -188,15 +187,15 @@ paths:
         - OAuth2: [files.read]
       tags:
         - Files
-      summary: Retrieves the content of a specific file
+      summary: searches files to retrieve the data
       operationId: getFileContent
       description:  By passing in the appropriate options, retrieve data for specific file
-      parameters:
+      parameters: 
         - name: FileId
           in: path
           required: true
           description: File id for single object
-          schema:
+          schema: 
             type: string
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
@@ -216,16 +215,16 @@ paths:
         - OAuth2: [files.read]
       tags:
         - Files
-      summary: Retrieves a specific file associations
+      summary: searches files
       operationId: getFileAssociations
       description: |
-        By passing in the appropriate options,
-      parameters:
+        By passing in the appropriate options, 
+      parameters: 
         - name: FileId
           in: path
           required: true
           description: File id for single object
-          schema:
+          schema: 
             type: string
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
@@ -243,15 +242,15 @@ paths:
         - OAuth2: [files]
       tags:
         - Files
-      summary: Creates a new file association
+      summary: create a new association
       operationId: createFileAssociation
       description: By passing in the appropriate options, you can create a new folder
-      parameters:
+      parameters: 
         - name: FileId
           in: path
           required: true
           description: File id for single object
-          schema:
+          schema: 
             type: string
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
@@ -277,15 +276,15 @@ paths:
         - OAuth2: [files]
       tags:
         - Files
-      summary: Deletes an existing file association
+      summary: create a new association
       operationId: deleteFileAssociation
       description: By passing in the appropriate options, you can create a new folder
-      parameters:
+      parameters: 
         - name: FileId
           in: path
           required: true
           description: File id for single object
-          schema:
+          schema: 
             type: string
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
@@ -293,7 +292,7 @@ paths:
           in: path
           required: true
           description: Object id for single object
-          schema:
+          schema: 
             type: string
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
@@ -314,15 +313,15 @@ paths:
         - OAuth2: [files.read]
       tags:
         - Files
-      summary: Retrieves an association object using a unique object ID
+      summary: searches files
       operationId: getAssociationsByObject
-      description: By passing in the appropriate options,
-      parameters:
+      description: By passing in the appropriate options, 
+      parameters: 
         - name: ObjectId
           in: path
           required: true
           description: Object id for single object
-          schema:
+          schema: 
             type: string
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
@@ -343,7 +342,7 @@ paths:
         - OAuth2: [files.read]
       tags:
         - Files
-      summary: Retrieves folders
+      summary: searches folder
       operationId: getFolders
       description: By passing in the appropriate options, you can search for
         available folders
@@ -353,7 +352,7 @@ paths:
           description: values to sort by
           schema:
             type: string
-            enum:
+            enum: 
             - Name
             - Size
             - CreatedDateUTC
@@ -365,7 +364,7 @@ paths:
             application/json:
               schema:
                 type: array
-                items:
+                items: 
                   $ref: '#/components/schemas/Folder'
         '400':
           description: bad input parameter - TODO
@@ -374,7 +373,7 @@ paths:
         - OAuth2: [files]
       tags:
         - Files
-      summary: Creates a new folder
+      summary: create a new folder
       operationId: createFolder
       description: By passing in the appropriate properties, you can create a new folder
       responses:
@@ -399,7 +398,7 @@ paths:
         - OAuth2: [files.read]
       tags:
         - Files
-      summary: Retrieves specific folder by using a unique folder ID
+      summary: searches specific folder by id
       operationId: getFolder
       description: By passing in the appropriate ID, you can search for specific folder
       parameters:
@@ -407,7 +406,7 @@ paths:
           in: path
           required: true
           description: Folder id for single object
-          schema:
+          schema: 
             type: string
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
@@ -425,7 +424,7 @@ paths:
         - OAuth2: [files]
       tags:
         - Files
-      summary: Updates an existing folder
+      summary: update folder
       operationId: updateFolder
       description: By passing in the appropriate ID and properties, you can update a folder
       parameters:
@@ -433,7 +432,7 @@ paths:
           in: path
           required: true
           description: Folder id for single object
-          schema:
+          schema: 
             type: string
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
@@ -457,7 +456,7 @@ paths:
         - OAuth2: [files]
       tags:
         - Files
-      summary: Deletes a folder
+      summary: delete a folder
       operationId: deleteFolder
       description: By passing in the appropriate ID, you can delete a folder
       parameters:
@@ -465,7 +464,7 @@ paths:
           in: path
           required: true
           description: Folder id for single object
-          schema:
+          schema: 
             type: string
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
@@ -486,7 +485,7 @@ paths:
         - OAuth2: [files.read]
       tags:
         - Files
-      summary: Retrieves inbox folder
+      summary: searches inbox folder 
       operationId: getInbox
       description: Search for the user inbox
       responses:
@@ -503,7 +502,7 @@ components:
     OAuth2:
       type: oauth2
       description: For more information
-      flows:
+      flows: 
         authorizationCode:
           authorizationUrl: 'https://login.xero.com/identity/connect/authorize'
           tokenUrl: 'https://identity.xero.com/connect/token'
@@ -514,7 +513,7 @@ components:
             files: Grant read-write access to files and folders
             files.read: Grant read-only access to files and folders
   parameters:
-    requiredHeader:
+    requiredHeader: 
       in: header
       name: xero-tenant-id
       description: Xero identifier for Tenant
@@ -532,7 +531,7 @@ components:
         Page:
           type: integer
           example: 1
-        PerPage:
+        PerPage: 
           type: integer
           example: 50
         Items:
@@ -554,7 +553,7 @@ components:
         MimeType:
           description: MimeType of the file (image/png, image/jpeg, application/pdf, etc..)
           type: string
-          example: image/jpeg
+          example: image/jpeg 
         Size:
           description: Numeric value in bytes
           type: integer
@@ -641,11 +640,11 @@ components:
       type: object
       properties:
         FileId:
-          description: The unique identifier of the file
+          description: The unique identifier of the file  
           type: string
           format: uuid
-        ObjectId:
-          description: The identifier of the object that the file is being associated with (e.g. InvoiceID, BankTransactionID, ContactID)
+        ObjectId:  
+          description: The identifier of the object that the file is being associated with (e.g. InvoiceID, BankTransactionID, ContactID)  
           type: string
           format: uuid
         ObjectGroup:
@@ -653,10 +652,10 @@ components:
         ObjectType:
           $ref: '#/components/schemas/ObjectType'
     ObjectGroup:
-      description: The Object Group that the object is in. These roughly correlate to the endpoints that can be used to retrieve the object via the core accounting API.
+      description: The Object Group that the object is in. These roughly correlate to the endpoints that can be used to retrieve the object via the core accounting API. 
       type: string
       enum:
-      - Account
+      - Account  
       - BankTransaction
       - Contact
       - CreditNote
@@ -664,7 +663,7 @@ components:
       - Item
       - ManualJournal
       - Overpayment
-      - Payment
+      - Payment  
       - Prepayment
       - Receipt
     ObjectType:
