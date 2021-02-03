@@ -5,6 +5,7 @@ servers:
 info:
   title: Xero Files API
   version: "2.8.4"
+  description: "These endpoints are specific to Xero Files API"
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
   contact:
     name: "Xero Platform Team"
@@ -23,7 +24,7 @@ paths:
       tags:
         - Files
       operationId: getFiles
-      summary: searches files
+      summary: Retrieves files
       parameters:
         - in: query
           name: pagesize
@@ -63,7 +64,7 @@ paths:
         - OAuth2: [files]
       tags:
         - Files
-      summary: upload an File
+      summary: Uploads a File
       operationId: uploadFile
       parameters:
         - in: query
@@ -100,7 +101,7 @@ paths:
                   type: string
                 mimeType:
                   type: string
-  /Files/{FileId}:
+  /Files/{FileID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
@@ -108,7 +109,7 @@ paths:
         - OAuth2: [files.read]
       tags:
         - Files
-      summary: searches for file by unique id
+      summary: Retrieves a file by a unique file ID
       operationId: getFile
       parameters: 
         - name: FileId
@@ -133,7 +134,7 @@ paths:
         - Files
       summary: Update a file 
       operationId: updateFile
-      description:  Update properties on a single file
+      description:  Updates file properties of a single file
       parameters: 
         - name: FileId
           in: path
@@ -160,7 +161,7 @@ paths:
         - OAuth2: [files]
       tags:
         - Files
-      summary: delete a file
+      summary: Deletes a specific file
       operationId: deleteFile
       description:  Delete a specific file
       parameters: 
@@ -179,7 +180,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/FileResponse204'
-  /Files/{FileId}/Content:
+  /Files/{FileID}/Content:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
@@ -187,7 +188,7 @@ paths:
         - OAuth2: [files.read]
       tags:
         - Files
-      summary: searches files to retrieve the data
+      summary: Retrieves the content of a specific file
       operationId: getFileContent
       description:  By passing in the appropriate options, retrieve data for specific file
       parameters: 
@@ -207,7 +208,7 @@ paths:
               schema:
                 type: string
                 format: binary
-  /Files/{FileId}/Associations:
+  /Files/{FileID}/Associations:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
@@ -215,7 +216,7 @@ paths:
         - OAuth2: [files.read]
       tags:
         - Files
-      summary: searches files
+      summary: Retrieves a specific file associations
       operationId: getFileAssociations
       description: |
         By passing in the appropriate options, 
@@ -242,7 +243,7 @@ paths:
         - OAuth2: [files]
       tags:
         - Files
-      summary: create a new association
+      summary: Creates a new file association
       operationId: createFileAssociation
       description: By passing in the appropriate options, you can create a new folder
       parameters: 
@@ -268,7 +269,7 @@ paths:
           application/json:
               schema:
                 $ref: '#/components/schemas/Association'
-  /Files/{FileId}/Associations/{ObjectId}:
+  /Files/{FileID}/Associations/{ObjectID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     delete:
@@ -276,7 +277,7 @@ paths:
         - OAuth2: [files]
       tags:
         - Files
-      summary: create a new association
+      summary: Deletes an existing file association
       operationId: deleteFileAssociation
       description: By passing in the appropriate options, you can create a new folder
       parameters: 
@@ -305,7 +306,7 @@ paths:
                 $ref: '#/components/schemas/FileResponse204'
         '400':
           description: bad input parameter - TODO
-  /Associations/{ObjectId}:
+  /Associations/{ObjectID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
@@ -313,7 +314,7 @@ paths:
         - OAuth2: [files.read]
       tags:
         - Files
-      summary: searches files
+      summary: Retrieves an association object using a unique object ID
       operationId: getAssociationsByObject
       description: By passing in the appropriate options, 
       parameters: 
@@ -342,7 +343,7 @@ paths:
         - OAuth2: [files.read]
       tags:
         - Files
-      summary: searches folder
+      summary: Retrieves folders
       operationId: getFolders
       description: By passing in the appropriate options, you can search for
         available folders
@@ -373,7 +374,7 @@ paths:
         - OAuth2: [files]
       tags:
         - Files
-      summary: create a new folder
+      summary: Creates a new folder
       operationId: createFolder
       description: By passing in the appropriate properties, you can create a new folder
       responses:
@@ -390,7 +391,7 @@ paths:
           application/json:
               schema:
                 $ref: '#/components/schemas/Folder'
-  /Folders/{FolderId}:
+  /Folders/{FolderID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
@@ -398,7 +399,7 @@ paths:
         - OAuth2: [files.read]
       tags:
         - Files
-      summary: searches specific folder by id
+      summary: Retrieves specific folder by using a unique folder ID
       operationId: getFolder
       description: By passing in the appropriate ID, you can search for specific folder
       parameters:
@@ -424,7 +425,7 @@ paths:
         - OAuth2: [files]
       tags:
         - Files
-      summary: update folder
+      summary: Updates an existing folder
       operationId: updateFolder
       description: By passing in the appropriate ID and properties, you can update a folder
       parameters:
@@ -456,7 +457,7 @@ paths:
         - OAuth2: [files]
       tags:
         - Files
-      summary: delete a folder
+      summary: Deletes a folder
       operationId: deleteFolder
       description: By passing in the appropriate ID, you can delete a folder
       parameters:
@@ -485,7 +486,7 @@ paths:
         - OAuth2: [files.read]
       tags:
         - Files
-      summary: searches inbox folder 
+      summary: Retrieves inbox folder 
       operationId: getInbox
       description: Search for the user inbox
       responses:

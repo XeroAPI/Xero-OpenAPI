@@ -24,7 +24,7 @@ paths:
         - PayrollNz
       operationId: getEmployees
       x-hasPayrollUkProblem: true
-      summary: searches employees
+      summary: Retrieves employees
       parameters:
         - in: query
           name: firstName
@@ -122,7 +122,7 @@ paths:
         - PayrollNz
       operationId: createEmployee
       x-hasPayrollUkProblem: true
-      summary: creates employees
+      summary: Creates an employees
       responses:
         '200':
           description: search results matching criteria
@@ -186,7 +186,7 @@ paths:
                         "email": "83139@starkindustries.com",
                         "gender": "M"
                       }'
-  /Employees/{EmployeeId}:
+  /Employees/{EmployeeID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get: 
@@ -196,9 +196,9 @@ paths:
         - PayrollNz
       operationId: getEmployee
       x-hasPayrollUkProblem: true
-      summary: searches employees
+      summary: Retrieves an employees using a unique employee ID
       parameters:
-        - name: EmployeeId
+        - name: EmployeeID
           in: path
           required: true
           description: Employee id for single object
@@ -250,9 +250,9 @@ paths:
         - PayrollNz
       operationId: updateEmployee
       x-hasPayrollUkProblem: true
-      summary: updates employee
+      summary: Updates an existing employee
       parameters:
-        - name: EmployeeId
+        - name: EmployeeID
           in: path
           required: true
           description: Employee id for single object
@@ -323,7 +323,7 @@ paths:
                         "email": "58315@starkindustries.com",
                         "gender": "M"
                       }'
-  /Employees/{EmployeeId}/Employment:
+  /Employees/{EmployeeID}/Employment:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     post: 
@@ -333,9 +333,9 @@ paths:
         - PayrollNz
       operationId: createEmployment
       x-hasPayrollUkProblem: true
-      summary: creates employment
+      summary: Creates an employment detail for a specific employee
       parameters:
-        - name: EmployeeId
+        - name: EmployeeID
           in: path
           required: true
           description: Employee id for single object
@@ -378,7 +378,7 @@ paths:
                         "payrollCalendarID": "9aa56064-990f-4ad3-a189-d966d8f6a030",
                         "startDate": "2020-09-02"
                       }'
-  /Employees/{EmployeeId}/Tax:
+  /Employees/{EmployeeID}/Tax:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get: 
@@ -388,9 +388,9 @@ paths:
         - PayrollNz
       operationId: getEmployeeTax
       x-hasPayrollUkProblem: true
-      summary: searches tax records for an employee 
+      summary: Retrieves tax records for a specific employee 
       parameters:
-        - name: EmployeeId
+        - name: EmployeeID
           in: path
           required: true
           description: Employee id for single object
@@ -438,9 +438,9 @@ paths:
         - PayrollNz
       operationId: updateEmployeeTax
       x-hasPayrollUkProblem: true
-      summary: updates the tax records for an employee 
+      summary: Updates the tax records for a specific employee 
       parameters:
-        - name: EmployeeId
+        - name: EmployeeID
           in: path
           required: true
           description: Employee id for single object
@@ -463,7 +463,7 @@ paths:
             schema:
               $ref: '#/components/schemas/EmployeeTax'
             example: ''
-  /Employees/{EmployeeId}/openingBalances:
+  /Employees/{EmployeeID}/openingBalances:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get: 
@@ -473,9 +473,9 @@ paths:
         - PayrollNz
       operationId: getEmployeeOpeningBalances
       x-hasPayrollUkProblem: true
-      summary: retrieve employee openingbalances
+      summary: Retrieves the opening balance for a specific employee
       parameters:
-        - name: EmployeeId
+        - name: EmployeeID
           in: path
           required: true
           description: Employee id for single object
@@ -518,9 +518,9 @@ paths:
         - PayrollNz
       operationId: createEmployeeOpeningBalances
       x-hasPayrollUkProblem: true
-      summary: creates employee opening balances
+      summary: Creates opening balances for a specific employee
       parameters:
-        - name: EmployeeId
+        - name: EmployeeID
           in: path
           required: true
           description: Employee id for single object
@@ -564,7 +564,7 @@ paths:
             schema:
               $ref: '#/components/schemas/EmployeeOpeningBalances'
             example: '[{"periodEndDate":"2020-10-01","daysPaid":3,"unpaidWeeks":2,"grossEarnings":40.0}]'
-  /Employees/{EmployeeId}/Leave:
+  /Employees/{EmployeeID}/Leave:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get: 
@@ -574,9 +574,9 @@ paths:
         - PayrollNz
       operationId: getEmployeeLeaves
       x-hasPayrollUkProblem: true
-      summary: search employee leave records
+      summary: Retrieves leave records for a specific employee
       parameters:
-        - name: EmployeeId
+        - name: EmployeeID
           in: path
           required: true
           description: Employee id for single object
@@ -624,9 +624,9 @@ paths:
         - PayrollNz
       operationId: createEmployeeLeave
       x-hasPayrollUkProblem: true
-      summary: creates employee leave records
+      summary: Creates leave records for a specific employee
       parameters:
-        - name: EmployeeId
+        - name: EmployeeID
           in: path
           required: true
           description: Employee id for single object
@@ -651,7 +651,7 @@ paths:
                           "leave": {
                             "leaveID": "82a04ba6-a5cc-4e7d-86d4-b9f381a494e8",
                             "leaveTypeID": "b0b1b79e-2a25-46c2-ad08-ca25ef48d7e4",
-                            "description": "Creating a Desription",
+                            "description": "Creating a Description",
                             "startDate": "2020-04-24T00:00:00",
                             "endDate": "2020-04-26T00:00:00",
                             "periods": [
@@ -679,11 +679,11 @@ paths:
               $ref: '#/components/schemas/EmployeeLeave'
             example: '{
                         "leaveTypeID": "b0b1b79e-2a25-46c2-ad08-ca25ef48d7e4",
-                        "description": "Creating a Desription",
+                        "description": "Creating a Description",
                         "startDate": "2020-04-24",
                         "endDate": "2020-04-26"
                       }'
-  /Employees/{EmployeeId}/Leave/{LeaveID}:
+  /Employees/{EmployeeID}/Leave/{LeaveID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     put:
@@ -693,9 +693,9 @@ paths:
         - PayrollNz
       operationId: updateEmployeeLeave
       x-hasPayrollUkProblem: true
-      summary: updates employee leave records
+      summary: Updates leave records for a specific employee
       parameters:
-        - name: EmployeeId
+        - name: EmployeeID
           in: path
           required: true
           description: Employee id for single object
@@ -728,7 +728,7 @@ paths:
                           "leave": {
                             "leaveID": "82a04ba6-a5cc-4e7d-86d4-b9f381a494e8",
                             "leaveTypeID": "b0b1b79e-2a25-46c2-ad08-ca25ef48d7e4",
-                            "description": "Creating a Desription",
+                            "description": "Creating a Description",
                             "startDate": "2020-04-24T00:00:00",
                             "endDate": "2020-04-26T00:00:00",
                             "periods": [
@@ -756,7 +756,7 @@ paths:
               $ref: '#/components/schemas/EmployeeLeave'
             example: '{
                         "leaveTypeID": "b0b1b79e-2a25-46c2-ad08-ca25ef48d7e4",
-                        "description": "Creating a Desription",
+                        "description": "Creating a Description",
                         "startDate": "2020-04-24",
                         "endDate": "2020-04-26",
                         "periods": [
@@ -775,9 +775,9 @@ paths:
         - PayrollNz
       operationId: deleteEmployeeLeave
       x-hasPayrollUkProblem: true
-      summary: deletes an employee leave record
+      summary: Deletes a leave record for a specific employee
       parameters:
-        - name: EmployeeId
+        - name: EmployeeID
           in: path
           required: true
           description: Employee id for single object
@@ -808,7 +808,7 @@ paths:
                           "pagination": null,
                           "problem": null
                         }'
-  /Employees/{EmployeeId}/LeaveBalances:
+  /Employees/{EmployeeID}/LeaveBalances:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get: 
@@ -818,9 +818,9 @@ paths:
         - PayrollNz
       operationId: getEmployeeLeaveBalances
       x-hasPayrollUkProblem: true
-      summary: search employee leave balances
+      summary: Retrieves leave balances for a specific employee
       parameters:
-        - name: EmployeeId
+        - name: EmployeeID
           in: path
           required: true
           description: Employee id for single object
@@ -874,7 +874,7 @@ paths:
                             }
                           ]
                         }'
-  /Employees/{EmployeeId}/LeavePeriods:
+  /Employees/{EmployeeID}/LeavePeriods:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get: 
@@ -884,9 +884,9 @@ paths:
         - PayrollNz
       operationId: getEmployeeLeavePeriods
       x-hasPayrollUkProblem: true
-      summary: searches employee leave periods
+      summary: Retrieves leave periods for a specific employee
       parameters:
-        - name: EmployeeId
+        - name: EmployeeID
           in: path
           required: true
           description: Employee id for single object
@@ -942,7 +942,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Problem'
-  /Employees/{EmployeeId}/leaveSetup:
+  /Employees/{EmployeeID}/leaveSetup:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     post:
@@ -952,9 +952,9 @@ paths:
         - PayrollNz
       operationId: createEmployeeLeaveSetup
       x-hasPayrollUkProblem: true
-      summary: Allows you to set-up leave for a specific employee. This is required before viewing, configuring and requesting leave for an employee
+      summary: Creates a leave set-up for a specific employee. This is required before viewing, configuring and requesting leave for an employee
       parameters:
-        - name: EmployeeId
+        - name: EmployeeID
           in: path
           required: true
           description: Employee id for single object
@@ -1004,7 +1004,7 @@ paths:
                         "sickLeaveHoursToAccrueAnnually": 20,
                         "sickLeaveOpeningBalance": 10
                       }'
-  /Employees/{EmployeeId}/LeaveTypes:
+  /Employees/{EmployeeID}/LeaveTypes:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get: 
@@ -1014,9 +1014,9 @@ paths:
         - PayrollNz
       operationId: getEmployeeLeaveTypes
       x-hasPayrollUkProblem: true
-      summary: searches employee leave types
+      summary: Retrieves leave types for a specific employee
       parameters:
-        - name: EmployeeId
+        - name: EmployeeID
           in: path
           required: true
           description: Employee id for single object
@@ -1066,9 +1066,9 @@ paths:
         - PayrollNz
       operationId: createEmployeeLeaveType
       x-hasPayrollUkProblem: true
-      summary: creates employee leave type records
+      summary: Creates leave type records for a specific employee
       parameters:
-        - name: EmployeeId
+        - name: EmployeeID
           in: path
           required: true
           description: Employee id for single object
@@ -1123,7 +1123,7 @@ paths:
                         "openingBalance": 100,
                         "rateAccruedHourly": 3.5
                       }'
-  /Employees/{EmployeeId}/PaymentMethods:
+  /Employees/{EmployeeID}/PaymentMethods:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get: 
@@ -1133,9 +1133,9 @@ paths:
         - PayrollNz
       operationId: getEmployeePaymentMethod
       x-hasPayrollUkProblem: true
-      summary: retrieves an employee's payment method
+      summary: Retrieves available payment methods for a specific employee
       parameters:
-        - name: EmployeeId
+        - name: EmployeeID
           in: path
           required: true
           description: Employee id for single object
@@ -1185,9 +1185,9 @@ paths:
         - PayrollNz
       operationId: createEmployeePaymentMethod
       x-hasPayrollUkProblem: true
-      summary: creates employee payment method
+      summary: Creates a payment method for an employee
       parameters:
-        - name: EmployeeId
+        - name: EmployeeID
           in: path
           required: true
           description: Employee id for single object
@@ -1216,7 +1216,7 @@ paths:
             schema:
               $ref: '#/components/schemas/PaymentMethod'
             example: ''
-  /Employees/{EmployeeId}/PayTemplates:
+  /Employees/{EmployeeID}/PayTemplates:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get: 
@@ -1226,9 +1226,9 @@ paths:
         - PayrollNz
       operationId: getEmployeePayTemplates
       x-hasPayrollUkProblem: true
-      summary: searches employee pay templates
+      summary: Retrieves pay templates for a specific employee
       parameters:
-        - name: EmployeeId
+        - name: EmployeeID
           in: path
           required: true
           description: Employee id for single object
@@ -1275,7 +1275,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Problem'
-  /Employees/{EmployeeId}/PayTemplates/earnings:
+  /Employees/{EmployeeID}/PayTemplates/earnings:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     post:
@@ -1285,9 +1285,9 @@ paths:
         - PayrollNz
       operationId: createEmployeeEarningsTemplate
       x-hasPayrollUkProblem: true
-      summary: creates employee earnings template records
+      summary: Creates earnings template records for an employee
       parameters:
-        - name: EmployeeId
+        - name: EmployeeID
           in: path
           required: true
           description: Employee id for single object
@@ -1336,7 +1336,7 @@ paths:
                         "earningsRateID": "f9d8f5b5-9049-47f4-8541-35e200f750a5",
                         "name": "My New One"
                       }'
-  /Employees/{EmployeeId}/PayTemplates/earnings/{PayTemplateEarningID}:
+  /Employees/{EmployeeID}/PayTemplates/earnings/{PayTemplateEarningID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     put:
@@ -1346,9 +1346,9 @@ paths:
         - PayrollNz
       operationId: updateEmployeeEarningsTemplate
       x-hasPayrollUkProblem: true
-      summary: updates employee earnings template records
+      summary: Updates an earnings template records for an employee
       parameters:
-        - name: EmployeeId
+        - name: EmployeeID
           in: path
           required: true
           description: Employee id for single object
@@ -1410,9 +1410,9 @@ paths:
       tags:
         - PayrollNz
       operationId: deleteEmployeeEarningsTemplate
-      summary: deletes an employee earnings template record
+      summary: Deletes an employee's earnings template record
       parameters:
-        - name: EmployeeId
+        - name: EmployeeID
           in: path
           required: true
           description: Employee id for single object
@@ -1443,7 +1443,7 @@ paths:
                           "pagination": null,
                           "problem": null
                         }'
-  /Employees/{EmployeeId}/paytemplateearnings:
+  /Employees/{EmployeeID}/paytemplateearnings:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     post:
@@ -1453,9 +1453,9 @@ paths:
         - PayrollNz
       operationId: createMultipleEmployeeEarningsTemplate
       x-hasPayrollUkProblem: true
-      summary: creates multiple employee earnings template records
+      summary: Creates multiple employee earnings template records for a specific employee
       parameters:
-        - name: EmployeeId
+        - name: EmployeeID
           in: path
           required: true
           description: Employee id for single object
@@ -1519,7 +1519,7 @@ paths:
         - PayrollNz
       operationId: getDeductions
       x-hasPayrollUkProblem: true
-      summary: searches deductions
+      summary: Retrieves deductions for a specific employee
       parameters:
         - in: query
           name: page
@@ -1571,7 +1571,7 @@ paths:
         - PayrollNz
       operationId: createDeduction
       x-hasPayrollUkProblem: true
-      summary: create a new deduction
+      summary: Creates a new deduction for a specific employee
       responses:
         '200':
           description: search results matching criteria
@@ -1588,7 +1588,7 @@ paths:
                           "problem": null,
                           "deduction": {
                             "deductionId": "0ee805eb-f5b0-4061-9b35-d9ea550da04e",
-                            "deductionName": "My new deducation",
+                            "deductionName": "My new deduction",
                             "deductionCategory": "NzOther",
                             "liabilityAccountId": "568f2e9a-0870-46cc-8678-f83f132ed4e3",
                             "currentRecord": true,
@@ -1608,7 +1608,7 @@ paths:
             schema:
               $ref: '#/components/schemas/Deduction'
             example: '{
-                        "deductionName": "My new deducation",
+                        "deductionName": "My new deduction",
                         "deductionCategory": "NzOther",
                         "liabilityAccountId": "568f2e9a-0870-46cc-8678-f83f132ed4e3"
                       }'
@@ -1622,7 +1622,7 @@ paths:
         - PayrollNz
       operationId: getDeduction
       x-hasPayrollUkProblem: true
-      summary: retrieve a single deduction by id
+      summary: Retrieves a single deduction by using a unique deduction ID
       parameters:
         - in: path
           name: deductionId
@@ -1663,7 +1663,7 @@ paths:
       tags:
         - PayrollNz
       operationId: getStatutoryDeductions
-      summary: searches statutory deductions
+      summary: Retrieves statutory deductions
       parameters:
         - in: query
           name: page
@@ -1706,7 +1706,7 @@ paths:
                             }
                           ]
                         }'
-  /StatutoryDeductions/{Id}:
+  /StatutoryDeductions/{id}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
@@ -1715,10 +1715,10 @@ paths:
       tags:
         - PayrollNz
       operationId: getStatutoryDeduction
-      summary: retrieve a single statutory deduction by id
+      summary: Retrieves a specific statutory deduction by using a unique statutory deductions id
       parameters:
         - in: path
-          name: Id
+          name: id
           required: true
           description: Identifier for the statutory deduction
           schema:
@@ -1746,7 +1746,7 @@ paths:
                             "currentRecord": true
                           }
                         }'
-  /superannuations:
+  /Superannuations:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
@@ -1755,7 +1755,7 @@ paths:
       tags:
         - PayrollNz
       operationId: getSuperannuations
-      summary: searches statutory deductions
+      summary: Retrieves superannuations
       parameters:
         - in: query
           name: page
@@ -1815,7 +1815,7 @@ paths:
         - PayrollNz
       operationId: createSuperannuation
       x-hasPayrollUkProblem: true
-      summary: create a new superannuation
+      summary: Creates a new superannuation
       responses:
         '200':
           description: search results matching criteria
@@ -1863,7 +1863,7 @@ paths:
                         "CalculationTypeNZ": "FixedAmount",
                         "standardAmount": 10
                       }'
-  /superannuations/{SuperannuationID}:
+  /Superannuations/{SuperannuationID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
@@ -1872,7 +1872,7 @@ paths:
       tags:
         - PayrollNz
       operationId: getSuperannuation
-      summary: searches for a unique superannuation
+      summary: Retrieves a specific superannuation using a unique superannuation ID
       parameters:
         - in: path
           name: SuperannuationID
@@ -1918,7 +1918,7 @@ paths:
         - PayrollNz
       operationId: getEarningsRates
       x-hasPayrollUkProblem: true
-      summary: searches earnings rates
+      summary: Retrieves earnings rates
       parameters:
         - in: query
           name: page
@@ -1990,7 +1990,7 @@ paths:
         - PayrollNz
       operationId: createEarningsRate
       x-hasPayrollUkProblem: true
-      summary: create a new earnings rate
+      summary: Creates a new earnings rate
       responses:
         '200':
           description: search results matching criteria
@@ -2047,7 +2047,7 @@ paths:
         - PayrollNz
       operationId: getEarningsRate
       x-hasPayrollUkProblem: true
-      summary: retrieve a single earnings rates by id
+      summary: Retrieves a specific earnings rates by using a unique earnings rate id
       parameters:
         - in: path
           name: EarningsRateID
@@ -2093,7 +2093,7 @@ paths:
         - PayrollNz
       operationId: getLeaveTypes
       x-hasPayrollUkProblem: true
-      summary: searches leave types
+      summary: Retrieves leave types
       parameters:
         - in: query
           name: page
@@ -2150,7 +2150,7 @@ paths:
         - PayrollNz
       operationId: createLeaveType
       x-hasPayrollUkProblem: true
-      summary: create a new leave type
+      summary: Creates a new leave type
       responses:
         '200':
           description: search results matching criteria
@@ -2201,7 +2201,7 @@ paths:
         - PayrollNz
       operationId: getLeaveType
       x-hasPayrollUkProblem: true
-      summary: retrieve a single leave type by id
+      summary: Retrieves a specific leave type by using a unique leave type ID
       parameters:
         - in: path
           name: LeaveTypeID
@@ -2243,7 +2243,7 @@ paths:
         - PayrollNz
       operationId: getReimbursements
       x-hasPayrollUkProblem: true
-      summary: searches reimbursements
+      summary: Retrieves reimbursements
       parameters:
         - in: query
           name: page
@@ -2290,7 +2290,7 @@ paths:
         - PayrollNz
       operationId: createReimbursement
       x-hasPayrollUkProblem: true
-      summary: create a new reimbursement
+      summary: Creates a new reimbursement
       responses:
         '200':
           description: search results matching criteria
@@ -2345,7 +2345,7 @@ paths:
         - PayrollNz
       operationId: getReimbursement
       x-hasPayrollUkProblem: true
-      summary: retrieve a single reimbursement by id
+      summary: Retrieves a specific reimbursement by using a unique reimbursement ID
       parameters:
         - in: path
           name: ReimbursementID
@@ -2390,7 +2390,7 @@ paths:
         - PayrollNz
       operationId: getTimesheets
       x-hasPayrollUkProblem: true
-      summary: searches timesheets
+      summary: Retrieves timesheets
       parameters:
         - in: query
           name: page
@@ -2399,7 +2399,7 @@ paths:
             type: integer
         - in: query
           name: employeeId
-          description: By default get Timesheets will return the timesheets for all employees in an organization. You can add GET https://…/timesheets?filter=employeeId=={EmployeeId} to get only the timesheets of a particular employee.
+          description: By default get Timesheets will return the timesheets for all employees in an organization. You can add GET https://…/timesheets?filter=employeeId=={EmployeeID} to get only the timesheets of a particular employee.
           schema:
             type: string
             format: uuid
@@ -2448,7 +2448,7 @@ paths:
         - PayrollNz
       operationId: createTimesheet
       x-hasPayrollUkProblem: true
-      summary: create a new timesheet
+      summary: Creates a new timesheet
       responses:
         '200':
           description: search results matching criteria
@@ -2530,7 +2530,7 @@ paths:
         - PayrollNz
       operationId: getTimesheet
       x-hasPayrollUkProblem: true
-      summary: retrieve a single timesheet by id
+      summary: Retrieves a specific timesheet by using a unique timesheet ID
       parameters:
         - in: path
           name: TimesheetID
@@ -2593,7 +2593,7 @@ paths:
       tags:
         - PayrollNz
       operationId: deleteTimesheet
-      summary: delete a timesheet
+      summary: Deletes a timesheet
       parameters:
         - in: path
           name: TimesheetID
@@ -2633,7 +2633,7 @@ paths:
         - PayrollNz
       operationId: createTimesheetLine
       x-hasPayrollUkProblem: true
-      summary: create a new timesheet line
+      summary: Create a new timesheet line for a specific time sheet
       parameters:
         - in: path
           name: TimesheetID
@@ -2691,7 +2691,7 @@ paths:
         - PayrollNz
       operationId: approveTimesheet
       x-hasPayrollUkProblem: true
-      summary: approve a timesheet
+      summary: Approves a timesheet
       parameters:
         - in: path
           name: TimesheetID
@@ -2771,7 +2771,7 @@ paths:
         - PayrollNz
       operationId: revertTimesheet
       x-hasPayrollUkProblem: true
-      summary: revert a timesheet to draft
+      summary: Reverts a timesheet to draft
       parameters:
         - in: path
           name: TimesheetID
@@ -2851,7 +2851,7 @@ paths:
         - PayrollNz
       operationId: updateTimesheetLine
       x-hasPayrollUkProblem: true
-      summary: update a timesheet line
+      summary: Updates a timesheet line for a specific timesheet
       parameters:
         - in: path
           name: TimesheetID
@@ -2912,7 +2912,7 @@ paths:
       tags:
         - PayrollNz
       operationId: deleteTimesheetLine
-      summary: delete a timesheet line
+      summary: Deletes a timesheet line for a specific timesheet
       parameters:
         - in: path
           name: TimesheetID
@@ -2959,7 +2959,7 @@ paths:
         - PayrollNz
       operationId: getPayRunCalendars
       x-hasPayrollUkProblem: true
-      summary: searches payrun calendars
+      summary: Retrieves payrun calendars
       parameters:
         - in: query
           name: page
@@ -3013,7 +3013,7 @@ paths:
         - PayrollNz
       operationId: createPayRunCalendar
       x-hasPayrollUkProblem: true
-      summary: create a new payrun calendar
+      summary: Creates a new payrun calendar
       responses:
         '200':
           description: search results matching criteria
@@ -3066,7 +3066,7 @@ paths:
         - PayrollNz
       operationId: getPayRunCalendar
       x-hasPayrollUkProblem: true
-      summary: retrieve a single payrun calendar by id
+      summary: Retrieves a specific payrun calendar by using a unique payroll calendar ID
       parameters:
         - in: path
           name: PayrollCalendarID
@@ -3099,7 +3099,7 @@ paths:
                             "updatedDateUTC": "2019-09-24T05:08:45"
                           }
                         }'
-  /Employees/{EmployeeId}/SalaryAndWages:
+  /Employees/{EmployeeID}/SalaryAndWages:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get: 
@@ -3109,9 +3109,9 @@ paths:
         - PayrollNz
       operationId: getEmployeeSalaryAndWages
       x-hasPayrollUkProblem: true
-      summary: retrieves an employee's salary and wages
+      summary: Retrieves an employee's salary and wages
       parameters:
-        - name: EmployeeId
+        - name: EmployeeID
           in: path
           required: true
           description: Employee id for single object
@@ -3183,9 +3183,9 @@ paths:
         - PayrollNz
       operationId: createEmployeeSalaryAndWage
       x-hasPayrollUkProblem: true
-      summary: creates employee salary and wage record
+      summary: Creates an employee salary and wage record
       parameters:
-        - name: EmployeeId
+        - name: EmployeeID
           in: path
           required: true
           description: Employee id for single object
@@ -3243,7 +3243,7 @@ paths:
                         "status": "Active",
                         "paymentType": "Salary"
                       }'
-  /Employees/{EmployeeId}/SalaryAndWages/{SalaryAndWagesID}:
+  /Employees/{EmployeeID}/SalaryAndWages/{SalaryAndWagesID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
@@ -3253,9 +3253,9 @@ paths:
         - PayrollNz
       operationId: getEmployeeSalaryAndWage
       x-hasPayrollUkProblem: true
-      summary: get employee salary and wages record by id
+      summary: Retrieves an employee's salary and wages record by using a unique salary and wage ID
       parameters:
-        - name: EmployeeId
+        - name: EmployeeID
           in: path
           required: true
           description: Employee id for single object
@@ -3307,9 +3307,9 @@ paths:
         - PayrollNz
       operationId: updateEmployeeSalaryAndWage
       x-hasPayrollUkProblem: true
-      summary: updates employee salary and wages record
+      summary: Updates an employee's salary and wages record
       parameters:
-        - name: EmployeeId
+        - name: EmployeeID
           in: path
           required: true
           description: Employee id for single object
@@ -3381,9 +3381,9 @@ paths:
       tags:
         - PayrollNz
       operationId: deleteEmployeeSalaryAndWage
-      summary: deletes an employee salary and wages record
+      summary: Deletes an employee's salary and wages record
       parameters:
-        - name: EmployeeId
+        - name: EmployeeID
           in: path
           required: true
           description: Employee id for single object
@@ -3424,7 +3424,7 @@ paths:
         - PayrollNz
       operationId: getPayRuns
       x-hasPayrollUkProblem: true
-      summary: searches pay runs
+      summary: Retrieves pay runs
       parameters:
         - in: query
           name: page
@@ -3482,7 +3482,7 @@ paths:
         - PayrollNz
       operationId: createPayRun
       x-hasPayrollUkProblem: true
-      summary: create a pay run
+      summary: Creates a pay run
       responses:
         '200':
           description: created payrun results
@@ -3582,7 +3582,7 @@ paths:
         - PayrollNz
       operationId: getPayRun
       x-hasPayrollUkProblem: true
-      summary: retrieve a single pay run by id
+      summary: Retrieves a specific pay run by using a unique pay run ID
       parameters:
         - in: path
           name: PayRunID
@@ -3648,7 +3648,7 @@ paths:
         - PayrollNz
       operationId: updatePayRun
       x-hasPayrollUkProblem: true
-      summary: update a pay run
+      summary: Updates a pay run
       parameters:
         - in: path
           name: PayRunID
@@ -3822,7 +3822,7 @@ paths:
         - PayrollNz
       operationId: getPaySlips
       x-hasPayrollUkProblem: true
-      summary: searches payslips
+      summary: Retrieves payslips
       parameters:
         - in: query
           name: page
@@ -3993,7 +3993,7 @@ paths:
         - PayrollNz
       operationId: getPaySlip
       x-hasPayrollUkProblem: true
-      summary: retrieve a single payslip by id
+      summary: Retrieves a specific payslip by a unique pay slip ID
       parameters:
         - in: path
           name: PaySlipID
@@ -4149,7 +4149,7 @@ paths:
         - PayrollNz
       operationId: updatePaySlipLineItems
       x-hasPayrollUkProblem: true
-      summary: creates employee pay slip
+      summary: Creates an employee pay slip
       parameters:
         - in: path
           name: PaySlipID
@@ -4442,7 +4442,7 @@ paths:
         - PayrollNz
       operationId: getSettings
       x-hasPayrollUkProblem: true
-      summary: searches settings
+      summary: Retrieves settings
       responses:
         '200':
           description: search results matching criteria
@@ -4486,7 +4486,7 @@ paths:
                             ]
                           }
                         }'
-  /settings/trackingCategories:
+  /Settings/TrackingCategories:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
@@ -4496,7 +4496,7 @@ paths:
         - PayrollNz
       operationId: getTrackingCategories
       x-hasPayrollUkProblem: true
-      summary: searches tracking categories
+      summary: Retrieves tracking categories
       responses:
         '200':
           description: search results matching criteria
@@ -5155,7 +5155,7 @@ components:
           description: Whether the sick leave was pregnancy related  
           type: boolean
         sufficientNotice:
-          description: Whether the employee provided sufficent notice and documentation as required by the employer supporting the sick leave request  
+          description: Whether the employee provided sufficient notice and documentation as required by the employer supporting the sick leave request  
           type: boolean
         isEntitled:
           description: Whether the leave was entitled to receive payment  
@@ -5856,7 +5856,7 @@ components:
           type: string
           format: uuid 
         payrollCalendarID:
-          description: The Xero identifier for the Payroll Calandar that the Timesheet applies to
+          description: The Xero identifier for the Payroll Calendar that the Timesheet applies to
           type: string
           format: uuid 
         employeeID:
@@ -6358,7 +6358,7 @@ components:
           description: Identifies if the earnings is using an average daily pay rate
           type: boolean
         isSystemGenerated:
-          description: Flag to indentify whether the earnings line is system generated or not.
+          description: Flag to identify whether the earnings line is system generated or not.
           type: boolean
     LeaveEarningsLines:
       type: array
@@ -6405,7 +6405,7 @@ components:
           description: Identifies if the earnings is using an average daily pay rate
           type: boolean
         isSystemGenerated:
-          description: Flag to indentify whether the earnings line is system generated or not.
+          description: Flag to identify whether the earnings line is system generated or not.
           type: boolean
     TimesheetEarningsLines:
       type: array
@@ -6452,7 +6452,7 @@ components:
           description: Identifies if the earnings is using an average daily pay rate
           type: boolean
         isSystemGenerated:
-          description: Flag to indentify whether the earnings line is system generated or not.
+          description: Flag to identify whether the earnings line is system generated or not.
           type: boolean
     DeductionLines:
       type: array
@@ -6534,7 +6534,7 @@ components:
       type: object
       properties:
         superannuationTypeID:
-          description: Xero identifier for payroll superannucation type
+          description: Xero identifier for payroll superannuation type
           type: string
           format: uuid 
         displayName:
