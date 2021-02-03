@@ -4,7 +4,7 @@ servers:
     url: https://api.xero.com/files.xro/1.0/
 info:
   title: Xero Files API
-  version: "2.8.5"
+  version: "2.8.4"
   description: "These endpoints are specific to Xero Files API"
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
   contact:
@@ -45,7 +45,7 @@ paths:
           description: values to sort by
           schema:
             type: string
-            enum:
+            enum: 
             - Name
             - Size
             - CreatedDateUTC
@@ -88,9 +88,9 @@ paths:
       requestBody:
         content:
           multipart/form-data:
-            schema:
+            schema: 
               type: object
-              properties:
+              properties: 
                 body:
                   type: string
                   format: byte
@@ -101,7 +101,7 @@ paths:
                   type: string
                 mimeType:
                   type: string
-  /Files/{FileId}:
+  /Files/{FileID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
@@ -111,12 +111,12 @@ paths:
         - Files
       summary: Retrieves a file by a unique file ID
       operationId: getFile
-      parameters:
+      parameters: 
         - name: FileId
           in: path
           required: true
           description: File id for single object
-          schema:
+          schema: 
             type: string
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
@@ -132,15 +132,15 @@ paths:
         - OAuth2: [files]
       tags:
         - Files
-      summary: Update a file
+      summary: Update a file 
       operationId: updateFile
       description:  Updates file properties of a single file
-      parameters:
+      parameters: 
         - name: FileId
           in: path
           required: true
           description: File id for single object
-          schema:
+          schema: 
             type: string
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
@@ -164,12 +164,12 @@ paths:
       summary: Deletes a specific file
       operationId: deleteFile
       description:  Delete a specific file
-      parameters:
+      parameters: 
         - name: FileId
           in: path
           required: true
           description: File id for single object
-          schema:
+          schema: 
             type: string
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
@@ -180,7 +180,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/FileResponse204'
-  /Files/{FileId}/Content:
+  /Files/{FileID}/Content:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
@@ -191,12 +191,12 @@ paths:
       summary: Retrieves the content of a specific file
       operationId: getFileContent
       description:  By passing in the appropriate options, retrieve data for specific file
-      parameters:
+      parameters: 
         - name: FileId
           in: path
           required: true
           description: File id for single object
-          schema:
+          schema: 
             type: string
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
@@ -208,7 +208,7 @@ paths:
               schema:
                 type: string
                 format: binary
-  /Files/{FileId}/Associations:
+  /Files/{FileID}/Associations:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
@@ -219,13 +219,13 @@ paths:
       summary: Retrieves a specific file associations
       operationId: getFileAssociations
       description: |
-        By passing in the appropriate options,
-      parameters:
+        By passing in the appropriate options, 
+      parameters: 
         - name: FileId
           in: path
           required: true
           description: File id for single object
-          schema:
+          schema: 
             type: string
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
@@ -246,12 +246,12 @@ paths:
       summary: Creates a new file association
       operationId: createFileAssociation
       description: By passing in the appropriate options, you can create a new folder
-      parameters:
+      parameters: 
         - name: FileId
           in: path
           required: true
           description: File id for single object
-          schema:
+          schema: 
             type: string
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
@@ -269,7 +269,7 @@ paths:
           application/json:
               schema:
                 $ref: '#/components/schemas/Association'
-  /Files/{FileId}/Associations/{ObjectId}:
+  /Files/{FileID}/Associations/{ObjectID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     delete:
@@ -280,12 +280,12 @@ paths:
       summary: Deletes an existing file association
       operationId: deleteFileAssociation
       description: By passing in the appropriate options, you can create a new folder
-      parameters:
+      parameters: 
         - name: FileId
           in: path
           required: true
           description: File id for single object
-          schema:
+          schema: 
             type: string
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
@@ -293,7 +293,7 @@ paths:
           in: path
           required: true
           description: Object id for single object
-          schema:
+          schema: 
             type: string
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
@@ -306,7 +306,7 @@ paths:
                 $ref: '#/components/schemas/FileResponse204'
         '400':
           description: bad input parameter - TODO
-  /Associations/{ObjectId}:
+  /Associations/{ObjectID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
@@ -316,13 +316,13 @@ paths:
         - Files
       summary: Retrieves an association object using a unique object ID
       operationId: getAssociationsByObject
-      description: By passing in the appropriate options,
-      parameters:
+      description: By passing in the appropriate options, 
+      parameters: 
         - name: ObjectId
           in: path
           required: true
           description: Object id for single object
-          schema:
+          schema: 
             type: string
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
@@ -353,7 +353,7 @@ paths:
           description: values to sort by
           schema:
             type: string
-            enum:
+            enum: 
             - Name
             - Size
             - CreatedDateUTC
@@ -365,7 +365,7 @@ paths:
             application/json:
               schema:
                 type: array
-                items:
+                items: 
                   $ref: '#/components/schemas/Folder'
         '400':
           description: bad input parameter - TODO
@@ -391,7 +391,7 @@ paths:
           application/json:
               schema:
                 $ref: '#/components/schemas/Folder'
-  /Folders/{FolderId}:
+  /Folders/{FolderID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
@@ -407,7 +407,7 @@ paths:
           in: path
           required: true
           description: Folder id for single object
-          schema:
+          schema: 
             type: string
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
@@ -433,7 +433,7 @@ paths:
           in: path
           required: true
           description: Folder id for single object
-          schema:
+          schema: 
             type: string
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
@@ -465,7 +465,7 @@ paths:
           in: path
           required: true
           description: Folder id for single object
-          schema:
+          schema: 
             type: string
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
@@ -486,7 +486,7 @@ paths:
         - OAuth2: [files.read]
       tags:
         - Files
-      summary: Retrieves inbox folder
+      summary: Retrieves inbox folder 
       operationId: getInbox
       description: Search for the user inbox
       responses:
@@ -503,7 +503,7 @@ components:
     OAuth2:
       type: oauth2
       description: For more information
-      flows:
+      flows: 
         authorizationCode:
           authorizationUrl: 'https://login.xero.com/identity/connect/authorize'
           tokenUrl: 'https://identity.xero.com/connect/token'
@@ -514,7 +514,7 @@ components:
             files: Grant read-write access to files and folders
             files.read: Grant read-only access to files and folders
   parameters:
-    requiredHeader:
+    requiredHeader: 
       in: header
       name: xero-tenant-id
       description: Xero identifier for Tenant
@@ -532,7 +532,7 @@ components:
         Page:
           type: integer
           example: 1
-        PerPage:
+        PerPage: 
           type: integer
           example: 50
         Items:
@@ -554,7 +554,7 @@ components:
         MimeType:
           description: MimeType of the file (image/png, image/jpeg, application/pdf, etc..)
           type: string
-          example: image/jpeg
+          example: image/jpeg 
         Size:
           description: Numeric value in bytes
           type: integer
@@ -641,11 +641,11 @@ components:
       type: object
       properties:
         FileId:
-          description: The unique identifier of the file
+          description: The unique identifier of the file  
           type: string
           format: uuid
-        ObjectId:
-          description: The identifier of the object that the file is being associated with (e.g. InvoiceID, BankTransactionID, ContactID)
+        ObjectId:  
+          description: The identifier of the object that the file is being associated with (e.g. InvoiceID, BankTransactionID, ContactID)  
           type: string
           format: uuid
         ObjectGroup:
@@ -653,10 +653,10 @@ components:
         ObjectType:
           $ref: '#/components/schemas/ObjectType'
     ObjectGroup:
-      description: The Object Group that the object is in. These roughly correlate to the endpoints that can be used to retrieve the object via the core accounting API.
+      description: The Object Group that the object is in. These roughly correlate to the endpoints that can be used to retrieve the object via the core accounting API. 
       type: string
       enum:
-      - Account
+      - Account  
       - BankTransaction
       - Contact
       - CreditNote
@@ -664,7 +664,7 @@ components:
       - Item
       - ManualJournal
       - Overpayment
-      - Payment
+      - Payment  
       - Prepayment
       - Receipt
     ObjectType:
