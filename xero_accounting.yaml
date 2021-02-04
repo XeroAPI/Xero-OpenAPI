@@ -1,14 +1,14 @@
 openapi: 3.0.0
 info:
-  title: Accounting API
-  version: "2.8.4"
+  title: Xero Accounting API
+  version: "2.8.6"
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
   contact:
     name: "Xero Platform Team"
     email: "api@xero.com"
     url: "https://developer.xero.com"
 servers:
-  - description: Xero Accounting API server
+  - description: The Xero Accounting API exposes accounting and related functions of the main Xero application and can be used for a variety of purposes such as creating transactions like invoices and credit notes, right through to extracting accounting data via our reports endpoint.
     url: https://api.xero.com/api.xro/2.0
 paths:
   /Accounts:
@@ -21,7 +21,7 @@ paths:
       tags:
         - Accounting
       operationId: getAccounts
-      summary: Allows you to retrieve the full chart of accounts
+      summary: Retrieves the full chart of accounts
       parameters:
         - $ref: '#/components/parameters/ifModifiedSince'
         - in: query
@@ -67,14 +67,13 @@ paths:
                         "EnablePaymentsToAccount": false
                       }]
                     }'
-      
     put:
       security:
         - OAuth2: [accounting.settings]
       tags:
         - Accounting
       operationId: createAccount
-      summary: Allows you to create a new chart of accounts
+      summary: Creates a new chart of accounts
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ code: "123456", name: "Foobar", type: AccountType.EXPENSE, description: "Hello World" }'
       x-ruby-requestBody: 'account = { code: "123456", name: "Foobar", type: XeroRuby::Accounting::AccountType::EXPENSE, description: "Hello World" }'      
@@ -188,13 +187,13 @@ paths:
       tags:
         - Accounting
       operationId: getAccount
-      summary: Allows you to retrieve a single chart of accounts
+      summary: Retrieves a single chart of accounts by using a unique account Id
       parameters:
         - required: true
           in: path
           name: AccountID
           description: Unique identifier for retrieving single object
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -234,10 +233,10 @@ paths:
       tags: 
         - Accounting
       operationId: updateAccount
-      summary: Allows you to update a chart of accounts
+      summary: Updates a chart of accounts
       x-hasAccountingValidationError: true
-      x-ruby-requestBody: '{ accounts: [{ code: "123456", name: "BarFoo", account_id: "00000000-0000-0000-000-000000000000", type: XeroRuby::Accounting::Account::EXPENSE, description: "GoodBye World", tax_type: XeroRuby::Accounting::TaxType::NONE }]}'
-      x-node-requestBody: '{ accounts: [{ code: "123456", name: "BarFoo", accountID: "00000000-0000-0000-000-000000000000", type: AccountType.EXPENSE, description: "GoodBye World", taxType: TaxType.INPUT }]}'
+      x-ruby-requestBody: '{ accounts: [{ code: "123456", name: "BarFoo", account_id: "00000000-0000-0000-0000-000000000000", type: XeroRuby::Accounting::Account::EXPENSE, description: "GoodBye World", tax_type: XeroRuby::Accounting::TaxType::NONE }]}'
+      x-node-requestBody: '{ accounts: [{ code: "123456", name: "BarFoo", accountID: "00000000-0000-0000-0000-000000000000", type: AccountType.EXPENSE, description: "GoodBye World", taxType: TaxType.INPUT }]}'
       x-example:
         - account:
           is_object: true
@@ -293,7 +292,7 @@ paths:
           in: path
           name: AccountID
           description: Unique identifier for retrieving single object
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -384,13 +383,13 @@ paths:
         - Accounting
       operationId: deleteAccount
       x-hasAccountingValidationError: true
-      summary: Allows you to delete a chart of accounts
+      summary: Deletes a chart of accounts
       parameters:
         - required: true
           in: path
           name: AccountID
           description: Unique identifier for retrieving single object
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -458,13 +457,13 @@ paths:
       tags:
         - Accounting
       operationId: getAccountAttachments
-      summary: Allows you to retrieve Attachments for accounts
+      summary: Retrieves attachments for a specific accounts by using a unique account Id
       parameters:
         - required: true
           in: path
           name: AccountID
           description: Unique identifier for Account object
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -500,13 +499,13 @@ paths:
       tags:
         - Accounting
       operationId: getAccountAttachmentById
-      summary: Allows you to retrieve specific Attachment on Account
+      summary: Retrieves a specific attachment from a specific account using a unique attachment Id
       parameters:
         - required: true
           in: path
           name: AccountID
           description: Unique identifier for Account object
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -514,7 +513,7 @@ paths:
           in: path
           name: AttachmentID
           description: Unique identifier for Attachment object
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -542,13 +541,13 @@ paths:
       tags:
         - Accounting
       operationId: getAccountAttachmentByFileName
-      summary: Allows you to retrieve Attachment on Account by Filename
+      summary: Retrieves an attachment for a specific account by filename
       parameters:
         - required: true
           in: path
           name: AccountID
           description: Unique identifier for Account object
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -581,13 +580,13 @@ paths:
         - Accounting
       operationId: updateAccountAttachmentByFileName
       x-hasAccountingValidationError: true
-      summary: Allows you to update Attachment on Account by Filename
+      summary: Updates attachment on a specific account by filename
       parameters:
         - required: true
           in: path
           name: AccountID
           description: Unique identifier for Account object
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -642,13 +641,13 @@ paths:
         - Accounting
       operationId: createAccountAttachmentByFileName
       x-hasAccountingValidationError: true
-      summary: Allows you to create Attachment on Account
+      summary: Creates an attachment on a specific account
       parameters:
         - required: true
           in: path
           name: AccountID
           description: Unique identifier for Account object
-          example: 00000000-0000-0000-000-000000000000
+          example: 00000000-0000-0000-0000-000000000000
           schema:
             type: string
             format: uuid
@@ -702,7 +701,7 @@ paths:
       tags:
         - Accounting
       operationId: getBatchPayments
-      summary: Retrieve either one or many BatchPayments for invoices
+      summary: Retrieves either one or many batch payments for invoices
       parameters:
         - $ref: '#/components/parameters/ifModifiedSince'
         - in: query
@@ -827,10 +826,10 @@ paths:
       tags:
         - Accounting
       operationId: createBatchPayment
-      summary: Create one or many BatchPayments for invoices
+      summary: Creates one or many batch payments for invoices
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ batchPayments: [{ account: { accountId: "00000000-0000-0000-000-000000000000" }, reference: "ref", date: "2018-08-01", payments: [{  account: { code: "001" }, date: "2019-12-31", amount: 500, invoice: { invoiceId: "00000000-0000-0000-000-000000000000", lineItems: [], contact: {}, type: Invoice.TypeEnum.ACCPAY }}]}]}'
-      x-ruby-requestBody: 'batch_payments = { batch_payments: [{ account: { account_id: "00000000-0000-0000-000-000000000000" }, reference: "ref", date: "2018-08-01", payments: [{  account: { code: "001" }, date: "2019-12-31", amount: 500, invoice: { invoice_id: "00000000-0000-0000-000-000000000000", line_items: [], contact: {}, type: XeroRuby::Accounting::Invoice::ACCPAY }}]}]}'
+      x-node-requestBody: '{ batchPayments: [{ account: { accountId: "00000000-0000-0000-0000-000000000000" }, reference: "ref", date: "2018-08-01", payments: [{  account: { code: "001" }, date: "2019-12-31", amount: 500, invoice: { invoiceId: "00000000-0000-0000-0000-000000000000", lineItems: [], contact: {}, type: Invoice.TypeEnum.ACCPAY }}]}]}'
+      x-ruby-requestBody: 'batch_payments = { batch_payments: [{ account: { account_id: "00000000-0000-0000-0000-000000000000" }, reference: "ref", date: "2018-08-01", payments: [{  account: { code: "001" }, date: "2019-12-31", amount: 500, invoice: { invoice_id: "00000000-0000-0000-0000-000000000000", line_items: [], contact: {}, type: XeroRuby::Accounting::Invoice::ACCPAY }}]}]}'
       x-example:
         - currDate:
           is_date: true
@@ -853,7 +852,7 @@ paths:
           key: accountId
           keyPascal: AccountID
           keySnake: account_id
-          default: 00000000-0000-0000-000-000000000000
+          default: 00000000-0000-0000-0000-000000000000
           object: paymentAccount
         - bankAccount:
           is_object: true
@@ -866,7 +865,7 @@ paths:
           key: accountID
           keyPascal: AccountID
           keySnake: account_id
-          default: 00000000-0000-0000-000-000000000000
+          default: 00000000-0000-0000-0000-000000000000
           object: bankAccount
         - invoice:
           is_object: true
@@ -878,7 +877,7 @@ paths:
           key: invoiceID
           keyPascal: InvoiceID
           keySnake: invoice_id
-          default: "00000000-0000-0000-000-000000000000"
+          default: "00000000-0000-0000-0000-000000000000"
           object: invoice
         - payment:
           is_object: true
@@ -1054,7 +1053,7 @@ paths:
                           "BatchPayments": [
                             {
                               "Account": {
-                                "AccountID": "00000000-0000-0000-000-000000000000"
+                                "AccountID": "00000000-0000-0000-0000-000000000000"
                               },
                               "Reference": "ref",
                               "Date": "2018-08-01",
@@ -1066,7 +1065,7 @@ paths:
                                   "Date": "2019-12-31",
                                   "Amount": 500,
                                   "Invoice": {
-                                    "InvoiceID": "00000000-0000-0000-000-000000000000",
+                                    "InvoiceID": "00000000-0000-0000-0000-000000000000",
                                     "LineItems": [],
                                     "Contact": {},
                                     "Type": "ACCPAY"
@@ -1085,13 +1084,13 @@ paths:
       tags:
         - Accounting
       operationId: getBatchPaymentHistory
-      summary: Allows you to retrieve history from a Batch Payment
+      summary: Retrieves history from a specific batch payment
       parameters:
         - required: true
           in: path
           name: BatchPaymentID
           description: Unique identifier for BatchPayment
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -1123,7 +1122,7 @@ paths:
       tags:
         - Accounting
       operationId: createBatchPaymentHistoryRecord
-      summary: Allows you to create a history record for a Batch Payment
+      summary: Creates a history record for a specific batch payment
       x-hasAccountingValidationError: true
       x-example:
         - historyRecord:
@@ -1156,7 +1155,7 @@ paths:
           in: path
           name: BatchPaymentID
           description: Unique identifier for BatchPayment
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -1194,7 +1193,7 @@ paths:
       tags:
         - Accounting
       operationId: getBankTransactions
-      summary: Allows you to retrieve any spend or receive money transactions
+      summary: Retrieves any spent or received money transactions
       parameters:
         - $ref: '#/components/parameters/ifModifiedSince'
         - in: query
@@ -1345,10 +1344,10 @@ paths:
       tags:
         - Accounting
       operationId: createBankTransactions
-      summary: Allows you to create one or more spend or receive money transaction
+      summary: Creates one or more spent or received money transaction
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ bankTransactions: [{ type: BankTransaction.TypeEnum.SPEND, contact: { contactID: "00000000-0000-0000-000-000000000000" }, lineItems: [{ description: "Foobar", quantity: 1.0, unitAmount: 20.0, accountCode: "000" } ], bankAccount: { code: "000" }}]}'
-      x-ruby-requestBody: 'bank_transactions = { bank_transactions: [{ type: XeroRuby::Accounting::BankTransaction::SPEND, contact: { contact_id: "00000000-0000-0000-000-000000000000" }, line_items: [{ description: "Foobar", quantity: 1.0, unit_amount: 20.0, account_code: "000" } ], bank_account: { code: "000" }}]}'
+      x-node-requestBody: '{ bankTransactions: [{ type: BankTransaction.TypeEnum.SPEND, contact: { contactID: "00000000-0000-0000-0000-000000000000" }, lineItems: [{ description: "Foobar", quantity: 1.0, unitAmount: 20.0, accountCode: "000" } ], bankAccount: { code: "000" }}]}'
+      x-ruby-requestBody: 'bank_transactions = { bank_transactions: [{ type: XeroRuby::Accounting::BankTransaction::SPEND, contact: { contact_id: "00000000-0000-0000-0000-000000000000" }, line_items: [{ description: "Foobar", quantity: 1.0, unit_amount: 20.0, account_code: "000" } ], bank_account: { code: "000" }}]}'
       x-example:
         - contact:
           is_object: true
@@ -1360,7 +1359,7 @@ paths:
           key: contactId
           keyPascal: ContactID
           keySnake: contact_id
-          default: 00000000-0000-0000-000-000000000000
+          default: 00000000-0000-0000-0000-000000000000
           object: contact
         - lineItem:
           is_object: true
@@ -1403,7 +1402,7 @@ paths:
           key: accountID
           keyPascal: AccountID
           keySnake: account_id
-          default: 00000000-0000-0000-000-000000000000
+          default: 00000000-0000-0000-0000-000000000000
           object: bankAccount
         - bankTransaction:
           is_object: true
@@ -1587,17 +1586,17 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/BankTransactions'
-            example: '{ bankTransactions: [{ type: BankTransaction.TypeEnum.SPEND, contact: { contactID: "00000000-0000-0000-000-000000000000" }, lineItems: [{ description: "Foobar", quantity: 1.0, unitAmount: 20.0, accountCode: "000" } ], bankAccount: { code: "000" }}]}'
+            example: '{ bankTransactions: [{ type: BankTransaction.TypeEnum.SPEND, contact: { contactID: "00000000-0000-0000-0000-000000000000" }, lineItems: [{ description: "Foobar", quantity: 1.0, unitAmount: 20.0, accountCode: "000" } ], bankAccount: { code: "000" }}]}'
     post:
       security:
         - OAuth2: [accounting.transactions]
       tags:
         - Accounting
       operationId: updateOrCreateBankTransactions
-      summary: Allows you to update or create one or more spend or receive money transaction
+      summary: Updates or creates one or more spent or received money transaction
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ bankTransactions: [{ type: BankTransaction.TypeEnum.SPEND, contact: { contactId: "00000000-0000-0000-000-000000000000" }, lineItems: [{ description: "Foobar", quantity: 1.0, unitAmount: 20.0, accountCode: "000" }], bankAccount: { code: "000" }}]}'
-      x-ruby-requestBody: 'bank_transactions = { bank_transactions: [{ type: XeroRuby::Accounting::BankTransaction::SPEND, contact: { contact_id: "00000000-0000-0000-000-000000000000" }, line_items: [{ description: "Foobar", quantity: 1.0, unit_amount: 20.0, account_code: "000" }], bank_account: { code: "000" }}]}'
+      x-node-requestBody: '{ bankTransactions: [{ type: BankTransaction.TypeEnum.SPEND, contact: { contactId: "00000000-0000-0000-0000-000000000000" }, lineItems: [{ description: "Foobar", quantity: 1.0, unitAmount: 20.0, accountCode: "000" }], bankAccount: { code: "000" }}]}'
+      x-ruby-requestBody: 'bank_transactions = { bank_transactions: [{ type: XeroRuby::Accounting::BankTransaction::SPEND, contact: { contact_id: "00000000-0000-0000-0000-000000000000" }, line_items: [{ description: "Foobar", quantity: 1.0, unit_amount: 20.0, account_code: "000" }], bank_account: { code: "000" }}]}'
       x-example:
         - contact:
           is_object: true
@@ -1609,7 +1608,7 @@ paths:
           key: contactId
           keyPascal: ContactID
           keySnake: contact_id
-          default: 00000000-0000-0000-000-000000000000
+          default: 00000000-0000-0000-0000-000000000000
           object: contact
         - lineItem:
           is_object: true
@@ -1652,7 +1651,7 @@ paths:
           key: accountID
           keyPascal: AccountID
           keySnake: account_id
-          default: 00000000-0000-0000-000-000000000000
+          default: 00000000-0000-0000-0000-000000000000
           object: bankAccount
         - bankTransaction:
           is_object: true
@@ -1840,7 +1839,7 @@ paths:
                           {
                             "Type": "SPEND",
                             "Contact": {
-                              "ContactID": "00000000-0000-0000-000-000000000000"
+                              "ContactID": "00000000-0000-0000-0000-000000000000"
                             },
                             "Lineitems": [
                               {
@@ -1865,13 +1864,13 @@ paths:
       tags:
         - Accounting
       operationId: getBankTransaction
-      summary: Allows you to retrieve a single spend or receive money transaction
+      summary: Retrieves a single spent or received money transaction by using a unique bank transaction Id
       parameters:
         - required: true
           in: path
           name: BankTransactionID
           description: Xero generated unique identifier for a bank transaction
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -2008,10 +2007,10 @@ paths:
       tags:
         - Accounting
       operationId: updateBankTransaction
-      summary: Allows you to update a single spend or receive money transaction
+      summary: Updates a single spent or received money transaction
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ bankTransactions: [{ type: BankTransaction.TypeEnum.SPEND, date: "2019-02-25", reference: "You just updated", status: BankTransaction.StatusEnum.AUTHORISED, bankTransactionID: "00000000-0000-0000-000-000000000000", lineItems: [], contact: {}, bankAccount: { accountID: "00000000-0000-0000-000-000000000000" }}]}'
-      x-ruby-requestBody: '{ bank_transactions: [{ type: XeroRuby::Accounting::BankTransaction::SPEND, date: "2019-02-25", reference: "You just updated", status: XeroRuby::Accounting::BankTransaction::AUTHORISED, bank_transaction_id: "00000000-0000-0000-000-000000000000", line_items: [], contact: {}, bank_account: { account_id: "00000000-0000-0000-000-000000000000" }}]}'      
+      x-node-requestBody: '{ bankTransactions: [{ type: BankTransaction.TypeEnum.SPEND, date: "2019-02-25", reference: "You just updated", status: BankTransaction.StatusEnum.AUTHORISED, bankTransactionID: "00000000-0000-0000-0000-000000000000", lineItems: [], contact: {}, bankAccount: { accountID: "00000000-0000-0000-0000-000000000000" }}]}'
+      x-ruby-requestBody: '{ bank_transactions: [{ type: XeroRuby::Accounting::BankTransaction::SPEND, date: "2019-02-25", reference: "You just updated", status: XeroRuby::Accounting::BankTransaction::AUTHORISED, bank_transaction_id: "00000000-0000-0000-0000-000000000000", line_items: [], contact: {}, bank_account: { account_id: "00000000-0000-0000-0000-000000000000" }}]}'      
       x-example:
         - contact:
           is_object: true
@@ -2023,7 +2022,7 @@ paths:
           key: contactId
           keyPascal: ContactID
           keySnake: contact_id
-          default: 00000000-0000-0000-000-000000000000
+          default: 00000000-0000-0000-0000-000000000000
           object: contact
         - lineItem:
           is_object: true
@@ -2066,7 +2065,7 @@ paths:
           key: accountID
           keyPascal: AccountID
           keySnake: account_id
-          default: 00000000-0000-0000-000-000000000000
+          default: 00000000-0000-0000-0000-000000000000
           object: bankAccount
         - bankTransaction:
           is_object: true
@@ -2133,7 +2132,7 @@ paths:
           in: path
           name: BankTransactionID
           description: Xero generated unique identifier for a bank transaction
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -2262,7 +2261,7 @@ paths:
                           {
                             "Type": "SPEND",
                             "Contact": {
-                              "ContactID": "00000000-0000-0000-000-000000000000",
+                              "ContactID": "00000000-0000-0000-0000-000000000000",
                               "ContactStatus": "ACTIVE",
                               "Name": "Buzz Lightyear",
                               "FirstName": "Buzz",
@@ -2323,7 +2322,7 @@ paths:
                             "BankAccount": {
                               "Code": "088",
                               "Name": "Business Wells Fargo",
-                              "AccountID": "00000000-0000-0000-000-000000000000"
+                              "AccountID": "00000000-0000-0000-0000-000000000000"
                             },
                             "IsReconciled": false,
                             "Date": "2019-02-25",
@@ -2333,12 +2332,11 @@ paths:
                             "Status": "AUTHORISED",
                             "LineAmountTypes": "Inclusive",
                             "TotalTax": 1.74,
-                            "BankTransactionID": "00000000-0000-0000-000-000000000000",
+                            "BankTransactionID": "00000000-0000-0000-0000-000000000000",
                             "UpdatedDateUTC": "2019-02-26T12:39:27.813-08:00"
                           }
                         ]
                       }'
-
   '/BankTransactions/{BankTransactionID}/Attachments':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -2348,13 +2346,13 @@ paths:
       tags:
         - Accounting
       operationId: getBankTransactionAttachments
-      summary: Allows you to retrieve any attachments to bank transactions
+      summary: Retrieves any attachments from a specific bank transactions
       parameters:
         - required: true
           in: path
           name: BankTransactionID
           description: Xero generated unique identifier for a bank transaction
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -2397,13 +2395,13 @@ paths:
       tags:
         - Accounting
       operationId: getBankTransactionAttachmentById
-      summary: Allows you to retrieve Attachments on a specific BankTransaction
+      summary: Retrieves specific attachments from a specific BankTransaction using a unique attachment Id
       parameters:
         - required: true
           in: path
           name: BankTransactionID
           description: Xero generated unique identifier for a bank transaction
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -2411,7 +2409,7 @@ paths:
           in: path
           name: AttachmentID
           description: Xero generated unique identifier for an attachment
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -2439,13 +2437,13 @@ paths:
       tags:
         - Accounting
       operationId: getBankTransactionAttachmentByFileName
-      summary: Allows you to retrieve Attachments on BankTransaction by Filename
+      summary: Retrieves a specific attachment from a specific bank transaction by filename
       parameters:
         - required: true
           in: path
           name: BankTransactionID
           description: Xero generated unique identifier for a bank transaction
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -2478,13 +2476,13 @@ paths:
         - Accounting
       operationId: updateBankTransactionAttachmentByFileName
       x-hasAccountingValidationError: true
-      summary: Allows you to update an Attachment on BankTransaction by Filename
+      summary: Updates a specific attachment from a specific bank transaction by filename
       parameters:
         - required: true
           in: path
           name: BankTransactionID
           description: Xero generated unique identifier for a bank transaction
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -2535,13 +2533,13 @@ paths:
         - Accounting
       operationId: createBankTransactionAttachmentByFileName
       x-hasAccountingValidationError: true
-      summary: Allows you to create an Attachment on BankTransaction by Filename
+      summary: Creates an attachment for a specific bank transaction by filename
       parameters:
         - required: true
           in: path
           name: BankTransactionID
           description: Xero generated unique identifier for a bank transaction
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -2594,13 +2592,13 @@ paths:
       tags:
         - Accounting
       operationId: getBankTransactionsHistory
-      summary: Allows you to retrieve history from a bank transactions
+      summary: Retrieves history from a specific bank transaction using a unique bank transaction Id
       parameters:
         - required: true
           in: path
           name: BankTransactionID
           description: Xero generated unique identifier for a bank transaction
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -2613,7 +2611,7 @@ paths:
       tags:
         - Accounting
       operationId: createBankTransactionHistoryRecord
-      summary: Allows you to create history record for a bank transactions
+      summary: Creates a history record for a specific bank transactions
       x-hasAccountingValidationError: true   
       x-example:
         - historyRecord:
@@ -2646,7 +2644,7 @@ paths:
           in: path
           name: BankTransactionID
           description: Xero generated unique identifier for a bank transaction
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -2666,7 +2664,7 @@ paths:
       tags:
         - Accounting
       operationId: getBankTransfers
-      summary: Allows you to retrieve all bank transfers
+      summary: Retrieves all bank transfers
       parameters:
         - $ref: '#/components/parameters/ifModifiedSince'
         - in: query
@@ -2734,17 +2732,16 @@ paths:
                             }
                           ]
                         }'
-
     put:
       security:
         - OAuth2: [accounting.transactions]
       tags:
         - Accounting
       operationId: createBankTransfer
-      summary: Allows you to create a bank transfers
+      summary: Creates a bank transfer
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ bankTransfers: [{ fromBankAccount: { code: "000", accountID: "00000000-0000-0000-000-000000000000" }, toBankAccount: { code: "001", accountID: "00000000-0000-0000-000-000000000000" }, amount: "50.00" }]}'
-      x-ruby-requestBody: 'bank_transfers = { bank_transfers: [{ from_bank_account: { code: "000", account_id: "00000000-0000-0000-000-000000000000" }, to_bank_account: { code: "001", account_id: "00000000-0000-0000-000-000000000000" }, amount: "50.00" }]}'
+      x-node-requestBody: '{ bankTransfers: [{ fromBankAccount: { code: "000", accountID: "00000000-0000-0000-0000-000000000000" }, toBankAccount: { code: "001", accountID: "00000000-0000-0000-0000-000000000000" }, amount: "50.00" }]}'
+      x-ruby-requestBody: 'bank_transfers = { bank_transfers: [{ from_bank_account: { code: "000", account_id: "00000000-0000-0000-0000-000000000000" }, to_bank_account: { code: "001", account_id: "00000000-0000-0000-0000-000000000000" }, amount: "50.00" }]}'
       x-example:
         - fromBankAccount:
           is_object: true
@@ -2756,7 +2753,7 @@ paths:
           key: accountID
           keyPascal: AccountID
           keySnake: account_id
-          default: 00000000-0000-0000-000-000000000000
+          default: 00000000-0000-0000-0000-000000000000
           object: fromBankAccount
         - toBankAccount:
           is_object: true
@@ -2768,7 +2765,7 @@ paths:
           key: accountID
           keyPascal: AccountID
           keySnake: account_id
-          default: 00000000-0000-0000-000-000000000000
+          default: 00000000-0000-0000-0000-000000000000
           object: toBankAccount
         - bankTransfer:
           is_object: true
@@ -2861,7 +2858,7 @@ paths:
                             "FromBankAccount": {
                               "Code": "090",
                               "Name": "My Savings",
-                              "AccountID": "00000000-0000-0000-000-000000000000",
+                              "AccountID": "00000000-0000-0000-0000-000000000000",
                               "Type": "BANK",
                               "BankAccountNumber": "123455",
                               "Status": "ACTIVE",
@@ -2879,7 +2876,7 @@ paths:
                             "ToBankAccount": {
                               "Code": "088",
                               "Name": "Business Wells Fargo",
-                              "AccountID": "00000000-0000-0000-000-000000000000",
+                              "AccountID": "00000000-0000-0000-0000-000000000000",
                               "Type": "BANK",
                               "BankAccountNumber": "123455",
                               "Status": "ACTIVE",
@@ -2907,13 +2904,13 @@ paths:
       tags:
         - Accounting
       operationId: getBankTransfer
-      summary: Allows you to retrieve any bank transfers
+      summary: Retrieves specific bank transfers by using a unique bank transfer Id
       parameters:
         - required: true
           in: path
           name: BankTransferID
           description: Xero generated unique identifier for a bank transfer
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -2963,7 +2960,6 @@ paths:
                             }
                           ]
                         }'
-      
   '/BankTransfers/{BankTransferID}/Attachments':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -2973,13 +2969,13 @@ paths:
       tags:
         - Accounting
       operationId: getBankTransferAttachments
-      summary: Allows you to retrieve Attachments from  bank transfers
+      summary: Retrieves attachments from a specific bank transfer
       parameters:
         - required: true
           in: path
           name: BankTransferID
           description: Xero generated unique identifier for a bank transfer
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -3015,13 +3011,13 @@ paths:
       tags:
         - Accounting
       operationId: getBankTransferAttachmentById
-      summary: Allows you to retrieve Attachments on BankTransfer
+      summary: Retrieves a specific attachment from a specific bank transfer using a unique attachment ID
       parameters:
         - required: true
           in: path
           name: BankTransferID
           description: Xero generated unique identifier for a bank transfer
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -3029,7 +3025,7 @@ paths:
           in: path
           name: AttachmentID
           description: Xero generated unique identifier for an Attachment to a bank transfer
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -3057,13 +3053,13 @@ paths:
       tags:
         - Accounting
       operationId: getBankTransferAttachmentByFileName
-      summary: Allows you to retrieve Attachments on BankTransfer by file name
+      summary: Retrieves a specific attachment on a specific bank transfer by file name
       parameters:
         - required: true
           in: path
           name: BankTransferID
           description: Xero generated unique identifier for a bank transfer
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -3101,7 +3097,7 @@ paths:
           in: path
           name: BankTransferID
           description: Xero generated unique identifier for a bank transfer
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -3157,7 +3153,7 @@ paths:
           in: path
           name: BankTransferID
           description: Xero generated unique identifier for a bank transfer
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -3210,13 +3206,13 @@ paths:
       tags:
         - Accounting
       operationId: getBankTransferHistory
-      summary: Allows you to retrieve history from a bank transfers
+      summary: Retrieves history from a specific bank transfer using a unique bank transfer Id
       parameters:
         - required: true
           in: path
           name: BankTransferID
           description: Xero generated unique identifier for a bank transfer
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -3229,7 +3225,7 @@ paths:
       tags:
         - Accounting
       operationId: createBankTransferHistoryRecord
-      summary: Allows you to create history record for a bank transfers
+      summary: Creates a history record for a specific bank transfer
       x-hasAccountingValidationError: true
       x-example:
         - historyRecord:
@@ -3262,7 +3258,7 @@ paths:
           in: path
           name: BankTransferID
           description: Xero generated unique identifier for a bank transfer
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -3282,7 +3278,7 @@ paths:
       tags:
         - Accounting
       operationId: getBrandingThemes
-      summary: Allows you to retrieve all the BrandingThemes
+      summary: Retrieves all the branding themes
       responses:
         '200':
           description: Success - return response of type BrandingThemes          
@@ -3313,13 +3309,13 @@ paths:
       tags:
         - Accounting
       operationId: getBrandingTheme
-      summary: Allows you to retrieve a specific BrandingThemes      
+      summary: Retrieves a specific branding theme using a unique branding theme Id
       parameters:
         - required: true
           in: path
           name: BrandingThemeID
           description: Unique identifier for a Branding Theme         
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -3353,13 +3349,13 @@ paths:
       tags:
         - Accounting
       operationId: getBrandingThemePaymentServices
-      summary: Allows you to retrieve the Payment services for a Branding Theme
+      summary: Retrieves the payment services for a specific branding theme
       parameters:
         - required: true
           in: path
           name: BrandingThemeID
           description: Unique identifier for a Branding Theme  
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid 
@@ -3396,7 +3392,7 @@ paths:
       tags:
         - Accounting
       operationId: createBrandingThemePaymentServices
-      summary: Allow for the creation of new custom payment service for specified Branding Theme
+      summary: Creates a new custom payment service for a specific branding theme
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ paymentServiceID: "00000000-0000-0000-0000-000000000000", paymentServiceName: "ACME Payments", paymentServiceUrl: "https://www.payupnow.com/", payNowText: "Pay Now" }'
       x-ruby-requestBody: 'payment_service = { payment_service_id: "00000000-0000-0000-0000-000000000000", payment_service_name: "ACME Payments", payment_service_url: "https://www.payupnow.com/", pay_now_text: "Pay Now" }'
@@ -3431,7 +3427,7 @@ paths:
           in: path
           name: BrandingThemeID
           description: Unique identifier for a Branding Theme 
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -3481,7 +3477,7 @@ paths:
       tags:
         - Accounting
       operationId: getContacts
-      summary: 'Allows you to retrieve all contacts in a Xero organisation'
+      summary: 'Retrieves all contacts in a Xero organisation'
       parameters:
         - $ref: '#/components/parameters/ifModifiedSince'
         - in: query
@@ -3504,9 +3500,9 @@ paths:
           description: Filter by a comma separated list of ContactIDs. Allows you to retrieve a specific set of contacts in a single call.
           style: form
           explode: false
-          example: '&quot;00000000-0000-0000-000-000000000000&quot;'
-          x-example-java: Arrays.asList(UUID.fromString("00000000-0000-0000-000-000000000000"))
-          x-example-php: '&quot;00000000-0000-0000-000-000000000000&quot;'
+          example: '&quot;00000000-0000-0000-0000-000000000000&quot;'
+          x-example-java: Arrays.asList(UUID.fromString("00000000-0000-0000-0000-000000000000"))
+          x-example-php: '&quot;00000000-0000-0000-0000-000000000000&quot;'
           schema:
             type: array
             items:
@@ -3678,7 +3674,7 @@ paths:
       tags:
         - Accounting
       operationId: createContacts
-      summary: 'Allows you to create a multiple contacts (bulk) in a Xero organisation'
+      summary: 'Creates multiple contacts (bulk) in a Xero organisation'
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ contacts: [{ name: "Bruce Banner", emailAddress: "hulk@avengers.com", phones: [{ phoneType: Phone.PhoneTypeEnum.MOBILE, phoneNumber: "555-1212", phoneAreaCode: "415" }], paymentTerms: { bills: { day: 15, type: PaymentTermType.OFCURRENTMONTH }, sales: { day: 10, type: PaymentTermType.DAYSAFTERBILLMONTH }}}]}'
       x-ruby-requestBody: 'contacts = { contacts: [{ name: "Bruce Banner", email_address: "hulk@avengers.com", phones: [{ phone_type: XeroRuby::Accounting::Phone::MOBILE, phone_number: "555-1212", phone_area_code: "415" }], payment_terms: { bills: { day: 15, type: XeroRuby::Accounting::PaymentTermType::OFCURRENTMONTH }, sales: { day: 10, type: XeroRuby::Accounting::PaymentTermType::DAYSAFTERBILLMONTH }}}]}'      
@@ -3979,14 +3975,13 @@ paths:
                           }
                         ]
                       }'
-
     post:
       security:
         - OAuth2: [accounting.contacts]
       tags:
         - Accounting
       operationId: updateOrCreateContacts
-      summary: 'Allows you to update OR create one or more contacts in a Xero organisation'
+      summary: 'Updates or creates one or more contacts in a Xero organisation'
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ contacts: [{ name: "Bruce Banner", emailAddress: "hulk@avengers.com", phones: [{ phoneType: Phone.PhoneTypeEnum.MOBILE, phoneNumber: "555-1212", phoneAreaCode: "415" }], paymentTerms: { bills: { day: 15, type: PaymentTermType.OFCURRENTMONTH }, sales: { day: 10, type: PaymentTermType.DAYSAFTERBILLMONTH }}}]}'
       x-ruby-requestBody: '{ contacts: [{ name: "Bruce Banner", email_address: "hulk@avengers.com", phones: [{ phone_type: XeroRuby::Accounting::Phone::MOBILE, phone_number: "555-1212", phone_area_code: "415" }], payment_terms: { bills: { day: 15, type: XeroRuby::Accounting::PaymentTermType::OFCURRENTMONTH }, sales: { day: 10, type: XeroRuby::Accounting::PaymentTermType::OFCURRENTMONTHDAYSAFTERBILLMONTH }}}]}'
@@ -4245,7 +4240,7 @@ paths:
       tags:
         - Accounting
       operationId: getContactByContactNumber
-      summary: 'Allows you to retrieve a single contact by Contact Number in a Xero organisation'
+      summary: 'Retrieves a specific contact by contact number in a Xero organisation'
       parameters:
         - required: true
           in: path
@@ -4398,13 +4393,13 @@ paths:
       tags:
         - Accounting
       operationId: getContact
-      summary: 'Allows you to retrieve a single contacts in a Xero organisation'
+      summary: 'Retrieves a specific contacts in a Xero organisation using a unique contact Id'
       parameters:
         - required: true
           in: path
           name: ContactID
           description: Unique identifier for a Contact 
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -4549,10 +4544,10 @@ paths:
       tags:
         - Accounting
       operationId: updateContact
-      summary: 'Allows you to update one contact in a Xero organisation'
+      summary: 'Updates a specific contact in a Xero organisation'
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ contacts: [{ contactID: "00000000-0000-0000-000-000000000000", name: "Thanos" }]}'
-      x-ruby-requestBody: 'contacts = { contacts: [{ contact_id: "00000000-0000-0000-000-000000000000", name: "Thanos" }]}'
+      x-node-requestBody: '{ contacts: [{ contactID: "00000000-0000-0000-0000-000000000000", name: "Thanos" }]}'
+      x-ruby-requestBody: 'contacts = { contacts: [{ contact_id: "00000000-0000-0000-0000-000000000000", name: "Thanos" }]}'
       x-example:
         - contact:
           is_object: true
@@ -4586,7 +4581,7 @@ paths:
           in: path
           name: ContactID
           description: Unique identifier for a Contact
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -4681,7 +4676,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Contacts'
-            example: '{ "Contacts": [{ "ContactID": "00000000-0000-0000-000-000000000000", "Name": "Thanos" }]}'
+            example: '{ "Contacts": [{ "ContactID": "00000000-0000-0000-0000-000000000000", "Name": "Thanos" }]}'
   '/Contacts/{ContactID}/Attachments':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -4692,7 +4687,7 @@ paths:
         - Accounting
       operationId: getContactAttachments
       x-hasAccountingValidationError: true
-      summary: 'Allows you to retrieve, add and update contacts in a Xero organisation'
+      summary: 'Retrieves attachments for a specific contact in a Xero organisation'
       responses:
         '200':
           description: Success - return response of type Attachments array with 0 to N Attachment
@@ -4721,7 +4716,7 @@ paths:
           in: path
           name: ContactID
           description: Unique identifier for a Contact
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -4734,13 +4729,13 @@ paths:
       tags:
         - Accounting
       operationId: getContactAttachmentById
-      summary: Allows you to retrieve Attachments on Contacts
+      summary: Retrieves a specific attachment from a specific contact using a unique attachment Id
       parameters:
         - required: true
           in: path
           name: ContactID
           description: Unique identifier for a Contact
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -4748,7 +4743,7 @@ paths:
           in: path
           name: AttachmentID
           description: Unique identifier for a Attachment
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -4776,13 +4771,13 @@ paths:
       tags:
         - Accounting
       operationId: getContactAttachmentByFileName
-      summary: Allows you to retrieve Attachments on Contacts by file name
+      summary: Retrieves a specific attachment from a specific contact by file name
       parameters:
         - required: true
           in: path
           name: ContactID
           description: Unique identifier for a Contact
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -4820,7 +4815,7 @@ paths:
           in: path
           name: ContactID
           description: Unique identifier for a Contact
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -4876,7 +4871,7 @@ paths:
           in: path
           name: ContactID
           description: Unique identifier for a Contact
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -4929,13 +4924,13 @@ paths:
       tags:
         - Accounting
       operationId: getContactCISSettings
-      summary: 'Allows you to retrieve CISSettings for a contact in a Xero organisation'
+      summary: 'Retrieves CIS settings for a specific contact in a Xero organisation'
       parameters:
         - required: true
           in: path
           name: ContactID
           description: Unique identifier for a Contact
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -4955,13 +4950,13 @@ paths:
       tags:
         - Accounting
       operationId: getContactHistory
-      summary: Allows you to retrieve a history records of an Contact
+      summary: Retrieves history records for a specific contact
       parameters:
         - required: true
           in: path
           name: ContactID
           description: Unique identifier for a Contact
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -4974,7 +4969,7 @@ paths:
       tags:
         - Accounting
       operationId: createContactHistory
-      summary: Allows you to retrieve a history records of an Contact
+      summary: Creates a new history record for a specific contact
       x-hasAccountingValidationError: true
       x-example:
         - historyRecord:
@@ -5007,7 +5002,7 @@ paths:
           in: path
           name: ContactID
           description: Unique identifier for a Contact
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -5027,8 +5022,7 @@ paths:
       tags:
         - Accounting
       operationId: getContactGroups
-      summary: Allows you to retrieve the ContactID and Name of all the contacts in a
-        contact group
+      summary: Retrieves the contact Id and name of all the contacts in a contact group
       parameters:
         - in: query
           name: where
@@ -5074,14 +5068,13 @@ paths:
                             }
                           ]
                         }'
-
     put:
       security:
         - OAuth2: [accounting.contacts]
       tags:
         - Accounting
       operationId: createContactGroup
-      summary: Allows you to create a contact group
+      summary: Creates a contact group
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ contactGroups: [{ name: "VIPs" }]}'
       x-ruby-requestBody: 'contact_groups = { contact_groups: [{ name: "VIPs" }]}'
@@ -5173,13 +5166,13 @@ paths:
       tags:
         - Accounting
       operationId: getContactGroup
-      summary: Allows you to retrieve a unique Contact Group by ID
+      summary: Retrieves a specific contact group by using a unique contact group Id
       parameters:
         - required: true
           in: path
           name: ContactGroupID
           description: Unique identifier for a Contact Group
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -5230,7 +5223,7 @@ paths:
       tags:
         - Accounting
       operationId: updateContactGroup
-      summary: Allows you to update a Contact Group
+      summary: Updates a specific contact group
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ contactGroups: [{ name: "Vendor" }]}'
       x-ruby-requestBody: 'contact_groups = { contact_groups: [{ name: "Vendor" }]}'
@@ -5264,7 +5257,7 @@ paths:
           in: path
           name: ContactGroupID
           description: Unique identifier for a Contact Group
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -5315,7 +5308,7 @@ paths:
       tags:
         - Accounting
       operationId: createContactGroupContacts
-      summary: Allows you to add Contacts to a Contact Group
+      summary: Creates contacts to a specific contact group
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ contacts: [{ contactID: "a3675fc4-f8dd-4f03-ba5b-f1870566bcd7" }, { contactID: "4e1753b9-018a-4775-b6aa-1bc7871cfee3" }]}'
       x-ruby-requestBody: 'contacts = { contacts: [{ contact_id: "a3675fc4-f8dd-4f03-ba5b-f1870566bcd7" }, { contact_id: "4e1753b9-018a-4775-b6aa-1bc7871cfee3" }]}'
@@ -5348,7 +5341,7 @@ paths:
           in: path
           name: ContactGroupID
           description: Unique identifier for a Contact Group
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -5388,7 +5381,7 @@ paths:
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
-        description: Contacts with array of contacts specifiying the ContactID to be added to ContactGroup in body of request
+        description: Contacts with array of contacts specifying the ContactID to be added to ContactGroup in body of request
         required: true
         content:
           application/json:
@@ -5410,13 +5403,13 @@ paths:
       tags:
         - Accounting
       operationId: deleteContactGroupContacts
-      summary: Allows you to delete  all Contacts from a Contact Group
+      summary: Deletes all contacts from a specific contact group
       parameters:
         - required: true
           in: path
           name: ContactGroupID
           description: Unique identifier for a Contact Group
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -5433,13 +5426,13 @@ paths:
       tags:
         - Accounting
       operationId: deleteContactGroupContact
-      summary: Allows you to delete a specific Contact from a Contact Group
+      summary: Deletes a specific contact from a contact group using a unique contact Id
       parameters:
         - required: true
           in: path
           name: ContactGroupID
           description: Unique identifier for a Contact Group
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -5447,7 +5440,7 @@ paths:
           in: path
           name: ContactID
           description: Unique identifier for a Contact
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -5466,7 +5459,7 @@ paths:
       tags:
         - Accounting
       operationId: getCreditNotes
-      summary: Allows you to retrieve any credit notes
+      summary: Retrieves any credit notes
       parameters:
         - $ref: '#/components/parameters/ifModifiedSince'
         - in: query
@@ -5584,7 +5577,7 @@ paths:
       tags:
         - Accounting
       operationId: createCreditNotes
-      summary: Allows you to create a credit note
+      summary: Creates a new credit note
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ creditNotes: [{ type: CreditNote.TypeEnum.ACCPAYCREDIT, contact: { contactID: "430fa14a-f945-44d3-9f97-5df5e28441b8" }, date: "2019-01-05", lineItems: [{ description: "Foobar", quantity: 2.0, unitAmount: 20.0, accountCode: "400" }]}]}'
       x-ruby-requestBody: 'credit_notes = { credit_notes: [{ type: XeroRuby::Accounting::CreditNote::ACCPAYCREDIT, contact: { contact_id: "430fa14a-f945-44d3-9f97-5df5e28441b8" }, date: "2019-01-05", line_items: [{ description: "Foobar", quantity: 2.0, unit_amount: 20.0, account_code: "400" }]}]}'
@@ -5609,7 +5602,7 @@ paths:
           key: contactId
           keyPascal: ContactID
           keySnake: contact_id
-          default: 00000000-0000-0000-000-000000000000
+          default: 00000000-0000-0000-0000-000000000000
           object: contact
         - lineItem:
           is_object: true
@@ -5857,10 +5850,10 @@ paths:
       tags:
         - Accounting
       operationId: updateOrCreateCreditNotes
-      summary: Allows you to update OR create one or more credit notes
+      summary: Updates or creates one or more credit notes
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ creditNotes: [{ type: CreditNote.TypeEnum.ACCPAYCREDIT, contact: { contactID: "00000000-0000-0000-000-000000000000" }, date: "2019-01-05", lineItems: [{ description: "Foobar", quantity: 2.0, unitAmount: 20.0, accountCode: "400" }]}]}'
-      x-ruby-requestBody: 'credit_notes = { credit_notes: [{ type: XeroRuby::Accounting::CreditNote::ACCPAYCREDIT, contact: { contact_id: "00000000-0000-0000-000-000000000000" }, date: "2019-01-05", line_items: [{ description: "Foobar", quantity: 2.0, unit_amount: 20.0, account_code: "400" }]}]}'
+      x-node-requestBody: '{ creditNotes: [{ type: CreditNote.TypeEnum.ACCPAYCREDIT, contact: { contactID: "00000000-0000-0000-0000-000000000000" }, date: "2019-01-05", lineItems: [{ description: "Foobar", quantity: 2.0, unitAmount: 20.0, accountCode: "400" }]}]}'
+      x-ruby-requestBody: 'credit_notes = { credit_notes: [{ type: XeroRuby::Accounting::CreditNote::ACCPAYCREDIT, contact: { contact_id: "00000000-0000-0000-0000-000000000000" }, date: "2019-01-05", line_items: [{ description: "Foobar", quantity: 2.0, unit_amount: 20.0, account_code: "400" }]}]}'
       x-example:
         - currDate:
           is_date: true
@@ -5882,7 +5875,7 @@ paths:
           key: contactId
           keyPascal: ContactID
           keySnake: contact_id
-          default: 00000000-0000-0000-000-000000000000
+          default: 00000000-0000-0000-0000-000000000000
           object: contact
         - lineItem:
           is_object: true
@@ -6135,13 +6128,13 @@ paths:
       tags:
         - Accounting
       operationId: getCreditNote
-      summary: Allows you to retrieve a specific credit note
+      summary: Retrieves a specific credit note using a unique credit note Id
       parameters:
         - required: true
           in: path
           name: CreditNoteID
           description: Unique identifier for a Credit Note
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -6277,10 +6270,10 @@ paths:
       tags:
         - Accounting
       operationId: updateCreditNote
-      summary: Allows you to update a specific credit note
+      summary: Updates a specific credit note
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ creditNotes: [{ type: CreditNote.TypeEnum.ACCPAYCREDIT, contact: { contactID: "00000000-0000-0000-000-000000000000" }, date: "2019-01-05", status: CreditNote.StatusEnum.AUTHORISED, reference: "Mind stone", lineItems: [{ description: "Infinity Stones", quantity: 1.0, unitAmount: 100.0, accountCode: "400" } ]}]}'
-      x-ruby-requestBody: 'credit_notes = { credit_notes: [{ type: XeroRuby::Accounting::CreditNote::ACCPAYCREDIT, contact: { contact_id: "00000000-0000-0000-000-000000000000" }, date: "2019-01-05", status: XeroRuby::Accounting::CreditNote::AUTHORISED, reference: "Mind stone", line_items: [{ description: "Infinity Stones", quantity: 1.0, unit_amount: 100.0, account_code: "400" } ]}]}'
+      x-node-requestBody: '{ creditNotes: [{ type: CreditNote.TypeEnum.ACCPAYCREDIT, contact: { contactID: "00000000-0000-0000-0000-000000000000" }, date: "2019-01-05", status: CreditNote.StatusEnum.AUTHORISED, reference: "Mind stone", lineItems: [{ description: "Infinity Stones", quantity: 1.0, unitAmount: 100.0, accountCode: "400" } ]}]}'
+      x-ruby-requestBody: 'credit_notes = { credit_notes: [{ type: XeroRuby::Accounting::CreditNote::ACCPAYCREDIT, contact: { contact_id: "00000000-0000-0000-0000-000000000000" }, date: "2019-01-05", status: XeroRuby::Accounting::CreditNote::AUTHORISED, reference: "Mind stone", line_items: [{ description: "Infinity Stones", quantity: 1.0, unit_amount: 100.0, account_code: "400" } ]}]}'
       x-example:
         - currDate:
           is_date: true
@@ -6302,7 +6295,7 @@ paths:
           key: contactId
           keyPascal: ContactID
           keySnake: contact_id
-          default: 00000000-0000-0000-000-000000000000
+          default: 00000000-0000-0000-0000-000000000000
           object: contact
         - lineItem:
           is_object: true
@@ -6424,7 +6417,7 @@ paths:
           in: path
           name: CreditNoteID
           description: Unique identifier for a Credit Note
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -6573,13 +6566,13 @@ paths:
       tags:
         - Accounting
       operationId: getCreditNoteAttachments
-      summary: Allows you to retrieve Attachments for credit notes
+      summary: Retrieves attachments for a specific credit notes
       parameters:
         - required: true
           in: path
           name: CreditNoteID
           description: Unique identifier for a Credit Note
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -6615,13 +6608,13 @@ paths:
       tags:
         - Accounting
       operationId: getCreditNoteAttachmentById
-      summary: Allows you to retrieve Attachments on CreditNote
+      summary: Retrieves a specific attachment from a specific credit note using a unique attachment Id
       parameters:
         - required: true
           in: path
           name: CreditNoteID
           description: Unique identifier for a Credit Note
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -6629,7 +6622,7 @@ paths:
           in: path
           name: AttachmentID
           description: Unique identifier for a Attachment
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -6657,13 +6650,13 @@ paths:
       tags:
         - Accounting
       operationId: getCreditNoteAttachmentByFileName
-      summary: Allows you to retrieve Attachments on CreditNote by file name
+      summary: Retrieves a specific attachment on a specific credit note by file name
       parameters:
         - required: true
           in: path
           name: CreditNoteID
           description: Unique identifier for a Credit Note
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -6696,13 +6689,13 @@ paths:
         - Accounting
       operationId: updateCreditNoteAttachmentByFileName
       x-hasAccountingValidationError: true
-      summary: Allows you to update Attachments on CreditNote by file name
+      summary: Updates attachments on a specific credit note by file name
       parameters:
         - required: true
           in: path
           name: CreditNoteID
           description: Unique identifier for a Credit Note
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -6753,13 +6746,13 @@ paths:
         - Accounting
       operationId: createCreditNoteAttachmentByFileName
       x-hasAccountingValidationError: true
-      summary: Allows you to create Attachments on CreditNote by file name
+      summary: Creates an attachment for a specific credit note
       parameters:
         - required: true
           in: path
           name: CreditNoteID
           description: Unique identifier for a Credit Note
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -6814,13 +6807,13 @@ paths:
         - Accounting
       operationId: getCreditNoteAsPdf
       x-path: '/CreditNotes/{CreditNoteID}'
-      summary: Allows you to retrieve Credit Note as PDF files
+      summary: Retrieves credit notes as PDF files
       parameters:
         - required: true
           in: path
           name: CreditNoteID
           description: Unique identifier for a Credit Note
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -6841,7 +6834,7 @@ paths:
       tags:
         - Accounting
       operationId: createCreditNoteAllocation
-      summary: Allows you to create Allocation on CreditNote
+      summary: Creates allocation for a specific credit note
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ allocations: [{ amount: 1.0, date: "2019-03-05", invoice: { invoiceID: "c45720a1-ade3-4a38-a064-d15489be6841", lineItems: [], type: Invoice.TypeEnum.ACCPAY, contact: {} }}]}'
       x-ruby-requestBody: 'allocations = { allocations: [{ amount: 1.0, date: "2019-03-05", invoice: { invoice_id: "c45720a1-ade3-4a38-a064-d15489be6841", line_items: [], type: XeroRuby::Accounting::Invoice::ACCPAY, contact: {} }}]}'
@@ -6865,7 +6858,7 @@ paths:
           is_uuid: true
           key: invoiceID
           keyPascal: InvoiceID
-          default: 00000000-0000-0000-000-000000000000
+          default: 00000000-0000-0000-0000-000000000000
           object: invoice
         - allocation:
           is_object: true
@@ -6909,7 +6902,7 @@ paths:
           in: path
           name: CreditNoteID
           description: Unique identifier for a Credit Note
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -6980,13 +6973,13 @@ paths:
       tags:
         - Accounting
       operationId: getCreditNoteHistory
-      summary: Allows you to retrieve a history records of an CreditNote
+      summary: Retrieves history records of a specific credit note
       parameters:
         - required: true
           in: path
           name: CreditNoteID
           description: Unique identifier for a Credit Note
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -6999,7 +6992,7 @@ paths:
       tags:
         - Accounting
       operationId: createCreditNoteHistory
-      summary: Allows you to retrieve a history records of an CreditNote
+      summary: Retrieves history records of a specific credit note
       x-hasAccountingValidationError: true
       x-example:
         - historyRecord:
@@ -7032,7 +7025,7 @@ paths:
           in: path
           name: CreditNoteID
           description: Unique identifier for a Credit Note
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -7052,7 +7045,7 @@ paths:
       tags:
         - Accounting
       operationId: getCurrencies
-      summary: Allows you to retrieve currencies for your organisation
+      summary: Retrieves currencies for your Xero organisation
       parameters:
         - in: query
           name: where
@@ -7093,7 +7086,7 @@ paths:
       tags:
         - Accounting
       operationId: createCurrency
-      summary: Allows you to create a new currency for an org
+      summary: Create a new currency for a Xero organisation
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ code: CurrencyCode.USD, description: "United States Dollar" }'
       x-ruby-requestBody: 'currency = { code: XeroRuby::Accounting::CurrencyCode::USD, description: "United States Dollar" }'
@@ -7129,7 +7122,7 @@ paths:
                 $ref: '#/components/schemas/Currencies'
       requestBody:
         required: true
-        description: Currency obejct in the body of request
+        description: Currency object in the body of request
         content:
             application/json:
               schema:
@@ -7147,7 +7140,7 @@ paths:
       tags:
         - Accounting
       operationId: getEmployees
-      summary: Allows you to retrieve employees used in Xero payrun
+      summary: Retrieves employees used in Xero payrun
       parameters:
         - $ref: '#/components/parameters/ifModifiedSince'
         - in: query
@@ -7219,10 +7212,10 @@ paths:
       tags:
         - Accounting
       operationId: createEmployees
-      summary: Allows you to create new employees used in Xero payrun
+      summary: Creates new employees used in Xero payrun
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ employees: [{ firstName: "Nick", lastName: "Fury", externalLink: { url: "http://twitter.com/#!/search/Nick+Fury" }}]}'
-      x-ruby-requestBody: 'employees = { employees: [{ first_name: "Nick", last_name: "Fury", externalink: { url: "http://twitter.com/#!/search/Nick+Fury" }}]}'
+      x-ruby-requestBody: 'employees = { employees: [{ first_name: "Nick", last_name: "Fury", externallink: { url: "http://twitter.com/#!/search/Nick+Fury" }}]}'
       x-example:
         - employee:
           is_object: true
@@ -7306,7 +7299,7 @@ paths:
       tags:
         - Accounting
       operationId: updateOrCreateEmployees
-      summary: Allows you to create a single new employees used in Xero payrun
+      summary: Creates a single new employees used in Xero payrun
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ employees: [{ firstName: "Nick", lastName: "Fury", externalLink: { url: "http://twitter.com/#!/search/Nick+Fury" }}]}'
       x-ruby-requestBody: 'employees = { employees: [{ first_name: "Nick", last_name: "Fury", external_link: { url: "http://twitter.com/#!/search/Nick+Fury" }}]}'
@@ -7396,13 +7389,13 @@ paths:
       tags:
         - Accounting
       operationId: getEmployee
-      summary: Allows you to retrieve a specific employee used in Xero payrun
+      summary: Retrieves a specific employee used in Xero payrun using a unique employee Id
       parameters:
         - required: true
           in: path
           name: EmployeeID
           description: Unique identifier for a Employee
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -7441,7 +7434,7 @@ paths:
       tags:
         - Accounting
       operationId: getExpenseClaims
-      summary: Allows you to retrieve expense claims 
+      summary: Retrieves expense claims 
       parameters:
         - $ref: '#/components/parameters/ifModifiedSince'
         - in: query
@@ -7500,7 +7493,7 @@ paths:
       tags:
         - Accounting
       operationId: createExpenseClaims
-      summary: Allows you to retrieve expense claims 
+      summary: Creates expense claims 
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ expenseClaims: [{ status: ExpenseClaim.StatusEnum.SUBMITTED, user: { userID: "d1164823-0ac1-41ad-987b-b4e30fe0b273" }, receipts: [{ receiptID: "dc1c7f6d-0a4c-402f-acac-551d62ce5816", lineItems: [], contact: {}, user: {}, date: "2018-01-01" }]}]}'
       x-ruby-requestBody: 'expense_claims = { expense_claims: [{ status: XeroRuby::Accounting::ExpenseClaim::SUBMITTED, user: { user_id: "d1164823-0ac1-41ad-987b-b4e30fe0b273" }, receipts: [{ receipt_id: "dc1c7f6d-0a4c-402f-acac-551d62ce5816", line_items: [], contact: {}, user: {}, date: "2018-01-01" }]}]}'
@@ -7525,7 +7518,7 @@ paths:
           key: userID
           keyPascal: UserID
           keySnake: user_id
-          default: 00000000-0000-0000-000-000000000000
+          default: 00000000-0000-0000-0000-000000000000
           object: user
         - receipt:
           is_object: true
@@ -7536,7 +7529,7 @@ paths:
           key: receiptID
           keyPascal: ReceiptID
           keySnake: receipt_id
-          default: 00000000-0000-0000-000-000000000000
+          default: 00000000-0000-0000-0000-000000000000
           object: receipt
         - date:
           is_last: true
@@ -7715,13 +7708,13 @@ paths:
       tags:
         - Accounting
       operationId: getExpenseClaim
-      summary: Allows you to retrieve a specified expense claim
+      summary: Retrieves a specific expense claim using a unique expense claim Id
       parameters:
         - required: true
           in: path
           name: ExpenseClaimID
           description: Unique identifier for a ExpenseClaim
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -7811,10 +7804,10 @@ paths:
       tags:
         - Accounting
       operationId: updateExpenseClaim
-      summary: Allows you to update specified expense claims 
+      summary: Updates a specific expense claims 
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ expenseClaims: [{ status: ExpenseClaim.StatusEnum.AUTHORISED, user: { userID: "00000000-0000-0000-000-000000000000" }, receipts: [{ receiptID: "00000000-0000-0000-000-000000000000", lineItems: [], contact: {}, date: "2020-01-01", user: {} }]}]}'
-      x-ruby-requestBody: 'expense_claims = { expense_claims: [{ status: XeroRuby::Accounting::ExpenseClaim::AUTHORISED, user: { user_id: "00000000-0000-0000-000-000000000000" }, receipts: [{ receipt_id: "00000000-0000-0000-000-000000000000", line_items: [], contact: {}, date: "2020-01-01", user: {} }]}]}'
+      x-node-requestBody: '{ expenseClaims: [{ status: ExpenseClaim.StatusEnum.AUTHORISED, user: { userID: "00000000-0000-0000-0000-000000000000" }, receipts: [{ receiptID: "00000000-0000-0000-0000-000000000000", lineItems: [], contact: {}, date: "2020-01-01", user: {} }]}]}'
+      x-ruby-requestBody: 'expense_claims = { expense_claims: [{ status: XeroRuby::Accounting::ExpenseClaim::AUTHORISED, user: { user_id: "00000000-0000-0000-0000-000000000000" }, receipts: [{ receipt_id: "00000000-0000-0000-0000-000000000000", line_items: [], contact: {}, date: "2020-01-01", user: {} }]}]}'
       x-example:
         - currDate:
           is_date: true
@@ -7836,7 +7829,7 @@ paths:
           key: userID
           keyPascal: UserID
           keySnake: user_id
-          default: 00000000-0000-0000-000-000000000000
+          default: 00000000-0000-0000-0000-000000000000
           object: user
         - receipt:
           is_object: true
@@ -7847,7 +7840,7 @@ paths:
           key: receiptID
           keyPascal: ReceiptID
           keySnake: receipt_id
-          default: 00000000-0000-0000-000-000000000000
+          default: 00000000-0000-0000-0000-000000000000
           object: receipt
         - date:
           is_last: true
@@ -7918,7 +7911,7 @@ paths:
           in: path
           name: ExpenseClaimID
           description: Unique identifier for a ExpenseClaim
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -8035,13 +8028,13 @@ paths:
       tags:
         - Accounting
       operationId: getExpenseClaimHistory
-      summary: Allows you to retrieve a history records of an ExpenseClaim
+      summary: Retrieves history records of a specific expense claim
       parameters:
         - required: true
           in: path
           name: ExpenseClaimID
           description: Unique identifier for a ExpenseClaim
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -8054,7 +8047,7 @@ paths:
       tags:
         - Accounting
       operationId: createExpenseClaimHistory
-      summary: Allows you to create a history records of an ExpenseClaim
+      summary: Creates a history record for a specific expense claim
       x-hasAccountingValidationError: true
       x-example:
         - historyRecord:
@@ -8087,7 +8080,7 @@ paths:
           in: path
           name: ExpenseClaimID
           description: Unique identifier for a ExpenseClaim
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -8105,7 +8098,7 @@ paths:
       tags:
         - Accounting
       operationId: getInvoices
-      summary: Allows you to retrieve any sales invoices or purchase bills
+      summary: Retrieves sales invoices or purchase bills
       parameters:
         - $ref: '#/components/parameters/ifModifiedSince'
         - in: query
@@ -8128,9 +8121,9 @@ paths:
           description: Filter by a comma-separated list of InvoicesIDs. 
           style: form
           explode: false
-          example: '&quot;00000000-0000-0000-000-000000000000&quot;'
-          x-example-java: Arrays.asList(UUID.fromString("00000000-0000-0000-000-000000000000"))
-          x-example-php: '&quot;00000000-0000-0000-000-000000000000&quot;'
+          example: '&quot;00000000-0000-0000-0000-000000000000&quot;'
+          x-example-java: Arrays.asList(UUID.fromString("00000000-0000-0000-0000-000000000000"))
+          x-example-php: '&quot;00000000-0000-0000-0000-000000000000&quot;'
           schema:
             type: array
             items:
@@ -8153,9 +8146,9 @@ paths:
           description: Filter by a comma-separated list of ContactIDs. 
           style: form
           explode: false
-          example: '&quot;00000000-0000-0000-000-000000000000&quot;'
-          x-example-java: Arrays.asList(UUID.fromString("00000000-0000-0000-000-000000000000"))
-          x-example-php: '&quot;00000000-0000-0000-000-000000000000&quot;'
+          example: '&quot;00000000-0000-0000-0000-000000000000&quot;'
+          x-example-java: Arrays.asList(UUID.fromString("00000000-0000-0000-0000-000000000000"))
+          x-example-php: '&quot;00000000-0000-0000-0000-000000000000&quot;'
           schema:
             type: array
             items:
@@ -8338,10 +8331,10 @@ paths:
       tags:
         - Accounting
       operationId: createInvoices
-      summary: Allows you to create one or more sales invoices or purchase bills
+      summary: Creates one or more sales invoices or purchase bills
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ invoices: [{ type: Invoice.TypeEnum.ACCREC, contact: { contactID: "00000000-0000-0000-000-000000000000" }, lineItems: [{ description: "Acme Tires", quantity: 2.0, unitAmount: 20.0, accountCode: "000", taxType: TaxType.NONE, lineAmount: 40.0 }], date: "2019-03-11", dueDate: "2018-12-10", reference: "Website Design", status: Invoice.StatusEnum.DRAFT }]}'
-      x-ruby-requestBody: 'invoices = { invoices: [{ type: XeroRuby::Accounting::Invoice::ACCREC, contact: { contact_id: "00000000-0000-0000-000-000000000000" }, line_items: [{ description: "Acme Tires", quantity: 2.0, unit_amount: 20.0, account_code: "000", tax_type: XeroRuby::Accounting::TaxType::NONE, line_amount: 40.0 }], date: "2019-03-11", due_date: "2018-12-10", reference: "Website Design", status: XeroRuby::Accounting::Invoice::DRAFT }]}'
+      x-node-requestBody: '{ invoices: [{ type: Invoice.TypeEnum.ACCREC, contact: { contactID: "00000000-0000-0000-0000-000000000000" }, lineItems: [{ description: "Acme Tires", quantity: 2.0, unitAmount: 20.0, accountCode: "000", taxType: TaxType.NONE, lineAmount: 40.0 }], date: "2019-03-11", dueDate: "2018-12-10", reference: "Website Design", status: Invoice.StatusEnum.DRAFT }]}'
+      x-ruby-requestBody: 'invoices = { invoices: [{ type: XeroRuby::Accounting::Invoice::ACCREC, contact: { contact_id: "00000000-0000-0000-0000-000000000000" }, line_items: [{ description: "Acme Tires", quantity: 2.0, unit_amount: 20.0, account_code: "000", tax_type: XeroRuby::Accounting::TaxType::NONE, line_amount: 40.0 }], date: "2019-03-11", due_date: "2018-12-10", reference: "Website Design", status: XeroRuby::Accounting::Invoice::DRAFT }]}'
       x-example:
         - dateValue:
           is_date: true
@@ -8373,7 +8366,7 @@ paths:
           key: contactId
           keyPascal: ContactID
           keySnake: contact_id
-          default: 00000000-0000-0000-000-000000000000
+          default: 00000000-0000-0000-0000-000000000000
           object: contact
         - lineItem:
           is_object: true
@@ -8669,10 +8662,10 @@ paths:
       tags:
         - Accounting
       operationId: updateOrCreateInvoices
-      summary: Allows you to update OR create one or more sales invoices or purchase bills
+      summary: Updates or creates one or more sales invoices or purchase bills
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ invoices: [{ type: Invoice.TypeEnum.ACCREC, contact: { contactID:"00000000-0000-0000-000-000000000000" }, lineItems:[ { description:"Acme Tires", quantity:2.0, unitAmount:20.0, accountCode:"200", taxType:"NONE", lineAmount:40.0 } ], date: "2019-03-11", dueDate:"2018-12-10", reference:"Website Design", status: Invoice.StatusEnum.AUTHORISED } ] }'
-      x-ruby-requestBody: 'invoices = { invoices: [{ type: XeroRuby::Accounting::Invoice::ACCREC, contact: { contact_id: "00000000-0000-0000-000-000000000000" }, line_items: [{ description: "Acme Tires", quantity: 2.0, unit_amount: 20.0, account_code: "000", tax_type: XeroRuby::Accounting::TaxType::NONE, line_amount: 40.0 }], date: "2019-03-11", due_date: "2018-12-10", reference: "Website Design", status: XeroRuby::Accounting::Invoice::DRAFT }]}'
+      x-node-requestBody: '{ invoices: [{ type: Invoice.TypeEnum.ACCREC, contact: { contactID:"00000000-0000-0000-0000-000000000000" }, lineItems:[ { description:"Acme Tires", quantity:2.0, unitAmount:20.0, accountCode:"200", taxType:"NONE", lineAmount:40.0 } ], date: "2019-03-11", dueDate:"2018-12-10", reference:"Website Design", status: Invoice.StatusEnum.AUTHORISED } ] }'
+      x-ruby-requestBody: 'invoices = { invoices: [{ type: XeroRuby::Accounting::Invoice::ACCREC, contact: { contact_id: "00000000-0000-0000-0000-000000000000" }, line_items: [{ description: "Acme Tires", quantity: 2.0, unit_amount: 20.0, account_code: "000", tax_type: XeroRuby::Accounting::TaxType::NONE, line_amount: 40.0 }], date: "2019-03-11", due_date: "2018-12-10", reference: "Website Design", status: XeroRuby::Accounting::Invoice::DRAFT }]}'
       x-example:
         - dateValue:
           is_date: true
@@ -8704,7 +8697,7 @@ paths:
           key: contactId
           keyPascal: ContactID
           keySnake: contact_id
-          default: 00000000-0000-0000-000-000000000000
+          default: 00000000-0000-0000-0000-000000000000
           object: contact
         - lineItem:
           is_object: true
@@ -9002,13 +8995,13 @@ paths:
       tags:
         - Accounting
       operationId: getInvoice
-      summary: Allows you to retrieve a specified sales invoice or purchase bill
+      summary: Retrieves a specific sales invoice or purchase bill using a unique invoice Id
       parameters:
         - required: true
           in: path
           name: InvoiceID
           description: Unique identifier for an Invoice
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -9178,10 +9171,10 @@ paths:
       tags:
         - Accounting
       operationId: updateInvoice
-      summary: Allows you to update a specified sales invoices or purchase bills
+      summary: Updates a specific sales invoices or purchase bills
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ invoices: [{ reference: "I am Iron Man", invoiceID: "00000000-0000-0000-000-000000000000", lineItems: [], contact: {}, type: Invoice.TypeEnum.ACCPAY }]}'
-      x-ruby-requestBody: 'invoices = { invoices: [{ reference: "I am Iron Man", invoice_id: "00000000-0000-0000-000-000000000000", line_items: [], contact: {}, type: XeroRuby::Accounting::Invoice::ACCPAY }]}'
+      x-node-requestBody: '{ invoices: [{ reference: "I am Iron Man", invoiceID: "00000000-0000-0000-0000-000000000000", lineItems: [], contact: {}, type: Invoice.TypeEnum.ACCPAY }]}'
+      x-ruby-requestBody: 'invoices = { invoices: [{ reference: "I am Iron Man", invoice_id: "00000000-0000-0000-0000-000000000000", line_items: [], contact: {}, type: XeroRuby::Accounting::Invoice::ACCPAY }]}'
       x-example:
         - invoice:
           is_object: true
@@ -9209,7 +9202,7 @@ paths:
           in: path
           name: InvoiceID
           description: Unique identifier for an Invoice
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -9334,7 +9327,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Invoices'
-            example: '{ "Invoices": [{ Reference: "May the force be with you", "InvoiceID": "00000000-0000-0000-000-000000000000", "LineItems": [], "Contact": {}, "Type": "ACCPAY" }]}'
+            example: '{ "Invoices": [{ Reference: "May the force be with you", "InvoiceID": "00000000-0000-0000-0000-000000000000", "LineItems": [], "Contact": {}, "Type": "ACCPAY" }]}'
   '/Invoices/{InvoiceID}/pdf':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -9345,13 +9338,13 @@ paths:
         - Accounting
       operationId: getInvoiceAsPdf
       x-path: '/Invoices/{InvoiceID}'
-      summary: Allows you to retrieve invoices or purchase bills as PDF files
+      summary: Retrieves invoices or purchase bills as PDF files
       parameters:
         - required: true
           in: path
           name: InvoiceID
           description: Unique identifier for an Invoice
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -9372,13 +9365,13 @@ paths:
       tags:
         - Accounting
       operationId: getInvoiceAttachments
-      summary: Allows you to retrieve Attachments on invoices or purchase bills
+      summary: Retrieves attachments for a specific invoice or purchase bill
       parameters:
         - required: true
           in: path
           name: InvoiceID
           description: Unique identifier for an Invoice
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -9411,8 +9404,7 @@ paths:
                                 "ContentLength": 2878711
                               }
                             ]
-                          }
-'
+                          }'
   '/Invoices/{InvoiceID}/Attachments/{AttachmentID}':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -9422,13 +9414,13 @@ paths:
       tags:
         - Accounting
       operationId: getInvoiceAttachmentById
-      summary: Allows you to retrieve a specified Attachment on invoices or purchase bills by it's ID
+      summary: Retrieves a specific attachment from a specific invoices or purchase bills by using a unique attachment Id
       parameters:
         - required: true
           in: path
           name: InvoiceID
           description: Unique identifier for an Invoice
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -9436,7 +9428,7 @@ paths:
           in: path
           name: AttachmentID
           description: Unique identifier for an Attachment
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -9464,13 +9456,13 @@ paths:
       tags:
         - Accounting
       operationId: getInvoiceAttachmentByFileName
-      summary: Allows you to retrieve Attachment on invoices or purchase bills by it's filename
+      summary: Retrieves an attachment from a specific invoice or purchase bill by filename
       parameters:
         - required: true
           in: path
           name: InvoiceID
           description: Unique identifier for an Invoice
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -9503,13 +9495,13 @@ paths:
         - Accounting
       operationId: updateInvoiceAttachmentByFileName
       x-hasAccountingValidationError: true
-      summary: Allows you to update Attachment on invoices or purchase bills by it's filename
+      summary: Updates an attachment from a specific invoices or purchase bill by filename
       parameters:
         - required: true
           in: path
           name: InvoiceID
           description: Unique identifier for an Invoice
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -9560,13 +9552,13 @@ paths:
         - Accounting
       operationId: createInvoiceAttachmentByFileName
       x-hasAccountingValidationError: true
-      summary: Allows you to create an Attachment on invoices or purchase bills by it's filename
+      summary: Creates an attachment for a specific invoice or purchase bill by filename
       parameters:
         - required: true
           in: path
           name: InvoiceID
           description: Unique identifier for an Invoice
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -9620,13 +9612,13 @@ paths:
       tags:
         - Accounting
       operationId: getOnlineInvoice
-      summary: Allows you to retrieve a URL to an online invoice
+      summary: Retrieves a URL to an online invoice
       parameters:
         - required: true
           in: path
           name: InvoiceID
           description: Unique identifier for an Invoice
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -9657,7 +9649,7 @@ paths:
       tags:
         - Accounting
       operationId: emailInvoice
-      summary: Allows you to email a copy of invoice to related Contact
+      summary: Sends a copy of a specific invoice to related contact via email
       x-hasAccountingValidationError: true
       x-example:
         - requestEmpty:
@@ -9670,7 +9662,7 @@ paths:
           in: path
           name: InvoiceID
           description: Unique identifier for an Invoice
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -9696,13 +9688,13 @@ paths:
       tags:
         - Accounting
       operationId: getInvoiceHistory
-      summary: Allows you to retrieve a history records of an invoice
+      summary: Retrieves history records for a specific invoice
       parameters:
         - required: true
           in: path
           name: InvoiceID
           description: Unique identifier for an Invoice
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -9715,7 +9707,7 @@ paths:
       tags:
         - Accounting
       operationId: createInvoiceHistory
-      summary: Allows you to retrieve a history records of an invoice
+      summary: Creates a history record for a specific invoice
       x-hasAccountingValidationError: true
       x-example:
         - historyRecord:
@@ -9748,7 +9740,7 @@ paths:
           in: path
           name: InvoiceID
           description: Unique identifier for an Invoice
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -9768,7 +9760,7 @@ paths:
       tags:
         - Accounting
       operationId: getInvoiceReminders
-      summary: Allows you to retrieve invoice reminder settings
+      summary: Retrieves invoice reminder settings
       responses:
         '200':
           description: Success - return response of Invoice Reminders 
@@ -9796,7 +9788,7 @@ paths:
       tags:
         - Accounting
       operationId: getItems
-      summary: Allows you to retrieve any items
+      summary: Retrieves items
       parameters:
         - $ref: '#/components/parameters/ifModifiedSince'
         - in: query
@@ -9861,7 +9853,7 @@ paths:
       tags:
         - Accounting
       operationId: createItems
-      summary: Allows you to create one or more items
+      summary: Creates one or more items
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ items: [{ code: "abcXYZ123", name: "HelloWorld11", description: "Foobar", inventoryAssetAccountCode: "140", purchaseDetails: { cOGSAccountCode: "500" }}]}'
       x-ruby-requestBody: 'items = { items: [{ code: "abcXYZ123", name: "HelloWorld11", description: "Foobar", inventory_asset_account_code: "140", purchase_details: { cogs_account_code: "500" }}]}'
@@ -9987,7 +9979,7 @@ paths:
       tags:
         - Accounting
       operationId: updateOrCreateItems
-      summary: Allows you to update or create one or more items
+      summary: Updates or creates one or more items
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ items: [{ code: "ItemCode123", name: "ItemName XYZ", description: "Item Description ABC" }]}'
       x-ruby-requestBody: 'items = { items: [{ code: "ItemCode123", name: "ItemName XYZ", description: "Item Description ABC" }]}'
@@ -10084,13 +10076,13 @@ paths:
       tags:
         - Accounting
       operationId: getItem
-      summary: Allows you to retrieve a specified item
+      summary: Retrieves a specific item using a unique item Id
       parameters:
         - required: true
           in: path
           name: ItemID
           description: Unique identifier for an Item
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -10141,7 +10133,7 @@ paths:
       tags:
         - Accounting
       operationId: updateItem
-      summary: Allows you to update a specified item
+      summary: Updates a specific item
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ items: [{ code: "ItemCode123", description: "Description 123" }]}'
       x-ruby-requestBody: 'items = { items: [{ code: "ItemCode123", description: "Description 123" }]}'
@@ -10177,7 +10169,7 @@ paths:
           in: path
           name: ItemID
           description: Unique identifier for an Item
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -10232,13 +10224,13 @@ paths:
       tags:
         - Accounting
       operationId: deleteItem
-      summary: Allows you to delete a specified item
+      summary: Deletes a specific item
       parameters:
         - required: true
           in: path
           name: ItemID
           description: Unique identifier for an Item
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -10257,13 +10249,13 @@ paths:
       tags:
         - Accounting
       operationId: getItemHistory
-      summary: Allows you to retrieve history for items
+      summary: Retrieves history for a specific item
       parameters:
         - required: true
           in: path
           name: ItemID
           description: Unique identifier for an Item
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -10276,7 +10268,7 @@ paths:
       tags:
         - Accounting
       operationId: createItemHistory
-      summary: Allows you to create a history record for items
+      summary: Creates a history record for a specific item
       x-hasAccountingValidationError: true
       x-example:
         - historyRecord:
@@ -10309,7 +10301,7 @@ paths:
           in: path
           name: ItemID
           description: Unique identifier for an Item
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -10327,7 +10319,7 @@ paths:
       tags:
         - Accounting
       operationId: getJournals
-      summary: Allows you to retrieve any journals.
+      summary: Retrieves journals
       parameters:
         - $ref: '#/components/parameters/ifModifiedSince'
         - in: query
@@ -10522,13 +10514,13 @@ paths:
       tags:
         - Accounting
       operationId: getJournal
-      summary: Allows you to retrieve a specified journals.
+      summary: Retrieves a specific journal using a unique journal Id.
       parameters:
         - required: true
           in: path
           name: JournalID
           description: Unique identifier for a Journal
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -10593,7 +10585,7 @@ paths:
       tags:
         - Accounting
       operationId: getLinkedTransactions
-      summary: Retrieve linked transactions (billable expenses)
+      summary: Retrieves linked transactions (billable expenses)
       parameters:
         - in: query
           name: page
@@ -10604,34 +10596,34 @@ paths:
         - in: query
           name: LinkedTransactionID
           description: The Xero identifier for an Linked Transaction
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
         - in: query
           name: SourceTransactionID
           description: Filter by the SourceTransactionID. Get the linked transactions created from a particular ACCPAY invoice
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
         - in: query
           name: ContactID
           description: Filter by the ContactID. Get all the linked transactions that have been assigned to a particular customer.
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
         - in: query
           name: Status
-          description: Filter by the combination of ContactID and Status. Get  the linked transactions associaed to a  customer and with a status
+          description: Filter by the combination of ContactID and Status. Get  the linked transactions associated to a  customer and with a status
           example: "APPROVED"
           schema:
             type: string
         - in: query
           name: TargetTransactionID
           description: Filter by the TargetTransactionID. Get all the linked transactions allocated to a particular ACCREC invoice
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -10668,10 +10660,10 @@ paths:
       tags:
         - Accounting
       operationId: createLinkedTransaction
-      summary: Allows you to create linked transactions (billable expenses)
+      summary: Creates linked transactions (billable expenses)
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ sourceTransactionID: "00000000-0000-0000-000-000000000000", sourceLineItemID: "00000000-0000-0000-000-000000000000" }'
-      x-ruby-requestBody: 'linked_transaction = { source_transaction_id: "00000000-0000-0000-000-000000000000", source_line_item_id: "00000000-0000-0000-000-000000000000" }'
+      x-node-requestBody: '{ sourceTransactionID: "00000000-0000-0000-0000-000000000000", sourceLineItemID: "00000000-0000-0000-0000-000000000000" }'
+      x-ruby-requestBody: 'linked_transaction = { source_transaction_id: "00000000-0000-0000-0000-000000000000", source_line_item_id: "00000000-0000-0000-0000-000000000000" }'
       x-example:
         - linkedTransaction:
           is_object: true
@@ -10683,7 +10675,7 @@ paths:
           key: sourceTransactionID
           keyPascal: SourceTransactionID
           keySnake: source_transaction_id
-          default: 00000000-0000-0000-000-000000000000
+          default: 00000000-0000-0000-0000-000000000000
           object: linkedTransaction
         - sourceLineItemID:
           is_last: true
@@ -10691,7 +10683,7 @@ paths:
           key: sourceLineItemID
           keyPascal: SourceLineItemID
           keySnake: source_line_item_id
-          default: 00000000-0000-0000-000-000000000000
+          default: 00000000-0000-0000-0000-000000000000
           object: linkedTransaction
       responses:
         '200':
@@ -10748,13 +10740,13 @@ paths:
       tags:
         - Accounting
       operationId: getLinkedTransaction
-      summary: Allows you to retrieve a specified linked transactions (billable expenses)
+      summary: Retrieves a specific linked transaction (billable expenses) using a unique linked transaction Id
       parameters:
         - required: true
           in: path
           name: LinkedTransactionID
           description: Unique identifier for a LinkedTransaction
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -10791,10 +10783,10 @@ paths:
       tags:
         - Accounting
       operationId: updateLinkedTransaction
-      summary: Allows you to update a specified linked transactions (billable expenses)
+      summary: Updates a specific linked transactions (billable expenses)
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ linkedTransactions: [{ sourceLineItemID: "00000000-0000-0000-000-000000000000", contactID: "00000000-0000-0000-000-000000000000" }]}'
-      x-ruby-requestBody: 'linked_transactions = { linked_transactions: [{ source_line_item_id: "00000000-0000-0000-000-000000000000", contact_id: "00000000-0000-0000-000-000000000000" }]}'
+      x-node-requestBody: '{ linkedTransactions: [{ sourceLineItemID: "00000000-0000-0000-0000-000000000000", contactID: "00000000-0000-0000-0000-000000000000" }]}'
+      x-ruby-requestBody: 'linked_transactions = { linked_transactions: [{ source_line_item_id: "00000000-0000-0000-0000-000000000000", contact_id: "00000000-0000-0000-0000-000000000000" }]}'
       x-example:
         - linkedTransaction:
           is_object: true
@@ -10806,14 +10798,14 @@ paths:
           key: sourceLineItemID
           keyPascal: SourceLineItemID
           keySnake: source_line_item_id
-          default: 00000000-0000-0000-000-000000000000
+          default: 00000000-0000-0000-0000-000000000000
           object: linkedTransaction
         - contactID:
           is_last: true
           is_uuid: true
           key: contactID
           keyPascal: ContactID
-          default: 00000000-0000-0000-000-000000000000
+          default: 00000000-0000-0000-0000-000000000000
           object: linkedTransaction
         - linkedTransactions:
           is_object: true
@@ -10833,7 +10825,7 @@ paths:
           in: path
           name: LinkedTransactionID
           description: Unique identifier for a LinkedTransaction
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -10901,8 +10893,8 @@ paths:
               example: '{
                           "LinkedTransactions": [
                             {
-                              "SourceTransactionID": "00000000-0000-0000-000-000000000000",
-                              "SourceLineItemID": "00000000-0000-0000-000-000000000000"
+                              "SourceTransactionID": "00000000-0000-0000-0000-000000000000",
+                              "SourceLineItemID": "00000000-0000-0000-0000-000000000000"
                             }
                           ]
                         }'
@@ -10912,13 +10904,13 @@ paths:
       tags:
         - Accounting
       operationId: deleteLinkedTransaction
-      summary: Allows you to delete a specified linked transactions (billable expenses)
+      summary: Deletes a specific linked transactions (billable expenses)
       parameters:
         - required: true
           in: path
           name: LinkedTransactionID
           description: Unique identifier for a LinkedTransaction
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -10937,7 +10929,7 @@ paths:
       tags:
         - Accounting
       operationId: getManualJournals
-      summary: Allows you to retrieve any manual journals
+      summary: Retrieves manual journals
       parameters:
         - $ref: '#/components/parameters/ifModifiedSince'
         - in: query
@@ -11015,7 +11007,7 @@ paths:
       tags:
         - Accounting
       operationId: createManualJournals
-      summary: Allows you to create one or more manual journals
+      summary: Creates one or more manual journals
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ manualJournals: [{ narration: "Foo bar", date: "2019-03-14", journalLines: [{ lineAmount: 100.0, accountCode: "400", description: "Hello there" }, { lineAmount: -100.0, accountCode: "400", description: "Goodbye", tracking: [{ name: "Simpson", option: "Bart" }] }]}]}'
       x-ruby-requestBody: 'manual_journals = { manual_journals: [{ narration: "Foo bar", date: "2019-03-14", journal_lines: [{ line_amount: 100.0, account_code: "400", description: "Hello there" }, { line_amount: -100.0, account_code: "400", description: "Goodbye", tracking: [{ name: "Simpson", option: "Bart" }] }]}]}'
@@ -11241,7 +11233,7 @@ paths:
       tags:
         - Accounting
       operationId: updateOrCreateManualJournals
-      summary: Allows you to create a single manual journal
+      summary: Updates or creates a single manual journal
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ manualJournals: [{ narration: "Foo bar", journalLines: [{ lineAmount: 100.0, accountCode: "400", description: "Hello there" },{ lineAmount: -100.0, accountCode: "400", description: "Goodbye", tracking: [{ name: "Simpsons", option: "Bart" }]}], date: "2019-03-14" }]}'
       x-ruby-requestBody: 'manual_journals = { manual_journals: [{ narration: "Foo bar", date: "2019-03-14", journal_lines: [{ line_amount: 100.0, account_code: "400", description: "Hello there" },{ line_amount: -100.0, account_code: "400", description: "Goodbye", tracking: [{ name: "Simpsons", option: "Bart" }]}] }]}'
@@ -11470,13 +11462,13 @@ paths:
       tags:
         - Accounting
       operationId: getManualJournal
-      summary: Allows you to retrieve a specified manual journals
+      summary: Retrieves a specific manual journal
       parameters:
         - required: true
           in: path
           name: ManualJournalID
           description: Unique identifier for a ManualJournal
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -11549,10 +11541,10 @@ paths:
       tags:
         - Accounting
       operationId: updateManualJournal
-      summary: Allows you to update a specified manual journal
+      summary: Updates a specific manual journal
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ manualJournals: [{ narration: "Hello Xero", manualJournalId: "00000000-0000-0000-000-000000000000", journalLines: [] }]}'
-      x-ruby-requestBody: 'manual_journals = { manual_journals: [{ narration: "Hello Xero", manual_journal_id: "00000000-0000-0000-000-000000000000", journal_lines: [] }]}'
+      x-node-requestBody: '{ manualJournals: [{ narration: "Hello Xero", manualJournalId: "00000000-0000-0000-0000-000000000000", journalLines: [] }]}'
+      x-ruby-requestBody: 'manual_journals = { manual_journals: [{ narration: "Hello Xero", manual_journal_id: "00000000-0000-0000-0000-000000000000", journal_lines: [] }]}'
       x-example:
         - dateValue:
           is_date: true
@@ -11676,7 +11668,7 @@ paths:
           in: path
           name: ManualJournalID
           description: Unique identifier for a ManualJournal
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -11740,7 +11732,7 @@ paths:
                           "ManualJournals": [
                             {
                               "Narration": "Hello Xero",
-                              "ManualJournalID": "00000000-0000-0000-000-000000000000",
+                              "ManualJournalID": "00000000-0000-0000-0000-000000000000",
                               "JournalLines": []
                             }
                           ]
@@ -11754,13 +11746,13 @@ paths:
       tags:
         - Accounting
       operationId: getManualJournalAttachments
-      summary: Allows you to retrieve Attachment for manual journals
+      summary: Retrieves attachment for a specific manual journal
       parameters:
         - required: true
           in: path
           name: ManualJournalID
           description: Unique identifier for a ManualJournal
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -11803,13 +11795,13 @@ paths:
       tags:
         - Accounting
       operationId: getManualJournalAttachmentById
-      summary: Allows you to retrieve specified Attachment on ManualJournals
+      summary: Allows you to retrieve a specific attachment from a specific manual journal using a unique attachment Id
       parameters:
         - required: true
           in: path
           name: ManualJournalID
           description: Unique identifier for a ManualJournal
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -11817,7 +11809,7 @@ paths:
           in: path
           name: AttachmentID
           description: Unique identifier for a Attachment
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -11845,13 +11837,13 @@ paths:
       tags:
         - Accounting
       operationId: getManualJournalAttachmentByFileName
-      summary: Allows you to retrieve specified Attachment on ManualJournal by file name
+      summary: Retrieves a specific attachment from a specific manual journal by file name
       parameters:
         - required: true
           in: path
           name: ManualJournalID
           description: Unique identifier for a ManualJournal
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -11884,13 +11876,13 @@ paths:
         - Accounting
       operationId: updateManualJournalAttachmentByFileName
       x-hasAccountingValidationError: true
-      summary: Allows you to update a specified Attachment on ManualJournal by file name
+      summary: Updates a specific attachment from a specific manual journal by file name
       parameters:
         - required: true
           in: path
           name: ManualJournalID
           description: Unique identifier for a ManualJournal
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -11941,13 +11933,13 @@ paths:
         - Accounting
       operationId: createManualJournalAttachmentByFileName
       x-hasAccountingValidationError: true
-      summary: Allows you to create a specified Attachment on ManualJournal by file name
+      summary: Creates a specific attachment for a specific manual journal by file name
       parameters:
         - required: true
           in: path
           name: ManualJournalID
           description: Unique identifier for a ManualJournal
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -12000,13 +11992,13 @@ paths:
       tags:
         - Accounting
       operationId: getManualJournalsHistory
-      summary: Allows you to retrieve history from a manual journal
+      summary: Retrieves history for a specific manual journal
       parameters:
         - required: true
           in: path
           name: ManualJournalID
           description: Xero generated unique identifier for a manual journal
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -12019,7 +12011,7 @@ paths:
       tags:
         - Accounting
       operationId: createManualJournalHistoryRecord
-      summary: Allows you to create history record for a manual journal
+      summary: Creates a history record for a specific manual journal
       x-hasAccountingValidationError: true
       x-example:
         - historyRecord:
@@ -12052,7 +12044,7 @@ paths:
           in: path
           name: ManualJournalID
           description: Xero generated unique identifier for a manual journal
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -12072,7 +12064,7 @@ paths:
       tags:
         - Accounting
       operationId: getOrganisations
-      summary: Allows you to retrieve Organisation details
+      summary: Retrieves Xero organisation details
       responses:
         '200':
           description: Success - return response of type Organisation array with all Organisation
@@ -12129,7 +12121,7 @@ paths:
       tags:
         - Accounting
       operationId: getOrganisationActions
-      summary: Retrieve a list of the key actions your app has permission to perform in the connected organisation.
+      summary: Retrieves a list of the key actions your app has permission to perform in the connected Xero organisation.
       responses:
         '200':
           description: Success - return response of type Actions array with all key actions
@@ -12206,13 +12198,13 @@ paths:
       tags:
         - Accounting
       operationId: getOrganisationCISSettings
-      summary: Allows you To verify if an organisation is using contruction industry scheme, you can retrieve the CIS settings for the organistaion.
+      summary: Retrieves the CIS settings for the Xero organistaion.
       parameters:
         - required: true
           in: path
           name: OrganisationID
           description: The unique Xero identifier for an organisation
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -12232,7 +12224,7 @@ paths:
       tags:
         - Accounting
       operationId: getOverpayments
-      summary: Allows you to retrieve overpayments
+      summary: Retrieves overpayments
       parameters:
         - $ref: '#/components/parameters/ifModifiedSince'
         - in: query
@@ -12421,13 +12413,13 @@ paths:
       tags:
         - Accounting
       operationId: getOverpayment
-      summary: Allows you to retrieve a specified overpayments
+      summary: Retrieves a specific overpayment using a unique overpayment Id
       parameters:
         - required: true
           in: path
           name: OverpaymentID
           description: Unique identifier for a Overpayment
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -12570,10 +12562,10 @@ paths:
       tags:
         - Accounting
       operationId: createOverpaymentAllocations
-      summary: Allows you to create a single allocation for an overpayment
+      summary: Creates a single allocation for a specific overpayment
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ allocations: [{ invoice: { invoiceID: "00000000-0000-0000-000-000000000000", lineItems: [], contact: {}, type: Invoice.TypeEnum.ACCPAY }, amount: 10.0, date: "2019-03-12" }]}'
-      x-ruby-requestBody: 'allocations = { allocations: [{ invoice: { invoice_id: "00000000-0000-0000-000-000000000000", line_items: [], contact: {}, type: XeroRuby::Accounting::Invoice::ACCPAY }, amount: 10.0, date: "2019-03-12" }]}'
+      x-node-requestBody: '{ allocations: [{ invoice: { invoiceID: "00000000-0000-0000-0000-000000000000", lineItems: [], contact: {}, type: Invoice.TypeEnum.ACCPAY }, amount: 10.0, date: "2019-03-12" }]}'
+      x-ruby-requestBody: 'allocations = { allocations: [{ invoice: { invoice_id: "00000000-0000-0000-0000-000000000000", line_items: [], contact: {}, type: XeroRuby::Accounting::Invoice::ACCPAY }, amount: 10.0, date: "2019-03-12" }]}'
       x-example:
         - currDate:
           is_date: true
@@ -12595,7 +12587,7 @@ paths:
           key: invoiceID
           keyPascal: InvoiceID
           keySnake: invoice_id
-          default: 00000000-0000-0000-000-000000000000
+          default: 00000000-0000-0000-0000-000000000000
           object: invoice
         - allocation:
           is_object: true
@@ -12640,7 +12632,7 @@ paths:
           in: path
           name: OverpaymentID
           description: Unique identifier for a Overpayment
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -12694,7 +12686,7 @@ paths:
                           "Allocations": [
                             {
                               "Invoice": {
-                                "InvoiceID": "00000000-0000-0000-000-000000000000",
+                                "InvoiceID": "00000000-0000-0000-0000-000000000000",
                                 "LineItems": [],
                                 "Contact": {},
                                 "Type": "ACCPAY"
@@ -12713,13 +12705,13 @@ paths:
       tags:
         - Accounting
       operationId: getOverpaymentHistory
-      summary: Allows you to retrieve a history records of an Overpayment
+      summary: Retrieves history records of a specific overpayment
       parameters:
         - required: true
           in: path
           name: OverpaymentID
           description: Unique identifier for a Overpayment
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -12732,7 +12724,7 @@ paths:
       tags:
         - Accounting
       operationId: createOverpaymentHistory
-      summary: Allows you to create history records of an Overpayment
+      summary: Creates a history record for a specific overpayment
       x-hasAccountingValidationError: true
       x-example:
         - historyRecord:
@@ -12765,7 +12757,7 @@ paths:
           in: path
           name: OverpaymentID
           description: Unique identifier for a Overpayment
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -12806,7 +12798,7 @@ paths:
       tags:
         - Accounting
       operationId: getPayments
-      summary: Allows you to retrieve payments for invoices and credit notes
+      summary: Retrieves payments for invoices and credit notes
       parameters:
         - $ref: '#/components/parameters/ifModifiedSince'
         - in: query
@@ -12946,10 +12938,10 @@ paths:
       tags:
         - Accounting
       operationId: createPayments
-      summary: Allows you to create multiple payments for invoices or credit notes
+      summary: Creates multiple payments for invoices or credit notes
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ payments: [{ invoice: { invoiceID: "00000000-0000-0000-000-000000000000", lineItems: [], contact: {}, type: Invoice.TypeEnum.ACCPAY }, account: { code: "970" }, date: "2019-03-12", amount: 1.0 }]}'
-      x-ruby-requestBody: 'payments = { payments: [{ invoice: { invoice_id: "00000000-0000-0000-000-000000000000", line_items: [], contact: {}, type: XeroRuby::Accounting::Invoice::ACCPAY }, account: { code: "970" }, date: "2019-03-12", amount: 1.0 }]}'
+      x-node-requestBody: '{ payments: [{ invoice: { invoiceID: "00000000-0000-0000-0000-000000000000", lineItems: [], contact: {}, type: Invoice.TypeEnum.ACCPAY }, account: { code: "970" }, date: "2019-03-12", amount: 1.0 }]}'
+      x-ruby-requestBody: 'payments = { payments: [{ invoice: { invoice_id: "00000000-0000-0000-0000-000000000000", line_items: [], contact: {}, type: XeroRuby::Accounting::Invoice::ACCPAY }, account: { code: "970" }, date: "2019-03-12", amount: 1.0 }]}'
       x-example:
         - dateValue:
           is_date: true
@@ -12971,7 +12963,7 @@ paths:
           key: invoiceID
           keyPascal: InvoiceID
           keySnake: invoice_id
-          default: 00000000-0000-0000-000-000000000000
+          default: 00000000-0000-0000-0000-000000000000
           object: invoice
         - account:
           is_object: true
@@ -12982,7 +12974,7 @@ paths:
           key: accountID
           keyPascal: AccountID
           keySnake: account_id
-          default: 00000000-0000-0000-000-000000000000
+          default: 00000000-0000-0000-0000-000000000000
           object: account
         - payment:
           is_object: true
@@ -13127,7 +13119,7 @@ paths:
                             {
                               "Invoice": {
                                 "LineItems": [],
-                                "InvoiceID": "00000000-0000-0000-000-000000000000"
+                                "InvoiceID": "00000000-0000-0000-0000-000000000000"
                               },
                               "Account": {
                                 "Code": "970"
@@ -13143,10 +13135,10 @@ paths:
       tags:
         - Accounting
       operationId: createPayment
-      summary: Allows you to create a single payment for invoices or credit notes  
+      summary: Creates a single payment for invoice or credit notes  
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ invoice: { invoiceID: "00000000-0000-0000-000-000000000000", lineItems: [], contact: {}, type: Invoice.TypeEnum.ACCPAY }, account: { code: "970" }, date: "2019-03-12", amount: 1.0 }'
-      x-ruby-requestBody: 'invoice = { invoice: { invoice_id: "00000000-0000-0000-000-000000000000", line_items: [], contact: {}, type: XeroRuby::Accounting::Invoice::ACCPAY }, account: { code: "970" }, date: "2019-03-12", amount: 1.0 }'
+      x-node-requestBody: '{ invoice: { invoiceID: "00000000-0000-0000-0000-000000000000", lineItems: [], contact: {}, type: Invoice.TypeEnum.ACCPAY }, account: { code: "970" }, date: "2019-03-12", amount: 1.0 }'
+      x-ruby-requestBody: 'invoice = { invoice: { invoice_id: "00000000-0000-0000-0000-000000000000", line_items: [], contact: {}, type: XeroRuby::Accounting::Invoice::ACCPAY }, account: { code: "970" }, date: "2019-03-12", amount: 1.0 }'
       x-example:
         - dateValue:
           is_date: true
@@ -13168,7 +13160,7 @@ paths:
           key: invoiceID
           keyPascal: InvoiceID
           keySnake: invoice_id
-          default: 00000000-0000-0000-000-000000000000
+          default: 00000000-0000-0000-0000-000000000000
           object: invoice
         - account:
           is_object: true
@@ -13179,7 +13171,7 @@ paths:
           key: accountID
           keyPascal: AccountID
           keySnake: account_id
-          default: 00000000-0000-0000-000-000000000000
+          default: 00000000-0000-0000-0000-000000000000
           object: account
         - payment:
           is_object: true
@@ -13322,7 +13314,7 @@ paths:
                             {
                               "Invoice": {
                                 "LineItems": [],
-                                "InvoiceID": "00000000-0000-0000-000-000000000000"
+                                "InvoiceID": "00000000-0000-0000-0000-000000000000"
                               },
                               "Account": {
                                 "Code": "970"
@@ -13341,13 +13333,13 @@ paths:
       tags:
         - Accounting
       operationId: getPayment
-      summary: Allows you to retrieve a specified payment for invoices and credit notes
+      summary: Retrieves a specific payment for invoices and credit notes using a unique payment Id
       parameters:
         - required: true
           in: path
           name: PaymentID
           description: Unique identifier for a Payment
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -13459,7 +13451,7 @@ paths:
       tags:
         - Accounting
       operationId: deletePayment
-      summary: Allows you to update a specified payment for invoices and credit notes
+      summary: Updates a specific payment for invoices and credit notes
       x-node-requestBody: '{ status: "DELETED" }'
       x-ruby-requestBody: 'payments = { status: "DELETED" }'
       x-hasAccountingValidationError: true
@@ -13479,7 +13471,7 @@ paths:
           in: path
           name: PaymentID
           description: Unique identifier for a Payment
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -13583,13 +13575,13 @@ paths:
       tags:
         - Accounting
       operationId: getPaymentHistory
-      summary: Allows you to retrieve history records of a payment
+      summary: Retrieves history records of a specific payment
       parameters:
         - required: true
           in: path
           name: PaymentID
           description: Unique identifier for a Payment
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -13602,7 +13594,7 @@ paths:
       tags:
         - Accounting
       operationId: createPaymentHistory
-      summary: Allows you to create a history record for a payment
+      summary: Creates a history record for a specific payment
       x-hasAccountingValidationError: true
       x-example:
         - historyRecord:
@@ -13635,7 +13627,7 @@ paths:
           in: path
           name: PaymentID
           description: Unique identifier for a Payment
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -13676,7 +13668,7 @@ paths:
       tags:
         - Accounting
       operationId: getPaymentServices
-      summary: Allows you to retrieve payment services
+      summary: Retrieves payment services
       responses:
         '200':
           description: Success - return response of type PaymentServices array for all PaymentService
@@ -13705,7 +13697,7 @@ paths:
       tags:
         - Accounting
       operationId: createPaymentService
-      summary: Allows you to create payment services
+      summary: Creates a payment service
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ paymentServices: [{ paymentServiceName: "PayUpNow", paymentServiceUrl: "https://www.payupnow.com/", payNowText: "Time To Pay" }]}'
       x-ruby-requestBody: 'payment_services = { payment_services: [{ payment_service_name: "PayUpNow", payment_service_url: "https://www.payupnow.com/", pay_now_text: "Time To Pay" }]}'
@@ -13799,7 +13791,7 @@ paths:
       tags:
         - Accounting
       operationId: getPrepayments
-      summary: Allows you to retrieve prepayments
+      summary: Retrieves prepayments
       parameters:
         - $ref: '#/components/parameters/ifModifiedSince'
         - in: query
@@ -13883,7 +13875,7 @@ paths:
           in: path
           name: PrepaymentID
           description: Unique identifier for a PrePayment
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -14026,8 +14018,8 @@ paths:
       operationId: createPrepaymentAllocations
       summary: Allows you to create an Allocation for prepayments
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ allocations: [{ invoice: { invoiceID: "00000000-0000-0000-000-000000000000", lineItems: [], contact: {}, type: null }, amount: 1.0, date: "2019-03-13" }]}'
-      x-ruby-requestBody: 'allocations = { allocations: [{ invoice: { invoice_id: "00000000-0000-0000-000-000000000000", line_items: [], contact: {}, type: null }, amount: 1.0, date: "2019-03-13" }]}'
+      x-node-requestBody: '{ allocations: [{ invoice: { invoiceID: "00000000-0000-0000-0000-000000000000", lineItems: [], contact: {}, type: null }, amount: 1.0, date: "2019-03-13" }]}'
+      x-ruby-requestBody: 'allocations = { allocations: [{ invoice: { invoice_id: "00000000-0000-0000-0000-000000000000", line_items: [], contact: {}, type: null }, amount: 1.0, date: "2019-03-13" }]}'
       x-example:
         - currDate:
           is_date: true
@@ -14049,7 +14041,7 @@ paths:
           key: invoiceID
           keyPascal: InvoiceID
           keySnake: invoice_id
-          default: 00000000-0000-0000-000-000000000000
+          default: 00000000-0000-0000-0000-000000000000
           object: invoice
         - allocation:
           is_object: true
@@ -14093,7 +14085,7 @@ paths:
           in: path
           name: PrepaymentID
           description: Unique identifier for Prepayment
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -14148,7 +14140,7 @@ paths:
                             {
                               "Invoice": {
                                 "LineItems": [],
-                                "InvoiceID": "00000000-0000-0000-000-000000000000"
+                                "InvoiceID": "00000000-0000-0000-0000-000000000000"
                               },
                               "Amount": 1,
                               "Date": "2019-01-10"
@@ -14164,13 +14156,13 @@ paths:
       tags:
         - Accounting
       operationId: getPrepaymentHistory
-      summary: Allows you to retrieve a history records of an Prepayment
+      summary: Retrieves history record for a specific prepayment
       parameters:
         - required: true
           in: path
           name: PrepaymentID
           description: Unique identifier for a PrePayment
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -14183,7 +14175,7 @@ paths:
       tags:
         - Accounting
       operationId: createPrepaymentHistory
-      summary: Allows you to create a history record for an Prepayment
+      summary: Creates a history record for a specific prepayment
       x-hasAccountingValidationError: true
       x-example:
         - historyRecord:
@@ -14216,7 +14208,7 @@ paths:
           in: path
           name: PrepaymentID
           description: Unique identifier for a PrePayment
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -14257,7 +14249,7 @@ paths:
       tags:
         - Accounting
       operationId: getPurchaseOrders
-      summary: Allows you to retrieve purchase orders
+      summary: Retrieves purchase orders
       parameters:
         - $ref: '#/components/parameters/ifModifiedSince'
         - in: query
@@ -14459,10 +14451,10 @@ paths:
       tags:
         - Accounting
       operationId: createPurchaseOrders
-      summary: Allows you to create one or more purchase orders
+      summary: Creates one or more purchase orders
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ purchaseOrders: [{ contact: { contactID: "00000000-0000-0000-000-000000000000" }, lineItems: [{ description: "Foobar", quantity: 1.0, unitAmount: 20.0, accountCode: "710" }], date: "2019-03-13" }]}'
-      x-ruby-requestBody: 'purchase_orders = { purchase_orders: [{ contact: { contact_id: "00000000-0000-0000-000-000000000000" }, line_items: [{ description: "Foobar", quantity: 1.0, unitAmount: 20.0, account_code: "710" }], date: "2019-03-13" }]}'
+      x-node-requestBody: '{ purchaseOrders: [{ contact: { contactID: "00000000-0000-0000-0000-000000000000" }, lineItems: [{ description: "Foobar", quantity: 1.0, unitAmount: 20.0, accountCode: "710" }], date: "2019-03-13" }]}'
+      x-ruby-requestBody: 'purchase_orders = { purchase_orders: [{ contact: { contact_id: "00000000-0000-0000-0000-000000000000" }, line_items: [{ description: "Foobar", quantity: 1.0, unitAmount: 20.0, account_code: "710" }], date: "2019-03-13" }]}'
       x-example:
         - dateValue:
           is_date: true
@@ -14484,7 +14476,7 @@ paths:
           key: contactId
           keyPascal: ContactID
           keySnake: contact_id
-          default: 00000000-0000-0000-000-000000000000
+          default: 00000000-0000-0000-0000-000000000000
           object: contact
         - lineItem:
           is_object: true
@@ -14702,7 +14694,7 @@ paths:
                           "PurchaseOrders": [
                             {
                               "Contact": {
-                                "ContactID": "00000000-0000-0000-000-000000000000"
+                                "ContactID": "00000000-0000-0000-0000-000000000000"
                               },
                               "LineItems": [
                                 {
@@ -14722,10 +14714,10 @@ paths:
       tags:
         - Accounting
       operationId: updateOrCreatePurchaseOrders
-      summary: Allows you to update or create one or more purchase orders
+      summary: Updates or creates one or more purchase orders
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ purchaseOrders: [ { contact: { contactID: "00000000-0000-0000-000-000000000000" }, lineItems: [{ description: "Foobar", quantity: 1.0, unitAmount: 20.0, accountCode: "710" }], date: "2019-03-13" }]}'
-      x-ruby-requestBody: 'purchase_orders = { purchase_orders: [{ contact: { contact_id: "00000000-0000-0000-000-000000000000" }, line_items: [{ description: "Foobar", quantity: 1.0, unitAmount: 20.0, accountCode: "710" }], date: "2019-03-13" }]}'
+      x-node-requestBody: '{ purchaseOrders: [ { contact: { contactID: "00000000-0000-0000-0000-000000000000" }, lineItems: [{ description: "Foobar", quantity: 1.0, unitAmount: 20.0, accountCode: "710" }], date: "2019-03-13" }]}'
+      x-ruby-requestBody: 'purchase_orders = { purchase_orders: [{ contact: { contact_id: "00000000-0000-0000-0000-000000000000" }, line_items: [{ description: "Foobar", quantity: 1.0, unitAmount: 20.0, accountCode: "710" }], date: "2019-03-13" }]}'
       x-example:
         - dateValue:
           is_date: true
@@ -14747,7 +14739,7 @@ paths:
           key: contactId
           keyPascal: ContactID
           keySnake: contact_id
-          default: 00000000-0000-0000-000-000000000000
+          default: 00000000-0000-0000-0000-000000000000
           object: contact
         - lineItem:
           is_object: true
@@ -14964,7 +14956,7 @@ paths:
                           "PurchaseOrders": [
                             {
                               "Contact": {
-                                "ContactID": "00000000-0000-0000-000-000000000000"
+                                "ContactID": "00000000-0000-0000-0000-000000000000"
                               },
                               "LineItems": [
                                 {
@@ -14988,13 +14980,13 @@ paths:
         - Accounting
       operationId: getPurchaseOrderAsPdf
       x-path: '/PurchaseOrders/{PurchaseOrderID}'
-      summary: Allows you to retrieve purchase orders as PDF files
+      summary: Retrieves specific purchase order as PDF files using a unique purchase order Id
       parameters:
         - required: true
           in: path
           name: PurchaseOrderID
           description: Unique identifier for an Purchase Order
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -15015,13 +15007,13 @@ paths:
       tags:
         - Accounting
       operationId: getPurchaseOrder
-      summary: Allows you to retrieve a specified purchase orders
+      summary: Retrieves a specific purchase order using a unique purchase order Id
       parameters:
         - required: true
           in: path
           name: PurchaseOrderID
           description: Unique identifier for a PurchaseOrder
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -15163,7 +15155,7 @@ paths:
       tags:
         - Accounting
       operationId: updatePurchaseOrder
-      summary: Allows you to update a specified purchase order
+      summary: Updates a specific purchase order
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ purchaseOrders:[ { attentionTo: "Peter Parker", lineItems: [], contact: {} }]}'
       x-ruby-requestBody: 'purchase_orders = { purchase_orders: [ { attention_to: "Peter Parker", line_items: [], contact: {} }]}'
@@ -15197,7 +15189,7 @@ paths:
           in: path
           name: PurchaseOrderID
           description: Unique identifier for a PurchaseOrder
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -15332,7 +15324,7 @@ paths:
       tags:
         - Accounting
       operationId: getPurchaseOrderByNumber
-      summary: Allows you to retrieve a specified purchase orders
+      summary: Retrieves a specific purchase order using purchase order number
       parameters:
         - required: true
           in: path
@@ -15482,13 +15474,13 @@ paths:
       tags:
         - Accounting
       operationId: getPurchaseOrderHistory
-      summary: Allows you to retrieve history for PurchaseOrder
+      summary: Retrieves history for a specific purchase order
       parameters:
         - required: true
           in: path
           name: PurchaseOrderID
           description: Unique identifier for a PurchaseOrder
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -15501,7 +15493,7 @@ paths:
       tags:
         - Accounting
       operationId: createPurchaseOrderHistory
-      summary: Allows you to create HistoryRecord for purchase orders
+      summary: Creates a history record for a specific purchase orders
       x-hasAccountingValidationError: true
       x-example:
         - historyRecord:
@@ -15534,7 +15526,7 @@ paths:
           in: path
           name: PurchaseOrderID
           description: Unique identifier for a PurchaseOrder
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -15554,13 +15546,13 @@ paths:
       tags:
         - Accounting
       operationId: getPurchaseOrderAttachments
-      summary: Allows you to retrieve attachments for purchase orders
+      summary: Retrieves attachments for a specific purchase order
       parameters:
         - required: true
           in: path
           name: PurchaseOrderID
           description: Unique identifier for Purchase Orders object
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -15610,13 +15602,13 @@ paths:
       tags:
         - Accounting
       operationId: getPurchaseOrderAttachmentById
-      summary: Allows you to retrieve specific Attachment on purchase order
+      summary: Retrieves specific attachment for a specific purchase order using a unique attachment Id
       parameters:
         - required: true
           in: path
           name: PurchaseOrderID
           description: Unique identifier for Purchase Order object
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -15624,7 +15616,7 @@ paths:
           in: path
           name: AttachmentID
           description: Unique identifier for Attachment object
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -15652,13 +15644,13 @@ paths:
       tags:
         - Accounting
       operationId: getPurchaseOrder≠AttachmentByFileName
-      summary: Allows you to retrieve Attachment on a Purchase Order by Filename
+      summary: Retrieves a specific attachment for a specific purchase order by filename
       parameters:
         - required: true
           in: path
           name: PurchaseOrderID
           description: Unique identifier for Purchase Order object
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -15691,13 +15683,13 @@ paths:
         - Accounting
       operationId: updatePurchaseOrderAttachmentByFileName
       x-hasAccountingValidationError: true
-      summary: Allows you to update Attachment on Purchase Order by Filename
+      summary: Updates a specific attachment for a specific purchase order by filename
       parameters:
         - required: true
           in: path
           name: PurchaseOrderID
           description: Unique identifier for Purchase Order object
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -15752,13 +15744,13 @@ paths:
         - Accounting
       operationId: createPurchaseOrderAttachmentByFileName
       x-hasAccountingValidationError: true
-      summary: Allows you to create Attachment on Purchase Order
+      summary: Creates attachment for a specific purchase order
       parameters:
         - required: true
           in: path
           name: PurchaseOrderID
           description: Unique identifier for Purchase Order object
-          example: 00000000-0000-0000-000-000000000000
+          example: 00000000-0000-0000-0000-000000000000
           schema:
             type: string
             format: uuid
@@ -15811,7 +15803,7 @@ paths:
       tags:
         - Accounting
       operationId: getQuotes
-      summary: Allows you to retrieve any sales quotes
+      summary: Retrieves sales quotes
       parameters:
         - $ref: '#/components/parameters/ifModifiedSince'
         - in: query
@@ -15841,7 +15833,7 @@ paths:
         - in: query
           name: ContactID
           description: Filter for quotes belonging to a particular contact
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -15938,10 +15930,10 @@ paths:
       tags:
         - Accounting
       operationId: createQuotes
-      summary: Allows you to create one or more quotes
+      summary: Create one or more quotes
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ quotes: [{ contact: { contactID: "00000000-0000-0000-000-000000000000" }, lineItems: [{ description: "Foobar", quantity: 1.0, unitAmount: 20.0, accountCode: "12775" }], date: "2020-02-01" }]}'
-      x-ruby-requestBody: 'quotes = { quotes: [{ contact: { contact_id: "00000000-0000-0000-000-000000000000" }, line_items: [{ description: "Foobar", quantity: 1.0, unit_amount: 20.0, account_code: "12775" }], date: "2020-02-01" }]}'
+      x-node-requestBody: '{ quotes: [{ contact: { contactID: "00000000-0000-0000-0000-000000000000" }, lineItems: [{ description: "Foobar", quantity: 1.0, unitAmount: 20.0, accountCode: "12775" }], date: "2020-02-01" }]}'
+      x-ruby-requestBody: 'quotes = { quotes: [{ contact: { contact_id: "00000000-0000-0000-0000-000000000000" }, line_items: [{ description: "Foobar", quantity: 1.0, unit_amount: 20.0, account_code: "12775" }], date: "2020-02-01" }]}'
       x-example:
         - dateValue:
           is_date: true
@@ -15963,7 +15955,7 @@ paths:
           key: contactId
           keyPascal: ContactID
           keySnake: contact_id
-          default: 00000000-0000-0000-000-000000000000
+          default: 00000000-0000-0000-0000-000000000000
           object: contact
         - lineItem:
           is_object: true
@@ -16115,7 +16107,7 @@ paths:
                           "Quotes": [
                             {
                               "Contact": {
-                                "ContactID": "00000000-0000-0000-000-000000000000"
+                                "ContactID": "00000000-0000-0000-0000-000000000000"
                               },
                               "LineItems": [
                                 {
@@ -16135,10 +16127,10 @@ paths:
       tags:
         - Accounting
       operationId: updateOrCreateQuotes
-      summary: Allows you to update OR create one or more quotes
+      summary: Updates or creates one or more quotes
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ quotes: [{ contact: { contactID: "00000000-0000-0000-000-000000000000" }, lineItems: [{ description: "Foobar", quantity: 1.0, unitAmount: 20.0, accountCode: "12775" }], date: "2020-02-01" }]}'
-      x-ruby-requestBody: 'quotes = { quotes: [{ contact: { contact_id: "00000000-0000-0000-000-000000000000" }, line_items: [{ description: "Foobar", quantity: 1.0, unit_amount: 20.0, account_code: "12775" }], date: "2020-02-01" }]}'
+      x-node-requestBody: '{ quotes: [{ contact: { contactID: "00000000-0000-0000-0000-000000000000" }, lineItems: [{ description: "Foobar", quantity: 1.0, unitAmount: 20.0, accountCode: "12775" }], date: "2020-02-01" }]}'
+      x-ruby-requestBody: 'quotes = { quotes: [{ contact: { contact_id: "00000000-0000-0000-0000-000000000000" }, line_items: [{ description: "Foobar", quantity: 1.0, unit_amount: 20.0, account_code: "12775" }], date: "2020-02-01" }]}'
       x-example:
         - dateValue:
           is_date: true
@@ -16160,7 +16152,7 @@ paths:
           key: contactId
           keyPascal: ContactID
           keySnake: contact_id
-          default: 00000000-0000-0000-000-000000000000
+          default: 00000000-0000-0000-0000-000000000000
           object: contact
         - lineItem:
           is_object: true
@@ -16311,7 +16303,7 @@ paths:
                           "Quotes": [
                             {
                               "Contact": {
-                                "ContactID": "00000000-0000-0000-000-000000000000"
+                                "ContactID": "00000000-0000-0000-0000-000000000000"
                               },
                               "LineItems": [
                                 {
@@ -16334,13 +16326,13 @@ paths:
       tags:
         - Accounting
       operationId: getQuote
-      summary: Allows you to retrieve a specified quote
+      summary: Retrieves a specific quote using a unique quote Id
       parameters:
         - required: true
           in: path
           name: QuoteID
           description: Unique identifier for an Quote
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -16416,10 +16408,10 @@ paths:
       tags:
         - Accounting
       operationId: updateQuote
-      summary: Allows you to update a specified quote
+      summary: Updates a specific quote
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ quotes: [{ reference: "I am an update", contact: { contactID: "00000000-0000-0000-000-000000000000" }, date: "2020-02-01" }]}'
-      x-ruby-requestBody: 'quotes = { quotes: [{ reference: "I am an update", contact: { contact_id: "00000000-0000-0000-000-000000000000" }, date: "2020-02-01" }]}'
+      x-node-requestBody: '{ quotes: [{ reference: "I am an update", contact: { contactID: "00000000-0000-0000-0000-000000000000" }, date: "2020-02-01" }]}'
+      x-ruby-requestBody: 'quotes = { quotes: [{ reference: "I am an update", contact: { contact_id: "00000000-0000-0000-0000-000000000000" }, date: "2020-02-01" }]}'
       x-example:
         - dateValue:
           is_date: true
@@ -16441,7 +16433,7 @@ paths:
           key: contactId
           keyPascal: ContactID
           keySnake: contact_id
-          default: 00000000-0000-0000-000-000000000000
+          default: 00000000-0000-0000-0000-000000000000
           object: contact
         - quote:
           is_object: true
@@ -16484,7 +16476,7 @@ paths:
           in: path
           name: QuoteID
           description: Unique identifier for an Quote
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -16551,7 +16543,7 @@ paths:
                             {
                               "Reference": "I am an update",
                               "Contact": {
-                                "ContactID": "00000000-0000-0000-000-000000000000"
+                                "ContactID": "00000000-0000-0000-0000-000000000000"
                               },
                               "Date": "2020-02-01"
                             }
@@ -16566,13 +16558,13 @@ paths:
       tags:
         - Accounting
       operationId: getQuoteHistory
-      summary: Allows you to retrieve a history records of an quote
+      summary: Retrieves history records of a specific quote
       parameters:
         - required: true
           in: path
           name: QuoteID
           description: Unique identifier for an Quote
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -16585,7 +16577,7 @@ paths:
       tags:
         - Accounting
       operationId: createQuoteHistory
-      summary: Allows you to retrieve a history records of an quote
+      summary: Creates a history record for a specific quote
       x-hasAccountingValidationError: true
       x-example:
         - historyRecord:
@@ -16618,7 +16610,7 @@ paths:
           in: path
           name: QuoteID
           description: Unique identifier for an Quote
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -16639,13 +16631,13 @@ paths:
         - Accounting
       operationId: getQuoteAsPdf
       x-path: '/Quotes/{QuoteID}'
-      summary: Allows you to retrieve quotes as PDF files
+      summary: Retrieves a specific quote as a PDF file using a unique quote Id
       parameters:
         - required: true
           in: path
           name: QuoteID
           description: Unique identifier for an Quote
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -16666,13 +16658,13 @@ paths:
       tags:
         - Accounting
       operationId: getQuoteAttachments
-      summary: Allows you to retrieve Attachments for Quotes
+      summary: Retrieves attachments for a specific quote
       parameters:
         - required: true
           in: path
           name: QuoteID
           description: Unique identifier for Quote object
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -16708,13 +16700,13 @@ paths:
       tags:
         - Accounting
       operationId: getQuoteAttachmentById
-      summary: Allows you to retrieve specific Attachment on Quote
+      summary: Retrieves a specific attachment from a specific quote using a unique attachment Id
       parameters:
         - required: true
           in: path
           name: QuoteID
           description: Unique identifier for Quote object
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -16722,7 +16714,7 @@ paths:
           in: path
           name: AttachmentID
           description: Unique identifier for Attachment object
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -16750,13 +16742,13 @@ paths:
       tags:
         - Accounting
       operationId: getQuoteAttachmentByFileName
-      summary: Allows you to retrieve Attachment on Quote by Filename
+      summary: Retrieves a specific attachment from a specific quote by filename
       parameters:
         - required: true
           in: path
           name: QuoteID
           description: Unique identifier for Quote object
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -16789,13 +16781,13 @@ paths:
         - Accounting
       operationId: updateQuoteAttachmentByFileName
       x-hasAccountingValidationError: true
-      summary: Allows you to update Attachment on Quote by Filename
+      summary: Updates a specific attachment from a specific quote by filename
       parameters:
         - required: true
           in: path
           name: QuoteID
           description: Unique identifier for Quote object
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -16850,13 +16842,13 @@ paths:
         - Accounting
       operationId: createQuoteAttachmentByFileName
       x-hasAccountingValidationError: true
-      summary: Allows you to create Attachment on Quote
+      summary: Creates attachment for a specific quote
       parameters:
         - required: true
           in: path
           name: QuoteID
           description: Unique identifier for Quote object
-          example: 00000000-0000-0000-000-000000000000
+          example: 00000000-0000-0000-0000-000000000000
           schema:
             type: string
             format: uuid
@@ -16900,7 +16892,6 @@ paths:
             schema:
               type: string
               format: byte
-  
   /Receipts:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -16910,7 +16901,7 @@ paths:
       tags:
         - Accounting
       operationId: getReceipts
-      summary: Allows you to retrieve draft expense claim receipts for any user
+      summary: Retrieves draft expense claim receipts for any user
       parameters:
         - $ref: '#/components/parameters/ifModifiedSince'
         - in: query
@@ -16989,10 +16980,10 @@ paths:
       tags:
         - Accounting
       operationId: createReceipt
-      summary: Allows you to create draft expense claim receipts for any user
+      summary: Creates draft expense claim receipts for any user
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ receipts: [{ contact: { contactID: "00000000-0000-0000-000-000000000000" }, lineItems: [{ description: "Foobar", quantity: 2.0, unitAmount: 20.0, accountCode: "400", taxType: TaxType.NONE, lineAmount: 40.0 }], user: { userID: "00000000-0000-0000-000-000000000000" }, lineAmountTypes: LineAmountTypes.Inclusive, status: Receipt.StatusEnum.DRAFT, date: null} ] }'
-      x-ruby-requestBody: 'receipts = { receipts: [ { contact: { contact_id: "00000000-0000-0000-000-000000000000" }, line_items: [{ description: "Foobar", quantity: 2.0, unit_amount: 20.0, account_code: "400", tax_type: XeroRuby::Accounting::TaxType::NONE, line_amount: 40.0 }], user: { user_id: "00000000-0000-0000-000-000000000000" }, line_amount_types: XeroRuby::Accounting::INCLUSIVE, status: XeroRuby::Accounting::Receipt::DRAFT, date: nil }]}'
+      x-node-requestBody: '{ receipts: [{ contact: { contactID: "00000000-0000-0000-0000-000000000000" }, lineItems: [{ description: "Foobar", quantity: 2.0, unitAmount: 20.0, accountCode: "400", taxType: TaxType.NONE, lineAmount: 40.0 }], user: { userID: "00000000-0000-0000-0000-000000000000" }, lineAmountTypes: LineAmountTypes.Inclusive, status: Receipt.StatusEnum.DRAFT, date: null} ] }'
+      x-ruby-requestBody: 'receipts = { receipts: [ { contact: { contact_id: "00000000-0000-0000-0000-000000000000" }, line_items: [{ description: "Foobar", quantity: 2.0, unit_amount: 20.0, account_code: "400", tax_type: XeroRuby::Accounting::TaxType::NONE, line_amount: 40.0 }], user: { user_id: "00000000-0000-0000-0000-000000000000" }, line_amount_types: XeroRuby::Accounting::INCLUSIVE, status: XeroRuby::Accounting::Receipt::DRAFT, date: nil }]}'
       x-example:
         - contact:
           is_object: true
@@ -17004,7 +16995,7 @@ paths:
           key: contactId
           keyPascal: ContactID
           keySnake: contact_id
-          default: 00000000-0000-0000-000-000000000000
+          default: 00000000-0000-0000-0000-000000000000
           object: contact
         - user:
           is_object: true
@@ -17016,7 +17007,7 @@ paths:
           key: userID
           keyPascal: UserID
           keySnake: user_id
-          default: 00000000-0000-0000-000-000000000000
+          default: 00000000-0000-0000-0000-000000000000
           object: user
         - lineItem:
           is_object: true
@@ -17252,7 +17243,7 @@ paths:
                         "Receipts": [
                           {
                             "Contact": {
-                              "ContactID": "00000000-0000-0000-000-000000000000"
+                              "ContactID": "00000000-0000-0000-0000-000000000000"
                             },
                             "Lineitems": [
                               {
@@ -17265,7 +17256,7 @@ paths:
                               }
                             ],
                             "User": {
-                              "UserID": "00000000-0000-0000-000-000000000000"
+                              "UserID": "00000000-0000-0000-0000-000000000000"
                             },
                             "LineAmountTypes": "NoTax",
                             "Status": "DRAFT"
@@ -17281,13 +17272,13 @@ paths:
       tags:
         - Accounting
       operationId: getReceipt
-      summary: Allows you to retrieve a specified draft expense claim receipts
+      summary: Retrieves a specific draft expense claim receipt by using a unique receipt Id
       parameters:
         - required: true
           in: path
           name: ReceiptID
           description: Unique identifier for a Receipt
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -17423,10 +17414,10 @@ paths:
       tags:
         - Accounting
       operationId: updateReceipt
-      summary: Allows you to retrieve a specified draft expense claim receipts
+      summary: Updates a specific draft expense claim receipts
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ receipts: [{ user: { userID: "00000000-0000-0000-000-000000000000" }, reference: "Foobar", date: "2020-01-01", contact: {}, lineItems: [] }]}'
-      x-ruby-requestBody: 'receipts = { receipts: [{ user: { user_id: "00000000-0000-0000-000-000000000000" }, reference: "Foobar", date: "2020-01-01", contact: {}, line_items: [] }]}'
+      x-node-requestBody: '{ receipts: [{ user: { userID: "00000000-0000-0000-0000-000000000000" }, reference: "Foobar", date: "2020-01-01", contact: {}, lineItems: [] }]}'
+      x-ruby-requestBody: 'receipts = { receipts: [{ user: { user_id: "00000000-0000-0000-0000-000000000000" }, reference: "Foobar", date: "2020-01-01", contact: {}, line_items: [] }]}'
       x-example:
         - dateValue:
           is_date: true
@@ -17447,7 +17438,7 @@ paths:
           key: userID
           keyPascal: UserID
           keySnake: user_id
-          default: 00000000-0000-0000-000-000000000000
+          default: 00000000-0000-0000-0000-000000000000
           object: user
         - receipt:
           is_object: true
@@ -17489,7 +17480,7 @@ paths:
           in: path
           name: ReceiptID
           description: Unique identifier for a Receipt
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -17615,7 +17606,7 @@ paths:
                             {
                               "Lineitems": [],
                               "User": {
-                                "UserID": "00000000-0000-0000-000-000000000000"
+                                "UserID": "00000000-0000-0000-0000-000000000000"
                               },
                               "Reference": "Foobar"
                             }
@@ -17630,13 +17621,13 @@ paths:
       tags:
         - Accounting
       operationId: getReceiptAttachments
-      summary: Allows you to retrieve Attachments for expense claim receipts
+      summary: Retrieves attachments for a specific expense claim receipt
       parameters:
         - required: true
           in: path
           name: ReceiptID
           description: Unique identifier for a Receipt
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -17672,13 +17663,13 @@ paths:
       tags:
         - Accounting
       operationId: getReceiptAttachmentById
-      summary: Allows you to retrieve Attachments on expense claim receipts by ID
+      summary: Retrieves a specific attachments from a specific expense claim receipts by using a unique attachment Id
       parameters:
         - required: true
           in: path
           name: ReceiptID
           description: Unique identifier for a Receipt
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -17686,7 +17677,7 @@ paths:
           in: path
           name: AttachmentID
           description: Unique identifier for a Attachment
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -17714,13 +17705,13 @@ paths:
       tags:
         - Accounting
       operationId: getReceiptAttachmentByFileName
-      summary: Allows you to retrieve Attachments on expense claim receipts by file name
+      summary: Retrieves a specific attachment from a specific expense claim receipts by file name
       parameters:
         - required: true
           in: path
           name: ReceiptID
           description: Unique identifier for a Receipt
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -17753,13 +17744,13 @@ paths:
         - Accounting
       operationId: updateReceiptAttachmentByFileName
       x-hasAccountingValidationError: true
-      summary: Allows you to update Attachment on expense claim receipts by file name
+      summary: Updates a specific attachment on a specific expense claim receipts by file name
       parameters:
         - required: true
           in: path
           name: ReceiptID
           description: Unique identifier for a Receipt
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -17810,13 +17801,13 @@ paths:
         - Accounting
       operationId: createReceiptAttachmentByFileName
       x-hasAccountingValidationError: true
-      summary: Allows you to create Attachment on expense claim receipts by file name
+      summary: Creates an attachment on a specific expense claim receipts by file name
       parameters:
         - required: true
           in: path
           name: ReceiptID
           description: Unique identifier for a Receipt
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -17869,13 +17860,13 @@ paths:
       tags:
         - Accounting
       operationId: getReceiptHistory
-      summary: Allows you to retrieve a history records of an Receipt
+      summary: Retrieves a history record for a specific receipt
       parameters:
         - required: true
           in: path
           name: ReceiptID
           description: Unique identifier for a Receipt
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -17888,7 +17879,7 @@ paths:
       tags:
         - Accounting
       operationId: createReceiptHistory
-      summary: Allows you to retrieve a history records of an Receipt
+      summary: Creates a history record for a specific receipt
       x-hasAccountingValidationError: true
       x-example:
         - historyRecord:
@@ -17921,7 +17912,7 @@ paths:
           in: path
           name: ReceiptID
           description: Unique identifier for a Receipt
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -17962,7 +17953,7 @@ paths:
       tags:
         - Accounting
       operationId: getRepeatingInvoices
-      summary: Allows you to retrieve any repeating invoices
+      summary: Retrieves repeating invoices
       parameters:
         - in: query
           name: where
@@ -18048,13 +18039,13 @@ paths:
       tags:
         - Accounting
       operationId: getRepeatingInvoice
-      summary: Allows you to retrieve a specified repeating invoice
+      summary: Retrieves a specific repeating invoice by using a unique repeating invoice Id
       parameters:
         - required: true
           in: path
           name: RepeatingInvoiceID
           description: Unique identifier for a Repeating Invoice
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -18150,13 +18141,13 @@ paths:
       tags:
         - Accounting
       operationId: getRepeatingInvoiceAttachments
-      summary: Allows you to retrieve Attachments on repeating invoice
+      summary: Retrieves attachments from a specific repeating invoice
       parameters:
         - required: true
           in: path
           name: RepeatingInvoiceID
           description: Unique identifier for a Repeating Invoice
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -18206,13 +18197,13 @@ paths:
       tags:
         - Accounting
       operationId: getRepeatingInvoiceAttachmentById
-      summary: Allows you to retrieve a specified Attachments on repeating invoices
+      summary: Retrieves a specific attachment from a specific repeating invoice
       parameters:
         - required: true
           in: path
           name: RepeatingInvoiceID
           description: Unique identifier for a Repeating Invoice
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -18220,7 +18211,7 @@ paths:
           in: path
           name: AttachmentID
           description: Unique identifier for a Attachment
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -18248,13 +18239,13 @@ paths:
       tags:
         - Accounting
       operationId: getRepeatingInvoiceAttachmentByFileName
-      summary: Allows you to retrieve specified attachment on repeating invoices by file name
+      summary: Retrieves a specific attachment from a specific repeating invoices by file name
       parameters:
         - required: true
           in: path
           name: RepeatingInvoiceID
           description: Unique identifier for a Repeating Invoice
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -18287,13 +18278,13 @@ paths:
         - Accounting
       operationId: updateRepeatingInvoiceAttachmentByFileName
       x-hasAccountingValidationError: true
-      summary: Allows you to update specified attachment on repeating invoices by file name
+      summary: Updates a specific attachment from a specific repeating invoices by file name
       parameters:
         - required: true
           in: path
           name: RepeatingInvoiceID
           description: Unique identifier for a Repeating Invoice
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -18344,13 +18335,13 @@ paths:
         - Accounting
       operationId: createRepeatingInvoiceAttachmentByFileName
       x-hasAccountingValidationError: true
-      summary: Allows you to create attachment on repeating invoices by file name
+      summary: Creates an attachment from a specific repeating invoices by file name
       parameters:
         - required: true
           in: path
           name: RepeatingInvoiceID
           description: Unique identifier for a Repeating Invoice
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -18403,13 +18394,13 @@ paths:
       tags:
         - Accounting
       operationId: getRepeatingInvoiceHistory
-      summary: Allows you to retrieve history for a repeating invoice
+      summary: Retrieves history record for a specific repeating invoice
       parameters:
         - required: true
           in: path
           name: RepeatingInvoiceID
           description: Unique identifier for a Repeating Invoice
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -18422,7 +18413,7 @@ paths:
       tags:
         - Accounting
       operationId: createRepeatingInvoiceHistory
-      summary: Allows you to create history for a repeating invoice
+      summary: Creates a  history record for a specific repeating invoice
       x-hasAccountingValidationError: true
       x-example:
         - historyRecord:
@@ -18455,7 +18446,7 @@ paths:
           in: path
           name: RepeatingInvoiceID
           description: Unique identifier for a Repeating Invoice
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -18475,7 +18466,7 @@ paths:
       tags:
         - Accounting
       operationId: getReportTenNinetyNine
-      summary: Allows you to retrieve report for TenNinetyNine
+      summary: Retrieve reports for 1099
       parameters:
         - in: query
           name: reportYear
@@ -18586,13 +18577,13 @@ paths:
       tags:
         - Accounting
       operationId: getReportAgedPayablesByContact
-      summary: Allows you to retrieve report for AgedPayablesByContact
+      summary: Retrieves report for aged payables by contact
       parameters:
         - in: query
           required: true
           name: contactId
           description: Unique identifier for a Contact
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -18865,13 +18856,13 @@ paths:
       tags:
         - Accounting
       operationId: getReportAgedReceivablesByContact
-      summary: Allows you to retrieve report for AgedReceivablesByContact
+      summary: Retrieves report for aged receivables by contact
       parameters:
         - in: query
           required: true
           name: contactId
           description: Unique identifier for a Contact
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -19221,7 +19212,7 @@ paths:
       tags:
         - Accounting
       operationId: getReportBalanceSheet
-      summary: Allows you to retrieve report for BalanceSheet
+      summary: Retrieves report for balancesheet
       parameters:
         - in: query
           name: date
@@ -19249,13 +19240,13 @@ paths:
         - in: query
           name: trackingOptionID1
           description: The tracking option 1 for the Balance Sheet report
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
         - in: query
           name: trackingOptionID2
           description: The tracking option 2 for the Balance Sheet report
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
         - in: query
@@ -19782,7 +19773,7 @@ paths:
                                         "Value": "Current Year Earnings",
                                         "Attributes": [
                                           {
-                                            "Value": "00000000-0000-0000-000-000000000000",
+                                            "Value": "00000000-0000-0000-0000-000000000000",
                                             "Id": "account"
                                           }
                                         ]
@@ -19791,7 +19782,7 @@ paths:
                                         "Value": "114.62",
                                         "Attributes": [
                                           {
-                                            "Value": "00000000-0000-0000-000-000000000000",
+                                            "Value": "00000000-0000-0000-0000-000000000000",
                                             "Id": "account"
                                           },
                                           {
@@ -19808,7 +19799,7 @@ paths:
                                         "Value": "156621.67",
                                         "Attributes": [
                                           {
-                                            "Value": "00000000-0000-0000-000-000000000000",
+                                            "Value": "00000000-0000-0000-0000-000000000000",
                                             "Id": "account"
                                           },
                                           {
@@ -19825,7 +19816,7 @@ paths:
                                         "Value": "500.00",
                                         "Attributes": [
                                           {
-                                            "Value": "00000000-0000-0000-000-000000000000",
+                                            "Value": "00000000-0000-0000-0000-000000000000",
                                             "Id": "account"
                                           },
                                           {
@@ -20019,7 +20010,7 @@ paths:
       tags:
         - Accounting
       operationId: getReportBankSummary
-      summary: Allows you to retrieve report for BankSummary
+      summary: Retrieves report for bank summary
       parameters:
         - in: query
           name: fromDate
@@ -20158,7 +20149,7 @@ paths:
       tags:
         - Accounting
       operationId: getReportBASorGSTList
-      summary: Allows you to retrieve report for BAS only valid for AU orgs
+      summary: Retrieves report for BAS (only valid for AU orgs)
       responses:
         '200':
           description: Success - return response of type ReportWithRows
@@ -20175,13 +20166,13 @@ paths:
       tags:
         - Accounting
       operationId: getReportBASorGST
-      summary: Allows you to retrieve report for BAS only valid for AU orgs
+      summary: Retrieves a specific report for BAS using a unique report Id (only valid for AU orgs)
       parameters:
         - in: path
           required: true
           name: ReportID
           description: Unique identifier for a Report
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
       responses:
@@ -20200,7 +20191,7 @@ paths:
       tags:
         - Accounting
       operationId: getReportBudgetSummary
-      summary: Allows you to retrieve report for Budget Summary
+      summary: Retrieves report for budget summary
       parameters:
         - in: query
           name: date
@@ -20455,7 +20446,7 @@ paths:
       tags:
         - Accounting
       operationId: getReportExecutiveSummary
-      summary: Allows you to retrieve report for ExecutiveSummary
+      summary: Retrieves report for executive summary
       parameters:
         - in: query
           name: date
@@ -20947,7 +20938,7 @@ paths:
       tags:
         - Accounting
       operationId: getReportProfitAndLoss
-      summary: Allows you to retrieve report for ProfitAndLoss
+      summary: Retrieves report for profit and loss
       parameters:
         - in: query
           name: fromDate
@@ -20982,25 +20973,25 @@ paths:
         - in: query
           name: trackingCategoryID
           description: The trackingCategory 1 for the ProfitAndLoss report 
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
         - in: query
           name: trackingCategoryID2
           description: The trackingCategory 2 for the ProfitAndLoss report 
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
         - in: query
           name: trackingOptionID
           description: The tracking option 1 for the ProfitAndLoss report 
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
         - in: query
           name: trackingOptionID2
           description: The tracking option 2 for the ProfitAndLoss report 
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
         - in: query
@@ -21031,7 +21022,7 @@ paths:
       tags:
         - Accounting
       operationId: getReportTrialBalance
-      summary: Allows you to retrieve report for TrialBalance
+      summary: Retrieves report for trial balance
       parameters:
         - in: query
           name: date
@@ -22143,7 +22134,7 @@ paths:
       tags:
         - Accounting
       operationId: postSetup
-      summary: Allows you to set the chart of accounts, the conversion date and conversion balances
+      summary: Sets the chart of accounts, the conversion date and conversion balances
       x-example:
         - account:
           is_object: true
@@ -22312,7 +22303,7 @@ paths:
       tags:
         - Accounting
       operationId: getTaxRates
-      summary: Allows you to retrieve Tax Rates
+      summary: Retrieves tax rates
       parameters:
         - in: query
           name: where
@@ -22461,7 +22452,7 @@ paths:
       tags:
         - Accounting
       operationId: createTaxRates
-      summary: Allows you to create one or more Tax Rates      
+      summary: Creates one or more tax rates      
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ taxRates: [{ name: "CA State Tax", taxComponents: [{ name: "State Tax", rate: 2.25 }]}]}'
       x-ruby-requestBody: 'tax_rates = { tax_rates: [{ name: "CA State Tax", tax_components: [{ name: "State Tax", rate: 2.25 }]}]}'
@@ -22579,7 +22570,7 @@ paths:
       tags:
         - Accounting
       operationId: updateTaxRate
-      summary: Allows you to update Tax Rates
+      summary: Updates tax rates
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ taxRates: [{ name: "State Tax NY", taxComponents: [{ name: "State Tax", rate: 2.25 }], status: TaxRate.StatusEnum.DELETED, reportTaxType: TaxRate.ReportTaxTypeEnum.INPUT }]}'
       x-ruby-requestBody: 'tax_rates = { tax_rates: [{ name: "State Tax NY", tax_components: [{ name: "State Tax", rate: 2.25 }], status: XeroRuby::Accounting::TaxRate::Deleted, report_tax_type: XeroRuby::Accounting::TaxRate::INPUT }]}'
@@ -22701,7 +22692,7 @@ paths:
       tags:
         - Accounting
       operationId: getTrackingCategories
-      summary: Allows you to retrieve tracking categories and options
+      summary: Retrieves tracking categories and options
       parameters:
         - in: query
           name: where
@@ -22756,7 +22747,7 @@ paths:
       tags:
         - Accounting
       operationId: createTrackingCategory
-      summary: Allows you to create tracking categories
+      summary: Create tracking categories
       x-hasAccountingValidationError: true
       x-example:
         - trackingCategory:
@@ -22809,13 +22800,13 @@ paths:
       tags:
         - Accounting
       operationId: getTrackingCategory
-      summary: Allows you to retrieve tracking categories and options for specified category
+      summary: Retrieves specific tracking categories and options using a unique tracking category Id
       parameters:
         - required: true
           in: path
           name: TrackingCategoryID
           description: Unique identifier for a TrackingCategory
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -22846,7 +22837,7 @@ paths:
       tags:
         - Accounting
       operationId: updateTrackingCategory
-      summary: Allows you to update tracking categories
+      summary: Updates a specific tracking category
       x-hasAccountingValidationError: true
       x-node-requestBody: '{ name: "Avengers" }'
       x-ruby-requestBody: 'tracking_categories = { name: "Avengers" }'
@@ -22866,7 +22857,7 @@ paths:
           in: path
           name: TrackingCategoryID
           description: Unique identifier for a TrackingCategory
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -22906,13 +22897,13 @@ paths:
       tags:
         - Accounting
       operationId: deleteTrackingCategory
-      summary: Allows you to delete tracking categories
+      summary: Deletes a specific tracking category
       parameters:
         - required: true
           in: path
           name: TrackingCategoryID
           description: Unique identifier for a TrackingCategory
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -22948,7 +22939,7 @@ paths:
       tags:
         - Accounting
       operationId: createTrackingOptions
-      summary: Allows you to create options for a specified tracking category
+      summary: Creates options for a specific tracking category
       x-hasAccountingValidationError: true
       x-example:
         - trackingOption:
@@ -22966,7 +22957,7 @@ paths:
           in: path
           name: TrackingCategoryID
           description: Unique identifier for a TrackingCategory
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -23013,7 +23004,7 @@ paths:
       tags:
         - Accounting
       operationId: updateTrackingOptions
-      summary: Allows you to update options for a specified tracking category
+      summary: Updates a specific option for a specific tracking category
       x-hasAccountingValidationError: true
       x-example:
         - trackingOption:
@@ -23031,7 +23022,7 @@ paths:
           in: path
           name: TrackingCategoryID
           description: Unique identifier for a TrackingCategory
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -23039,7 +23030,7 @@ paths:
           in: path
           name: TrackingOptionID
           description: Unique identifier for a Tracking Option
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -23082,13 +23073,13 @@ paths:
       tags:
         - Accounting
       operationId: deleteTrackingOptions
-      summary: Allows you to delete a specified option for a specified tracking category
+      summary: Deletes a specific option for a specific tracking category
       parameters:
         - required: true
           in: path
           name: TrackingCategoryID
           description: Unique identifier for a TrackingCategory
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -23096,7 +23087,7 @@ paths:
           in: path
           name: TrackingOptionID
           description: Unique identifier for a Tracking Option
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -23135,7 +23126,7 @@ paths:
       tags:
         - Accounting
       operationId: getUsers
-      summary: Allows you to retrieve users
+      summary: Retrieves users
       parameters:
         - $ref: '#/components/parameters/ifModifiedSince'
         - in: query
@@ -23192,13 +23183,13 @@ paths:
       tags:
         - Accounting
       operationId: getUser
-      summary: Allows you to retrieve a specified user
+      summary: Retrieves a specific user
       parameters:
         - required: true
           in: path
           name: UserID
           description: Unique identifier for a User
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
             format: uuid
@@ -23538,7 +23529,7 @@ components:
           description: The Xero identifier for an account – specified as a string following  the endpoint name   e.g. /297c2dc5-cc47-4afd-8ec8-74990b8761e9
           type: string
           format: uuid
-          example: 00000000-0000-0000-000-000000000000
+          example: 00000000-0000-0000-0000-000000000000
         Type:
           $ref: '#/components/schemas/AccountType'
           type: string
@@ -23688,7 +23679,7 @@ components:
           description: Unique ID for the file
           type: string
           format: uuid
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
         FileName:
           description: Name of the file
           type: string
@@ -23795,19 +23786,19 @@ components:
           description: Xero generated unique identifier for bank transaction
           type: string
           format: uuid
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
         PrepaymentID:
           description: Xero generated unique identifier for a Prepayment. This will be returned on BankTransactions with a Type of SPEND-PREPAYMENT or RECEIVE-PREPAYMENT
           readOnly: true
           type: string
           format: uuid
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
         OverpaymentID:
           description: Xero generated unique identifier for an Overpayment. This will be returned on BankTransactions with a Type of SPEND-OVERPAYMENT or RECEIVE-OVERPAYMENT
           readOnly: true
           type: string
           format: uuid
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
         UpdatedDateUTC:
           description: Last modified date UTC format
           type: string
@@ -23848,7 +23839,7 @@ components:
           description: LineItem unique ID
           type: string
           format: uuid
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
         Description:
           description: Description needs to be at least 1 char long. A line item with just
             a description (i.e no unit amount or quantity) can be created by
@@ -23906,7 +23897,7 @@ components:
           x-is-money: true
         RepeatingInvoiceID:
           description:  The Xero identifier for a Repeating Invoice
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
           type: string
           format: uuid
       type: object
@@ -23918,12 +23909,12 @@ components:
           description: The Xero identifier for a tracking category
           type: string
           format: uuid
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
         TrackingOptionID:
           description: The Xero identifier for a tracking category option
           type: string
           format: uuid
-          example: "00000000-0000-0000-000-000000000000"
+          example: "00000000-0000-0000-0000-000000000000"
         Name:
           description: The name of the tracking category
           maxLength: 100
@@ -24327,7 +24318,6 @@ components:
           readOnly: true
           type: string
         BrandingTheme:
-          readOnly: true
           $ref: '#/components/schemas/BrandingTheme'
         BatchPayments:
           $ref: '#/components/schemas/BatchPaymentDetails'
@@ -24625,7 +24615,6 @@ components:
           type: number
           format: double 
           example: 2.00
-          x-is-money: true
         Payments:
           description: See Payments 
           type: array

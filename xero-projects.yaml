@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: "2.8.4"
+  version: "2.8.6"
   title: Xero Projects API
   description: This is the Xero Projects API 
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
@@ -15,7 +15,7 @@ servers:
   - description: Xero API server for projects
     url: 'https://api.xero.com/projects.xro/2.0'
 paths:
-  /projects:
+  /Projects:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
@@ -23,7 +23,7 @@ paths:
         - OAuth2: [projects, projects.read]
       tags:
         - Project
-      summary: list all projects
+      summary: Retrieves all projects
       operationId: getProjects
       description: Allows you to retrieve, create and update projects.
       parameters:
@@ -153,7 +153,7 @@ paths:
         - OAuth2: [projects.create]
       tags:
         - Project
-      summary: create one or more new projects
+      summary: Create one or more new projects
       operationId: createProject
       requestBody:
         required: true
@@ -240,7 +240,7 @@ paths:
                         }'
         '400':
           $ref: '#/components/responses/400Error'
-  '/projects/{projectId}':
+  '/Projects/{projectId}':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
@@ -248,9 +248,9 @@ paths:
         - OAuth2: [projects, projects.read]
       tags:
         - Project
-      summary: Allows you to retrieve a single project
+      summary: Retrieves a single project
       operationId: getProject
-      description: Allows you to retrieve a specific project
+      description: Allows you to retrieve a specific project using the projectId
       parameters:
         - name: projectId
           in: path
@@ -335,7 +335,7 @@ paths:
         - OAuth2: [projects.create]
       tags:
         - Project
-      summary: update a specific project
+      summary: Updates a specific project
       operationId: updateProject
       description: Allows you to update a specific projects.
       parameters:
@@ -398,7 +398,7 @@ paths:
           x-isEmpty: true
         '400':
           $ref: '#/components/responses/400Error'
-  /projectsusers:
+  /ProjectsUsers:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
@@ -406,7 +406,7 @@ paths:
         - OAuth2: [projects.read]
       tags:
         - Project
-      summary: list all project users
+      summary: Retrieves a list of all project users
       operationId: getProjectUsers
       description: Allows you to retrieve the users on a projects.
       parameters:
@@ -457,7 +457,7 @@ paths:
                         }'
         '400':
           $ref: '#/components/responses/400Error' 
-  /projects/{projectId}/tasks:
+  /Projects/{projectId}/Tasks:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
@@ -465,7 +465,7 @@ paths:
         - OAuth2: [projects, projects.read]
       tags:
         - Project
-      summary: Allows you to retrieve a single project
+      summary: Retrieves all project tasks
       operationId: getTasks
       description: Allows you to retrieve a specific project
       parameters:
@@ -490,7 +490,7 @@ paths:
             example: 10
         - name: taskIds
           in: query
-          description: "taskIds	Search for all tasks that match a comma separated list of taskIds, i.e. GET https://.../tasks?taskIds={taskId},{taskId}"  
+          description: "taskIds	Search for all tasks that match a comma separated list of taskIds, i.e. GET https://.../tasks?taskIds={taskID},{taskID}"  
           schema:
             type: string
         - name: chargeType
@@ -553,7 +553,7 @@ paths:
     #     - name: projectId
     #       in: path
     #       required: true
-    #       description: You can create a task on a specifid projectId
+    #       description: You can create a task on a specified projectId
     #       schema:
     #         type: string
     #         format: uuid
@@ -575,7 +575,7 @@ paths:
     #         application/json:
     #           schema:
     #             $ref: '#/components/schemas/Tasks'
-  /projects/{projectId}/tasks/{taskId}:
+  /Projects/{projectId}/Tasks/{taskId}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
@@ -583,7 +583,7 @@ paths:
         - OAuth2: [projects, projects.read]
       tags:
         - Project
-      summary: Allows you to retrieve a single project
+      summary: Retrieves a single project task
       operationId: getTask
       description: Allows you to retrieve a specific project
       parameters:
@@ -597,7 +597,7 @@ paths:
         - name: taskId
           in: path
           required: true
-          description: "You can specify an individual task by appending the taskId to the endpoint, i.e. GET https://.../tasks/{taskId}" 
+          description: "You can specify an individual task by appending the taskId to the endpoint, i.e. GET https://.../tasks/{taskID}" 
           schema:
             type: string
             format: uuid
@@ -702,7 +702,7 @@ paths:
     #     '204':
     #       description: Success - return response 204 no content
     #       x-isEmpty: true
-  /projects/{projectId}/time:
+  /Projects/{projectId}/Time:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
@@ -710,7 +710,7 @@ paths:
         - OAuth2: [projects, projects.read]
       tags:
         - Project
-      summary: Allows you to retrieve the time entries associated with a specific project
+      summary: Retrieves all time entries associated with a specific project
       operationId: getTimeEntries
       description: Allows you to retrieve the time entries associated with a specific project
       parameters:
@@ -759,7 +759,7 @@ paths:
             example: 10
         - name: states
           in: query
-          description: "Comma-separated list of states to find. Will find all time entries that are in the status of whatever’s specified.	"  
+          description: "Comma-separated list of states to find. Will find all time entries that are in the status of whatever is specified.	"  
           schema: 
             type: array
             items:
@@ -825,7 +825,7 @@ paths:
         - OAuth2: [projects, projects.read]
       tags:
         - Project
-      summary: Allows you to create a task
+      summary: Creates a time entry for a specific project
       operationId: createTimeEntry
       description: Allows you to create a specific task
       parameters:
@@ -868,7 +868,7 @@ paths:
                           "description":"My description",
                           "status":"ACTIVE"
                         }'
-  /projects/{projectId}/time/{timeEntryId}:
+  /Projects/{projectId}/Time/{timeEntryId}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
@@ -876,9 +876,9 @@ paths:
         - OAuth2: [projects, projects.read]
       tags:
         - Project
-      summary: Allows you to get a single time entry in a project
+      summary: Retrieves a single time entry for a specific project
       operationId: getTimeEntry
-      description: Allows you to upget a single time entry in a project
+      description: Allows you to get a single time entry in a project
       parameters:
         - name: projectId
           in: path
@@ -917,7 +917,7 @@ paths:
         - OAuth2: [projects, projects.read]
       tags:
         - Project
-      summary: Allows you to update time entry in a project
+      summary: Updates a time entry for a specific project
       operationId: updateTimeEntry
       description: Allows you to update time entry in a project
       parameters:
@@ -958,7 +958,7 @@ paths:
         - OAuth2: [projects, projects.read]
       tags:
         - Project
-      summary: Allows you to delete a time entry
+      summary: Deletes a time entry for a specific project
       operationId: deleteTimeEntry
       description: Allows you to delete a specific time entry
       parameters:

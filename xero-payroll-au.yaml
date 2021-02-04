@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
-  version: '2.8.4'
-  title: 'Xero Payroll AU'
+  version: '2.8.6'
+  title: 'Xero Payroll AU API'
   description: 'This is the Xero Payroll API for orgs in Australia region.'
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
   contact:
@@ -27,7 +27,7 @@ paths:
       tags:
         - PayrollAu
       operationId: getEmployees
-      summary: searches employees
+      summary: Searches payroll employees
       parameters:
         - in: header
           name: If-Modified-Since
@@ -106,7 +106,7 @@ paths:
         - OAuth2: [payroll.employees]
       tags:
         - PayrollAu
-      summary: Use this method to create a payroll employee
+      summary: Creates a payroll employee
       operationId: createEmployee
       x-hasPayrollAuProblem: true
       responses:
@@ -186,7 +186,7 @@ paths:
                           "Status": "ACTIVE"
                         }
                       ]'
-  /Employees/{EmployeeId}:
+  /Employees/{EmployeeID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
@@ -194,10 +194,10 @@ paths:
         - OAuth2: [payroll.employees.read]
       tags:
         - PayrollAu
-      summary: searches for an employee by unique id
+      summary: Retrieves an employee's detail by unique employee id
       operationId: getEmployee
       parameters: 
-        - name: EmployeeId
+        - name: EmployeeID
           in: path
           required: true
           description: Employee id for single object
@@ -327,11 +327,11 @@ paths:
         - OAuth2: [payroll.employees]
       tags:
         - PayrollAu
-      summary: Update an Employee 
+      summary: Updates an employee's detail 
       operationId: updateEmployee
       description:  Update properties on a single employee
       parameters: 
-        - name: EmployeeId
+        - name: EmployeeID
           in: path
           required: true
           description: Employee id for single object
@@ -401,7 +401,7 @@ paths:
       tags:
         - PayrollAu
       operationId: getLeaveApplications
-      summary: searches Leave Applications
+      summary:  Retrieves leave applications
       parameters:
         - in: header
           name: If-Modified-Since
@@ -515,7 +515,7 @@ paths:
         - OAuth2: [payroll.leaveapplications]
       tags:
         - PayrollAu
-      summary: Use this method to create a Leave Application
+      summary: Creates a leave application
       operationId: createLeaveApplication
       x-hasPayrollAuProblem: true
       responses:
@@ -569,7 +569,7 @@ paths:
                           "EndDate": "/Date(1572645600000+0000)/"
                         }
                       ]'
-  /LeaveApplications/{LeaveApplicationId}:
+  /LeaveApplications/{LeaveApplicationID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
@@ -577,10 +577,10 @@ paths:
         - OAuth2: [payroll.leaveapplications.read]
       tags:
         - PayrollAu
-      summary: searches for an Leave Application by unique id
+      summary: Retrieves a leave application by a unique leave application id
       operationId: getLeaveApplication
       parameters: 
-        - name: LeaveApplicationId
+        - name: LeaveApplicationID
           in: path
           required: true
           description: Leave Application id for single object
@@ -625,10 +625,10 @@ paths:
         - OAuth2: [payroll.leaveapplications]
       tags:
         - PayrollAu
-      summary: Use this method to update a Leave Application
+      summary: Updates a specific leave application
       operationId: updateLeaveApplication
       parameters: 
-        - name: LeaveApplicationId
+        - name: LeaveApplicationID
           in: path
           required: true
           description: Leave Application id for single object
@@ -697,7 +697,7 @@ paths:
       tags:
         - PayrollAu
       operationId: getPayItems
-      summary: searches Pay Items
+      summary: Retrieves pay items
       parameters:
         - in: header
           name: If-Modified-Since
@@ -873,7 +873,7 @@ paths:
         - OAuth2: [payroll.payitems]
       tags:
         - PayrollAu
-      summary: Use this method to create a Pay Item
+      summary: Creates a pay item
       operationId: createPayItem
       responses:
         '200':
@@ -968,7 +968,7 @@ paths:
       tags:
         - PayrollAu
       operationId: getPayrollCalendars
-      summary: searches Payroll Calendars
+      summary: Retrieves payroll calendars
       parameters:
         - in: header
           name: If-Modified-Since
@@ -1034,7 +1034,7 @@ paths:
         - OAuth2: [payroll.payrollcalendars]
       tags:
         - PayrollAu
-      summary: Use this method to create a Payroll Calendars
+      summary: Creates a Payroll Calendar
       operationId: createPayrollCalendar
       x-hasPayrollAuProblem: true
       responses:
@@ -1088,7 +1088,7 @@ paths:
       tags:
         - PayrollAu
       operationId: getPayrollCalendar
-      summary: searches Payroll Calendars
+      summary: Retrieves payroll calendar by using a unique payroll calendar ID
       parameters:
         - name: PayrollCalendarID
           in: path
@@ -1136,7 +1136,7 @@ paths:
       tags:
         - PayrollAu
       operationId: getPayRuns
-      summary: searches PayRuns
+      summary: Retrieves pay runs
       parameters:
         - in: header
           name: If-Modified-Since
@@ -1201,7 +1201,7 @@ paths:
         - OAuth2: [payroll.payruns]
       tags:
         - PayrollAu
-      summary: Use this method to create a PayRun
+      summary: Creates a pay run
       operationId: createPayRun
       x-hasPayrollAuProblem: true
       responses:
@@ -1255,7 +1255,7 @@ paths:
         - OAuth2: [payroll.payruns.read]
       tags:
         - PayrollAu
-      summary: searches for an payrun by unique id
+      summary: Retrieves a pay run by using a unique pay run id
       operationId: getPayRun
       parameters: 
         - name: PayRunID
@@ -1330,7 +1330,7 @@ paths:
         - OAuth2: [payroll.payruns]
       tags:
         - PayrollAu
-      summary: Update a PayRun 
+      summary: Updates a pay run 
       operationId: updatePayRun
       description:  Update properties on a single PayRun
       parameters: 
@@ -1386,7 +1386,7 @@ paths:
         - OAuth2: [payroll.payslip.read]
       tags:
         - PayrollAu
-      summary: searches for an payslip by unique id
+      summary: Retrieves for a payslip by a unique payslip id
       operationId: getPayslip
       parameters: 
         - name: PayslipID
@@ -1486,7 +1486,7 @@ paths:
         - OAuth2: [payroll.payslip]
       tags:
         - PayrollAu
-      summary: Update a Payslip 
+      summary: Updates a payslip 
       operationId: updatePayslip
       x-hasPayrollAuError: true
       description:  Update lines on a single payslips
@@ -1559,7 +1559,7 @@ paths:
       tags:
         - PayrollAu
       operationId: getSettings
-      summary: retrieve settings
+      summary: Retrieves payroll settings
       responses:
         '200':
           description: payroll settings
@@ -1633,7 +1633,7 @@ paths:
       tags:
         - PayrollAu
       operationId: getSuperfunds
-      summary: searches SuperFunds
+      summary: Retrieves superfunds
       parameters:
         - in: header
           name: If-Modified-Since
@@ -1697,7 +1697,7 @@ paths:
         - OAuth2: [payroll.superfunds]
       tags:
         - PayrollAu
-      summary: Use this method to create a super fund
+      summary: Creates a superfund
       operationId: createSuperfund
       x-hasPayrollAuProblem: true
       responses:
@@ -1753,7 +1753,7 @@ paths:
         - OAuth2: [payroll.superfunds.read]
       tags:
         - PayrollAu
-      summary: searches for an Superfund by unique id
+      summary: Retrieves a superfund by using a unique superfund ID
       operationId: getSuperfund
       parameters: 
         - name: SuperFundID
@@ -1796,7 +1796,7 @@ paths:
         - OAuth2: [payroll.superfunds]
       tags:
         - PayrollAu
-      summary: Update a Superfund 
+      summary: Updates a superfund 
       operationId: updateSuperfund
       description:  Update properties on a single Superfund
       parameters: 
@@ -1854,7 +1854,7 @@ paths:
       tags:
         - PayrollAu
       operationId: getSuperfundProducts
-      summary: searches SuperfundProducts
+      summary: Retrieves superfund products
       parameters:
         - in: query
           name: ABN
@@ -1903,7 +1903,7 @@ paths:
       tags:
         - PayrollAu
       operationId: getTimesheets
-      summary: searches timesheets
+      summary: Retrieves timesheets
       parameters:
         - in: header
           name: If-Modified-Since
@@ -2001,7 +2001,7 @@ paths:
         - OAuth2: [payroll.timesheets]
       tags:
         - PayrollAu
-      summary: Use this method to create a timesheet
+      summary: Creates a timesheet
       operationId: createTimesheet
       x-hasPayrollAuProblem: true
       responses:
@@ -2085,7 +2085,7 @@ paths:
         - OAuth2: [payroll.timesheets.read]
       tags:
         - PayrollAu
-      summary: searches for an timesheet by unique id
+      summary: Retrieves a timesheet by using a unique timesheet id
       operationId: getTimesheet
       parameters: 
         - name: TimesheetID
@@ -2138,7 +2138,7 @@ paths:
         - OAuth2: [payroll.timesheets]
       tags:
         - PayrollAu
-      summary: Update a Timesheet 
+      summary: Updates a timesheet 
       operationId: updateTimesheet
       description:  Update properties on a single timesheet
       parameters: 
@@ -3675,7 +3675,7 @@ components:
         CalculationType:
           $ref: '#/components/schemas/SuperannuationCalculationType'
         MinimumMonthlyEarnings:
-          description: amount of mimimum earnings
+          description: amount of minimum earnings
           type: number
           format: double
           x-is-money: true
@@ -4012,7 +4012,7 @@ components:
           format: uuid
           example: 2187a42b-639a-45cb-9eed-cd4ae488306a
         EmployeeNumber:
-          description: The memberhsip number assigned to the employee by the super fund.
+          description: The membership number assigned to the employee by the super fund.
           type: string
           example: 1234
     AccountType:
