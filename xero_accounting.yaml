@@ -12214,7 +12214,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CISOrgSetting'
+                $ref: '#/components/schemas/CISOrgSettings'
   /Overpayments:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -24406,6 +24406,14 @@ components:
           format: double
           readOnly: true
           x-is-money: true 
+    CISOrgSettings:
+      type: object
+      x-isObjectArray: true
+      properties:
+        CISSettings:
+          type: array
+          items:
+            $ref: '#/components/schemas/CISOrgSetting'
     CISOrgSetting:
       externalDocs:
         url: 'https://developer.xero.com/documentation/api/organisation'
@@ -24607,6 +24615,7 @@ components:
           type: number
           format: double 
           example: 2.00
+          x-is-money: true
         Payments:
           description: See Payments 
           type: array
