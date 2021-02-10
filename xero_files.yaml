@@ -4,7 +4,7 @@ servers:
     url: https://api.xero.com/files.xro/1.0/
 info:
   title: Xero Files API
-  version: "2.9.0"
+  version: "2.9.1"
   description: "These endpoints are specific to Xero Files API"
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
   contact:
@@ -57,8 +57,45 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Files'
-        '400':
-          description: bad input parameter - TODO
+              example: '{
+                          "TotalCount": 100,
+                          "Page": 1,
+                          "PerPage": 2,
+                          "Items": [
+                            {
+                              "Name": "helo-heros.jpg",
+                              "MimeType": "application/jpg",
+                              "Size": 2878711,
+                              "CreatedDateUtc": "2021-02-10T16:02:54.9930000",
+                              "UpdatedDateUtc": "2021-02-10T16:02:54.9930000",
+                              "User": {
+                                "Name": "sid.maestre@xero.com",
+                                "FirstName": "Sidney",
+                                "LastName": "Maestre",
+                                "FullName": "Sidney Maestre",
+                                "Id": "740add2a-a703-4b8a-a670-1093919c2040"
+                              },
+                              "FolderId": "bf924975-7097-46f2-a143-1ecfbab3c8c3",
+                              "Id": "3d413bfe-f40f-4807-b953-9a42f834ff15"
+                            },
+                            {
+                              "Name": "helo-heros.jpg",
+                              "MimeType": "application/jpg",
+                              "Size": 2878711,
+                              "CreatedDateUtc": "2021-02-09T21:16:00.6130000",
+                              "UpdatedDateUtc": "2021-02-09T21:16:00.6130000",
+                              "User": {
+                                "Name": "sid.maestre@xero.com",
+                                "FirstName": "Sidney",
+                                "LastName": "Maestre",
+                                "FullName": "Sidney Maestre",
+                                "Id": "740add2a-a703-4b8a-a670-1093919c2040"
+                              },
+                              "FolderId": "bf924975-7097-46f2-a143-1ecfbab3c8c3",
+                              "Id": "22f87409-cdfd-4813-a868-559481bcb052"
+                            }
+                          ]
+                        }'
     post:
       security:
         - OAuth2: [files]
@@ -75,16 +112,37 @@ paths:
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
       responses:
-        '200':
+        '201':
           description: A successful request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FileObject'
+              example: '{
+                          "Name": "helo-heros.jpg",
+                          "MimeType": "application/jpg",
+                          "Size": 2878711,
+                          "CreatedDateUtc": "2021-02-10T23:17:50.1930000",
+                          "UpdatedDateUtc": "2021-02-10T23:17:50.1930000",
+                          "User": {
+                            "Name": "sid.maestre@xero.com",
+                            "FirstName": "Sidney",
+                            "LastName": "Maestre",
+                            "FullName": "Sidney Maestre",
+                            "Id": "740add2a-a703-4b8a-a670-1093919c2040"
+                          },
+                          "FolderId": "bf924975-7097-46f2-a143-1ecfbab3c8c3",
+                          "Id": "22f87409-cdfd-4813-a868-559481bcb052"
+                        }'
         '400':
-          description: invalid input, object invalid - TODO
-        '409':
-          description: an existing item already exists - TODO
+          description: invalid input, object invalid
+          example: '[
+                      {
+                          "type":"Validation",
+                          "title":"Validation failure",
+                          "detail":"Extension: boo is not a valid File extension."
+                      }
+                    ]'
       requestBody:
         content:
           multipart/form-data:
