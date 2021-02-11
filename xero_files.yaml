@@ -187,6 +187,22 @@ paths:
              application/json:
               schema:
                 $ref: '#/components/schemas/FileObject'
+              example: '{
+                          "Name": "helo-heros.jpg",
+                          "MimeType": "application/jpg",
+                          "Size": 2878711,
+                          "CreatedDateUtc": "2021-02-10T23:17:50.1930000",
+                          "UpdatedDateUtc": "2021-02-10T23:17:50.1930000",
+                          "User": {
+                            "Name": "sid.maestre@xero.com",
+                            "FirstName": "Sidney",
+                            "LastName": "Maestre",
+                            "FullName": "Sidney Maestre",
+                            "Id": "740add2a-a703-4b8a-a670-1093919c2040"
+                          },
+                          "FolderId": "bf924975-7097-46f2-a143-1ecfbab3c8c3",
+                          "Id": "efd77bfc-7018-4da1-b251-7aa2d438382c"
+                        }'
     put:
       security:
         - OAuth2: [files]
@@ -211,11 +227,41 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/FileObject'
+              example: '{
+                          "Name": "helo-heros.jpg",
+                          "MimeType": "application/jpg",
+                          "Size": 2878711,
+                          "CreatedDateUtc": "2021-02-10T23:17:50.1930000",
+                          "UpdatedDateUtc": "2021-02-10T23:58:54.1000000",
+                          "User": {
+                            "Name": "sid.maestre@xero.com",
+                            "FirstName": "Sidney",
+                            "LastName": "Maestre",
+                            "FullName": "Sidney Maestre",
+                            "Id": "740add2a-a703-4b8a-a670-1093919c2040"
+                          },
+                          "FolderId": "bf924975-7097-46f2-a143-1ecfbab3c8c3",
+                          "Id": "efd77bfc-7018-4da1-b251-7aa2d438382c"
+                        }'
+        '400':
+          description: invalid input, object invalid 
+          content:
+            application/json:
+              example: '[
+                          {
+                              "type":"Rename",
+                              "title":"Rename failed",
+                              "detail":"Unable to rename efd77bfc-7018-4da1-b251-7aa2d438382c to FooBar"
+                          }
+                        ]'
       requestBody:
         content:
           application/json:
               schema:
                 $ref: '#/components/schemas/FileObject'
+              example: '{
+                          "FolderId": "bf924975-7097-46f2-a143-1ecfbab3c8c3"
+                        }'
     delete:
       security:
         - OAuth2: [files]
@@ -235,11 +281,8 @@ paths:
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
       responses:
         '204':
-          description: A successful request returns 204 empty response - populate with status property in SDK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/FileResponse204'
+          description: Success - return response 204 no content
+          x-isEmpty: true
   /Files/{FileID}/Content:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
