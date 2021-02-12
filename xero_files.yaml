@@ -4,7 +4,7 @@ servers:
     url: https://api.xero.com/files.xro/1.0/
 info:
   title: Xero Files API
-  version: "2.9.2"
+  version: "2.9.3"
   description: "These endpoints are specific to Xero Files API"
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
   contact:
@@ -105,7 +105,7 @@ paths:
       operationId: uploadFile
       parameters:
         - in: query
-          name: folderId
+          name: FolderId
           description: pass an optional folder id to save file to specific folder
           schema:
             type: string
@@ -161,7 +161,7 @@ paths:
                   type: string
                 mimeType:
                   type: string
-  /Files/{FileID}:
+  /Files/{FileId}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
@@ -172,7 +172,7 @@ paths:
       summary: Retrieves a file by a unique file ID
       operationId: getFile
       parameters: 
-        - name: FileID
+        - name: FileId
           in: path
           required: true
           description: File id for single object
@@ -187,6 +187,22 @@ paths:
              application/json:
               schema:
                 $ref: '#/components/schemas/FileObject'
+              example: '{
+                          "Name": "helo-heros.jpg",
+                          "MimeType": "application/jpg",
+                          "Size": 2878711,
+                          "CreatedDateUtc": "2021-02-10T23:17:50.1930000",
+                          "UpdatedDateUtc": "2021-02-10T23:17:50.1930000",
+                          "User": {
+                            "Name": "sid.maestre@xero.com",
+                            "FirstName": "Sidney",
+                            "LastName": "Maestre",
+                            "FullName": "Sidney Maestre",
+                            "Id": "740add2a-a703-4b8a-a670-1093919c2040"
+                          },
+                          "FolderId": "bf924975-7097-46f2-a143-1ecfbab3c8c3",
+                          "Id": "efd77bfc-7018-4da1-b251-7aa2d438382c"
+                        }'
     put:
       security:
         - OAuth2: [files]
@@ -196,7 +212,7 @@ paths:
       operationId: updateFile
       description:  Updates file properties of a single file
       parameters: 
-        - name: FileID
+        - name: FileId
           in: path
           required: true
           description: File id for single object
@@ -211,11 +227,41 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/FileObject'
+              example: '{
+                          "Name": "helo-heros.jpg",
+                          "MimeType": "application/jpg",
+                          "Size": 2878711,
+                          "CreatedDateUtc": "2021-02-10T23:17:50.1930000",
+                          "UpdatedDateUtc": "2021-02-10T23:58:54.1000000",
+                          "User": {
+                            "Name": "sid.maestre@xero.com",
+                            "FirstName": "Sidney",
+                            "LastName": "Maestre",
+                            "FullName": "Sidney Maestre",
+                            "Id": "740add2a-a703-4b8a-a670-1093919c2040"
+                          },
+                          "FolderId": "bf924975-7097-46f2-a143-1ecfbab3c8c3",
+                          "Id": "efd77bfc-7018-4da1-b251-7aa2d438382c"
+                        }'
+        '400':
+          description: invalid input, object invalid 
+          content:
+            application/json:
+              example: '[
+                          {
+                              "type":"Rename",
+                              "title":"Rename failed",
+                              "detail":"Unable to rename efd77bfc-7018-4da1-b251-7aa2d438382c to FooBar"
+                          }
+                        ]'
       requestBody:
         content:
           application/json:
               schema:
                 $ref: '#/components/schemas/FileObject'
+              example: '{
+                          "FolderId": "bf924975-7097-46f2-a143-1ecfbab3c8c3"
+                        }'
     delete:
       security:
         - OAuth2: [files]
@@ -225,7 +271,7 @@ paths:
       operationId: deleteFile
       description:  Delete a specific file
       parameters: 
-        - name: FileID
+        - name: FileId
           in: path
           required: true
           description: File id for single object
@@ -235,12 +281,9 @@ paths:
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
       responses:
         '204':
-          description: A successful request returns 204 empty response - populate with status property in SDK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/FileResponse204'
-  /Files/{FileID}/Content:
+          description: Successful deletion - return response 204 no content
+          x-isEmpty: true
+  /Files/{FileId}/Content:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
@@ -252,7 +295,7 @@ paths:
       operationId: getFileContent
       description:  By passing in the appropriate options, retrieve data for specific file
       parameters: 
-        - name: FileID
+        - name: FileId
           in: path
           required: true
           description: File id for single object
@@ -268,7 +311,7 @@ paths:
               schema:
                 type: string
                 format: binary
-  /Files/{FileID}/Associations:
+  /Files/{FileId}/Associations:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
@@ -281,7 +324,7 @@ paths:
       description: |
         By passing in the appropriate options, 
       parameters: 
-        - name: FileID
+        - name: FileId
           in: path
           required: true
           description: File id for single object
@@ -298,6 +341,14 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Association'
+              example: '[
+                          {
+                              "FileId":"6beccb4a-0d7d-4518-93f3-e0cd1dccb254",
+                              "ObjectId":"1270bf7c-5d18-473a-9231-1e36c4bd33ed",
+                              "ObjectType":"Business",
+                              "ObjectGroup":"Contact"
+                          }
+                        ]'
     post:
       security:
         - OAuth2: [files]
@@ -307,7 +358,7 @@ paths:
       operationId: createFileAssociation
       description: By passing in the appropriate options, you can create a new folder
       parameters: 
-        - name: FileID
+        - name: FileId
           in: path
           required: true
           description: File id for single object
@@ -316,20 +367,40 @@ paths:
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
       responses:
-        '200':
+        '201':
           description: A successful request
           content:
             application/json:
               schema:
-                  $ref: '#/components/schemas/Association'
+                $ref: '#/components/schemas/Association'
+              example: '{
+                          "FileId": "6beccb4a-0d7d-4518-93f3-e0cd1dccb254",
+                          "ObjectId": "1270bf7c-5d18-473a-9231-1e36c4bd33ed",
+                          "ObjectType": "Business",
+                          "ObjectGroup": "Contact"
+                        }'
         '400':
-          description: bad input parameter - TODO
+          description: invalid input, object invalid
+          content:
+            application/json:
+              example: '[
+                          {
+                              "type":"Validation",
+                              "title":"Validation failure",
+                              "detail":"Object is not a Account"
+                          }
+                        ]'
       requestBody:
         content:
           application/json:
               schema:
                 $ref: '#/components/schemas/Association'
-  /Files/{FileID}/Associations/{ObjectID}:
+              example: '{
+                          "ObjectId": "1270bf7c-5d18-473a-9231-1e36c4bd33ed",
+                          "ObjectGroup": "Contact",
+                          "ObjectType": "Business"
+                        }'
+  /Files/{FileId}/Associations/{ObjectId}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     delete:
@@ -341,7 +412,7 @@ paths:
       operationId: deleteFileAssociation
       description: By passing in the appropriate options, you can create a new folder
       parameters: 
-        - name: FileID
+        - name: FileId
           in: path
           required: true
           description: File id for single object
@@ -359,14 +430,9 @@ paths:
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
       responses:
         '204':
-          description: A successful request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/FileResponse204'
-        '400':
-          description: bad input parameter - TODO
-  /Associations/{ObjectID}:
+          description: Successful deletion - return response 204 no content
+          x-isEmpty: true
+  /Associations/{ObjectId}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
@@ -395,6 +461,14 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Association'
+              example: '[
+                          {
+                              "FileId":"6beccb4a-0d7d-4518-93f3-e0cd1dccb254",
+                              "ObjectId":"1270bf7c-5d18-473a-9231-1e36c4bd33ed",
+                              "ObjectType":"Business",
+                              "ObjectGroup":"Contact"
+                          }
+                        ]'
   /Folders:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -427,8 +501,21 @@ paths:
                 type: array
                 items: 
                   $ref: '#/components/schemas/Folder'
-        '400':
-          description: bad input parameter - TODO
+              example: '[
+                          {
+                              "Name":"Inbox",
+                              "FileCount":14,
+                              "Email":"xero.inbox.jpf4.6oo29retajkhtfus@xerofiles.com",
+                              "IsInbox":true,
+                              "Id":"bf924975-7097-46f2-a143-1ecfbab3c8c3"
+                          },
+                          {
+                              "Name":"Contracts",
+                              "FileCount":7,
+                              "IsInbox":false,
+                              "Id":"554ff1ad-4b94-4266-9b45-e29bcb75e6bf"
+                          }
+                        ]'
     post:
       security:
         - OAuth2: [files]
@@ -443,15 +530,33 @@ paths:
           content:
             application/json:
               schema:
-                  $ref: '#/components/schemas/Folder'
+                $ref: '#/components/schemas/Folder'
+              example: '{
+                          "Name": "My Docs",
+                          "FileCount": 0,
+                          "IsInbox": false,
+                          "Id": "913970ad-8c8e-4666-8294-35b9cac23206"
+                        }'
         '400':
-          description: bad input parameter - TODO
+          description: invalid input, object invalid
+          content:
+            application/json:
+              example: '[
+                          {
+                              "type":"Validation",
+                              "title":"Validation failure",
+                              "detail":"Name contains one or more bad characters"
+                          }
+                        ]'
       requestBody:
         content:
           application/json:
-              schema:
-                $ref: '#/components/schemas/Folder'
-  /Folders/{FolderID}:
+            schema:
+              $ref: '#/components/schemas/Folder'
+            example: '{
+                        "Name": "My Docs"
+                      }'  
+  /Folders/{FolderId}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
@@ -478,8 +583,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Folder'
-        '400':
-          description: bad input parameter - TODO
+              example: '{
+                          "Name": "My Docs",
+                          "FileCount": 0,
+                          "IsInbox": false,
+                          "Id": "4c5f3fe4-2516-4863-ac88-3029351773bf"
+                        }'
     put:
       security:
         - OAuth2: [files]
@@ -503,15 +612,33 @@ paths:
           content:
             application/json:
               schema:
-                  $ref: '#/components/schemas/Folder'
+                $ref: '#/components/schemas/Folder'
+              example: '{
+                          "Name": "Your Docs",
+                          "FileCount": 0,
+                          "IsInbox": false,
+                          "Id": "4c5f3fe4-2516-4863-ac88-3029351773bf"
+                        }'
         '400':
-          description: bad input parameter - TODO
+          description: invalid input, object invalid
+          content:
+            application/json:
+              example: '[
+                          {
+                              "type":"Validation",
+                              "title":"Validation failure",
+                              "detail":"Name contains one or more bad characters"
+                          }
+                        ]'
       requestBody:
         required: true
         content:
           application/json:
               schema:
                 $ref: '#/components/schemas/Folder'
+              example: '{
+                          "Name": "Your Docs"
+                        }'
     delete:
       security:
         - OAuth2: [files]
@@ -531,13 +658,8 @@ paths:
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
       responses:
         '204':
-          description: A successful request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/FileResponse204'
-        '400':
-          description: bad input parameter - TODO
+          description: Successful deletion - return response 204 no content
+          x-isEmpty: true
   /Inbox:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -556,8 +678,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Folder'
-        '400':
-          description: bad input parameter - TODO
+              example: '{
+                          "Name": "Inbox",
+                          "FileCount": 14,
+                          "Email": "xero.inbox.jpf4.6oo29retajkhtfus@xerofiles.com",
+                          "IsInbox": true,
+                          "Id": "bf924975-7097-46f2-a143-1ecfbab3c8c3"
+                        }'
 components:
   securitySchemes:
     OAuth2:
@@ -786,10 +913,3 @@ components:
       - Currliab
       - Termliab
       - NonCurrent
-    FileResponse204:
-      externalDocs:
-        url: 'https://developer.xero.com/documentation/files-api/files#DELETE'
-      properties:
-        Status:
-          description: Status response for 204 no content
-          type: string
