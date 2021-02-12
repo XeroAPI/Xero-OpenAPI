@@ -359,19 +359,39 @@ paths:
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
       responses:
-        '200':
+        '201':
           description: A successful request
           content:
             application/json:
               schema:
-                  $ref: '#/components/schemas/Association'
+                $ref: '#/components/schemas/Association'
+              example: '{
+                          "FileId": "6beccb4a-0d7d-4518-93f3-e0cd1dccb254",
+                          "ObjectId": "1270bf7c-5d18-473a-9231-1e36c4bd33ed",
+                          "ObjectType": "Business",
+                          "ObjectGroup": "Contact"
+                        }'
         '400':
-          description: bad input parameter - TODO
+          description:
+          content:
+            application/json:
+              example: '[
+                          {
+                              "type":"Validation",
+                              "title":"Validation failure",
+                              "detail":"Object is not a Account"
+                          }
+                        ]'
       requestBody:
         content:
           application/json:
               schema:
                 $ref: '#/components/schemas/Association'
+              example: '{
+                          "ObjectId": "1270bf7c-5d18-473a-9231-1e36c4bd33ed",
+                          "ObjectGroup": "Contact",
+                          "ObjectType": "Business"
+                        }'
   /Files/{FileID}/Associations/{ObjectID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -392,7 +412,7 @@ paths:
             type: string
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
-        - name: ObjectId
+        - name: ObjectID
           in: path
           required: true
           description: Object id for single object
