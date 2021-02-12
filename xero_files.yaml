@@ -380,7 +380,7 @@ paths:
                           "ObjectGroup": "Contact"
                         }'
         '400':
-          description:
+          description: invalid input, object invalid
           content:
             application/json:
               example: '[
@@ -461,6 +461,14 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Association'
+              example: '[
+                          {
+                              "FileId":"6beccb4a-0d7d-4518-93f3-e0cd1dccb254",
+                              "ObjectId":"1270bf7c-5d18-473a-9231-1e36c4bd33ed",
+                              "ObjectType":"Business",
+                              "ObjectGroup":"Contact"
+                          }
+                        ]'
   /Folders:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -493,8 +501,21 @@ paths:
                 type: array
                 items: 
                   $ref: '#/components/schemas/Folder'
-        '400':
-          description: bad input parameter - TODO
+              example: '[
+                          {
+                              "Name":"Inbox",
+                              "FileCount":14,
+                              "Email":"xero.inbox.jpf4.6oo29retajkhtfus@xerofiles.com",
+                              "IsInbox":true,
+                              "Id":"bf924975-7097-46f2-a143-1ecfbab3c8c3"
+                          },
+                          {
+                              "Name":"Contracts",
+                              "FileCount":7,
+                              "IsInbox":false,
+                              "Id":"554ff1ad-4b94-4266-9b45-e29bcb75e6bf"
+                          }
+                        ]'
     post:
       security:
         - OAuth2: [files]
@@ -509,14 +530,32 @@ paths:
           content:
             application/json:
               schema:
-                  $ref: '#/components/schemas/Folder'
+                $ref: '#/components/schemas/Folder'
+              example: '{
+                          "Name": "My Docs",
+                          "FileCount": 0,
+                          "IsInbox": false,
+                          "Id": "913970ad-8c8e-4666-8294-35b9cac23206"
+                        }'
         '400':
-          description: bad input parameter - TODO
+          description: invalid input, object invalid
+          content:
+            application/json:
+              example: '[
+                          {
+                              "type":"Validation",
+                              "title":"Validation failure",
+                              "detail":"Name contains one or more bad characters"
+                          }
+                        ]'
       requestBody:
         content:
           application/json:
-              schema:
-                $ref: '#/components/schemas/Folder'
+            schema:
+              $ref: '#/components/schemas/Folder'
+            example: '{
+                        "Name": "My Docs"
+                      }'  
   /Folders/{FolderID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -529,7 +568,7 @@ paths:
       operationId: getFolder
       description: By passing in the appropriate ID, you can search for specific folder
       parameters:
-        - name: FolderId
+        - name: FolderID
           in: path
           required: true
           description: Folder id for single object
@@ -544,8 +583,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Folder'
-        '400':
-          description: bad input parameter - TODO
     put:
       security:
         - OAuth2: [files]
@@ -617,8 +654,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Folder'
-        '400':
-          description: bad input parameter - TODO
+              example: '{
+                          "Name": "Inbox",
+                          "FileCount": 14,
+                          "Email": "xero.inbox.jpf4.6oo29retajkhtfus@xerofiles.com",
+                          "IsInbox": true,
+                          "Id": "bf924975-7097-46f2-a143-1ecfbab3c8c3"
+                        }'
 components:
   securitySchemes:
     OAuth2:
