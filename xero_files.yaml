@@ -105,7 +105,7 @@ paths:
       operationId: uploadFile
       parameters:
         - in: query
-          name: folderId
+          name: FolderId
           description: pass an optional folder id to save file to specific folder
           schema:
             type: string
@@ -161,7 +161,7 @@ paths:
                   type: string
                 mimeType:
                   type: string
-  /Files/{FileID}:
+  /Files/{FileId}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
@@ -172,7 +172,7 @@ paths:
       summary: Retrieves a file by a unique file ID
       operationId: getFile
       parameters: 
-        - name: FileID
+        - name: FileId
           in: path
           required: true
           description: File id for single object
@@ -212,7 +212,7 @@ paths:
       operationId: updateFile
       description:  Updates file properties of a single file
       parameters: 
-        - name: FileID
+        - name: FileId
           in: path
           required: true
           description: File id for single object
@@ -271,7 +271,7 @@ paths:
       operationId: deleteFile
       description:  Delete a specific file
       parameters: 
-        - name: FileID
+        - name: FileId
           in: path
           required: true
           description: File id for single object
@@ -283,7 +283,7 @@ paths:
         '204':
           description: Successful deletion - return response 204 no content
           x-isEmpty: true
-  /Files/{FileID}/Content:
+  /Files/{FileId}/Content:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
@@ -295,7 +295,7 @@ paths:
       operationId: getFileContent
       description:  By passing in the appropriate options, retrieve data for specific file
       parameters: 
-        - name: FileID
+        - name: FileId
           in: path
           required: true
           description: File id for single object
@@ -311,7 +311,7 @@ paths:
               schema:
                 type: string
                 format: binary
-  /Files/{FileID}/Associations:
+  /Files/{FileId}/Associations:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
@@ -324,7 +324,7 @@ paths:
       description: |
         By passing in the appropriate options, 
       parameters: 
-        - name: FileID
+        - name: FileId
           in: path
           required: true
           description: File id for single object
@@ -358,7 +358,7 @@ paths:
       operationId: createFileAssociation
       description: By passing in the appropriate options, you can create a new folder
       parameters: 
-        - name: FileID
+        - name: FileId
           in: path
           required: true
           description: File id for single object
@@ -400,7 +400,7 @@ paths:
                           "ObjectGroup": "Contact",
                           "ObjectType": "Business"
                         }'
-  /Files/{FileID}/Associations/{ObjectID}:
+  /Files/{FileId}/Associations/{ObjectId}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     delete:
@@ -412,7 +412,7 @@ paths:
       operationId: deleteFileAssociation
       description: By passing in the appropriate options, you can create a new folder
       parameters: 
-        - name: FileID
+        - name: FileId
           in: path
           required: true
           description: File id for single object
@@ -420,7 +420,7 @@ paths:
             type: string
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
-        - name: ObjectID
+        - name: ObjectId
           in: path
           required: true
           description: Object id for single object
@@ -432,7 +432,7 @@ paths:
         '204':
           description: Successful deletion - return response 204 no content
           x-isEmpty: true
-  /Associations/{ObjectID}:
+  /Associations/{ObjectId}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
@@ -444,7 +444,7 @@ paths:
       operationId: getAssociationsByObject
       description: By passing in the appropriate options, 
       parameters: 
-        - name: ObjectID
+        - name: ObjectId
           in: path
           required: true
           description: Object id for single object
@@ -556,7 +556,7 @@ paths:
             example: '{
                         "Name": "My Docs"
                       }'  
-  /Folders/{FolderID}:
+  /Folders/{FolderId}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
@@ -568,7 +568,7 @@ paths:
       operationId: getFolder
       description: By passing in the appropriate ID, you can search for specific folder
       parameters:
-        - name: FolderID
+        - name: FolderId
           in: path
           required: true
           description: Folder id for single object
@@ -592,7 +592,7 @@ paths:
       operationId: updateFolder
       description: By passing in the appropriate ID and properties, you can update a folder
       parameters:
-        - name: FolderID
+        - name: FolderId
           in: path
           required: true
           description: Folder id for single object
@@ -624,7 +624,7 @@ paths:
       operationId: deleteFolder
       description: By passing in the appropriate ID, you can delete a folder
       parameters:
-        - name: FolderID
+        - name: FolderId
           in: path
           required: true
           description: Folder id for single object
