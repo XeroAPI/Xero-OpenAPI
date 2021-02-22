@@ -8368,6 +8368,39 @@ paths:
           keySnake: contact_id
           default: 00000000-0000-0000-0000-000000000000
           object: contact
+        - lineItemTracking:
+          is_object: true
+          key: lineItemTracking
+          keyPascal: LineItemTracking
+          keySnake: line_item_tracking
+        - trackingCategoryId:
+          is_uuid: true
+          key: trackingCategoryId
+          keyPascal: TrackingCategoryId
+          keySnake: tracking_category_id
+          default: 00000000-0000-0000-0000-000000000000
+          object: lineItemTracking
+        - trackingOptionID:
+          is_last: true
+          is_uuid: true
+          key: trackingOptionID
+          keyPascal: TrackingOptionID
+          keySnake: tracking_option_id
+          default: 00000000-0000-0000-0000-000000000000
+          object: lineItemTracking
+        - lineItemTrackings:
+          is_list: true
+          key: lineItemTrackings
+          keyPascal: LineItemTracking
+          keySnake: line_item_trackings
+        - add_lineitemtrackings:
+          is_last: true
+          is_list_add: true
+          key: lineItemTrackings
+          keyPascal: LineItemTrackings
+          keySnake: line_item_trackings
+          python: line_item_tracking
+          object: lineItemTracking
         - lineItem:
           is_object: true
           key: lineItem
@@ -8392,11 +8425,16 @@ paths:
           default: 20.0
           object: lineItem
         - accountCode:
-          is_last: true
           key: accountCode
           keyPascal: AccountCode
           keySnake: account_code
           default: "000"
+          object: lineItem
+        - tracking:
+          is_last: true
+          key: tracking
+          keyPascal: Tracking
+          default: lineItemTrackings
           object: lineItem
         - lineItems:
           is_list: true
