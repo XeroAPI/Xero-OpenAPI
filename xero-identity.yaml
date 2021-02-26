@@ -221,9 +221,12 @@ components:
           type: string
   securitySchemes:
     BasicAuth:    
-      type: http
+      type: base64encodeClientAndSecret
       scheme: basic
       description: Basic + base64encode(client_id + ':' + client_secret)
+      flows:
+        scopes:
+          offline_access: Grant refresh token to persist API access
     OAuth2:
       type: oauth2
       description: Bearer access_token authentication
