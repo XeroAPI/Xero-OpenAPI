@@ -76,11 +76,80 @@ paths:
           description: Success - connection has been deleted no content returned 
         '404':
           description: Resource not found
+  '/connect/token':
+    post:
+      security:
+        - BasicAuth: []
+      tags: 
+        - identity
+      description: Exchange auth_code for a token_set
+      operationId: exchangeCode
+      summary: The request body will need to contain the grant type (authorization_code), code and redirect_uri
+      x-basepath: 'https://identity.xero.com'
+      parameters:
+        - required: true
+          in: path
+          name: grant_type
+          description: The OAuth2.0 grant_type
+          schema:
+            type: string
+        - required: true
+          in: path
+          name: code
+          description: The temporary exchange code
+          schema:
+            type: string
+        - required: true
+          in: path
+          name: redirect_uri
+          description: The OAuth2.0 redirect_uri
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success - return response of type Connections array with 0 to n Connection  
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Connection'
+              example: '{
+                          "access_token": "xyz.eee.xxxxxxxxxx",
+                          "id_token": "xyz.eee.xxxxxxxxxx"
+                          "expires_in: 1589364823
+                          "token_type": "Bearer"
+                          "refresh_token": "XXXXXXXXXXXXXX"
+                        }'
+
 components:
   schemas:
+    TokenSet:
+      externalDocs:
+        url: 'https://developer.xero.com/documentation/oauth2/auth-flow'
+      properties:
+        access_token:
+          description: Xero identifier
+          type: string
+          format: uuid
+        id_token:
+          description: Xero identifier of organisation
+          type: string
+          format: uuid
+        expires_in:
+          description: Identifier shared across connections authorised at the same time
+          type: string
+          format: uuid
+        token_type:
+          description: Xero tenant type (i.e. ORGANISATION, PRACTICE)
+          type: string
+        refresh_token:
+          description: Xero tenant name
+          type: string
+
     Connection:
       externalDocs:
-        url: 'http://developer.xero.com'
+        url: 'https://developer.xero.com/documentation/oauth2/auth-flow'
       properties:
         id:
           description: Xero identifier
@@ -114,7 +183,7 @@ components:
           x-php-format: '\DateTime'
     RefreshToken:
       externalDocs:
-        url: 'http://developer.xero.com'
+        url: 'https://developer.xero.com/documentation/oauth2/auth-flow'
       type: object
       properties:
         grant_type:
@@ -131,7 +200,7 @@ components:
           type: string
     AccessToken:
       externalDocs:
-        url: 'http://developer.xero.com'
+        url: 'https://developer.xero.com/documentation/oauth2/auth-flow'
       type: object
       properties:
         id_token:
@@ -154,9 +223,10 @@ components:
     BasicAuth:    
       type: http
       scheme: basic
+      description: Basic + base64encode(client_id + ':' + client_secret)
     OAuth2:
       type: oauth2
-      description: For more information
+      description: Bearer access_token authentication
       flows: 
         authorizationCode:
           authorizationUrl: 'https://login.xero.com/identity/connect/authorize'
