@@ -1444,8 +1444,13 @@ paths:
           keyPascal: Contact
           default: contact
           object: bankTransaction
+        - line_items:
+          is_list: true
+          key: lineItems
+          keyPascal: LineItems
+          csharp: LineItem
         - add_lineitems:
-          is_array_add: true
+          is_list_add: true
           key: lineItems
           keyPascal: LineItems
           keySnake: line_items
@@ -1463,6 +1468,13 @@ paths:
           python: bank_account
           default: bankAccount
           object: bankTransaction
+        - set_lineitems:
+          is_variable: true
+          nonString: true
+          key: lineItems
+          keyPascal: LineItems
+          object: bankTransaction
+          default: lineItems
         - bankTransactions:
           is_object: true
           key: bankTransactions
@@ -1699,7 +1711,7 @@ paths:
           object: bankTransaction
         - add_lineitems:
           is_array_add: true
-          key: bankTransaction
+          key: lineItems
           keyPascal: LineItems
           keySnake: line_items
           java: LineItems
@@ -6929,6 +6941,7 @@ paths:
           keyPascal: Amount
           default: 1.0
           is_money: true
+          csharp: new decimal(1.0)
           object: allocation
         - date:
           is_variable: true
@@ -11486,7 +11499,7 @@ paths:
           is_last: true
           is_variable: true
           nonString: true
-          key: journalLines
+          key: manualJournalLines
           keyPascal: JournalLines
           keySnake: journal_lines
           default: manualJournalLines
@@ -11799,7 +11812,7 @@ paths:
           is_last: true
           is_variable: true
           nonString: true
-          key: journalLines
+          key: manualJournalLines
           keyPascal: JournalLines
           keySnake: journal_lines
           default: manualJournalLines
@@ -22693,6 +22706,21 @@ paths:
           keyPascal: Rate
           default: 2.25
           is_money: true
+          object: taxComponent      
+        - taxComponents:
+          is_list: true
+          key: taxComponents
+          keyPascal: TaxComponents
+          csharp: TaxComponent
+        - add_taxComponent:
+          is_last: true
+          is_list_add: true
+          key: taxComponents
+          keyPascal: TaxComponents
+          keySnake: tax_components
+          java: TaxComponents
+          python: tax_component
+          csharp: TaxComponent
           object: taxComponent
         - taxRate:
           is_object: true
@@ -22704,16 +22732,13 @@ paths:
           keyPascal: Name
           default: CA State Tax
           object: taxRate
-        - add_taxComponent:
-          is_last: true
-          is_array_add: true
-          key: taxRate
+        - addTaxComponents:
+          is_variable: true
+          nonString: true
+          key: taxComponents
           keyPascal: TaxComponents
-          keySnake: tax_components
-          java: TaxComponents
-          python: tax_component
-          csharp: TaxComponent
-          object: taxComponent
+          object: taxRate
+          default: taxComponents
         - taxRates:
           is_object: true
           key: taxRates
