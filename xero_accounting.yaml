@@ -1709,8 +1709,13 @@ paths:
           keyPascal: Contact
           default: contact
           object: bankTransaction
-        - add_lineitems:
-          is_array_add: true
+        - lineItems:
+          is_list: true
+          key: lineItems
+          keyPascal: LineItems
+          csharp: LineItem
+        - add_lineitem:
+          is_list_add: true
           key: lineItems
           keyPascal: LineItems
           keySnake: line_items
@@ -1718,6 +1723,13 @@ paths:
           python: line_item
           csharp: LineItem
           object: lineItem
+        - set_lineitems:
+          is_variable: true
+          nonString: true
+          key: lineItems
+          keyPascal: LineItems
+          object: bankTransaction
+          default: lineItems
         - set_bankaccount:
           is_last: true
           is_variable: true
@@ -2132,15 +2144,26 @@ paths:
           keyPascal: Contact
           default: contact
           object: bankTransaction
-        - add_lineitems:
-          is_array_add: true
-          key: bankTransaction
+        - lineItems:
+          is_list: true
+          key: lineItems
+          keyPascal: LineItems
+          csharp: LineItem
+        - add_lineitem:
+          is_list_add: true
+          key: lineItems
           keyPascal: LineItems
           keySnake: line_items
           java: LineItems
           python: line_item
-          csharp: LineItem
           object: lineItem
+        - set_lineitems:
+          is_variable: true
+          nonString: true
+          key: lineItems
+          keyPascal: LineItems
+          object: bankTransaction
+          default: lineItems
         - set_bankaccount:
           is_last: true
           is_variable: true
@@ -4054,7 +4077,7 @@ paths:
           ruby: XeroRuby::Accounting::PhoneType::MOBILE
           python_string: MOBILE
           java: com.xero.models.accounting.Phone.PhoneTypeEnum.MOBILE
-          csharp: Phone.TypeEnum.MOBILE
+          csharp: Phone.PhoneTypeEnum.MOBILE
           object: phone
         - phones:
           is_list: true
@@ -5976,6 +5999,7 @@ paths:
           key: lineItems
           keyPascal: LineItems
           keySnake: line_items
+          csharp: LineItem
         - add_lineitems:
           is_last: true
           is_list_add: true
@@ -6401,6 +6425,7 @@ paths:
           key: lineItems
           keyPascal: LineItems
           keySnake: line_items
+          csharp: LineItem
         - add_lineitems:
           is_last: true
           is_list_add: true
@@ -6436,7 +6461,7 @@ paths:
           ruby: XeroRuby::Accounting::CreditNote::AUTHORISED
           python_string: AUTHORISED
           java: com.xero.models.accounting.CreditNote.StatusEnum.AUTHORISED
-          csharp: CreditNote.TypeEnum.ACCPAYCREDIT
+          csharp: CreditNote.StatusEnum.AUTHORISED
           object: creditNote
         - reference:
           key: reference
@@ -22841,6 +22866,21 @@ paths:
           default: 2.25
           is_money: true
           object: taxComponent
+        - taxComponents:
+          is_list: true
+          key: taxComponents
+          keyPascal: TaxComponents
+          csharp: TaxComponent
+        - add_taxComponent:
+          is_last: true
+          is_list_add: true
+          key: taxComponents
+          keyPascal: TaxComponents
+          keySnake: tax_components
+          java: TaxComponents
+          python: tax_component
+          csharp: TaxComponent
+          object: taxComponent
         - taxRate:
           is_object: true
           key: taxRate
@@ -22851,16 +22891,13 @@ paths:
           keyPascal: Name
           default: CA State Tax
           object: taxRate
-        - add_taxComponent:
-          is_last: true
-          is_array_add: true
-          key: taxRate
+        - set_taxComponents:
+          is_variable: true
+          nonString: true
+          key: taxComponents
           keyPascal: TaxComponents
-          keySnake: tax_components
-          java: TaxComponents
-          python: tax_component
-          csharp: TaxComponent
-          object: taxComponent
+          object: taxRate
+          default: taxComponents
         - taxRates:
           is_object: true
           key: taxRates
