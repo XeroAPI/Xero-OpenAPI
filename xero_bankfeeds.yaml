@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: "2.10.0"
+  version: "2.10.2"
   title: Xero Bank Feeds API
   description: The Bank Feeds API is a closed API that is only available to financial institutions that have an established financial services partnership with Xero.
                If you're an existing financial services partner that wants access, contact your local Partner Manager.
@@ -42,7 +42,7 @@ paths:
             type: integer
             example: 100
       responses:
-        '201':
+        '202':
           description: search results matching criteria returned with pagination and items array
           content:
             application/json:
@@ -110,7 +110,7 @@ paths:
                 ]
               }
       responses:
-        '201':
+        '202':
           description: success new feed connection(s)response
           content:
             application/json:
@@ -478,7 +478,8 @@ paths:
                               "transactionId":"123446422",
                               "payeeName":"StarLord90315",
                               "reference":"Foobar95578",
-                              "chequeNumber":"12379009"
+                              "chequeNumber":"12379009",
+                              "transactionType": "Refund"
                             }
                         ]
                       },
@@ -503,13 +504,14 @@ paths:
                               "transactionId":"123449402",
                               "payeeName":"StarLord56705",
                               "reference":"Foobar67355",
-                              "chequeNumber":"12379350"
+                              "chequeNumber":"12379350",
+                              "transactionType": "Currency Conversion Fee"
                             }
                         ]
                       }
                   ]
                 }
-  /Statements/{statementID}:
+  /Statements/{statementId}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
@@ -807,6 +809,11 @@ components:
           example: "021"
           description: The cheque/check number
           maximum: 20
+        transactionType: 
+          type: string
+          example: "Refund"
+          description: Descriptive transaction type
+          maximum: 30
     Error:
       type: object
       description: On error, the API consumer will receive an HTTP response with a HTTP Status Code of 4xx or 5xx and a Content-Type of application/problem+json.

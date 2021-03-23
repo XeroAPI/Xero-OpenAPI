@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Xero Accounting API
-  version: "2.10.0"
+  version: "2.10.2"
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
   contact:
     name: "Xero Platform Team"
@@ -28,6 +28,7 @@ paths:
           name: where
           description: Filter by an any element
           example: Status==&quot;ACTIVE&quot; AND Type==&quot;BANK&quot;
+          x-example-csharp: Status==\"ACTIVE\"
           x-example-java: Status==&quot;&apos; + Account.StatusEnum.ACTIVE+ &apos;&quot;
           x-example-php: Status==&quot;&apos; . \XeroAPI\XeroPHP\Models\Accounting\Account::STATUS_ACTIVE . &apos;&quot;
           x-example-ruby: Status==#{XeroRuby::Accounting::Account::ACTIVE}
@@ -100,7 +101,7 @@ paths:
           ruby: XeroRuby::Accounting::AccountType::EXPENSE
           python: AccountType.EXPENSE
           java: com.xero.models.accounting.AccountType.EXPENSE
-          csharp: Account.ClassEnum.EXPENSE
+          csharp: AccountType.EXPENSE
           object: account
         - description:
           is_last: true
@@ -258,7 +259,7 @@ paths:
           ruby: XeroRuby::Accounting::AccountType::EXPENSE
           python: AccountType.EXPENSE
           java: com.xero.models.accounting.AccountType.EXPENSE
-          csharp: Account.ClassEnum.EXPENSE
+          csharp: AccountType.EXPENSE
           object: account
         - description:
           key: description
@@ -282,6 +283,7 @@ paths:
           key: accounts
           keyPascal: Accounts
           java: Accounts
+          csharp: Account
           object: account
       parameters:
         - required: true
@@ -704,6 +706,7 @@ paths:
           name: where
           description: Filter by an any element
           example: Status=="AUTHORISED"
+          x-example-csharp: Status==\&quot;AUTHORISED\&quot;
           x-example-java: Status==&quot;&apos; + BatchPayment.StatusEnum.AUTHORISED + &apos;&quot;
           x-example-php: Status==&quot;&apos; . XeroAPI\XeroPHP\Models\Accounting\BatchPayment::STATUS_AUTHORISED . &apos;&quot;
           x-example-ruby: Status==#{XeroRuby::Accounting::BatchPayment::AUTHORISED}
@@ -833,7 +836,7 @@ paths:
           java_datatype: LocalDate
           default: "LocalDate.now()"
           java: "LocalDate.now()"
-          csharp: "new DateTime('XXXX')"
+          csharp: "DateTime.Now"
           node: "'2020-12-10'"
           php: "new DateTime('2020-12-10')"
           python: "dateutil.parser.parse('2020-12-03T00:00:00Z')"
@@ -901,6 +904,7 @@ paths:
           key: amount
           keyPascal: Amount
           default: 1.00
+          is_money: true
           object: payment
         - set_invoice:
           is_last: true
@@ -966,6 +970,7 @@ paths:
           keySnake: batch_payments
           java: BatchPayments
           python: batch_payment
+          csharp: BatchPayment
           object: batchPayment
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
@@ -1151,6 +1156,7 @@ paths:
           keySnake: history_records
           java: HistoryRecords
           python: history_record
+          csharp: HistoryRecord
           object: historyRecord 
       parameters:
         - required: true
@@ -1203,6 +1209,7 @@ paths:
           description: Filter by an any element
           example: Status=="AUTHORISED"
           x-example-java: Status==&quot;&apos; + BankTransaction.StatusEnum.AUTHORISED + &apos;&quot;
+          x-example-csharp: Status==\"AUTHORISED\"
           x-example-php: Status==&quot;&apos; . XeroAPI\XeroPHP\Models\Accounting\BankTransaction::STATUS_AUTHORISED . &apos;&quot;
           x-example-ruby: Status==#{XeroRuby::Accounting::BankTransaction::AUTHORISED}
           schema:
@@ -1376,6 +1383,7 @@ paths:
           key: quantity
           keyPascal: Quantity
           default: 1.0
+          is_money: true
           object: lineItem
         - unitAmount:
           nonString: true
@@ -1383,6 +1391,7 @@ paths:
           keyPascal: UnitAmount
           keySnake: unit_amount
           default: 20.0
+          is_money: true
           object: lineItem
         - accountCode:
           is_last: true
@@ -1390,6 +1399,23 @@ paths:
           keyPascal: AccountCode
           keySnake: account_code
           default: "000"
+          object: lineItem
+        - line_items:
+          is_list: true
+          key: lineItems
+          keyPascal: LineItems
+          keySnake: line_items
+          csharp: LineItem
+          java: LineItem
+        - add_lineitems:
+          is_last: true
+          is_list_add: true
+          key: lineItems
+          keyPascal: LineItems
+          keySnake: line_items
+          java: LineItems
+          python: line_item
+          csharp: LineItem
           object: lineItem
         - bankAccount:
           is_object: true
@@ -1428,14 +1454,6 @@ paths:
           keyPascal: Contact
           default: contact
           object: bankTransaction
-        - add_lineitems:
-          is_array_add: true
-          key: lineItems
-          keyPascal: LineItems
-          keySnake: line_items
-          java: LineItems
-          python: line_item
-          object: lineItem
         - set_bankaccount:
           is_last: true
           is_variable: true
@@ -1446,6 +1464,13 @@ paths:
           python: bank_account
           default: bankAccount
           object: bankTransaction
+        - set_lineitems:
+          is_variable: true
+          nonString: true
+          key: lineItems
+          keyPascal: LineItems
+          object: bankTransaction
+          default: lineItems
         - bankTransactions:
           is_object: true
           key: bankTransactions
@@ -1458,6 +1483,7 @@ paths:
           keySnake: bank_transactions
           java: BankTransactions
           python: bank_transaction
+          csharp: BankTransaction
           object: bankTransaction
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
@@ -1623,6 +1649,7 @@ paths:
           key: quantity
           keyPascal: Quantity
           default: 1.0
+          is_money: true
           object: lineItem
         - unitAmount:
           nonString: true
@@ -1630,6 +1657,7 @@ paths:
           keyPascal: UnitAmount
           keySnake: unit_amount
           default: 20.0
+          is_money: true
           object: lineItem
         - accountCode:
           is_last: true
@@ -1637,6 +1665,23 @@ paths:
           keyPascal: AccountCode
           keySnake: account_code
           default: "000"
+          object: lineItem
+        - line_items:
+          is_list: true
+          key: lineItems
+          keyPascal: LineItems
+          keySnake: line_items
+          csharp: LineItem
+          java: LineItem
+        - add_lineitems:
+          is_last: true
+          is_list_add: true
+          key: lineItems
+          keyPascal: LineItems
+          keySnake: line_items
+          java: LineItems
+          python: line_item
+          csharp: LineItem
           object: lineItem
         - bankAccount:
           is_object: true
@@ -1675,14 +1720,13 @@ paths:
           keyPascal: Contact
           default: contact
           object: bankTransaction
-        - add_lineitems:
-          is_array_add: true
+        - set_lineitems:
+          is_variable: true
+          nonString: true
           key: lineItems
           keyPascal: LineItems
-          keySnake: line_items
-          java: LineItems
-          python: line_item
-          object: lineItem
+          object: bankTransaction
+          default: lineItems
         - set_bankaccount:
           is_last: true
           is_variable: true
@@ -1705,6 +1749,7 @@ paths:
           keySnake: bank_transactions
           java: BankTransactions
           python: bank_transaction
+          csharp: BankTransaction
           object: bankTransaction
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
@@ -2035,6 +2080,7 @@ paths:
           key: quantity
           keyPascal: Quantity
           default: 1.0
+          is_money: true
           object: lineItem
         - unitAmount:
           nonString: true
@@ -2042,6 +2088,7 @@ paths:
           keyPascal: UnitAmount
           keySnake: unit_amount
           default: 20.0
+          is_money: true
           object: lineItem
         - accountCode:
           is_last: true
@@ -2049,6 +2096,23 @@ paths:
           keyPascal: AccountCode
           keySnake: account_code
           default: "000"
+          object: lineItem
+        - line_items:
+          is_list: true
+          key: lineItems
+          keyPascal: LineItems
+          keySnake: line_items
+          csharp: LineItem
+          java: LineItem
+        - add_lineitems:
+          is_last: true
+          is_list_add: true
+          key: lineItems
+          keyPascal: LineItems
+          keySnake: line_items
+          java: LineItems
+          python: line_item
+          csharp: LineItem
           object: lineItem
         - bankAccount:
           is_object: true
@@ -2092,14 +2156,13 @@ paths:
           keyPascal: Contact
           default: contact
           object: bankTransaction
-        - add_lineitems:
-          is_array_add: true
+        - set_lineitems:
+          is_variable: true
+          nonString: true
           key: lineItems
           keyPascal: LineItems
-          keySnake: line_items
-          java: LineItems
-          python: line_item
-          object: lineItem
+          object: bankTransaction
+          default: lineItems
         - set_bankaccount:
           is_last: true
           is_variable: true
@@ -2122,6 +2185,7 @@ paths:
           keySnake: bank_transactions
           java: BankTransactions
           python: bank_transaction
+          csharp: BankTransaction
           object: bankTransaction
       parameters:
         - required: true
@@ -2634,6 +2698,7 @@ paths:
           keySnake: history_records
           java: HistoryRecords
           python: history_record
+          csharp: HistoryRecord
           object: historyRecord 
       parameters:
         - required: true
@@ -2788,6 +2853,7 @@ paths:
           key: amount
           keyPascal: Amount
           default: 1.0
+          is_money: true
           object: bankTransfer
         - bankTransfers:
           is_object: true
@@ -2801,6 +2867,7 @@ paths:
           keySnake: bank_transfers
           java: BankTransfers
           python: bank_transfer
+          csharp: BankTransfer
           object: bankTransfer
       responses:
         '200':
@@ -3246,6 +3313,7 @@ paths:
           keySnake: history_records
           java: HistoryRecords
           python: history_record
+          csharp: HistoryRecord
           object: historyRecord 
       parameters:
         - required: true
@@ -3477,6 +3545,7 @@ paths:
           name: where
           description: Filter by an any element
           example: ContactStatus==&quot;ACTIVE&quot;
+          x-example-csharp: ContactStatus==\&quot;ACTIVE\&quot;
           x-example-java: ContactStatus==&quot;&apos; + Contact.ContactStatusEnum.ACTIVE + &apos;&quot;
           x-example-php: ContactStatus==&quot;&apos; . \XeroAPI\XeroPHP\Models\Accounting\Contact::CONTACT_STATUS_ACTIVE . &apos;&quot;
           x-example-ruby: ContactStatus==#{XeroRuby::Accounting::Contact::ACTIVE}
@@ -3496,6 +3565,7 @@ paths:
           example: '&quot;00000000-0000-0000-0000-000000000000&quot;'
           x-example-java: Arrays.asList(UUID.fromString("00000000-0000-0000-0000-000000000000"))
           x-example-php: '&quot;00000000-0000-0000-0000-000000000000&quot;'
+          x-example-csharp: new List&lt;Guid&gt;{Guid.Parse("00000000-0000-0000-0000-000000000000")};
           schema:
             type: array
             items:
@@ -3692,7 +3762,7 @@ paths:
           ruby: XeroRuby::Accounting::PhoneType::MOBILE
           python_string: MOBILE
           java: com.xero.models.accounting.Phone.PhoneTypeEnum.MOBILE
-          csharp: Phone.TypeEnum.MOBILE
+          csharp: Phone.PhoneTypeEnum.MOBILE
           object: phone
         - phones:
           is_list: true
@@ -3737,6 +3807,7 @@ paths:
           key: contacts
           keyPascal: Contacts
           java: Contacts
+          csharp: Contact
           object: contact
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
@@ -3997,7 +4068,7 @@ paths:
           ruby: XeroRuby::Accounting::PhoneType::MOBILE
           python_string: MOBILE
           java: com.xero.models.accounting.Phone.PhoneTypeEnum.MOBILE
-          csharp: Phone.TypeEnum.MOBILE
+          csharp: Phone.PhoneTypeEnum.MOBILE
           object: phone
         - phones:
           is_list: true
@@ -4042,6 +4113,7 @@ paths:
           key: contacts
           keyPascal: Contacts
           java: Contacts
+          csharp: Contact
           object: contact
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
@@ -4562,6 +4634,7 @@ paths:
           key: contacts
           keyPascal: Contacts
           java: Contacts
+          csharp: Contact
           object: contact
       parameters:
         - required: true
@@ -4983,6 +5056,7 @@ paths:
           keySnake: history_records
           java: HistoryRecords
           python: history_record
+          csharp: HistoryRecord
           object: historyRecord 
       parameters:
         - required: true
@@ -5015,6 +5089,7 @@ paths:
           name: where
           description: Filter by an any element
           example: Status=="ACTIVE"
+          x-example-csharp: Status==\"ACTIVE\"
           x-example-java: Status==&quot;&apos; + ContactGroup.StatusEnum.ACTIVE + &apos;&quot;
           x-example-php: Status==&quot;&apos; . \XeroAPI\XeroPHP\Models\Accounting\ContactGroup::STATUS_ACTIVE . &apos;&quot;
           x-example-ruby: Status==#{XeroRuby::Accounting::ContactGroup::ACTIVE}
@@ -5087,6 +5162,7 @@ paths:
           keySnake: contact_groups
           java: ContactGroups
           python: contact_group
+          csharp: ContactGroup
           object: contactGroup
       responses:
         '200':
@@ -5234,6 +5310,7 @@ paths:
           keySnake: contact_groups
           java: ContactGroups
           python: contact_group
+          csharp: ContactGroup
           object: contactGroup
       parameters:
         - required: true
@@ -5316,6 +5393,7 @@ paths:
           key: contacts
           keyPascal: Contacts
           java: Contacts
+          csharp: Contact
           object: contact
       parameters:
         - required: true
@@ -5447,6 +5525,7 @@ paths:
           name: where
           description: Filter by an any element
           example: Status=="DRAFT"
+          x-example-csharp: Status==\"DRAFT\"
           x-example-java: Status==&quot;&apos; + CreditNote.StatusEnum.DRAFT + &apos;&quot;
           x-example-php: Status==&quot;&apos; . \XeroAPI\XeroPHP\Models\Accounting\CreditNote::STATUS_DRAFT . &apos;&quot;
           x-example-ruby: Status==#{XeroRuby::Accounting::CreditNote::DRAFT}
@@ -5570,7 +5649,7 @@ paths:
           default: "LocalDate.now()"
           java: "LocalDate.now()"
           node: "'2020-12-10'"
-          csharp: "new DateTime('XXXX')"
+          csharp: "DateTime.Now"
           php: "new DateTime('2020-12-10')"
           python: "dateutil.parser.parse('2020-12-03T00:00:00Z')"
           ruby: "YYYY-MM-DD"
@@ -5601,6 +5680,7 @@ paths:
           key: quantity
           keyPascal: Quantity
           default: 1.0
+          is_money: true
           object: lineItem
         - unitAmount:
           nonString: true
@@ -5608,6 +5688,7 @@ paths:
           keyPascal: UnitAmount
           keySnake: unit_amount
           default: 20.0
+          is_money: true
           object: lineItem
         - accountCode:
           is_last: true
@@ -5616,18 +5697,22 @@ paths:
           keySnake: account_code
           default: "000"
           object: lineItem
-        - lineItems:
+        - line_items:
           is_list: true
           key: lineItems
           keyPascal: LineItems
           keySnake: line_items
+          csharp: LineItem
+          java: LineItem
         - add_lineitems:
           is_last: true
           is_list_add: true
           key: lineItems
           keyPascal: LineItems
           keySnake: line_items
+          java: LineItems
           python: line_item
+          csharp: LineItem
           object: lineItem
         - creditNote:
           is_object: true
@@ -5644,7 +5729,7 @@ paths:
           ruby: XeroRuby::Accounting::CreditNote::ACCPAYCREDIT
           python_string: ACCPAYCREDIT
           java: com.xero.models.accounting.CreditNote.TypeEnum.ACCPAYCREDIT
-          csharp: CreditNote.xxx
+          csharp: CreditNote.TypeEnum.ACCPAYCREDIT
           object: creditNote
         - set_contact:
           is_variable: true
@@ -5683,6 +5768,7 @@ paths:
           keySnake: credit_notes
           java: CreditNotes
           python: credit_note
+          csharp: CreditNote
           object: creditNote
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
@@ -5843,7 +5929,7 @@ paths:
           java_datatype: LocalDate
           default: "LocalDate.now()"
           java: "LocalDate.now()"
-          csharp: "new DateTime('XXXX')"
+          csharp: "DateTime.Now"
           node: "'2020-12-10'"
           php: "new DateTime('2020-12-10')"
           python: "dateutil.parser.parse('2020-12-03T00:00:00Z')"
@@ -5875,6 +5961,7 @@ paths:
           key: quantity
           keyPascal: Quantity
           default: 1.0
+          is_money: true
           object: lineItem
         - unitAmount:
           nonString: true
@@ -5882,6 +5969,7 @@ paths:
           keyPascal: UnitAmount
           keySnake: unit_amount
           default: 20.0
+          is_money: true
           object: lineItem
         - accountCode:
           is_last: true
@@ -5890,18 +5978,22 @@ paths:
           keySnake: account_code
           default: "000"
           object: lineItem
-        - lineItems:
+        - line_items:
           is_list: true
           key: lineItems
           keyPascal: LineItems
           keySnake: line_items
+          csharp: LineItem
+          java: LineItem
         - add_lineitems:
           is_last: true
           is_list_add: true
           key: lineItems
           keyPascal: LineItems
           keySnake: line_items
+          java: LineItems
           python: line_item
+          csharp: LineItem
           object: lineItem
         - creditNote:
           is_object: true
@@ -5918,7 +6010,7 @@ paths:
           ruby: XeroRuby::Accounting::CreditNote::ACCPAYCREDIT
           python_string: ACCPAYCREDIT
           java: com.xero.models.accounting.CreditNote.TypeEnum.ACCPAYCREDIT
-          csharp: CreditNote.xxx
+          csharp: CreditNote.TypeEnum.ACCPAYCREDIT
           object: creditNote
         - set_contact:
           is_variable: true
@@ -5957,6 +6049,7 @@ paths:
           keySnake: credit_notes
           java: CreditNotes
           python: credit_note
+          csharp: CreditNote
           object: creditNote
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
@@ -6264,7 +6357,7 @@ paths:
           java_datatype: LocalDate
           default: "LocalDate.now()"
           java: "LocalDate.now()"
-          csharp: "new DateTime('XXXX')"
+          csharp: "DateTime.Now"
           node: "'2020-12-10'"
           php: "new DateTime('2020-12-10')"
           python: "dateutil.parser.parse('2020-12-03T00:00:00Z')"
@@ -6296,6 +6389,7 @@ paths:
           key: quantity
           keyPascal: Quantity
           default: 1.0
+          is_money: true
           object: lineItem
         - unitAmount:
           nonString: true
@@ -6303,6 +6397,7 @@ paths:
           keyPascal: UnitAmount
           keySnake: unit_amount
           default: 20.0
+          is_money: true
           object: lineItem
         - accountCode:
           is_last: true
@@ -6311,18 +6406,22 @@ paths:
           keySnake: account_code
           default: "000"
           object: lineItem
-        - lineItems:
+        - line_items:
           is_list: true
           key: lineItems
           keyPascal: LineItems
           keySnake: line_items
+          csharp: LineItem
+          java: LineItem
         - add_lineitems:
           is_last: true
           is_list_add: true
           key: lineItems
           keyPascal: LineItems
           keySnake: line_items
+          java: LineItems
           python: line_item
+          csharp: LineItem
           object: lineItem
         - creditNote:
           is_object: true
@@ -6339,7 +6438,7 @@ paths:
           ruby: XeroRuby::Accounting::CreditNote::ACCPAYCREDIT
           python_string: ACCPAYCREDIT
           java: com.xero.models.accounting.CreditNote.TypeEnum.ACCPAYCREDIT
-          csharp: CreditNote.xxx
+          csharp: CreditNote.TypeEnum.ACCPAYCREDIT
           object: creditNote
         - status:
           nonString: true
@@ -6351,7 +6450,7 @@ paths:
           ruby: XeroRuby::Accounting::CreditNote::AUTHORISED
           python_string: AUTHORISED
           java: com.xero.models.accounting.CreditNote.StatusEnum.AUTHORISED
-          csharp: CreditNote.xxx
+          csharp: CreditNote.StatusEnum.AUTHORISED
           object: creditNote
         - reference:
           key: reference
@@ -6395,6 +6494,7 @@ paths:
           keySnake: credit_notes
           java: CreditNotes
           python: credit_note
+          csharp: CreditNote
           object: creditNote
       parameters:
         - required: true
@@ -6829,7 +6929,7 @@ paths:
           java_datatype: LocalDate
           default: "LocalDate.now()"
           java: "LocalDate.now()"
-          csharp: "new DateTime('XXXX')"
+          csharp: "DateTime.Now"
           node: "'2020-12-10'"
           php: "new DateTime('2020-12-10')"
           python: "dateutil.parser.parse('2020-12-03T00:00:00Z')"
@@ -6854,6 +6954,8 @@ paths:
           key: amount
           keyPascal: Amount
           default: 1.0
+          is_money: true
+          csharp: new decimal(1.0)
           object: allocation
         - date:
           is_variable: true
@@ -6881,6 +6983,7 @@ paths:
           key: allocations
           keyPascal: Allocations
           java: Allocations
+          csharp: Allocation
           object: allocation
       parameters:
         - required: true
@@ -7004,6 +7107,7 @@ paths:
           keySnake: history_records
           java: HistoryRecords
           python: history_record
+          csharp: HistoryRecord 
           object: historyRecord 
       parameters:
         - required: true
@@ -7036,6 +7140,7 @@ paths:
           name: where
           description: Filter by an any element
           example: Code=="USD"
+          x-example-csharp: Code==\"USD\"
           x-example-php: Code==&quot;&apos; . \XeroAPI\XeroPHP\Models\Accounting\CurrencyCode::USD . &apos;&quot;
           x-example-ruby: Code==#{XeroRuby::Accounting::CurrencyCode::USD}
           schema:
@@ -7088,7 +7193,7 @@ paths:
           ruby: XeroRuby::Accounting::CurrencyCode::USD
           python: CurrencyCode.USD
           java: com.xero.models.accounting.CurrencyCode.USD
-          csharp: CurrencyCode.xxx
+          csharp: CurrencyCode.USD
           object: currency
         - description:
           is_last: true
@@ -7130,6 +7235,7 @@ paths:
           name: where
           description: Filter by an any element
           example: Status=="ACTIVE"
+          x-example-csharp: Status==\"ACTIVE\"
           x-example-java: Status==&quot;&apos; + Employee.StatusEnum.ACTIVE + &apos;&quot;
           x-example-php: Status==&quot;&apos; . \XeroAPI\XeroPHP\Models\Accounting\Employee::STATUS_ACTIVE . &apos;&quot;
           x-example-ruby: Status==#{XeroRuby::Accounting::Employee::ACTIVE}
@@ -7225,6 +7331,7 @@ paths:
           key: employees
           keyPascal: Employees
           java: Employees
+          csharp: Employee
           object: employee
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
@@ -7310,6 +7417,7 @@ paths:
           key: employees
           keyPascal: Employees
           java: Employees
+          csharp: Employee
           object: employee
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
@@ -7420,6 +7528,7 @@ paths:
           name: where
           description: Filter by an any element
           example: Status=="SUBMITTED"
+          x-example-csharp: Status==\"SUBMITTED\"
           x-example-java: Status==&quot;&apos; + ExpenseClaim.StatusEnum.SUBMITTED + &apos;&quot;
           x-example-php: Status==&quot;&apos; . \XeroAPI\XeroPHP\Models\Accounting\ExpenseClaim::STATUS_SUBMITTED . &apos;&quot;
           x-example-ruby: Status==#{XeroRuby::Accounting::ExpenseClaim::SUBMITTED}
@@ -7483,7 +7592,7 @@ paths:
           java_datatype: LocalDate
           default: "LocalDate.now()"
           java: "LocalDate.now()"
-          csharp: "new DateTime('XXXX')"
+          csharp: "DateTime.Now"
           node: "'2020-12-10'"
           php: "new DateTime('2020-12-10')"
           python: "dateutil.parser.parse('2020-12-03T00:00:00Z')"
@@ -7545,7 +7654,7 @@ paths:
           ruby: XeroRuby::Accounting::ExpenseClaim::SUBMITTED
           python_string: SUBMITTED
           java: com.xero.models.accounting.ExpenseClaim.StatusEnum.SUBMITTED
-          csharp: ExpenseClaim.xxx
+          csharp: ExpenseClaim.StatusEnum.SUBMITTED
           object: expenseClaim
         - set_user:
           is_variable: true
@@ -7574,6 +7683,7 @@ paths:
           keySnake: expense_claims
           java: ExpenseClaims
           python: expense_claim
+          csharp: ExpenseClaim
           object: expenseClaim
       requestBody:
         required: true
@@ -7795,7 +7905,7 @@ paths:
           java_datatype: LocalDate
           default: "LocalDate.now()"
           java: "LocalDate.now()"
-          csharp: "new DateTime('XXXX')"
+          csharp: "DateTime.Now"
           node: "'2020-12-10'"
           php: "new DateTime('2020-12-10')"
           python: "dateutil.parser.parse('2020-12-03T00:00:00Z')"
@@ -7857,7 +7967,7 @@ paths:
           ruby: XeroRuby::Accounting::ExpenseClaim::SUBMITTED
           python_string: SUBMITTED
           java: com.xero.models.accounting.ExpenseClaim.StatusEnum.SUBMITTED
-          csharp: ExpenseClaim.xxx
+          csharp: ExpenseClaim.StatusEnum.SUBMITTED
           object: expenseClaim
         - set_user:
           is_variable: true
@@ -7886,6 +7996,7 @@ paths:
           keySnake: expense_claims
           java: ExpenseClaims
           python: expense_claim
+          csharp: ExpenseClaim
           object: expenseClaim
       parameters:
         - required: true
@@ -8055,6 +8166,7 @@ paths:
           keySnake: history_records
           java: HistoryRecords
           python: history_record
+          csharp: HistoryRecord
           object: historyRecord 
       parameters:
         - required: true
@@ -8089,6 +8201,7 @@ paths:
           x-example-java: Status==&quot;&apos; + Invoice.StatusEnum.DRAFT + &apos;&quot;
           x-example-php: Status==&quot;&apos; . \XeroAPI\XeroPHP\Models\Accounting\Invoice::STATUS_DRAFT . &apos;&quot;
           x-example-ruby: Status==#{XeroRuby::Accounting::Invoice::DRAFT}
+          x-example-csharp: Status==\"DRAFT\"
           schema:
             type: string
         - in: query
@@ -8105,6 +8218,7 @@ paths:
           example: '&quot;00000000-0000-0000-0000-000000000000&quot;'
           x-example-java: Arrays.asList(UUID.fromString("00000000-0000-0000-0000-000000000000"))
           x-example-php: '&quot;00000000-0000-0000-0000-000000000000&quot;'
+          x-example-csharp: new List&lt;Guid&gt;{Guid.Parse("00000000-0000-0000-0000-000000000000")};
           schema:
             type: array
             items:
@@ -8118,6 +8232,7 @@ paths:
           example: '&quot;INV-001&quot;, &quot;INV-002&quot;'
           x-example-java: Arrays.asList("INV-001","INV-002")
           x-example-php: '&quot;INV-001&quot;, &quot;INV-002&quot;'
+          x-example-csharp: new List&lt;string&gt;{&quotINV-001&quot,&quotINV-002&quot};
           schema:
             type: array
             items:
@@ -8130,6 +8245,7 @@ paths:
           example: '&quot;00000000-0000-0000-0000-000000000000&quot;'
           x-example-java: Arrays.asList(UUID.fromString("00000000-0000-0000-0000-000000000000"))
           x-example-php: '&quot;00000000-0000-0000-0000-000000000000&quot;'
+          x-example-csharp: new List&lt;Guid&gt;{Guid.Parse(&quot00000000-0000-0000-0000-000000000000&quot)};
           schema:
             type: array
             items:
@@ -8142,6 +8258,7 @@ paths:
           example: '&quot;DRAFT&quot;, &quot;SUBMITTED&quot;'
           x-example-java: Arrays.asList("DRAFT","SUBMITTED")
           x-example-php: '&quot;DRAFT&quot;, &quot;SUBMITTED&quot;'
+          x-example-csharp: new List&lt;string&gt;{&quotDRAFT&quot,&quotSUBMITTED&quot};
           schema:
             type: array
             items:
@@ -8323,7 +8440,7 @@ paths:
           java_datatype: LocalDate
           default: "LocalDate.of(2020, Month.OCTOBER, 10)"
           java: "LocalDate.of(2020, Month.OCTOBER, 10)"
-          csharp: "new DateTime('XXXX')"
+          csharp: "new DateTime(2020, 10, 10)"
           php: "new DateTime('2020-10-10')"
           node: "'2020-10-10'"
           python: "dateutil.parser.parse('2020-10-10T00:00:00Z')"
@@ -8334,9 +8451,10 @@ paths:
           keyPascal: Date
           keySnake: due_date_value
           java_datatype: LocalDate
+          csharp_datatype: DateTime
           default: "LocalDate.of(2020, Month.OCTOBER, 28)"
           java: "LocalDate.of(2020, Month.OCTOBER, 28)"
-          csharp: "new DateTime('XXXX')"
+          csharp: "new DateTime(2020, 10, 10)"
           php: "new DateTime('2020-10-28')"
           node: "'2020-10-28'"
           python: "dateutil.parser.parse('2020-10-28T00:00:00Z')"
@@ -8401,6 +8519,7 @@ paths:
           key: quantity
           keyPascal: Quantity
           default: 1.0
+          is_money: true
           object: lineItem
         - unitAmount:
           nonString: true
@@ -8408,6 +8527,7 @@ paths:
           keyPascal: UnitAmount
           keySnake: unit_amount
           default: 20.0
+          is_money: true
           object: lineItem
         - accountCode:
           key: accountCode
@@ -8422,18 +8542,22 @@ paths:
           keyPascal: Tracking
           default: lineItemTrackings
           object: lineItem
-        - lineItems:
+        - line_items:
           is_list: true
           key: lineItems
-          keyPascal: LineItem
+          keyPascal: LineItems
           keySnake: line_items
+          csharp: LineItem
+          java: LineItem
         - add_lineitems:
           is_last: true
           is_list_add: true
           key: lineItems
           keyPascal: LineItems
           keySnake: line_items
+          java: LineItems
           python: line_item
+          csharp: LineItem
           object: lineItem
         - invoice:
           is_object: true
@@ -8449,7 +8573,7 @@ paths:
           ruby: XeroRuby::Accounting::Invoice::ACCREC
           python_string: ACCREC
           java: com.xero.models.accounting.Invoice.TypeEnum.ACCREC
-          csharp: Invoice.xxx
+          csharp: Invoice.TypeEnum.ACCREC
           object: invoice
         - set_contact:
           is_variable: true
@@ -8470,7 +8594,7 @@ paths:
           is_variable: true
           nonString: true
           key: dueDate
-          keyPascal: Date
+          keyPascal: DueDate
           keySnake: due_date
           default: dueDateValue
           python: due_date_value
@@ -8500,7 +8624,7 @@ paths:
           ruby: XeroRuby::Accounting::Invoice::DRAFT
           python_string: DRAFT 
           java: com.xero.models.accounting.Invoice.StatusEnum.DRAFT
-          csharp: Invoice.xxx
+          csharp: Invoice.StatusEnum.DRAFT
           object: invoice
         - invoices:
           is_object: true
@@ -8512,6 +8636,7 @@ paths:
           key: invoices
           keyPascal: Invoices
           java: Invoices
+          csharp: Invoice
           object: invoice
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
@@ -8697,7 +8822,7 @@ paths:
           java_datatype: LocalDate
           default: "LocalDate.of(2020, Month.OCTOBER, 10)"
           java: "LocalDate.of(2020, Month.OCTOBER, 10)"
-          csharp: "new DateTime('XXXX')"
+          csharp: "new DateTime(2020, 10, 10)"
           php: "new DateTime('2020-10-10')"
           node: "'2020-10-10'"
           python: "dateutil.parser.parse('2020-10-10T00:00:00Z')"
@@ -8710,7 +8835,7 @@ paths:
           java_datatype: LocalDate
           default: "LocalDate.of(2020, Month.OCTOBER, 28)"
           java: "LocalDate.of(2020, Month.OCTOBER, 28)"
-          csharp: "new DateTime('XXXX')"
+          csharp: "new DateTime(2020, 10, 10)"
           php: "new DateTime('2020-10-28')"
           node: "'2020-10-28'"
           python: "dateutil.parser.parse('2020-10-28T00:00:00Z')"
@@ -8742,6 +8867,7 @@ paths:
           key: quantity
           keyPascal: Quantity
           default: 1.0
+          is_money: true
           object: lineItem
         - unitAmount:
           nonString: true
@@ -8749,6 +8875,7 @@ paths:
           keyPascal: UnitAmount
           keySnake: unit_amount
           default: 20.0
+          is_money: true
           object: lineItem
         - accountCode:
           is_last: true
@@ -8757,18 +8884,22 @@ paths:
           keySnake: account_code
           default: "000"
           object: lineItem
-        - lineItems:
+        - line_items:
           is_list: true
           key: lineItems
-          keyPascal: LineItem
+          keyPascal: LineItems
           keySnake: line_items
+          csharp: LineItem
+          java: LineItem
         - add_lineitems:
           is_last: true
           is_list_add: true
           key: lineItems
           keyPascal: LineItems
           keySnake: line_items
+          java: LineItems
           python: line_item
+          csharp: LineItem
           object: lineItem
         - invoice:
           is_object: true
@@ -8784,7 +8915,7 @@ paths:
           ruby: XeroRuby::Accounting::Invoice::ACCREC
           python_string: ACCREC
           java: com.xero.models.accounting.Invoice.TypeEnum.ACCREC
-          csharp: Invoice.xxx
+          csharp: Invoice.TypeEnum.ACCREC
           object: invoice
         - set_contact:
           is_variable: true
@@ -8835,7 +8966,7 @@ paths:
           ruby: XeroRuby::Accounting::Invoice::DRAFT
           python_string: DRAFT 
           java: com.xero.models.accounting.Invoice.StatusEnum.DRAFT
-          csharp: Invoice.xxx
+          csharp: Invoice.StatusEnum.DRAFT
           object: invoice
         - invoices:
           is_object: true
@@ -8847,6 +8978,7 @@ paths:
           key: invoices
           keyPascal: Invoices
           java: Invoices
+          csharp: Invoice
           object: invoice
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
@@ -9222,6 +9354,7 @@ paths:
           key: invoices
           keyPascal: Invoices
           java: Invoices
+          csharp: Invoice
           object: invoice
       parameters:
         - required: true
@@ -9760,6 +9893,7 @@ paths:
           keySnake: history_records
           java: HistoryRecords
           python: history_record
+          csharp: HistoryRecord
           object: historyRecord 
       parameters:
         - required: true
@@ -9892,6 +10026,7 @@ paths:
           key: cOGSAccountCode
           keyPascal: CoGSAccountCode
           keySnake: cogs_account_code
+          keyCsharp: COGSAccountCode
           default: 500
           object: purchaseDetails
         - item:
@@ -9939,6 +10074,7 @@ paths:
           key: items
           keyPascal: Items
           java: Items
+          csharp: Item
           object: item
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
@@ -10036,6 +10172,7 @@ paths:
           key: items
           keyPascal: Items
           java: Items
+          csharp: Item
           object: item
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
@@ -10183,6 +10320,7 @@ paths:
           key: items
           keyPascal: Items
           java: Items
+          csharp: Item
           object: item
       parameters:
         - required: true
@@ -10315,6 +10453,7 @@ paths:
           keySnake: history_records
           java: HistoryRecords
           python: history_record
+          csharp: HistoryRecord
           object: historyRecord 
       parameters:
         - required: true
@@ -10835,6 +10974,7 @@ paths:
           keySnake: linked_transactions
           java: LinkedTransactions
           python: linked_transaction
+          csharp: LinkedTransaction
           object: linkedTransaction
       parameters:
         - required: true
@@ -10952,6 +11092,7 @@ paths:
           name: where
           description: Filter by an any element
           example: Status=="DRAFT"
+          x-example-csharp: Status==\"DRAFT\"
           x-example-java: Status==&quot;&apos; + ManualJournal.StatusEnum.DRAFT + &apos;&quot;
           x-example-php: Status==&quot;&apos; . \XeroAPI\XeroPHP\Models\Accounting\ManualJournal::STATUS_DRAFT . &apos;&quot;
           x-example-ruby: Status==#{XeroRuby::Accounting::ManualJournal::DRAFT}
@@ -11034,7 +11175,7 @@ paths:
           java_datatype: LocalDate
           default: "LocalDate.of(2020, Month.OCTOBER, 10)"
           java: "LocalDate.of(2020, Month.OCTOBER, 10)"
-          csharp: "new DateTime('XXXX')"
+          csharp: "new DateTime(2020, 10, 10)"
           php: "new DateTime('2019-10-10')"
           node: "'2020-10-10'"
           python: "dateutil.parser.parse('2020-12-03T00:00:00Z')"
@@ -11054,6 +11195,7 @@ paths:
           keyPascal: LineAmount
           keySnake: line_amount
           default: 100.0
+          is_money: true
           object: credit
         - accountCode:
           key: accountCode
@@ -11084,6 +11226,7 @@ paths:
           keyPascal: LineAmount
           keySnake: line_amount
           default: -100.0
+          is_money: true
           object: debit
         - accountCode:
           key: accountCode
@@ -11145,6 +11288,7 @@ paths:
           java: ManualJournals
           php: manualJournals
           python: manual_journal
+          csharp: ManualJournal
           object: manualJournal
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
@@ -11261,7 +11405,7 @@ paths:
           java_datatype: LocalDate
           default: "LocalDate.of(2020, Month.OCTOBER, 10)"
           java: "LocalDate.of(2020, Month.OCTOBER, 10)"
-          csharp: "new DateTime('XXXX')"
+          csharp: "new DateTime(2020, 10, 10)"
           php: "new DateTime('2020-10-10')"
           node: "'2020-10-10'"
           python: "dateutil.parser.parse('2020-12-03T00:00:00Z')"
@@ -11281,6 +11425,7 @@ paths:
           keyPascal: LineAmount
           keySnake: line_amount
           default: 100.0
+          is_money: true
           object: credit
         - accountCode:
           key: accountCode
@@ -11311,6 +11456,7 @@ paths:
           keyPascal: LineAmount
           keySnake: line_amount
           default: -100.0
+          is_money: true
           object: debit
         - accountCode:
           key: accountCode
@@ -11353,7 +11499,7 @@ paths:
           is_last: true
           is_variable: true
           nonString: true
-          key: journalLines
+          key: manualJournalLines
           keyPascal: JournalLines
           keySnake: journal_lines
           default: manualJournalLines
@@ -11372,6 +11518,7 @@ paths:
           java: ManualJournals
           php: manualJournals
           python: manual_journal
+          csharp: ManualJournal
           object: manualJournal
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
@@ -11570,7 +11717,7 @@ paths:
           java_datatype: LocalDate
           default: "LocalDate.of(2020, Month.OCTOBER, 10)"
           java: "LocalDate.of(2020, Month.OCTOBER, 10)"
-          csharp: "new DateTime('XXXX')"
+          csharp: "new DateTime(2020, 10, 10)"
           php: "new DateTime('2020-10-10')"
           node: "'2020-10-10'"
           python: "dateutil.parser.parse('2020-12-03T00:00:00Z')"
@@ -11590,6 +11737,7 @@ paths:
           keyPascal: LineAmount
           keySnake: line_amount
           default: 100.0
+          is_money: true
           object: credit
         - accountCode:
           key: accountCode
@@ -11620,6 +11768,7 @@ paths:
           keyPascal: LineAmount
           keySnake: line_amount
           default: -100.0
+          is_money: true
           object: debit
         - accountCode:
           key: accountCode
@@ -11662,7 +11811,7 @@ paths:
           is_last: true
           is_variable: true
           nonString: true
-          key: journalLines
+          key: manualJournalLines
           keyPascal: JournalLines
           keySnake: journal_lines
           default: manualJournalLines
@@ -11681,6 +11830,7 @@ paths:
           java: ManualJournals
           php: manualJournals
           python: manual_journal
+          csharp: ManualJournal
           object: manualJournal
       parameters:
         - required: true
@@ -12057,6 +12207,7 @@ paths:
           keySnake: history_records
           java: HistoryRecords
           python: history_record
+          csharp: HistoryRecord
           object: historyRecord 
       parameters:
         - required: true
@@ -12250,6 +12401,7 @@ paths:
           name: where
           description: Filter by an any element
           example: Status=="AUTHORISED"
+          x-example-csharp: Status==\"AUTHORISED\"
           x-example-java: Status==&quot;&apos; + Overpayment.StatusEnum.AUTHORISED + &apos;&quot;
           x-example-php: Status==&quot;&apos; . \XeroAPI\XeroPHP\Models\Accounting\Overpayment::STATUS_AUTHORISED . &apos;&quot;
           x-example-ruby: Status==#{XeroRuby::Accounting::Overpayment::AUTHORISED}
@@ -12592,7 +12744,7 @@ paths:
           java_datatype: LocalDate
           default: "LocalDate.now()"
           java: "LocalDate.now()"
-          csharp: "new DateTime('XXXX')"
+          csharp: "DateTime.Now"
           node: "'2020-12-10'"
           php: "new DateTime('2020-12-10')"
           python: "dateutil.parser.parse('2020-12-03T00:00:00Z')"
@@ -12618,6 +12770,7 @@ paths:
           key: amount
           keyPascal: Amount
           default: 1.0
+          is_money: true
           object: allocation
         - date:
           is_variable: true
@@ -12645,6 +12798,7 @@ paths:
           key: allocations
           keyPascal: Allocations
           java: Allocations
+          csharp: Allocation
           object: allocation
       parameters:
         - required: true
@@ -12770,6 +12924,7 @@ paths:
           keySnake: history_records
           java: HistoryRecords
           python: history_record
+          csharp: HistoryRecord
           object: historyRecord 
       parameters:
         - required: true
@@ -12824,6 +12979,7 @@ paths:
           name: where
           description: Filter by an any element
           example: Status=="AUTHORISED"
+          x-example-csharp: Status==\"AUTHORISED\"
           x-example-java: Status==&quot;&apos; + Payment.StatusEnum.AUTHORISED + &apos;&quot;
           x-example-php: Status==&quot;&apos; . \XeroAPI\XeroPHP\Models\Accounting\Payment::STATUS_AUTHORISED . &apos;&quot;
           x-example-ruby: Status==#{XeroRuby::Accounting::Payment::AUTHORISED}
@@ -12968,7 +13124,7 @@ paths:
           java_datatype: LocalDate
           default: "LocalDate.of(2020, Month.OCTOBER, 10)"
           java: "LocalDate.now()"
-          csharp: "new DateTime('XXXX')"
+          csharp: "DateTime.Now"
           php: "new DateTime('2020-10-10')"
           node: "'2020-10-10'"
           python: "dateutil.parser.parse('2020-10-10T00:00:00Z')"
@@ -12991,6 +13147,7 @@ paths:
           keyPascal: Account
         - accountID:
           is_last: true
+          is_uuid: true
           key: accountID
           keyPascal: AccountID
           keySnake: account_id
@@ -13019,6 +13176,7 @@ paths:
           key: amount
           keyPascal: Amount
           default: 1.0
+          is_money: true
           object: payment
         - date:
           is_last: true
@@ -13039,6 +13197,7 @@ paths:
           key: payments
           keyPascal: Payments
           java: Payments
+          csharp: Payment
           object: payment
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
@@ -13166,7 +13325,7 @@ paths:
           java_datatype: LocalDate
           default: "LocalDate.of(2020, Month.OCTOBER, 10)"
           java: "LocalDate.now()"
-          csharp: "new DateTime('XXXX')"
+          csharp: "DateTime.Now"
           php: "new DateTime('2020-10-10')"
           node: "'2020-10-10'"
           python: "dateutil.parser.parse('2020-10-10T00:00:00Z')"
@@ -13189,6 +13348,7 @@ paths:
           keyPascal: Account
         - accountID:
           is_last: true
+          is_uuid: true
           key: accountID
           keyPascal: AccountID
           keySnake: account_id
@@ -13217,6 +13377,7 @@ paths:
           key: amount
           keyPascal: Amount
           default: 1.0
+          is_money: true
           object: payment
         - date:
           is_last: true
@@ -13237,6 +13398,7 @@ paths:
           key: payments
           keyPascal: Payments
           java: Payments
+          csharp: Payment
           object: payment
       responses:
         '200':
@@ -13640,6 +13802,7 @@ paths:
           keySnake: history_records
           java: HistoryRecords
           python: history_record
+          csharp: HistoryRecord
           object: historyRecord 
       parameters:
         - required: true
@@ -13753,6 +13916,7 @@ paths:
           key: paymentServices
           keyPascal: PaymentServices
           java: PaymentServices
+          csharp: PaymentService
           object: paymentService
       responses:
         '200':
@@ -13815,6 +13979,7 @@ paths:
           name: where
           description: Filter by an any element
           example: Status=="AUTHORISED"
+          x-example-csharp: Status==\"AUTHORISED\"
           x-example-java: Status==&quot;&apos; + Prepayment.StatusEnum.AUTHORISED + &apos;&quot;
           x-example-php: Status==&quot;&apos; . \XeroAPI\XeroPHP\Models\Accounting\Prepayment::STATUS_AUTHORISED . &apos;&quot;
           x-example-ruby: Status==#{XeroRuby::Accounting::Prepayment::AUTHORISED}
@@ -14044,7 +14209,7 @@ paths:
           java_datatype: LocalDate
           default: "LocalDate.now()"
           java: "LocalDate.now()"
-          csharp: "new DateTime('XXXX')"
+          csharp: "DateTime.Now"
           node: "'2020-12-10'"
           php: "new DateTime('2020-12-10')"
           python: "dateutil.parser.parse('2020-12-03T00:00:00Z')"
@@ -14077,6 +14242,7 @@ paths:
           key: amount
           keyPascal: Amount
           default: 1.0
+          is_money: true
           object: allocation
         - date:
           is_last: true
@@ -14097,6 +14263,7 @@ paths:
           key: allocations
           keyPascal: Allocations
           java: Allocations
+          csharp: Allocation
           object: allocation
       parameters:
         - required: true
@@ -14220,6 +14387,7 @@ paths:
           keySnake: history_records
           java: HistoryRecords
           python: history_record
+          csharp: HistoryRecord
           object: historyRecord 
       parameters:
         - required: true
@@ -14480,7 +14648,7 @@ paths:
           java_datatype: LocalDate
           default: "LocalDate.of(2020, Month.OCTOBER, 10)"
           java: "LocalDate.now()"
-          csharp: "new DateTime('XXXX')"
+          csharp: "DateTime.Now"
           php: "new DateTime('2020-12-10')"
           node: "'2020-10-10'"
           python: "dateutil.parser.parse('2020-12-03T00:00:00Z')"
@@ -14512,6 +14680,7 @@ paths:
           key: quantity
           keyPascal: Quantity
           default: 1.0
+          is_money: true
           object: lineItem
         - unitAmount:
           nonString: true
@@ -14519,6 +14688,7 @@ paths:
           keyPascal: UnitAmount
           keySnake: unit_amount
           default: 20.0
+          is_money: true
           object: lineItem
         - accountCode:
           is_last: true
@@ -14527,18 +14697,22 @@ paths:
           keySnake: account_code
           default: "000"
           object: lineItem
-        - lineItems:
+        - line_items:
           is_list: true
           key: lineItems
-          keyPascal: LineItem
+          keyPascal: LineItems
           keySnake: line_items
+          csharp: LineItem
+          java: LineItem
         - add_lineitems:
           is_last: true
           is_list_add: true
           key: lineItems
           keyPascal: LineItems
           keySnake: line_items
+          java: LineItems
           python: line_item
+          csharp: LineItem
           object: lineItem
         - purchaseOrder:
           is_object: true
@@ -14582,6 +14756,7 @@ paths:
           keySnake: purchase_orders
           java: PurchaseOrders
           python: purchase_order
+          csharp: PurchaseOrder
           object: purchaseOrder
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
@@ -14744,7 +14919,7 @@ paths:
           java_datatype: LocalDate
           default: "LocalDate.of(2020, Month.OCTOBER, 10)"
           java: "LocalDate.now()"
-          csharp: "new DateTime('XXXX')"
+          csharp: "DateTime.Now"
           php: "new DateTime('2020-12-10')"
           node: "'2020-10-10'"
           python: "dateutil.parser.parse('2020-12-03T00:00:00Z')"
@@ -14776,6 +14951,7 @@ paths:
           key: quantity
           keyPascal: Quantity
           default: 1.0
+          is_money: true
           object: lineItem
         - unitAmount:
           nonString: true
@@ -14783,6 +14959,7 @@ paths:
           keyPascal: UnitAmount
           keySnake: unit_amount
           default: 20.0
+          is_money: true
           object: lineItem
         - accountCode:
           is_last: true
@@ -14791,18 +14968,22 @@ paths:
           keySnake: account_code
           default: "000"
           object: lineItem
-        - lineItems:
+        - line_items:
           is_list: true
           key: lineItems
-          keyPascal: LineItem
+          keyPascal: LineItems
           keySnake: line_items
+          csharp: LineItem
+          java: LineItem
         - add_lineitems:
           is_last: true
           is_list_add: true
           key: lineItems
           keyPascal: LineItems
           keySnake: line_items
+          java: LineItems
           python: line_item
+          csharp: LineItem
           object: lineItem
         - purchaseOrder:
           is_object: true
@@ -14846,6 +15027,7 @@ paths:
           keySnake: purchase_orders
           java: PurchaseOrders
           python: purchase_order
+          csharp: PurchaseOrder
           object: purchaseOrder
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
@@ -15201,6 +15383,7 @@ paths:
           keySnake: purchase_orders
           java: PurchaseOrders
           python: purchase_order
+          csharp: PurchaseOrder
           object: purchaseOrder
       parameters:
         - required: true
@@ -15538,6 +15721,7 @@ paths:
           keySnake: history_records
           java: HistoryRecords
           python: history_record
+          csharp: HistoryRecord
           object: historyRecord 
       parameters:
         - required: true
@@ -15959,7 +16143,7 @@ paths:
           java_datatype: LocalDate
           default: "LocalDate.of(2020, Month.OCTOBER, 10)"
           java: "LocalDate.now()"
-          csharp: "new DateTime('XXXX')"
+          csharp: "DateTime.Now"
           php: "new DateTime('2020-12-10')"
           node: "'2020-10-10'"
           python: "dateutil.parser.parse('2020-12-03T00:00:00Z')"
@@ -15991,6 +16175,7 @@ paths:
           key: quantity
           keyPascal: Quantity
           default: 1.0
+          is_money: true
           object: lineItem
         - unitAmount:
           nonString: true
@@ -15998,6 +16183,7 @@ paths:
           keyPascal: UnitAmount
           keySnake: unit_amount
           default: 20.0
+          is_money: true
           object: lineItem
         - accountCode:
           is_last: true
@@ -16006,19 +16192,23 @@ paths:
           keySnake: account_code
           default: "000"
           object: lineItem
-        - lineItems:
+        - line_items:
           is_list: true
           key: lineItems
-          keyPascal: LineItem
+          keyPascal: LineItems
           keySnake: line_items
+          csharp: LineItem
+          java: LineItem
         - add_lineitems:
           is_last: true
           is_list_add: true
           key: lineItems
           keyPascal: LineItems
           keySnake: line_items
-          object: lineItem
+          java: LineItems
           python: line_item
+          csharp: LineItem
+          object: lineItem
         - quote:
           is_object: true
           key: quote
@@ -16058,6 +16248,7 @@ paths:
           key: quotes
           keyPascal: Quotes
           java: Quotes
+          csharp: Quote
           object: quote
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
@@ -16157,7 +16348,7 @@ paths:
           java_datatype: LocalDate
           default: "LocalDate.of(2020, Month.OCTOBER, 10)"
           java: "LocalDate.now()"
-          csharp: "new DateTime('XXXX')"
+          csharp: "DateTime.Now"
           php: "new DateTime('2020-12-10')"
           node: "'2020-10-10'"
           python: "dateutil.parser.parse('2020-12-03T00:00:00Z')"
@@ -16189,6 +16380,7 @@ paths:
           key: quantity
           keyPascal: Quantity
           default: 1.0
+          is_money: true
           object: lineItem
         - unitAmount:
           nonString: true
@@ -16196,6 +16388,7 @@ paths:
           keyPascal: UnitAmount
           keySnake: unit_amount
           default: 20.0
+          is_money: true
           object: lineItem
         - accountCode:
           is_last: true
@@ -16204,19 +16397,23 @@ paths:
           keySnake: account_code
           default: "000"
           object: lineItem
-        - lineItems:
+        - line_items:
           is_list: true
           key: lineItems
-          keyPascal: LineItem
+          keyPascal: LineItems
           keySnake: line_items
+          csharp: LineItem
+          java: LineItem
         - add_lineitems:
           is_last: true
           is_list_add: true
           key: lineItems
           keyPascal: LineItems
           keySnake: line_items
-          object: lineItem
+          java: LineItems
           python: line_item
+          csharp: LineItem
+          object: lineItem
         - quote:
           is_object: true
           key: quote
@@ -16256,6 +16453,7 @@ paths:
           key: quotes
           keyPascal: Quotes
           java: Quotes
+          csharp: Quote
           object: quote
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
@@ -16439,7 +16637,7 @@ paths:
           java_datatype: LocalDate
           default: "LocalDate.of(2020, Month.OCTOBER, 10)"
           java: "LocalDate.now()"
-          csharp: "new DateTime('XXXX')"
+          csharp: "DateTime.Now"
           php: "new DateTime('2020-12-10')"
           node: "'2020-10-10'"
           python: "dateutil.parser.parse('2020-12-03T00:00:00Z')"
@@ -16491,6 +16689,7 @@ paths:
           key: quotes
           keyPascal: Quotes
           java: Quotes
+          csharp: Quote
           object: quote
       parameters:
         - required: true
@@ -16625,6 +16824,7 @@ paths:
           keySnake: history_records
           java: HistoryRecords
           python: history_record
+          csharp: HistoryRecord
           object: historyRecord 
       parameters:
         - required: true
@@ -16929,6 +17129,7 @@ paths:
           name: where
           description: Filter by an any element
           example: Status=="DRAFT"
+          x-example-csharp: Status==\"DRAFT\"
           x-example-java: Status==&quot;&apos; + Receipt.StatusEnum.DRAFT + &apos;&quot;
           x-example-php: Status==&quot;&apos; . \XeroAPI\XeroPHP\Models\Accounting\Receipt::STATUS_DRAFT . &apos;&quot;
           x-example-ruby: Status==#{XeroRuby::Accounting::Receipt::DRAFT}
@@ -17043,6 +17244,7 @@ paths:
           key: quantity
           keyPascal: Quantity
           default: 1.0
+          is_money: true
           object: lineItem
         - unitAmount:
           nonString: true
@@ -17050,6 +17252,7 @@ paths:
           keyPascal: UnitAmount
           keySnake: unit_amount
           default: 20.0
+          is_money: true
           object: lineItem
         - accountCode:
           is_last: true
@@ -17058,19 +17261,23 @@ paths:
           keySnake: account_code
           default: "000"
           object: lineItem
-        - lineItems:
+        - line_items:
           is_list: true
           key: lineItems
-          keyPascal: LineItem
+          keyPascal: LineItems
           keySnake: line_items
+          csharp: LineItem
+          java: LineItem
         - add_lineitems:
           is_last: true
           is_list_add: true
           key: lineItems
           keyPascal: LineItems
           keySnake: line_items
-          object: lineItem
+          java: LineItems
           python: line_item
+          csharp: LineItem
+          object: lineItem
         - receipt:
           is_object: true
           key: receipt
@@ -17109,7 +17316,7 @@ paths:
           ruby: XeroRuby::Accounting::INCLUSIVE
           python: LineAmountTypes.INCLUSIVE
           java: com.xero.models.accounting.LineAmountTypes.INCLUSIVE
-          csharp: LineAmountTypes.xxx
+          csharp: LineAmountTypes.Exclusive
           object: receipt
         - status:
           is_last: true
@@ -17122,7 +17329,7 @@ paths:
           ruby: XeroRuby::Accounting::Receipt::DRAFT
           python_string: DRAFT
           java: com.xero.models.accounting.Receipt.StatusEnum.DRAFT
-          csharp: Receipt.xxx
+          csharp: Receipt.StatusEnum.DRAFT
           object: receipt
         - receipts:
           is_object: true
@@ -17134,6 +17341,7 @@ paths:
           key: receipts
           keyPascal: Receipts
           java: Receipts
+          csharp: Receipt
           object: receipt
       parameters:
         - $ref: '#/components/parameters/unitdp'
@@ -17443,7 +17651,7 @@ paths:
           java_datatype: LocalDate
           default: "LocalDate.of(2020, Month.OCTOBER, 10)"
           java: "LocalDate.now()"
-          csharp: "new DateTime('XXXX')"
+          csharp: "DateTime.Now"
           php: "new DateTime('2020-12-10')"
           node: "'2020-10-10'"
           python: "dateutil.parser.parse('2020-10-10T00:00:00Z')"
@@ -17494,6 +17702,7 @@ paths:
           key: receipts
           keyPascal: Receipts
           java: Receipts
+          csharp: Receipt
           object: receipt
       parameters:
         - required: true
@@ -17926,6 +18135,7 @@ paths:
           keySnake: history_records
           java: HistoryRecords
           python: history_record
+          csharp: HistoryRecord
           object: historyRecord 
       parameters:
         - required: true
@@ -17979,6 +18189,7 @@ paths:
           name: where
           description: Filter by an any element
           example: Status=="DRAFT"
+          x-example-csharp: Status==\"DRAFT\"
           x-example-java: Status==&quot;&apos; + RepeatingInvoice.StatusEnum.DRAFT + &apos;&quot;
           x-example-php: Status==&quot;&apos; . \XeroAPI\XeroPHP\Models\Accounting\RepeatingInvoice::STATUS_DRAFT . &apos;&quot;
           x-example-ruby: Status==#{XeroRuby::Accounting::RepeatingInvoice::DRAFT}
@@ -18460,6 +18671,7 @@ paths:
           keySnake: history_records
           java: HistoryRecords
           python: history_record
+          csharp: HistoryRecord
           object: historyRecord 
       parameters:
         - required: true
@@ -22181,7 +22393,7 @@ paths:
           ruby: XeroRuby::Accounting::AccountType::EXPENSE
           python: AccountType.EXPENSE
           java: com.xero.models.accounting.AccountType.EXPENSE
-          csharp: Account.ClassEnum.EXPENSE
+          csharp: AccountType.EXPENSE
           object: account
         - accounts:
           is_list: true
@@ -22329,6 +22541,7 @@ paths:
           name: where
           description: Filter by an any element
           example: Status=="ACTIVE"
+          x-example-csharp: Status==\"ACTIVE\"
           x-example-java: Status==&quot;&apos; + TaxRate.StatusEnum.ACTIVE + &apos;&quot;
           x-example-php: Status==&quot;&apos; . \XeroAPI\XeroPHP\Models\Accounting\TaxRate::STATUS_ACTIVE . &apos;&quot;
           x-example-ruby: Status==#{XeroRuby::Accounting::TaxRate::ACTIVE}
@@ -22491,6 +22704,22 @@ paths:
           key: rate
           keyPascal: Rate
           default: 2.25
+          is_money: true
+          object: taxComponent      
+        - taxComponents:
+          is_list: true
+          key: taxComponent
+          keyPascal: TaxComponent
+          csharp: TaxComponent
+        - add_taxComponent:
+          is_last: true
+          is_list_add: true
+          key: taxComponents
+          keyPascal: TaxComponents
+          keySnake: tax_components
+          java: TaxComponents
+          python: tax_component
+          csharp: TaxComponent
           object: taxComponent
         - taxRate:
           is_object: true
@@ -22502,15 +22731,13 @@ paths:
           keyPascal: Name
           default: CA State Tax
           object: taxRate
-        - add_taxComponent:
-          is_last: true
-          is_array_add: true
-          key: taxRate
+        - set_taxComponents:
+          is_variable: true
+          nonString: true
+          key: taxComponents
           keyPascal: TaxComponents
-          keySnake: tax_components
-          java: TaxComponents
-          python: tax_component
-          object: taxComponent
+          object: taxRate
+          default: taxComponents
         - taxRates:
           is_object: true
           key: taxRates
@@ -22523,6 +22750,7 @@ paths:
           keySnake: tax_rates
           java: TaxRates
           python: tax_rate
+          csharp: TaxRate
           object: taxRate
       responses:
         '200':
@@ -22607,6 +22835,22 @@ paths:
           key: rate
           keyPascal: Rate
           default: 2.25
+          is_money: true
+          object: taxComponent
+        - taxComponents:
+          is_list: true
+          key: taxComponents
+          keyPascal: TaxComponents
+          csharp: TaxComponent
+        - add_taxComponent:
+          is_last: true
+          is_list_add: true
+          key: taxComponents
+          keyPascal: TaxComponents
+          keySnake: tax_components
+          java: TaxComponents
+          python: tax_component
+          csharp: TaxComponent
           object: taxComponent
         - taxRate:
           is_object: true
@@ -22618,15 +22862,13 @@ paths:
           keyPascal: Name
           default: CA State Tax
           object: taxRate
-        - add_taxComponent:
-          is_last: true
-          is_array_add: true
-          key: taxRate
+        - set_taxComponents:
+          is_variable: true
+          nonString: true
+          key: taxComponents
           keyPascal: TaxComponents
-          keySnake: tax_components
-          java: TaxComponents
-          python: tax_component
-          object: taxComponent
+          object: taxRate
+          default: taxComponents
         - taxRates:
           is_object: true
           key: taxRates
@@ -22639,6 +22881,7 @@ paths:
           keySnake: tax_rates
           java: TaxRates
           python: tax_rate
+          csharp: TaxRate
           object: taxRate
       responses:
         '200':
@@ -22714,6 +22957,7 @@ paths:
           name: where
           description: Filter by an any element
           example: Status=="ACTIVE"
+          x-example-csharp: Status==\"ACTIVE\"
           x-example-java: Status==&quot;&apos; + TrackingCategory.StatusEnum.ACTIVE + &apos;&quot;
           x-example-php: Status==&quot;&apos; . \XeroAPI\XeroPHP\Models\Accounting\TrackingCategory::STATUS_ACTIVE . &apos;&quot;
           x-example-ruby: Status==#{XeroRuby::Accounting::TrackingCategory::ACTIVE}
@@ -24091,6 +24335,11 @@ components:
           description: Booelan that tells you if the batch payment has been reconciled (read-only)
           readOnly: true
           type: string
+        ValidationErrors: 
+          description: Displays array of validation error messages from the API
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
       type: object
     BatchPaymentDetails:
       description: Bank details for use on a batch payment stored with each contact
