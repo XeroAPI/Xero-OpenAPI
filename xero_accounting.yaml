@@ -30,7 +30,7 @@ paths:
           example: Status==&quot;ACTIVE&quot; AND Type==&quot;BANK&quot;
           x-example-java: Status==&quot;&apos; + Account.StatusEnum.ACTIVE+ &apos;&quot;
           x-example-php: Status==&quot;&apos; . \XeroAPI\XeroPHP\Models\Accounting\Account::STATUS_ACTIVE . &apos;&quot;
-          x-ruby-param: Status==#{XeroRuby::Accounting::Account::ACTIVE}
+          x-example-ruby: Status==#{XeroRuby::Accounting::Account::ACTIVE}
           schema:
             type: string
         - in: query
@@ -75,8 +75,6 @@ paths:
       operationId: createAccount
       summary: Creates a new chart of accounts
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ code: "123456", name: "Foobar", type: AccountType.EXPENSE, description: "Hello World" }'
-      x-ruby-requestBody: 'account = { code: "123456", name: "Foobar", type: XeroRuby::Accounting::AccountType::EXPENSE, description: "Hello World" }'      
       x-example:
         - object:
           is_object: true
@@ -235,8 +233,6 @@ paths:
       operationId: updateAccount
       summary: Updates a chart of accounts
       x-hasAccountingValidationError: true
-      x-ruby-requestBody: '{ accounts: [{ code: "123456", name: "BarFoo", account_id: "00000000-0000-0000-0000-000000000000", type: XeroRuby::Accounting::Account::EXPENSE, description: "GoodBye World", tax_type: XeroRuby::Accounting::TaxType::NONE }]}'
-      x-node-requestBody: '{ accounts: [{ code: "123456", name: "BarFoo", accountID: "00000000-0000-0000-0000-000000000000", type: AccountType.EXPENSE, description: "GoodBye World", taxType: TaxType.INPUT }]}'
       x-example:
         - account:
           is_object: true
@@ -710,7 +706,7 @@ paths:
           example: Status=="AUTHORISED"
           x-example-java: Status==&quot;&apos; + BatchPayment.StatusEnum.AUTHORISED + &apos;&quot;
           x-example-php: Status==&quot;&apos; . XeroAPI\XeroPHP\Models\Accounting\BatchPayment::STATUS_AUTHORISED . &apos;&quot;
-          x-ruby-param: Status==#{XeroRuby::Accounting::BatchPayment::AUTHORISED}
+          x-example-ruby: Status==#{XeroRuby::Accounting::BatchPayment::AUTHORISED}
           schema:
             type: string
         - in: query
@@ -828,8 +824,6 @@ paths:
       operationId: createBatchPayment
       summary: Creates one or many batch payments for invoices
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ batchPayments: [{ account: { accountId: "00000000-0000-0000-0000-000000000000" }, reference: "ref", date: "2018-08-01", payments: [{  account: { code: "001" }, date: "2019-12-31", amount: 500, invoice: { invoiceId: "00000000-0000-0000-0000-000000000000", lineItems: [], contact: {}, type: Invoice.TypeEnum.ACCPAY }}]}]}'
-      x-ruby-requestBody: 'batch_payments = { batch_payments: [{ account: { account_id: "00000000-0000-0000-0000-000000000000" }, reference: "ref", date: "2018-08-01", payments: [{  account: { code: "001" }, date: "2019-12-31", amount: 500, invoice: { invoice_id: "00000000-0000-0000-0000-000000000000", line_items: [], contact: {}, type: XeroRuby::Accounting::Invoice::ACCPAY }}]}]}'
       x-example:
         - currDate:
           is_date: true
@@ -843,6 +837,7 @@ paths:
           node: "'2020-12-10'"
           php: "new DateTime('2020-12-10')"
           python: "dateutil.parser.parse('2020-12-03T00:00:00Z')"
+          ruby: "YYYY-MM-DD"
         - paymentAccount:
           is_object: true
           key: paymentAccount
@@ -1209,7 +1204,7 @@ paths:
           example: Status=="AUTHORISED"
           x-example-java: Status==&quot;&apos; + BankTransaction.StatusEnum.AUTHORISED + &apos;&quot;
           x-example-php: Status==&quot;&apos; . XeroAPI\XeroPHP\Models\Accounting\BankTransaction::STATUS_AUTHORISED . &apos;&quot;
-          x-ruby-param: Status==#{XeroRuby::Accounting::BankTransaction::AUTHORISED}
+          x-example-ruby: Status==#{XeroRuby::Accounting::BankTransaction::AUTHORISED}
           schema:
             type: string
         - in: query
@@ -1353,8 +1348,6 @@ paths:
       operationId: createBankTransactions
       summary: Creates one or more spent or received money transaction
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ bankTransactions: [{ type: BankTransaction.TypeEnum.SPEND, contact: { contactID: "00000000-0000-0000-0000-000000000000" }, lineItems: [{ description: "Foobar", quantity: 1.0, unitAmount: 20.0, accountCode: "000" } ], bankAccount: { code: "000" }}]}'
-      x-ruby-requestBody: 'bank_transactions = { bank_transactions: [{ type: XeroRuby::Accounting::BankTransaction::SPEND, contact: { contact_id: "00000000-0000-0000-0000-000000000000" }, line_items: [{ description: "Foobar", quantity: 1.0, unit_amount: 20.0, account_code: "000" } ], bank_account: { code: "000" }}]}'
       x-example:
         - contact:
           is_object: true
@@ -1602,8 +1595,6 @@ paths:
       operationId: updateOrCreateBankTransactions
       summary: Updates or creates one or more spent or received money transaction
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ bankTransactions: [{ type: BankTransaction.TypeEnum.SPEND, contact: { contactId: "00000000-0000-0000-0000-000000000000" }, lineItems: [{ description: "Foobar", quantity: 1.0, unitAmount: 20.0, accountCode: "000" }], bankAccount: { code: "000" }}]}'
-      x-ruby-requestBody: 'bank_transactions = { bank_transactions: [{ type: XeroRuby::Accounting::BankTransaction::SPEND, contact: { contact_id: "00000000-0000-0000-0000-000000000000" }, line_items: [{ description: "Foobar", quantity: 1.0, unit_amount: 20.0, account_code: "000" }], bank_account: { code: "000" }}]}'
       x-example:
         - contact:
           is_object: true
@@ -2016,8 +2007,6 @@ paths:
       operationId: updateBankTransaction
       summary: Updates a single spent or received money transaction
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ bankTransactions: [{ type: BankTransaction.TypeEnum.SPEND, date: "2019-02-25", reference: "You just updated", status: BankTransaction.StatusEnum.AUTHORISED, bankTransactionID: "00000000-0000-0000-0000-000000000000", lineItems: [], contact: {}, bankAccount: { accountID: "00000000-0000-0000-0000-000000000000" }}]}'
-      x-ruby-requestBody: '{ bank_transactions: [{ type: XeroRuby::Accounting::BankTransaction::SPEND, date: "2019-02-25", reference: "You just updated", status: XeroRuby::Accounting::BankTransaction::AUTHORISED, bank_transaction_id: "00000000-0000-0000-0000-000000000000", line_items: [], contact: {}, bank_account: { account_id: "00000000-0000-0000-0000-000000000000" }}]}'      
       x-example:
         - contact:
           is_object: true
@@ -2747,8 +2736,6 @@ paths:
       operationId: createBankTransfer
       summary: Creates a bank transfer
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ bankTransfers: [{ fromBankAccount: { code: "000", accountID: "00000000-0000-0000-0000-000000000000" }, toBankAccount: { code: "001", accountID: "00000000-0000-0000-0000-000000000000" }, amount: "50.00" }]}'
-      x-ruby-requestBody: 'bank_transfers = { bank_transfers: [{ from_bank_account: { code: "000", account_id: "00000000-0000-0000-0000-000000000000" }, to_bank_account: { code: "001", account_id: "00000000-0000-0000-0000-000000000000" }, amount: "50.00" }]}'
       x-example:
         - fromBankAccount:
           is_object: true
@@ -3401,8 +3388,6 @@ paths:
       operationId: createBrandingThemePaymentServices
       summary: Creates a new custom payment service for a specific branding theme
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ paymentServiceID: "00000000-0000-0000-0000-000000000000", paymentServiceName: "ACME Payments", paymentServiceUrl: "https://www.payupnow.com/", payNowText: "Pay Now" }'
-      x-ruby-requestBody: 'payment_service = { payment_service_id: "00000000-0000-0000-0000-000000000000", payment_service_name: "ACME Payments", payment_service_url: "https://www.payupnow.com/", pay_now_text: "Pay Now" }'
       x-example:
         - object:
           is_object: true
@@ -3494,7 +3479,7 @@ paths:
           example: ContactStatus==&quot;ACTIVE&quot;
           x-example-java: ContactStatus==&quot;&apos; + Contact.ContactStatusEnum.ACTIVE + &apos;&quot;
           x-example-php: ContactStatus==&quot;&apos; . \XeroAPI\XeroPHP\Models\Accounting\Contact::CONTACT_STATUS_ACTIVE . &apos;&quot;
-          x-ruby-param: ContactStatus==#{XeroRuby::Accounting::Contact::ACTIVE}
+          x-example-ruby: ContactStatus==#{XeroRuby::Accounting::Contact::ACTIVE}
           schema:
             type: string
         - in: query
@@ -3684,8 +3669,6 @@ paths:
       operationId: createContacts
       summary: 'Creates multiple contacts (bulk) in a Xero organisation'
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ contacts: [{ name: "Bruce Banner", emailAddress: "hulk@avengers.com", phones: [{ phoneType: Phone.PhoneTypeEnum.MOBILE, phoneNumber: "555-1212", phoneAreaCode: "415" }], paymentTerms: { bills: { day: 15, type: PaymentTermType.OFCURRENTMONTH }, sales: { day: 10, type: PaymentTermType.DAYSAFTERBILLMONTH }}}]}'
-      x-ruby-requestBody: 'contacts = { contacts: [{ name: "Bruce Banner", email_address: "hulk@avengers.com", phones: [{ phone_type: XeroRuby::Accounting::Phone::MOBILE, phone_number: "555-1212", phone_area_code: "415" }], payment_terms: { bills: { day: 15, type: XeroRuby::Accounting::PaymentTermType::OFCURRENTMONTH }, sales: { day: 10, type: XeroRuby::Accounting::PaymentTermType::DAYSAFTERBILLMONTH }}}]}'      
       x-example:
         - phone:
           is_object: true
@@ -3991,8 +3974,6 @@ paths:
       operationId: updateOrCreateContacts
       summary: 'Updates or creates one or more contacts in a Xero organisation'
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ contacts: [{ name: "Bruce Banner", emailAddress: "hulk@avengers.com", phones: [{ phoneType: Phone.PhoneTypeEnum.MOBILE, phoneNumber: "555-1212", phoneAreaCode: "415" }], paymentTerms: { bills: { day: 15, type: PaymentTermType.OFCURRENTMONTH }, sales: { day: 10, type: PaymentTermType.DAYSAFTERBILLMONTH }}}]}'
-      x-ruby-requestBody: '{ contacts: [{ name: "Bruce Banner", email_address: "hulk@avengers.com", phones: [{ phone_type: XeroRuby::Accounting::Phone::MOBILE, phone_number: "555-1212", phone_area_code: "415" }], payment_terms: { bills: { day: 15, type: XeroRuby::Accounting::PaymentTermType::OFCURRENTMONTH }, sales: { day: 10, type: XeroRuby::Accounting::PaymentTermType::OFCURRENTMONTHDAYSAFTERBILLMONTH }}}]}'
       x-example:
         - phone:
           is_object: true
@@ -4554,8 +4535,6 @@ paths:
       operationId: updateContact
       summary: 'Updates a specific contact in a Xero organisation'
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ contacts: [{ contactID: "00000000-0000-0000-0000-000000000000", name: "Thanos" }]}'
-      x-ruby-requestBody: 'contacts = { contacts: [{ contact_id: "00000000-0000-0000-0000-000000000000", name: "Thanos" }]}'
       x-example:
         - contact:
           is_object: true
@@ -5038,7 +5017,7 @@ paths:
           example: Status=="ACTIVE"
           x-example-java: Status==&quot;&apos; + ContactGroup.StatusEnum.ACTIVE + &apos;&quot;
           x-example-php: Status==&quot;&apos; . \XeroAPI\XeroPHP\Models\Accounting\ContactGroup::STATUS_ACTIVE . &apos;&quot;
-          x-ruby-param: Status==#{XeroRuby::Accounting::ContactGroup::ACTIVE}
+          x-example-ruby: Status==#{XeroRuby::Accounting::ContactGroup::ACTIVE}
           schema:
             type: string
         - in: query
@@ -5084,8 +5063,6 @@ paths:
       operationId: createContactGroup
       summary: Creates a contact group
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ contactGroups: [{ name: "VIPs" }]}'
-      x-ruby-requestBody: 'contact_groups = { contact_groups: [{ name: "VIPs" }]}'
       x-example:
         - contact:
           is_object: true
@@ -5233,8 +5210,6 @@ paths:
       operationId: updateContactGroup
       summary: Updates a specific contact group
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ contactGroups: [{ name: "Vendor" }]}'
-      x-ruby-requestBody: 'contact_groups = { contact_groups: [{ name: "Vendor" }]}'
       x-example:
         - contact:
           is_object: true
@@ -5318,8 +5293,6 @@ paths:
       operationId: createContactGroupContacts
       summary: Creates contacts to a specific contact group
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ contacts: [{ contactID: "a3675fc4-f8dd-4f03-ba5b-f1870566bcd7" }, { contactID: "4e1753b9-018a-4775-b6aa-1bc7871cfee3" }]}'
-      x-ruby-requestBody: 'contacts = { contacts: [{ contact_id: "a3675fc4-f8dd-4f03-ba5b-f1870566bcd7" }, { contact_id: "4e1753b9-018a-4775-b6aa-1bc7871cfee3" }]}'
       x-example:
         - contact:
           is_object: true
@@ -5476,7 +5449,7 @@ paths:
           example: Status=="DRAFT"
           x-example-java: Status==&quot;&apos; + CreditNote.StatusEnum.DRAFT + &apos;&quot;
           x-example-php: Status==&quot;&apos; . \XeroAPI\XeroPHP\Models\Accounting\CreditNote::STATUS_DRAFT . &apos;&quot;
-          x-ruby-param: Status==#{XeroRuby::Accounting::CreditNote::DRAFT}
+          x-example-ruby: Status==#{XeroRuby::Accounting::CreditNote::DRAFT}
           schema:
             type: string
         - in: query
@@ -5587,8 +5560,6 @@ paths:
       operationId: createCreditNotes
       summary: Creates a new credit note
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ creditNotes: [{ type: CreditNote.TypeEnum.ACCPAYCREDIT, contact: { contactID: "430fa14a-f945-44d3-9f97-5df5e28441b8" }, date: "2019-01-05", lineItems: [{ description: "Foobar", quantity: 2.0, unitAmount: 20.0, accountCode: "400" }]}]}'
-      x-ruby-requestBody: 'credit_notes = { credit_notes: [{ type: XeroRuby::Accounting::CreditNote::ACCPAYCREDIT, contact: { contact_id: "430fa14a-f945-44d3-9f97-5df5e28441b8" }, date: "2019-01-05", line_items: [{ description: "Foobar", quantity: 2.0, unit_amount: 20.0, account_code: "400" }]}]}'
       x-example:
         - currDate:
           is_date: true
@@ -5602,6 +5573,7 @@ paths:
           csharp: "new DateTime('XXXX')"
           php: "new DateTime('2020-12-10')"
           python: "dateutil.parser.parse('2020-12-03T00:00:00Z')"
+          ruby: "YYYY-MM-DD"
         - contact:
           is_object: true
           key: contact
@@ -5862,8 +5834,6 @@ paths:
       operationId: updateOrCreateCreditNotes
       summary: Updates or creates one or more credit notes
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ creditNotes: [{ type: CreditNote.TypeEnum.ACCPAYCREDIT, contact: { contactID: "00000000-0000-0000-0000-000000000000" }, date: "2019-01-05", lineItems: [{ description: "Foobar", quantity: 2.0, unitAmount: 20.0, accountCode: "400" }]}]}'
-      x-ruby-requestBody: 'credit_notes = { credit_notes: [{ type: XeroRuby::Accounting::CreditNote::ACCPAYCREDIT, contact: { contact_id: "00000000-0000-0000-0000-000000000000" }, date: "2019-01-05", line_items: [{ description: "Foobar", quantity: 2.0, unit_amount: 20.0, account_code: "400" }]}]}'
       x-example:
         - currDate:
           is_date: true
@@ -5877,6 +5847,7 @@ paths:
           node: "'2020-12-10'"
           php: "new DateTime('2020-12-10')"
           python: "dateutil.parser.parse('2020-12-03T00:00:00Z')"
+          ruby: "YYYY-MM-DD"
         - contact:
           is_object: true
           key: contact
@@ -6284,8 +6255,6 @@ paths:
       operationId: updateCreditNote
       summary: Updates a specific credit note
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ creditNotes: [{ type: CreditNote.TypeEnum.ACCPAYCREDIT, contact: { contactID: "00000000-0000-0000-0000-000000000000" }, date: "2019-01-05", status: CreditNote.StatusEnum.AUTHORISED, reference: "Mind stone", lineItems: [{ description: "Infinity Stones", quantity: 1.0, unitAmount: 100.0, accountCode: "400" } ]}]}'
-      x-ruby-requestBody: 'credit_notes = { credit_notes: [{ type: XeroRuby::Accounting::CreditNote::ACCPAYCREDIT, contact: { contact_id: "00000000-0000-0000-0000-000000000000" }, date: "2019-01-05", status: XeroRuby::Accounting::CreditNote::AUTHORISED, reference: "Mind stone", line_items: [{ description: "Infinity Stones", quantity: 1.0, unit_amount: 100.0, account_code: "400" } ]}]}'
       x-example:
         - currDate:
           is_date: true
@@ -6299,6 +6268,7 @@ paths:
           node: "'2020-12-10'"
           php: "new DateTime('2020-12-10')"
           python: "dateutil.parser.parse('2020-12-03T00:00:00Z')"
+          ruby: "YYYY-MM-DD"
         - contact:
           is_object: true
           key: contact
@@ -6850,8 +6820,6 @@ paths:
       operationId: createCreditNoteAllocation
       summary: Creates allocation for a specific credit note
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ allocations: [{ amount: 1.0, date: "2019-03-05", invoice: { invoiceID: "c45720a1-ade3-4a38-a064-d15489be6841", lineItems: [], type: Invoice.TypeEnum.ACCPAY, contact: {} }}]}'
-      x-ruby-requestBody: 'allocations = { allocations: [{ amount: 1.0, date: "2019-03-05", invoice: { invoice_id: "c45720a1-ade3-4a38-a064-d15489be6841", line_items: [], type: XeroRuby::Accounting::Invoice::ACCPAY, contact: {} }}]}'
       x-example:
         - currDate:
           is_date: true
@@ -6865,6 +6833,7 @@ paths:
           node: "'2020-12-10'"
           php: "new DateTime('2020-12-10')"
           python: "dateutil.parser.parse('2020-12-03T00:00:00Z')"
+          ruby: "YYYY-MM-DD"
         - invoice:
           is_object: true
           key: invoice
@@ -7068,7 +7037,7 @@ paths:
           description: Filter by an any element
           example: Code=="USD"
           x-example-php: Code==&quot;&apos; . \XeroAPI\XeroPHP\Models\Accounting\CurrencyCode::USD . &apos;&quot;
-          x-ruby-param: Code==#{XeroRuby::Accounting::CurrencyCode::USD}
+          x-example-ruby: Code==#{XeroRuby::Accounting::CurrencyCode::USD}
           schema:
             type: string
         - in: query
@@ -7104,8 +7073,6 @@ paths:
       operationId: createCurrency
       summary: Create a new currency for a Xero organisation
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ code: CurrencyCode.USD, description: "United States Dollar" }'
-      x-ruby-requestBody: 'currency = { code: XeroRuby::Accounting::CurrencyCode::USD, description: "United States Dollar" }'
       x-example:
         - currency:
           is_object: true
@@ -7165,7 +7132,7 @@ paths:
           example: Status=="ACTIVE"
           x-example-java: Status==&quot;&apos; + Employee.StatusEnum.ACTIVE + &apos;&quot;
           x-example-php: Status==&quot;&apos; . \XeroAPI\XeroPHP\Models\Accounting\Employee::STATUS_ACTIVE . &apos;&quot;
-          x-ruby-param: Status==#{XeroRuby::Accounting::Employee::ACTIVE}
+          x-example-ruby: Status==#{XeroRuby::Accounting::Employee::ACTIVE}
           schema:
             type: string
         - in: query
@@ -7230,8 +7197,6 @@ paths:
       operationId: createEmployees
       summary: Creates new employees used in Xero payrun
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ employees: [{ firstName: "Nick", lastName: "Fury", externalLink: { url: "http://twitter.com/#!/search/Nick+Fury" }}]}'
-      x-ruby-requestBody: 'employees = { employees: [{ first_name: "Nick", last_name: "Fury", externallink: { url: "http://twitter.com/#!/search/Nick+Fury" }}]}'
       x-example:
         - employee:
           is_object: true
@@ -7317,8 +7282,6 @@ paths:
       operationId: updateOrCreateEmployees
       summary: Creates a single new employees used in Xero payrun
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ employees: [{ firstName: "Nick", lastName: "Fury", externalLink: { url: "http://twitter.com/#!/search/Nick+Fury" }}]}'
-      x-ruby-requestBody: 'employees = { employees: [{ first_name: "Nick", last_name: "Fury", external_link: { url: "http://twitter.com/#!/search/Nick+Fury" }}]}'
       x-example:
         - employee:
           is_object: true
@@ -7459,7 +7422,7 @@ paths:
           example: Status=="SUBMITTED"
           x-example-java: Status==&quot;&apos; + ExpenseClaim.StatusEnum.SUBMITTED + &apos;&quot;
           x-example-php: Status==&quot;&apos; . \XeroAPI\XeroPHP\Models\Accounting\ExpenseClaim::STATUS_SUBMITTED . &apos;&quot;
-          x-ruby-param: Status==#{XeroRuby::Accounting::ExpenseClaim::SUBMITTED}
+          x-example-ruby: Status==#{XeroRuby::Accounting::ExpenseClaim::SUBMITTED}
           schema:
             type: string
         - in: query
@@ -7511,8 +7474,6 @@ paths:
       operationId: createExpenseClaims
       summary: Creates expense claims 
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ expenseClaims: [{ status: ExpenseClaim.StatusEnum.SUBMITTED, user: { userID: "d1164823-0ac1-41ad-987b-b4e30fe0b273" }, receipts: [{ receiptID: "dc1c7f6d-0a4c-402f-acac-551d62ce5816", lineItems: [], contact: {}, user: {}, date: "2018-01-01" }]}]}'
-      x-ruby-requestBody: 'expense_claims = { expense_claims: [{ status: XeroRuby::Accounting::ExpenseClaim::SUBMITTED, user: { user_id: "d1164823-0ac1-41ad-987b-b4e30fe0b273" }, receipts: [{ receipt_id: "dc1c7f6d-0a4c-402f-acac-551d62ce5816", line_items: [], contact: {}, user: {}, date: "2018-01-01" }]}]}'
       x-example:
         - currDate:
           is_date: true
@@ -7526,6 +7487,7 @@ paths:
           node: "'2020-12-10'"
           php: "new DateTime('2020-12-10')"
           python: "dateutil.parser.parse('2020-12-03T00:00:00Z')"
+          ruby: "YYYY-MM-DD"
         - user:
           is_object: true
           key: user
@@ -7824,8 +7786,6 @@ paths:
       operationId: updateExpenseClaim
       summary: Updates a specific expense claims 
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ expenseClaims: [{ status: ExpenseClaim.StatusEnum.AUTHORISED, user: { userID: "00000000-0000-0000-0000-000000000000" }, receipts: [{ receiptID: "00000000-0000-0000-0000-000000000000", lineItems: [], contact: {}, date: "2020-01-01", user: {} }]}]}'
-      x-ruby-requestBody: 'expense_claims = { expense_claims: [{ status: XeroRuby::Accounting::ExpenseClaim::AUTHORISED, user: { user_id: "00000000-0000-0000-0000-000000000000" }, receipts: [{ receipt_id: "00000000-0000-0000-0000-000000000000", line_items: [], contact: {}, date: "2020-01-01", user: {} }]}]}'
       x-example:
         - currDate:
           is_date: true
@@ -7839,6 +7799,7 @@ paths:
           node: "'2020-12-10'"
           php: "new DateTime('2020-12-10')"
           python: "dateutil.parser.parse('2020-12-03T00:00:00Z')"
+          ruby: "YYYY-MM-DD"
         - user:
           is_object: true
           key: user
@@ -8127,7 +8088,7 @@ paths:
           example: Status=="DRAFT"
           x-example-java: Status==&quot;&apos; + Invoice.StatusEnum.DRAFT + &apos;&quot;
           x-example-php: Status==&quot;&apos; . \XeroAPI\XeroPHP\Models\Accounting\Invoice::STATUS_DRAFT . &apos;&quot;
-          x-ruby-param: Status==#{XeroRuby::Accounting::Invoice::DRAFT}
+          x-example-ruby: Status==#{XeroRuby::Accounting::Invoice::DRAFT}
           schema:
             type: string
         - in: query
@@ -8353,8 +8314,6 @@ paths:
       operationId: createInvoices
       summary: Creates one or more sales invoices or purchase bills
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ invoices: [{ type: Invoice.TypeEnum.ACCREC, contact: { contactID: "00000000-0000-0000-0000-000000000000" }, lineItems: [{ description: "Acme Tires", quantity: 2.0, unitAmount: 20.0, accountCode: "000", taxType: TaxType.NONE, lineAmount: 40.0 }], date: "2019-03-11", dueDate: "2018-12-10", reference: "Website Design", status: Invoice.StatusEnum.DRAFT }]}'
-      x-ruby-requestBody: 'invoices = { invoices: [{ type: XeroRuby::Accounting::Invoice::ACCREC, contact: { contact_id: "00000000-0000-0000-0000-000000000000" }, line_items: [{ description: "Acme Tires", quantity: 2.0, unit_amount: 20.0, account_code: "000", tax_type: XeroRuby::Accounting::TaxType::NONE, line_amount: 40.0 }], date: "2019-03-11", due_date: "2018-12-10", reference: "Website Design", status: XeroRuby::Accounting::Invoice::DRAFT }]}'
       x-example:
         - dateValue:
           is_date: true
@@ -8368,6 +8327,7 @@ paths:
           php: "new DateTime('2020-10-10')"
           node: "'2020-10-10'"
           python: "dateutil.parser.parse('2020-10-10T00:00:00Z')"
+          ruby: "YYYY-MM-DD"
         - dueDateValue:
           is_date: true
           key: dueDateValue
@@ -8380,6 +8340,7 @@ paths:
           php: "new DateTime('2020-10-28')"
           node: "'2020-10-28'"
           python: "dateutil.parser.parse('2020-10-28T00:00:00Z')"
+          ruby: "YYYY-MM-DD"
         - contact:
           is_object: true
           key: contact
@@ -8727,8 +8688,6 @@ paths:
       operationId: updateOrCreateInvoices
       summary: Updates or creates one or more sales invoices or purchase bills
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ invoices: [{ type: Invoice.TypeEnum.ACCREC, contact: { contactID:"00000000-0000-0000-0000-000000000000" }, lineItems:[ { description:"Acme Tires", quantity:2.0, unitAmount:20.0, accountCode:"200", taxType:"NONE", lineAmount:40.0 } ], date: "2019-03-11", dueDate:"2018-12-10", reference:"Website Design", status: Invoice.StatusEnum.AUTHORISED } ] }'
-      x-ruby-requestBody: 'invoices = { invoices: [{ type: XeroRuby::Accounting::Invoice::ACCREC, contact: { contact_id: "00000000-0000-0000-0000-000000000000" }, line_items: [{ description: "Acme Tires", quantity: 2.0, unit_amount: 20.0, account_code: "000", tax_type: XeroRuby::Accounting::TaxType::NONE, line_amount: 40.0 }], date: "2019-03-11", due_date: "2018-12-10", reference: "Website Design", status: XeroRuby::Accounting::Invoice::DRAFT }]}'
       x-example:
         - dateValue:
           is_date: true
@@ -8742,6 +8701,7 @@ paths:
           php: "new DateTime('2020-10-10')"
           node: "'2020-10-10'"
           python: "dateutil.parser.parse('2020-10-10T00:00:00Z')"
+          ruby: "YYYY-MM-DD"
         - dueDateValue:
           is_date: true
           key: dueDateValue
@@ -8754,6 +8714,7 @@ paths:
           php: "new DateTime('2020-10-28')"
           node: "'2020-10-28'"
           python: "dateutil.parser.parse('2020-10-28T00:00:00Z')"
+          ruby: "YYYY-MM-DD"
         - contact:
           is_object: true
           key: contact
@@ -9240,8 +9201,6 @@ paths:
       operationId: updateInvoice
       summary: Updates a specific sales invoices or purchase bills
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ invoices: [{ reference: "I am Iron Man", invoiceID: "00000000-0000-0000-0000-000000000000", lineItems: [], contact: {}, type: Invoice.TypeEnum.ACCPAY }]}'
-      x-ruby-requestBody: 'invoices = { invoices: [{ reference: "I am Iron Man", invoice_id: "00000000-0000-0000-0000-000000000000", line_items: [], contact: {}, type: XeroRuby::Accounting::Invoice::ACCPAY }]}'
       x-example:
         - invoice:
           is_object: true
@@ -9922,8 +9881,6 @@ paths:
       operationId: createItems
       summary: Creates one or more items
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ items: [{ code: "abcXYZ123", name: "HelloWorld11", description: "Foobar", inventoryAssetAccountCode: "140", purchaseDetails: { cOGSAccountCode: "500" }}]}'
-      x-ruby-requestBody: 'items = { items: [{ code: "abcXYZ123", name: "HelloWorld11", description: "Foobar", inventory_asset_account_code: "140", purchase_details: { cogs_account_code: "500" }}]}'
       x-example:
         - purchaseDetails:
           is_object: true
@@ -10048,8 +10005,6 @@ paths:
       operationId: updateOrCreateItems
       summary: Updates or creates one or more items
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ items: [{ code: "ItemCode123", name: "ItemName XYZ", description: "Item Description ABC" }]}'
-      x-ruby-requestBody: 'items = { items: [{ code: "ItemCode123", name: "ItemName XYZ", description: "Item Description ABC" }]}'
       x-example:
         - item:
           is_object: true
@@ -10202,8 +10157,6 @@ paths:
       operationId: updateItem
       summary: Updates a specific item
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ items: [{ code: "ItemCode123", description: "Description 123" }]}'
-      x-ruby-requestBody: 'items = { items: [{ code: "ItemCode123", description: "Description 123" }]}'
       x-example:
         - item:
           is_object: true
@@ -10729,8 +10682,6 @@ paths:
       operationId: createLinkedTransaction
       summary: Creates linked transactions (billable expenses)
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ sourceTransactionID: "00000000-0000-0000-0000-000000000000", sourceLineItemID: "00000000-0000-0000-0000-000000000000" }'
-      x-ruby-requestBody: 'linked_transaction = { source_transaction_id: "00000000-0000-0000-0000-000000000000", source_line_item_id: "00000000-0000-0000-0000-000000000000" }'
       x-example:
         - linkedTransaction:
           is_object: true
@@ -10852,8 +10803,6 @@ paths:
       operationId: updateLinkedTransaction
       summary: Updates a specific linked transactions (billable expenses)
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ linkedTransactions: [{ sourceLineItemID: "00000000-0000-0000-0000-000000000000", contactID: "00000000-0000-0000-0000-000000000000" }]}'
-      x-ruby-requestBody: 'linked_transactions = { linked_transactions: [{ source_line_item_id: "00000000-0000-0000-0000-000000000000", contact_id: "00000000-0000-0000-0000-000000000000" }]}'
       x-example:
         - linkedTransaction:
           is_object: true
@@ -11005,7 +10954,7 @@ paths:
           example: Status=="DRAFT"
           x-example-java: Status==&quot;&apos; + ManualJournal.StatusEnum.DRAFT + &apos;&quot;
           x-example-php: Status==&quot;&apos; . \XeroAPI\XeroPHP\Models\Accounting\ManualJournal::STATUS_DRAFT . &apos;&quot;
-          x-ruby-param: Status==#{XeroRuby::Accounting::ManualJournal::DRAFT}
+          x-example-ruby: Status==#{XeroRuby::Accounting::ManualJournal::DRAFT}
           schema:
             type: string
         - in: query
@@ -11076,8 +11025,6 @@ paths:
       operationId: createManualJournals
       summary: Creates one or more manual journals
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ manualJournals: [{ narration: "Foo bar", date: "2019-03-14", journalLines: [{ lineAmount: 100.0, accountCode: "400", description: "Hello there" }, { lineAmount: -100.0, accountCode: "400", description: "Goodbye", tracking: [{ name: "Simpson", option: "Bart" }] }]}]}'
-      x-ruby-requestBody: 'manual_journals = { manual_journals: [{ narration: "Foo bar", date: "2019-03-14", journal_lines: [{ line_amount: 100.0, account_code: "400", description: "Hello there" }, { line_amount: -100.0, account_code: "400", description: "Goodbye", tracking: [{ name: "Simpson", option: "Bart" }] }]}]}'
       x-example:
         - dateValue:
           is_date: true
@@ -11091,6 +11038,7 @@ paths:
           php: "new DateTime('2019-10-10')"
           node: "'2020-10-10'"
           python: "dateutil.parser.parse('2020-12-03T00:00:00Z')"
+          ruby: "YYYY-MM-DD"
         - manualJournalLines:
           is_list: true
           key: manualJournalLines
@@ -11304,8 +11252,6 @@ paths:
       operationId: updateOrCreateManualJournals
       summary: Updates or creates a single manual journal
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ manualJournals: [{ narration: "Foo bar", journalLines: [{ lineAmount: 100.0, accountCode: "400", description: "Hello there" },{ lineAmount: -100.0, accountCode: "400", description: "Goodbye", tracking: [{ name: "Simpsons", option: "Bart" }]}], date: "2019-03-14" }]}'
-      x-ruby-requestBody: 'manual_journals = { manual_journals: [{ narration: "Foo bar", date: "2019-03-14", journal_lines: [{ line_amount: 100.0, account_code: "400", description: "Hello there" },{ line_amount: -100.0, account_code: "400", description: "Goodbye", tracking: [{ name: "Simpsons", option: "Bart" }]}] }]}'
       x-example:
         - dateValue:
           is_date: true
@@ -11319,6 +11265,7 @@ paths:
           php: "new DateTime('2020-10-10')"
           node: "'2020-10-10'"
           python: "dateutil.parser.parse('2020-12-03T00:00:00Z')"
+          ruby: "YYYY-MM-DD"
         - manualJournalLines:
           is_list: true
           key: manualJournalLines
@@ -11614,8 +11561,6 @@ paths:
       operationId: updateManualJournal
       summary: Updates a specific manual journal
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ manualJournals: [{ narration: "Hello Xero", manualJournalId: "00000000-0000-0000-0000-000000000000", journalLines: [] }]}'
-      x-ruby-requestBody: 'manual_journals = { manual_journals: [{ narration: "Hello Xero", manual_journal_id: "00000000-0000-0000-0000-000000000000", journal_lines: [] }]}'
       x-example:
         - dateValue:
           is_date: true
@@ -11629,6 +11574,7 @@ paths:
           php: "new DateTime('2020-10-10')"
           node: "'2020-10-10'"
           python: "dateutil.parser.parse('2020-12-03T00:00:00Z')"
+          ruby: "YYYY-MM-DD"
         - manualJournalLines:
           is_list: true
           key: manualJournalLines
@@ -12306,7 +12252,7 @@ paths:
           example: Status=="AUTHORISED"
           x-example-java: Status==&quot;&apos; + Overpayment.StatusEnum.AUTHORISED + &apos;&quot;
           x-example-php: Status==&quot;&apos; . \XeroAPI\XeroPHP\Models\Accounting\Overpayment::STATUS_AUTHORISED . &apos;&quot;
-          x-ruby-param: Status==#{XeroRuby::Accounting::Overpayment::AUTHORISED}
+          x-example-ruby: Status==#{XeroRuby::Accounting::Overpayment::AUTHORISED}
           schema:
             type: string
         - in: query
@@ -12637,8 +12583,6 @@ paths:
       operationId: createOverpaymentAllocations
       summary: Creates a single allocation for a specific overpayment
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ allocations: [{ invoice: { invoiceID: "00000000-0000-0000-0000-000000000000", lineItems: [], contact: {}, type: Invoice.TypeEnum.ACCPAY }, amount: 10.0, date: "2019-03-12" }]}'
-      x-ruby-requestBody: 'allocations = { allocations: [{ invoice: { invoice_id: "00000000-0000-0000-0000-000000000000", line_items: [], contact: {}, type: XeroRuby::Accounting::Invoice::ACCPAY }, amount: 10.0, date: "2019-03-12" }]}'
       x-example:
         - currDate:
           is_date: true
@@ -12652,6 +12596,7 @@ paths:
           node: "'2020-12-10'"
           php: "new DateTime('2020-12-10')"
           python: "dateutil.parser.parse('2020-12-03T00:00:00Z')"
+          ruby: "YYYY-MM-DD"
         - invoice:
           is_object: true
           key: invoice
@@ -12881,7 +12826,7 @@ paths:
           example: Status=="AUTHORISED"
           x-example-java: Status==&quot;&apos; + Payment.StatusEnum.AUTHORISED + &apos;&quot;
           x-example-php: Status==&quot;&apos; . \XeroAPI\XeroPHP\Models\Accounting\Payment::STATUS_AUTHORISED . &apos;&quot;
-          x-ruby-param: Status==#{XeroRuby::Accounting::Payment::AUTHORISED}
+          x-example-ruby: Status==#{XeroRuby::Accounting::Payment::AUTHORISED}
           schema:
             type: string
         - in: query
@@ -13014,8 +12959,6 @@ paths:
       operationId: createPayments
       summary: Creates multiple payments for invoices or credit notes
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ payments: [{ invoice: { invoiceID: "00000000-0000-0000-0000-000000000000", lineItems: [], contact: {}, type: Invoice.TypeEnum.ACCPAY }, account: { code: "970" }, date: "2019-03-12", amount: 1.0 }]}'
-      x-ruby-requestBody: 'payments = { payments: [{ invoice: { invoice_id: "00000000-0000-0000-0000-000000000000", line_items: [], contact: {}, type: XeroRuby::Accounting::Invoice::ACCPAY }, account: { code: "970" }, date: "2019-03-12", amount: 1.0 }]}'
       x-example:
         - dateValue:
           is_date: true
@@ -13029,6 +12972,7 @@ paths:
           php: "new DateTime('2020-10-10')"
           node: "'2020-10-10'"
           python: "dateutil.parser.parse('2020-10-10T00:00:00Z')"
+          ruby: "YYYY-MM-DD"
         - invoice:
           is_object: true
           key: invoice
@@ -13213,8 +13157,6 @@ paths:
       operationId: createPayment
       summary: Creates a single payment for invoice or credit notes  
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ invoice: { invoiceID: "00000000-0000-0000-0000-000000000000", lineItems: [], contact: {}, type: Invoice.TypeEnum.ACCPAY }, account: { code: "970" }, date: "2019-03-12", amount: 1.0 }'
-      x-ruby-requestBody: 'invoice = { invoice: { invoice_id: "00000000-0000-0000-0000-000000000000", line_items: [], contact: {}, type: XeroRuby::Accounting::Invoice::ACCPAY }, account: { code: "970" }, date: "2019-03-12", amount: 1.0 }'
       x-example:
         - dateValue:
           is_date: true
@@ -13228,6 +13170,7 @@ paths:
           php: "new DateTime('2020-10-10')"
           node: "'2020-10-10'"
           python: "dateutil.parser.parse('2020-10-10T00:00:00Z')"
+          ruby: "YYYY-MM-DD"
         - invoice:
           is_object: true
           key: invoice
@@ -13530,8 +13473,6 @@ paths:
         - Accounting
       operationId: deletePayment
       summary: Updates a specific payment for invoices and credit notes
-      x-node-requestBody: '{ status: "DELETED" }'
-      x-ruby-requestBody: 'payments = { status: "DELETED" }'
       x-hasAccountingValidationError: true
       x-example:
         - paymentDelete:
@@ -13777,8 +13718,6 @@ paths:
       operationId: createPaymentService
       summary: Creates a payment service
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ paymentServices: [{ paymentServiceName: "PayUpNow", paymentServiceUrl: "https://www.payupnow.com/", payNowText: "Time To Pay" }]}'
-      x-ruby-requestBody: 'payment_services = { payment_services: [{ payment_service_name: "PayUpNow", payment_service_url: "https://www.payupnow.com/", pay_now_text: "Time To Pay" }]}'
       x-example:
         - object:
           is_object: true
@@ -13878,7 +13817,7 @@ paths:
           example: Status=="AUTHORISED"
           x-example-java: Status==&quot;&apos; + Prepayment.StatusEnum.AUTHORISED + &apos;&quot;
           x-example-php: Status==&quot;&apos; . \XeroAPI\XeroPHP\Models\Accounting\Prepayment::STATUS_AUTHORISED . &apos;&quot;
-          x-ruby-param: Status==#{XeroRuby::Accounting::Prepayment::AUTHORISED}
+          x-example-ruby: Status==#{XeroRuby::Accounting::Prepayment::AUTHORISED}
           schema:
             type: string
         - in: query
@@ -14096,8 +14035,6 @@ paths:
       operationId: createPrepaymentAllocations
       summary: Allows you to create an Allocation for prepayments
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ allocations: [{ invoice: { invoiceID: "00000000-0000-0000-0000-000000000000", lineItems: [], contact: {}, type: null }, amount: 1.0, date: "2019-03-13" }]}'
-      x-ruby-requestBody: 'allocations = { allocations: [{ invoice: { invoice_id: "00000000-0000-0000-0000-000000000000", line_items: [], contact: {}, type: null }, amount: 1.0, date: "2019-03-13" }]}'
       x-example:
         - currDate:
           is_date: true
@@ -14111,6 +14048,7 @@ paths:
           node: "'2020-12-10'"
           php: "new DateTime('2020-12-10')"
           python: "dateutil.parser.parse('2020-12-03T00:00:00Z')"
+          ruby: "YYYY-MM-DD"
         - invoice:
           is_object: true
           key: invoice
@@ -14533,8 +14471,6 @@ paths:
       operationId: createPurchaseOrders
       summary: Creates one or more purchase orders
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ purchaseOrders: [{ contact: { contactID: "00000000-0000-0000-0000-000000000000" }, lineItems: [{ description: "Foobar", quantity: 1.0, unitAmount: 20.0, accountCode: "710" }], date: "2019-03-13" }]}'
-      x-ruby-requestBody: 'purchase_orders = { purchase_orders: [{ contact: { contact_id: "00000000-0000-0000-0000-000000000000" }, line_items: [{ description: "Foobar", quantity: 1.0, unitAmount: 20.0, account_code: "710" }], date: "2019-03-13" }]}'
       x-example:
         - dateValue:
           is_date: true
@@ -14548,6 +14484,7 @@ paths:
           php: "new DateTime('2020-12-10')"
           node: "'2020-10-10'"
           python: "dateutil.parser.parse('2020-12-03T00:00:00Z')"
+          ruby: "YYYY-MM-DD"
         - contact:
           is_object: true
           key: contact
@@ -14798,8 +14735,6 @@ paths:
       operationId: updateOrCreatePurchaseOrders
       summary: Updates or creates one or more purchase orders
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ purchaseOrders: [ { contact: { contactID: "00000000-0000-0000-0000-000000000000" }, lineItems: [{ description: "Foobar", quantity: 1.0, unitAmount: 20.0, accountCode: "710" }], date: "2019-03-13" }]}'
-      x-ruby-requestBody: 'purchase_orders = { purchase_orders: [{ contact: { contact_id: "00000000-0000-0000-0000-000000000000" }, line_items: [{ description: "Foobar", quantity: 1.0, unitAmount: 20.0, accountCode: "710" }], date: "2019-03-13" }]}'
       x-example:
         - dateValue:
           is_date: true
@@ -14813,6 +14748,7 @@ paths:
           php: "new DateTime('2020-12-10')"
           node: "'2020-10-10'"
           python: "dateutil.parser.parse('2020-12-03T00:00:00Z')"
+          ruby: "YYYY-MM-DD"
         - contact:
           is_object: true
           key: contact
@@ -15241,8 +15177,6 @@ paths:
       operationId: updatePurchaseOrder
       summary: Updates a specific purchase order
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ purchaseOrders:[ { attentionTo: "Peter Parker", lineItems: [], contact: {} }]}'
-      x-ruby-requestBody: 'purchase_orders = { purchase_orders: [ { attention_to: "Peter Parker", line_items: [], contact: {} }]}'
       x-example:
         - purchaseOrder:
           is_object: true
@@ -16016,8 +15950,6 @@ paths:
       operationId: createQuotes
       summary: Create one or more quotes
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ quotes: [{ contact: { contactID: "00000000-0000-0000-0000-000000000000" }, lineItems: [{ description: "Foobar", quantity: 1.0, unitAmount: 20.0, accountCode: "12775" }], date: "2020-02-01" }]}'
-      x-ruby-requestBody: 'quotes = { quotes: [{ contact: { contact_id: "00000000-0000-0000-0000-000000000000" }, line_items: [{ description: "Foobar", quantity: 1.0, unit_amount: 20.0, account_code: "12775" }], date: "2020-02-01" }]}'
       x-example:
         - dateValue:
           is_date: true
@@ -16031,6 +15963,7 @@ paths:
           php: "new DateTime('2020-12-10')"
           node: "'2020-10-10'"
           python: "dateutil.parser.parse('2020-12-03T00:00:00Z')"
+          ruby: "YYYY-MM-DD"
         - contact:
           is_object: true
           key: contact
@@ -16215,8 +16148,6 @@ paths:
       operationId: updateOrCreateQuotes
       summary: Updates or creates one or more quotes
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ quotes: [{ contact: { contactID: "00000000-0000-0000-0000-000000000000" }, lineItems: [{ description: "Foobar", quantity: 1.0, unitAmount: 20.0, accountCode: "12775" }], date: "2020-02-01" }]}'
-      x-ruby-requestBody: 'quotes = { quotes: [{ contact: { contact_id: "00000000-0000-0000-0000-000000000000" }, line_items: [{ description: "Foobar", quantity: 1.0, unit_amount: 20.0, account_code: "12775" }], date: "2020-02-01" }]}'
       x-example:
         - dateValue:
           is_date: true
@@ -16230,6 +16161,7 @@ paths:
           php: "new DateTime('2020-12-10')"
           node: "'2020-10-10'"
           python: "dateutil.parser.parse('2020-12-03T00:00:00Z')"
+          ruby: "YYYY-MM-DD"
         - contact:
           is_object: true
           key: contact
@@ -16498,8 +16430,6 @@ paths:
       operationId: updateQuote
       summary: Updates a specific quote
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ quotes: [{ reference: "I am an update", contact: { contactID: "00000000-0000-0000-0000-000000000000" }, date: "2020-02-01" }]}'
-      x-ruby-requestBody: 'quotes = { quotes: [{ reference: "I am an update", contact: { contact_id: "00000000-0000-0000-0000-000000000000" }, date: "2020-02-01" }]}'
       x-example:
         - dateValue:
           is_date: true
@@ -16513,6 +16443,7 @@ paths:
           php: "new DateTime('2020-12-10')"
           node: "'2020-10-10'"
           python: "dateutil.parser.parse('2020-12-03T00:00:00Z')"
+          ruby: "YYYY-MM-DD"
         - contact:
           is_object: true
           key: contact
@@ -17000,7 +16931,7 @@ paths:
           example: Status=="DRAFT"
           x-example-java: Status==&quot;&apos; + Receipt.StatusEnum.DRAFT + &apos;&quot;
           x-example-php: Status==&quot;&apos; . \XeroAPI\XeroPHP\Models\Accounting\Receipt::STATUS_DRAFT . &apos;&quot;
-          x-ruby-param: Status==#{XeroRuby::Accounting::Receipt::DRAFT}
+          x-example-ruby: Status==#{XeroRuby::Accounting::Receipt::DRAFT}
           schema:
             type: string
         - in: query
@@ -17072,8 +17003,6 @@ paths:
       operationId: createReceipt
       summary: Creates draft expense claim receipts for any user
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ receipts: [{ contact: { contactID: "00000000-0000-0000-0000-000000000000" }, lineItems: [{ description: "Foobar", quantity: 2.0, unitAmount: 20.0, accountCode: "400", taxType: TaxType.NONE, lineAmount: 40.0 }], user: { userID: "00000000-0000-0000-0000-000000000000" }, lineAmountTypes: LineAmountTypes.Inclusive, status: Receipt.StatusEnum.DRAFT, date: null} ] }'
-      x-ruby-requestBody: 'receipts = { receipts: [ { contact: { contact_id: "00000000-0000-0000-0000-000000000000" }, line_items: [{ description: "Foobar", quantity: 2.0, unit_amount: 20.0, account_code: "400", tax_type: XeroRuby::Accounting::TaxType::NONE, line_amount: 40.0 }], user: { user_id: "00000000-0000-0000-0000-000000000000" }, line_amount_types: XeroRuby::Accounting::INCLUSIVE, status: XeroRuby::Accounting::Receipt::DRAFT, date: nil }]}'
       x-example:
         - contact:
           is_object: true
@@ -17506,8 +17435,6 @@ paths:
       operationId: updateReceipt
       summary: Updates a specific draft expense claim receipts
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ receipts: [{ user: { userID: "00000000-0000-0000-0000-000000000000" }, reference: "Foobar", date: "2020-01-01", contact: {}, lineItems: [] }]}'
-      x-ruby-requestBody: 'receipts = { receipts: [{ user: { user_id: "00000000-0000-0000-0000-000000000000" }, reference: "Foobar", date: "2020-01-01", contact: {}, line_items: [] }]}'
       x-example:
         - dateValue:
           is_date: true
@@ -17520,6 +17447,7 @@ paths:
           php: "new DateTime('2020-12-10')"
           node: "'2020-10-10'"
           python: "dateutil.parser.parse('2020-10-10T00:00:00Z')"
+          ruby: "YYYY-MM-DD"
         - user:
           is_object: true
           key: user
@@ -18053,7 +17981,7 @@ paths:
           example: Status=="DRAFT"
           x-example-java: Status==&quot;&apos; + RepeatingInvoice.StatusEnum.DRAFT + &apos;&quot;
           x-example-php: Status==&quot;&apos; . \XeroAPI\XeroPHP\Models\Accounting\RepeatingInvoice::STATUS_DRAFT . &apos;&quot;
-          x-ruby-param: Status==#{XeroRuby::Accounting::RepeatingInvoice::DRAFT}
+          x-example-ruby: Status==#{XeroRuby::Accounting::RepeatingInvoice::DRAFT}
           schema:
             type: string
         - in: query
@@ -22403,7 +22331,7 @@ paths:
           example: Status=="ACTIVE"
           x-example-java: Status==&quot;&apos; + TaxRate.StatusEnum.ACTIVE + &apos;&quot;
           x-example-php: Status==&quot;&apos; . \XeroAPI\XeroPHP\Models\Accounting\TaxRate::STATUS_ACTIVE . &apos;&quot;
-          x-ruby-param: Status==#{XeroRuby::Accounting::TaxRate::ACTIVE}
+          x-example-ruby: Status==#{XeroRuby::Accounting::TaxRate::ACTIVE}
           schema:
             type: string
         - in: query
@@ -22546,8 +22474,6 @@ paths:
       operationId: createTaxRates
       summary: Creates one or more tax rates      
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ taxRates: [{ name: "CA State Tax", taxComponents: [{ name: "State Tax", rate: 2.25 }]}]}'
-      x-ruby-requestBody: 'tax_rates = { tax_rates: [{ name: "CA State Tax", tax_components: [{ name: "State Tax", rate: 2.25 }]}]}'
       x-example:
         - taxComponent:
           is_object: true
@@ -22664,8 +22590,6 @@ paths:
       operationId: updateTaxRate
       summary: Updates tax rates
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ taxRates: [{ name: "State Tax NY", taxComponents: [{ name: "State Tax", rate: 2.25 }], status: TaxRate.StatusEnum.DELETED, reportTaxType: TaxRate.ReportTaxTypeEnum.INPUT }]}'
-      x-ruby-requestBody: 'tax_rates = { tax_rates: [{ name: "State Tax NY", tax_components: [{ name: "State Tax", rate: 2.25 }], status: XeroRuby::Accounting::TaxRate::Deleted, report_tax_type: XeroRuby::Accounting::TaxRate::INPUT }]}'
       x-example:
         - taxComponent:
           is_object: true
@@ -22792,7 +22716,7 @@ paths:
           example: Status=="ACTIVE"
           x-example-java: Status==&quot;&apos; + TrackingCategory.StatusEnum.ACTIVE + &apos;&quot;
           x-example-php: Status==&quot;&apos; . \XeroAPI\XeroPHP\Models\Accounting\TrackingCategory::STATUS_ACTIVE . &apos;&quot;
-          x-ruby-param: Status==#{XeroRuby::Accounting::TrackingCategory::ACTIVE}
+          x-example-ruby: Status==#{XeroRuby::Accounting::TrackingCategory::ACTIVE}
           schema:
             type: string
         - in: query
@@ -22931,8 +22855,6 @@ paths:
       operationId: updateTrackingCategory
       summary: Updates a specific tracking category
       x-hasAccountingValidationError: true
-      x-node-requestBody: '{ name: "Avengers" }'
-      x-ruby-requestBody: 'tracking_categories = { name: "Avengers" }'
       x-example:
         - trackingCategory:
           is_object: true
