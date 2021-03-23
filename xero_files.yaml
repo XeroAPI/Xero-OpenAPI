@@ -101,16 +101,8 @@ paths:
         - OAuth2: [files]
       tags:
         - Files
-      summary: Uploads a File
+      summary: Uploads a File to the inbox
       operationId: uploadFile
-      parameters:
-        - in: query
-          name: FolderId
-          description: pass an optional folder id to save file to specific folder
-          schema:
-            type: string
-            format: uuid
-            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
       responses:
         '201':
           description: A successful request
@@ -660,6 +652,72 @@ paths:
         '204':
           description: Successful deletion - return response 204 no content
           x-isEmpty: true
+    post:
+      security:
+        - OAuth2: [files]
+      tags:
+        - Files
+      summary: Uploads a File to a specific folder
+      operationId: uploadFileToFolder
+      parameters:
+        - in: path
+          name: FolderId
+          required: true
+          description: pass required folder id to save file to specific folder
+          schema:
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+      responses:
+        '201':
+          description: A successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileObject'
+              example: '{
+                          "Name": "helo-heros.jpg",
+                          "MimeType": "application/jpg",
+                          "Size": 2878711,
+                          "CreatedDateUtc": "2021-02-10T23:17:50.1930000",
+                          "UpdatedDateUtc": "2021-02-10T23:17:50.1930000",
+                          "User": {
+                            "Name": "sid.maestre@xero.com",
+                            "FirstName": "Sidney",
+                            "LastName": "Maestre",
+                            "FullName": "Sidney Maestre",
+                            "Id": "740add2a-a703-4b8a-a670-1093919c2040"
+                          },
+                          "FolderId": "bf924975-7097-46f2-a143-1ecfbab3c8c3",
+                          "Id": "22f87409-cdfd-4813-a868-559481bcb052"
+                        }'
+        '400':
+          description: invalid input, object invalid
+          content:
+            application/json:
+              example: '[
+                      {
+                          "type":"Validation",
+                          "title":"Validation failure",
+                          "detail":"Extension: boo is not a valid File extension."
+                      }
+                    ]'
+      requestBody:
+        content:
+          multipart/form-data:
+            schema: 
+              type: object
+              properties: 
+                body:
+                  type: string
+                  format: byte
+                name:
+                  type: string
+                  description: exact name of the file you are uploading
+                filename:
+                  type: string
+                mimeType:
+                  type: string
   /Inbox:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
