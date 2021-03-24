@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: "2.10.2"
+  version: "2.10.3"
   title: Xero Bank Feeds API
   description: The Bank Feeds API is a closed API that is only available to financial institutions that have an established financial services partnership with Xero.
                If you're an existing financial services partner that wants access, contact your local Partner Manager.
@@ -127,13 +127,26 @@ paths:
                   ]
                 }
         '400':
-          description: 'invalid input, object invalid'
-        '409':
           description: failed to create new feed connection(s)response
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/FeedConnections'
+              example:
+                {
+                    "items": [
+                        {
+                            "accountToken": "foobar71760",
+                            "status": "REJECTED",
+                            "error": {
+                                "type": "invalid-request",
+                                "title": "Invalid Request",
+                                "status": 400,
+                                "detail": "For the request field 'AccountNumber' exceeded the maximum length of 40."
+                            }
+                        }
+                    ]
+                }
   /FeedConnections/{id}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
