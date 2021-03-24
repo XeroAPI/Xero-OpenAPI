@@ -1415,6 +1415,7 @@ paths:
           keySnake: line_items
           java: LineItems
           python: line_item
+          ruby: line_item
           csharp: LineItem
           object: lineItem
         - bankAccount:
@@ -5933,7 +5934,7 @@ paths:
           node: "'2020-12-10'"
           php: "new DateTime('2020-12-10')"
           python: "dateutil.parser.parse('2020-12-03T00:00:00Z')"
-          ruby: "YYYY-MM-DD"
+          ruby: "'YYYY-MM-DD'"
         - contact:
           is_object: true
           key: contact
@@ -23543,12 +23544,11 @@ components:
                       ]
                     }'
   parameters:
-    requiredHeader: 
+    requiredHeader:
       in: header
       name: xero-tenant-id
       description: Xero identifier for Tenant
       example: YOUR_XERO_TENANT_ID
-      x-example-snake: xero_tenant_id
       schema:
         type: string
       required: true
@@ -23558,7 +23558,6 @@ components:
       description: If false return 200 OK and mix of successfully created objects and any with validation errors
       example: true
       x-example-python: "True"
-      x-example-snake: summarize_errors
       schema:
         type: boolean
         default: false
@@ -23574,7 +23573,6 @@ components:
       name: If-Modified-Since
       description: Only records created or modified since this timestamp will be returned
       example: "2020-02-06T12:17:43.202-08:00"
-      x-example-snake: if_modified_since
       schema:
         type: string
         format: date-time
@@ -23583,7 +23581,6 @@ components:
       name: IncludeOnline
       description: Allows an attachment to be seen by the end customer within their online invoice
       example: true
-      x-example-snake: included_online
       schema:
         type: boolean
         default: false
