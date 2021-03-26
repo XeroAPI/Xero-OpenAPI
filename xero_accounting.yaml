@@ -2517,7 +2517,6 @@ paths:
         '400':
           $ref: '#/components/responses/400Error'
       requestBody:
-        x-snake: history_records
         $ref: '#/components/requestBodies/historyRecords'
   /BankTransfers:
     parameters:
@@ -3251,6 +3250,7 @@ paths:
             type: string
         - in: query
           name: IDs
+          x-snake: ids
           description: Filter by a comma separated list of ContactIDs. Allows you to retrieve a specific set of contacts in a single call.
           style: form
           explode: false
@@ -3271,6 +3271,7 @@ paths:
             type: integer
         - in: query
           name: includeArchived
+          x-snake: include_archived
           description: e.g. includeArchived=true - Contacts with a status of ARCHIVED will be included in the response
           schema:
             type: boolean
@@ -7628,6 +7629,7 @@ paths:
             type: string
         - in: query
           name: IDs
+          x-snake: ids
           description: Filter by a comma-separated list of InvoicesIDs. 
           style: form
           explode: false
@@ -7642,6 +7644,7 @@ paths:
               format: uuid
         - in: query
           name: InvoiceNumbers
+          x-snake: invoice_numbers
           description: Filter by a comma-separated list of InvoiceNumbers. 
           style: form
           explode: false
@@ -7655,6 +7658,7 @@ paths:
               type: string
         - in: query
           name: ContactIDs
+          x-snake: contact_ids
           description: Filter by a comma-separated list of ContactIDs. 
           style: form
           explode: false
@@ -7669,6 +7673,7 @@ paths:
               format: uuid
         - in: query
           name: Statuses
+          x-snake: statuses
           description: Filter by a comma-separated list Statuses. For faster response times we recommend using these explicit parameters instead of passing OR conditions into the Where filter.
           explode: false
           example: '&quot;DRAFT&quot;, &quot;SUBMITTED&quot;'
@@ -7687,11 +7692,13 @@ paths:
             type: integer
         - in: query
           name: includeArchived
-          description: e.g. includeArchived=true - Contacts with a status of ARCHIVED will be included in the response
+          x-snake: include_archived
+          description: e.g. includeArchived=true - Invoices with a status of ARCHIVED will be included in the response
           schema:
             type: boolean
         - in: query
           name: createdByMyApp
+          x-snake: created_by_my_app
           description: When set to true you'll only retrieve Invoices created by your app
           example: false
           schema:
@@ -14969,30 +14976,35 @@ paths:
         - $ref: '#/components/parameters/ifModifiedSince'
         - in: query
           name: DateFrom
+          x-snake: date_from
           description: Filter for quotes after a particular date
           schema:
             type: string
             format: date
         - in: query
           name: DateTo
+          x-snake: date_to
           description: Filter for quotes before a particular date
           schema:
             type: string
             format: date
         - in: query
           name: ExpiryDateFrom
+          x-snake: expiry_date_from
           description: Filter for quotes expiring after a particular date
           schema:
             type: string
             format: date
         - in: query
           name: ExpiryDateTo
+          x-snake: expiry_date_to
           description: Filter for quotes before a particular date
           schema:
             type: string
             format: date
         - in: query
           name: ContactID
+          x-snake: contact_id
           description: Filter for quotes belonging to a particular contact
           example: "00000000-0000-0000-0000-000000000000"
           schema:
@@ -15018,6 +15030,7 @@ paths:
             type: string
         - in: query
           name: QuoteNumber
+          x-snake: quote_number
           description: Filter by quote number (e.g. GET https://.../Quotes?QuoteNumber=QU-0001)
           example: "QU-0001"
           schema:
@@ -15647,14 +15660,7 @@ paths:
           csharp: Quote
           object: quote
       parameters:
-        - required: true
-          in: path
-          name: QuoteID
-          description: Unique identifier for an Quote
-          example: "00000000-0000-0000-0000-000000000000"
-          schema:
-            type: string
-            format: uuid
+        - $ref: '#/components/parameters/QuoteID'
       responses:
         '200':
           description: Success - return response of type Quotes array with updated Quote
@@ -15735,14 +15741,7 @@ paths:
       operationId: getQuoteHistory
       summary: Retrieves history records of a specific quote
       parameters:
-        - required: true
-          in: path
-          name: QuoteID
-          description: Unique identifier for an Quote
-          example: "00000000-0000-0000-0000-000000000000"
-          schema:
-            type: string
-            format: uuid
+        - $ref: '#/components/parameters/QuoteID'
       responses:
         '200':
           $ref: '#/components/responses/HistoryRetrieved'
@@ -15781,14 +15780,7 @@ paths:
           csharp: HistoryRecord
           object: historyRecord 
       parameters:
-        - required: true
-          in: path
-          name: QuoteID
-          description: Unique identifier for an Quote
-          example: "00000000-0000-0000-0000-000000000000"
-          schema:
-            type: string
-            format: uuid
+        - $ref: '#/components/parameters/QuoteID'
       responses:
         '200':
           $ref: '#/components/responses/HistoryRecordCreated'
@@ -15808,14 +15800,7 @@ paths:
       x-path: '/Quotes/{QuoteID}'
       summary: Retrieves a specific quote as a PDF file using a unique quote Id
       parameters:
-        - required: true
-          in: path
-          name: QuoteID
-          description: Unique identifier for an Quote
-          example: "00000000-0000-0000-0000-000000000000"
-          schema:
-            type: string
-            format: uuid
+        - $ref: '#/components/parameters/QuoteID'
       responses:
         '200':
           description: Success - return response of byte array pdf version of specified Quotes
@@ -15835,14 +15820,7 @@ paths:
       operationId: getQuoteAttachments
       summary: Retrieves attachments for a specific quote
       parameters:
-        - required: true
-          in: path
-          name: QuoteID
-          description: Unique identifier for Quote object
-          example: "00000000-0000-0000-0000-000000000000"
-          schema:
-            type: string
-            format: uuid
+        - $ref: '#/components/parameters/QuoteID'
       responses:
         '200':
           description: Success - return response of type Attachments array of Attachment 
@@ -15877,29 +15855,9 @@ paths:
       operationId: getQuoteAttachmentById
       summary: Retrieves a specific attachment from a specific quote using a unique attachment Id
       parameters:
-        - required: true
-          in: path
-          name: QuoteID
-          description: Unique identifier for Quote object
-          example: "00000000-0000-0000-0000-000000000000"
-          schema:
-            type: string
-            format: uuid
-        - required: true
-          in: path
-          name: AttachmentID
-          description: Unique identifier for Attachment object
-          example: "00000000-0000-0000-0000-000000000000"
-          schema:
-            type: string
-            format: uuid
-        - required: true
-          in: header
-          name: contentType
-          description: The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf 
-          example: image/jpg
-          schema:
-            type: string
+        - $ref: '#/components/parameters/QuoteID'
+        - $ref: '#/components/parameters/AttachmentID'
+        - $ref: '#/components/parameters/ContentType'
       responses:
         '200':
           description: Success - return response of attachment for Quote as binary data 
@@ -15919,28 +15877,9 @@ paths:
       operationId: getQuoteAttachmentByFileName
       summary: Retrieves a specific attachment from a specific quote by filename
       parameters:
-        - required: true
-          in: path
-          name: QuoteID
-          description: Unique identifier for Quote object
-          example: "00000000-0000-0000-0000-000000000000"
-          schema:
-            type: string
-            format: uuid
-        - required: true
-          in: path
-          name: FileName
-          description: Name of the attachment
-          example: "xero-dev.jpg"
-          schema:
-            type: string
-        - required: true
-          in: header
-          name: contentType
-          description: The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf 
-          example: image/jpg
-          schema:
-            type: string
+        - $ref: '#/components/parameters/QuoteID'
+        - $ref: '#/components/parameters/FileName'
+        - $ref: '#/components/parameters/ContentType'
       responses:
         '200':
           description: Success - return response of attachment for Quote as binary data 
@@ -15958,21 +15897,8 @@ paths:
       x-hasAccountingValidationError: true
       summary: Updates a specific attachment from a specific quote by filename
       parameters:
-        - required: true
-          in: path
-          name: QuoteID
-          description: Unique identifier for Quote object
-          example: "00000000-0000-0000-0000-000000000000"
-          schema:
-            type: string
-            format: uuid
-        - required: true
-          in: path
-          name: FileName
-          description: Name of the attachment
-          example: "xero-dev.jpg"
-          schema:
-            type: string
+        - $ref: '#/components/parameters/QuoteID'
+        - $ref: '#/components/parameters/FileName'
       responses:
         '200':
           description: Success - return response of type Attachments array of Attachment 
@@ -16019,21 +15945,8 @@ paths:
       x-hasAccountingValidationError: true
       summary: Creates attachment for a specific quote
       parameters:
-        - required: true
-          in: path
-          name: QuoteID
-          description: Unique identifier for Quote object
-          example: 00000000-0000-0000-0000-000000000000
-          schema:
-            type: string
-            format: uuid
-        - required: true
-          in: path
-          name: FileName
-          description: Name of the attachment
-          example: xero-dev.jpg
-          schema:
-            type: string
+        - $ref: '#/components/parameters/QuoteID'
+        - $ref: '#/components/parameters/FileName'
       responses:
         '200':
           description: Success - return response of type Attachments array of Attachment 
@@ -16457,14 +16370,7 @@ paths:
       operationId: getReceipt
       summary: Retrieves a specific draft expense claim receipt by using a unique receipt Id
       parameters:
-        - required: true
-          in: path
-          name: ReceiptID
-          description: Unique identifier for a Receipt
-          example: "00000000-0000-0000-0000-000000000000"
-          schema:
-            type: string
-            format: uuid
+        - $ref: '#/components/parameters/ReceiptID'
         - $ref: '#/components/parameters/unitdp'
       responses:
         '200':
@@ -16662,14 +16568,7 @@ paths:
           csharp: Receipt
           object: receipt
       parameters:
-        - required: true
-          in: path
-          name: ReceiptID
-          description: Unique identifier for a Receipt
-          example: "00000000-0000-0000-0000-000000000000"
-          schema:
-            type: string
-            format: uuid
+        - $ref: '#/components/parameters/ReceiptID'
         - $ref: '#/components/parameters/unitdp'
       responses:
         '200':
@@ -16809,14 +16708,7 @@ paths:
       operationId: getReceiptAttachments
       summary: Retrieves attachments for a specific expense claim receipt
       parameters:
-        - required: true
-          in: path
-          name: ReceiptID
-          description: Unique identifier for a Receipt
-          example: "00000000-0000-0000-0000-000000000000"
-          schema:
-            type: string
-            format: uuid
+        - $ref: '#/components/parameters/ReceiptID'
       responses:
         '200':
           description: Success - return response of type Attachments array of Attachments for a specified Receipt   
@@ -16851,29 +16743,9 @@ paths:
       operationId: getReceiptAttachmentById
       summary: Retrieves a specific attachments from a specific expense claim receipts by using a unique attachment Id
       parameters:
-        - required: true
-          in: path
-          name: ReceiptID
-          description: Unique identifier for a Receipt
-          example: "00000000-0000-0000-0000-000000000000"
-          schema:
-            type: string
-            format: uuid
-        - required: true
-          in: path
-          name: AttachmentID
-          description: Unique identifier for a Attachment
-          example: "00000000-0000-0000-0000-000000000000"
-          schema:
-            type: string
-            format: uuid
-        - required: true
-          in: header
-          name: contentType
-          description: The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf
-          example: image/jpg
-          schema:
-            type: string
+        - $ref: '#/components/parameters/ReceiptID'
+        - $ref: '#/components/parameters/AttachmentID'
+        - $ref: '#/components/parameters/ContentType'
       responses:
         '200':
           description: Success - return response of attachment for Receipt as binary data 
@@ -16893,28 +16765,9 @@ paths:
       operationId: getReceiptAttachmentByFileName
       summary: Retrieves a specific attachment from a specific expense claim receipts by file name
       parameters:
-        - required: true
-          in: path
-          name: ReceiptID
-          description: Unique identifier for a Receipt
-          example: "00000000-0000-0000-0000-000000000000"
-          schema:
-            type: string
-            format: uuid
-        - required: true
-          in: path
-          name: FileName
-          description: The name of the file being attached to the Receipt
-          example: xero-dev.jpg
-          schema:
-            type: string
-        - required: true
-          in: header
-          name: contentType
-          description: The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf
-          example: image/jpg
-          schema:
-            type: string
+        - $ref: '#/components/parameters/ReceiptID'
+        - $ref: '#/components/parameters/FileName'
+        - $ref: '#/components/parameters/ContentType'
       responses:
         '200':
           description: Success - return response of attachment for Receipt as binary data 
@@ -16932,21 +16785,8 @@ paths:
       x-hasAccountingValidationError: true
       summary: Updates a specific attachment on a specific expense claim receipts by file name
       parameters:
-        - required: true
-          in: path
-          name: ReceiptID
-          description: Unique identifier for a Receipt
-          example: "00000000-0000-0000-0000-000000000000"
-          schema:
-            type: string
-            format: uuid
-        - required: true
-          in: path
-          name: FileName
-          description: The name of the file being attached to the Receipt
-          example: xero-dev.jpg
-          schema:
-            type: string
+        - $ref: '#/components/parameters/ReceiptID'
+        - $ref: '#/components/parameters/FileName'
       responses:
         '200':
           description: Success - return response of type Attachments array with updated Attachment for a specified Receipt   
@@ -16989,21 +16829,8 @@ paths:
       x-hasAccountingValidationError: true
       summary: Creates an attachment on a specific expense claim receipts by file name
       parameters:
-        - required: true
-          in: path
-          name: ReceiptID
-          description: Unique identifier for a Receipt
-          example: "00000000-0000-0000-0000-000000000000"
-          schema:
-            type: string
-            format: uuid
-        - required: true
-          in: path
-          name: FileName
-          description: The name of the file being attached to the Receipt
-          example: xero-dev.jpg
-          schema:
-            type: string
+        - $ref: '#/components/parameters/ReceiptID'
+        - $ref: '#/components/parameters/FileName'
       responses:
         '200':
           description: Success - return response of type Attachments array with newly created Attachment for a specified Receipt   
@@ -17048,14 +16875,7 @@ paths:
       operationId: getReceiptHistory
       summary: Retrieves a history record for a specific receipt
       parameters:
-        - required: true
-          in: path
-          name: ReceiptID
-          description: Unique identifier for a Receipt
-          example: "00000000-0000-0000-0000-000000000000"
-          schema:
-            type: string
-            format: uuid
+        - $ref: '#/components/parameters/ReceiptID'
       responses:
         '200':
           $ref: '#/components/responses/HistoryRetrieved'
@@ -17094,14 +16914,7 @@ paths:
           csharp: HistoryRecord
           object: historyRecord 
       parameters:
-        - required: true
-          in: path
-          name: ReceiptID
-          description: Unique identifier for a Receipt
-          example: "00000000-0000-0000-0000-000000000000"
-          schema:
-            type: string
-            format: uuid
+        - $ref: '#/components/parameters/ReceiptID'
       responses:
         '200':
           $ref: '#/components/responses/HistoryRecordCreated'
@@ -17228,14 +17041,7 @@ paths:
       operationId: getRepeatingInvoice
       summary: Retrieves a specific repeating invoice by using a unique repeating invoice Id
       parameters:
-        - required: true
-          in: path
-          name: RepeatingInvoiceID
-          description: Unique identifier for a Repeating Invoice
-          example: "00000000-0000-0000-0000-000000000000"
-          schema:
-            type: string
-            format: uuid
+        - $ref: '#/components/parameters/RepeatingInvoiceID'
       responses:
         '200':
           description: Success - return response of type Repeating Invoices array with a specified Repeating Invoice
@@ -17330,14 +17136,7 @@ paths:
       operationId: getRepeatingInvoiceAttachments
       summary: Retrieves attachments from a specific repeating invoice
       parameters:
-        - required: true
-          in: path
-          name: RepeatingInvoiceID
-          description: Unique identifier for a Repeating Invoice
-          example: "00000000-0000-0000-0000-000000000000"
-          schema:
-            type: string
-            format: uuid
+        - $ref: '#/components/parameters/RepeatingInvoiceID'
       responses:
         '200':
           description: Success - return response of type Attachments array with all Attachments for a specified Repeating Invoice   
@@ -17386,29 +17185,9 @@ paths:
       operationId: getRepeatingInvoiceAttachmentById
       summary: Retrieves a specific attachment from a specific repeating invoice
       parameters:
-        - required: true
-          in: path
-          name: RepeatingInvoiceID
-          description: Unique identifier for a Repeating Invoice
-          example: "00000000-0000-0000-0000-000000000000"
-          schema:
-            type: string
-            format: uuid
-        - required: true
-          in: path
-          name: AttachmentID
-          description: Unique identifier for a Attachment
-          example: "00000000-0000-0000-0000-000000000000"
-          schema:
-            type: string
-            format: uuid
-        - required: true
-          in: header
-          name: contentType
-          description: The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf
-          example: image/jpg
-          schema:
-            type: string
+        - $ref: '#/components/parameters/RepeatingInvoiceID'
+        - $ref: '#/components/parameters/AttachmentID'
+        - $ref: '#/components/parameters/ContentType'
       responses:
         '200':
           description: Success - return response of attachment for Repeating Invoice as binary data 
@@ -17428,28 +17207,9 @@ paths:
       operationId: getRepeatingInvoiceAttachmentByFileName
       summary: Retrieves a specific attachment from a specific repeating invoices by file name
       parameters:
-        - required: true
-          in: path
-          name: RepeatingInvoiceID
-          description: Unique identifier for a Repeating Invoice
-          example: "00000000-0000-0000-0000-000000000000"
-          schema:
-            type: string
-            format: uuid
-        - required: true
-          in: path
-          name: FileName
-          description: The name of the file being attached to a Repeating Invoice
-          example: xero-dev.jpg
-          schema:
-            type: string
-        - required: true
-          in: header
-          name: contentType
-          description: The mime type of the attachment file you are retrieving i.e image/jpg, application/pdf
-          example: image/jpg
-          schema:
-            type: string
+        - $ref: '#/components/parameters/RepeatingInvoiceID'
+        - $ref: '#/components/parameters/FileName'
+        - $ref: '#/components/parameters/ContentType'
       responses:
         '200':
           description: Success - return response of attachment for Repeating Invoice as binary data 
@@ -17467,21 +17227,8 @@ paths:
       x-hasAccountingValidationError: true
       summary: Updates a specific attachment from a specific repeating invoices by file name
       parameters:
-        - required: true
-          in: path
-          name: RepeatingInvoiceID
-          description: Unique identifier for a Repeating Invoice
-          example: "00000000-0000-0000-0000-000000000000"
-          schema:
-            type: string
-            format: uuid
-        - required: true
-          in: path
-          name: FileName
-          description: The name of the file being attached to a Repeating Invoice
-          example: xero-dev.jpg
-          schema:
-            type: string
+        - $ref: '#/components/parameters/RepeatingInvoiceID'
+        - $ref: '#/components/parameters/FileName'
       responses:
         '200':
           description: Success - return response of type Attachments array with specified Attachment for a specified Repeating Invoice   
@@ -17524,21 +17271,8 @@ paths:
       x-hasAccountingValidationError: true
       summary: Creates an attachment from a specific repeating invoices by file name
       parameters:
-        - required: true
-          in: path
-          name: RepeatingInvoiceID
-          description: Unique identifier for a Repeating Invoice
-          example: "00000000-0000-0000-0000-000000000000"
-          schema:
-            type: string
-            format: uuid
-        - required: true
-          in: path
-          name: FileName
-          description: The name of the file being attached to a Repeating Invoice
-          example: xero-dev.jpg
-          schema:
-            type: string
+        - $ref: '#/components/parameters/RepeatingInvoiceID'
+        - $ref: '#/components/parameters/FileName'
       responses:
         '200':
           description: Success - return response of type Attachments array with updated Attachment for a specified Repeating Invoice   
@@ -17583,14 +17317,7 @@ paths:
       operationId: getRepeatingInvoiceHistory
       summary: Retrieves history record for a specific repeating invoice
       parameters:
-        - required: true
-          in: path
-          name: RepeatingInvoiceID
-          description: Unique identifier for a Repeating Invoice
-          example: "00000000-0000-0000-0000-000000000000"
-          schema:
-            type: string
-            format: uuid
+        - $ref: '#/components/parameters/RepeatingInvoiceID'
       responses:
         '200':
           $ref: '#/components/responses/HistoryRetrieved'
@@ -17629,14 +17356,7 @@ paths:
           csharp: HistoryRecord
           object: historyRecord 
       parameters:
-        - required: true
-          in: path
-          name: RepeatingInvoiceID
-          description: Unique identifier for a Repeating Invoice
-          example: "00000000-0000-0000-0000-000000000000"
-          schema:
-            type: string
-            format: uuid
+        - $ref: '#/components/parameters/RepeatingInvoiceID'
       responses:
         '200':
           $ref: '#/components/responses/HistoryRecordCreated'
@@ -17657,6 +17377,7 @@ paths:
       parameters:
         - in: query
           name: reportYear
+          x-snake: report_year
           description: The year of the 1099 report
           example: "2019"
           schema:
@@ -17769,6 +17490,7 @@ paths:
         - in: query
           required: true
           name: contactId
+          x-snake: contact_id
           description: Unique identifier for a Contact
           example: "00000000-0000-0000-0000-000000000000"
           schema:
@@ -17780,18 +17502,8 @@ paths:
           schema:
             type: string
             format: date
-        - in: query
-          name: fromDate
-          description: The from date of the Aged Payables By Contact report
-          schema:
-            type: string
-            format: date
-        - in: query
-          name: toDate
-          description: The to date of the Aged Payables By Contact report
-          schema:
-            type: string
-            format: date
+        - $ref: '#/components/parameters/FromDate'
+        - $ref: '#/components/parameters/ToDate'
       responses:
         '200':
           description: Success - return response of type ReportWithRows
@@ -18048,6 +17760,7 @@ paths:
         - in: query
           required: true
           name: contactId
+          x-snake: contact_id
           description: Unique identifier for a Contact
           example: "00000000-0000-0000-0000-000000000000"
           schema:
@@ -18059,18 +17772,8 @@ paths:
           schema:
             type: string
             format: date
-        - in: query
-          name: fromDate
-          description: The from date of the Aged Receivables By Contact report
-          schema:
-            type: string
-            format: date
-        - in: query
-          name: toDate
-          description: The to date of the Aged Receivables By Contact report
-          schema:
-            type: string
-            format: date
+        - $ref: '#/components/parameters/FromDate'
+        - $ref: '#/components/parameters/ToDate'
       responses:
         '200':
           description: Success - return response of type ReportWithRows
@@ -18416,6 +18119,7 @@ paths:
             type: integer
         - in: query
           name: timeframe
+          x-snake: time_frame
           description: The period size to compare to (MONTH, QUARTER, YEAR)
           example: "MONTH"
           schema:
@@ -18426,24 +18130,28 @@ paths:
             - YEAR
         - in: query
           name: trackingOptionID1
+          x-snake: tracking_option_id_1
           description: The tracking option 1 for the Balance Sheet report
           example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
         - in: query
           name: trackingOptionID2
+          x-snake: tracking_option_id_2
           description: The tracking option 2 for the Balance Sheet report
           example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
         - in: query
           name: standardLayout
+          x-snake: standard_layout
           description: The standard layout boolean for the Balance Sheet report
           example: true
           schema:
             type: boolean
         - in: query
           name: paymentsOnly
+          x-snake: payments_only
           description: return a cash basis for the Balance Sheet report
           example: false
           schema:
@@ -19199,20 +18907,8 @@ paths:
       operationId: getReportBankSummary
       summary: Retrieves report for bank summary
       parameters:
-        - in: query
-          name: fromDate
-          description: The from date for the Bank Summary report e.g. 2018-03-31
-          example: "2019-11-01"
-          schema:
-            type: string
-            format: date
-        - in: query
-          name: toDate
-          description: The to date for the Bank Summary report e.g. 2018-03-31
-          example: "2019-11-30"
-          schema:
-            type: string
-            format: date
+        - $ref: '#/components/parameters/FromDate'
+        - $ref: '#/components/parameters/ToDate'
       responses:
         '200':
           description: Success - return response of type ReportWithRows
@@ -19358,6 +19054,7 @@ paths:
         - in: path
           required: true
           name: ReportID
+          x-snake: report_id
           description: Unique identifier for a Report
           example: "00000000-0000-0000-0000-000000000000"
           schema:
@@ -19395,6 +19092,7 @@ paths:
             type: integer
         - in: query
           name: timeframe
+          x-snake: time_frame
           description: The period size to compare to (1=month, 3=quarter, 12=year)
           example: 3
           schema:
@@ -20127,20 +19825,8 @@ paths:
       operationId: getReportProfitAndLoss
       summary: Retrieves report for profit and loss
       parameters:
-        - in: query
-          name: fromDate
-          description: The from date for the ProfitAndLoss report e.g. 2018-03-31
-          example: "2019-03-01"
-          schema:
-            type: string
-            format: date
-        - in: query
-          name: toDate
-          description: The to date for the ProfitAndLoss report e.g. 2018-03-31
-          example: "2019-03-31"
-          schema:
-            type: string
-            format: date
+        - $ref: '#/components/parameters/FromDate'
+        - $ref: '#/components/parameters/ToDate'
         - in: query
           name: periods
           description: The number of periods to compare (integer between 1 and 12)
@@ -20149,6 +19835,7 @@ paths:
             type: integer
         - in: query
           name: timeframe
+          x-snake: time_frame
           description: The period size to compare to (MONTH, QUARTER, YEAR)
           example: "MONTH"
           schema:
@@ -20159,36 +19846,42 @@ paths:
             - YEAR
         - in: query
           name: trackingCategoryID
+          x-snake: tracking_category_id
           description: The trackingCategory 1 for the ProfitAndLoss report 
           example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
         - in: query
           name: trackingCategoryID2
+          x-snake: tracking_category_id_2
           description: The trackingCategory 2 for the ProfitAndLoss report 
           example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
         - in: query
           name: trackingOptionID
+          x-snake: tracking_option_id
           description: The tracking option 1 for the ProfitAndLoss report 
           example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
         - in: query
           name: trackingOptionID2
+          x-snake: tracking_option_id_2
           description: The tracking option 2 for the ProfitAndLoss report 
           example: "00000000-0000-0000-0000-000000000000"
           schema:
             type: string
         - in: query
           name: standardLayout
+          x-snake: standard_layout
           description: Return the standard layout for the ProfitAndLoss report 
           example: "true"
           schema:
             type: boolean
         - in: query
           name: paymentsOnly
+          x-snake: payments_only
           description: Return cash only basis for the ProfitAndLoss report 
           example: "false"
           schema:
@@ -20220,6 +19913,7 @@ paths:
             format: date
         - in: query
           name: paymentsOnly
+          x-snake: payments_only
           description: Return cash only basis for the Trial Balance report 
           example: "true"
           schema:
@@ -21510,6 +21204,7 @@ paths:
             type: string
         - in: query
           name: TaxType
+          x-snake: tax_type
           description: Filter by tax type
           example: "INPUT"
           schema:
@@ -21930,6 +21625,7 @@ paths:
             type: string
         - in: query
           name: includeArchived
+          x-snake: include_archived
           description: e.g. includeArchived=true - Categories and options with a status of ARCHIVED will be included in the response
           schema:
             type: boolean
@@ -22021,14 +21717,7 @@ paths:
       operationId: getTrackingCategory
       summary: Retrieves specific tracking categories and options using a unique tracking category Id
       parameters:
-        - required: true
-          in: path
-          name: TrackingCategoryID
-          description: Unique identifier for a TrackingCategory
-          example: "00000000-0000-0000-0000-000000000000"
-          schema:
-            type: string
-            format: uuid
+        - $ref: '#/components/parameters/TrackingCategoryID'
       responses:
         '200':
           description: Success - return response of type TrackingCategories array of specified TrackingCategory
@@ -22072,14 +21761,7 @@ paths:
           default: Foobar
           object: trackingCategory
       parameters:
-        - required: true
-          in: path
-          name: TrackingCategoryID
-          description: Unique identifier for a TrackingCategory
-          example: "00000000-0000-0000-0000-000000000000"
-          schema:
-            type: string
-            format: uuid
+        - $ref: '#/components/parameters/TrackingCategoryID'
       responses:
         '200':
           description: Success - return response of type TrackingCategories array of updated TrackingCategory
@@ -22118,14 +21800,7 @@ paths:
       operationId: deleteTrackingCategory
       summary: Deletes a specific tracking category
       parameters:
-        - required: true
-          in: path
-          name: TrackingCategoryID
-          description: Unique identifier for a TrackingCategory
-          example: "00000000-0000-0000-0000-000000000000"
-          schema:
-            type: string
-            format: uuid
+        - $ref: '#/components/parameters/TrackingCategoryID'
       responses:
         '200':
           description: Success - return response of type TrackingCategories array of deleted TrackingCategory
@@ -22172,14 +21847,7 @@ paths:
           default: Foobar
           object: trackingOption
       parameters:
-        - required: true
-          in: path
-          name: TrackingCategoryID
-          description: Unique identifier for a TrackingCategory
-          example: "00000000-0000-0000-0000-000000000000"
-          schema:
-            type: string
-            format: uuid
+        - $ref: '#/components/parameters/TrackingCategoryID'
       responses:
         '200':
           description: Success - return response of type TrackingOptions array of options for a specified category
@@ -22237,22 +21905,8 @@ paths:
           default: Foobar
           object: trackingOption
       parameters:
-        - required: true
-          in: path
-          name: TrackingCategoryID
-          description: Unique identifier for a TrackingCategory
-          example: "00000000-0000-0000-0000-000000000000"
-          schema:
-            type: string
-            format: uuid
-        - required: true
-          in: path
-          name: TrackingOptionID
-          description: Unique identifier for a Tracking Option
-          example: "00000000-0000-0000-0000-000000000000"
-          schema:
-            type: string
-            format: uuid
+        - $ref: '#/components/parameters/TrackingCategoryID'
+        - $ref: '#/components/parameters/TrackingOptionID'
       responses:
         '200':
           description: Success - return response of type TrackingOptions array of options for a specified category
@@ -22294,22 +21948,8 @@ paths:
       operationId: deleteTrackingOptions
       summary: Deletes a specific option for a specific tracking category
       parameters:
-        - required: true
-          in: path
-          name: TrackingCategoryID
-          description: Unique identifier for a TrackingCategory
-          example: "00000000-0000-0000-0000-000000000000"
-          schema:
-            type: string
-            format: uuid
-        - required: true
-          in: path
-          name: TrackingOptionID
-          description: Unique identifier for a Tracking Option
-          example: "00000000-0000-0000-0000-000000000000"
-          schema:
-            type: string
-            format: uuid
+        - $ref: '#/components/parameters/TrackingCategoryID'
+        - $ref: '#/components/parameters/TrackingOptionID'
       responses:
         '200':
           description: Success - return response of type TrackingOptions array of remaining options for a specified category
@@ -22404,14 +22044,7 @@ paths:
       operationId: getUser
       summary: Retrieves a specific user
       parameters:
-        - required: true
-          in: path
-          name: UserID
-          description: Unique identifier for a User
-          example: "00000000-0000-0000-0000-000000000000"
-          schema:
-            type: string
-            format: uuid
+        - $ref: '#/components/parameters/UserID'
       responses:
         '200':
           description: Success - return response of type Users array of specified User
@@ -22548,6 +22181,22 @@ components:
       schema:
         type: boolean
         default: false
+    FromDate:
+      in: query
+      name: fromDate
+      x-snake: from_date
+      description: filter by the from date of the report e.g. 2021-02-01
+      schema:
+        type: string
+        format: date
+    ToDate:
+      in: query
+      name: toDate
+      x-snake: to_date
+      description: filter by the to date of the report e.g. 2021-02-28
+      schema:
+        type: string
+        format: date
     AccountID:
       required: true
       in: path
@@ -22640,6 +22289,7 @@ components:
       required: true
       in: path
       name: ContactGroupID
+      x-snake: contact_group_id
       description: Unique identifier for a Contact Group
       example: "00000000-0000-0000-0000-000000000000"
       schema:
@@ -22649,6 +22299,7 @@ components:
       required: true
       in: path
       name: CreditNoteID
+      x-snake: credit_note_id
       description: Unique identifier for a Credit Note
       example: "00000000-0000-0000-0000-000000000000"
       schema:
@@ -22658,6 +22309,7 @@ components:
       required: true
       in: path
       name: EmployeeID
+      x-snake: employee_id
       description: Unique identifier for a Employee
       example: "00000000-0000-0000-0000-000000000000"
       schema:
@@ -22667,6 +22319,7 @@ components:
       required: true
       in: path
       name: ExpenseClaimID
+      x-snake: expense_claim_id
       description: Unique identifier for a ExpenseClaim
       example: "00000000-0000-0000-0000-000000000000"
       schema:
@@ -22676,6 +22329,7 @@ components:
       required: true
       in: path
       name: InvoiceID
+      x-snake: invoice_id
       description: Unique identifier for an Invoice
       example: "00000000-0000-0000-0000-000000000000"
       schema:
@@ -22685,6 +22339,7 @@ components:
       required: true
       in: path
       name: ItemID
+      x-snake: item_id
       description: Unique identifier for an Item
       example: "00000000-0000-0000-0000-000000000000"
       schema:
@@ -22694,6 +22349,7 @@ components:
       required: true
       in: path
       name: JournalID
+      x-snake: journal_id
       description: Unique identifier for a Journal
       example: "00000000-0000-0000-0000-000000000000"
       schema:
@@ -22703,6 +22359,7 @@ components:
       required: true
       in: path
       name: LinkedTransactionID
+      x-snake: linked_transaction_id
       description: Unique identifier for a LinkedTransaction
       example: "00000000-0000-0000-0000-000000000000"
       schema:
@@ -22712,6 +22369,7 @@ components:
       required: true
       in: path
       name: ManualJournalID
+      x-snake: manual_journal_id
       description: Unique identifier for a ManualJournal
       example: "00000000-0000-0000-0000-000000000000"
       schema:
@@ -22721,6 +22379,7 @@ components:
       required: true
       in: path
       name: OrganisationID
+      x-snake: organisation_id
       description: The unique Xero identifier for an organisation
       example: "00000000-0000-0000-0000-000000000000"
       schema:
@@ -22730,6 +22389,7 @@ components:
       required: true
       in: path
       name: OverpaymentID
+      x-snake: overpayment_id
       description: Unique identifier for a Overpayment
       example: "00000000-0000-0000-0000-000000000000"
       schema:
@@ -22739,6 +22399,7 @@ components:
       required: true
       in: path
       name: PaymentID
+      x-snake: payment_id
       description: Unique identifier for a Payment
       example: "00000000-0000-0000-0000-000000000000"
       schema:
@@ -22748,6 +22409,7 @@ components:
       required: true
       in: path
       name: PrepaymentID
+      x-snake: prepayment_id
       description: Unique identifier for a PrePayment
       example: "00000000-0000-0000-0000-000000000000"
       schema:
@@ -22757,6 +22419,7 @@ components:
       required: true
       in: path
       name: PurchaseOrderID
+      x-snake: purchase_order_id
       description: Unique identifier for an Purchase Order
       example: "00000000-0000-0000-0000-000000000000"
       schema:
@@ -22766,7 +22429,58 @@ components:
       required: true
       in: path
       name: QuoteID
+      x-snake: quote_id
       description: Unique identifier for an Quote
+      example: "00000000-0000-0000-0000-000000000000"
+      schema:
+        type: string
+        format: uuid
+    ReceiptID:
+      required: true
+      in: path
+      name: ReceiptID
+      x-snake: receipt_id
+      description: Unique identifier for a Receipt
+      example: "00000000-0000-0000-0000-000000000000"
+      schema:
+        type: string
+        format: uuid
+    RepeatingInvoiceID:
+      required: true
+      in: path
+      name: RepeatingInvoiceID
+      x-snake: repeating_invoice_id
+      description: Unique identifier for a Repeating Invoice
+      example: "00000000-0000-0000-0000-000000000000"
+      schema:
+        type: string
+        format: uuid
+    TrackingCategoryID:
+      required: true
+      in: path
+      name: TrackingCategoryID
+      x-snake: tracking_category_id
+      description: Unique identifier for a TrackingCategory
+      example: "00000000-0000-0000-0000-000000000000"
+      schema:
+        type: string
+        format: uuid
+    TrackingOptionID:
+      required: true
+      in: path
+      name: TrackingOptionID
+      x-snake: tracking_option_id
+      description: Unique identifier for a Tracking Option
+      example: "00000000-0000-0000-0000-000000000000"
+      schema:
+        type: string
+        format: uuid
+    UserID:
+      required: true
+      in: path
+      name: UserID
+      x-snake: user_id
+      description: Unique identifier for a User
       example: "00000000-0000-0000-0000-000000000000"
       schema:
         type: string
