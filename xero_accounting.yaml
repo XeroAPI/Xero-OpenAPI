@@ -3283,6 +3283,7 @@ paths:
           description: e.g. includeArchived=true - Contacts with a status of ARCHIVED will be included in the response
           schema:
             type: boolean
+        - $ref: '#/components/parameters/summaryOnly'
       responses:
         '200':
           description: Success - return response of type Contacts array with 0 to N Contact
@@ -22202,6 +22203,15 @@ components:
       name: IncludeOnline
       x-snake: include_online
       description: Allows an attachment to be seen by the end customer within their online invoice
+      example: true
+      schema:
+        type: boolean
+        default: false
+    summaryOnly:
+      in: query
+      name: summaryOnly
+      x-snake: summary_only
+      description: Use summaryOnly=true in GET Contacts endpoint to retrieve a smaller version of the response object. This returns only lightweight fields, excluding computation-heavy fields from the response, making the API calls quick and efficient.
       example: true
       schema:
         type: boolean
