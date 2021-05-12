@@ -160,7 +160,7 @@ paths:
           schema: 
             type: string
             format: uuid
-            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+            example: "00000000-0000-0000-0000-000000000000"
       responses:
         '200':
           description: search results matching criteria
@@ -192,6 +192,18 @@ paths:
       summary: Update a file 
       operationId: updateFile
       description:  Updates file properties of a single file
+      x-example:
+        - fileObject:
+          is_object: true
+          key: fileObject
+          keyPascal: FileObject  
+        - name: 
+          key: name
+          keyPascal: Name
+          keySnake: name
+          object: fileObject
+          default: FileName.jpg
+          is_last: true  
       parameters: 
         - name: FileId
           in: path
@@ -200,7 +212,7 @@ paths:
           schema: 
             type: string
             format: uuid
-            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+            example: "00000000-0000-0000-0000-000000000000"
       responses:
         '200':
           description: A successful request
@@ -259,7 +271,7 @@ paths:
           schema: 
             type: string
             format: uuid
-            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+            example: "00000000-0000-0000-0000-000000000000"
       responses:
         '204':
           description: Successful deletion - return response 204 no content
@@ -282,7 +294,7 @@ paths:
           schema:
             type: string
             format: uuid
-            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+            example: "00000000-0000-0000-0000-000000000000"
       responses:
         '201':
           description: A successful request
@@ -341,7 +353,7 @@ paths:
           schema: 
             type: string
             format: uuid
-            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+            example: "00000000-0000-0000-0000-000000000000"
       responses:
         '200':
           description: returns the byte array of the specific file based on id
@@ -370,7 +382,7 @@ paths:
           schema: 
             type: string
             format: uuid
-            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+            example: "00000000-0000-0000-0000-000000000000"
       responses:
         '200':
           description: search results matching criteria
@@ -395,6 +407,50 @@ paths:
         - Files
       summary: Creates a new file association
       operationId: createFileAssociation
+      x-example:
+        - association:
+          is_object: true
+          key: association
+          keyPascal: Association
+        - fileId:
+          is_uuid: true
+          key: fileId
+          keyPascal: FileId
+          keySnake: tax_type
+          default: "00000000-0000-0000-0000-000000000000"
+          object: association
+        - objectId:
+          is_uuid: true
+          key: objectId
+          keyPascal: ObjectId
+          keySnake: object_id
+          default: "00000000-0000-0000-0000-000000000000"
+          object: association
+        - objectGroup:
+          nonString: true
+          key: objectGroup
+          keyPascal: ObjectGroup
+          default: "ObjectGroup.Invoice"
+          php: XeroAPI\XeroPHP\Models\Files\ObjectGroup::INVOICE
+          node: ObjectGroup.Invoice
+          ruby: XeroRuby::Files::ObjectGroup::INVOICE
+          python: ObjectGroup.INVOICE
+          java: com.xero.models.files.ObjectGroup.INVOICE
+          csharp: "ObjectGroup.Invoice"
+          object: association
+        - objectType:
+          is_last: true
+          nonString: true
+          key: objectType
+          keyPascal: ObjectType
+          default: "ObjectType.Accpay"
+          php: XeroAPI\XeroPHP\Models\Files\ObjectType::ACCPAY
+          node: ObjectType.Accpay
+          ruby: XeroRuby::Files::ObjectType::ACCPAY
+          python: ObjectType.ACCPAY
+          java: com.xero.models.files.ObjectType.ACCPAY
+          csharp: "ObjectType.Accpay"
+          object: association
       description: By passing in the appropriate options, you can create a new folder
       parameters: 
         - name: FileId
@@ -404,7 +460,7 @@ paths:
           schema: 
             type: string
             format: uuid
-            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+            example: 00000000-0000-0000-0000-000000000000
       responses:
         '201':
           description: A successful request
@@ -458,7 +514,7 @@ paths:
           schema: 
             type: string
             format: uuid
-            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+            example: "00000000-0000-0000-0000-000000000000"
         - name: ObjectId
           in: path
           required: true
@@ -466,7 +522,7 @@ paths:
           schema: 
             type: string
             format: uuid
-            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+            example: "00000000-0000-0000-0000-000000000000"
       responses:
         '204':
           description: Successful deletion - return response 204 no content
@@ -490,7 +546,7 @@ paths:
           schema: 
             type: string
             format: uuid
-            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+            example: "00000000-0000-0000-0000-000000000000"
       responses:
         '200':
           description: search results matching criteria
@@ -560,8 +616,19 @@ paths:
         - OAuth2: [files]
       tags:
         - Files
-      summary: Creates a new folder
       operationId: createFolder
+      summary: Creates a new folder
+      x-example:
+        - folder:
+          is_object: true
+          key: folder
+          keyPascal: Folder
+        - name:
+          is_last: true
+          key: name
+          keyPascal: Name
+          default: FolderName
+          object: folder
       description: By passing in the appropriate properties, you can create a new folder
       responses:
         '200':
@@ -614,7 +681,7 @@ paths:
           schema: 
             type: string
             format: uuid
-            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+            example: "00000000-0000-0000-0000-000000000000"
       responses:
         '200':
           description: search results matching criteria
@@ -636,6 +703,17 @@ paths:
       summary: Updates an existing folder
       operationId: updateFolder
       description: By passing in the appropriate ID and properties, you can update a folder
+      x-example:
+        - folder:
+          is_object: true 
+          key: folder
+          keyPascal: Folder
+        - name:
+          object: folder
+          key: name
+          keyPascal: Name
+          default: NewFolderName
+          is_last: true
       parameters:
         - name: FolderId
           in: path
@@ -644,7 +722,7 @@ paths:
           schema: 
             type: string
             format: uuid
-            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+            example: "00000000-0000-0000-0000-000000000000"
       responses:
         '200':
           description: return the updated object
@@ -694,7 +772,7 @@ paths:
           schema: 
             type: string
             format: uuid
-            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+            example: "00000000-0000-0000-0000-000000000000"
       responses:
         '204':
           description: Successful deletion - return response 204 no content
@@ -830,7 +908,7 @@ components:
           description: Xero identifier
           type: string
           format: uuid
-          example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+          example: "00000000-0000-0000-0000-000000000000"
         Name:
           description: Key is Name, but returns Email address of user who created the file
           type: string
@@ -879,7 +957,7 @@ components:
           description:  Xero unique identifier for a folder  Files
           type: string
           format: uuid
-          example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+          example: "00000000-0000-0000-0000-000000000000"
     Association:
       type: object
       properties:
