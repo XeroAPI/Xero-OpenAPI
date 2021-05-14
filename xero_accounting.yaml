@@ -3228,7 +3228,122 @@ paths:
                         "PaymentServiceUrl": "https://www.payupnow.com/",
                         "PayNowText": "Pay Now"
                       }'
-  /Contacts:
+  '/Budgets':
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    get:
+      security:
+        - OAuth2: [accounting.budgets.read]
+      tags:
+        - Accounting
+      operationId: getBudgets
+      summary: 'Retrieve a list of budgets'
+      parameters:
+        - in: query
+          name: IDs
+          x-snake: ids
+          description: Filter by BudgetID. Allows you to retrieve a specific individual budget.
+          style: form
+          explode: false
+          example: '&quot;00000000-0000-0000-0000-000000000000&quot;'
+          x-example-java: UUID.fromString("00000000-0000-0000-0000-000000000000")
+          x-example-php: '&quot;00000000-0000-0000-0000-000000000000&quot;'
+          x-example-csharp: Guid.Parse("00000000-0000-0000-0000-000000000000");
+          schema:
+            type: string
+            items:
+              type: string
+              format: uuid
+        - in: query
+          name: DateTo
+          description: Filter by start date
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: DateFrom
+          description: Filter by end date
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Success - return response of type Budgets array with 0 to N Budgets
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Budgets'
+              example: '{
+                            "Id": "04e93d48-e72f-4775-b7dd-15a041fab972",
+                            "Status": "OK",
+                            "ProviderName": "Xero API Partner",
+                            "DateTimeUTC": "\/Date(1551399323399)\/",
+                            "Budgets": {
+                              "BudgetID": "c1d195d4-92aa-4abd-867a-7ac2f9d60500",
+                              "Type": "TRACKING",
+                              "Description": "Daniels Northern Budget",
+                              "UpdatedDateUTC": "2017-08-14T01:18:26.74",
+                              "Tracking": [
+                                {
+                                    "TrackingCategoryID": "e94ba240-3edf-4ef3-8317-10147b968f94",
+                                    "Name": "Region",
+                                    "TrackingOptionID": "e94ba240-3edf-4ef3-8317-10147b968f94",
+                                    "Option": "North"
+                                },
+                                {
+                                    "TrackingCategoryID": "d8580491-4167-4a81-9624-ad3bdd8e46ce",
+                                    "Name": "Salesperson",
+                                    "TrackingOptionID": "9c24de87-a2b7-439d-a216-35d1af7bdec3",
+                                    "Option": "Daniel"
+                                }
+                              ],
+                              "BudgetLines": [
+                                {
+                                    "AccountID": "9c24de87-a2b7-439d-a216-35d1af7bdec3",
+                                    "AccountCode": "200",
+                                    "BudgetBalances": [
+                                      {
+                                          "Period": "2019-08",
+                                          "Amount": "1000",
+                                          "Notes": "Sample note"
+                                      },
+                                      {
+                                          "Period": "2019-09",
+                                          "Amount": "1050",
+                                          "Notes": ""
+                                      },
+                                      {
+                                          "Period": "2019-10",
+                                          "Amount": "1102",
+                                          "Notes": ""
+                                      }
+                                    ]
+                                },
+                                {
+                                    "AccountID": "385f90ae-e798-4990-9b1c-db8eb8b735c2",
+                                    "AccountCode": "420",
+                                    "BudgetBalances": [
+                                      {
+                                          "Period": "2019-08",
+                                          "Amount": "500",
+                                          "Notes": ""
+                                      },
+                                      {
+                                          "Period": "2019-09",
+                                          "Amount": "505",
+                                          "Notes": "Special Month"
+                                      },
+                                      {
+                                          "Period": "2019-10",
+                                          "Amount": "510",
+                                          "Notes": ""
+                                      }
+                                    ]
+                                }
+                              ]
+                            }
+                          }'                      
+  '/Contacts':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
@@ -23554,6 +23669,54 @@ components:
           description: Status of object
           type: string
       type: object
+    Budgets:
+      type: object
+      externalDocs:
+        url: 'http://developer.xero.com/documentation/api/budgets/'
+      properties:
+        BudgetID:
+          description: Xero identifier
+          type: string
+          format: uuid
+        Type:
+          description: Type of Budget. OVERALL or TRACKING
+          type: string
+          enum:
+          - OVERALL
+          - TRACKING
+        Description:
+          description: The Budget description
+          maxLength: 255
+          type: string
+        UpdatedDateUTC:
+          description: UTC timestamp of last update to budget
+          type: string
+          x-is-msdate-time: true
+          example: "/Date(1573755038314)/"
+          readOnly: true
+        BudgetLines:
+          $ref: '#/components/schemas/BudgetLines'
+        Tracking:
+          $ref: '#/components/schemas/TrackingCategory'
+    BudgetLines:
+      type: object
+      externalDocs:
+        url: 'http://developer.xero.com/documentation/api/budgets/'
+      properties:
+        Period:
+          description: Period the amount applies to (e.g. “2019-08”)
+          type: string
+          x-is-msdate: true
+        Amount:
+          description: LineItem Quantity
+          type: integer
+        UnitAmount:
+          description: Budgeted amount	
+          type: integer
+        Notes:
+          description: Any footnotes associated with this balance
+          maxLength: 255
+          type: string
     Balances:
       type: object
       description:  The raw AccountsReceivable(sales invoices) and
