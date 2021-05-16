@@ -19956,6 +19956,23 @@ paths:
                             }
                           ]
                         }'
+  '/Reports':
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    get:
+      security:
+        - OAuth2: [accounting.reports.read]
+      tags:
+        - Accounting
+      operationId: getReportForGST
+      summary: Retrieves report for GST (only valid for NZ orgs)
+      responses:
+        '200':
+          description: Success - return response of type ReportWithRows
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportWithRows'
   '/Reports/ProfitAndLoss':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
