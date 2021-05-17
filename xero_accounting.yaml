@@ -17660,7 +17660,6 @@ paths:
                           "DateTimeUTC": "\/Date(1555971088085)\/",
                           "Reports": [
                             {
-                              "ReportID": "AgedPayablesByContact",
                               "ReportName": "Aged Payables By Contact",
                               "ReportType": "AgedPayablesByContact",
                               "ReportTitles": [
@@ -17930,7 +17929,6 @@ paths:
                           "DateTimeUTC": "\/Date(1556032862815)\/",
                           "Reports": [
                             {
-                              "ReportID": "AgedReceivablesByContact",
                               "ReportName": "Aged Receivables By Contact",
                               "ReportType": "AgedReceivablesByContact",
                               "ReportTitles": [
@@ -18312,7 +18310,6 @@ paths:
                         "DateTimeUTC": "\/Date(1555099412778)\/",
                         "Reports": [
                           {
-                            "ReportID": "BalanceSheet",
                             "ReportName": "Balance Sheet",
                             "ReportType": "BalanceSheet",
                             "ReportTitles": [
@@ -19065,7 +19062,6 @@ paths:
                           "DateTimeUTC": "\/Date(1556035526223)\/",
                           "Reports": [
                             {
-                              "ReportID": "BankSummary",
                               "ReportName": "Bank Summary",
                               "ReportType": "BankSummary",
                               "ReportTitles": [
@@ -19165,23 +19161,6 @@ paths:
                             }
                           ]
                         }'
-  '/Reports':
-    parameters:
-      - $ref: '#/components/parameters/requiredHeader'
-    get:
-      security:
-        - OAuth2: [accounting.reports.read]
-      tags:
-        - Accounting
-      operationId: getReportBASorGSTList
-      summary: Retrieves report for BAS (only valid for AU orgs)
-      responses:
-        '200':
-          description: Success - return response of type ReportWithRows
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ReportWithRows'
   '/Reports/{ReportID}':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -19253,7 +19232,6 @@ paths:
                           "DateTimeUTC": "\/Date(1573755037865)\/",
                           "Reports": [
                             {
-                              "ReportID": "BudgetSummary",
                               "ReportName": "Budget Summary",
                               "ReportType": "BudgetSummary",
                               "ReportTitles": [
@@ -19496,7 +19474,6 @@ paths:
                           "DateTimeUTC": "/Date(1573755038314)/",
                           "Reports": [
                             {
-                              "ReportID": "ExecutiveSummary",
                               "ReportName": "Executive Summary",
                               "ReportType": "ExecutiveSummary",
                               "ReportTitles": [
@@ -20091,7 +20068,6 @@ paths:
                           "DateTimeUTC": "\/Date(1556129558740)\/",
                           "Reports": [
                             {
-                              "ReportID": "TrialBalance",
                               "ReportName": "Trial Balance",
                               "ReportType": "TrialBalance",
                               "ReportTitles": [
@@ -26709,7 +26685,7 @@ components:
         url: 'http://developer.xero.com/documentation/api/reports/'
       properties:
         ReportID:
-          description: Report id
+          description: ID of the Report
           type: string
         ReportName:
           description: Name of the report
@@ -26813,9 +26789,6 @@ components:
       externalDocs:
         url: 'http://developer.xero.com/documentation/api/reports/'
       properties:
-        ReportID:
-          description: See Prepayment Types
-          type: string
         ReportName:
           description: See Prepayment Types
           type: string
