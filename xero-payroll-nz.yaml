@@ -332,6 +332,88 @@ paths:
         - PayrollNz
       operationId: updateEmployee
       x-hasPayrollUkProblem: true
+      x-example:
+        - dateOfBirthValue:
+          key: dateOfBirth
+          keyPascal: DateOfBirth
+          keySnake: date_of_birth
+          is_date: true
+          object: employee
+          java_datatype: LocalDate
+          csharp_datatype: DateTime
+          default: "LocalDate.of(2000, Month.OCTOBER, 28)"
+          java: "LocalDate.of(2000, Month.OCTOBER, 28)"
+          csharp: "new DateTime(2000, 10, 10)"
+          php: "new DateTime('2000-10-28')"
+          node: "'2000-10-28'"
+          python: "dateutil.parser.parse('2000-10-28T00:00:00Z')"
+          ruby: "'YYYY-MM-DD'"
+        - Address:
+          key: address
+          keyPascal: Address
+          keySnake: address
+          is_object: true 
+        - addressLine1:
+          key: addressLine1
+          keyPascal: AddressLine1
+          keySnake: address_line_1
+          default: 123 Test st
+          object: address
+        - city:
+          key: city
+          keyPascal: City
+          keySnake: city
+          object: address
+          default: Rangiora
+        - postCode:
+          key: postCode
+          keyPascal: PostCode
+          keySnake: post_code
+          object: address
+          default: 7400
+        - countryName:
+          key: countryName
+          keyPascal: CountryName
+          keySnake: country_name
+          default: NEW ZEALAND
+          object: address
+          is_last: true
+        - employee:
+          key: employee
+          keyPascal: Employee
+          is_object: true 
+        - firstName:
+          key: firstName
+          keyPascal: FirstName
+          keySnake: first_name 
+          default: "Adam"
+          object: employee
+        - lastName:
+          key: lastName
+          keyPascal: LastName
+          keySnake: last_name
+          default: "Adamson"
+          object: employee
+        - dateOfBirth:
+          is_variable: true
+          nonString: true
+          key: dateOfBirth
+          keyPascal: DateOfBirth
+          keySnake: date_of_birth
+          default: dateOfBirth
+          python: date_of_birth
+          ruby: date_of_birth
+          object: employee
+        - set_homeAddress:
+          is_last: true
+          is_variable: true
+          nonString: true
+          key: address
+          keyPascal: Address
+          default: address
+          python: address
+          ruby: address
+          object: employee  
       summary: Updates an existing employee
       parameters:
         - name: EmployeeID
@@ -558,6 +640,128 @@ paths:
         - PayrollNz
       operationId: updateEmployeeTax
       x-hasPayrollUkProblem: true
+      x-example:
+        - studentLoanAsAtValue:
+          key: studentLoanAsAt
+          keyPascal: StudentLoanAsAt
+          keySnake: student_loan_as_at
+          is_date: true
+          java_datatype: LocalDate
+          csharp_datatype: DateTime
+          default: "LocalDate.of(2020, Month.OCTOBER, 30)"
+          java: "LocalDate.of(2020, Month.OCTOBER, 30)"
+          csharp: "new DateTime(2020, 10, 12)"
+          php: "new DateTime('2020-10-30')"
+          node: "'2020-10-30'"
+          python: "dateutil.parser.parse('2020-10-30T00:00:00Z')"
+          ruby: "'YYYY-MM-DD'"
+        - employeeTax:
+          key: employeeTax
+          keyPascal: EmployeeTax
+          keySnake: employee_tax
+          is_object: true
+        - irdNumber:
+          key: irdNumber
+          keyPascal: IrdNumber
+          keySnake: ird_number
+          default: 111111111
+          object: employeeTax
+        - hasSpecialStudentLoanRate:
+          key: hasSpecialStudentLoanRate
+          keyPascal: HasSpecialStudentLoanRate
+          keySnake: has_special_student_loan_rate
+          nonString: true 
+          default: true 
+          object: employeeTax
+        - specialStudentLoanRatePercentage:
+          key: specialStudentLoanRatePercentage
+          keyPascal: SpecialStudentLoanRatePercentage
+          keySnake: special_student_loan_rate_percentage
+          nonString: true 
+          default: 2
+          object: employeeTax
+        - isEligibleForKiwiSaver:
+          key: isEligibleForKiwiSaver
+          keyPascal: IsEligibleForKiwiSaver
+          keySnake: is_eligible_for_kiwi_saver
+          nonString: true 
+          default: true 
+          object: employeeTax
+        - esctRatePercentage:
+          key: esctRatePercentage
+          keyPascal: EsctRatePercentage
+          keySnake: esct_rate_percentage
+          default: 17.5
+          nonString: true 
+          is_money: true
+          object: employeeTax
+        - kiwiSaverContributions:
+          key: kiwiSaverContributions
+          keyPascal: KiwiSaverContributions
+          keySnake: kiwi_saver_contributions
+          nonString: true 
+          default: "DeductionCategory.NzOther"
+          php: XeroAPI\XeroPHP\Models\PayrollNz\EmployeeTax\KiwiSaverContributionsEnum.MakeContributions
+          node: EmployeeTax.KiwiSaverContributionsEnum.MakeContributions
+          ruby: XeroRuby::PayrollNz::EmployeeTax::kiwi_saver_contributions_enum::MAKECONTRIBUTIONS
+          python: kiwi_saver_contributions_enum::MAKECONTRIBUTIONS
+          java: com.xero.models.payrollnz.EmployeeTax.KiwiSaverContributionsEnum.MakeContributions
+          csharp: EmployeeTax.KiwiSaverContributionsEnum.MakeContributions
+          object: employeeTax
+        - kiwiSaverEmployeeContributionRatePercentage:
+          key: kiwiSaverEmployeeContributionRatePercentage
+          keyPascal: KiwiSaverEmployeeContributionRatePercentage
+          keySnake: kiwi_saver_employee_contribution_rate_percentage
+          default: 4
+          is_money: true
+          nonString: true 
+          object: employeeTax
+        - kiwiSaverEmployerSalarySacrificeContributionRatePercentage:
+          key: kiwiSaverEmployerSalarySacrificeContributionRatePercentage
+          keyPascal: KiwiSaverEmployerSalarySacrificeContributionRatePercentage
+          keySnake: kiwi_saver_employer_salary_sacrifice_contribution_rate_percentage
+          default: 2
+          nonString: true 
+          object: employeeTax
+        - taxCode:
+          key: taxCode
+          keyPascal: TaxCode
+          keySnake: tax_code
+          nonString: true 
+          default: TaxCode.MSL
+          php: XeroAPI\XeroPHP\Models\PayrollNz\TaxCode\MSL
+          node: TaxCode.MSL
+          ruby: XeroRuby::PayrollNz::TaxCode::MSL
+          python: tax_code:::MSL
+          java: com.xero.models.payrollnz.TaxCode.MSL
+          csharp: TaxCode.MSL
+          object: employeeTax
+        - hasStudentLoanBalance:
+          key: hasStudentLoanBalance
+          keyPascal: HasStudentLoanBalance
+          keySnake: has_student_loan_balance
+          nonString: true 
+          default: true 
+          object: employeeTax
+        - studentLoanBalance:
+          key: studentLoanBalance
+          keyPascal: StudentLoanBalance
+          keySnake: student_loan_balance
+          default: 30.0000
+          nonString: true 
+          is_money: true
+          object: employeeTax
+        - studentLoanAsAt:
+          key: studentLoanAsAt
+          keyPascal: StudentLoanAsAt
+          keySnake: student_loan_as_at
+          is_variable: true
+          nonString: true
+          default: studentLoanAsAt
+          python: student_loan_as_at
+          ruby: student_loan_as_at
+          object: employeeTax
+          is_last: true
       summary: Updates the tax records for a specific employee 
       parameters:
         - name: EmployeeID
@@ -946,6 +1150,68 @@ paths:
         - PayrollNz
       operationId: updateEmployeeLeave
       x-hasPayrollUkProblem: true
+      x-example:
+        - startDateValue:
+          key: startDate
+          keyPascal: StartDate
+          keySnake: start_date
+          is_date: true
+          java_datatype: LocalDate
+          csharp_datatype: DateTime
+          default: "LocalDate.of(2020, Month.OCTOBER, 28)"
+          java: "LocalDate.of(2020, Month.OCTOBER, 28)"
+          csharp: "new DateTime(2020, 10, 10)"
+          php: "new DateTime('2020-10-28')"
+          node: "'2020-10-28'"
+          python: "dateutil.parser.parse('2020-10-28T00:00:00Z')"
+          ruby: "'YYYY-MM-DD'"
+        - endDateValue:
+          key: endDate
+          keyPascal: EndDate
+          keySnake: end_date
+          is_date: true
+          java_datatype: LocalDate
+          csharp_datatype: DateTime
+          default: "LocalDate.of(2020, Month.OCTOBER, 30)"
+          java: "LocalDate.of(2020, Month.OCTOBER, 30)"
+          csharp: "new DateTime(2020, 10, 12)"
+          php: "new DateTime('2020-10-30')"
+          node: "'2020-10-30'"
+          python: "dateutil.parser.parse('2020-10-30T00:00:00Z')"
+          ruby: "'YYYY-MM-DD'"
+        - employeeLeave:
+          key: employeeLeave
+          keyPascal: EmployeeLeave
+          keySnake: employee_leave
+          is_object: true
+        - leaveTypeID:
+          key: leaveTypeID
+          keyPascal: LeaveTypeID
+          keySnake: leave_type_id
+          is_uuid: true
+          default: "00000000-0000-0000-0000-000000000000"
+          object: employeeLeave
+        - startDate:
+          is_variable: true
+          nonString: true
+          key: startDate
+          keyPascal: StartDate
+          keySnake: start_date
+          default: startDate
+          python: start_date
+          ruby: start_date
+          object: employeeLeave
+        - endDate:
+          is_last: true 
+          is_variable: true
+          nonString: true
+          key: endDate
+          keyPascal: EndDate
+          keySnake: end_date
+          default: endDate
+          python: end_date
+          ruby: end_date
+          object: employeeLeave
       summary: Updates leave records for a specific employee
       parameters:
         - name: EmployeeID
@@ -1814,6 +2080,74 @@ paths:
         - PayrollNz
       operationId: updateEmployeeEarningsTemplate
       x-hasPayrollUkProblem: true
+      x-example:
+        - earningsTemplate:
+          key: earningsTemplate
+          keyPascal: EarningsTemplate
+          keySnake: earnings_template
+          is_object: true
+        - payTemplateEarningID:
+          key: payTemplateEarningID
+          keyPascal: PayTemplateEarningID
+          keySnake: pay_template_earning_id
+          is_uuid: true
+          default: "00000000-0000-0000-0000-000000000000"
+          object: earningsTemplate
+        - ratePerUnit:
+          key: ratePerUnit
+          keyPascal: RatePerUnit
+          keySnake: rate_per_unit
+          nonString: true 
+          default: 14.25
+          object: earningsTemplate
+          is_money: true 
+        - numberOfUnits:
+          key: numberOfUnits
+          keyPascal: NumberOfUnits
+          keySnake: number_of_units
+          default: 35.50
+          nonString: true 
+          is_money: true 
+          object: earningsTemplate
+        - fixedAmount:
+          key: fixedAmount
+          keyPascal: FixedAmount
+          keySnake: fixed_amount
+          default: 50
+          nonString: true 
+          object: earningsTemplate
+        - earningsRateId:
+          key: earningsRateID
+          keyPascal: EarningsRateID
+          keySnake: earnings_rate_id
+          is_uuid: true
+          default: "00000000-0000-0000-0000-000000000000"
+          object: earningsTemplate
+        - name:
+          key: name
+          keyPascal: Name
+          keySnake: name
+          default: Overtime Hours
+          object: earningsTemplate
+          is_last: true
+        - earningsTemplates:
+          is_list: true
+          key: earningsTemplates
+          keyPascal: EarningsTemplates
+          keySnake: earnings_templates
+          csharp: EarningsTemplate
+          java: EarningsTemplate
+        - addEarningsTemplate:
+          is_last: true
+          is_list_add: true
+          key: earningsTemplates
+          keyPascal: EarningsTemplates
+          keySnake: earnings_templates
+          java: EarningsTemplates
+          python: earnings_template
+          ruby: earnings_template
+          csharp: EarningsTemplate
+          object: earningsTemplate
       summary: Updates an earnings template records for an employee
       parameters:
         - name: EmployeeID
@@ -3721,6 +4055,65 @@ paths:
       operationId: updateTimesheetLine
       x-hasPayrollUkProblem: true
       summary: Updates a timesheet line for a specific timesheet
+      x-example:
+        - dateValue:
+          key: date
+          keyPascal: Date
+          keySnake: date
+          is_date: true
+          java_datatype: LocalDate
+          csharp_datatype: DateTime
+          default: "LocalDate.of(2020, Month.OCTOBER, 28)"
+          java: "LocalDate.of(2020, Month.OCTOBER, 28)"
+          csharp: "new DateTime(2020, 10, 10)"
+          php: "new DateTime('2020-10-28')"
+          node: "'2020-10-28'"
+          python: "dateutil.parser.parse('2020-10-28T00:00:00Z')"
+          ruby: "'YYYY-MM-DD'"
+        - timesheetLine:
+          key: timesheetLine
+          keyPascal: TimesheetLine
+          keySnake: timesheet_line
+          is_object: true
+        - timesheetLineID:
+          key: timesheetLineID
+          keyPascal: TimesheetLineID
+          keySnake: timesheet_line_id
+          is_uuid: true
+          default: "00000000-0000-0000-0000-000000000000"
+          object: timesheetLine
+        - date:
+          key: date
+          keyPascal: Date
+          keySnake: date
+          default: date
+          python: date
+          ruby: date
+          is_variable: true
+          nonString: true
+          object: timesheetLine
+        - earningsRateID:
+          key: earningsRateID
+          keyPascal: EarningsRateID
+          keySnake: earnings_rate_id
+          is_uuid: true
+          default: "00000000-0000-0000-0000-000000000000"
+          object: timesheetLine
+        - trackingItemID:
+          key: trackingItemID
+          keyPascal: TrackingItemID
+          keySnake: tracking_item_id
+          is_uuid: true
+          default: "00000000-0000-0000-0000-000000000000"
+          object: timesheetLine
+        - numberOfUnits:
+          key: numberOfUnits
+          keyPascal: NumberOfUnits
+          keySnake: number_of_units
+          default: 6
+          object: timesheetLine
+          nonString: true 
+          is_last: true
       parameters:
         - in: path
           name: TimesheetID
@@ -4285,6 +4678,47 @@ paths:
         - PayrollNz
       operationId: updateEmployeeSalaryAndWage
       x-hasPayrollUkProblem: true
+      x-example:
+        - salaryAndWage:
+          key: salaryAndWage
+          keyPascal: SalaryAndWage
+          keySnake: salary_and_wage
+          is_object: true
+        - earningsRateID:
+          key: earningsRateID
+          keyPascal: EarningsRateID
+          keySnake: earnings_rate_id
+          is_uuid: true
+          default: "00000000-0000-0000-0000-000000000000"
+          object: salaryAndWage
+        - numberOfUnitsPerDay:
+          key: numberOfUnitsPerDay
+          keyPascal: NumberOfUnitsPerDay
+          keySnake: number_of_units_per_day
+          default: 0  
+          nonString: true 
+          object: salaryAndWage
+        - daysPerWeek:
+          key: daysPerWeek
+          keyPascal: DaysPerWeek
+          keySnake: days_per_week
+          default: 0  
+          nonString: true 
+          object: salaryAndWage
+        - paymentType:
+          key: paymentType
+          keyPascal: PaymentType
+          keySnake: payment_type
+          nonString: true 
+          default: SalaryAndWage.PaymentTypeEnum.Hourly
+          php: XeroAPI\XeroPHP\Models\PayrollNz\SalaryAndWage\PaymentTypeEnum.HOURLY
+          node: SalaryAndWage.PaymentTypeEnum.Hourly
+          ruby: XeroRuby::PayrollNz::SalaryAndWage::payment_type_enum::HOURLY
+          python: payment_type_enum.Hourly
+          java: com.xero.models.payrollnz.SalaryAndWage.PaymentTypeEnum.HOURLY
+          csharp: SalaryAndWage.PaymentTypeEnum.Hourly
+          object: salaryAndWage
+          is_last: true
       summary: Updates an employee's salary and wages record
       parameters:
         - name: EmployeeID
@@ -4653,6 +5087,74 @@ paths:
         - PayrollNz
       operationId: updatePayRun
       x-hasPayrollUkProblem: true
+      x-example:
+        - startDateValue:
+          key: startDate
+          keyPascal: StartDate
+          keySnake: start_date
+          is_date: true
+          java_datatype: LocalDate
+          csharp_datatype: DateTime
+          default: "LocalDate.of(2020, Month.OCTOBER, 28)"
+          java: "LocalDate.of(2020, Month.OCTOBER, 28)"
+          csharp: "new DateTime(2020, 10, 10)"
+          php: "new DateTime('2020-10-28')"
+          node: "'2020-10-28'"
+          python: "dateutil.parser.parse('2020-10-28T00:00:00Z')"
+          ruby: "'YYYY-MM-DD'"
+        - paymentDateValue:
+          key: paymentDate
+          keyPascal: PaymentDate
+          keySnake: payment_date
+          is_date: true
+          java_datatype: LocalDate
+          csharp_datatype: DateTime
+          default: "LocalDate.of(2020, Month.OCTOBER, 30)"
+          java: "LocalDate.of(2020, Month.OCTOBER, 30)"
+          csharp: "new DateTime(2020, 10, 12)"
+          php: "new DateTime('2020-10-30')"
+          node: "'2020-10-30'"
+          python: "dateutil.parser.parse('2020-10-30T00:00:00Z')"
+          ruby: "'YYYY-MM-DD'"
+        - payRunCalendar:
+          key: payRunCalendar
+          keyPascal: PayRunCalendar
+          keySnake: pay_run_calendar
+          is_object: true
+        - calendarType:
+          key: calendarType
+          keyPascal: CalendarType
+          keySnake: calendar_type
+          nonString: true 
+          default: CalendarType.Weekly
+          php: XeroAPI\XeroPHP\Models\PayrollNz\CalendarType.WEEKLY
+          node: CalendarType.Weekly
+          ruby: XeroRuby::PayrollNz::calendar_type::WEEKLY
+          python: calendar_type.WEEKLY
+          java: com.xero.models.payrollnz.CalendarType.WEEKLY
+          csharp: CalendarType.Weekly
+          object: payRunCalendar
+        - periodStartDate:
+          key: periodStartDate
+          keyPascal: PeriodStartDate
+          keySnake: period_start_date
+          is_variable: true
+          nonString: true
+          default: startDate
+          python: start_date
+          ruby: start_date
+          object: payRunCalendar
+        - paymentDate:
+          key: paymentDate
+          keyPascal: PaymentDate
+          keySnake: payment_date
+          is_last: true 
+          is_variable: true
+          nonString: true
+          default: paymentDate
+          python: payment_date
+          ruby: payment_date
+          object: payRunCalendar
       summary: Updates a pay run
       parameters:
         - in: path
@@ -5154,6 +5656,89 @@ paths:
         - PayrollNz
       operationId: updatePaySlipLineItems
       x-hasPayrollUkProblem: true
+      x-example:
+        - earningsLine:
+          key: earningsLine
+          keyPascal: EarningsLine
+          keySnake: earnings_line
+          is_object: true
+        - earningsLineID:
+          key: earningsLineID
+          keyPascal: EarningsLineID
+          keySnake: earnings_line_id
+          is_uuid: true
+          default: "00000000-0000-0000-0000-000000000000"
+          object: earningsLine
+        - earningsRateID:
+          key: earningsRateID
+          keyPascal: EarningsRateID
+          keySnake: earnings_rate_id
+          is_uuid: true
+          default: "00000000-0000-0000-0000-000000000000"
+          object: earningsLine
+        - ratePerUnit:
+          key: ratePerUnit
+          keyPascal: RatePerUnit
+          keySnake: rate_per_unit
+          nonString: true 
+          default: 14.25
+          is_money: true 
+          object: earningsLine
+        - numberOfUnits:
+          key: numberOfUnits
+          keyPascal: NumberOfUnits
+          keySnake: number_of_units
+          default: 35.50
+          nonString: true 
+          is_money: true 
+          object: earningsLine
+        - isAverageDailyPayRate:
+          key: isAverageDailyPayRate
+          keyPascal: IsAverageDailyPayRate
+          keySnake: is_average_daily_pay_rate
+          nonString: true 
+          default: true 
+          object: earningsLine
+        - isSystemGenerated:
+          key: isSystemGenerated
+          keyPascal: IsSystemGenerated
+          keySnake: is_system_generated
+          default: true 
+          nonString: true 
+          object: earningsLine
+        - earningsLines:
+          is_list: true
+          key: earningsLines
+          keyPascal: EarningsLines
+          keySnake: earnings_lines
+          csharp: EarningsLine
+          java: EarningsLine
+        - addEarningsLine:
+          is_last: true
+          is_list_add: true
+          key: earningsLines
+          keyPascal: EarningsLines
+          keySnake: earnings_lines
+          java: EarningsLines
+          python: earnings_line
+          ruby: earnings_line
+          csharp: EarningsLine
+          object: earningsLine
+        - paySlip:
+          key: paySlip
+          keyPascal: PaySlip
+          keySnake: pay_slip
+          is_object: true
+        - setEarningsLines:
+          is_last: true
+          is_variable: true
+          nonString: true
+          key: earningsLines
+          keyPascal: EarningsLines
+          default: earningsLines
+          python: earnings_lines
+          ruby: earnings_lines
+          object: paySlip  
       summary: Creates an employee pay slip
       parameters:
         - in: path
