@@ -3343,6 +3343,19 @@ paths:
                               ]
                             }
                           }'                      
+  '/Budgets/{BudgetID}':
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    get:
+      security:
+        - OAuth2: [accounting.budgets.read]
+      tags:
+        - Accounting
+      operationId: getBudget
+      summary: Retrieves a specific budgets, which includes budget lines
+      parameters:
+        - $ref: '#/components/parameters/BudgetID'
+      responses:
   '/Contacts':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -22419,6 +22432,16 @@ components:
       schema:
         type: string
         format: uuid
+    BudgetID:
+      required: true
+      in: path
+      name: BudgetID
+      x-snake: budget_id
+      description: Unique identifier for Budgets
+      example: "00000000-0000-0000-0000-000000000000"
+      schema:
+        type: string
+        format: uuid
     ContactID:
       required: true
       in: path
@@ -23663,6 +23686,14 @@ components:
           type: string
       type: object
     Budgets:
+      type: object
+      x-isObjectArray: true
+      properties:
+        Invoices:
+          type: array
+          items:
+            $ref: '#/components/schemas/Budget'
+    Budget:
       type: object
       externalDocs:
         url: 'http://developer.xero.com/documentation/api/budgets/'
