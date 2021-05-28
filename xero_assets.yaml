@@ -187,6 +187,38 @@ paths:
       summary: adds a fixed asset
       operationId: createAsset
       x-hasAssetsValidationError: true
+      x-example:
+        - asset:
+          is_object: true 
+          key: asset
+          keyPascal: Asset
+        - assetName:
+          key: assetname
+          keyPascal: assetName
+          keySnake: asset_name
+          csharp: AssetName
+          default: "Other Computer"
+          object: asset
+        - assetNumber:
+          key: assetnumber
+          keyPascal: assetNumber
+          keySnake: asset_number
+          csharp: AssetNumber
+          default: FA-00210
+          object: asset
+        - status:
+          is_last: true
+          nonString: true
+          key: status
+          keyPascal: Status
+          default: Draft
+          php: XeroAPI\XeroPHP\Models\Asset\AssetStatus::Draft
+          node: Asset.StatusEnum.DRAFT
+          ruby: XeroRuby::Asset::AssetStatus::DRAFT
+          python_string: DRAFT
+          java: com.xero.models.assets.AssetStatus.DRAFT
+          csharp: AssetStatus.Draft
+          object: asset
       description: Adds an asset to the system
       responses:
         '200':
@@ -298,7 +330,7 @@ paths:
           schema: 
             type: string
             format: uuid
-            example: "4f7bcdcb-5ec1-4258-9558-19f662fccdfe"
+            example: "00000000-0000-0000-0000-000000000000"
       responses:
         '200':
           description: search results matching criteria
@@ -421,6 +453,78 @@ paths:
         - Asset
       summary: adds a fixed asset type
       operationId: createAssetType
+      x-example:
+        - bookDepreciationSetting:
+          is_object: true
+          key: bookDepreciationSetting
+          keyPascal: BookDepreciationSetting
+        - depreciationMethod:
+          key: depreciationMethod
+          keyPascal: DepreciationMethod
+          keySnake: depreciation_method
+          object: bookDepreciationSetting
+          default: DiminishingValue100
+        - averagingMethod:
+          key: averagingMethod
+          keyPascal: AveragingMethod
+          keySnake: averaging_method
+          object: bookDepreciationSetting
+          default: ActualDays
+        - depreciationRate:
+          nonString: true
+          key: depreciationRate
+          keyPascal: DepreciationRate
+          keySnake: deprecitation_rate
+          object: bookDepreciationSetting
+          default: 40
+        - depreciationCalculationMethod:
+          key: depreciationCalculationMethod
+          keyPascal: DepreciationCalculationMethod
+          keySnake: depreciation_calculation_method
+          object: bookDepreciationSetting
+          default: None 
+          is_last: true 
+        - assetType:
+          key: assetType
+          keyPascal: AssetType
+          is_object: true 
+        - assetTypeName:
+          key: assetTypeName
+          keyPascal: AssetTypeName
+          keySnake: asset_type_name
+          object: assetType
+          default: Computer Equipment
+        - fixedAssetAccountId:
+          is_uuid: true
+          key: fixedAssetAccountId
+          keyPascal: FixedAssetAccountId
+          keySnake: fixed_asset_account_id
+          object: assetType
+          default: 00000000-0000-0000-0000-000000000000
+        - depreciationExpenseAccountId:
+          is_uuid: true
+          key: depreciationExpenseAccountId
+          keyPascal: DepreciationExpenseAccountId
+          keySnake: depreciation_expense_account_id
+          object: assetType
+          default: 00000000-0000-0000-0000-000000000000
+        - accumulatedDepreciationAccountId:
+          is_uuid: true
+          key: accumulatedDepreciationAccountId
+          keyPascal: AccumulatedDepreciationAccountId
+          keySnake: accumulated_depreciation_account_id
+          object: assetType
+          default: 00000000-0000-0000-0000-000000000000
+        - set_bookDepreciationSetting:
+          is_last: true
+          is_variable: true
+          nonString: true
+          key: bookDepreciationSetting
+          keyPascal: BookDepreciationSetting
+          default: bookDepreciationSetting
+          python: book_depreciation_setting
+          ruby: book_depreciation_setting
+          object: assetType  
       x-hasAssetsValidationError: true
       description: Adds an fixed asset type to the system
       responses:
