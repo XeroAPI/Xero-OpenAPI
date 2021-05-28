@@ -109,6 +109,89 @@ paths:
       summary: Creates a payroll employee
       operationId: createEmployee
       x-hasPayrollAuProblem: true
+      x-example:
+        - dateOfBirthValue:
+          key: dateOfBirth
+          keyPascal: DateOfBirth
+          keySnake: date_of_birth
+          is_date: true
+          object: employee
+          java_datatype: LocalDate
+          csharp_datatype: DateTime
+          default: "LocalDate.of(2000, Month.OCTOBER, 28)"
+          java: "LocalDate.of(2000, Month.OCTOBER, 28)"
+          csharp: "new DateTime(2000, 10, 10)"
+          php: "new DateTime('2000-10-28')"
+          node: "'2000-10-28'"
+          python: "dateutil.parser.parse('2000-10-28T00:00:00Z')"
+          ruby: "'YYYY-MM-DD'"
+        - homeAddress:
+          key: homeAddress
+          keyPascal: HomeAddress
+          keySnake: home_address
+          is_object: true 
+        - addressLine1:
+          key: addressLine1
+          keyPascal: AddressLine1
+          keySnake: address_line_1
+          default: 123 Test st
+          object: homeAddress
+        - region:
+          key: region
+          keyPascal: Region
+          keySnake: region
+          object: homeAddress
+          default: VIC
+        - postalCode:
+          nonString: true
+          key: postalCode
+          keyPascal: PostalCode
+          keySnake: postal_code
+          object: homeAddress
+          default: 3000
+        - city:
+          key: city
+          keyPascal: City
+          keySnake: city
+          default: Melbourne
+          object: homeAddress
+          is_last: true
+        - employee:
+          key: employee
+          keyPascal: Employee
+          is_object: true 
+        - firstName:
+          key: firstName
+          keyPascal: FirstName
+          keySnake: first_name 
+          default: "Adam"
+          object: employee
+        - lastName:
+          key: lastName
+          keyPascal: LastName
+          keySnake: last_name
+          default: "Adamson"
+          object: employee
+        - dateOfBirth:
+          is_variable: true
+          nonString: true
+          key: dateOfBirth
+          keyPascal: DateOfBirth
+          keySnake: date_of_birth
+          default: dateOfBirth
+          python: date_of_birth
+          ruby: date_of_birth
+          object: employee
+        - setHomeAddress:
+          is_last: true
+          is_variable: true
+          nonString: true
+          key: homeAddress
+          keyPascal: HomeAddress
+          default: homeAddress
+          python: home_address
+          ruby: home_address
+          object: employee      
       responses:
         '200':
           description: A successful request
@@ -330,6 +413,89 @@ paths:
       summary: Updates an employee's detail 
       operationId: updateEmployee
       description:  Update properties on a single employee
+      x-example:
+        - dateOfBirthValue:
+          key: dateOfBirth
+          keyPascal: DateOfBirth
+          keySnake: date_of_birth
+          is_date: true
+          object: employee
+          java_datatype: LocalDate
+          csharp_datatype: DateTime
+          default: "LocalDate.of(2000, Month.OCTOBER, 28)"
+          java: "LocalDate.of(2000, Month.OCTOBER, 28)"
+          csharp: "new DateTime(2000, 10, 10)"
+          php: "new DateTime('2000-10-28')"
+          node: "'2000-10-28'"
+          python: "dateutil.parser.parse('2000-10-28T00:00:00Z')"
+          ruby: "'YYYY-MM-DD'"
+        - homeAddress:
+          key: homeAddress
+          keyPascal: HomeAddress
+          keySnake: home_address
+          is_object: true 
+        - addressLine1:
+          key: addressLine1
+          keyPascal: AddressLine1
+          keySnake: address_line_1
+          default: 123 Test st
+          object: homeAddress
+        - region:
+          key: region
+          keyPascal: Region
+          keySnake: region
+          object: homeAddress
+          default: VIC
+        - postalCode:
+          nonString: true
+          key: postalCode
+          keyPascal: PostalCode
+          keySnake: postal_code
+          object: homeAddress
+          default: 3000
+        - city:
+          key: city
+          keyPascal: City
+          keySnake: city
+          default: Melbourne
+          object: homeAddress
+          is_last: true
+        - employee:
+          key: employee
+          keyPascal: Employee
+          is_object: true 
+        - firstName:
+          key: firstName
+          keyPascal: FirstName
+          keySnake: first_name 
+          default: "Adam"
+          object: employee
+        - lastName:
+          key: lastName
+          keyPascal: LastName
+          keySnake: last_name
+          default: "Adamson"
+          object: employee
+        - dateOfBirth:
+          is_variable: true
+          nonString: true
+          key: dateOfBirth
+          keyPascal: DateOfBirth
+          keySnake: date_of_birth
+          default: dateOfBirth
+          python: date_of_birth
+          ruby: date_of_birth
+          object: employee
+        - setHomeAddress:
+          is_last: true
+          is_variable: true
+          nonString: true
+          key: homeAddress
+          keyPascal: HomeAddress
+          default: homeAddress
+          python: home_address
+          ruby: home_address
+          object: employee
       parameters: 
         - name: EmployeeID
           in: path
@@ -518,6 +684,80 @@ paths:
       summary: Creates a leave application
       operationId: createLeaveApplication
       x-hasPayrollAuProblem: true
+      x-example:
+        - startDateValue:
+          key: startDate
+          keyPascal: StartDate
+          keySnake: start_date
+          is_date: true
+          java_datatype: LocalDate
+          csharp_datatype: DateTime
+          default: "LocalDate.of(2020, Month.OCTOBER, 28)"
+          java: "LocalDate.of(2020, Month.OCTOBER, 28)"
+          csharp: "new DateTime(2020, 10, 10)"
+          php: "new DateTime('2020-10-28')"
+          node: "'2020-10-28'"
+          python: "dateutil.parser.parse('2020-10-28T00:00:00Z')"
+          ruby: "'YYYY-MM-DD'"
+        - endDateValue:
+          key: endDate
+          keyPascal: EndDate
+          keySnake: end_date
+          is_date: true
+          java_datatype: LocalDate
+          csharp_datatype: DateTime
+          default: "LocalDate.of(2020, Month.OCTOBER, 30)"
+          java: "LocalDate.of(2020, Month.OCTOBER, 30)"
+          csharp: "new DateTime(2020, 10, 12)"
+          php: "new DateTime('2020-10-30')"
+          node: "'2020-10-30'"
+          python: "dateutil.parser.parse('2020-10-30T00:00:00Z')"
+          ruby: "'YYYY-MM-DD'"
+        - leaveApplication: 
+          key: leaveApplication
+          keyPascal: LeaveApplication
+          is_object: true 
+        - employeeId:
+          is_uuid: true 
+          key: employeeId
+          keyPascal: EmployeeId
+          keySnake: employee_id
+          object: leaveApplication
+          default: 00000000-0000-0000-0000-000000000000
+        - leaveTypeId:
+          is_uuid: true 
+          key: leaveTypeId
+          keyPascal: LeaveTypeId
+          keySnake: leave_type_id
+          object: leaveApplication
+          default: 00000000-0000-0000-0000-000000000000
+        - title:
+          key: title
+          keyPascal: Title
+          keySnake: title
+          default: Annual Leave
+          object: leaveApplication
+        - startDate:
+          is_variable: true
+          nonString: true
+          key: startDate
+          keyPascal: StartDate
+          keySnake: start_date
+          default: startDate
+          python: start_date
+          ruby: start_date
+          object: leaveApplication
+        - endDate:
+          is_last: true 
+          is_variable: true
+          nonString: true
+          key: endDate
+          keyPascal: EndDate
+          keySnake: end_date
+          default: endDate
+          python: end_date
+          ruby: end_date
+          object: leaveApplication
       responses:
         '200':
           description: A successful request
@@ -627,6 +867,80 @@ paths:
         - PayrollAu
       summary: Updates a specific leave application
       operationId: updateLeaveApplication
+      x-example:
+        - startDateValue:
+          key: startDate
+          keyPascal: StartDate
+          keySnake: start_date
+          is_date: true
+          java_datatype: LocalDate
+          csharp_datatype: DateTime
+          default: "LocalDate.of(2020, Month.OCTOBER, 28)"
+          java: "LocalDate.of(2020, Month.OCTOBER, 28)"
+          csharp: "new DateTime(2020, 10, 10)"
+          php: "new DateTime('2020-10-28')"
+          node: "'2020-10-28'"
+          python: "dateutil.parser.parse('2020-10-28T00:00:00Z')"
+          ruby: "'YYYY-MM-DD'"
+        - endDateValue:
+          key: endDate
+          keyPascal: EndDate
+          keySnake: end_date
+          is_date: true
+          java_datatype: LocalDate
+          csharp_datatype: DateTime
+          default: "LocalDate.of(2020, Month.OCTOBER, 30)"
+          java: "LocalDate.of(2020, Month.OCTOBER, 30)"
+          csharp: "new DateTime(2020, 10, 12)"
+          php: "new DateTime('2020-10-30')"
+          node: "'2020-10-30'"
+          python: "dateutil.parser.parse('2020-10-30T00:00:00Z')"
+          ruby: "'YYYY-MM-DD'"
+        - leaveApplication: 
+          key: leaveApplication
+          keyPascal: LeaveApplication
+          is_object: true 
+        - employeeId:
+          is_uuid: true 
+          key: employeeId
+          keyPascal: EmployeeId
+          keySnake: employee_id
+          object: leaveApplication
+          default: 00000000-0000-0000-0000-000000000000
+        - leaveTypeId:
+          is_uuid: true 
+          key: leaveTypeId
+          keyPascal: LeaveTypeId
+          keySnake: leave_type_id
+          object: leaveApplication
+          default: 00000000-0000-0000-0000-000000000000
+        - title:
+          key: title
+          keyPascal: Title
+          keySnake: title
+          default: Annual Leave
+          object: leaveApplication
+        - startDate:
+          is_variable: true
+          nonString: true
+          key: startDate
+          keyPascal: StartDate
+          keySnake: start_date
+          default: startDate
+          python: start_date
+          ruby: start_date
+          object: leaveApplication
+        - endDate:
+          is_last: true 
+          is_variable: true
+          nonString: true
+          key: endDate
+          keyPascal: EndDate
+          keySnake: end_date
+          default: endDate
+          python: end_date
+          ruby: end_date
+          object: leaveApplication
       parameters: 
         - name: LeaveApplicationID
           in: path
@@ -875,6 +1189,252 @@ paths:
         - PayrollAu
       summary: Creates a pay item
       operationId: createPayItem
+      x-example:
+        - earningsRate:
+          key: earningsRate
+          keyPascal: EarningsRate
+          keySnake: earnings_rate
+          is_object: true 
+        - earningsName:
+          key: name
+          keyPascal: Name
+          keySnake: name
+          object: earningsRate
+          default: Ordinary Hours 123
+        - earningsAccountCode:
+          key: accountCode
+          keyPascal: AccountCode
+          keySnake: account_code
+          object: earningsRate
+          default: 477
+        - earningsTypeOfUnits:
+          key: typeOfUnits
+          keyPascal: TypeOfUnits
+          keySnake: type_of_units
+          object: earningsRate
+          default: Hours
+        - isExemptFromTax:
+          key: isExemptFromTax
+          keyPascal: IsExemptFromTax
+          keySnake: is_exempt_from_tax
+          object: earningsRate
+          default: true
+          nonString: true        
+        - isExemptFromSuper:
+          key: isExemptFromSuper
+          keyPascal: IsExemptFromSuper
+          keySnake: is_exempt_from_super
+          object: earningsRate
+          default: true
+          nonString: true
+        - earningsType:
+          key: earningsType
+          nonString: true
+          keyPascal: EarningsType
+          default: OVERTIMEEARNINGS
+          php: XeroAPI\XeroPHP\Models\PayrollAu\EarningsType::OVERTIMEEARNINGS
+          node: EarningsType.OVERTIMEEARNINGS
+          ruby: XeroRuby::PayrollAu::EarningsType::OVERTIMEEARNINGS
+          python_string: OVERTIMEEARNINGS
+          java: com.xero.models.payrollau.EarningsType.OVERTIMEEARNINGS
+          csharp: EarningsType.OVERTIMEEARNINGS
+          object: earningsRate
+          is_last: true 
+        - deductionType:
+          key: deductionType
+          keyPascal: DeductionType
+          keySnake: deduction_type
+          is_object: true 
+        - deductionTypeName:
+          key: name
+          keyPascal: Name
+          keySnake: name
+          default: Union Fees
+          object: deductionType
+        - deductionAccountCode:
+          key: accountCode
+          keyPascal: AccountCode
+          keySnake: account_code
+          object: deductionType
+          default: 826
+        - reducesTax:
+          key: reducesTax
+          keyPascal: ReducesTax
+          keySnake: reduces_tax
+          object: deductionType
+          default: true
+          nonString: true
+        - reducesSuper:
+          key: reducesSuper
+          keyPascal: ReducesSuper
+          keySnake: reduces_super
+          object: deductionType
+          default: true
+          nonString: true
+          is_last: true 
+        - leaveType:
+          key: leaveType
+          keyPascal: LeaveType
+          keySnake: leave_type
+          is_object: true 
+        - leaveTypeName:
+          key: name
+          keyPascal: Name
+          keySnake: name
+          default: Annual Leave
+          object: leaveType
+        - leaveTypeOfUnits:
+          key: typeOfUnits
+          keyPascal: TypeOfUnits
+          keySnake: type_of_units
+          object: leaveType
+          default: Hours
+        - isPaidLeave:
+          key: isPaidLeave
+          keyPascal: IsPaidLeave
+          keySnake: is_paid_leave
+          object: leaveType
+          default: true
+          nonString: true
+        - showOnPayslip:
+          key: showOnPayslip
+          keyPascal: ShowOnPayslip
+          keySnake: show_on_payslip
+          object: leaveType
+          default: true
+          is_last: true 
+          nonString: true
+        - reimbursementType:
+          key: reimbursementType
+          keyPascal: ReimbursementType
+          keySnake: reimbursement_type
+          is_object: true 
+        - reimbursementTypeName:
+          key: name
+          keyPascal: Name
+          keySnake: name
+          default: Annual Leave
+          object: reimbursementType
+        - reimbursementTypeAccountCode:
+          key: accountCode
+          keyPascal: AccountCode
+          keySnake: account_code
+          object: reimbursementType
+          is_last: true 
+          default: 850            
+        - earningsRates:
+          is_list: true 
+          key: earningsRates
+          keyPascal: EarningsRates
+          keySnake: earnings_rates
+          csharp: EarningsRate
+          java: EarningsRate
+        - addEarningsRates:
+          is_last: true 
+          is_list_add: true 
+          key: earningsRates
+          keyPascal: EarningsRates
+          keySnake: earnings_rates
+          java: EarningsRates
+          python: earnings_rate
+          ruby: earnings_rate
+          csharp: EarningsRate
+          object: earningsRate 
+        - deductionTypes:
+          is_list: true 
+          key: deductionTypes
+          keyPascal: DeductionTypes
+          keySnake: deduction_types
+          csharp: DeductionType
+          java: DeductionType
+        - addEarningsRates:
+          is_last: true 
+          is_list_add: true 
+          key: deductionTypes
+          keyPascal: DeductionTypes
+          keySnake: deduction_types
+          java: DeductionTypes
+          python: deduction_type
+          ruby: deduction_type
+          csharp: DeductionType
+          object: deductionType 
+        - leaveTypes:
+          is_list: true 
+          key: leaveTypes
+          keyPascal: LeaveTypes
+          keySnake: leave_types
+          csharp: LeaveType
+          java: LeaveType
+        - addLeaveTypes:
+          is_last: true 
+          is_list_add: true 
+          key: leaveTypes
+          keyPascal: LeaveTypes
+          keySnake: leave_types
+          java: LeaveTypes
+          python: leave_type
+          ruby: leave_type
+          csharp: LeaveType
+          object: leaveType 
+        - reimbursementTypes:
+          is_list: true 
+          key: reimbursementTypes
+          keyPascal: ReimbursementTypes
+          keySnake: reimbursement_types
+          csharp: ReimbursementType
+          java: ReimbursementType
+        - addReimbursementTypes:
+          is_last: true 
+          is_list_add: true 
+          key: reimbursementTypes
+          keyPascal: ReimbursementTypes
+          keySnake: reimbursement_types
+          java: ReimbursementTypes
+          python: reimbursement_type
+          ruby: reimbursement_type
+          csharp: ReimbursementType
+          object: reimbursementType        
+        - payItem:
+          key: payItem
+          keyPascal: PayItem
+          keySnake: pay_item
+          is_object: true  
+        - setEarningsRates:
+          is_variable: true
+          nonString: true
+          key: earningsRates
+          keyPascal: EarningsRates
+          default: earningsRates
+          python: earnings_rates
+          ruby: earnings_rates
+          object: payItem  
+        - setDeductionTypes:
+          is_variable: true
+          nonString: true
+          key: deductionTypes
+          keyPascal: DeductionTypes
+          default: deductionTypes
+          python: deduction_types
+          ruby: deduction_types
+          object: payItem  
+        - setLeaveTypes:
+          is_variable: true
+          nonString: true
+          key: leaveTypes
+          keyPascal: LeaveTypes
+          default: leaveTypes
+          python: leave_types
+          ruby: leave_types
+          object: payItem  
+        - setReimbursementTypes:
+          is_variable: true
+          nonString: true
+          key: reimbursementTypes
+          keyPascal: ReimbursementTypes
+          default: reimbursementTypes
+          python: reimbursement_types 
+          ruby: reimbursement_types
+          object: payItem 
       responses:
         '200':
           description: A successful request - currently returns empty array for JSON 
@@ -1037,6 +1597,98 @@ paths:
       summary: Creates a Payroll Calendar
       operationId: createPayrollCalendar
       x-hasPayrollAuProblem: true
+      x-example:
+        - startDateValue:
+          key: startDate
+          keyPascal: StartDate
+          keySnake: start_date
+          is_date: true
+          java_datatype: LocalDate
+          csharp_datatype: DateTime
+          default: "LocalDate.of(2020, Month.OCTOBER, 28)"
+          java: "LocalDate.of(2020, Month.OCTOBER, 28)"
+          csharp: "new DateTime(2020, 10, 10)"
+          php: "new DateTime('2020-10-28')"
+          node: "'2000-10-28'"
+          python: "dateutil.parser.parse('2020-10-28T00:00:00Z')"
+          ruby: "'YYYY-MM-DD'"
+        - paymentDateValue:
+          key: paymentDate
+          keyPascal: PaymentDate
+          keySnake: payment_date
+          is_date: true
+          java_datatype: LocalDate
+          csharp_datatype: DateTime
+          default: "LocalDate.of(2020, Month.OCTOBER, 30)"
+          java: "LocalDate.of(2020, Month.OCTOBER, 30)"
+          csharp: "new DateTime(2020, 10, 30)"
+          php: "new DateTime('2020-10-30')"
+          node: "'2000-10-30'"
+          python: "dateutil.parser.parse('2000-10-30T00:00:00Z')"
+          ruby: "'YYYY-MM-DD'"
+        - payrollCalendar:
+          is_object: true 
+          key: payrollCalendar
+          keyPascal: PayrollCalendar
+          keySnake: payroll_calendar
+        - name:
+          key: name
+          keyPascal: Name
+          keySnake: name
+          default: Weekly
+          object: payrollCalendar
+        - calendarType:
+          nonString: true 
+          key: calendarType
+          keyPascal: CalendarType
+          keySnake: calendar_type
+          default: WEEKLY
+          php: XeroAPI\XeroPHP\Models\PayrollAu\CalendarType::WEEKLY
+          node: CalendarType.WEEKLY
+          ruby: XeroRuby::PayrollAu::CalendarType::WEEKLY
+          python_string: WEEKLY
+          java: com.xero.models.payrollau.CalendarType.WEEKLY
+          csharp: CalendarType.WEEKLY
+          object: payrollCalendar
+        - setStartDate:
+          is_variable: true
+          nonString: true
+          key: startDate
+          keyPascal: StartDate
+          keySnake: start_date
+          default: startDate
+          python: start_date
+          ruby: start_date
+          object: payrollCalendar
+        - setPaymentDate:
+          is_last: true 
+          is_variable: true
+          nonString: true
+          key: paymentDate
+          keyPascal: PaymentDate
+          keySnake: payment_date
+          default: paymentDate
+          python: payment_date
+          ruby: payment_date
+          object: payrollCalendar 
+        - payrollCalendars:
+          is_list: true 
+          key: payrollCalendars
+          keyPascal: PayrollCalendars
+          keySnake: payroll_calendars
+          csharp: PayrollCalendar
+          java: PayrollCalendar
+        - addPayrollCalendars:
+          is_last: true 
+          is_list_add: true 
+          key: payrollCalendars
+          keyPascal: PayrollCalendars
+          keySnake: payroll_calendars
+          java: PayrollCalendars
+          python: payroll_calendar
+          ruby: payroll_calendar
+          csharp: PayrollCalendar
+          object: payrollCalendar  
       responses:
         '200':
           description: A successful request
@@ -1204,6 +1856,20 @@ paths:
       summary: Creates a pay run
       operationId: createPayRun
       x-hasPayrollAuProblem: true
+      x-example:    
+        - payrun:
+          key: payRun
+          keyPascal: PayRun
+          keySnake: pay_run
+          is_object: true 
+        - payrollCalendarID:
+          is_uuid: true 
+          default: 00000000-0000-0000-0000-000000000000
+          key: payrollCalendarID
+          keyPascal: PayrollCalendarID
+          keySnake: payroll_calendar_id
+          object: payRun
+          is_last: true     
       responses:
         '200':
           description: A successful request
@@ -1333,6 +1999,20 @@ paths:
       summary: Updates a pay run 
       operationId: updatePayRun
       description:  Update properties on a single PayRun
+      x-example:    
+        - payrun:
+          key: payRun
+          keyPascal: PayRun
+          keySnake: pay_run
+          is_object: true 
+        - payrollCalendarID:
+          is_uuid: true 
+          default: 00000000-0000-0000-0000-000000000000
+          key: payrollCalendarID
+          keyPascal: PayrollCalendarID
+          keySnake: payroll_calendar_id
+          object: payRun
+          is_last: true     
       parameters: 
         - name: PayRunID
           in: path
@@ -1489,6 +2169,85 @@ paths:
       summary: Updates a payslip 
       operationId: updatePayslip
       x-hasPayrollAuError: true
+      x-example:
+        - earningsLine:
+          is_object: true 
+          key: earningsLine
+          keyPascal: EarningsLine
+          keySnake: earnings_line
+        - earningsRateID:
+          is_uuid: true 
+          key: earningsRateID
+          keyPascal: EarningsRateID
+          keySnake: earnings_rate_id
+          default: 00000000-0000-0000-0000-000000000000
+          object: earningsLine
+        - ratePerUnit:
+          nonString: true 
+          key: ratePerUnit
+          keyPascal: RatePerUnit
+          keySnake: rate_per_unit
+          default: 20
+          object: earningsLine
+        - numberOfUnits:
+          nonString: true 
+          key: numberOfUnits
+          keyPascal: NumberOfUnits
+          keySnake: number_of_units
+          default: 1
+          object: earningsLine
+        - earningsLines:
+          is_list: true 
+          key: earningsLines
+          keyPascal: EarningsLines
+          keySnake: earnings_lines
+          csharp: EarningsLine
+          java: EarningsLine
+        - addEarningsRates:
+          is_last: true 
+          is_list_add: true 
+          key: earningsLines
+          keyPascal: EarningsLines
+          keySnake: earnings_lines
+          java: EarningsLine
+          python: earnings_line
+          ruby: earnings_line
+          csharp: EarningsLine
+          object: earningsLine
+        - payslipLine:
+          key: payslipLine
+          keyPascal: PayslipLines
+          keySnake: payslip_lines
+          python: payslip_line
+          ruby: payslip_line
+          is_object: true 
+        - setEarningsLines:
+          key: earningsLines
+          keyPascal: EarningsLines
+          keySnake: earnings_lines
+          object: payslipLine
+          is_last: true 
+          default: earningsLines
+          nonString: true 
+        - payslipLines:
+          is_list: true
+          key: payslipLines
+          keyPascal: PayslipLines
+          keySnake: payslip_lines
+          csharp: PayslipLines
+          java: PayslipLines
+          python: payslipLines
+        - addPayslipLines:
+          is_last: true 
+          is_list_add: true 
+          key: payslipLines
+          keyPayscal: PayslipLines
+          keySnake: payslip_lines
+          java: PayslipLine
+          python: payslip_line
+          ruby: payslip_line
+          csharp: PayslipLine
+          object: payslipLine
       description:  Update lines on a single payslips
       parameters: 
         - name: PayslipID
@@ -1699,6 +2458,32 @@ paths:
         - PayrollAu
       summary: Creates a superfund
       operationId: createSuperfund
+      x-example:
+        - superfund:
+          key: superFund
+          keyPascal: SuperFund
+          keySnake: super_fund
+          is_object: true 
+        - type:
+          key: type
+          keyPascal: Type
+          keySnake: type
+          object: superfund
+          nonString: true 
+          default: REGULATED
+          php: XeroAPI\XeroPHP\Models\PayrollAu\SuperFundType::REGULATED
+          node: SuperFundType.REGULATED
+          ruby: XeroRuby::PayrollAu::SuperFundType::REGULATED
+          python_string: REGULATED
+          java: com.xero.models.payrollau.SuperFundType.REGULATED
+          csharp: SuperFundType.REGULATED
+        - usi:
+          key: USI
+          keyPascal: USI
+          keySnake: USI
+          default: 40022701955002
+          object: superfund
+          is_last: true 
       x-hasPayrollAuProblem: true
       responses:
         '200':
@@ -1799,6 +2584,32 @@ paths:
       summary: Updates a superfund 
       operationId: updateSuperfund
       description:  Update properties on a single Superfund
+      x-example:
+        - superfund:
+          key: superFund
+          keyPascal: SuperFund
+          keySnake: super_fund
+          is_object: true 
+        - type:
+          key: type
+          keyPascal: Type
+          keySnake: type
+          object: superfund
+          nonString: true 
+          default: REGULATED
+          php: XeroAPI\XeroPHP\Models\PayrollAu\SuperFundType::REGULATED
+          node: SuperFundType.REGULATED
+          ruby: XeroRuby::PayrollAu::SuperFundType::REGULATED
+          python_string: REGULATED
+          java: com.xero.models.payrollau.SuperFundType.REGULATED
+          csharp: SuperFundType.REGULATED
+        - usi:
+          key: USI
+          keyPascal: USI
+          keySnake: USI
+          default: 40022701955002
+          object: superfund
+          is_last: true 
       parameters: 
         - name: SuperFundID
           in: path
@@ -2004,6 +2815,81 @@ paths:
       summary: Creates a timesheet
       operationId: createTimesheet
       x-hasPayrollAuProblem: true
+      x-example:
+        - startDateValue:
+          key: startDate
+          keyPascal: StartDate
+          keySnake: start_date
+          is_date: true
+          java_datatype: LocalDate
+          csharp_datatype: DateTime
+          default: "LocalDate.of(2020, Month.OCTOBER, 23)"
+          java: "LocalDate.of(2020, Month.OCTOBER, 23)"
+          csharp: "new DateTime(2020, 10, 23)"
+          php: "new DateTime('2020-10-23')"
+          node: "'2020-10-23'"
+          python: "dateutil.parser.parse('2020-10-23T00:00:00Z')"
+          ruby: "'YYYY-MM-DD'"
+        - endDateValue:
+          key: endDate
+          keyPascal: EndDate
+          keySnake: end_date
+          is_date: true
+          java_datatype: LocalDate
+          csharp_datatype: DateTime
+          default: "LocalDate.of(2020, Month.OCTOBER, 30)"
+          java: "LocalDate.of(2020, Month.OCTOBER, 30)"
+          csharp: "new DateTime(2020, 10, 30)"
+          php: "new DateTime('2020-10-30')"
+          node: "'2020-10-30'"
+          python: "dateutil.parser.parse('2020-10-30T00:00:00Z')"
+          ruby: "'YYYY-MM-DD'"   
+        - timesheet:
+          key: timesheet
+          keyPascal: Timesheet
+          keySnake: timesheet
+          is_object: true    
+        - EmployeeID:
+          is_uuid: true 
+          default: 00000000-0000-0000-0000-000000000000
+          key: employeeID
+          keyPascal: EmployeeID
+          keySnake: employee_id
+          object: timesheet
+        - startDate:
+          is_variable: true
+          nonString: true
+          key: startDate
+          keyPascal: StartDate
+          keySnake: start_date
+          default: startDate
+          python: start_date
+          ruby: start_date
+          object: timesheet
+        - endDate:
+          is_variable: true
+          nonString: true
+          key: endDate
+          keyPascal: EndDate
+          keySnake: end_date
+          default: endDate
+          python: end_date
+          ruby: end_date
+          object: timesheet
+        - status:
+          key: status
+          keyPascal: Status
+          keySnake: status
+          is_last: true
+          nonString: true
+          default: DRAFT
+          php: XeroAPI\XeroPHP\Models\PayrollAu\TimesheetStatus::DRAFT
+          node: TimesheetStatus.DRAFT
+          ruby: XeroRuby::PayrollAu::TimesheetStatus::DRAFT
+          python_string: DRAFT
+          java: com.xero.models.payrollau.TimesheetStatus.DRAFT
+          csharp: TimesheetStatus.DRAFT
+          object: timesheet
       responses:
         '200':
           description: A successful request
@@ -2141,6 +3027,81 @@ paths:
       summary: Updates a timesheet 
       operationId: updateTimesheet
       description:  Update properties on a single timesheet
+      x-example:
+        - startDateValue:
+          key: startDate
+          keyPascal: StartDate
+          keySnake: start_date
+          is_date: true
+          java_datatype: LocalDate
+          csharp_datatype: DateTime
+          default: "LocalDate.of(2020, Month.OCTOBER, 23)"
+          java: "LocalDate.of(2020, Month.OCTOBER, 23)"
+          csharp: "new DateTime(2020, 10, 23)"
+          php: "new DateTime('2020-10-23')"
+          node: "'2020-10-23'"
+          python: "dateutil.parser.parse('2020-10-23T00:00:00Z')"
+          ruby: "'YYYY-MM-DD'"
+        - endDateValue:
+          key: endDate
+          keyPascal: EndDate
+          keySnake: end_date
+          is_date: true
+          java_datatype: LocalDate
+          csharp_datatype: DateTime
+          default: "LocalDate.of(2020, Month.OCTOBER, 30)"
+          java: "LocalDate.of(2020, Month.OCTOBER, 30)"
+          csharp: "new DateTime(2020, 10, 30)"
+          php: "new DateTime('2020-10-30')"
+          node: "'2020-10-30'"
+          python: "dateutil.parser.parse('2020-10-30T00:00:00Z')"
+          ruby: "'YYYY-MM-DD'"   
+        - timesheet:
+          key: timesheet
+          keyPascal: Timesheet
+          keySnake: timesheet
+          is_object: true    
+        - EmployeeID:
+          is_uuid: true 
+          default: 00000000-0000-0000-0000-000000000000
+          key: employeeID
+          keyPascal: EmployeeID
+          keySnake: employee_id
+          object: timesheet
+        - startDate:
+          is_variable: true
+          nonString: true
+          key: startDate
+          keyPascal: StartDate
+          keySnake: start_date
+          default: startDate
+          python: start_date
+          ruby: start_date
+          object: timesheet
+        - endDate:
+          is_variable: true
+          nonString: true
+          key: endDate
+          keyPascal: EndDate
+          keySnake: end_date
+          default: endDate
+          python: end_date
+          ruby: end_date
+          object: timesheet
+        - status:
+          key: status
+          keyPascal: Status
+          keySnake: status
+          is_last: true
+          nonString: true
+          default: DRAFT
+          php: XeroAPI\XeroPHP\Models\PayrollAu\TimesheetStatus::DRAFT
+          node: TimesheetStatus.DRAFT
+          ruby: XeroRuby::PayrollAu::TimesheetStatus::DRAFT
+          python_string: DRAFT
+          java: com.xero.models.payrollau.TimesheetStatus.DRAFT
+          csharp: TimesheetStatus.DRAFT
+          object: timesheet
       parameters: 
         - name: TimesheetID
           in: path
