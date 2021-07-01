@@ -23761,28 +23761,47 @@ components:
           example: "/Date(1573755038314)/"
           readOnly: true
         BudgetLines:
-          $ref: '#/components/schemas/BudgetLines'
+          type: array
+          items:
+            $ref: '#/components/schemas/BudgetLine'
         Tracking:
-          $ref: '#/components/schemas/TrackingCategory'
-    BudgetLines:
+          type: array
+          items:
+            $ref: '#/components/schemas/TrackingCategory'
+    BudgetLine:
       type: object
       externalDocs:
         url: 'http://developer.xero.com/documentation/api/budgets/'
       properties:
-        Period:
-          description: Period the amount applies to (e.g. “2019-08”)
+        AccountID:
+          description: See Accounts
           type: string
-          x-is-msdate: true
-        Amount:
-          description: LineItem Quantity
-          type: integer
-        UnitAmount:
-          description: Budgeted amount	
-          type: integer
-        Notes:
-          description: Any footnotes associated with this balance
-          maxLength: 255
+          format: uuid
+        AccountCode:
+          description: See Accounts
           type: string
+          example: 090
+        BudgetBalances:
+          type: array
+          items:
+            $ref: '#/components/schemas/BudgetBalance'
+    BudgetBalance:
+        type: object
+        properties:
+          Period:
+            description: Period the amount applies to (e.g. “2019-08”)
+            type: string
+            x-is-msdate: true
+          Amount:
+            description: LineItem Quantity
+            type: integer
+          UnitAmount:
+            description: Budgeted amount  
+            type: integer
+          Notes:
+            description: Any footnotes associated with this balance
+            maxLength: 255
+            type: string
     Balances:
       type: object
       description:  The raw AccountsReceivable(sales invoices) and
