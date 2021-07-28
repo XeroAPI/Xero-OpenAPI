@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: '2.13.4'
+  version: '2.13.5'
   title: 'Xero Payroll NZ'
   description: 'This is the Xero Payroll API for orgs in the NZ region.'
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
@@ -19,7 +19,7 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get: 
       security:
-        - OAuth2: [payroll.employees.read]
+        - OAuth2: [payroll.employees, payroll.employees.read]
       tags:
         - PayrollNz
       operationId: getEmployees
@@ -273,7 +273,7 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get: 
       security:
-        - OAuth2: [payroll.employees.read,payroll.employees]
+        - OAuth2: [payroll.employees, payroll.employees.read]
       tags:
         - PayrollNz
       operationId: getEmployee
@@ -585,7 +585,7 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get: 
       security:
-        - OAuth2: [payroll.employees.read,payroll.employees]
+        - OAuth2: [payroll.employees, payroll.employees.read]
       tags:
         - PayrollNz
       operationId: getEmployeeTax
@@ -635,7 +635,7 @@ paths:
                         }'
     post: 
       security:
-        - OAuth2: [payroll.employees.read,payroll.employees]
+        - OAuth2: [payroll.employees]
       tags:
         - PayrollNz
       operationId: updateEmployeeTax
@@ -792,7 +792,7 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get: 
       security:
-        - OAuth2: [payroll.employees.read,payroll.employees]
+        - OAuth2: [payroll.employees, payroll.employees.read]
       tags:
         - PayrollNz
       operationId: getEmployeeOpeningBalances
@@ -964,7 +964,7 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get: 
       security:
-        - OAuth2: [payroll.employees.read,payroll.employees]
+        - OAuth2: [payroll.employees, payroll.employees.read]
       tags:
         - PayrollNz
       operationId: getEmployeeLeaves
@@ -1332,7 +1332,7 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get: 
       security:
-        - OAuth2: [payroll.employees.read,payroll.employees]
+        - OAuth2: [payroll.employees, payroll.employees.read]
       tags:
         - PayrollNz
       operationId: getEmployeeLeaveBalances
@@ -1398,7 +1398,7 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get: 
       security:
-        - OAuth2: [payroll.employees.read, payroll.employees]
+        - OAuth2: [payroll.employees, payroll.employees.read]
       tags:
         - PayrollNz
       operationId: getEmployeeLeavePeriods
@@ -1582,7 +1582,7 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get: 
       security:
-        - OAuth2: [payroll.employees.read, payroll.employees]
+        - OAuth2: [payroll.employees, payroll.employees.read]
       tags:
         - PayrollNz
       operationId: getEmployeeLeaveTypes
@@ -1736,7 +1736,7 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get: 
       security:
-        - OAuth2: [payroll.employees.read, payroll.employees]
+        - OAuth2: [payroll.employees, payroll.employees.read]
       tags:
         - PayrollNz
       operationId: getEmployeePaymentMethod
@@ -1887,7 +1887,7 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get: 
       security:
-        - OAuth2: [payroll.employees.read, payroll.employees]
+        - OAuth2: [payroll.employees, payroll.employees.read]
       tags:
         - PayrollNz
       operationId: getEmployeePayTemplates
@@ -2384,7 +2384,7 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [payroll.settings.read, payroll.settings]
+        - OAuth2: [payroll.settings, payroll.settings.read]
       tags:
         - PayrollNz
       operationId: getDeductions
@@ -2520,7 +2520,7 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [payroll.settings.read, payroll.settings]
+        - OAuth2: [payroll.settings, payroll.settings.read]
       tags:
         - PayrollNz
       operationId: getDeduction
@@ -2562,7 +2562,7 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [payroll.settings.read, payroll.settings]
+        - OAuth2: [payroll.settings, payroll.settings.read]
       tags:
         - PayrollNz
       operationId: getStatutoryDeductions
@@ -2614,7 +2614,7 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [payroll.settings.read, payroll.settings]
+        - OAuth2: [payroll.settings, payroll.settings.read]
       tags:
         - PayrollNz
       operationId: getStatutoryDeduction
@@ -2654,7 +2654,7 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [payroll.settings.read, payroll.settings]
+        - OAuth2: [payroll.settings, payroll.settings.read]
       tags:
         - PayrollNz
       operationId: getSuperannuations
@@ -2832,7 +2832,7 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [payroll.settings.read, payroll.settings]
+        - OAuth2: [payroll.settings, payroll.settings.read]
       tags:
         - PayrollNz
       operationId: getSuperannuation
@@ -2877,7 +2877,7 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [payroll.settings.read, payroll.settings]
+        - OAuth2: [payroll.settings, payroll.settings.read]
       tags:
         - PayrollNz
       operationId: getEarningsRates
@@ -3046,7 +3046,7 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [payroll.settings.read, payroll.settings]
+        - OAuth2: [payroll.settings, payroll.settings.read]
       tags:
         - PayrollNz
       operationId: getEarningsRate
@@ -3092,7 +3092,7 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [payroll.settings.read, payroll.settings]
+        - OAuth2: [payroll.settings, payroll.settings.read]
       tags:
         - PayrollNz
       operationId: getLeaveTypes
@@ -3227,7 +3227,7 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [payroll.settings.read, payroll.settings]
+        - OAuth2: [payroll.settings, payroll.settings.read]
       tags:
         - PayrollNz
       operationId: getLeaveType
@@ -3269,7 +3269,7 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [payroll.settings.read, payroll.settings]
+        - OAuth2: [payroll.settings, payroll.settings.read]
       tags:
         - PayrollNz
       operationId: getReimbursements
@@ -3418,7 +3418,7 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [payroll.settings.read, payroll.settings]
+        - OAuth2: [payroll.settings, payroll.settings.read]
       tags:
         - PayrollNz
       operationId: getReimbursement
@@ -3463,7 +3463,7 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [payroll.timesheets.read, payroll.timesheets]
+        - OAuth2: [payroll.timesheets, payroll.timesheets.read]
       tags:
         - PayrollNz
       operationId: getTimesheets
@@ -3670,7 +3670,7 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [payroll.timesheets.read, timesheets.settings]
+        - OAuth2: [payroll.timesheets, payroll.timesheets.read]
       tags:
         - PayrollNz
       operationId: getTimesheet
@@ -4217,7 +4217,7 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [payroll.settings.read, payroll.settings]
+        - OAuth2: [payroll.settings, payroll.settings.read]
       tags:
         - PayrollNz
       operationId: getPayRunCalendars
@@ -4392,7 +4392,7 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [payroll.settings.read, payroll.settings]
+        - OAuth2: [payroll.settings, payroll.settings.read]
       tags:
         - PayrollNz
       operationId: getPayRunCalendar
@@ -4435,7 +4435,7 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get: 
       security:
-        - OAuth2: [payroll.employees.read, payroll.employees]
+        - OAuth2: [payroll.employees, payroll.employees.read]
       tags:
         - PayrollNz
       operationId: getEmployeeSalaryAndWages
@@ -4832,7 +4832,7 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [payroll.payruns.read, payroll.payruns]
+        - OAuth2: [payroll.payruns, payroll.payruns.read]
       tags:
         - PayrollNz
       operationId: getPayRuns
@@ -5017,7 +5017,7 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [payroll.payruns.read, payroll.payruns]
+        - OAuth2: [payroll.payruns, payroll.payruns.read]
       tags:
         - PayrollNz
       operationId: getPayRun
@@ -5325,7 +5325,7 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [payroll.payslip.read, payroll.payslip]
+        - OAuth2: [payroll.payslip, payroll.payslip.read]
       tags:
         - PayrollNz
       operationId: getPaySlips
@@ -5496,7 +5496,7 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [payroll.payslip.read, payroll.payslip]
+        - OAuth2: [payroll.payslip, payroll.payslip.read]
       tags:
         - PayrollNz
       operationId: getPaySlip
@@ -5652,7 +5652,7 @@ paths:
                         }'
     put:
       security:
-        - OAuth2: [payroll.employees]
+        - OAuth2: [payroll.payslip]
       tags:
         - PayrollNz
       operationId: updatePaySlipLineItems
@@ -6029,7 +6029,7 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [payroll.settings.read, settings.payslip]
+        - OAuth2: [payroll.settings, payroll.settings.read]
       tags:
         - PayrollNz
       operationId: getSettings
@@ -6083,7 +6083,7 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [payroll.settings.read, settings.payslip]
+        - OAuth2: [payroll.settings, payroll.settings.read]
       tags:
         - PayrollNz
       operationId: getTrackingCategories

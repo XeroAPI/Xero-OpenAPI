@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: '2.13.4'
+  version: '2.13.5'
   title: 'Xero Payroll AU API'
   description: 'This is the Xero Payroll API for orgs in Australia region.'
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
@@ -23,7 +23,7 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [payroll.employees.read]
+        - OAuth2: [payroll.employees, payroll.employees.read]
       tags:
         - PayrollAu
       operationId: getEmployees
@@ -274,7 +274,7 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [payroll.employees.read]
+        - OAuth2: [payroll.employees, payroll.employees.read]
       tags:
         - PayrollAu
       summary: Retrieves an employee's detail by unique employee id
@@ -563,7 +563,7 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [payroll.leaveapplications.read]
+        - OAuth2: [payroll.employees, payroll.employees.read]
       tags:
         - PayrollAu
       operationId: getLeaveApplications
@@ -678,7 +678,7 @@ paths:
                $ref: '#/components/schemas/APIException'
     post:
       security:
-        - OAuth2: [payroll.leaveapplications]
+        - OAuth2: [payroll.employees]
       tags:
         - PayrollAu
       summary: Creates a leave application
@@ -814,7 +814,7 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [payroll.leaveapplications.read]
+        - OAuth2: [payroll.employees, payroll.employees.read]
       tags:
         - PayrollAu
       summary: Retrieves a leave application by a unique leave application id
@@ -862,7 +862,7 @@ paths:
                         }'
     post:
       security:
-        - OAuth2: [payroll.leaveapplications]
+        - OAuth2: [payroll.employees]
       tags:
         - PayrollAu
       summary: Updates a specific leave application
@@ -1007,7 +1007,7 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [payroll.payitems.read]
+        - OAuth2: [payroll.settings, payroll.settings.read]
       tags:
         - PayrollAu
       operationId: getPayItems
@@ -1184,7 +1184,7 @@ paths:
                $ref: '#/components/schemas/APIException'
     post:
       security:
-        - OAuth2: [payroll.payitems]
+        - OAuth2: [payroll.settings]
       tags:
         - PayrollAu
       summary: Creates a pay item
@@ -1513,7 +1513,7 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [payroll.payrollcalendars.read]
+        - OAuth2: [payroll.settings, payroll.settings.read]
       tags:
         - PayrollAu
       operationId: getPayrollCalendars
@@ -1582,7 +1582,7 @@ paths:
                 $ref: '#/components/schemas/APIException'
     post:
       security:
-        - OAuth2: [payroll.payrollcalendars]
+        - OAuth2: [payroll.settings]
       tags:
         - PayrollAu
       summary: Creates a Payroll Calendar
@@ -1727,7 +1727,7 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [payroll.payrollcalendars.read]
+        - OAuth2: [payroll.settings, payroll.settings.read]
       tags:
         - PayrollAu
       operationId: getPayrollCalendar
@@ -1776,7 +1776,7 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [payroll.payruns.read]
+        - OAuth2: [payroll.payruns, payroll.payruns.read]
       tags:
         - PayrollAu
       operationId: getPayRuns
@@ -1910,7 +1910,7 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [payroll.payruns.read]
+        - OAuth2: [payroll.payruns, payroll.payruns.read]
       tags:
         - PayrollAu
       summary: Retrieves a pay run by using a unique pay run id
@@ -2055,7 +2055,7 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [payroll.payslip.read]
+        - OAuth2: [payroll.payslip, payroll.payslip.read]
       tags:
         - PayrollAu
       summary: Retrieves for a payslip by a unique payslip id
@@ -2307,7 +2307,7 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [payroll.settings.read]
+        - OAuth2: [payroll.settings, payroll.settings.read]
       tags:
         - PayrollAu
       operationId: getSettings
@@ -2381,7 +2381,7 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [payroll.superfunds.read]
+        - OAuth2: [payroll.settings, payroll.settings.read]
       tags:
         - PayrollAu
       operationId: getSuperfunds
@@ -2446,7 +2446,7 @@ paths:
                 $ref: '#/components/schemas/APIException'
     post:
       security:
-        - OAuth2: [payroll.superfunds]
+        - OAuth2: [payroll.settings]
       tags:
         - PayrollAu
       summary: Creates a superfund
@@ -2528,7 +2528,7 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [payroll.superfunds.read]
+        - OAuth2: [payroll.settings, payroll.settings.read]
       tags:
         - PayrollAu
       summary: Retrieves a superfund by using a unique superfund ID
@@ -2571,7 +2571,7 @@ paths:
                         }'
     post:
       security:
-        - OAuth2: [payroll.superfunds]
+        - OAuth2: [payroll.settings]
       tags:
         - PayrollAu
       summary: Updates a superfund 
@@ -2654,7 +2654,7 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [payroll.superfundproducts.read]
+        - OAuth2: [payroll.settings, payroll.settings.read]
       tags:
         - PayrollAu
       operationId: getSuperfundProducts
@@ -2703,7 +2703,7 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [payroll.timesheets.read]
+        - OAuth2: [payroll.timesheets, payroll.timesheets.read]
       tags:
         - PayrollAu
       operationId: getTimesheets
@@ -2961,7 +2961,7 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [payroll.timesheets.read]
+        - OAuth2: [payroll.timesheets, payroll.timesheets.read]
       tags:
         - PayrollAu
       summary: Retrieves a timesheet by using a unique timesheet id
@@ -3190,43 +3190,16 @@ components:
             email: Grant read-only access to your email
             openid: Grant read-only access to your open id
             profile: your profile information
-            accounting.transactions: Grant read-write access to bank transactions, credit notes, invoices, repeating invoices
-            accounting.transactions.read: Grant read-only access to invoices
-            accounting.reports.read: Grant read-only access to accounting reports
-            accounting.journals.read: Grant read-only access to journals
-            accounting.settings: Grant read-write access to organisation and account settings
-            accounting.settings.read: Grant read-only access to organisation and account settings
-            accounting.contacts: Grant read-write access to contacts and contact groups
-            accounting.contacts.read: Grant read-only access to contacts and contact groups
-            accounting.attachments: Grant read-write access to attachments
-            accounting.attachments.read: Grant read-only access to attachments
-            assets assets.read: Grant read-only access to fixed assets
-            bankfeeds: Grant read-write access to bankfeeds 
-            files: Grant read-write access to files and folders
-            files.read: Grant read-only access to files and folders
-            payroll: Grant read-write access to payroll
-            payroll.read: Grant read-only access to payroll
             payroll.employees: Grant read-write access to payroll employees
-            payroll.employees.read: Grant read-only access to payroll employees
-            payroll.leaveapplications: Grant read-write access to payroll leaveapplications
-            payroll.leaveapplications.read: Grant read-only access to payroll leaveapplications
-            payroll.payitems: Grant read-write access to payroll payitems
-            payroll.payitems.read: Grant read-only access to payroll payitems
-            payroll.payrollcalendars: Grant read-write access to payroll calendars
-            payroll.payrollcalendars.read: Grant read-only access to payroll calendars
+            payroll.employees.read: Grant read-only access to payroll employees       
             payroll.payruns: Grant read-write access to payroll payruns
             payroll.payruns.read: Grant read-only access to payroll payruns
             payroll.payslip: Grant read-write access to payroll payslips
             payroll.payslip.read: Grant read-only access to payroll payslips
+            payroll.settings: Grant read-write access to payroll settings
             payroll.settings.read: Grant read-only access to payroll settings
-            payroll.superfunds: Grant read-write access to payroll superfunds
-            payroll.superfunds.read: Grant read-only access to payroll superfunds
-            payroll.superfundproducts.read: Grant read-only access to payroll superfundproducts
             payroll.timesheets: Grant read-write access to payroll timesheets
             payroll.timesheets.read: Grant read-only access to payroll timesheets
-            paymentservices: Grant read-write access to payment services
-            projects: Grant read-write access to projects
-            projects.read: Grant read-only access to projects
   parameters:
     requiredHeader: 
       in: header
