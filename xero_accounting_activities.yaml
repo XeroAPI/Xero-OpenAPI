@@ -1,6 +1,6 @@
 openapi: 3.0.1
 info:
-  title: Accounting activities API
+  title: Accounting Activities API
   description: "\nA business' accounting practices can be testament to 'running a
     tight ship'.  Xero can build the greatest business platform, but unless basic
     business practices are followed, lenders may assess the loan as high risk.\nAccounting
@@ -10,17 +10,16 @@ info:
     reputable \nLenders see our accounting partners as the custodians of small business
     data and as such, assist with reducing the risk of small business loans through
     quality assurance\n"
-  version: V1
+  version: v1
 servers:
-- url: https://accounting-activities.global.xero.com
+- url: https://api.xero.com/finance.xro/1.0
   description: Production URL
-- url: https://accounting-activities.xero-uat.com
-  description: UAT environment URL
-- url: https://accounting-activities.xero-test.com
-  description: TEST environment URL
 paths:
-  "/v1/AccountingActivities/AccountUsage":
+  "/AccountingActivities/AccountUsage":
     get:
+      security:
+      - OAuth2:
+        - finance.accountingactivity.read
       tags:
       - AccountUsage
       summary: Get account usage for a given organisation.
@@ -97,8 +96,11 @@ paths:
                 status: 400
                 detail: Organisation 73151de8-3676-4887-a021-edec960dd537 does not
                   exist
-  "/v1/AccountingActivities/LockHistory":
+  "/AccountingActivities/LockHistory":
     get:
+      security:
+      - OAuth2:
+        - finance.accountingactivity.read
       tags:
       - LockHistory
       summary: Get lock history for the specified Organisation.
@@ -149,8 +151,11 @@ paths:
                 status: 400
                 detail: Organisation 73151de8-3676-4887-a021-edec960dd537 does not
                   exist
-  "/v1/AccountingActivities/OrganisationDetailsChanges":
+  "/AccountingActivities/OrganisationDetailsChanges":
     get:
+      security:
+      - OAuth2:
+        - finance.accountingactivity.read
       tags:
       - OrgDetailsChanges
       summary: Get changes to an organisations details.
@@ -204,8 +209,11 @@ paths:
                 status: 400
                 detail: Organisation 73151de8-3676-4887-a021-edec960dd537 does not
                   exist
-  "/v1/AccountingActivities/ReportHistory":
+  "/AccountingActivities/ReportHistory":
     get:
+      security:
+      - OAuth2:
+        - finance.accountingactivity.read
       tags:
       - ReportHistory
       summary: Get report history for a specified organisation.
@@ -250,8 +258,11 @@ paths:
                 status: 400
                 detail: Organisation 73151de8-3676-4887-a021-edec960dd537 does not
                   exist
-  "/v1/AccountingActivities/UserActivities":
+  "/AccountingActivities/UserActivities":
     get:
+      security:
+      - OAuth2:
+        - finance.accountingactivity.read
       tags:
       - UserActivities
       summary: Get user activities for a specified organisation.
@@ -332,6 +343,17 @@ paths:
                 detail: Organisation 73151de8-3676-4887-a021-edec960dd537 does not
                   exist
 components:
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      description: For more information visit https://developer.xero.com/documentation/oauth2/overview
+      flows:
+        authorizationCode:
+          authorizationUrl: https://login.xero.com/identity/connect/authorize
+          tokenUrl: https://identity.xero.com/connect/token
+          scopes:
+            finance.accountingactivity.read: Grant read-only access to accounting
+              activities
   schemas:
     AccountUsage:
       type: object
