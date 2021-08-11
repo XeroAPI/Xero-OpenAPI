@@ -1,17 +1,16 @@
 openapi: 3.0.1
 info:
-  title: Xero Financial Statements API
-  version: V1
+  title: Financial Statements API
+  version: v1
 servers:
-- url: https://financial-statements.global.xero.com
+- url: https://api.xero.com/finance.xro/1.0
   description: Production URL
-- url: https://financial-statements.xero-uat.com
-  description: UAT environment URL
-- url: https://financial-statements.xero-test.com
-  description: TEST environment URL
 paths:
-  "/v1/FinancialStatements/BalanceSheet":
+  "/FinancialStatements/BalanceSheet":
     get:
+      security:
+      - OAuth2:
+        - finance.statements.read
       tags:
       - BalanceSheet
       summary: Get Balance Sheet report.
@@ -128,8 +127,11 @@ paths:
                 title: ServiceUnavailable
                 status: 503
                 detail: Cannot process org xxx at this time. Apologies for inconvenience.
-  "/v1/FinancialStatements/Cashflow":
+  "/FinancialStatements/Cashflow":
     get:
+      security:
+      - OAuth2:
+        - finance.statements.read
       tags:
       - Cashflow
       summary: Get Cashflow report.
@@ -296,8 +298,11 @@ paths:
                 title: ServiceUnavailable
                 status: 503
                 detail: Cannot process org xxx at this time. Apologies for inconvenience.
-  "/v1/FinancialStatements/ProfitAndLoss":
+  "/FinancialStatements/ProfitAndLoss":
     get:
+      security:
+      - OAuth2:
+        - finance.statements.read
       tags:
       - ProfitAndLoss
       summary: Get Profit and Loss report.
@@ -398,7 +403,7 @@ paths:
                 title: InvalidRequest
                 status: 400
                 detail: Organisation xxx does not exist
-  "/v1/FinancialStatements/TrialBalance":
+  "/FinancialStatements/TrialBalance":
     get:
       tags:
       - TrialBalance
@@ -470,6 +475,16 @@ paths:
                 status: 400
                 detail: Organisation xxx does not exist
 components:
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      description: For more information visit https://developer.xero.com/documentation/oauth2/overview
+      flows:
+        authorizationCode:
+          authorizationUrl: https://login.xero.com/identity/connect/authorize
+          tokenUrl: https://identity.xero.com/connect/token
+          scopes:
+            finance.statements.read: Grant read-only access to financial statements
   schemas:
     BalanceSheetAccountDetail:
       type: object
