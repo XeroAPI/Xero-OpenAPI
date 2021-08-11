@@ -1,20 +1,19 @@
 openapi: 3.0.1
 info:
-  title: Xero Lending Cash Validation API
+  title: Cash Validation API
   description: Cash Validation describes the degree of verifiability of the accounting
     record with respect to the information available from the bank statements connected
     to Xero.
   version: v1
 servers:
-- url: https://cash-validation.global.xero.com
+- url: https://api.xero.com/finance.xro/1.0
   description: Production URL
-- url: https://cash-validation.xero-uat.com
-  description: UAT environment URL
-- url: https://cash-validation.xero-test.com
-  description: TEST environment URL
 paths:
   "/CashValidation":
     get:
+      security:
+      - OAuth2:
+        - finance.cashvalidation.read
       tags:
       - CashValidation
       summary: Summarizes the total cash position for each account for an org
@@ -144,79 +143,17 @@ paths:
                 title: InvalidRequest
                 status: 400
                 detail: 'Invalid BalanceDate: ''2020-01'''
-  "/Unreconciled":
-    get:
-      tags:
-      - CashValidation
-      summary: Provides unreconciled statement data for each account of an org
-      parameters:
-      - name: balanceDate
-        in: query
-        description: "date, yyyy-MM-dd \r\n\r\nIf no parameter is provided, the current
-          date will be used.\r\n\r\nThe ‘balance date’ will return transactions based
-          on the accounting date entered by the user.  Transactions before the balanceDate
-          will be included.\r\nThe user has discretion as to which accounting period
-          the transaction relates to.\r\n\r\nThe ‘balance date’  will control the
-          latest maximum date of transactions included in the aggregate numbers."
-        schema:
-          type: string
-      - name: Xero-Tenant-Id
-        in: header
-        description: Specifies the organisation Id for which the data will be returned.
-        required: true
-        schema:
-          type: string
-          format: uuid
-      - name: Xero-Correlation-Id
-        in: header
-        description: Identifier to be associated with the request and response
-        schema:
-          type: string
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  "$ref": "#/components/schemas/UnreconciledAccountsResponse"
-              example:
-              - accountId: 73151de8-3676-4887-a021-edec960dd537
-                unreconciledAmount: 100
-                unreconciledLines: 1
-                statementBalance:
-                  value: 100
-                  type: DEBIT
-        '400':
-          description: BadRequest
-          content:
-            application/problem+json:
-              schema:
-                "$ref": "#/components/schemas/Problem"
-              example:
-                type: invalid-request
-                title: InvalidRequest
-                status: 400
-                detail: 'Invalid BalanceDate: ''2020-01'''
-  "/ping":
-    get:
-      tags:
-      - Ping
-      summary: Validates the availability of the endpoint
-      responses:
-        '200':
-          description: Success
-  "/ping/authorized":
-    get:
-      tags:
-      - Ping
-      summary: Validates the availability of the endpoint while requiring a valid
-        identity token
-      responses:
-        '200':
-          description: Success
 components:
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      description: For more information visit https://developer.xero.com/documentation/oauth2/overview
+      flows:
+        authorizationCode:
+          authorizationUrl: https://login.xero.com/identity/connect/authorize
+          tokenUrl: https://identity.xero.com/connect/token
+          scopes:
+            finance.cashvalidation.read: Grant read-only access to cash validation
   schemas:
     BankStatementResponse:
       type: object
@@ -558,40 +495,4 @@ components:
           description: Sum of the amounts of all statement lines where the amount
             is negative.
           format: double
-      additionalProperties: false
-    UnreconciledAccountsResponse:
-      type: object
-      properties:
-        accountId:
-          type: string
-          description: The Xero identifier for an account
-          format: uuid
-        unreconciledAmount:
-          type: number
-          description: Total value of transactions in the journals which are not reconciled
-            to bank statement lines.
-          format: double
-        unreconciledLines:
-          type: integer
-          description: Count of all statement lines where the reconciled flag is set
-            to FALSE.
-          format: int32
-        statementBalance:
-          "$ref": "#/components/schemas/UnreconciledStatementBalanceResponse"
-      additionalProperties: false
-    UnreconciledStatementBalanceResponse:
-      type: object
-      properties:
-        value:
-          type: number
-          description: Total closing balance of the account. This includes both reconciled
-            and unreconciled bank statement lines. The closing balance will always
-            be represented as a positive number, with it’s debit/credit status defined
-            in the statementBalanceDebitCredit field.
-          format: double
-        type:
-          type: string
-          description: The DEBIT or CREDIT status of the account. Cash accounts in
-            credit have a negative balance.
-          nullable: true
       additionalProperties: false
