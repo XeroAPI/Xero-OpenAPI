@@ -1,1 +1,671 @@
+openapi: "3.0.1"
+info:
+  title: "Accounting Activities API"
+  description: "\nA business' accounting practices can be testament to 'running a tight ship'.  Xero can build the greatest business platform, but unless basic business practices are followed, lenders may assess the loan as high risk.\nAccounting practices, whilst not a definitive measure of a successful business, if combined with other metrics, could indicate if a business;\nManages cashflow \nManages a budget\nResponds to competitors or market threats\nResponds to opportunities\nAre reputable \nLenders see our accounting partners as the custodians of small business data and as such, assist with reducing the risk of small business loans through quality assurance\n"
+  version: "v1"
+servers:
+  - url: "https://api.xero.com/finance.xro/1.0"
+    description: "Production URL"
+paths:
+  /AccountingActivities/AccountUsage:
+    get:
+      security:
+        - OAuth2:
+            - "finance.accountingactivity.read"
+      tags:
+        - "AccountUsage"
+      summary: "Get account usage"
+      description: "A summary of how each account is being transacted on exposing the level of detail and amounts attributable to manual adjustments."
+      parameters:
+        - name: "Xero-Tenant-Id"
+          in: "header"
+          description: "Specifies the organisation Id for which the data will be returned."
+          required: true
+          schema:
+            type: "string"
+            format: "uuid"
+        - name: "startMonth"
+          in: "query"
+          description: "date, yyyy-MM \r\n            \r\nIf no parameter is provided, the month 12 months prior to the end month will be used.\r\n            \r\nAccount usage for up to 12 months from this date will be returned."
+          schema:
+            type: "string"
+        - name: "endMonth"
+          in: "query"
+          description: "date, yyyy-MM \r\n            \r\nIf no parameter is provided, the current month will be used.\r\n            \r\nAccount usage for up to 12 months prior to this date will be returned."
+          schema:
+            type: "string"
+      responses:
+        200:
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AccountUsageResponse"
+              example:
+                organisationId: "73151de8-3676-4887-a021-edec960dd537"
+                startMonth: "2010-03"
+                endMonth: "2010-03"
+                accountUsage:
+                  - month: "2010-03"
+                    accountId: "12345678-876b-4eff-901d-e8f4d517453e"
+                    currencyCode: "CURR/NZD"
+                    totalReceived: 0
+                    countReceived: 0
+                    totalPaid: 0
+                    countPaid: 0
+                    totalManualJournal: 0
+                    countManualJournal: 0
+                    accountName: "ACME Drawings"
+                    reportingCode: "ABC"
+                    reportingCodeName: "ABC funds"
+                  - month: "2010-03"
+                    accountId: "12345678-9d21-43bc-b20e-d96a370cf31e"
+                    currencyCode: "CURR/NZD"
+                    totalReceived: 0
+                    countReceived: 0
+                    totalPaid: 0
+                    countPaid: 0
+                    totalManualJournal: 0
+                    countManualJournal: 0
+                    accountName: "Electricity & Heating"
+                    reportingCode: "ELC"
+                    reportingCodeName: "Expense"
+        400:
+          description: "BadRequest"
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Problem"
+              example:
+                type: "invalid-request"
+                title: "InvalidRequest"
+                status: 400
+                detail: "Organisation 73151de8-3676-4887-a021-edec960dd537 does not exist"
+  /AccountingActivities/LockHistory:
+    get:
+      security:
+        - OAuth2:
+            - "finance.accountingactivity.read"
+      tags:
+        - "LockHistory"
+      summary: "Get lock history"
+      description: "Provides a history of locking of accounting books. Locking provides an indicator of sound accounting practices reducing the risk of changes to accounting records in prior periods."
+      parameters:
+        - name: "Xero-Tenant-Id"
+          in: "header"
+          description: "Specifies the organisation Id for which the data will be returned."
+          required: true
+          schema:
+            type: "string"
+            format: "uuid"
+        - name: "endDate"
+          in: "query"
+          description: "date, yyyy-MM-dd \r\n            \r\nIf no parameter is provided, the current date will be used.\r\n            \r\nLock History for up to 12 months before this date will be returned."
+          schema:
+            type: "string"
+      responses:
+        200:
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LockHistoryResponse"
+              example:
+                organisationId: "73151de8-3676-4887-a021-edec960dd537"
+                endDate: "2019-06-20"
+                lockDates:
+                  - hardLockDate: "2019-01-20"
+                    softLockDate: "2019-01-20"
+                    updatedDateUtc: "2019-01-20 10:50:03"
+                  - hardLockDate: "2019-01-21"
+                    softLockDate: "2019-01-21"
+                    updatedDateUtc: "2019-01-21 10:59:33"
+                  - hardLockDate: "2019-01-22"
+                    softLockDate: "2019-01-22"
+                    updatedDateUtc: "2019-01-22 10:24:12"
+        400:
+          description: "BadRequest"
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Problem"
+              example:
+                type: "invalid-request"
+                title: "InvalidRequest"
+                status: 400
+                detail: "Organisation 73151de8-3676-4887-a021-edec960dd537 does not exist"
+  /AccountingActivities/OrganisationDetailsChanges:
+    get:
+      security:
+        - OAuth2:
+            - "finance.accountingactivity.read"
+      tags:
+        - "OrganisationDetailsChanges"
+      summary: "Get organisation details changes"
+      description: "Provides a history of ABN updates for the specified organisation to help lenders verify the business matches the identity of the applicant."
+      parameters:
+        - name: "Xero-Tenant-Id"
+          in: "header"
+          description: "Specifies the organisation Id for which the data will be returned."
+          required: true
+          schema:
+            type: "string"
+            format: "uuid"
+        - name: "endDate"
+          in: "query"
+          description: "date, yyyy-MM-dd \r\n            \r\nIf no parameter is provided, the current date will be used.\r\n            \r\nChanges to the organisations details for up to 12 months prior to this date will be returned."
+          schema:
+            type: "string"
+      responses:
+        200:
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OrgDetailsChangesResponse"
+              example:
+                organisationId: "73151de8-3676-4887-a021-edec960dd537"
+                endDate: "2019-06-20"
+                orgDetailsChanges:
+                  - updatedDateUtc: "2019-01-20 10:50:03"
+                    organisationName: "Demo Company"
+                    organisationLegalName: "Demo Company"
+                    companyRegistrationNumber: "12388733255"
+                    organisationEntity: "ORGENTITY/COMPANY"
+                    gstNumber: "12 345 678"
+                  - updatedDateUtc: "2019-01-22 10:50:03"
+                    organisationName: "Demo Company"
+                    organisationLegalName: "ABC Company"
+                    companyRegistrationNumber: "12388733255"
+                    organisationEntity: "ORGENTITY/COMPANY"
+                    gstNumber: "12 345 678"
+        400:
+          description: "BadRequest"
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Problem"
+              example:
+                type: "invalid-request"
+                title: "InvalidRequest"
+                status: 400
+                detail: "Organisation 73151de8-3676-4887-a021-edec960dd537 does not exist"
+  /AccountingActivities/ReportHistory:
+    get:
+      security:
+        - OAuth2:
+            - "finance.accountingactivity.read"
+      tags:
+        - "ReportHistory"
+      summary: "Get report history"
+      description: "For a specified organisation, provides a summary of all the reports ran for a given period. Can be an indicator for sound business management and oversight."
+      parameters:
+        - name: "Xero-Tenant-Id"
+          in: "header"
+          description: "Specifies the organisation Id for which the data will be returned."
+          required: true
+          schema:
+            type: "string"
+            format: "uuid"
+        - name: "endDate"
+          in: "query"
+          description: "date, yyyy-MM-dd \r\n            \r\nIf no parameter is provided, the current date will be used.\r\n            \r\nReports published up to 12 months before this date will be returned."
+          schema:
+            type: "string"
+      responses:
+        200:
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReportHistoryResponse"
+              example:
+                organisationId: "73151de8-3676-4887-a021-edec960dd537"
+                endDate: "2019-10-20"
+                reports:
+                  - reportName: "VATReturn"
+                    reportDateText: "April 2019 to June 2019"
+                    publishedDateUtc: "2019-09-23T00:30:17.407+00:00"
+        400:
+          description: "BadRequest"
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Problem"
+              example:
+                type: "invalid-request"
+                title: "InvalidRequest"
+                status: 400
+                detail: "Organisation 73151de8-3676-4887-a021-edec960dd537 does not exist"
+  /AccountingActivities/UserActivities:
+    get:
+      security:
+        - OAuth2:
+            - "finance.accountingactivity.read"
+      tags:
+        - "UserActivities"
+      summary: "Get user activities"
+      description: "For a specified organisation, provides a list of all the users registered, and a history of their accounting transactions. Also identifies the existence of an accounting partner enabling evaluation of professional oversight to be established."
+      parameters:
+        - name: "Xero-Tenant-Id"
+          in: "header"
+          description: "Specifies the organisation Id for which the data will be returned."
+          required: true
+          schema:
+            type: "string"
+            format: "uuid"
+        - name: "dataMonth"
+          in: "query"
+          description: "date, yyyy-MM \r\n            \r\nIf no parameter is provided, the month immediately previous to the current month will be used.\r\n            \r\nThe user activities for the specified month will be returned."
+          schema:
+            type: "string"
+      responses:
+        200:
+          description: "Success"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserActivitiesResponse"
+              example:
+                organisationId: "73151de8-3676-4887-a021-edec960dd537"
+                dataMonth: "2020-01"
+                users:
+                  - userId: "bf3108f9-7449-4b2d-a1d1-41342dc1c991"
+                    userCreatedDateUtc: "2016-04-15T04:01:42.8"
+                    lastLoginDateUtc: "2020-02-12T23:59:06.42"
+                    isExternalPartner: true
+                    hasAccountantRole: true
+                    monthPeriod: "2020-01"
+                    numberOfLogins: 0
+                    numberOfDocumentsCreated: 10
+                    netValueDocumentsCreated: -100.99
+                    absoluteValueDocumentsCreated: 100.99
+                    attachedPractices:
+                      - xeroPartnerSince: 2017
+                        tier: "Silver"
+                        location: "New Zealand"
+                        organisationCount: 40
+                        staffCertified: true
+                    historyRecords:
+                      - changes: "Approved"
+                        dateUTCString: "2008-12-19T01:37:59"
+                        dateUTC: "2008-12-18T14:37:59.057+00:00"
+                        user: "John Doe"
+                        details: ""
+                      - changes: "Created"
+                        dateUTCString: "2008-12-19T01:37:58"
+                        dateUTC: "2008-12-18T14:37:58.057+00:00"
+                        user: "John Doe"
+                        details: ""
+                      - changes: "Reconciled"
+                        dateUTCString: "2008-12-20T22:50:55"
+                        dateUTC: "2008-12-20T11:50:55.09+00:00"
+                        user: "John Doe"
+                        details: "Debit payment to ACME Banking Corporation on 10 October 2008 for -10.00"
+                      - changes: "Created"
+                        dateUTCString: "2008-12-20T16:44:19"
+                        dateUTC: "2008-12-20T05:44:19.467+00:00"
+                        user: "John Doe"
+                        details: ""
+        400:
+          description: "BadRequest"
+          content:
+            application/problem+json:
+              schema:
+                $ref: "#/components/schemas/Problem"
+              example:
+                type: "invalid-request"
+                title: "InvalidRequest"
+                status: 400
+                detail: "Organisation 73151de8-3676-4887-a021-edec960dd537 does not exist"
+components:
+  securitySchemes:
+    OAuth2:
+      type: "oauth2"
+      description: "For more information visit https://developer.xero.com/documentation/oauth2/overview"
+      flows:
+        authorizationCode:
+          authorizationUrl: "https://login.xero.com/identity/connect/authorize"
+          tokenUrl: "https://identity.xero.com/connect/token"
+          scopes:
+            finance.accountingactivity.read: "Grant read-only access to accounting activities"
+  schemas:
+    AccountUsage:
+      type: "object"
+      properties:
+        month:
+          type: "string"
+          description: "The month this usage item contains data for"
+          nullable: true
+        accountId:
+          type: "string"
+          description: "The account this usage item contains data for"
+          format: "uuid"
+        currencyCode:
+          type: "string"
+          description: "The currency code this usage item contains data for"
+          nullable: true
+        totalReceived:
+          type: "number"
+          description: "Total received"
+          format: "double"
+          nullable: true
+        countReceived:
+          type: "integer"
+          description: "Count of received"
+          format: "int32"
+          nullable: true
+        totalPaid:
+          type: "number"
+          description: "Total paid"
+          format: "double"
+          nullable: true
+        countPaid:
+          type: "integer"
+          description: "Count of paid"
+          format: "int32"
+          nullable: true
+        totalManualJournal:
+          type: "number"
+          description: "Total value of manual journals"
+          format: "double"
+          nullable: true
+        countManualJournal:
+          type: "integer"
+          description: "Count of manual journals"
+          format: "int32"
+          nullable: true
+        accountName:
+          type: "string"
+          description: "The name of the account"
+          nullable: true
+        reportingCode:
+          type: "string"
+          description: "Shown if set"
+          nullable: true
+        reportingCodeName:
+          type: "string"
+          description: "Shown if set"
+          nullable: true
+        reportCodeUpdatedDateUtc:
+          type: "string"
+          description: "Last modified date UTC format"
+          format: "date-time"
+          nullable: true
+      additionalProperties: false
+    AccountUsageResponse:
+      type: "object"
+      properties:
+        organisationId:
+          type: "string"
+          description: "The requested Organisation to which the data pertains"
+          format: "uuid"
+        startMonth:
+          type: "string"
+          description: "The start month of the report"
+          nullable: true
+        endMonth:
+          type: "string"
+          description: "The end month of the report"
+          nullable: true
+        accountUsage:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/AccountUsage"
+          nullable: true
+      additionalProperties: false
+    HistoryRecordResponse:
+      type: "object"
+      properties:
+        changes:
+          type: "string"
+          description: "The type of change recorded against the document"
+          nullable: true
+        dateUTCString:
+          type: "string"
+          description: "UTC date that the history record was created"
+          nullable: true
+        dateUTC:
+          type: "string"
+          description: "UTC date that the history record was created"
+          format: "date-time"
+        user:
+          type: "string"
+          description: "The users first and last name"
+          nullable: true
+        details:
+          type: "string"
+          description: "Description of the change event or transaction"
+          nullable: true
+      additionalProperties: false
+    LockHistoryModel:
+      type: "object"
+      properties:
+        hardLockDate:
+          type: "string"
+          description: "Date the account hard lock was set"
+          nullable: true
+        softLockDate:
+          type: "string"
+          description: "Date the account soft lock was set"
+          nullable: true
+        updatedDateUtc:
+          type: "string"
+          description: "The system date time that the lock was updated"
+          nullable: true
+      additionalProperties: false
+    LockHistoryResponse:
+      type: "object"
+      properties:
+        organisationId:
+          type: "string"
+          description: "The requested Organisation to which the data pertains"
+          format: "uuid"
+        endDate:
+          type: "string"
+          description: "The end date of the report"
+          nullable: true
+        lockDates:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/LockHistoryModel"
+          nullable: true
+      additionalProperties: false
+    OrgDetailsChanges:
+      type: "object"
+      properties:
+        updatedDateUtc:
+          type: "string"
+          description: "The system date time that the organisation details were updated"
+          nullable: true
+        organisationName:
+          type: "string"
+          description: "The name of the organisation"
+          nullable: true
+        organisationLegalName:
+          type: "string"
+          description: "The legal name of the organisation"
+          nullable: true
+        companyRegistrationNumber:
+          type: "string"
+          description: "The organisations company registration number"
+          nullable: true
+        organisationEntity:
+          type: "string"
+          description: "The organisation entity"
+          nullable: true
+        gstNumber:
+          type: "string"
+          description: "The organisations GST number"
+          nullable: true
+      additionalProperties: false
+    OrgDetailsChangesResponse:
+      type: "object"
+      properties:
+        organisationId:
+          type: "string"
+          description: "The requested Organisation to which the data pertains"
+          format: "uuid"
+        endDate:
+          type: "string"
+          description: "The end date of the report"
+          nullable: true
+        orgDetailsChanges:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/OrgDetailsChanges"
+          nullable: true
+      additionalProperties: false
+    PracticeResponse:
+      type: "object"
+      properties:
+        xeroPartnerSince:
+          type: "integer"
+          description: "Year of becoming a partner."
+          format: "int32"
+        tier:
+          type: "string"
+          description: "Customer tier e.g. Silver"
+          nullable: true
+        location:
+          type: "string"
+          description: "Country of location."
+          nullable: true
+        organisationCount:
+          type: "integer"
+          description: "Organisation count."
+          format: "int32"
+        staffCertified:
+          type: "boolean"
+          description: "Staff certified (true/false)."
+      additionalProperties: false
+    Problem:
+      type: "object"
+      properties:
+        type:
+          $ref: "#/components/schemas/ProblemType"
+        title:
+          type: "string"
+          nullable: true
+        status:
+          type: "integer"
+          format: "int32"
+        detail:
+          type: "string"
+          nullable: true
+      additionalProperties: false
+    ProblemType:
+      enum:
+        - "NotSet"
+        - "invalid-request"
+        - "invalid-application"
+        - "service-unavailable"
+        - "internal-error"
+      type: "string"
+    ReportHistoryModel:
+      type: "object"
+      properties:
+        reportName:
+          type: "string"
+          description: "Report code or report title"
+          nullable: true
+        reportDateText:
+          type: "string"
+          description: "The date or date range of the report"
+          nullable: true
+        publishedDateUtc:
+          type: "string"
+          description: "The system date time that the report was published"
+          format: "date-time"
+      additionalProperties: false
+    ReportHistoryResponse:
+      type: "object"
+      properties:
+        organisationId:
+          type: "string"
+          description: "The requested Organisation to which the data pertains"
+          format: "uuid"
+        endDate:
+          type: "string"
+          description: "The end date of the report"
+          nullable: true
+        reports:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/ReportHistoryModel"
+          nullable: true
+      additionalProperties: false
+    UserActivitiesResponse:
+      type: "object"
+      properties:
+        organisationId:
+          type: "string"
+          description: "The requested Organisation to which the data pertains"
+          format: "uuid"
+        dataMonth:
+          type: "string"
+          description: "The month of the report"
+          nullable: true
+        users:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/UserResponse"
+          nullable: true
+      additionalProperties: false
+    UserResponse:
+      type: "object"
+      properties:
+        userId:
+          type: "string"
+          description: "The Xero identifier for the user"
+          format: "uuid"
+        userCreatedDateUtc:
+          type: "string"
+          description: "Timestamp of user creation."
+          format: "date-time"
+          nullable: true
+        lastLoginDateUtc:
+          type: "string"
+          description: "Timestamp of user last login"
+          format: "date-time"
+          nullable: true
+        isExternalPartner:
+          type: "boolean"
+          description: "User is external partner."
+        hasAccountantRole:
+          type: "boolean"
+          description: "User has Accountant role."
+        monthPeriod:
+          type: "string"
+          description: "Month period in format  yyyy-MM."
+          nullable: true
+        numberOfLogins:
+          type: "integer"
+          description: "Number of times the user has logged in."
+          format: "int32"
+        numberOfDocumentsCreated:
+          type: "integer"
+          description: "Number of documents created."
+          format: "int32"
+        netValueDocumentsCreated:
+          type: "number"
+          description: "Net value of documents created."
+          format: "double"
+          nullable: true
+        absoluteValueDocumentsCreated:
+          type: "number"
+          description: "Absolute value of documents created."
+          format: "double"
+          nullable: true
+        attachedPractices:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/PracticeResponse"
+          nullable: true
+        historyRecords:
+          type: "array"
+          items:
+            $ref: "#/components/schemas/HistoryRecordResponse"
+          nullable: true
+      additionalProperties: false
 
