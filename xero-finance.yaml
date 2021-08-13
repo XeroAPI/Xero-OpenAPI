@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: "2.15.0"
+  version: "2.16.0"
   title: Xero Finance API
   description: The Finance API is a collection of endpoints which customers can use to give lenders the confidence they need to provide capital in the course of a loan application.
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
@@ -22,7 +22,7 @@ paths:
       security:
         - OAuth2: [finance.cashvalidation.read]
       tags:
-        - CashValidation
+        - Finance
       summary: Gets cash position for each account
       operationId: getCashValidation
       description: Summarizes the total cash position for each account for an org
@@ -140,7 +140,7 @@ paths:
         '400':
           description: BadRequest
           content:
-            application/problem+json:
+            application/json:
               schema:
                 $ref: "#/components/schemas/Problem"
               example:
@@ -149,23 +149,18 @@ paths:
                 status: 400
                 detail: 'Invalid BalanceDate: ''2020-01'''
   "/AccountingActivities/AccountUsage":
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
       - OAuth2: [finance.accountingactivity.read]
       tags:
-      - AccountUsage
+      - Finance
       summary: Get account usage for a given organisation.
       description: 'Account usage information can be used to quickly appraise data
         quality (e.g: how much does the organisation use a suspense account / how
         much do they use the balance sheet).'
       parameters:
-      - name: Xero-Tenant-Id
-        in: header
-        description: Specifies the organisation Id for which the data will be returned.
-        required: true
-        schema:
-          type: string
-          format: uuid
       - name: startMonth
         in: query
         description: "date, yyyy-MM \r\n            \r\nIf no parameter is provided,
@@ -219,7 +214,7 @@ paths:
         '400':
           description: BadRequest
           content:
-            application/problem+json:
+            application/json:
               schema:
                 $ref: "#/components/schemas/Problem"
               example:
@@ -229,20 +224,15 @@ paths:
                 detail: Organisation 73151de8-3676-4887-a021-edec960dd537 does not
                   exist
   "/AccountingActivities/LockHistory":
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
       - OAuth2: [finance.accountingactivity.read]
       tags:
-      - LockHistory
+      - Finance
       summary: Get lock history for the specified Organisation.
       parameters:
-      - name: Xero-Tenant-Id
-        in: header
-        description: Specifies the organisation Id for which the data will be returned.
-        required: true
-        schema:
-          type: string
-          format: uuid
       - name: endDate
         in: query
         description: "date, yyyy-MM-dd \r\n            \r\nIf no parameter is provided,
@@ -273,7 +263,7 @@ paths:
         '400':
           description: BadRequest
           content:
-            application/problem+json:
+            application/json:
               schema:
                 $ref: "#/components/schemas/Problem"
               example:
@@ -283,20 +273,15 @@ paths:
                 detail: Organisation 73151de8-3676-4887-a021-edec960dd537 does not
                   exist
   "/AccountingActivities/OrganisationDetailsChanges":
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
       - OAuth2: [finance.accountingactivity.read]
       tags:
-      - OrgDetailsChanges
+      - Finance
       summary: Get changes to an organisations details.
       parameters:
-      - name: Xero-Tenant-Id
-        in: header
-        description: Specifies the organisation Id for which the data will be returned.
-        required: true
-        schema:
-          type: string
-          format: uuid
       - name: endDate
         in: query
         description: "date, yyyy-MM-dd \r\n            \r\nIf no parameter is provided,
@@ -330,7 +315,7 @@ paths:
         '400':
           description: BadRequest
           content:
-            application/problem+json:
+            application/json:
               schema:
                 $ref: "#/components/schemas/Problem"
               example:
@@ -340,20 +325,15 @@ paths:
                 detail: Organisation 73151de8-3676-4887-a021-edec960dd537 does not
                   exist
   "/AccountingActivities/ReportHistory":
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
       - OAuth2: [finance.accountingactivity.read]
       tags:
-      - ReportHistory
+      - Finance
       summary: Get report history for a specified organisation.
       parameters:
-      - name: Xero-Tenant-Id
-        in: header
-        description: Specifies the organisation Id for which the data will be returned.
-        required: true
-        schema:
-          type: string
-          format: uuid
       - name: endDate
         in: query
         description: "date, yyyy-MM-dd \r\n            \r\nIf no parameter is provided,
@@ -378,7 +358,7 @@ paths:
         '400':
           description: BadRequest
           content:
-            application/problem+json:
+            application/json:
               schema:
                 $ref: "#/components/schemas/Problem"
               example:
@@ -388,20 +368,15 @@ paths:
                 detail: Organisation 73151de8-3676-4887-a021-edec960dd537 does not
                   exist
   "/AccountingActivities/UserActivities":
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
       - OAuth2: [finance.accountingactivity.read]
       tags:
-      - UserActivities
+      - Finance
       summary: Get user activities for a specified organisation.
       parameters:
-      - name: Xero-Tenant-Id
-        in: header
-        description: Specifies the organisation Id for which the data will be returned.
-        required: true
-        schema:
-          type: string
-          format: uuid
       - name: dataMonth
         in: query
         description: "date, yyyy-MM \r\n            \r\nIf no parameter is provided,
@@ -461,7 +436,7 @@ paths:
         '400':
           description: BadRequest
           content:
-            application/problem+json:
+            application/json:
               schema:
                 $ref: "#/components/schemas/Problem"
               example:
@@ -470,29 +445,17 @@ paths:
                 status: 400
                 detail: Organisation 73151de8-3676-4887-a021-edec960dd537 does not
                   exist
-  /FinancialStatements/BalanceSheet:
+  "/FinancialStatements/BalanceSheet":
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
         - OAuth2: [finance.statements.read]
       tags:
-        - "BalanceSheet"
+        - Finance
       summary: "Get Balance Sheet report"
       description: "The Balance Sheet report is a standard financial report which describes the financial position of an organisation at a point in time."
       parameters:
-        - name: "Xero-Tenant-Id"
-          in: "header"
-          description: "Xero Organisation Id"
-          required: true
-          schema:
-            type: string
-            format: uuid
-        - name: "Xero-User-Id"
-          in: "header"
-          description: "Xero User Id"
-          required: true
-          schema:
-            type: string
-            format: uuid
         - name: "balanceDate"
           in: "query"
           description: "Specifies the date for balance sheet report.\r\n\r\nFormat yyyy-MM-dd. If no parameter is provided, the current date will be used."
@@ -586,29 +549,17 @@ paths:
                 title: "ServiceUnavailable"
                 status: 503
                 detail: "Cannot process org xxx at this time. Apologies for inconvenience."
-  /FinancialStatements/Cashflow:
+  "/FinancialStatements/Cashflow":
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
         - OAuth2: [finance.statements.read]
       tags:
-        - "Cashflow"
+        - Finance
       summary: "Get Cash flow report"
       description: "The Statement of Cash flows - direct method, provides the year to date changes in operating, financing and investing activities for an organisation."
       parameters:
-        - name: "Xero-Tenant-Id"
-          in: "header"
-          description: "Xero Organisation Id"
-          required: true
-          schema:
-            type: string
-            format: uuid
-        - name: "Xero-User-Id"
-          in: "header"
-          description: "Xero User Id"
-          required: true
-          schema:
-            type: string
-            format: uuid
         - name: "startDate"
           in: "query"
           description: "Date e.g. yyyy-MM-dd\r\n\r\nSpecifies the start date for cash flow report.\r\n\r\nIf no parameter is provided, the date of 12 months before the end date will be used."
@@ -746,29 +697,17 @@ paths:
                 title: "ServiceUnavailable"
                 status: 503
                 detail: "Cannot process org xxx at this time. Apologies for inconvenience."
-  /FinancialStatements/ProfitAndLoss:
+  "/FinancialStatements/ProfitAndLoss":
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
         - OAuth2: [finance.statements.read]
       tags:
-        - "ProfitAndLoss"
+        - Finance
       summary: "Get Profit & Loss report"
       description: "The Profit & Loss statement is a standard financial report providing detailed year to date revenue and expense detail for an organisation."
       parameters:
-        - name: "Xero-Tenant-Id"
-          in: "header"
-          description: "Xero Organisation Id"
-          required: true
-          schema:
-            type: string
-            format: uuid
-        - name: "Xero-User-Id"
-          in: "header"
-          description: "Xero User Id"
-          required: true
-          schema:
-            type: string
-            format: uuid
         - name: "startDate"
           in: "query"
           description: "Date e.g. yyyy-MM-dd\r\n\r\nSpecifies the start date for profit and loss report\r\n\r\nIf no parameter is provided, the date of 12 months before the end date will be used."
@@ -843,29 +782,17 @@ paths:
                 title: "InvalidRequest"
                 status: 400
                 detail: "Organisation xxx does not exist"
-  /FinancialStatements/TrialBalance:
+  "/FinancialStatements/TrialBalance":
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     get:
       security: 
        - OAuth2: [finance.statements.read]
       tags:
-        - "TrialBalance"
+        - Finance
       summary: "Get Trial Balance report"
       description: "The trial balance provides a detailed list of all accounts of an organisation at a point in time, with revenue and expense items being year to date."
       parameters:
-        - name: "Xero-Tenant-Id"
-          in: "header"
-          description: "Xero Organisation Id"
-          required: true
-          schema:
-            type: string
-            format: uuid
-        - name: "Xero-User-Id"
-          in: "header"
-          description: "Xero User Id"
-          required: true
-          schema:
-            type: string
-            format: uuid
         - name: "endDate"
           in: "query"
           description: "Date e.g. yyyy-MM-dd \r\n\r\nSpecifies the end date for trial balance report \r\n\r\nIf no parameter is provided, the current date will be used."
