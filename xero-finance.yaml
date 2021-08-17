@@ -275,60 +275,6 @@ paths:
                 status: 400
                 detail: Organisation 73151de8-3676-4887-a021-edec960dd537 does not
                   exist
-  "/AccountingActivities/OrganisationDetailsChanges":
-    parameters:
-      - $ref: '#/components/parameters/requiredHeader'
-    get:
-      security:
-      - OAuth2: [finance.accountingactivity.read]
-      tags:
-      - Finance
-      operationId: getAccountingActivityOrganisationDetailsChanges
-      description: 'Provides a history of ABN updates for the specified organisation to help lenders verify the business matches the identity of the applicant.'
-      summary: Get changes to an organisations details.
-      parameters:
-      - name: endDate
-        in: query
-        description: "date, yyyy-MM-dd \r\n            \r\nIf no parameter is provided,
-          the current date will be used.\r\n            \r\nChanges to the organisations
-          details for up to 12 months prior to this date will be returned."
-        schema:
-          type: string
-      responses:
-        '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/OrgDetailsChangesResponse"
-              example:
-                organisationId: 73151de8-3676-4887-a021-edec960dd537
-                endDate: '2019-06-20'
-                orgDetailsChanges:
-                - updatedDateUtc: '2019-01-20 10:50:03'
-                  organisationName: Demo Company
-                  organisationLegalName: Demo Company
-                  companyRegistrationNumber: '12388733255'
-                  organisationEntity: ORGENTITY/COMPANY
-                  gstNumber: 12 345 678
-                - updatedDateUtc: '2019-01-22 10:50:03'
-                  organisationName: Demo Company
-                  organisationLegalName: ABC Company
-                  companyRegistrationNumber: '12388733255'
-                  organisationEntity: ORGENTITY/COMPANY
-                  gstNumber: 12 345 678
-        '400':
-          description: BadRequest
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Problem"
-              example:
-                type: invalid-request
-                title: InvalidRequest
-                status: 400
-                detail: Organisation 73151de8-3676-4887-a021-edec960dd537 does not
-                  exist
   "/AccountingActivities/ReportHistory":
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -569,7 +515,7 @@ paths:
         - Finance
       operationId: getFinancialStatementCashflow
       summary: "Get Cash flow report"
-      description: "The Statement of Cash flows - direct method, provides the year to date changes in operating, financing and investing activities for an organisation."
+      description: "The Statement of Cash flows - direct method, provides the year to date changes in operating, financing and investing activities for an organisation. Cashflow is not available in US region at this stage"
       parameters:
         - name: "startDate"
           in: "query"
@@ -1016,51 +962,6 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/LockHistoryModel"
-          nullable: true
-      additionalProperties: false
-    OrgDetailsChanges:
-      type: object
-      properties:
-        updatedDateUtc:
-          type: string
-          description: The system date time that the organisation details were updated
-          nullable: true
-        organisationName:
-          type: string
-          description: The name of the organisation
-          nullable: true
-        organisationLegalName:
-          type: string
-          description: The legal name of the organisation
-          nullable: true
-        companyRegistrationNumber:
-          type: string
-          description: The organisations company registration number
-          nullable: true
-        organisationEntity:
-          type: string
-          description: The organisation entity
-          nullable: true
-        gstNumber:
-          type: string
-          description: The organisations GST number
-          nullable: true
-      additionalProperties: false
-    OrgDetailsChangesResponse:
-      type: object
-      properties:
-        organisationId:
-          type: string
-          description: The requested Organisation to which the data pertains
-          format: uuid
-        endDate:
-          type: string
-          description: The end date of the report
-          nullable: true
-        orgDetailsChanges:
-          type: array
-          items:
-            $ref: "#/components/schemas/OrgDetailsChanges"
           nullable: true
       additionalProperties: false
     PracticeResponse:
