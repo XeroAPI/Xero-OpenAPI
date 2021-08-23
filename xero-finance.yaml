@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   version: "2.16.0"
   title: Xero Finance API
-  description: The Finance API is a collection of endpoints which customers can use to give lenders the confidence they need to provide capital in the course of a loan application.
+  description: The Finance API is a collection of endpoints which customers can use in the course of a loan application, which may assist lenders to gain the confidence they need to provide capital.
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
   contact:
     name: "Xero Platform Team"
@@ -23,7 +23,7 @@ paths:
         - OAuth2: [finance.cashvalidation.read]
       tags:
         - Finance
-      summary: Gets cash position for each account
+      summary: Get cash validation
       operationId: getCashValidation
       description: Summarizes the total cash position for each account for an org
       parameters: 
@@ -156,11 +156,9 @@ paths:
       - OAuth2: [finance.accountingactivity.read]
       tags:
       - Finance
-      summary: Get account usage for a given organisation.
+      summary: Get account usage
       operationId: getAccountingActivityAccountUsage
-      description: 'Account usage information can be used to quickly appraise data
-        quality (e.g: how much does the organisation use a suspense account / how
-        much do they use the balance sheet).'
+      description: 'A summary of how each account is being transacted on exposing the level of detail and amounts attributable to manual adjustments.'
       parameters:
       - name: startMonth
         in: query
@@ -233,8 +231,8 @@ paths:
       tags:
       - Finance
       operationId: getAccountingActivityLockHistory
-      description: 'Provides a history of locking of accounting books. Locking provides an indicator of sound accounting practices reducing the risk of changes to accounting records in prior periods.'
-      summary: Get lock history for the specified Organisation.
+      description: 'Provides a history of locking of accounting books. Locking may be an indicator of good accounting practices that could reduce the risk of changes to accounting records in prior periods.'
+      summary: Get lock history
       parameters:
       - name: endDate
         in: query
@@ -284,8 +282,8 @@ paths:
       tags:
       - Finance
       operationId: getAccountingActivityReportHistory
-      description: 'For a specified organisation, provides a summary of all the reports ran for a given period. Can be an indicator for sound business management and oversight.'
-      summary: Get report history for a specified organisation.
+      description: 'For a specified organisation, provides a summary of all the reports run for a given period, which may be an indicator for good business management and oversight.'
+      summary: Get report history
       parameters:
       - name: endDate
         in: query
@@ -329,8 +327,8 @@ paths:
       tags:
       - Finance
       operationId: getAccountingActivityUserActivities
-      description: 'For a specified organisation, provides a list of all the users registered, and a history of their accounting transactions. Also identifies the existence of an accounting partner enabling evaluation of professional oversight to be established.'
-      summary: Get user activities for a specified organisation.
+      description: 'For a specified organisation, provides a list of all the users registered, and a history of their accounting transactions. Also identifies the existence of an external accounting advisor and the level of interaction.'
+      summary: Get user activities
       parameters:
       - name: dataMonth
         in: query
@@ -410,7 +408,7 @@ paths:
         - Finance
       operationId: getFinancialStatementBalanceSheet
       summary: "Get Balance Sheet report"
-      description: "The Balance Sheet report is a standard financial report which describes the financial position of an organisation at a point in time."
+      description: "The balance sheet report is a standard financial report which describes the financial position of an organisation at a point in time."
       parameters:
         - name: "balanceDate"
           in: "query"
@@ -515,7 +513,7 @@ paths:
         - Finance
       operationId: getFinancialStatementCashflow
       summary: "Get Cash flow report"
-      description: "The Statement of Cash flows - direct method, provides the year to date changes in operating, financing and investing activities for an organisation. Cashflow is not available in US region at this stage"
+      description: "The statement of cash flows - direct method, provides the year to date changes in operating, financing and investing cash flow activities for an organisation. Cashflow statement is not available in US region at this stage."
       parameters:
         - name: "startDate"
           in: "query"
@@ -664,7 +662,7 @@ paths:
         - Finance
       operationId: getFinancialStatementProfitAndLoss
       summary: "Get Profit & Loss report"
-      description: "The Profit & Loss statement is a standard financial report providing detailed year to date revenue and expense detail for an organisation."
+      description: "The profit and loss statement is a standard financial report providing detailed year to date income and expense detail for an organisation."
       parameters:
         - name: "startDate"
           in: "query"
