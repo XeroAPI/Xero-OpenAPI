@@ -27,17 +27,11 @@ paths:
       summary: Retrieves employees
       parameters:
         - in: query
-          name: firstName
-          description: Filter by first name
+          name: filter
+          description: Filter by first name and/or lastname
           schema:
             type: string
-          example: John
-        - in: query
-          name: lastName
-          description: Filter by last name
-          schema:
-            type: string
-          example: Johnson
+          example: firstName==John,lastName==Smith
         - in: query
           name: page
           description: Page number which specifies the set of records to retrieve. By default the number of the records per set is 100.
@@ -3476,17 +3470,35 @@ paths:
           schema:
             type: integer
         - in: query
-          name: employeeId
-          description: By default get Timesheets will return the timesheets for all employees in an organization. You can add GET https://…/timesheets?filter=employeeId=={EmployeeID} to get only the timesheets of a particular employee.
+          name: filter
+          description: Filter by first name and/or lastname
           schema:
             type: string
-            format: uuid
+          example: firstName==John,lastName==Smith
         - in: query
-          name: payrollCalendarId
-          description: By default get Timesheets will return all the timesheets for an organization. You can add GET https://…/timesheets?filter=payrollCalendarId=={PayrollCalendarID} to filter the timesheets by payroll calendar id
+          name: status
+          description: filter results by any timesheets with a matching timesheet status
           schema:
             type: string
-            format: uuid
+          example: ?status=draft
+        - in: query
+          name: startDate
+          description: filter results by any timesheets with a startDate on or after the provided date
+          schema:
+            type: string
+          example: ?startDate={yyyy-MM-dd}
+        - in: query
+          name: endDate
+          description: filter results by any timesheets with a endDate on or before the provided date
+          schema:
+            type: string
+          example: ?endDate={yyyy-MM-dd}
+        - in: query
+          name: sort
+          description: sort the order of timesheets returned. The default is based on the timesheets createdDate, sorted oldest to newest. Currently, the only other option is to reverse the order based on the timesheets startDate, sorted newest to oldest.
+          schema:
+            type: string
+          example: ?sort=startDate
       responses:
         '200':
           description: search results matching criteria

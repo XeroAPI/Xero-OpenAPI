@@ -3730,6 +3730,30 @@ paths:
           schema:
             type: string
           example: employeeId==00000000-0000-0000-0000-000000000000,payrollCalendarId==00000000-0000-0000-0000-000000000000
+        - in: query
+          name: status
+          description: filter results by any timesheets with a matching timesheet status
+          schema:
+            type: string
+          example: ?status=Draft
+        - in: query
+          name: startDate
+          description: filter results by any timesheets with a startDate on or after the provided date
+          schema:
+            type: string
+          example: ?startDate={yyyy-MM-dd}
+        - in: query
+          name: endDate
+          description: 	filter results by any timesheets with an endDate on or before the provided date
+          schema:
+            type: string
+          example: ?endDate={yyyy-MM-dd}
+        - in: sort
+          name: filter
+          description: sort the order of timesheets returned. The default is based on the timesheets createdDate, sorted oldest to newest. Currently, the only other option is to reverse the order based on the timesheets startDate, sorted newest to oldest.
+          schema:
+            type: string
+          example: ?sort=startDate
       responses:
         '200':
           description: search results matching criteria
