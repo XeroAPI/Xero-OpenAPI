@@ -1,0 +1,260 @@
+openapi: 3.0.0
+info:
+  version: "2.16.4"
+  title: Xero AppStore API
+  description: These endpoints are for Xero Partners to interact with the App Store Billing platform
+  termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
+  contact:
+    name: "Xero Platform Team"
+    email: "api@xero.com"
+    url: "https://developer.xero.com"
+  license:
+    name: MIT
+    url: "https://github.com/XeroAPI/Xero-OpenAPI/blob/master/LICENSE"
+servers:
+  - description: Xero App Store API
+    url: "https://api.xero.com/appstore/2.0"
+paths:
+  "/subscriptions/{subscriptionId}":
+    get:
+      tags:
+        - AppStore
+      operationId: getSubscription
+      summary: Retrieves a subscription for a given subscriptionId
+      parameters:
+        - $ref: "#/components/parameters/subscriptionId"
+      responses:
+        "200":
+          description: Success - return response of unique Subscription object
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Subscription"
+              example: '
+                        {
+                          "currentPeriodEnd": "2021-07-20T03:13:48Z",
+                          "endDate": "2021-07-20T03:13:48Z",
+                          "id": "01b5a6f4-8936-4bfa-b703-830702312b87",
+                          "testMode": true,
+                          "organisationId": "fdc5be44-9b3e-4ebb-a0e9-11b9737f9a28",
+                          "plans": [
+                            {
+                              "id": "f617dd59-462f-46a1-9519-1765fd38b160",
+                              "name": "Small",
+                              "status": "ACTIVE",
+                              "subscriptionItems": [
+                                {
+                                  "endDate": "2021-07-20T03:13:48Z",
+                                  "id": "c7336bf6-8a47-4f13-9fc0-82420e6922c8",
+                                  "price": {
+                                    "amount": 50,
+                                    "currency": "AUD",
+                                    "id": "31acefbe-bdb7-4329-84d6-51e9afd95327"
+                                  },
+                                  "product": {
+                                    "id": "56d66073-ff78-497b-a726-ca9d56fdafa3",
+                                    "name": "Small",
+                                    "type": "FIXED"
+                                  },
+                                  "startDate": "2021-07-20T03:13:48Z"
+                                }
+                              ]
+                            }
+                          ],
+                          "startDate": "2021-07-20T03:13:48Z",
+                          "status": "ACTIVE"
+                        }
+                      '
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetails"
+          description: "When a failure occurs in the endpoint"
+      security:
+        - OAuth2: [marketplace.billing]
+components:
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      description: For more information
+      flows:
+        clientCredentials:
+          tokenUrl: "https://identity.xero.com/connect/token"
+          scopes:
+            marketplace.billing: Grant read-only access to fixed assets
+  parameters:
+    subscriptionId:
+      required: true
+      in: path
+      name: subscriptionId
+      x-snake: subscription_id
+      description: Unique identifier for Subscription object
+      example: "00000000-0000-0000-0000-000000000000"
+      x-example-java: UUID.fromString("00000000-0000-0000-0000-000000000000")
+      x-example-php: '&quot;00000000-0000-0000-0000-000000000000&quot;'
+      x-example-csharp: Guid.Parse("00000000-0000-0000-0000-000000000000");
+      schema:
+        type: string
+        format: uuid
+  schemas:
+    Subscription:
+      type: object
+      properties:
+        currentPeriodEnd:
+          description: |
+            End of the current period that the subscription has been invoiced for.
+          format: date-time
+          type: string
+        endDate:
+          description: If the subscription has been canceled, this is the date when the subscription ends. If null, the subscription is active and has not been cancelled
+          format: date-time
+          type: string
+        id:
+          description: The unique identifier of the subscription
+          format: uuid
+          type: string
+        organisationId:
+          description: The Xero generated unique identifier for the organisation
+          format: uuid
+          type: string
+        plans:
+          description: List of plans for the subscription.
+          type: array
+          items:
+            $ref: "#/components/schemas/Plan"
+        startDate:
+          description: Date when the subscription was first created.
+          format: date-time
+          type: string
+        status:
+          description: Status of the subscription. Available statuses are ACTIVE, CANCELED, and PAST_DUE.
+          type: string
+        testMode:
+          description: Boolean used to indicate if the subscription is in test mode
+          type: boolean
+      required:
+        - id
+        - organisationId
+        - status
+        - startDate
+        - currentPeriodEnd
+        - plans
+    Plan:
+      type: object
+      properties:
+        id:
+          description: The unique identifier of the plan
+          format: uuid
+          type: string
+        name:
+          description: |
+            The name of the plan. It is used in the invoice line item
+            description.
+          type: string
+        status:
+          description: |
+            Status of the plan. Available statuses are ACTIVE,
+            PENDING_ACTIVATION.
+          type: string
+          enum:
+          - ACTIVE
+          - PENDING_ACTIVATION
+        subscriptionItems:
+          description: |
+            List of the subscription items belonging to the plan. It does not
+            include cancelled subscription items.
+          items:
+            $ref: "#/components/schemas/SubscriptionItem"
+          type: array
+      required:
+        - id
+        - name
+        - status
+        - subscriptionItems
+    Price:
+      type: object
+      properties:
+        amount:
+          description: The net (before tax) amount.
+          type: number
+          format: double
+          x-is-money: true
+        currency:
+          description: The currency of the price.
+          type: string
+        id:
+          description: The unique identifier of the price.
+          format: uuid
+          type: string
+      required:
+        - id
+        - amount
+        - currency
+    ProblemDetails:
+      type: object
+      properties:
+        detail:
+          type: string
+        extensions:
+          type: object
+        instance:
+          type: string
+        status:
+          type: integer
+        title:
+          type: string
+        type:
+          type: string
+    SubscriptionItem:
+      type: object
+      properties:
+        endDate:
+          description: Date when the subscription to this product will end
+          format: date-time
+          type: string
+        id:
+          description: The unique identifier of the subscription item.
+          format: uuid
+          type: string
+        price:
+          description: The price of the product subscribed to.
+          $ref: "#/components/schemas/Price"
+        product:
+          description: The product subscribed to.
+          $ref: "#/components/schemas/Product"
+        startDate:
+          description: |
+            Date the subscription started, or will start. Note: this could be in
+            the future for downgrades or reduced number of seats that haven't taken effect yet.
+          format: date-time
+          type: string
+        testMode:
+          description: If the subscription is a test subscription
+          type: boolean
+      required:
+        - id
+        - startDate
+        - product
+        - price
+    Product:
+      properties:
+        id:
+          description: The unique identifier for the product
+          type: string
+          format: uuid
+        name:
+          description: The name of the product
+          type: string
+        type:
+          description: |
+            The pricing model of the product:
+            * FIXED: Customers are charged a fixed amount for each billing period
+            * PER_SEAT: Customers are charged based on the number of units they purchase
+          type: string
+          enum:
+          - FIXED
+          - PER_SEAT
+        seatUnit:
+          description: The unit of the per seat product. e.g. "user", "organisation", "SMS", etc
+          type: string

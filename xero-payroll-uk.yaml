@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: '2.13.5'
+  version: '2.16.4'
   title: 'Xero Payroll UK'
   description: 'This is the Xero Payroll API for orgs in the UK region.'
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
@@ -37,6 +37,7 @@ paths:
           description: Page number which specifies the set of records to retrieve. By default the number of the records per set is 100.
           schema:
             type: integer
+          example: 5
       responses:
         '200':
           description: search results matching criteria
@@ -3724,12 +3725,37 @@ paths:
           description: Page number which specifies the set of records to retrieve. By default the number of the records per set is 100.
           schema:
             type: integer
+          example: 5
         - in: query
           name: filter
-          description: Filter by first name and/or lastname
+          description: Filter by employeeId and/or payrollCalendarId
           schema:
             type: string
           example: employeeId==00000000-0000-0000-0000-000000000000,payrollCalendarId==00000000-0000-0000-0000-000000000000
+        - in: query
+          name: status
+          description: filter results by any timesheets with a matching timesheet status
+          schema:
+            type: string
+          example: Draft
+        - in: query
+          name: startDate
+          description: filter results by any timesheets with a startDate on or after the provided date
+          schema:
+            type: string
+          example: "2019-01-02"
+        - in: query
+          name: endDate
+          description: filter results by any timesheets with a endDate on or before the provided date
+          schema:
+            type: string
+          example: "2020-01-02"
+        - in: query
+          name: sort
+          description: sort the order of timesheets returned. The default is based on the timesheets createdDate, sorted oldest to newest. Currently, the only other option is to reverse the order based on the timesheets startDate, sorted newest to oldest.
+          schema:
+            type: string
+          example: startDate
       responses:
         '200':
           description: search results matching criteria
