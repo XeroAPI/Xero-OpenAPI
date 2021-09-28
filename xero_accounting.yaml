@@ -3318,9 +3318,21 @@ paths:
       tags:
         - Accounting
       operationId: getBudget
-      summary: Retrieves a specific budgets, which includes budget lines
+      summary: Retrieves a specific budget, which includes budget lines
       parameters:
         - $ref: '#/components/parameters/BudgetID'
+        - in: query
+          name: DateTo
+          description: Filter by start date
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: DateFrom
+          description: Filter by end date
+          schema:
+            type: string
+            format: date
       responses:
         '200':
           description: Success - return response of type Invoices array with specified Invoices
