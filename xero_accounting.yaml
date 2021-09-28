@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Xero Accounting API
-  version: "2.16.6"
+  version: "2.16.7"
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
   contact:
     name: "Xero Platform Team"
@@ -3262,13 +3262,17 @@ paths:
               format: uuid
         - in: query
           name: DateTo
+          x-snake: date_to
           description: Filter by start date
+          example: "2019-10-31"
           schema:
             type: string
             format: date
         - in: query
           name: DateFrom
+          x-snake: date_from
           description: Filter by end date
+          example: "2019-10-31"
           schema:
             type: string
             format: date
@@ -9941,6 +9945,7 @@ paths:
             type: integer
         - in: query
           name: paymentsOnly
+          x-snake: payments_only
           description: Filter to retrieve journals on a cash basis. Journals are returned on an accrual basis by default.
           schema:
             type: boolean
@@ -10223,6 +10228,7 @@ paths:
             format: uuid
         - in: query
           name: Status
+          x-snake: status
           description: Filter by the combination of ContactID and Status. Get  the linked transactions associated to a  customer and with a status
           example: "APPROVED"
           schema:
@@ -13693,6 +13699,7 @@ paths:
         - $ref: '#/components/parameters/ifModifiedSince'
         - in: query
           name: Status
+          x-snake: status
           description: Filter by purchase order status
           example: "SUBMITTED"
           schema:
@@ -13705,12 +13712,14 @@ paths:
               - DELETED
         - in: query
           name: DateFrom 
+          x-snake: date_to
           description: Filter by purchase order date (e.g. GET https://.../PurchaseOrders?DateFrom=2015-12-01&DateTo=2015-12-31
           example: "2019-12-01"
           schema:
             type: string
         - in: query
           name: DateTo
+          x-snake: date_from
           description: Filter by purchase order date (e.g. GET https://.../PurchaseOrders?DateFrom=2015-12-01&DateTo=2015-12-31
           example: "2019-12-31"
           schema:
@@ -15168,6 +15177,7 @@ paths:
           name: DateFrom
           x-snake: date_from
           description: Filter for quotes after a particular date
+          example: "2019-10-31"
           schema:
             type: string
             format: date
@@ -15175,6 +15185,7 @@ paths:
           name: DateTo
           x-snake: date_to
           description: Filter for quotes before a particular date
+          example: "2019-10-31"
           schema:
             type: string
             format: date
@@ -15182,6 +15193,7 @@ paths:
           name: ExpiryDateFrom
           x-snake: expiry_date_from
           description: Filter for quotes expiring after a particular date
+          example: "2019-10-31"
           schema:
             type: string
             format: date
@@ -15189,6 +15201,7 @@ paths:
           name: ExpiryDateTo
           x-snake: expiry_date_to
           description: Filter for quotes before a particular date
+          example: "2019-10-31"
           schema:
             type: string
             format: date
@@ -15202,6 +15215,7 @@ paths:
             format: uuid
         - in: query
           name: Status
+          x-snake: status
           description: Filter for quotes of a particular Status
           example: "DRAFT"
           schema:
@@ -17695,6 +17709,7 @@ paths:
         - in: query
           name: date
           description: The date of the Aged Payables By Contact report
+          example: "2019-10-31"
           schema:
             type: string
             format: date
@@ -17964,6 +17979,7 @@ paths:
         - in: query
           name: date
           description: The date of the Aged Receivables By Contact report
+          example: "2019-10-31"
           schema:
             type: string
             format: date
@@ -18313,7 +18329,6 @@ paths:
             type: integer
         - in: query
           name: timeframe
-          x-snake: time_frame
           description: The period size to compare to (MONTH, QUARTER, YEAR)
           example: "MONTH"
           schema:
@@ -19267,7 +19282,6 @@ paths:
             type: integer
         - in: query
           name: timeframe
-          x-snake: time_frame
           description: The period size to compare to (1=month, 3=quarter, 12=year)
           example: 3
           schema:
@@ -20025,7 +20039,6 @@ paths:
             type: integer
         - in: query
           name: timeframe
-          x-snake: time_frame
           description: The period size to compare to (MONTH, QUARTER, YEAR)
           example: "MONTH"
           schema:
@@ -22357,6 +22370,7 @@ components:
       name: fromDate
       x-snake: from_date
       description: filter by the from date of the report e.g. 2021-02-01
+      example: "2019-10-31"
       schema:
         type: string
         format: date
@@ -22365,6 +22379,7 @@ components:
       name: toDate
       x-snake: to_date
       description: filter by the to date of the report e.g. 2021-02-28
+      example: "2019-10-31"
       schema:
         type: string
         format: date
