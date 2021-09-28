@@ -2581,6 +2581,9 @@ paths:
                               "Amount": 20.00,
                               "FromBankTransactionID": "a3eca480-bc04-4292-9bbd-5c57b8ba12b4",
                               "ToBankTransactionID": "4ca13f40-f3a0-4530-a442-a600f5696118",
+                              "FromIsReconciled": true,
+                              "ToIsReconciled": true,
+                              "Reference": "Sub 098801",
                               "HasAttachments": true
                             },
                             {
@@ -2600,6 +2603,9 @@ paths:
                               "Amount": 20.00,
                               "FromBankTransactionID": "cb74287e-5682-4973-b354-93e2c7a836d3",
                               "ToBankTransactionID": "4c48ba6c-f318-4405-aee6-b5efa2c70f55",
+                              "FromIsReconciled": false,
+                              "ToIsReconciled": false,
+                              "Reference": "Sub 098801",
                               "HasAttachments": false
                             }
                           ]
@@ -2711,6 +2717,9 @@ paths:
                               "Amount": 50.00,
                               "FromBankTransactionID": "e4059952-5acb-4a56-b076-53fad85f2930",
                               "ToBankTransactionID": "88e4ac17-293b-4e5a-8d8b-3ce3a0b1ee17",
+                              "FromIsReconciled": true,
+                              "ToIsReconciled": true,
+                              "Reference": "Sub 098801",
                               "CurrencyRate": 1.000000,
                               "ValidationErrors": []
                             }
@@ -2764,7 +2773,10 @@ paths:
                               "HasAttachments": false,
                               "UpdatedDateUTC": "2016-06-03T08:31:14.517-07:00"
                             },
-                            "Amount": "50.00"
+                            "Amount": "50.00",
+                            "FromIsReconciled": true,
+                            "ToIsReconciled": true,
+                            "Reference": "Sub 098801"
                           }
                         ]
                       }'
@@ -2812,6 +2824,9 @@ paths:
                               "Amount": 20.00,
                               "FromBankTransactionID": "a3eca480-bc04-4292-9bbd-5c57b8ba12b4",
                               "ToBankTransactionID": "4ca13f40-f3a0-4530-a442-a600f5696118",
+                              "FromIsReconciled": false,
+                              "ToIsReconciled": false,
+                              "Reference": "Sub 098801",
                               "CurrencyRate": 1.000000,
                               "HasAttachments": true,
                               "Attachments": [
@@ -23348,6 +23363,19 @@ components:
           readOnly: true
           type: string
           format: uuid
+        FromIsReconciled:
+          description: The Bank Transaction boolean to show if it is reconciled for the source account
+          type: boolean
+          default: "false"
+          example: "false"
+        ToIsReconciled:
+          description: The Bank Transaction boolean to show if it is reconciled for the destination account
+          type: boolean
+          default: "false"
+          example: "false"
+        Reference:
+          description: Reference for the transactions.
+          type: string
         HasAttachments:
           description: Boolean to indicate if a Bank Transfer has an attachment
           readOnly: true
