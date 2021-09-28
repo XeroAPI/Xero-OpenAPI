@@ -810,6 +810,206 @@ paths:
                 title: "InvalidRequest"
                 status: 400
                 detail: "Organisation xxx does not exist"
+  /FinancialStatements/contacts/revenue:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    get:
+      security:
+        - OAuth2: [finance.statements.read]
+      tags:
+        - Finance
+      operationId: getFinancialStatementContactsRevenue
+      summary: Get revenue by contacts report
+      description: >-
+        The revenue by contact report provides a year to date profit and loss
+        for customers and suppliers for a given organisation, including detailed
+        contact information.
+      parameters:
+        - name: contactIds
+          in: query
+          description: "Specifies the customer contacts to be included in the report.\r\n\r\nIf no parameter is provided, all customer contacts will be included"
+          schema:
+            type: array
+            items:
+              type: string
+              format: uuid
+        - name: includeManualJournals
+          in: query
+          description: "Specifies whether to include the manual journals in the report.\r\n            \r\nIf no parameter is provided, manual journals will not be included."
+          schema:
+            type: boolean
+        - name: startDate
+          in: query
+          description: "Date yyyy-MM-dd\r\n\r\nSpecifies the start date for the report.\r\n            \r\nIf no parameter is provided, the date of 12 months before the end date will be used.\r\n            \r\nIt is recommended to always specify both a start date and end date; While the initial range may be set to 12 months, this may need to be reduced for high volume organisations in order to improve latency."
+          schema:
+            type: string
+        - name: endDate
+          in: query
+          description: "Date yyyy-MM-dd\r\n\r\nSpecifies the end date for the report.\r\n\r\nIf no parameter is provided, the current date will be used.\r\n            \r\nIt is recommended to always specify both a start date and end date; While the initial range may be set to 12 months, this may need to be reduced for high volume organisations in order to improve latency."
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IncomeByContactResponse'
+              example:
+                startDate: '2019-10-17'
+                endDate: '2020-10-16'
+                total: 1200
+                totalDetail:
+                  totalPaid: 400
+                  totalOutstanding: 1000
+                  totalCreditedUnApplied: 200
+                totalOther:
+                  totalOutstandingAged: 1000
+                  totalVoided: 150
+                  totalCredited: 10
+                contacts:
+                  - id: 1f580fe2-0659-31ee-eeb4-5c49d15d8bfa
+                    name: FirstContact
+                    total: 1400
+                    totalDetail:
+                      totalPaid: 400
+                      totalOutstanding: 1000
+                      totalCreditedUnApplied: 0
+                    totalOther:
+                      totalOutstandingAged: 1000
+                      totalVoided: 150
+                      totalCredited: 0
+                      transactionCount: 3
+                    accountCodes:
+                      - BANK
+                      - INVOICE
+                  - id: 20e94281-4751-fb7e-ee5e-96b43ae93c8a
+                    name: SecondContact
+                    total: -200
+                    totalDetail:
+                      totalPaid: 10
+                      totalOutstanding: 20
+                      totalCreditedUnApplied: 200
+                    totalOther:
+                      totalOutstandingAged: 2
+                      totalVoided: 3
+                      totalCredited: 4
+                      transactionCount: 1
+                    accountCodes:
+                      - CREDIT
+                manualJournals:
+                  total: -100
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                type: invalid-request
+                title: InvalidRequest
+                status: 400
+                detail: Organisation xxx does not exist
+  /FinancialStatements/contacts/expense:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    get:
+      security:
+        - OAuth2: [finance.statements.read]
+      tags:
+        - Finance
+      operationId: getFinancialStatementContactsExpense
+      summary: Get expense by contacts report
+      description: >-
+        The expense by contact report provides a year to date profit and loss
+        for customers and suppliers for a given organisation, including detailed
+        contact information.
+      parameters:
+        - name: contactIds
+          in: query
+          description: "Specifies the customer contacts to be included in the report.\r\n\r\nIf no parameter is provided, all customer contacts will be included"
+          schema:
+            type: array
+            items:
+              type: string
+              format: uuid
+        - name: includeManualJournals
+          in: query
+          description: "Specifies whether to include the manual journals in the report.\r\n            \r\nIf no parameter is provided, manual journals will not be included."
+          schema:
+            type: boolean
+        - name: startDate
+          in: query
+          description: "Date yyyy-MM-dd\r\n\r\nSpecifies the start date for the report.\r\n            \r\nIf no parameter is provided, the date of 12 months before the end date will be used.\r\n            \r\nIt is recommended to always specify both a start date and end date; While the initial range may be set to 12 months, this may need to be reduced for high volume organisations in order to improve latency."
+          schema:
+            type: string
+        - name: endDate
+          in: query
+          description: "Date yyyy-MM-dd\r\n\r\nSpecifies the end date for the report.\r\n\r\nIf no parameter is provided, the current date will be used.\r\n            \r\nIt is recommended to always specify both a start date and end date; While the initial range may be set to 12 months, this may need to be reduced for high volume organisations in order to improve latency."
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IncomeByContactResponse'
+              example:
+                startDate: '2019-10-17'
+                endDate: '2020-10-16'
+                total: 1200
+                totalDetail:
+                  totalPaid: 400
+                  totalOutstanding: 1000
+                  totalCreditedUnApplied: 200
+                totalOther:
+                  totalOutstandingAged: 1000
+                  totalVoided: 150
+                  totalCredited: 10
+                contacts:
+                  - id: 1f580fe2-0659-31ee-eeb4-5c49d15d8bfa
+                    name: FirstContact
+                    total: 1400
+                    totalDetail:
+                      totalPaid: 400
+                      totalOutstanding: 1000
+                      totalCreditedUnApplied: 0
+                    totalOther:
+                      totalOutstandingAged: 1000
+                      totalVoided: 150
+                      totalCredited: 0
+                      transactionCount: 3
+                    accountCodes:
+                      - BANK
+                      - INVOICE
+                  - id: 20e94281-4751-fb7e-ee5e-96b43ae93c8a
+                    name: SecondContact
+                    total: -200
+                    totalDetail:
+                      totalPaid: 0
+                      totalOutstanding: 0
+                      totalCreditedUnApplied: 200
+                    totalOther:
+                      totalOutstandingAged: 2
+                      totalVoided: 3
+                      totalCredited: 4
+                      transactionCount: 1
+                    accountCodes:
+                      - CREDIT
+                manualJournals:
+                  total: -100
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example:
+                type: invalid-request
+                title: InvalidRequest
+                status: 400
+                detail: Organisation xxx does not exist
 components:
   securitySchemes:
     OAuth2:
@@ -1765,4 +1965,137 @@ components:
           items:
             $ref: "#/components/schemas/TrialBalanceAccount"
           description: "Refer to the accounts section below"
+      additionalProperties: false
+    IncomeByContactResponse:
+      type: object
+      properties:
+        startDate:
+          type: string
+          description: Start date of the report
+          nullable: true
+        endDate:
+          type: string
+          description: End date of the report
+          nullable: true
+        total:
+          type: number
+          description: Total value
+          format: double
+        totalDetail:
+          $ref: '#/components/schemas/TotalDetail'
+        totalOther:
+          $ref: '#/components/schemas/TotalOther'
+        contacts:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContactDetail'
+          nullable: true
+        manualJournals:
+          $ref: '#/components/schemas/ManualJournalTotal'
+      additionalProperties: false
+    ManualJournalTotal:
+      type: object
+      properties:
+        total:
+          type: number
+          description: Total value of manual journals.
+          format: double
+      additionalProperties: false
+    TotalDetail:
+      type: object
+      properties:
+        totalPaid:
+          type: number
+          description: Total paid invoice and cash value within the period.
+          format: double
+        totalOutstanding:
+          type: number
+          description: Total outstanding invoice value within the period.
+          format: double
+        totalCreditedUnApplied:
+          type: number
+          description: Total unapplied credited value within the period.
+          format: double
+      additionalProperties: false
+    TotalOther:
+      type: object
+      properties:
+        totalOutstandingAged:
+          type: number
+          description: >-
+            Total outstanding invoice value within the period where the invoices
+            are more than 90 days old
+          format: double
+        totalVoided:
+          type: number
+          description: Total voided value.
+          format: double
+        totalCredited:
+          type: number
+          description: Total credited value.
+          format: double
+      additionalProperties: false
+    ContactDetail:
+      type: object
+      properties:
+        id:
+          type: string
+          description: "ID of the contact associated with the transactions.\r\n\r\nTransactions with no contact will be grouped under the special ID: 86793108-198C-46D8-90A3-43C1D12686CE.\r\n\r\nTransactions that are receive or spend bank transfers will be grouped under the special ID: 207322B3-6A58-4BE7-80F1-430123914AD6"
+          format: uuid
+        name:
+          type: string
+          description: "Name of the contact associated with the transactions.\r\n\r\nIf no contact is associated with the transactions this will appear as “None Provided”,\r\n\r\nFor receive or spend bank transfer transactions, this will appear as “Bank Transfer”."
+          nullable: true
+        total:
+          type: number
+          description: Total value for the contact
+          format: double
+        totalDetail:
+          $ref: '#/components/schemas/ContactTotalDetail'
+        totalOther:
+          $ref: '#/components/schemas/ContactTotalOther'
+        accountCodes:
+          type: array
+          items:
+            type: string
+          description: A list of account codes involved in transactions.
+          nullable: true
+      additionalProperties: false
+    ContactTotalDetail:
+      type: object
+      properties:
+        totalPaid:
+          type: number
+          description: Total paid invoice and cash value for the contact within the period.
+          format: double
+        totalOutstanding:
+          type: number
+          description: Total outstanding invoice value for the contact within the period.
+          format: double
+        totalCreditedUnApplied:
+          type: number
+          description: Total unapplied credited value for the contact within the period.
+          format: double
+      additionalProperties: false
+    ContactTotalOther:
+      type: object
+      properties:
+        totalOutstandingAged:
+          type: number
+          description: >-
+            Total outstanding invoice value for the contact within the period
+            where the invoices are more than 90 days old
+          format: double
+        totalVoided:
+          type: number
+          description: Total voided value for the contact.
+          format: double
+        totalCredited:
+          type: number
+          description: Total credited value for the contact.
+          format: double
+        transactionCount:
+          type: number
+          description: Number of transactions for the contact.
+          format: double
       additionalProperties: false
