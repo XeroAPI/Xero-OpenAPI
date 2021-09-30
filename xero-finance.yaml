@@ -81,68 +81,59 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/CashValidationResponse"
-              example: '[
-                          {
-                            "accountId": "73151de8-3676-4887-a021-edec960dd537",
-                            "statementBalance": {
-                              "value": 100,
-                              "type": "DEBIT"
-                            },
-                            "statementBalanceDate": "2021-03-01",
-                            "bankStatement": {
-                              "statementLines": {
-                                "unreconciledAmountPos": 4577,
-                                "unreconciledAmountNeg": -2367,
-                                "unreconciledLines": 8,
-                                "avgDaysUnreconciledPos": 112.265531,
-                                "avgDaysUnreconciledNeg": 149.298992,
-                                "earliestUnreconciledTransaction": "2019-03-01",
-                                "latestUnreconciledTransaction": "2021-03-01",
-                                "deletedAmount": 50,
-                                "totalAmount": 189,
-                                "dataSource": {
-                                  "directBankFeed": 0,
-                                  "indirectBankFeed": 0,
-                                  "fileUpload": 300,
-                                  "manual": -188,
-                                  "directBankFeedPos": 0,
-                                  "indirectBankFeedPos": 0,
-                                  "fileUploadPos": 2223,
-                                  "manualPos": 0,
-                                  "directBankFeedNeg": 0,
-                                  "indirectBankFeedNeg": 0,
-                                  "fileUploadNeg": -1890,
-                                  "manualNeg": -500,
-                                  "otherPos": 0,
-                                  "otherNeg": 0,
-                                  "other": 100
-                                },
-                                "earliestReconciledTransaction": "2019-03-01",
-                                "latestReconciledTransaction": "2020-03-01",
-                                "reconciledAmountPos": 0,
-                                "reconciledAmountNeg": -288,
-                                "reconciledLines": 3,
-                                "totalAmountPos": 2245,
-                                "totalAmountNeg": -1995
-                              },
-                              "currentStatement": {
-                                "startDate": "2021-03-01",
-                                "endDate": "2021-03-01",
-                                "startBalance": 0,
-                                "endBalance": 0,
-                                "importedDateTimeUtc": "2021-03-09T05:22:14.3",
-                                "importSourceType": "Manual"
-                              }
-                            },
-                            "cashAccount": {
-                              "unreconciledAmountPos": 1440,
-                              "unreconciledAmountNeg": -1000,
-                              "startingBalance": 0,
-                              "accountBalance": 0,
-                              "balanceCurrency": "NZD"
-                            }
-                          }
-                        ]'
+              example: 
+                - accountId: 73151de8-3676-4887-a021-edec960dd537
+                  statementBalance:
+                    value: 100
+                    type: DEBIT
+                  statementBalanceDate: '2021-03-01'
+                  bankStatement:
+                    statementLines:
+                      unreconciledAmountPos: 4577
+                      unreconciledAmountNeg: -2367
+                      unreconciledLines: 8
+                      avgDaysUnreconciledPos: 112.265531
+                      avgDaysUnreconciledNeg: 149.298992
+                      earliestUnreconciledTransaction: '2019-03-01'
+                      latestUnreconciledTransaction: '2021-03-01'
+                      deletedAmount: 50
+                      totalAmount: 189
+                      dataSource:
+                        directBankFeed: 0
+                        indirectBankFeed: 0
+                        fileUpload: 300
+                        manual: -188
+                        directBankFeedPos: 0
+                        indirectBankFeedPos: 0
+                        fileUploadPos: 2223
+                        manualPos: 0
+                        directBankFeedNeg: 0
+                        indirectBankFeedNeg: 0
+                        fileUploadNeg: -1890
+                        manualNeg: -500
+                        otherPos: 0
+                        otherNeg: 0
+                        other: 100
+                      earliestReconciledTransaction: '2019-03-01'
+                      latestReconciledTransaction: '2020-03-01'
+                      reconciledAmountPos: 0
+                      reconciledAmountNeg: -288
+                      reconciledLines: 3
+                      totalAmountPos: 2245
+                      totalAmountNeg: -1995
+                    currentStatement:
+                      startDate: '2021-03-01'
+                      endDate: '2021-03-01'
+                      startBalance: 0
+                      endBalance: 0
+                      importedDateTimeUtc: '2021-03-09T05:22:14.3'
+                      importSourceType: Manual
+                  cashAccount:
+                    unreconciledAmountPos: 1440
+                    unreconciledAmountNeg: -1000
+                    startingBalance: 0
+                    accountBalance: 0
+                    balanceCurrency: NZD
         '400':
           description: BadRequest
           content:
@@ -907,7 +898,6 @@ components:
           type: string
           description: Last modified date UTC format
           format: date-time
-          x-is-datetime: true
           nullable: true
       additionalProperties: false
     AccountUsageResponse:
@@ -946,7 +936,6 @@ components:
           type: string
           description: UTC date that the history record was created
           format: date-time
-          x-is-datetime: true
         user:
           type: string
           description: The users first and last name
@@ -973,7 +962,6 @@ components:
           type: string
           format: date-time
           description: The system date time that the lock was updated
-          x-is-datetime: true
           nullable: true
       additionalProperties: false
     LockHistoryResponse:
@@ -1055,7 +1043,6 @@ components:
           type: string
           description: The system date time that the report was published
           format: date-time
-          x-is-datetime: true
       additionalProperties: false
     ReportHistoryResponse:
       type: object
@@ -1103,13 +1090,11 @@ components:
           type: string
           description: Timestamp of user creation.
           format: date-time
-          x-is-datetime: true
           nullable: true
         lastLoginDateUtc:
           type: string
           description: Timestamp of user last login
           format: date-time
-          x-is-datetime: true
           nullable: true
         isExternalPartner:
           type: boolean
@@ -1240,7 +1225,6 @@ components:
             when the document was imported into Xero.  This date is represented in
             ISO 8601 format.
           format: date-time
-          x-is-datetime: true
           nullable: true
         importSourceType:
           type: string
