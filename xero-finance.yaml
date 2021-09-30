@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: "2.16.7"
+  version: "2.16.8"
   title: Xero Finance API
   description: The Finance API is a collection of endpoints which customers can use in the course of a loan application, which may assist lenders to gain the confidence they need to provide capital.
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
@@ -843,7 +843,6 @@ components:
         month:
           type: string
           description: The month this usage item contains data for
-          nullable: true
         accountId:
           type: string
           description: The account this usage item contains data for
@@ -851,54 +850,43 @@ components:
         currencyCode:
           type: string
           description: The currency code this usage item contains data for
-          nullable: true
         totalReceived:
           type: number
           description: Total received
           format: double
-          nullable: true
         countReceived:
           type: integer
           description: Count of received
           format: int32
-          nullable: true
         totalPaid:
           type: number
           description: Total paid
           format: double
-          nullable: true
         countPaid:
           type: integer
           description: Count of paid
           format: int32
-          nullable: true
         totalManualJournal:
           type: number
           description: Total value of manual journals
           format: double
-          nullable: true
         countManualJournal:
           type: integer
           description: Count of manual journals
           format: int32
-          nullable: true
         accountName:
           type: string
           description: The name of the account
-          nullable: true
         reportingCode:
           type: string
           description: Shown if set
-          nullable: true
         reportingCodeName:
           type: string
           description: Shown if set
-          nullable: true
         reportCodeUpdatedDateUtc:
           type: string
           description: Last modified date UTC format
           format: date-time
-          nullable: true
       additionalProperties: false
     AccountUsageResponse:
       type: object
@@ -910,16 +898,13 @@ components:
         startMonth:
           type: string
           description: The start month of the report
-          nullable: true
         endMonth:
           type: string
           description: The end month of the report
-          nullable: true
         accountUsage:
           type: array
           items:
             $ref: "#/components/schemas/AccountUsage"
-          nullable: true
       additionalProperties: false
     HistoryRecordResponse:
       type: object
@@ -927,11 +912,9 @@ components:
         changes:
           type: string
           description: The type of change recorded against the document
-          nullable: true
         dateUTCString:
           type: string
           description: UTC date that the history record was created
-          nullable: true
         dateUTC:
           type: string
           description: UTC date that the history record was created
@@ -939,11 +922,9 @@ components:
         user:
           type: string
           description: The users first and last name
-          nullable: true
         details:
           type: string
           description: Description of the change event or transaction
-          nullable: true
       additionalProperties: false
     LockHistoryModel:
       type: object
@@ -952,17 +933,14 @@ components:
           type: string
           format: date
           description: Date the account hard lock was set
-          nullable: true
         softLockDate:
           type: string
           format: date
           description: Date the account soft lock was set
-          nullable: true
         updatedDateUtc:
           type: string
           format: date-time
           description: The system date time that the lock was updated
-          nullable: true
       additionalProperties: false
     LockHistoryResponse:
       type: object
@@ -975,12 +953,10 @@ components:
           type: string
           format: date
           description: The end date of the report
-          nullable: true
         lockDates:
           type: array
           items:
             $ref: "#/components/schemas/LockHistoryModel"
-          nullable: true
       additionalProperties: false
     PracticeResponse:
       type: object
@@ -992,11 +968,9 @@ components:
         tier:
           type: string
           description: Customer tier e.g. Silver
-          nullable: true
         location:
           type: string
           description: Country of location.
-          nullable: true
         organisationCount:
           type: integer
           description: Organisation count.
@@ -1012,13 +986,11 @@ components:
           $ref: "#/components/schemas/ProblemType"
         title:
           type: string
-          nullable: true
         status:
           type: integer
           format: int32
         detail:
           type: string
-          nullable: true
       additionalProperties: false
     ProblemType:
       enum:
@@ -1034,11 +1006,9 @@ components:
         reportName:
           type: string
           description: Report code or report title
-          nullable: true
         reportDateText:
           type: string
           description: The date or date range of the report
-          nullable: true
         publishedDateUtc:
           type: string
           description: The system date time that the report was published
@@ -1055,12 +1025,10 @@ components:
           type: string
           format: date
           description: The end date of the report
-          nullable: true
         reports:
           type: array
           items:
             $ref: "#/components/schemas/ReportHistoryModel"
-          nullable: true
       additionalProperties: false
     UserActivitiesResponse:
       type: object
@@ -1072,12 +1040,10 @@ components:
         dataMonth:
           type: string
           description: The month of the report
-          nullable: true
         users:
           type: array
           items:
             $ref: "#/components/schemas/UserResponse"
-          nullable: true
       additionalProperties: false
     UserResponse:
       type: object
@@ -1090,12 +1056,10 @@ components:
           type: string
           description: Timestamp of user creation.
           format: date-time
-          nullable: true
         lastLoginDateUtc:
           type: string
           description: Timestamp of user last login
           format: date-time
-          nullable: true
         isExternalPartner:
           type: boolean
           description: User is external partner.
@@ -1105,7 +1069,6 @@ components:
         monthPeriod:
           type: string
           description: Month period in format  yyyy-MM.
-          nullable: true
         numberOfLogins:
           type: integer
           description: Number of times the user has logged in.
@@ -1118,22 +1081,18 @@ components:
           type: number
           description: Net value of documents created.
           format: double
-          nullable: true
         absoluteValueDocumentsCreated:
           type: number
           description: Absolute value of documents created.
           format: double
-          nullable: true
         attachedPractices:
           type: array
           items:
             $ref: "#/components/schemas/PracticeResponse"
-          nullable: true
         historyRecords:
           type: array
           items:
             $ref: "#/components/schemas/HistoryRecordResponse"
-          nullable: true
       additionalProperties: false
     BankStatementResponse:
       type: object
@@ -1168,7 +1127,6 @@ components:
         balanceCurrency:
           type: string
           description: Currency which the cashAccount transactions relate to.
-          nullable: true
       additionalProperties: false
     CashValidationResponse:
       type: object
@@ -1184,7 +1142,6 @@ components:
           description: UTC Date when the last bank statement item was entered into
             Xero. This date is represented in ISO 8601 format.
           format: date
-          nullable: true
         bankStatement:
           $ref: "#/components/schemas/BankStatementResponse"
         cashAccount:
@@ -1199,14 +1156,12 @@ components:
             the first date which transactions on this statement pertain to. This date
             is represented in ISO 8601 format.
           format: date
-          nullable: true
         endDate:
           type: string
           description: Looking at the most recent bank statement, this field indicates
             the last date which transactions on this statement pertain to. This date
             is represented in ISO 8601 format.
           format: date
-          nullable: true
         startBalance:
           type: number
           description: Looking at the most recent bank statement, this field indicates
@@ -1225,13 +1180,11 @@ components:
             when the document was imported into Xero.  This date is represented in
             ISO 8601 format.
           format: date-time
-          nullable: true
         importSourceType:
           type: string
           description: Looking at the most recent bank statement, this field indicates
             the source of the data (direct bank feed, indirect bank feed, file upload,
             or manual keying).
-          nullable: true
       additionalProperties: false
     DataSourceResponse:
       type: object
@@ -1351,7 +1304,6 @@ components:
           type: string
           description: The DEBIT or CREDIT status of the account. Cash accounts in
             credit have a negative balance.
-          nullable: true
       additionalProperties: false
     StatementLinesResponse:
       type: object
@@ -1393,14 +1345,12 @@ components:
             line for which the reconciled flag is set to FALSE.  This date is represented
             in ISO 8601 format.
           format: date
-          nullable: true
         latestUnreconciledTransaction:
           type: string
           description: UTC Date which is the latest transaction date of a statement
             line for which the reconciled flag is set to FALSE.  This date is represented
             in ISO 8601 format.
           format: date
-          nullable: true
         deletedAmount:
           type: number
           description: Sum of the amounts of all deleted statement lines.  Transactions
@@ -1419,14 +1369,12 @@ components:
             line for which the reconciled flag is set to TRUE.  This date is represented
             in ISO 8601 format.
           format: date
-          nullable: true
         latestReconciledTransaction:
           type: string
           description: UTC Date which is the latest transaction date of a statement
             line for which the reconciled flag is set to TRUE.  This date is represented
             in ISO 8601 format.
           format: date
-          nullable: true
         reconciledAmountPos:
           type: number
           description: Sum of the amounts of all statement lines where both the reconciled
@@ -1459,7 +1407,6 @@ components:
         code:
           type: string
           description: "Accounting code"
-          nullable: true
         accountID:
           type: string
           description: "ID of the account"
@@ -1467,11 +1414,9 @@ components:
         name:
           type: string
           description: "Account name"
-          nullable: true
         reportingCode:
           type: string
           description: "Reporting code"
-          nullable: true
         total:
           type: number
           description: "Total movement on this account"
@@ -1484,7 +1429,6 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/BalanceSheetAccountType"
-          nullable: true
         total:
           type: number
           description: "Total value of all the accounts in this type"
@@ -1496,13 +1440,11 @@ components:
         accountType:
           type: string
           description: "The type of the account. See <a href='https://developer.xero.com/documentation/api/types#AccountTypes'>Account Types</a>"
-          nullable: true
         accounts:
           type: array
           items:
             $ref: "#/components/schemas/BalanceSheetAccountDetail"
           description: "A list of all accounts of this type. Refer to the Account section below for each account element detail."
-          nullable: true
         total:
           type: number
           description: "Total value of all the accounts in this type"
@@ -1515,7 +1457,6 @@ components:
           type: string
           format: date
           description: "Balance date of the report"
-          nullable: true
         asset:
           $ref: "#/components/schemas/BalanceSheetAccountGroup"
         liability:
@@ -1550,23 +1491,18 @@ components:
         accountType:
           type: string
           description: "The type of the account. See <a href='https://developer.xero.com/documentation/api/types#AccountTypes'>Account Types</a>"
-          nullable: true
         accountClass:
           type: string
           description: "The class of the account. See <a href='https://developer.xero.com/documentation/api/types#AccountClassTypes'>Account Class Types</a>"
-          nullable: true
         code:
           type: string
           description: "Account code"
-          nullable: true
         name:
           type: string
           description: "Account name"
-          nullable: true
         reportingCode:
           type: string
           description: "Reporting code used for cash flow classification"
-          nullable: true
         total:
           type: number
           description: "Total amount for the account"
@@ -1578,7 +1514,6 @@ components:
         name:
           type: string
           description: "Name of the cashflow activity type. It will be either Operating Activities, Investing Activities or Financing Activities"
-          nullable: true
         total:
           type: number
           description: "Total value of the activity type"
@@ -1587,7 +1522,6 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/CashflowType"
-          nullable: true
       additionalProperties: false
     CashflowResponse:
       type: object
@@ -1607,7 +1541,6 @@ components:
           items:
             $ref: "#/components/schemas/CashflowActivity"
           description: "Break down of cash and cash equivalents for the period"
-          nullable: true
       additionalProperties: false
     CashflowType:
       type: object
@@ -1615,7 +1548,6 @@ components:
         name:
           type: string
           description: "Name of the activity"
-          nullable: true
         total:
           type: number
           description: "Total value of the activity"
@@ -1625,7 +1557,6 @@ components:
           items:
             $ref: "#/components/schemas/CashflowAccount"
           description: "List of the accounts in this activity"
-          nullable: true
       additionalProperties: false
     PnlAccount:
       type: object
@@ -1637,19 +1568,15 @@ components:
         accountType:
           type: string
           description: "The type of the account. See <a href='https://developer.xero.com/documentation/api/types#AccountTypes'>Account Types</a>"
-          nullable: true
         code:
           type: string
           description: "Account code"
-          nullable: true
         name:
           type: string
           description: "Account name"
-          nullable: true
         reportingCode:
           type: string
           description: "Reporting code (Shown if set)"
-          nullable: true
         total:
           type: number
           description: "Total movement on this account"
@@ -1667,7 +1594,6 @@ components:
           items:
             $ref: "#/components/schemas/PnlAccountType"
           description: "Contains trading income and other income for revenue section / operating expenses and direct cost for expense section if the data is available for each section. Refer to the account type element below"
-          nullable: true
       additionalProperties: false
     PnlAccountType:
       type: object
@@ -1679,13 +1605,11 @@ components:
         title:
           type: string
           description: "Name of this account type, it will be either Trading Income or Other Income for Revenue section / Direct Cost or Operating Expenses for Expense section"
-          nullable: true
         accounts:
           type: array
           items:
             $ref: "#/components/schemas/PnlAccount"
           description: "A list of the movement on each account detail during the query period. Refer to the account detail element below"
-          nullable: true
       additionalProperties: false
     ProfitAndLossResponse:
       type: object
@@ -1717,27 +1641,21 @@ components:
         accountType:
           type: string
           description: "The type of the account. See <a href='https://developer.xero.com/documentation/api/types#AccountTypes'>Account Types</a>"
-          nullable: true
         accountCode:
           type: string
           description: "Customer defined alpha numeric account code e.g 200 or SALES"
-          nullable: true
         accountClass:
           type: string
           description: "The class of the account. See <a href='https://developer.xero.com/documentation/api/types#AccountClassTypes'>Account Class Types</a>"
-          nullable: true
         status:
           type: string
           description: "Accounts with a status of ACTIVE can be updated to ARCHIVED. See <a href='https://developer.xero.com/documentation/api/types#AccountStatusCodes'>Account Status Codes</a>"
-          nullable: true
         reportingCode:
           type: string
           description: "Reporting code (Shown if set)"
-          nullable: true
         accountName:
           type: string
           description: "Name of the account"
-          nullable: true
         balance:
           $ref: "#/components/schemas/TrialBalanceEntry"
         signedBalance:
@@ -1757,7 +1675,6 @@ components:
         entryType:
           type: string
           description: "Sign (Debit/Credit) of the movement of balance in the account"
-          nullable: true
       additionalProperties: false
     TrialBalanceMovement:
       type: object
@@ -1784,16 +1701,13 @@ components:
           type: string
           format: date
           description: "Start date of the report"
-          nullable: true
         endDate:
           type: string
           format: date
           description: "End date of the report"
-          nullable: true
         accounts:
           type: array
           items:
             $ref: "#/components/schemas/TrialBalanceAccount"
           description: "Refer to the accounts section below"
-          nullable: true
       additionalProperties: false
