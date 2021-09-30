@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: "2.16.0"
+  version: "2.16.7"
   title: Xero Finance API
   description: The Finance API is a collection of endpoints which customers can use in the course of a loan application, which may assist lenders to gain the confidence they need to provide capital.
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
@@ -28,6 +28,7 @@ paths:
       description: Summarizes the total cash position for each account for an org
       parameters: 
         - name: balanceDate
+          x-snake: balance_date
           in: query
           description: "date, yyyy-MM-dd \r\n\r\nIf no parameter is provided, the current
           date will be used.\r\n\r\nThe ‘balance date’ will return transactions based
@@ -39,7 +40,9 @@ paths:
           the most recent statement before asAtSystemDate (if specified)"
           schema: 
             type: string
+          example: "2021-09-15"
         - name: asAtSystemDate
+          x-snake: as_at_system_date
           in: query
           description: "date, yyyy-MM-dd \r\n\r\nIf no parameter is provided, the current
           date will be used.\r\n\r\nThe ‘as at’ date will return transactions based
@@ -57,7 +60,9 @@ paths:
           the time the API is accessed will be considered to always have been deleted."
           schema: 
             type: string
+          example: "2021-09-15"
         - name: beginDate
+          x-snake: begin_date
           in: query
           description: "date, yyyy-MM-dd \r\n\r\nIf no parameter is provided, the aggregate
           results will be drawn from the user’s total history.\r\n\r\nThe ‘begin date’
@@ -66,6 +71,7 @@ paths:
           as to which accounting period the transaction relates to."
           schema: 
             type: string
+          example: "2021-09-15"
       responses:
         '200':
           description: Success
@@ -152,19 +158,23 @@ paths:
       description: 'A summary of how each account is being transacted on exposing the level of detail and amounts attributable to manual adjustments.'
       parameters:
       - name: startMonth
+        x-snake: start_month
         in: query
         description: "date, yyyy-MM \r\n            \r\nIf no parameter is provided,
           the month 12 months prior to the end month will be used.\r\n            \r\nAccount
           usage for up to 12 months from this date will be returned."
         schema:
           type: string
+        example: "2020-09"
       - name: endMonth
+        x-snake: end_month
         in: query
         description: "date, yyyy-MM \r\n            \r\nIf no parameter is provided,
           the current month will be used.\r\n            \r\nAccount usage for up
           to 12 months prior to this date will be returned."
         schema:
           type: string
+        example: "2021-09"
       responses:
         '200':
           description: Success
@@ -226,12 +236,13 @@ paths:
       summary: Get lock history
       parameters:
       - name: endDate
+        x-snake: end_date
         in: query
         description: "date, yyyy-MM-dd \r\n            \r\nIf no parameter is provided,
-          the current date will be used.\r\n            \r\nLock History for up to
-          12 months before this date will be returned."
+          the current date will be used.\r\n            \r\nAny changes to hard or soft lock dates that were made within the period up to 12 months before this date will be returned.\r\n            \r\nPlease be aware that there may be a delay of up to 3 days before a change is visible from this API."
         schema:
           type: string
+        example: "2021-09-15"
       responses:
         '200':
           description: Success
@@ -273,16 +284,17 @@ paths:
       tags:
       - Finance
       operationId: getAccountingActivityReportHistory
-      description: 'For a specified organisation, provides a summary of all the reports run for a given period, which may be an indicator for good business management and oversight.'
+      description: 'For a specified organisation, provides a summary of all the reports published within a given period, which may be an indicator for good business management and oversight.'
       summary: Get report history
       parameters:
       - name: endDate
+        x-snake: end_date
         in: query
         description: "date, yyyy-MM-dd \r\n            \r\nIf no parameter is provided,
-          the current date will be used.\r\n            \r\nReports published up to
-          12 months before this date will be returned."
+          the current date will be used.\r\n            \r\nAny reports that were published within the period up to 12 months before this date will be returned.\r\n            \r\nPlease be aware that there may be a delay of up to 3 days before a published report is visible from this API."
         schema:
           type: string
+        example: "2021-09-15"
       responses:
         '200':
           description: Success
@@ -322,12 +334,13 @@ paths:
       summary: Get user activities
       parameters:
       - name: dataMonth
+        x-snake: data_month
         in: query
-        description: "date, yyyy-MM \r\n            \r\nIf no parameter is provided,
-          the month immediately previous to the current month will be used.\r\n            \r\nThe
-          user activities for the specified month will be returned."
+        description: "date, yyyy-MM \r\n            \r\nThe specified month must be complete (in the past); The current month cannot be specified since it is not complete.\r\n            \r\nIf no parameter is provided,
+          the month immediately previous to the current month will be used.\r\n            \r\nAny user activities occurring within the specified month will be returned.\r\n            \r\nPlease be aware that there may be a delay of up to 3 days before a user activity is visible from this API."
         schema:
           type: string
+        example: "2021-09"
       responses:
         '200':
           description: Success
@@ -402,6 +415,7 @@ paths:
       description: "The balance sheet report is a standard financial report which describes the financial position of an organisation at a point in time."
       parameters:
         - name: "balanceDate"
+          x-snake: balance_date
           in: "query"
           description: "Specifies the date for balance sheet report.\r\n\r\nFormat yyyy-MM-dd. If no parameter is provided, the current date will be used."
           schema:
@@ -507,15 +521,19 @@ paths:
       description: "The statement of cash flows - direct method, provides the year to date changes in operating, financing and investing cash flow activities for an organisation. Cashflow statement is not available in US region at this stage."
       parameters:
         - name: "startDate"
+          x-snake: start_date
           in: "query"
           description: "Date e.g. yyyy-MM-dd\r\n\r\nSpecifies the start date for cash flow report.\r\n\r\nIf no parameter is provided, the date of 12 months before the end date will be used."
           schema:
             type: string
+          example: "2020-09-15"
         - name: "endDate"
+          x-snake: end_date
           in: "query"
           description: "Date e.g. yyyy-MM-dd\r\n\r\nSpecifies the end date for cash flow report.\r\n\r\nIf no parameter is provided, the current date will be used."
           schema:
             type: string
+          example: "2021-09-15"
       responses:
         200:
           description: "Success"
@@ -656,15 +674,19 @@ paths:
       description: "The profit and loss statement is a standard financial report providing detailed year to date income and expense detail for an organisation."
       parameters:
         - name: "startDate"
+          x-snake: start_date
           in: "query"
           description: "Date e.g. yyyy-MM-dd\r\n\r\nSpecifies the start date for profit and loss report\r\n\r\nIf no parameter is provided, the date of 12 months before the end date will be used."
           schema:
             type: string
+          example: "2020-09-15"
         - name: "endDate"
+          x-snake: end_date
           in: "query"
           description: "Date e.g. yyyy-MM-dd\r\n\r\nSpecifies the end date for profit and loss report \r\n\r\nIf no parameter is provided, the current date will be used."
           schema:
             type: string
+          example: "2021-09-15"
       responses:
         200:
           description: "Success"
@@ -742,10 +764,12 @@ paths:
       description: "The trial balance provides a detailed list of all accounts of an organisation at a point in time, with revenue and expense items being year to date."
       parameters:
         - name: "endDate"
+          x-snake: end_date
           in: "query"
           description: "Date e.g. yyyy-MM-dd \r\n\r\nSpecifies the end date for trial balance report \r\n\r\nIf no parameter is provided, the current date will be used."
           schema:
             type: string
+          example: "2021-09-15"
       responses:
         200:
           description: "Success"
@@ -806,6 +830,7 @@ components:
     requiredHeader: 
       in: header
       name: xero-tenant-id
+      x-snake: xero_tenant_id
       description: Xero identifier for Tenant
       example: YOUR_XERO_TENANT_ID
       schema:
