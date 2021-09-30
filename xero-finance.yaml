@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: "2.16.8"
+  version: "2.16.9"
   title: Xero Finance API
   description: The Finance API is a collection of endpoints which customers can use in the course of a loan application, which may assist lenders to gain the confidence they need to provide capital.
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
@@ -854,6 +854,7 @@ components:
           type: number
           description: Total received
           format: double
+          x-is-money: true
         countReceived:
           type: integer
           description: Count of received
@@ -862,6 +863,7 @@ components:
           type: number
           description: Total paid
           format: double
+          x-is-money: true
         countPaid:
           type: integer
           description: Count of paid
@@ -870,6 +872,7 @@ components:
           type: number
           description: Total value of manual journals
           format: double
+          x-is-money: true
         countManualJournal:
           type: integer
           description: Count of manual journals
@@ -1081,10 +1084,12 @@ components:
           type: number
           description: Net value of documents created.
           format: double
+          x-is-money: true
         absoluteValueDocumentsCreated:
           type: number
           description: Absolute value of documents created.
           format: double
+          x-is-money: true
         attachedPractices:
           type: array
           items:
@@ -1110,20 +1115,24 @@ components:
           description: Total value of transactions in the journals which are not reconciled
             to bank statement lines, and have a positive (debit) value.
           format: double
+          x-is-money: true
         unreconciledAmountNeg:
           type: number
           description: Total value of transactions in the journals which are not reconciled
             to bank statement lines, and have a negative (credit) value.
           format: double
+          x-is-money: true
         startingBalance:
           type: number
           description: Starting (or historic) balance from the journals (manually
             keyed in by users on account creation - unverified).
           format: double
+          x-is-money: true
         accountBalance:
           type: number
           description: Current cash at bank accounting value from the journals.
           format: double
+          x-is-money: true
         balanceCurrency:
           type: string
           description: Currency which the cashAccount transactions relate to.
@@ -1168,12 +1177,14 @@ components:
             the balance before the transactions on the statement are applied (note,
             this is not always populated by the bank in every single instance (~10%)).
           format: double
+          x-is-money: true
         endBalance:
           type: number
           description: Looking at the most recent bank statement, this field indicates
             the balance after the transactions on the statement are applied (note,
             this is not always populated by the bank in every single instance (~10%)).
           format: double
+          x-is-money: true
         importedDateTimeUtc:
           type: string
           description: Looking at the most recent bank statement, this field indicates
@@ -1195,24 +1206,28 @@ components:
             of the data was a direct bank feed in to Xero.   This gives an indication
             on the certainty of correctness of the data.
           format: double
+          x-is-money: true
         indirectBankFeed:
           type: number
           description: Sum of the amounts of all statement lines where the source
             of the data was a indirect bank feed to Xero (usually via Yodlee).   This
             gives an indication on the certainty of correctness of the data.
           format: double
+          x-is-money: true
         fileUpload:
           type: number
           description: Sum of the amounts of all statement lines where the source
             of the data was a CSV file upload in to Xero.   This gives an indication
             on the certainty of correctness of the data.
           format: double
+          x-is-money: true
         manual:
           type: number
           description: Sum of the amounts of all statement lines where the source
             of the data was manually keyed in to Xero.   This gives an indication
             on the certainty of correctness of the data.
           format: double
+          x-is-money: true
         directBankFeedPos:
           type: number
           description: Sum of the amounts of all statement lines where the source
@@ -1220,6 +1235,7 @@ components:
             on the certainty of correctness of the data.  Only positive transactions
             are included.
           format: double
+          x-is-money: true
         indirectBankFeedPos:
           type: number
           description: Sum of the amounts of all statement lines where the source
@@ -1227,6 +1243,7 @@ components:
             gives an indication on the certainty of correctness of the data. Only
             positive transactions are included.
           format: double
+          x-is-money: true
         fileUploadPos:
           type: number
           description: Sum of the amounts of all statement lines where the source
@@ -1234,6 +1251,7 @@ components:
             on the certainty of correctness of the data. Only positive transactions
             are included.
           format: double
+          x-is-money: true
         manualPos:
           type: number
           description: Sum of the amounts of all statement lines where the source
@@ -1241,6 +1259,7 @@ components:
             on the certainty of correctness of the data. Only positive transactions
             are included.
           format: double
+          x-is-money: true
         directBankFeedNeg:
           type: number
           description: Sum of the amounts of all statement lines where the source
@@ -1248,6 +1267,7 @@ components:
             on the certainty of correctness of the data.  Only negative transactions
             are included.
           format: double
+          x-is-money: true
         indirectBankFeedNeg:
           type: number
           description: Sum of the amounts of all statement lines where the source
@@ -1255,6 +1275,7 @@ components:
             gives an indication on the certainty of correctness of the data.  Only
             negative transactions are included.
           format: double
+          x-is-money: true
         fileUploadNeg:
           type: number
           description: Sum of the amounts of all statement lines where the source
@@ -1262,6 +1283,7 @@ components:
             on the certainty of correctness of the data.  Only negative transactions
             are included.
           format: double
+          x-is-money: true
         manualNeg:
           type: number
           description: Sum of the amounts of all statement lines where the source
@@ -1269,6 +1291,7 @@ components:
             on the certainty of correctness of the data.  Only negative transactions
             are included.
           format: double
+          x-is-money: true
         otherPos:
           type: number
           description: Sum of the amounts of all statement lines where the source
@@ -1276,6 +1299,7 @@ components:
             certainty of correctness of the data.  Only positive transactions are
             included.
           format: double
+          x-is-money: true
         otherNeg:
           type: number
           description: Sum of the amounts of all statement lines where the source
@@ -1283,12 +1307,14 @@ components:
             certainty of correctness of the data.  Only negative transactions are
             included.
           format: double
+          x-is-money: true
         other:
           type: number
           description: Sum of the amounts of all statement lines where the source
             of the data was any other category.   This gives an indication on the
             certainty of correctness of the data.
           format: double
+          x-is-money: true
       additionalProperties: false
     StatementBalanceResponse:
       type: object
@@ -1300,6 +1326,7 @@ components:
             be represented as a positive number, with it’s debit/credit status defined
             in the statementBalanceDebitCredit field.
           format: double
+          x-is-money: true
         type:
           type: string
           description: The DEBIT or CREDIT status of the account. Cash accounts in
@@ -1313,11 +1340,13 @@ components:
           description: Sum of the amounts of all statement lines where both the reconciled
             flag is set to FALSE, and the amount is positive.
           format: double
+          x-is-money: true
         unreconciledAmountNeg:
           type: number
           description: Sum of the amounts of all statement lines where both the reconciled
             flag is set to FALSE, and the amount is negative.
           format: double
+          x-is-money: true
         unreconciledLines:
           type: integer
           description: Count of all statement lines where the reconciled flag is set
@@ -1331,6 +1360,7 @@ components:
             the amount is positive. Provides an indication of the age of unreconciled
             transactions.
           format: double
+          x-is-money: true
         avgDaysUnreconciledNeg:
           type: number
           description: Sum-product of age of statement line in days multiplied by
@@ -1339,6 +1369,7 @@ components:
             the amount is negative. Provides an indication of the age of unreconciled
             transactions.
           format: double
+          x-is-money: true
         earliestUnreconciledTransaction:
           type: string
           description: UTC Date which is the earliest transaction date of a statement
@@ -1356,11 +1387,13 @@ components:
           description: Sum of the amounts of all deleted statement lines.  Transactions
             may be deleted due to duplication or otherwise.
           format: double
+          x-is-money: true
         totalAmount:
           type: number
           description: Sum of the amounts of all statement lines.  This is used as
             a metric of comparison to the unreconciled figures above.
           format: double
+          x-is-money: true
         dataSource:
           $ref: "#/components/schemas/DataSourceResponse"
         earliestReconciledTransaction:
@@ -1380,11 +1413,13 @@ components:
           description: Sum of the amounts of all statement lines where both the reconciled
             flag is set to TRUE, and the amount is positive.
           format: double
+          x-is-money: true
         reconciledAmountNeg:
           type: number
           description: Sum of the amounts of all statement lines where both the reconciled
             flag is set to TRUE, and the amount is negative.
           format: double
+          x-is-money: true
         reconciledLines:
           type: integer
           description: Count of all statement lines where the reconciled flag is set
@@ -1395,11 +1430,13 @@ components:
           description: Sum of the amounts of all statement lines where the amount
             is positive
           format: double
+          x-is-money: true
         totalAmountNeg:
           type: number
           description: Sum of the amounts of all statement lines where the amount
             is negative.
           format: double
+          x-is-money: true
       additionalProperties: false
     BalanceSheetAccountDetail:
       type: object
@@ -1421,6 +1458,7 @@ components:
           type: number
           description: "Total movement on this account"
           format: double
+          x-is-money: true
       additionalProperties: false
     BalanceSheetAccountGroup:
       type: object
@@ -1433,6 +1471,7 @@ components:
           type: number
           description: "Total value of all the accounts in this type"
           format: double
+          x-is-money: true
       additionalProperties: false
     BalanceSheetAccountType:
       type: object
@@ -1449,6 +1488,7 @@ components:
           type: number
           description: "Total value of all the accounts in this type"
           format: double
+          x-is-money: true
       additionalProperties: false
     BalanceSheetResponse:
       type: object
@@ -1471,14 +1511,17 @@ components:
           type: number
           description: "Opening balance of cash and cash equivalents"
           format: double
+          x-is-money: true
         closingCashBalance:
           type: number
           description: "Closing balance of cash and cash equivalents"
           format: double
+          x-is-money: true
         netCashMovement:
           type: number
           description: "Net movement of cash and cash equivalents for the period"
           format: double
+          x-is-money: true
           readOnly: true
       additionalProperties: false
     CashflowAccount:
@@ -1507,6 +1550,7 @@ components:
           type: number
           description: "Total amount for the account"
           format: double
+          x-is-money: true
       additionalProperties: false
     CashflowActivity:
       type: object
@@ -1518,6 +1562,7 @@ components:
           type: number
           description: "Total value of the activity type"
           format: double
+          x-is-money: true
         cashflowTypes:
           type: array
           items:
@@ -1552,6 +1597,7 @@ components:
           type: number
           description: "Total value of the activity"
           format: double
+          x-is-money: true
         accounts:
           type: array
           items:
@@ -1581,6 +1627,7 @@ components:
           type: number
           description: "Total movement on this account"
           format: double
+          x-is-money: true
       additionalProperties: false
     PnlAccountClass:
       type: object
@@ -1589,6 +1636,7 @@ components:
           type: number
           description: "Total revenue/expense value"
           format: double
+          x-is-money: true
         accountTypes:
           type: array
           items:
@@ -1602,6 +1650,7 @@ components:
           type: number
           description: "Total movement on this account type"
           format: double
+          x-is-money: true
         title:
           type: string
           description: "Name of this account type, it will be either Trading Income or Other Income for Revenue section / Direct Cost or Operating Expenses for Expense section"
@@ -1626,6 +1675,7 @@ components:
           type: number
           description: "Net profit loss value"
           format: double
+          x-is-money: true
         revenue:
           $ref: "#/components/schemas/PnlAccountClass"
         expense:
@@ -1662,6 +1712,7 @@ components:
           type: number
           description: "Value of balance. Expense and Asset accounts code debits as positive. Revenue, Liability, and Equity accounts code debits as negative"
           format: double
+          x-is-money: true
         accountMovement:
           $ref: "#/components/schemas/TrialBalanceMovement"
       additionalProperties: false
@@ -1672,6 +1723,7 @@ components:
           type: number
           description: "Net movement or net balance in the account"
           format: double
+          x-is-money: true
         entryType:
           type: string
           description: "Sign (Debit/Credit) of the movement of balance in the account"
@@ -1683,16 +1735,19 @@ components:
           type: number
           description: "Debit amount"
           format: double
+          x-is-money: true
         credits:
           type: number
           description: "Credit amount"
           format: double
+          x-is-money: true
         movement:
           $ref: "#/components/schemas/TrialBalanceEntry"
         signedMovement:
           type: number
           description: "Value of movement. Expense and Asset accounts code debits as positive. Revenue, Liability, and Equity accounts code debits as negative"
           format: double
+          x-is-money: true
       additionalProperties: false
     TrialBalanceResponse:
       type: object
