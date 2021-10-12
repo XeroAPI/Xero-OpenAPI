@@ -1972,11 +1972,9 @@ components:
         startDate:
           type: string
           description: Start date of the report
-          nullable: true
         endDate:
           type: string
           description: End date of the report
-          nullable: true
         total:
           type: number
           description: Total value
@@ -1989,7 +1987,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ContactDetail'
-          nullable: true
         manualJournals:
           $ref: '#/components/schemas/ManualJournalTotal'
       additionalProperties: false
@@ -2038,14 +2035,13 @@ components:
     ContactDetail:
       type: object
       properties:
-        id:
+        contactId:
           type: string
           description: "ID of the contact associated with the transactions.\r\n\r\nTransactions with no contact will be grouped under the special ID: 86793108-198C-46D8-90A3-43C1D12686CE.\r\n\r\nTransactions that are receive or spend bank transfers will be grouped under the special ID: 207322B3-6A58-4BE7-80F1-430123914AD6"
           format: uuid
         name:
           type: string
           description: "Name of the contact associated with the transactions.\r\n\r\nIf no contact is associated with the transactions this will appear as “None Provided”,\r\n\r\nFor receive or spend bank transfer transactions, this will appear as “Bank Transfer”."
-          nullable: true
         total:
           type: number
           description: Total value for the contact
@@ -2059,7 +2055,6 @@ components:
           items:
             type: string
           description: A list of account codes involved in transactions.
-          nullable: true
       additionalProperties: false
     ContactTotalDetail:
       type: object
@@ -2095,7 +2090,7 @@ components:
           description: Total credited value for the contact.
           format: double
         transactionCount:
-          type: number
+          type: integer
           description: Number of transactions for the contact.
-          format: double
+          format: int32
       additionalProperties: false
