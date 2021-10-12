@@ -826,26 +826,34 @@ paths:
         contact information.
       parameters:
         - name: contactIds
+          x-snake: contact_ids
           in: query
           description: "Specifies the customer contacts to be included in the report.\r\n\r\nIf no parameter is provided, all customer contacts will be included"
           schema:
             type: array
+            example: [00000000-0000-0000-0000-000000000000, 00000000-0000-0000-0000-000000000000]
             items:
               type: string
               format: uuid
         - name: includeManualJournals
+          x-snake: include_manual_journals
           in: query
           description: "Specifies whether to include the manual journals in the report.\r\n            \r\nIf no parameter is provided, manual journals will not be included."
+          example: true
           schema:
             type: boolean
         - name: startDate
+          x-snake: start_date
           in: query
           description: "Date yyyy-MM-dd\r\n\r\nSpecifies the start date for the report.\r\n            \r\nIf no parameter is provided, the date of 12 months before the end date will be used.\r\n            \r\nIt is recommended to always specify both a start date and end date; While the initial range may be set to 12 months, this may need to be reduced for high volume organisations in order to improve latency."
+          example: "2020-09-15"
           schema:
             type: string
         - name: endDate
+          x-snake: end_date
           in: query
           description: "Date yyyy-MM-dd\r\n\r\nSpecifies the end date for the report.\r\n\r\nIf no parameter is provided, the current date will be used.\r\n            \r\nIt is recommended to always specify both a start date and end date; While the initial range may be set to 12 months, this may need to be reduced for high volume organisations in order to improve latency."
+          example: "2020-09-15"
           schema:
             type: string
       responses:
@@ -926,26 +934,34 @@ paths:
         contact information.
       parameters:
         - name: contactIds
+          x-snake: contact_ids
           in: query
           description: "Specifies the customer contacts to be included in the report.\r\n\r\nIf no parameter is provided, all customer contacts will be included"
           schema:
             type: array
+            example: [00000000-0000-0000-0000-000000000000, 00000000-0000-0000-0000-000000000000]
             items:
               type: string
               format: uuid
         - name: includeManualJournals
+          x-snake: include_manual_journals
           in: query
           description: "Specifies whether to include the manual journals in the report.\r\n            \r\nIf no parameter is provided, manual journals will not be included."
+          example: true
           schema:
             type: boolean
         - name: startDate
+          x-snake: start_date
           in: query
           description: "Date yyyy-MM-dd\r\n\r\nSpecifies the start date for the report.\r\n            \r\nIf no parameter is provided, the date of 12 months before the end date will be used.\r\n            \r\nIt is recommended to always specify both a start date and end date; While the initial range may be set to 12 months, this may need to be reduced for high volume organisations in order to improve latency."
+          example: "2020-09-15"
           schema:
             type: string
         - name: endDate
+          x-snake: end_date
           in: query
           description: "Date yyyy-MM-dd\r\n\r\nSpecifies the end date for the report.\r\n\r\nIf no parameter is provided, the current date will be used.\r\n            \r\nIt is recommended to always specify both a start date and end date; While the initial range may be set to 12 months, this may need to be reduced for high volume organisations in order to improve latency."
+          example: "2020-09-15"
           schema:
             type: string
       responses:
@@ -1972,13 +1988,16 @@ components:
         startDate:
           type: string
           description: Start date of the report
+          format: date
         endDate:
           type: string
           description: End date of the report
+          format: date
         total:
           type: number
           description: Total value
           format: double
+          x-is-money: true
         totalDetail:
           $ref: '#/components/schemas/TotalDetail'
         totalOther:
@@ -1997,6 +2016,7 @@ components:
           type: number
           description: Total value of manual journals.
           format: double
+          x-is-money: true
       additionalProperties: false
     TotalDetail:
       type: object
@@ -2005,14 +2025,17 @@ components:
           type: number
           description: Total paid invoice and cash value within the period.
           format: double
+          x-is-money: true
         totalOutstanding:
           type: number
           description: Total outstanding invoice value within the period.
           format: double
+          x-is-money: true
         totalCreditedUnApplied:
           type: number
           description: Total unapplied credited value within the period.
           format: double
+          x-is-money: true
       additionalProperties: false
     TotalOther:
       type: object
@@ -2023,14 +2046,17 @@ components:
             Total outstanding invoice value within the period where the invoices
             are more than 90 days old
           format: double
+          x-is-money: true
         totalVoided:
           type: number
           description: Total voided value.
           format: double
+          x-is-money: true
         totalCredited:
           type: number
           description: Total credited value.
           format: double
+          x-is-money: true
       additionalProperties: false
     ContactDetail:
       type: object
@@ -2046,6 +2072,7 @@ components:
           type: number
           description: Total value for the contact
           format: double
+          x-is-money: true
         totalDetail:
           $ref: '#/components/schemas/ContactTotalDetail'
         totalOther:
@@ -2063,14 +2090,17 @@ components:
           type: number
           description: Total paid invoice and cash value for the contact within the period.
           format: double
+          x-is-money: true
         totalOutstanding:
           type: number
           description: Total outstanding invoice value for the contact within the period.
           format: double
+          x-is-money: true
         totalCreditedUnApplied:
           type: number
           description: Total unapplied credited value for the contact within the period.
           format: double
+          x-is-money: true
       additionalProperties: false
     ContactTotalOther:
       type: object
@@ -2081,14 +2111,17 @@ components:
             Total outstanding invoice value for the contact within the period
             where the invoices are more than 90 days old
           format: double
+          x-is-money: true
         totalVoided:
           type: number
           description: Total voided value for the contact.
           format: double
+          x-is-money: true
         totalCredited:
           type: number
           description: Total credited value for the contact.
           format: double
+          x-is-money: true
         transactionCount:
           type: integer
           description: Number of transactions for the contact.
