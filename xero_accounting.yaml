@@ -3565,6 +3565,8 @@ paths:
                                 "ContactGroups": [],
                                 "IsSupplier": true,
                                 "IsCustomer": true,
+                                "SalesDefaultLineAmountType": "INCLUSIVE",
+                                "PurchasesDefaultLineAmountType": "INCLUSIVE",
                                 "Balances": {
                                   "AccountsReceivable": {
                                     "Outstanding": 760.00,
@@ -23715,10 +23717,18 @@ components:
           description: The default sales line amount type for a contact.
             Only available when summaryOnly parameter or paging is used, or when fetch by ContactId or ContactNumber.
           type: string
+          enum:
+          - INCLUSIVE
+          - EXCLUSIVE
+          - NONE
         PurchasesDefaultLineAmountType:
           description: The default purchases line amount type for a contact
             Only available when summaryOnly parameter or paging is used, or when fetch by ContactId or ContactNumber.
           type: string
+          enum:
+          - INCLUSIVE
+          - EXCLUSIVE
+          - NONE
         DefaultCurrency:
           $ref: '#/components/schemas/CurrencyCode'
           type: string
