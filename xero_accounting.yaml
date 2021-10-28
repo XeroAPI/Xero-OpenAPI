@@ -3512,6 +3512,7 @@ paths:
                                 "Name": "Katherine Warren",
                                 "FirstName": "Katherine",
                                 "LastName": "Warren",
+                                "CompanyNumber": "NumberBusiness1234",
                                 "EmailAddress": "kat.warren@clampett.com",
                                 "BankAccountDetails": "",
                                 "Addresses": [
@@ -3738,6 +3739,7 @@ paths:
                             {
                               "ContactID": "3ff6d40c-af9a-40a3-89ce-3c1556a25591",
                               "ContactStatus": "ACTIVE",
+                              "CompanyNumber": "NumberBusiness1234",
                               "Name": "Foo9987",
                               "EmailAddress": "sid32476@blah.com",
                               "BankAccountDetails": "",
@@ -3787,6 +3789,8 @@ paths:
                               "ContactGroups": [],
                               "IsSupplier": false,
                               "IsCustomer": false,
+                              "SalesDefaultLineAmountType": "INCLUSIVE",
+                              "PurchasesDefaultLineAmountType": "INCLUSIVE",
                               "SalesTrackingCategories": [],
                               "PurchasesTrackingCategories": [],
                               "PaymentTerms": {
@@ -4045,6 +4049,7 @@ paths:
                               "ContactID": "00000000-0000-0000-0000-000000000000",
                               "ContactStatus": "ACTIVE",
                               "Name": "Bruce Banner",
+                              "CompanyNumber": "NumberBusiness1234",
                               "EmailAddress": "bruce@banner.com",
                               "BankAccountDetails": "",
                               "Addresses": [
@@ -4093,6 +4098,8 @@ paths:
                               "ContactGroups": [],
                               "IsSupplier": false,
                               "IsCustomer": false,
+                              "SalesDefaultLineAmountType": "INCLUSIVE",
+                              "PurchasesDefaultLineAmountType": "INCLUSIVE",
                               "SalesTrackingCategories": [],
                               "PurchasesTrackingCategories": [],
                               "PaymentTerms": {
@@ -4243,6 +4250,7 @@ paths:
                             "Name": "Acme Parts Co.",
                             "FirstName": "Blake",
                             "LastName": "Kohler",
+                            "CompanyNumber": "NumberBusiness1234",
                             "EmailAddress": "bk@krave.co",
                             "SkypeUserName": "blake",
                             "BankAccountDetails": "12334567",
@@ -4299,6 +4307,8 @@ paths:
                             "ContactGroups": [],
                             "IsSupplier": true,
                             "IsCustomer": true,
+                            "SalesDefaultLineAmountType": "INCLUSIVE",
+                            "PurchasesDefaultLineAmountType": "INCLUSIVE",
                             "DefaultCurrency": "USD",
                             "Discount": 13.00,
                             "Website": "http://www.google.com",
@@ -4390,6 +4400,7 @@ paths:
                             "Name": "Acme Parts Co.",
                             "FirstName": "Blake",
                             "LastName": "Kohler",
+                            "CompanyNumber": "NumberBusiness1234",
                             "EmailAddress": "bk@krave.co",
                             "SkypeUserName": "blake",
                             "BankAccountDetails": "12334567",
@@ -4446,6 +4457,8 @@ paths:
                             "ContactGroups": [],
                             "IsSupplier": true,
                             "IsCustomer": true,
+                            "SalesDefaultLineAmountType": "INCLUSIVE",
+                            "PurchasesDefaultLineAmountType": "INCLUSIVE",
                             "DefaultCurrency": "USD",
                             "Discount": 13.00,
                             "Website": "http://www.google.com",
@@ -4608,6 +4621,8 @@ paths:
                               "ContactGroups": [],
                               "IsSupplier": false,
                               "IsCustomer": false,
+                              "SalesDefaultLineAmountType": "INCLUSIVE",
+                              "PurchasesDefaultLineAmountType": "INCLUSIVE",
                               "SalesTrackingCategories": [],
                               "PurchasesTrackingCategories": [],
                               "PaymentTerms": {
@@ -23608,6 +23623,11 @@ components:
           description: Xero identifier
           type: string
           format: uuid
+        MergedToContactID:
+          description: ID for the destination of a merged contact. 
+            Only returned when using paging or when fetching a contact by ContactId or ContactNumber.
+          type: string
+          format: uuid
         ContactNumber:
           description: This can be updated via the API only i.e. This field is read only on the Xero contact screen, used to identify contacts in external
             systems (max length = 50). If the Contact Number is used, this is
@@ -23637,6 +23657,10 @@ components:
         LastName:
           description: Last name of contact person (max length = 255)
           maxLength: 255
+          type: string
+        CompanyNumber:
+          description: Company registration number (max length = 50)
+          maxLength: 50
           type: string
         EmailAddress:
           description: Email address of contact person (umlauts not supported) (max length  = 255)
@@ -23687,6 +23711,14 @@ components:
             automatically set when an accounts receivable invoice is generated
             against this contact.
           type: boolean
+        SalesDefaultLineAmountType:
+          description: The default sales line amount type for a contact.
+            Only available when summaryOnly parameter or paging is used, or when fetch by ContactId or ContactNumber.
+          type: string
+        PurchasesDefaultLineAmountType:
+          description: The default purchases line amount type for a contact
+            Only available when summaryOnly parameter or paging is used, or when fetch by ContactId or ContactNumber.
+          type: string
         DefaultCurrency:
           $ref: '#/components/schemas/CurrencyCode'
           type: string
