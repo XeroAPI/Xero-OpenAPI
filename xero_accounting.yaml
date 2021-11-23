@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Xero Accounting API
-  version: "2.16.6"
+  version: "2.17.1"
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
   contact:
     name: "Xero Platform Team"
@@ -2581,6 +2581,9 @@ paths:
                               "Amount": 20.00,
                               "FromBankTransactionID": "a3eca480-bc04-4292-9bbd-5c57b8ba12b4",
                               "ToBankTransactionID": "4ca13f40-f3a0-4530-a442-a600f5696118",
+                              "FromIsReconciled": true,
+                              "ToIsReconciled": true,
+                              "Reference": "Sub 098801",
                               "HasAttachments": true
                             },
                             {
@@ -2600,6 +2603,9 @@ paths:
                               "Amount": 20.00,
                               "FromBankTransactionID": "cb74287e-5682-4973-b354-93e2c7a836d3",
                               "ToBankTransactionID": "4c48ba6c-f318-4405-aee6-b5efa2c70f55",
+                              "FromIsReconciled": false,
+                              "ToIsReconciled": false,
+                              "Reference": "Sub 098801",
                               "HasAttachments": false
                             }
                           ]
@@ -2711,6 +2717,9 @@ paths:
                               "Amount": 50.00,
                               "FromBankTransactionID": "e4059952-5acb-4a56-b076-53fad85f2930",
                               "ToBankTransactionID": "88e4ac17-293b-4e5a-8d8b-3ce3a0b1ee17",
+                              "FromIsReconciled": true,
+                              "ToIsReconciled": true,
+                              "Reference": "Sub 098801",
                               "CurrencyRate": 1.000000,
                               "ValidationErrors": []
                             }
@@ -2764,7 +2773,10 @@ paths:
                               "HasAttachments": false,
                               "UpdatedDateUTC": "2016-06-03T08:31:14.517-07:00"
                             },
-                            "Amount": "50.00"
+                            "Amount": "50.00",
+                            "FromIsReconciled": true,
+                            "ToIsReconciled": true,
+                            "Reference": "Sub 098801"
                           }
                         ]
                       }'
@@ -2812,6 +2824,9 @@ paths:
                               "Amount": 20.00,
                               "FromBankTransactionID": "a3eca480-bc04-4292-9bbd-5c57b8ba12b4",
                               "ToBankTransactionID": "4ca13f40-f3a0-4530-a442-a600f5696118",
+                              "FromIsReconciled": false,
+                              "ToIsReconciled": false,
+                              "Reference": "Sub 098801",
                               "CurrencyRate": 1.000000,
                               "HasAttachments": true,
                               "Attachments": [
@@ -3262,13 +3277,17 @@ paths:
               format: uuid
         - in: query
           name: DateTo
+          x-snake: date_to
           description: Filter by start date
+          example: "2019-10-31"
           schema:
             type: string
             format: date
         - in: query
           name: DateFrom
+          x-snake: date_from
           description: Filter by end date
+          example: "2019-10-31"
           schema:
             type: string
             format: date
@@ -3319,13 +3338,17 @@ paths:
         - $ref: '#/components/parameters/BudgetID'
         - in: query
           name: DateTo
+          x-snake: date_to
           description: Filter by start date
+          example: "2019-10-31"
           schema:
             type: string
             format: date
         - in: query
           name: DateFrom
+          x-snake: date_from
           description: Filter by end date
+          example: "2019-10-31"
           schema:
             type: string
             format: date
@@ -3463,6 +3486,13 @@ paths:
           schema:
             type: boolean
         - $ref: '#/components/parameters/summaryOnly'
+        - in: query
+          name: searchTerm
+          x-snake: search_term
+          description: Search parameter that performs a case-insensitive text search across the Name, FirstName, LastName, ContactNumber and EmailAddress fields.
+          example: searchTerm=Joe Bloggs
+          schema:
+            type: string
       responses:
         '200':
           description: Success - return response of type Contacts array with 0 to N Contact
@@ -9953,6 +9983,7 @@ paths:
             type: integer
         - in: query
           name: paymentsOnly
+          x-snake: payments_only
           description: Filter to retrieve journals on a cash basis. Journals are returned on an accrual basis by default.
           schema:
             type: boolean
@@ -10235,6 +10266,7 @@ paths:
             format: uuid
         - in: query
           name: Status
+          x-snake: status
           description: Filter by the combination of ContactID and Status. Get  the linked transactions associated to a  customer and with a status
           example: "APPROVED"
           schema:
@@ -13705,6 +13737,7 @@ paths:
         - $ref: '#/components/parameters/ifModifiedSince'
         - in: query
           name: Status
+          x-snake: status
           description: Filter by purchase order status
           example: "SUBMITTED"
           schema:
@@ -13717,12 +13750,14 @@ paths:
               - DELETED
         - in: query
           name: DateFrom 
+          x-snake: date_from
           description: Filter by purchase order date (e.g. GET https://.../PurchaseOrders?DateFrom=2015-12-01&DateTo=2015-12-31
           example: "2019-12-01"
           schema:
             type: string
         - in: query
           name: DateTo
+          x-snake: date_to
           description: Filter by purchase order date (e.g. GET https://.../PurchaseOrders?DateFrom=2015-12-01&DateTo=2015-12-31
           example: "2019-12-31"
           schema:
@@ -15180,6 +15215,7 @@ paths:
           name: DateFrom
           x-snake: date_from
           description: Filter for quotes after a particular date
+          example: "2019-10-31"
           schema:
             type: string
             format: date
@@ -15187,6 +15223,7 @@ paths:
           name: DateTo
           x-snake: date_to
           description: Filter for quotes before a particular date
+          example: "2019-10-31"
           schema:
             type: string
             format: date
@@ -15194,6 +15231,7 @@ paths:
           name: ExpiryDateFrom
           x-snake: expiry_date_from
           description: Filter for quotes expiring after a particular date
+          example: "2019-10-31"
           schema:
             type: string
             format: date
@@ -15201,6 +15239,7 @@ paths:
           name: ExpiryDateTo
           x-snake: expiry_date_to
           description: Filter for quotes before a particular date
+          example: "2019-10-31"
           schema:
             type: string
             format: date
@@ -15214,6 +15253,7 @@ paths:
             format: uuid
         - in: query
           name: Status
+          x-snake: status
           description: Filter for quotes of a particular Status
           example: "DRAFT"
           schema:
@@ -17707,6 +17747,7 @@ paths:
         - in: query
           name: date
           description: The date of the Aged Payables By Contact report
+          example: "2019-10-31"
           schema:
             type: string
             format: date
@@ -17976,6 +18017,7 @@ paths:
         - in: query
           name: date
           description: The date of the Aged Receivables By Contact report
+          example: "2019-10-31"
           schema:
             type: string
             format: date
@@ -18325,7 +18367,6 @@ paths:
             type: integer
         - in: query
           name: timeframe
-          x-snake: time_frame
           description: The period size to compare to (MONTH, QUARTER, YEAR)
           example: "MONTH"
           schema:
@@ -19279,7 +19320,6 @@ paths:
             type: integer
         - in: query
           name: timeframe
-          x-snake: time_frame
           description: The period size to compare to (1=month, 3=quarter, 12=year)
           example: 3
           schema:
@@ -20037,7 +20077,6 @@ paths:
             type: integer
         - in: query
           name: timeframe
-          x-snake: time_frame
           description: The period size to compare to (MONTH, QUARTER, YEAR)
           example: "MONTH"
           schema:
@@ -22369,6 +22408,7 @@ components:
       name: fromDate
       x-snake: from_date
       description: filter by the from date of the report e.g. 2021-02-01
+      example: "2019-10-31"
       schema:
         type: string
         format: date
@@ -22377,6 +22417,7 @@ components:
       name: toDate
       x-snake: to_date
       description: filter by the to date of the report e.g. 2021-02-28
+      example: "2019-10-31"
       schema:
         type: string
         format: date
@@ -23329,6 +23370,19 @@ components:
           readOnly: true
           type: string
           format: uuid
+        FromIsReconciled:
+          description: The Bank Transaction boolean to show if it is reconciled for the source account
+          type: boolean
+          default: "false"
+          example: "false"
+        ToIsReconciled:
+          description: The Bank Transaction boolean to show if it is reconciled for the destination account
+          type: boolean
+          default: "false"
+          example: "false"
+        Reference:
+          description: Reference for the transactions.
+          type: string
         HasAttachments:
           description: Boolean to indicate if a Bank Transfer has an attachment
           readOnly: true
