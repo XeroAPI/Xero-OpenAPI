@@ -1047,6 +1047,7 @@ paths:
         provide valuable insight for lender's assessment measures. 
       parameters:
         - name: BankAccountID
+          x-snake: summary_only
           in: query
           description: "string, GUID\r\n\r\nBank account Id"
           required: true
@@ -1054,6 +1055,7 @@ paths:
             type: string
             format: uuid
         - name: FromDate
+          x-snake: summary_only
           in: query
           description: "date, yyyy-MM-dd \r\n\r\nSpecifies the start date of the query period. \r\nThe maximum range of the query period is 12 months. If the specified query period is more than 12 months the request will be rejected."
           required: true
@@ -1062,6 +1064,7 @@ paths:
             example: '2020-07-01'
           example: '2020-07-01'
         - name: ToDate
+          x-snake: summary_only
           in: query
           description: "date, yyyy-MM-dd \r\n\r\nSpecifies the end date of the query period. \r\nIf the end date is a future date, the request will be rejected."
           required: true
@@ -1070,6 +1073,7 @@ paths:
             example: '2021-06-30'
           example: '2021-06-30'
         - name: SummaryOnly
+          x-snake: summary_only
           in: query
           description: "boolean, true/false\r\n\r\nThe default value is true if no parameter is provided.\r\n\r\nIn summary mode, the response will exclude the computation-heavy LineItems fields from bank transaction, invoice, credit note, prepayment and overpayment data, making the API calls quicker and more efficient."
           schema:
@@ -2236,6 +2240,7 @@ components:
           type: number
           description: Amount of transaction
           format: double
+          x-is-money: true
         lineItems:
           type: array
           items:
@@ -2266,6 +2271,7 @@ components:
           type: number
           description: Total of Invoice tax inclusive (i.e. SubTotal + TotalTax); Not included in summary mode
           format: double
+          x-is-money: true
         lineItems:
           type: array
           items:
@@ -2285,6 +2291,7 @@ components:
           type: number
           description: Total of Invoice tax inclusive (i.e. SubTotal + TotalTax); Not included in summary mode
           format: double
+          x-is-money: true
         lineItems:
           type: array
           items:
@@ -2305,6 +2312,7 @@ components:
           type: number
           description: Amount of line item
           format: double
+          x-is-money: true
         accountType:
           type: string
           description: Account type
@@ -2322,6 +2330,7 @@ components:
           type: number
           description: Total of Invoice tax inclusive (i.e. SubTotal + TotalTax); Not included in summary mode
           format: double
+          x-is-money: true
         lineItems:
           type: array
           items:
@@ -2347,10 +2356,12 @@ components:
           type: number
           description: The amount of the payment
           format: double
+          x-is-money: true
         bankAmount:
           type: number
           description: The bank amount of the payment
           format: double
+          x-is-money: true
         currencyRate:
           type: number
           description: Exchange rate when payment is received. Only used for non base currency invoices and credit notes e.g. 0.7500
@@ -2377,6 +2388,7 @@ components:
           type: number
           description: Total of Invoice tax inclusive (i.e. SubTotal + TotalTax); Not included in summary mode
           format: double
+          x-is-money: true
         lineItems:
           type: array
           items:
@@ -2407,6 +2419,7 @@ components:
           type: number
           description: Amount of statement line
           format: double
+          x-is-money: true
         transactionDate:
           type: string
           description: Transaction date of statement line
