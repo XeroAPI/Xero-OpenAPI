@@ -1033,7 +1033,7 @@ paths:
       security:
         - OAuth2: [finance.bankstatementsplus.read]
       tags:
-        - BankStatementsPlus
+        - Finance
       operationId: getBankStatementAccounting
       summary: Get Bank Statement Accounting
       description: >-
@@ -1044,21 +1044,9 @@ paths:
         bank statements to invoices and bills, this transaction detail will
         provide valuable insight for lender's assessment measures. 
       parameters:
-        - name: Xero-Correlation-Id
-          in: header
-          description: "string, GUID\r\n\r\nCorrelation Id for tracing purpose"
-          schema:
-            type: string
         - name: Xero-Tenant-Id
           in: header
           description: "string, GUID\r\n\r\nXero organisation Id"
-          required: true
-          schema:
-            type: string
-            format: uuid
-        - name: Xero-User-Id
-          in: header
-          description: "string, GUID\r\n\r\nXero user Id"
           required: true
           schema:
             type: string
@@ -2473,6 +2461,7 @@ components:
         importSource:
           type: string
           description: Import source of statement
+          example: STMTIMPORTSRC/MANUAL 
         statementLines:
           type: array
           items:
