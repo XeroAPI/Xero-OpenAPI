@@ -1029,6 +1029,8 @@ paths:
                 status: 400
                 detail: Organisation xxx does not exist
   /bankstatementsplus/statements:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
         - OAuth2: [finance.bankstatementsplus.read]
@@ -1044,13 +1046,6 @@ paths:
         bank statements to invoices and bills, this transaction detail will
         provide valuable insight for lender's assessment measures. 
       parameters:
-        - name: Xero-Tenant-Id
-          in: header
-          description: "string, GUID\r\n\r\nXero organisation Id"
-          required: true
-          schema:
-            type: string
-            format: uuid
         - name: BankAccountID
           in: query
           description: "string, GUID\r\n\r\nBank account Id"
@@ -2460,7 +2455,7 @@ components:
           format: date-time
         importSource:
           type: string
-          description: Import source of statement (STMTIMPORTSRC/MANUAL, STMTIMPORTSRC/CSV, STMTIMPORTSRC/QIF, STMTIMPORTSRC/OFX)
+          description: Import source of statement (STMTIMPORTSRC/MANUAL, STMTIMPORTSRC/CSV, STMTIMPORTSRC/QIF, STMTIMPORTSRC/OFX, XeroApi)
         statementLines:
           type: array
           items:
