@@ -1028,6 +1028,71 @@ paths:
                 title: InvalidRequest
                 status: 400
                 detail: Organisation xxx does not exist
+  /bankstatementsplus/statements:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    get:
+      security:
+        - OAuth2: [finance.bankstatementsplus.read]
+      tags:
+        - Finance
+      operationId: getBankStatementAccounting
+      summary: Get Bank Statement Accounting
+      description: >-
+        For lenders that prefer using bank statement data as the source of
+        truth.  We provide a data point that will allow access to customer
+        bank statements, plus for reconciled bank transactions the matching
+        accounting, invoice and billing data as well.  As customers reconcile
+        bank statements to invoices and bills, this transaction detail will
+        provide valuable insight for lender's assessment measures. 
+      parameters:
+        - name: BankAccountID
+          x-snake: bank_account_id
+          in: query
+          description: "string, GUID\r\n\r\nBank account Id"
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: FromDate
+          x-snake: from_date
+          in: query
+          description: "date, yyyy-MM-dd \r\n\r\nSpecifies the start date of the query period. \r\nThe maximum range of the query period is 12 months. If the specified query period is more than 12 months the request will be rejected."
+          required: true
+          schema:
+            type: string
+            example: '2020-07-01'
+          example: '2020-07-01'
+        - name: ToDate
+          x-snake: to_date
+          in: query
+          description: "date, yyyy-MM-dd \r\n\r\nSpecifies the end date of the query period. \r\nIf the end date is a future date, the request will be rejected."
+          required: true
+          schema:
+            type: string
+            example: '2021-06-30'
+          example: '2021-06-30'
+        - name: SummaryOnly
+          x-snake: summary_only
+          in: query
+          description: "boolean, true/false\r\n\r\nThe default value is true if no parameter is provided.\r\n\r\nIn summary mode, the response will exclude the computation-heavy LineItems fields from bank transaction, invoice, credit note, prepayment and overpayment data, making the API calls quicker and more efficient."
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BankStatementAccountingResponse'
+              example: '{"bankAccountId":"1234eee9-47f0-4179-bd46-9adb4f21cc7f","bankAccountName":"ANZ BANK","bankAccountCurrencyCode":"NZD","statements":[{"statementId":"7c29eee9-47f0-4179-bd46-9adb4f21cc7f","startDate":"2021-01-01","endDate":"2021-01-02","importedDateTimeUtc":"2021-01-02T12:00:00Z","importSource":"User","statementLines":[{"statementLineId":"1234eee9-47f0-4179-bd46-9adb4f21cc7f","postedDate":"2021-01-01","reference":"Eft","notes":"payment to bank","chequeNo":"123","amount":100.0,"transactionDate":"2021-01-01","type":"Debit","isReconciled":true,"isDuplicate":false,"isDeleted":false,"payments":[{"paymentId":"47ec8431-23c2-4ef9-90e5-b440fe55d086","batchPaymentId":"ecc83387-ffaa-4023-b111-b3fd9e3e4a8e","date":"2021-01-01","amount":80.0,"bankAmount":80.0,"currencyRate":1.0,"invoice":{"invoiceId":"c01dd6ac-8835-4bf2-af8b-841db9534d7f","contact":{"contactId":"1234eee9-47f0-4179-bd46-9adb4f21cc7f","contactName":"Bob"},"total":80.0,"lineItems":[{"accountId":"f7fe1049-d1cf-4d10-9df1-67a6e363015f","reportingCode":"REV.OTH","lineAmount":80.0,"accountType":"REVENUE"}]}},{"paymentId":"54e8eee0-91a7-4a4d-bb9b-957302a2760a","batchPaymentId":"ecc83387-ffaa-4023-b111-b3fd9e3e4a8e","date":"2021-01-01","amount":15.0,"bankAmount":15.0,"currencyRate":1.0,"creditNote":{"creditNoteId":"c346d6a5-f013-4207-bc70-f2dd80a5f37f","contact":{"contactId":"1234eee9-47f0-4179-bd46-9adb4f21cc7f","contactName":"Bob"},"total":15.0,"lineItems":[{"accountId":"f7fe1049-d1cf-4d10-9df1-67a6e363015f","reportingCode":"REV.OTH","lineAmount":15.0,"accountType":"REVENUE"}]}},{"paymentId":"f94dad64-658c-491f-b901-05d38e9e8702","date":"2021-01-01","amount":5.0,"bankAmount":5.0,"currencyRate":1.0,"prepayment":{"prepaymentId":"995f81ae-0afd-4c84-bbe1-90bc7dfa4372","contact":{"contactId":"1234eee9-47f0-4179-bd46-9adb4f21cc7f","contactName":"Bob"},"total":5.0,"lineItems":[{"accountId":"f7fe1049-d1cf-4d10-9df1-67a6e363015f","reportingCode":"REV.OTH","lineAmount":5.0,"accountType":"REVENUE"}]}},{"paymentId":"6ffbe999-04c8-42d2-bf16-13947c5f1036","date":"2021-01-01","amount":5.0,"bankAmount":5.0,"currencyRate":1.0,"overpayment":{"overpaymentId":"06575718-5100-4e02-8fbf-c2731a112836","contact":{"contactId":"1234eee9-47f0-4179-bd46-9adb4f21cc7f","contactName":"Bob"},"total":5.0,"lineItems":[{"accountId":"f7fe1049-d1cf-4d10-9df1-67a6e363015f","reportingCode":"REV.OTH","lineAmount":5.0,"accountType":"REVENUE"}]}}],"bankTransactions":[{"bankTransactionId":"55edf88c-6bf6-459a-bd9b-7f250df62eb2","batchPaymentId":"2dce9b39-0427-41af-9739-9510e3b68211","contact":{"contactId":"1234eee9-47f0-4179-bd46-9adb4f21cc7f","contactName":"Bob"},"date":"2021-01-01","amount":20.0,"lineItems":[{"accountId":"f7fe1049-d1cf-4d10-9df1-67a6e363015f","reportingCode":"REV.OTH","lineAmount":20.0,"accountType":"REVENUE"}]}]}]}]}'
+        '400':
+          description: BadRequest
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+              example: '{"type":"invalid-request","title":"InvalidRequest","status":400,"detail":"AccountId was not supplied"}'
 components:
   securitySchemes:
     OAuth2:
@@ -1044,6 +1109,7 @@ components:
             finance.statements.read: Grant read-only access to finacial statements
             finance.accountingactivity.read: Grant read-only access to Xero usage activity
             finance.cashvalidation.read: Grant read-only access to bank statement and reconcilation data
+            finance.bankstatementsplus.read: Grant read-only access to bank statements accounting data
   parameters:
     requiredHeader: 
       in: header
@@ -1216,10 +1282,15 @@ components:
     ProblemType:
       enum:
       - NotSet
-      - invalid-request
-      - invalid-application
-      - service-unavailable
+      - bank-account-not-found
       - internal-error
+      - invalid-application
+      - invalid-request
+      - organisation-not-found
+      - organisation-offline
+      - request-timeout
+      - service-unavailable
+      - unauthorized
       type: string
     ReportHistoryModel:
       type: object
@@ -2128,4 +2199,279 @@ components:
           type: integer
           description: Number of transactions for the contact.
           format: int32
+      additionalProperties: false
+    BankStatementAccountingResponse:
+      type: object
+      properties:
+        bankAccountId:
+          type: string
+          description: Xero Identifier of bank account
+          format: uuid
+        bankAccountName:
+          type: string
+          description: Name of bank account
+        bankAccountCurrencyCode:
+          type: string
+          description: Currency code of the bank account
+        statements:
+          type: array
+          items:
+            $ref: '#/components/schemas/StatementResponse'
+          description: List of bank statements and linked accounting data for the requested period
+      additionalProperties: false
+    BankTransactionResponse:
+      type: object
+      properties:
+        bankTransactionId:
+          type: string
+          description: Xero Identifier of transaction
+          format: uuid
+        batchPaymentId:
+          type: string
+          description: Xero Identifier of batch payment. Present if the transaction is part of a batch.
+          format: uuid
+        contact:
+          $ref: '#/components/schemas/ContactResponse'
+        date:
+          type: string
+          description: Date of transaction - YYYY-MM-DD
+          format: date-time
+        amount:
+          type: number
+          description: Amount of transaction
+          format: double
+          x-is-money: true
+        lineItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/LineItemResponse'
+          description: The LineItems element can contain any number of individual LineItem sub-elements. Not included in summary mode
+      additionalProperties: false
+    ContactResponse:
+      type: object
+      properties:
+        contactId:
+          type: string
+          description: Xero Identifier of contact
+          format: uuid
+        contactName:
+          type: string
+          description: Full name of contact/organisation
+      additionalProperties: false
+    CreditNoteResponse:
+      type: object
+      properties:
+        creditNoteId:
+          type: string
+          description: Xero Identifier of credit note
+          format: uuid
+        contact:
+          $ref: '#/components/schemas/ContactResponse'
+        total:
+          type: number
+          description: Total of Invoice tax inclusive (i.e. SubTotal + TotalTax); Not included in summary mode
+          format: double
+          x-is-money: true
+        lineItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/LineItemResponse'
+          description: Not included in summary mode
+      additionalProperties: false
+    InvoiceResponse:
+      type: object
+      properties:
+        invoiceId:
+          type: string
+          description: Xero Identifier of invoice
+          format: uuid
+        contact:
+          $ref: '#/components/schemas/ContactResponse'
+        total:
+          type: number
+          description: Total of Invoice tax inclusive (i.e. SubTotal + TotalTax); Not included in summary mode
+          format: double
+          x-is-money: true
+        lineItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/LineItemResponse'
+          description: Not included in summary mode
+      additionalProperties: false
+    LineItemResponse:
+      type: object
+      properties:
+        accountId:
+          type: string
+          description: Xero Identifier of account
+          format: uuid
+        reportingCode:
+          type: string
+          description: Shown if set
+        lineAmount:
+          type: number
+          description: Amount of line item
+          format: double
+          x-is-money: true
+        accountType:
+          type: string
+          description: Account type
+      additionalProperties: false
+    OverpaymentResponse:
+      type: object
+      properties:
+        overpaymentId:
+          type: string
+          description: Xero Identifier of overpayment
+          format: uuid
+        contact:
+          $ref: '#/components/schemas/ContactResponse'
+        total:
+          type: number
+          description: Total of Invoice tax inclusive (i.e. SubTotal + TotalTax); Not included in summary mode
+          format: double
+          x-is-money: true
+        lineItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/LineItemResponse'
+          description: Not included in summary mode
+      additionalProperties: false
+    PaymentResponse:
+      type: object
+      properties:
+        paymentId:
+          type: string
+          description: Xero Identifier of payment
+          format: uuid
+        batchPaymentId:
+          type: string
+          description: Xero Identifier of batch payment. Present if the payment was created as part of a batch.
+          format: uuid
+        date:
+          type: string
+          description: Date the payment is being made (YYYY-MM-DD) e.g. 2009-09-06
+          format: date-time
+        amount:
+          type: number
+          description: The amount of the payment
+          format: double
+          x-is-money: true
+        bankAmount:
+          type: number
+          description: The bank amount of the payment
+          format: double
+          x-is-money: true
+        currencyRate:
+          type: number
+          description: Exchange rate when payment is received. Only used for non base currency invoices and credit notes e.g. 0.7500
+          format: double
+        invoice:
+          $ref: '#/components/schemas/InvoiceResponse'
+        creditNote:
+          $ref: '#/components/schemas/CreditNoteResponse'
+        prepayment:
+          $ref: '#/components/schemas/PrepaymentResponse'
+        overpayment:
+          $ref: '#/components/schemas/OverpaymentResponse'
+      additionalProperties: false
+    PrepaymentResponse:
+      type: object
+      properties:
+        prepaymentId:
+          type: string
+          description: Xero Identifier of prepayment
+          format: uuid
+        contact:
+          $ref: '#/components/schemas/ContactResponse'
+        total:
+          type: number
+          description: Total of Invoice tax inclusive (i.e. SubTotal + TotalTax); Not included in summary mode
+          format: double
+          x-is-money: true
+        lineItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/LineItemResponse'
+          description: Not included in summary mode
+      additionalProperties: false
+    StatementLineResponse:
+      type: object
+      properties:
+        statementLineId:
+          type: string
+          description: Xero Identifier of statement line
+          format: uuid
+        postedDate:
+          type: string
+          description: Date of when statement line was posted
+          format: date-time
+        reference:
+          type: string
+          description: Reference description of statement line
+        notes:
+          type: string
+          description: Notes description of statement line
+        chequeNo:
+          type: string
+          description: Cheque number of statement line
+        amount:
+          type: number
+          description: Amount of statement line
+          format: double
+          x-is-money: true
+        transactionDate:
+          type: string
+          description: Transaction date of statement line
+          format: date-time
+        type:
+          type: string
+          description: Type of statement line
+        isReconciled:
+          type: boolean
+          description: Boolean to show if statement line is reconciled
+        isDuplicate:
+          type: boolean
+          description: Boolean to show if statement line is duplicate
+        isDeleted:
+          type: boolean
+          description: Boolean to show if statement line is deleted
+        payments:
+          type: array
+          items:
+            $ref: '#/components/schemas/PaymentResponse'
+          description: List of payments associated with reconciled statement lines
+        bankTransactions:
+          type: array
+          items:
+            $ref: '#/components/schemas/BankTransactionResponse'
+          description: List of bank transactions associated with reconciled statement lines
+      additionalProperties: false
+    StatementResponse:
+      type: object
+      properties:
+        statementId:
+          type: string
+          description: Xero Identifier of statement
+          format: uuid
+        startDate:
+          type: string
+          description: Start date of statement
+          format: date-time
+        endDate:
+          type: string
+          description: End date of statement
+          format: date-time
+        importedDateTimeUtc:
+          type: string
+          description: Utc date time of when the statement was imported in Xero
+          format: date-time
+        importSource:
+          type: string
+          description: Import source of statement (STMTIMPORTSRC/MANUAL, STMTIMPORTSRC/CSV, STMTIMPORTSRC/QIF, STMTIMPORTSRC/OFX, XeroApi)
+        statementLines:
+          type: array
+          items:
+            $ref: '#/components/schemas/StatementLineResponse'
+          description: List of statement lines
       additionalProperties: false
