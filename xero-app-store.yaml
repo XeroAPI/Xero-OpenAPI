@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: "2.19.3"
+  version: "2.17.2"
   title: Xero AppStore API
   description: These endpoints are for Xero Partners to interact with the App Store Billing platform
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
@@ -56,8 +56,7 @@ paths:
                                     "name": "Small",
                                     "type": "FIXED"
                                   },
-                                  "startDate": "2021-07-20T03:13:48Z",
-                                  "status": "ACTIVE"
+                                  "startDate": "2021-07-20T03:13:48Z"
                                 }
                               ]
                             }
@@ -131,10 +130,6 @@ components:
         status:
           description: Status of the subscription. Available statuses are ACTIVE, CANCELED, and PAST_DUE.
           type: string
-          enum:
-          - ACTIVE
-          - CANCELED
-          - PAST_DUE
         testMode:
           description: Boolean used to indicate if the subscription is in test mode
           type: boolean
@@ -159,12 +154,11 @@ components:
           type: string
         status:
           description: |
-            Status of the plan. Available statuses are ACTIVE, CANCELED, and
+            Status of the plan. Available statuses are ACTIVE,
             PENDING_ACTIVATION.
           type: string
           enum:
           - ACTIVE
-          - CANCELED
           - PENDING_ACTIVATION
         subscriptionItems:
           description: |
@@ -235,15 +229,6 @@ components:
             the future for downgrades or reduced number of seats that haven't taken effect yet.
           format: date-time
           type: string
-        status:
-          description: |
-            Status of the subscription item. Available statuses are ACTIVE, CANCELED, and
-            PENDING_ACTIVATION.
-          type: string
-          enum:
-          - ACTIVE
-          - CANCELED
-          - PENDING_ACTIVATION
         testMode:
           description: If the subscription is a test subscription
           type: boolean
@@ -252,7 +237,6 @@ components:
         - startDate
         - product
         - price
-        - status
     Product:
       properties:
         id:

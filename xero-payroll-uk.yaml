@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: '2.19.3'
+  version: '2.17.2'
   title: 'Xero Payroll UK'
   description: 'This is the Xero Payroll API for orgs in the UK region.'
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
@@ -28,10 +28,10 @@ paths:
       parameters:
         - in: query
           name: filter
-          description: Filter by first name, lastname, and/or whether they are an off-payroll worker
+          description: Filter by first name and/or lastname
           schema:
             type: string
-          example: firstName==John,lastName==Smith,isOffPayrollWorker==false
+          example: firstName==John,lastName==Smith
         - in: query
           name: page
           description: Page number which specifies the set of records to retrieve. By default the number of the records per set is 100.
@@ -78,8 +78,7 @@ paths:
                                 "payrollCalendarID":"216d80e6-af55-47b1-b718-9457c3f5d2fe",
                                 "updatedDateUTC":"2020-02-13T16:23:31",
                                 "createdDateUTC":"2020-02-10T10:00:24",
-                                "endDate":null,
-                                "isOffPayrollWorker":false
+                                "endDate":null
                               },
                               {
                                 "employeeID":"67e545d4-e8a6-4f98-9f63-85c2383dfe12",
@@ -101,8 +100,7 @@ paths:
                                 "payrollCalendarID":"5e813d9e-949c-461f-8a89-e9ee8955a254",
                                 "updatedDateUTC":"2020-02-13T16:48:51",
                                 "createdDateUTC":"2020-02-13T16:32:12",
-                                "endDate":null,
-                                "isOffPayrollWorker":false
+                                "endDate":null
                               },
                               {
                                 "employeeID":"eb4a0c3b-b0d6-440d-bccc-348b7dc92321",
@@ -124,8 +122,7 @@ paths:
                                 "payrollCalendarID":"d45bc68f-59d6-4000-929d-1058dcfa79e1",
                                 "updatedDateUTC":"2020-02-13T16:53:12",
                                 "createdDateUTC":"2020-02-13T16:46:41",
-                                "endDate":null,
-                                "isOffPayrollWorker":false
+                                "endDate":null
                               }
                           ]
                         }'
@@ -250,15 +247,14 @@ paths:
                               "phoneNumber":null,
                               "startDate":null,
                               "nationalInsuranceNumber":null,
-                              "isOffPayrollWorker": false,
-                              "address": {
-                                "addressLine1": "171 Midsummer",
+                              "address":{
+                                "addressLine1":"101 Green St",
                                 "addressLine2":null,
-                                "city": "Milton Keyness",
+                                "city":"San Francisco",
                                 "county":null,
                                 "countryName":null,
-                                "postCode": "MK9 1EB"
-                              }
+                                "postCode":"6TGR4F"
+                              },
                               "payrollCalendarID":null,
                               "updatedDateUTC":"2020-03-25T03:12:10",
                               "createdDateUTC":"2020-03-25T03:12:10",
@@ -283,15 +279,15 @@ paths:
                         "title":"Mr",
                         "firstName":"Mike",
                         "lastName":"Fancy",
-                        "dateOfBirth":"1999-01-01T00:00:00",
-                        "gender":"M",
+                        "dateOfBirth":"1999-01-01",
+                        "address":{
+                            "addressLine1":"101 Green St",
+                            "city":"San Francisco",
+                            "postCode":"6TGR4F",
+                            "country":"UK"
+                        },
                         "email":"mike@starkindustries.com",
-                        "isOffPayrollWorker": false,
-                        "address": {
-                          "addressLine1": "171 Midsummer",
-                          "city": "Milton Keyness",
-                          "postCode": "MK9 1EB"
-                        }
+                        "gender":"M"
                       }'
   /Employees/{EmployeeID}:
     parameters:
@@ -321,35 +317,37 @@ paths:
               schema:
                 $ref: '#/components/schemas/EmployeeObject'
               example: '{
-                          "id": "9414291b-a8c6-08fa-b165-9b30b1e6aab5",
-                          "providerName": "!YLT5Y",
-                          "dateTimeUTC": "2018-04-09T05:15:18.1011141",
-                          "httpStatusCode": "OK",
-                          "pagination": null,
-                          "problem": null,
-                          "employee": {
-                              "employeeID": "d17e008e-3381-45c0-b50c-2fab7757e503",
-                              "title": "Mr.",
-                              "firstName": "Edgar",
-                              "lastName": "Allan Po",
-                              "dateOfBirth": "1985-03-24T00:00:00",
-                              "gender": "M",
-                              "email": "tester1@gmail.com",
-                              "phoneNumber": "0400123456",
-                              "nationalInsuranceNumber": null,
-                              "isOffPayrollWorker": false,
-                              "address": {
-                                  "addressLine1": "171 Midsummer",
-                                  "addressLine2": null,
-                                  "city": "Milton Keyness",
-                                  "county": null,
-                                  "countryName": null,
-                                  "postCode": "MK9 1EB"
+                          "id":"a8ef46c6-8191-43f6-a3c9-f42c7ca884b5",
+                          "providerName":"provider-name",
+                          "dateTimeUTC":"2020-03-25T03:28:45.5524202",
+                          "httpStatusCode":"OK",
+                          "pagination":null,
+                          "problem":null,
+                          "employee":{
+                              "employeeID":"aad6b292-7b94-408b-93f6-e489867e3fb0",
+                              "title":"Mr.",
+                              "firstName":"Jack",
+                              "lastName":"Allan",
+                              "dateOfBirth":"1987-12-23T00:00:00",
+                              "gender":"M",
+                              "email":null,
+                              "phoneNumber":null,
+                              "startDate":"2020-02-03T00:00:00",
+                              "nationalInsuranceNumber":"AB123456C",
+                              "address":{
+                                "addressLine1":"171 Midsummer Boulevard",
+                                "addressLine2":null,
+                                "city":"Milton Keynes",
+                                "county":null,
+                                "countryName":"UNITED KINGDOM",
+                                "postCode":"MK9 1EB"
                               },
-                              "payrollCalendarID": null,
-                              "updatedDateUTC": "2017-05-12T10:00:24",
-                              "createdDateUTC": "2017-05-12T10:00:24",
-                              "endDate": null
+                              "payrollCalendarID":"216d80e6-af55-47b1-b718-9457c3f5d2fe",
+                              "updatedDateUTC":"2020-02-13T16:23:31",
+                              "createdDateUTC":"2020-02-10T10:00:24",
+                              "niCategory":"A",
+                              "employeeNumber":"01",
+                              "endDate":null
                           }
                         }'
     put:
@@ -459,38 +457,39 @@ paths:
               schema:
                 $ref: '#/components/schemas/EmployeeObject'
               example: '{
-                          "id": "9414291b-a8c6-08fa-b165-9b30b1e6aab5",
-                          "providerName": "!YLT5Y",
-                          "dateTimeUTC": "2018-04-09T05:10:51.3504472",
-                          "httpStatusCode": "OK",
-                          "pagination": null,
-                          "problem": null,
-                          "employee": {
-                              "employeeID": "07f0f9fc-cc95-46ac-9a8a-aa03779f2bde",
-                              "title": "Mr.",
-                              "firstName": "TestDataUK",
-                              "lastName": "Tester",
-                              "dateOfBirth": "1992-11-22T00:00:00",
-                              "gender": "M",
-                              "email": "tester@gmail.com",
-                              "phoneNumber": "0400123456",
-                              "startDate": null,
-                              "nationalInsuranceNumber": null,
-                              "isOffPayrollWorker": false,
-                              "address": {
-                                "addressLine1": "171 Midsummer",
-                                "addressLine2":null,
-                                "city": "Milton Keyness",
-                                "county":null,
-                                "countryName":null,
-                                "postCode": "MK9 1EB"
-                              }
-                              "payrollCalendarID": null,
-                              "updatedDateUTC": "2017-06-27T04:56:03",
-                              "createdDateUTC": "2017-05-12T10:00:24",
-                              "endDate": null
-                          }
-                        }'
+                        "id": "eebef848-5fa2-42c2-a10f-4dc47a9cf82a",
+                        "providerName": "provider-name",
+                        "dateTimeUTC": "2020-03-25T17:03:50.710258",
+                        "httpStatusCode": "OK",
+                        "pagination": null,
+                        "problem": null,
+                        "employee": {
+                          "employeeID": "aad6b292-7b94-408b-93f6-e489867e3fb0",
+                          "title": "Mr",
+                          "firstName": "Mike",
+                          "lastName": "Johnllsbkrhwopson",
+                          "dateOfBirth": "1999-01-01T00:00:00",
+                          "gender": "M",
+                          "email": "84044@starkindustries.com",
+                          "phoneNumber": null,
+                          "startDate": "2020-02-03T00:00:00",
+                          "nationalInsuranceNumber": null,
+                          "address": {
+                            "addressLine1": "101 Green St",
+                            "addressLine2": null,
+                            "city": "San Francisco",
+                            "county": null,
+                            "countryName": null,
+                            "postCode": "6TGR4F"
+                          },
+                          "payrollCalendarID": "216d80e6-af55-47b1-b718-9457c3f5d2fe",
+                          "updatedDateUTC": "2020-03-25T17:03:50",
+                          "createdDateUTC": "2020-02-10T10:00:24",
+                          "niCategory": null,
+                          "employeeNumber": null,
+                          "endDate": null
+                        }
+                      }'
         '400':
           description: validation error for a bad request
           content:
@@ -504,19 +503,18 @@ paths:
             schema:
               $ref: '#/components/schemas/Employee'
             example: '{
-                        "title": "Mr.",
-                        "firstName": "TestDataUK",
-                        "lastName": "Tester",
-                        "dateOfBirth": "1992-11-22T00:00:00",
-                        "gender": "M",
-                        "email": "tester@gmail.com",
-                        "phoneNumber": "0400123456",
-                        "isOffPayrollWorker": false,
-                        "address": {
-                          "addressLine1": "171 Midsummer",
-                          "city": "Milton Keyness",
-                          "postCode": "MK9 1EB"
-                        }
+                        "title":"Mr",
+                        "firstName":"Mike",
+                        "lastName":"Johnllsbkrhwopson",
+                        "dateOfBirth":"1999-01-01",
+                        "address":{
+                            "addressLine1":"101 Green St",
+                            "city":"San Francisco",
+                            "postCode":"6TGR4F",
+                            "country":"UK"
+                        },
+                        "email":"84044@starkindustries.com",
+                        "gender":"M"
                       }'
   /Employees/{EmployeeID}/Employment:
     parameters:
@@ -5882,9 +5880,6 @@ components:
           description: National insurance number of the employee
           type: string
           example: AB123456C
-        isOffPayrollWorker:
-          description: Whether the employee is an off payroll worker
-          type: boolean
     EmploymentObject:
       type: object
       properties:
