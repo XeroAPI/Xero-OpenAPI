@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: '2.16.6'
+  version: '2.20.1'
   title: 'Xero Payroll AU API'
   description: 'This is the Xero Payroll API for orgs in Australia region.'
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
@@ -31,7 +31,9 @@ paths:
       parameters:
         - in: header
           name: If-Modified-Since
+          x-snake: if_modified_since
           description: Only records created or modified since this timestamp will be returned
+          example: "2020-02-06T12:17:43.202-08:00"
           schema:
             type: string
             format: date-time
@@ -282,6 +284,7 @@ paths:
       operationId: getEmployee
       parameters: 
         - name: EmployeeID
+          x-snake: employee_id
           in: path
           required: true
           description: Employee id for single object
@@ -499,6 +502,7 @@ paths:
           object: employee
       parameters: 
         - name: EmployeeID
+          x-snake: employee_id
           in: path
           required: true
           description: Employee id for single object
@@ -572,9 +576,12 @@ paths:
       parameters:
         - in: header
           name: If-Modified-Since
+          x-snake: if_modified_since
           description: Only records created or modified since this timestamp will be returned
+          example: "2020-02-06T12:17:43.202-08:00"
           schema:
             type: string
+            format: date-time
         - in: query
           name: where
           description: Filter by an any element
@@ -822,6 +829,7 @@ paths:
       operationId: getLeaveApplication
       parameters: 
         - name: LeaveApplicationID
+          x-snake: leave_application_id
           in: path
           required: true
           description: Leave Application id for single object
@@ -944,6 +952,7 @@ paths:
           object: leaveApplication
       parameters: 
         - name: LeaveApplicationID
+          x-snake: leave_application_id
           in: path
           required: true
           description: Leave Application id for single object
@@ -1016,9 +1025,12 @@ paths:
       parameters:
         - in: header
           name: If-Modified-Since
+          x-snake: if_modified_since
           description: Only records created or modified since this timestamp will be returned
+          example: "2020-02-06T12:17:43.202-08:00"
           schema:
             type: string
+            format: date-time
         - in: query
           name: where
           description: Filter by an any element
@@ -1522,9 +1534,12 @@ paths:
       parameters:
         - in: header
           name: If-Modified-Since
+          x-snake: if_modified_since
           description: Only records created or modified since this timestamp will be returned
+          example: "2020-02-06T12:17:43.202-08:00"
           schema:
             type: string
+            format: date-time
         - in: query
           name: where
           description: Filter by an any element
@@ -1735,6 +1750,7 @@ paths:
       summary: Retrieves payroll calendar by using a unique payroll calendar ID
       parameters:
         - name: PayrollCalendarID
+          x-snake: payroll_calendar_id
           in: path
           required: true
           description: Payroll Calendar id for single object
@@ -1785,9 +1801,12 @@ paths:
       parameters:
         - in: header
           name: If-Modified-Since
+          x-snake: if_modified_since
           description: Only records created or modified since this timestamp will be returned
+          example: "2020-02-06T12:17:43.202-08:00"
           schema:
             type: string
+            format: date-time
         - in: query
           name: where
           description: Filter by an any element
@@ -1918,6 +1937,7 @@ paths:
       operationId: getPayRun
       parameters: 
         - name: PayRunID
+          x-snake: pay_run_id
           in: path
           required: true
           description: PayRun id for single object
@@ -2008,6 +2028,7 @@ paths:
           is_last: true     
       parameters: 
         - name: PayRunID
+          x-snake: pay_run_id
           in: path
           required: true
           description: PayRun id for single object
@@ -2063,6 +2084,7 @@ paths:
       operationId: getPayslip
       parameters: 
         - name: PayslipID
+          x-snake: payslip_id
           in: path
           required: true
           description: Payslip id for single object
@@ -2245,6 +2267,7 @@ paths:
       description:  Update lines on a single payslips
       parameters: 
         - name: PayslipID
+          x-snake: payslip_id
           in: path
           required: true
           description: Payslip id for single object
@@ -2390,9 +2413,12 @@ paths:
       parameters:
         - in: header
           name: If-Modified-Since
+          x-snake: if_modified_since
           description: Only records created or modified since this timestamp will be returned
+          example: "2020-02-06T12:17:43.202-08:00"
           schema:
             type: string
+            format: date-time
         - in: query
           name: where
           description: Filter by an any element
@@ -2536,6 +2562,7 @@ paths:
       operationId: getSuperfund
       parameters: 
         - name: SuperFundID
+          x-snake: super_fund_id
           in: path
           required: true
           description: Superfund id for single object
@@ -2606,6 +2633,7 @@ paths:
           is_last: true 
       parameters: 
         - name: SuperFundID
+          x-snake: super_fund_id
           in: path
           required: true
           description: Superfund id for single object
@@ -2712,9 +2740,12 @@ paths:
       parameters:
         - in: header
           name: If-Modified-Since
+          x-snake: if_modified_since
           description: Only records created or modified since this timestamp will be returned
+          example: "2020-02-06T12:17:43.202-08:00"
           schema:
             type: string
+            format: date-time
         - in: query
           name: where
           description: Filter by an any element
@@ -2969,6 +3000,7 @@ paths:
       operationId: getTimesheet
       parameters: 
         - name: TimesheetID
+          x-snake: timesheet_id
           in: path
           required: true
           description: Timesheet id for single object
@@ -3098,6 +3130,7 @@ paths:
           object: timesheet
       parameters: 
         - name: TimesheetID
+          x-snake: timesheet_id
           in: path
           required: true
           description: Timesheet id for single object
@@ -3205,6 +3238,7 @@ components:
     requiredHeader: 
       in: header
       name: Xero-Tenant-Id
+      x-snake: xero_tenant_id
       description: Xero identifier for Tenant
       schema:
         type: string
@@ -4266,6 +4300,8 @@ components:
           example: true
         AllowanceType:
           $ref: '#/components/schemas/AllowanceType'
+        AllowanceCategory:
+          $ref: '#/components/schemas/AllowanceCategory'
     DeductionType:
       type: object
       properties:
@@ -4812,10 +4848,23 @@ components:
       enum: 
       - CAR
       - TRANSPORT
-      - TRAVEL
       - LAUNDRY
       - MEALS
+      - TRAVEL
+      - OTHER
       - JOBKEEPER
+      - TOOLS
+      - TASKS
+      - QUALIFICATIONS
+    AllowanceCategory:
+      type: string
+      enum:
+      - NONDEDUCTIBLE
+      - UNIFORM
+      - PRIVATEVEHICLE
+      - HOMEOFFICE
+      - TRANSPORT
+      - GENERAL
       - OTHER
     CalendarType: 
       type: string

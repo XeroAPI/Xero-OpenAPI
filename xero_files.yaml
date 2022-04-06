@@ -4,7 +4,7 @@ servers:
     url: https://api.xero.com/files.xro/1.0/
 info:
   title: Xero Files API
-  version: "2.16.6"
+  version: "2.20.1"
   description: "These endpoints are specific to Xero Files API"
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
   contact:
@@ -154,6 +154,7 @@ paths:
       operationId: getFile
       parameters: 
         - name: FileId
+          x-snake: file_id
           in: path
           required: true
           description: File id for single object
@@ -194,6 +195,7 @@ paths:
       description:  Updates file properties of a single file
       parameters: 
         - name: FileId
+          x-snake: file_id
           in: path
           required: true
           description: File id for single object
@@ -253,6 +255,7 @@ paths:
       description:  Delete a specific file
       parameters: 
         - name: FileId
+          x-snake: file_id
           in: path
           required: true
           description: File id for single object
@@ -276,6 +279,7 @@ paths:
       operationId: uploadFileToFolder
       parameters:
         - in: path
+          x-snake: folder_id
           name: FolderId
           required: true
           description: pass required folder id to save file to specific folder
@@ -335,6 +339,7 @@ paths:
       description:  By passing in the appropriate options, retrieve data for specific file
       parameters: 
         - name: FileId
+          x-snake: file_id
           in: path
           required: true
           description: File id for single object
@@ -364,6 +369,7 @@ paths:
         By passing in the appropriate options, 
       parameters: 
         - name: FileId
+          x-snake: file_id
           in: path
           required: true
           description: File id for single object
@@ -398,6 +404,7 @@ paths:
       description: By passing in the appropriate options, you can create a new folder
       parameters: 
         - name: FileId
+          x-snake: file_id
           in: path
           required: true
           description: File id for single object
@@ -452,6 +459,7 @@ paths:
       description: By passing in the appropriate options, you can create a new folder
       parameters: 
         - name: FileId
+          x-snake: file_id
           in: path
           required: true
           description: File id for single object
@@ -460,6 +468,7 @@ paths:
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
         - name: ObjectId
+          x-snake: object_id
           in: path
           required: true
           description: Object id for single object
@@ -484,6 +493,7 @@ paths:
       description: By passing in the appropriate options, 
       parameters: 
         - name: ObjectId
+          x-snake: object_id
           in: path
           required: true
           description: Object id for single object
@@ -608,6 +618,7 @@ paths:
       description: By passing in the appropriate ID, you can search for specific folder
       parameters:
         - name: FolderId
+          x-snake: folder_id
           in: path
           required: true
           description: Folder id for single object
@@ -638,6 +649,7 @@ paths:
       description: By passing in the appropriate ID and properties, you can update a folder
       parameters:
         - name: FolderId
+          x-snake: folder_id
           in: path
           required: true
           description: Folder id for single object
@@ -688,6 +700,7 @@ paths:
       description: By passing in the appropriate ID, you can delete a folder
       parameters:
         - name: FolderId
+          x-snake: folder_id
           in: path
           required: true
           description: Folder id for single object
@@ -743,6 +756,7 @@ components:
     requiredHeader: 
       in: header
       name: xero-tenant-id
+      x-snake: xero_tenant_id
       description: Xero identifier for Tenant
       example: YOUR_XERO_TENANT_ID
       schema:
@@ -909,6 +923,7 @@ components:
       - Overpayment
       - Payment  
       - Prepayment
+      - Quote
       - Receipt
     ObjectType:
       description: The Object Type
@@ -969,3 +984,4 @@ components:
       - Currliab
       - Termliab
       - NonCurrent
+      - SalesQuote
