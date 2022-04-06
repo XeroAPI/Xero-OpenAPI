@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: "2.16.6"
+  version: "2.20.1"
   title: Xero Projects API
   description: This is the Xero Projects API 
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
@@ -28,6 +28,7 @@ paths:
       description: Allows you to retrieve, create and update projects.
       parameters:
         - name: projectIds
+          x-snake: project_ids
           in: query
           required: false
           description: Search for all projects that match a comma separated list of projectIds
@@ -37,6 +38,7 @@ paths:
               type: string
               format: uuid
         - name: contactID
+          x-snake: contact_id
           in: query
           required: false
           description: Filter for projects for a specific contact
@@ -58,6 +60,7 @@ paths:
             example: 1
             default: 1
         - name: pageSize
+          x-snake: page_size
           in: query
           required: false
           description: Optional, it is set to 50 by default. The number of items to return per page in a paged response - Must be a number between 1 and 500.
@@ -253,6 +256,7 @@ paths:
       description: Allows you to retrieve a specific project using the projectId
       parameters:
         - name: projectId
+          x-snake: project_id
           in: path
           required: true
           description: You can specify an individual project by appending the projectId to the endpoint
@@ -340,6 +344,7 @@ paths:
       description: Allows you to update a specific projects.
       parameters:
         - name: projectId
+          x-snake: project_id
           in: path
           required: true
           description: You can specify an individual project by appending the projectId to the endpoint
@@ -375,6 +380,7 @@ paths:
       description: Allows you to update a specific projects.
       parameters:
         - name: projectId
+          x-snake: project_id
           in: path
           required: true
           description: You can specify an individual project by appending the projectId to the endpoint
@@ -419,6 +425,7 @@ paths:
             example: 1
             default: 1
         - name: pageSize
+          x-snake: page_size
           in: query
           required: false
           description: Optional, it is set to 50 by default. The number of items to return per page in a paged response - Must be a number between 1 and 500.
@@ -470,6 +477,7 @@ paths:
       description: Allows you to retrieve a specific project
       parameters:
         - name: projectId
+          x-snake: project_id
           in: path
           required: true
           description: You can specify an individual project by appending the projectId to the endpoint
@@ -483,12 +491,14 @@ paths:
             type: integer
             example: 1
         - name: pageSize
+          x-snake: page_size
           in: query
           description: Optional, it is set to 50 by default. The number of items to return per page in a paged response - Must be a number between 1 and 500.
           schema:
             type: integer
             example: 10
         - name: taskIds
+          x-snake: task_ids
           in: query
           description: "taskIds	Search for all tasks that match a comma separated list of taskIds, i.e. GET https://.../tasks?taskIds={taskID},{taskID}"  
           schema:
@@ -588,6 +598,7 @@ paths:
       description: Allows you to retrieve a specific project
       parameters:
         - name: projectId
+          x-snake: project_id
           in: path
           required: true
           description: You can specify an individual project by appending the projectId to the endpoint
@@ -595,6 +606,7 @@ paths:
             type: string
             format: uuid
         - name: taskId
+          x-snake: task_id
           in: path
           required: true
           description: "You can specify an individual task by appending the taskId to the endpoint, i.e. GET https://.../tasks/{taskID}" 
@@ -715,6 +727,7 @@ paths:
       description: Allows you to retrieve the time entries associated with a specific project
       parameters:
         - name: projectId
+          x-snake: project_id
           in: path
           required: true
           description: Identifier of the project, that the task (which the time entry is logged against) belongs to.
@@ -722,24 +735,28 @@ paths:
             type: string
             format: uuid
         - name: userId
+          x-snake: user_id
           in: query
           description: The xero user identifier of the person who logged time.
           schema:
             type: string
             format: uuid
         - name: taskId
+          x-snake: task_id
           in: query
           description: Identifier of the task that time entry is logged against.
           schema:
             type: string
             format: uuid
         - name: invoiceId
+          x-snake: invoice_id
           in: query
           description: Finds all time entries for this invoice.
           schema:
             type: string
             format: uuid
         - name: contactId
+          x-snake: contact_id
           in: query
           description: Finds all time entries for this contact identifier.
           schema:
@@ -752,6 +769,7 @@ paths:
             type: integer
             example: 1
         - name: pageSize
+          x-snake: page_size
           in: query
           description: Optional, it is set to 50 by default. The number of items to return per page in a paged response - Must be a number between 1 and 500.
           schema:
@@ -765,17 +783,20 @@ paths:
             items:
               type: string
         - name: isChargeable
+          x-snake: is_chargeable
           in: query
           description: "Finds all time entries which relate to tasks with the charge type `TIME` or `FIXED`."
           schema:
             type: boolean
         - name: dateAfterUtc
+          x-snake: date_after_utc
           in: query
           description: "ISO 8601 UTC date. Finds all time entries on or after this date filtered on the `dateUtc` field."
           schema:
             type: string
             format: date-time
         - name: dateBeforeUtc
+          x-snake: date_before_utc
           in: query
           description: "ISO 8601 UTC date. Finds all time entries on or before this date filtered on the `dateUtc` field."
           schema:
@@ -830,6 +851,7 @@ paths:
       description: Allows you to create a specific task
       parameters:
         - name: projectId
+          x-snake: project_id
           in: path
           required: true
           description: You can specify an individual project by appending the projectId to the endpoint
@@ -881,6 +903,7 @@ paths:
       description: Allows you to get a single time entry in a project
       parameters:
         - name: projectId
+          x-snake: project_id
           in: path
           required: true
           description: You can specify an individual project by appending the projectId to the endpoint
@@ -888,6 +911,7 @@ paths:
             type: string
             format: uuid
         - name: timeEntryId
+          x-snake: time_entry_id
           in: path
           required: true
           description: You can specify an individual time entry by appending the id to the endpoint
@@ -922,6 +946,7 @@ paths:
       description: Allows you to update time entry in a project
       parameters:
         - name: projectId
+          x-snake: project_id
           in: path
           required: true
           description: You can specify an individual project by appending the projectId to the endpoint
@@ -929,6 +954,7 @@ paths:
             type: string
             format: uuid
         - name: timeEntryId
+          x-snake: time_entry_id
           in: path
           required: true
           description: You can specify an individual time entry by appending the id to the endpoint
@@ -963,6 +989,7 @@ paths:
       description: Allows you to delete a specific time entry
       parameters:
         - name: projectId
+          x-snake: project_id
           in: path
           required: true
           description: You can specify an individual project by appending the projectId to the endpoint
@@ -970,6 +997,7 @@ paths:
             type: string
             format: uuid
         - name: timeEntryId
+          x-snake: time_entry_id
           in: path
           required: true
           description: You can specify an individual task by appending the id to the endpoint
@@ -999,6 +1027,7 @@ components:
     requiredHeader: 
       in: header
       name: Xero-Tenant-Id
+      x-snake: xero_tenant_id
       description: Xero identifier for Tenant
       schema:
         type: string
@@ -1006,6 +1035,7 @@ components:
     chargeType:
       in: query
       name: chargeType
+      x-snake: charge_type
       schema: 
         $ref: '#/components/schemas/ChargeType'
   schemas:

@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Xero Accounting API
-  version: "2.16.6"
+  version: "2.20.1"
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
   contact:
     name: "Xero Platform Team"
@@ -2581,6 +2581,9 @@ paths:
                               "Amount": 20.00,
                               "FromBankTransactionID": "a3eca480-bc04-4292-9bbd-5c57b8ba12b4",
                               "ToBankTransactionID": "4ca13f40-f3a0-4530-a442-a600f5696118",
+                              "FromIsReconciled": true,
+                              "ToIsReconciled": true,
+                              "Reference": "Sub 098801",
                               "HasAttachments": true
                             },
                             {
@@ -2600,6 +2603,9 @@ paths:
                               "Amount": 20.00,
                               "FromBankTransactionID": "cb74287e-5682-4973-b354-93e2c7a836d3",
                               "ToBankTransactionID": "4c48ba6c-f318-4405-aee6-b5efa2c70f55",
+                              "FromIsReconciled": false,
+                              "ToIsReconciled": false,
+                              "Reference": "Sub 098801",
                               "HasAttachments": false
                             }
                           ]
@@ -2711,6 +2717,9 @@ paths:
                               "Amount": 50.00,
                               "FromBankTransactionID": "e4059952-5acb-4a56-b076-53fad85f2930",
                               "ToBankTransactionID": "88e4ac17-293b-4e5a-8d8b-3ce3a0b1ee17",
+                              "FromIsReconciled": true,
+                              "ToIsReconciled": true,
+                              "Reference": "Sub 098801",
                               "CurrencyRate": 1.000000,
                               "ValidationErrors": []
                             }
@@ -2764,7 +2773,10 @@ paths:
                               "HasAttachments": false,
                               "UpdatedDateUTC": "2016-06-03T08:31:14.517-07:00"
                             },
-                            "Amount": "50.00"
+                            "Amount": "50.00",
+                            "FromIsReconciled": true,
+                            "ToIsReconciled": true,
+                            "Reference": "Sub 098801"
                           }
                         ]
                       }'
@@ -2812,6 +2824,9 @@ paths:
                               "Amount": 20.00,
                               "FromBankTransactionID": "a3eca480-bc04-4292-9bbd-5c57b8ba12b4",
                               "ToBankTransactionID": "4ca13f40-f3a0-4530-a442-a600f5696118",
+                              "FromIsReconciled": false,
+                              "ToIsReconciled": false,
+                              "Reference": "Sub 098801",
                               "CurrencyRate": 1.000000,
                               "HasAttachments": true,
                               "Attachments": [
@@ -3262,13 +3277,17 @@ paths:
               format: uuid
         - in: query
           name: DateTo
+          x-snake: date_to
           description: Filter by start date
+          example: "2019-10-31"
           schema:
             type: string
             format: date
         - in: query
           name: DateFrom
+          x-snake: date_from
           description: Filter by end date
+          example: "2019-10-31"
           schema:
             type: string
             format: date
@@ -3314,9 +3333,25 @@ paths:
       tags:
         - Accounting
       operationId: getBudget
-      summary: Retrieves a specific budgets, which includes budget lines
+      summary: Retrieves a specific budget, which includes budget lines
       parameters:
         - $ref: '#/components/parameters/BudgetID'
+        - in: query
+          name: DateTo
+          x-snake: date_to
+          description: Filter by start date
+          example: "2019-10-31"
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: DateFrom
+          x-snake: date_from
+          description: Filter by end date
+          example: "2019-10-31"
+          schema:
+            type: string
+            format: date
       responses:
         '200':
           description: Success - return response of type Invoices array with specified Invoices
@@ -3448,9 +3483,18 @@ paths:
           name: includeArchived
           x-snake: include_archived
           description: e.g. includeArchived=true - Contacts with a status of ARCHIVED will be included in the response
+          example: true
+          x-example-python: "True"
           schema:
             type: boolean
         - $ref: '#/components/parameters/summaryOnly'
+        - in: query
+          name: searchTerm
+          x-snake: search_term
+          description: Search parameter that performs a case-insensitive text search across the Name, FirstName, LastName, ContactNumber and EmailAddress fields.
+          example: searchTerm=Joe Bloggs
+          schema:
+            type: string
       responses:
         '200':
           description: Success - return response of type Contacts array with 0 to N Contact
@@ -3470,6 +3514,7 @@ paths:
                                 "Name": "Katherine Warren",
                                 "FirstName": "Katherine",
                                 "LastName": "Warren",
+                                "CompanyNumber": "NumberBusiness1234",
                                 "EmailAddress": "kat.warren@clampett.com",
                                 "BankAccountDetails": "",
                                 "Addresses": [
@@ -3522,6 +3567,8 @@ paths:
                                 "ContactGroups": [],
                                 "IsSupplier": true,
                                 "IsCustomer": true,
+                                "SalesDefaultLineAmountType": "INCLUSIVE",
+                                "PurchasesDefaultLineAmountType": "INCLUSIVE",
                                 "Balances": {
                                   "AccountsReceivable": {
                                     "Outstanding": 760.00,
@@ -3696,6 +3743,7 @@ paths:
                             {
                               "ContactID": "3ff6d40c-af9a-40a3-89ce-3c1556a25591",
                               "ContactStatus": "ACTIVE",
+                              "CompanyNumber": "NumberBusiness1234",
                               "Name": "Foo9987",
                               "EmailAddress": "sid32476@blah.com",
                               "BankAccountDetails": "",
@@ -3745,6 +3793,8 @@ paths:
                               "ContactGroups": [],
                               "IsSupplier": false,
                               "IsCustomer": false,
+                              "SalesDefaultLineAmountType": "INCLUSIVE",
+                              "PurchasesDefaultLineAmountType": "INCLUSIVE",
                               "SalesTrackingCategories": [],
                               "PurchasesTrackingCategories": [],
                               "PaymentTerms": {
@@ -3832,10 +3882,6 @@ paths:
             schema:
               $ref: '#/components/schemas/Contacts'
             example: '{
-                        "Id": "e997d6d7-6dad-4458-beb8-d9c1bf7f2edf",
-                        "Status": "OK",
-                        "ProviderName": "Xero API Partner",
-                        "DateTimeUTC": "/Date(1551399321121)/",
                         "Contacts": [
                           {
                             "ContactID": "3ff6d40c-af9a-40a3-89ce-3c1556a25591",
@@ -3901,8 +3947,7 @@ paths:
                                 "Type": "DAYSAFTERBILLMONTH"
                               }
                             },
-                            "ContactPersons": [],
-                            "HasValidationErrors": false
+                            "ContactPersons": []
                           }
                         ]
                       }'
@@ -4003,6 +4048,7 @@ paths:
                               "ContactID": "00000000-0000-0000-0000-000000000000",
                               "ContactStatus": "ACTIVE",
                               "Name": "Bruce Banner",
+                              "CompanyNumber": "NumberBusiness1234",
                               "EmailAddress": "bruce@banner.com",
                               "BankAccountDetails": "",
                               "Addresses": [
@@ -4051,6 +4097,8 @@ paths:
                               "ContactGroups": [],
                               "IsSupplier": false,
                               "IsCustomer": false,
+                              "SalesDefaultLineAmountType": "INCLUSIVE",
+                              "PurchasesDefaultLineAmountType": "INCLUSIVE",
                               "SalesTrackingCategories": [],
                               "PurchasesTrackingCategories": [],
                               "PaymentTerms": {
@@ -4201,6 +4249,7 @@ paths:
                             "Name": "Acme Parts Co.",
                             "FirstName": "Blake",
                             "LastName": "Kohler",
+                            "CompanyNumber": "NumberBusiness1234",
                             "EmailAddress": "bk@krave.co",
                             "SkypeUserName": "blake",
                             "BankAccountDetails": "12334567",
@@ -4257,6 +4306,8 @@ paths:
                             "ContactGroups": [],
                             "IsSupplier": true,
                             "IsCustomer": true,
+                            "SalesDefaultLineAmountType": "INCLUSIVE",
+                            "PurchasesDefaultLineAmountType": "INCLUSIVE",
                             "DefaultCurrency": "USD",
                             "Discount": 13.00,
                             "Website": "http://www.google.com",
@@ -4348,6 +4399,7 @@ paths:
                             "Name": "Acme Parts Co.",
                             "FirstName": "Blake",
                             "LastName": "Kohler",
+                            "CompanyNumber": "NumberBusiness1234",
                             "EmailAddress": "bk@krave.co",
                             "SkypeUserName": "blake",
                             "BankAccountDetails": "12334567",
@@ -4404,6 +4456,8 @@ paths:
                             "ContactGroups": [],
                             "IsSupplier": true,
                             "IsCustomer": true,
+                            "SalesDefaultLineAmountType": "INCLUSIVE",
+                            "PurchasesDefaultLineAmountType": "INCLUSIVE",
                             "DefaultCurrency": "USD",
                             "Discount": 13.00,
                             "Website": "http://www.google.com",
@@ -4566,6 +4620,8 @@ paths:
                               "ContactGroups": [],
                               "IsSupplier": false,
                               "IsCustomer": false,
+                              "SalesDefaultLineAmountType": "INCLUSIVE",
+                              "PurchasesDefaultLineAmountType": "INCLUSIVE",
                               "SalesTrackingCategories": [],
                               "PurchasesTrackingCategories": [],
                               "PaymentTerms": {
@@ -7868,6 +7924,8 @@ paths:
           name: includeArchived
           x-snake: include_archived
           description: e.g. includeArchived=true - Invoices with a status of ARCHIVED will be included in the response
+          example: true
+          x-example-python: "True"
           schema:
             type: boolean
         - in: query
@@ -7875,6 +7933,7 @@ paths:
           x-snake: created_by_my_app
           description: When set to true you'll only retrieve Invoices created by your app
           example: false
+          x-example-python: "False"
           schema:
             type: boolean
         - $ref: '#/components/parameters/unitdp'
@@ -9941,7 +10000,10 @@ paths:
             type: integer
         - in: query
           name: paymentsOnly
+          x-snake: payments_only
           description: Filter to retrieve journals on a cash basis. Journals are returned on an accrual basis by default.
+          example: true
+          x-example-python: "True"
           schema:
             type: boolean
       responses:
@@ -10223,6 +10285,7 @@ paths:
             format: uuid
         - in: query
           name: Status
+          x-snake: status
           description: Filter by the combination of ContactID and Status. Get  the linked transactions associated to a  customer and with a status
           example: "APPROVED"
           schema:
@@ -13693,6 +13756,7 @@ paths:
         - $ref: '#/components/parameters/ifModifiedSince'
         - in: query
           name: Status
+          x-snake: status
           description: Filter by purchase order status
           example: "SUBMITTED"
           schema:
@@ -13705,12 +13769,14 @@ paths:
               - DELETED
         - in: query
           name: DateFrom 
+          x-snake: date_from
           description: Filter by purchase order date (e.g. GET https://.../PurchaseOrders?DateFrom=2015-12-01&DateTo=2015-12-31
           example: "2019-12-01"
           schema:
             type: string
         - in: query
           name: DateTo
+          x-snake: date_to
           description: Filter by purchase order date (e.g. GET https://.../PurchaseOrders?DateFrom=2015-12-01&DateTo=2015-12-31
           example: "2019-12-31"
           schema:
@@ -15168,6 +15234,7 @@ paths:
           name: DateFrom
           x-snake: date_from
           description: Filter for quotes after a particular date
+          example: "2019-10-31"
           schema:
             type: string
             format: date
@@ -15175,6 +15242,7 @@ paths:
           name: DateTo
           x-snake: date_to
           description: Filter for quotes before a particular date
+          example: "2019-10-31"
           schema:
             type: string
             format: date
@@ -15182,6 +15250,7 @@ paths:
           name: ExpiryDateFrom
           x-snake: expiry_date_from
           description: Filter for quotes expiring after a particular date
+          example: "2019-10-31"
           schema:
             type: string
             format: date
@@ -15189,6 +15258,7 @@ paths:
           name: ExpiryDateTo
           x-snake: expiry_date_to
           description: Filter for quotes before a particular date
+          example: "2019-10-31"
           schema:
             type: string
             format: date
@@ -15202,6 +15272,7 @@ paths:
             format: uuid
         - in: query
           name: Status
+          x-snake: status
           description: Filter for quotes of a particular Status
           example: "DRAFT"
           schema:
@@ -17695,6 +17766,7 @@ paths:
         - in: query
           name: date
           description: The date of the Aged Payables By Contact report
+          example: "2019-10-31"
           schema:
             type: string
             format: date
@@ -17964,6 +18036,7 @@ paths:
         - in: query
           name: date
           description: The date of the Aged Receivables By Contact report
+          example: "2019-10-31"
           schema:
             type: string
             format: date
@@ -18313,7 +18386,6 @@ paths:
             type: integer
         - in: query
           name: timeframe
-          x-snake: time_frame
           description: The period size to compare to (MONTH, QUARTER, YEAR)
           example: "MONTH"
           schema:
@@ -18341,6 +18413,7 @@ paths:
           x-snake: standard_layout
           description: The standard layout boolean for the Balance Sheet report
           example: true
+          x-example-python: "True"
           schema:
             type: boolean
         - in: query
@@ -18348,6 +18421,7 @@ paths:
           x-snake: payments_only
           description: return a cash basis for the Balance Sheet report
           example: false
+          x-example-python: "False"
           schema:
             type: boolean
       responses:
@@ -19267,7 +19341,6 @@ paths:
             type: integer
         - in: query
           name: timeframe
-          x-snake: time_frame
           description: The period size to compare to (1=month, 3=quarter, 12=year)
           example: 3
           schema:
@@ -20025,7 +20098,6 @@ paths:
             type: integer
         - in: query
           name: timeframe
-          x-snake: time_frame
           description: The period size to compare to (MONTH, QUARTER, YEAR)
           example: "MONTH"
           schema:
@@ -20067,6 +20139,7 @@ paths:
           x-snake: standard_layout
           description: Return the standard layout for the ProfitAndLoss report 
           example: "true"
+          x-example-python: "True"
           schema:
             type: boolean
         - in: query
@@ -20074,6 +20147,7 @@ paths:
           x-snake: payments_only
           description: Return cash only basis for the ProfitAndLoss report 
           example: "false"
+          x-example-python: "False"
           schema:
             type: boolean     
       responses:
@@ -20106,6 +20180,7 @@ paths:
           x-snake: payments_only
           description: Return cash only basis for the Trial Balance report 
           example: "true"
+          x-example-python: "True"
           schema:
             type: boolean
       responses:
@@ -21818,6 +21893,8 @@ paths:
           name: includeArchived
           x-snake: include_archived
           description: e.g. includeArchived=true - Categories and options with a status of ARCHIVED will be included in the response
+          example: true
+          x-example-python: "True"
           schema:
             type: boolean
       responses:
@@ -22340,6 +22417,7 @@ components:
       x-snake: include_online
       description: Allows an attachment to be seen by the end customer within their online invoice
       example: true
+      x-example-python: "True"
       schema:
         type: boolean
         default: false
@@ -22349,6 +22427,7 @@ components:
       x-snake: summary_only
       description: Use summaryOnly=true in GET Contacts and Invoices endpoint to retrieve a smaller version of the response object. This returns only lightweight fields, excluding computation-heavy fields from the response, making the API calls quick and efficient.
       example: true
+      x-example-python: "True"
       schema:
         type: boolean
         default: false
@@ -22357,6 +22436,7 @@ components:
       name: fromDate
       x-snake: from_date
       description: filter by the from date of the report e.g. 2021-02-01
+      example: "2019-10-31"
       schema:
         type: string
         format: date
@@ -22365,6 +22445,7 @@ components:
       name: toDate
       x-snake: to_date
       description: filter by the to date of the report e.g. 2021-02-28
+      example: "2019-10-31"
       schema:
         type: string
         format: date
@@ -23217,6 +23298,8 @@ components:
           type: number
           format: double
           x-is-money: true
+        Item:
+          $ref: '#/components/schemas/LineItemItem'
         LineAmount:
           description: If you wish to omit either of the <Quantity> or <UnitAmount> you can provide a LineAmount and Xero will calculate the missing amount for
             you. The line amount reflects the discounted price if a DiscountRate
@@ -23247,6 +23330,20 @@ components:
           type: string
           format: uuid
       type: object
+    LineItemItem:
+      properties:
+        Code:
+          description: User defined item code (max length = 30)
+          maxLength: 30
+          type: string
+        Name:
+          description: The name of the item (max length = 50)
+          maxLength: 50
+          type: string
+        ItemID:
+          description: The Xero identifier for an Item
+          type: string
+          format: uuid
     LineItemTracking:
       externalDocs:
         url: 'https://developer.xero.com/documentation/api/invoices#post'
@@ -23317,6 +23414,19 @@ components:
           readOnly: true
           type: string
           format: uuid
+        FromIsReconciled:
+          description: The Bank Transaction boolean to show if it is reconciled for the source account
+          type: boolean
+          default: "false"
+          example: "false"
+        ToIsReconciled:
+          description: The Bank Transaction boolean to show if it is reconciled for the destination account
+          type: boolean
+          default: "false"
+          example: "false"
+        Reference:
+          description: Reference for the transactions.
+          type: string
         HasAttachments:
           description: Boolean to indicate if a Bank Transfer has an attachment
           readOnly: true
@@ -23542,6 +23652,11 @@ components:
           description: Xero identifier
           type: string
           format: uuid
+        MergedToContactID:
+          description: ID for the destination of a merged contact. 
+            Only returned when using paging or when fetching a contact by ContactId or ContactNumber.
+          type: string
+          format: uuid
         ContactNumber:
           description: This can be updated via the API only i.e. This field is read only on the Xero contact screen, used to identify contacts in external
             systems (max length = 50). If the Contact Number is used, this is
@@ -23571,6 +23686,10 @@ components:
         LastName:
           description: Last name of contact person (max length = 255)
           maxLength: 255
+          type: string
+        CompanyNumber:
+          description: Company registration number (max length = 50)
+          maxLength: 50
           type: string
         EmailAddress:
           description: Email address of contact person (umlauts not supported) (max length  = 255)
@@ -23621,6 +23740,22 @@ components:
             automatically set when an accounts receivable invoice is generated
             against this contact.
           type: boolean
+        SalesDefaultLineAmountType:
+          description: The default sales line amount type for a contact.
+            Only available when summaryOnly parameter or paging is used, or when fetch by ContactId or ContactNumber.
+          type: string
+          enum:
+          - INCLUSIVE
+          - EXCLUSIVE
+          - NONE
+        PurchasesDefaultLineAmountType:
+          description: The default purchases line amount type for a contact
+            Only available when summaryOnly parameter or paging is used, or when fetch by ContactId or ContactNumber.
+          type: string
+          enum:
+          - INCLUSIVE
+          - EXCLUSIVE
+          - NONE
         DefaultCurrency:
           $ref: '#/components/schemas/CurrencyCode'
           type: string
@@ -25397,6 +25532,7 @@ components:
             - COMPANY
             - CHARITY
             - CLUB_OR_SOCIETY
+            - INDIVIDUAL
             - LOOK_THROUGH_COMPANY
             - NOT_FOR_PROFIT
             - PARTNERSHIP
@@ -25497,6 +25633,7 @@ components:
             - COMPANY
             - CHARITY
             - CLUB_OR_SOCIETY
+            - INDIVIDUAL
             - LOOK_THROUGH_COMPANY
             - NOT_FOR_PROFIT
             - PARTNERSHIP

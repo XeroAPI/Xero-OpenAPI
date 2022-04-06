@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: '2.16.6'
+  version: '2.20.1'
   title: 'Xero Payroll UK'
   description: 'This is the Xero Payroll API for orgs in the UK region.'
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
@@ -28,10 +28,10 @@ paths:
       parameters:
         - in: query
           name: filter
-          description: Filter by first name and/or lastname
+          description: Filter by first name, lastname, and/or whether they are an off-payroll worker
           schema:
             type: string
-          example: firstName==John,lastName==Smith
+          example: firstName==John,lastName==Smith,isOffPayrollWorker==false
         - in: query
           name: page
           description: Page number which specifies the set of records to retrieve. By default the number of the records per set is 100.
@@ -78,7 +78,8 @@ paths:
                                 "payrollCalendarID":"216d80e6-af55-47b1-b718-9457c3f5d2fe",
                                 "updatedDateUTC":"2020-02-13T16:23:31",
                                 "createdDateUTC":"2020-02-10T10:00:24",
-                                "endDate":null
+                                "endDate":null,
+                                "isOffPayrollWorker":false
                               },
                               {
                                 "employeeID":"67e545d4-e8a6-4f98-9f63-85c2383dfe12",
@@ -100,7 +101,8 @@ paths:
                                 "payrollCalendarID":"5e813d9e-949c-461f-8a89-e9ee8955a254",
                                 "updatedDateUTC":"2020-02-13T16:48:51",
                                 "createdDateUTC":"2020-02-13T16:32:12",
-                                "endDate":null
+                                "endDate":null,
+                                "isOffPayrollWorker":false
                               },
                               {
                                 "employeeID":"eb4a0c3b-b0d6-440d-bccc-348b7dc92321",
@@ -122,7 +124,8 @@ paths:
                                 "payrollCalendarID":"d45bc68f-59d6-4000-929d-1058dcfa79e1",
                                 "updatedDateUTC":"2020-02-13T16:53:12",
                                 "createdDateUTC":"2020-02-13T16:46:41",
-                                "endDate":null
+                                "endDate":null,
+                                "isOffPayrollWorker":false
                               }
                           ]
                         }'
@@ -247,14 +250,15 @@ paths:
                               "phoneNumber":null,
                               "startDate":null,
                               "nationalInsuranceNumber":null,
-                              "address":{
-                                "addressLine1":"101 Green St",
+                              "isOffPayrollWorker": false,
+                              "address": {
+                                "addressLine1": "171 Midsummer",
                                 "addressLine2":null,
-                                "city":"San Francisco",
+                                "city": "Milton Keyness",
                                 "county":null,
                                 "countryName":null,
-                                "postCode":"6TGR4F"
-                              },
+                                "postCode": "MK9 1EB"
+                              }
                               "payrollCalendarID":null,
                               "updatedDateUTC":"2020-03-25T03:12:10",
                               "createdDateUTC":"2020-03-25T03:12:10",
@@ -279,15 +283,15 @@ paths:
                         "title":"Mr",
                         "firstName":"Mike",
                         "lastName":"Fancy",
-                        "dateOfBirth":"1999-01-01",
-                        "address":{
-                            "addressLine1":"101 Green St",
-                            "city":"San Francisco",
-                            "postCode":"6TGR4F",
-                            "country":"UK"
-                        },
+                        "dateOfBirth":"1999-01-01T00:00:00",
+                        "gender":"M",
                         "email":"mike@starkindustries.com",
-                        "gender":"M"
+                        "isOffPayrollWorker": false,
+                        "address": {
+                          "addressLine1": "171 Midsummer",
+                          "city": "Milton Keyness",
+                          "postCode": "MK9 1EB"
+                        }
                       }'
   /Employees/{EmployeeID}:
     parameters:
@@ -302,6 +306,7 @@ paths:
       summary: Retrieves specific employees by using a unique employee ID
       parameters:
         - name: EmployeeID
+          x-snake: employee_id
           in: path
           required: true
           description: Employee id for single object
@@ -317,37 +322,35 @@ paths:
               schema:
                 $ref: '#/components/schemas/EmployeeObject'
               example: '{
-                          "id":"a8ef46c6-8191-43f6-a3c9-f42c7ca884b5",
-                          "providerName":"provider-name",
-                          "dateTimeUTC":"2020-03-25T03:28:45.5524202",
-                          "httpStatusCode":"OK",
-                          "pagination":null,
-                          "problem":null,
-                          "employee":{
-                              "employeeID":"aad6b292-7b94-408b-93f6-e489867e3fb0",
-                              "title":"Mr.",
-                              "firstName":"Jack",
-                              "lastName":"Allan",
-                              "dateOfBirth":"1987-12-23T00:00:00",
-                              "gender":"M",
-                              "email":null,
-                              "phoneNumber":null,
-                              "startDate":"2020-02-03T00:00:00",
-                              "nationalInsuranceNumber":"AB123456C",
-                              "address":{
-                                "addressLine1":"171 Midsummer Boulevard",
-                                "addressLine2":null,
-                                "city":"Milton Keynes",
-                                "county":null,
-                                "countryName":"UNITED KINGDOM",
-                                "postCode":"MK9 1EB"
+                          "id": "9414291b-a8c6-08fa-b165-9b30b1e6aab5",
+                          "providerName": "!YLT5Y",
+                          "dateTimeUTC": "2018-04-09T05:15:18.1011141",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null,
+                          "employee": {
+                              "employeeID": "d17e008e-3381-45c0-b50c-2fab7757e503",
+                              "title": "Mr.",
+                              "firstName": "Edgar",
+                              "lastName": "Allan Po",
+                              "dateOfBirth": "1985-03-24T00:00:00",
+                              "gender": "M",
+                              "email": "tester1@gmail.com",
+                              "phoneNumber": "0400123456",
+                              "nationalInsuranceNumber": null,
+                              "isOffPayrollWorker": false,
+                              "address": {
+                                  "addressLine1": "171 Midsummer",
+                                  "addressLine2": null,
+                                  "city": "Milton Keyness",
+                                  "county": null,
+                                  "countryName": null,
+                                  "postCode": "MK9 1EB"
                               },
-                              "payrollCalendarID":"216d80e6-af55-47b1-b718-9457c3f5d2fe",
-                              "updatedDateUTC":"2020-02-13T16:23:31",
-                              "createdDateUTC":"2020-02-10T10:00:24",
-                              "niCategory":"A",
-                              "employeeNumber":"01",
-                              "endDate":null
+                              "payrollCalendarID": null,
+                              "updatedDateUTC": "2017-05-12T10:00:24",
+                              "createdDateUTC": "2017-05-12T10:00:24",
+                              "endDate": null
                           }
                         }'
     put:
@@ -442,6 +445,7 @@ paths:
           object: employee      
       parameters:
         - name: EmployeeID
+          x-snake: employee_id
           in: path
           required: true
           description: Employee id for single object
@@ -457,39 +461,38 @@ paths:
               schema:
                 $ref: '#/components/schemas/EmployeeObject'
               example: '{
-                        "id": "eebef848-5fa2-42c2-a10f-4dc47a9cf82a",
-                        "providerName": "provider-name",
-                        "dateTimeUTC": "2020-03-25T17:03:50.710258",
-                        "httpStatusCode": "OK",
-                        "pagination": null,
-                        "problem": null,
-                        "employee": {
-                          "employeeID": "aad6b292-7b94-408b-93f6-e489867e3fb0",
-                          "title": "Mr",
-                          "firstName": "Mike",
-                          "lastName": "Johnllsbkrhwopson",
-                          "dateOfBirth": "1999-01-01T00:00:00",
-                          "gender": "M",
-                          "email": "84044@starkindustries.com",
-                          "phoneNumber": null,
-                          "startDate": "2020-02-03T00:00:00",
-                          "nationalInsuranceNumber": null,
-                          "address": {
-                            "addressLine1": "101 Green St",
-                            "addressLine2": null,
-                            "city": "San Francisco",
-                            "county": null,
-                            "countryName": null,
-                            "postCode": "6TGR4F"
-                          },
-                          "payrollCalendarID": "216d80e6-af55-47b1-b718-9457c3f5d2fe",
-                          "updatedDateUTC": "2020-03-25T17:03:50",
-                          "createdDateUTC": "2020-02-10T10:00:24",
-                          "niCategory": null,
-                          "employeeNumber": null,
-                          "endDate": null
-                        }
-                      }'
+                          "id": "9414291b-a8c6-08fa-b165-9b30b1e6aab5",
+                          "providerName": "!YLT5Y",
+                          "dateTimeUTC": "2018-04-09T05:10:51.3504472",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null,
+                          "employee": {
+                              "employeeID": "07f0f9fc-cc95-46ac-9a8a-aa03779f2bde",
+                              "title": "Mr.",
+                              "firstName": "TestDataUK",
+                              "lastName": "Tester",
+                              "dateOfBirth": "1992-11-22T00:00:00",
+                              "gender": "M",
+                              "email": "tester@gmail.com",
+                              "phoneNumber": "0400123456",
+                              "startDate": null,
+                              "nationalInsuranceNumber": null,
+                              "isOffPayrollWorker": false,
+                              "address": {
+                                "addressLine1": "171 Midsummer",
+                                "addressLine2":null,
+                                "city": "Milton Keyness",
+                                "county":null,
+                                "countryName":null,
+                                "postCode": "MK9 1EB"
+                              }
+                              "payrollCalendarID": null,
+                              "updatedDateUTC": "2017-06-27T04:56:03",
+                              "createdDateUTC": "2017-05-12T10:00:24",
+                              "endDate": null
+                          }
+                        }'
         '400':
           description: validation error for a bad request
           content:
@@ -503,18 +506,19 @@ paths:
             schema:
               $ref: '#/components/schemas/Employee'
             example: '{
-                        "title":"Mr",
-                        "firstName":"Mike",
-                        "lastName":"Johnllsbkrhwopson",
-                        "dateOfBirth":"1999-01-01",
-                        "address":{
-                            "addressLine1":"101 Green St",
-                            "city":"San Francisco",
-                            "postCode":"6TGR4F",
-                            "country":"UK"
-                        },
-                        "email":"84044@starkindustries.com",
-                        "gender":"M"
+                        "title": "Mr.",
+                        "firstName": "TestDataUK",
+                        "lastName": "Tester",
+                        "dateOfBirth": "1992-11-22T00:00:00",
+                        "gender": "M",
+                        "email": "tester@gmail.com",
+                        "phoneNumber": "0400123456",
+                        "isOffPayrollWorker": false,
+                        "address": {
+                          "addressLine1": "171 Midsummer",
+                          "city": "Milton Keyness",
+                          "postCode": "MK9 1EB"
+                        }
                       }'
   /Employees/{EmployeeID}/Employment:
     parameters:
@@ -567,6 +571,7 @@ paths:
       summary: Creates employment detail for a specific employee using a unique employee ID
       parameters:
         - name: EmployeeID
+          x-snake: employee_id
           in: path
           required: true
           description: Employee id for single object
@@ -626,6 +631,7 @@ paths:
       summary: Retrieves tax records for a specific employee using a unique employee ID 
       parameters:
         - name: EmployeeID
+          x-snake: employee_id
           in: path
           required: true
           description: Employee id for single object
@@ -674,6 +680,7 @@ paths:
       summary: Retrieves a specific employee's openingbalances using a unique employee ID
       parameters:
         - name: EmployeeID
+          x-snake: employee_id
           in: path
           required: true
           description: Employee id for single object
@@ -761,6 +768,7 @@ paths:
       summary: Creates an opening balance for a specific employee
       parameters:
         - name: EmployeeID
+          x-snake: employee_id
           in: path
           required: true
           description: Employee id for single object
@@ -861,6 +869,7 @@ paths:
       summary: Updates a specific employee's opening balances
       parameters:
         - name: EmployeeID
+          x-snake: employee_id
           in: path
           required: true
           description: Employee id for single object
@@ -917,6 +926,7 @@ paths:
       summary: Retrieves a specific employee's leave records using a unique employee ID
       parameters:
         - name: EmployeeID
+          x-snake: employee_id
           in: path
           required: true
           description: Employee id for single object
@@ -1029,6 +1039,7 @@ paths:
       summary: Creates leave records for a specific employee
       parameters:
         - name: EmployeeID
+          x-snake: employee_id
           in: path
           required: true
           description: Employee id for single object
@@ -1098,6 +1109,7 @@ paths:
       summary: Retrieves a specific employee's leave record using a unique employee ID
       parameters:
         - name: EmployeeID
+          x-snake: employee_id
           in: path
           required: true
           description: Employee id for single object
@@ -1106,6 +1118,7 @@ paths:
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
         - name: LeaveID
+          x-snake: leave_id
           in: path
           required: true
           description: Leave id for single object
@@ -1216,6 +1229,7 @@ paths:
       summary: Updates a specific employee's leave records
       parameters:
         - name: EmployeeID
+          x-snake: employee_id
           in: path
           required: true
           description: Employee id for single object
@@ -1224,6 +1238,7 @@ paths:
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
         - name: LeaveID
+          x-snake: leave_id
           in: path
           required: true
           description: Leave id for single object
@@ -1298,6 +1313,7 @@ paths:
       summary: Deletes a specific employee's leave record
       parameters:
         - name: EmployeeID
+          x-snake: employee_id
           in: path
           required: true
           description: Employee id for single object
@@ -1306,6 +1322,7 @@ paths:
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
         - name: LeaveID
+          x-snake: leave_id
           in: path
           required: true
           description: Leave id for single object
@@ -1341,6 +1358,7 @@ paths:
       summary: Retrieves a specific employee's leave balances using a unique employee ID
       parameters:
         - name: EmployeeID
+          x-snake: employee_id
           in: path
           required: true
           description: Employee id for single object
@@ -1395,6 +1413,7 @@ paths:
       summary: Retrieves a specific employee's leave balances using a unique employee ID
       parameters:
         - name: EmployeeID
+          x-snake: employee_id
           in: path
           required: true
           description: Employee id for single object
@@ -1403,12 +1422,14 @@ paths:
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
         - name: LeaveType
+          x-snake: leave_type
           in: query
           description: Filter by the type of statutory leave
           schema:
             type: string
           example: sick
         - name: AsOfDate
+          x-snake: as_of_date
           in: query
           description: The date from which to calculate balance remaining. If not specified, current date UTC is used.
           schema:
@@ -1447,6 +1468,7 @@ paths:
       summary: Retrieves a specific employee's summary of statutory leaves using a unique employee ID
       parameters:
         - name: EmployeeID
+          x-snake: employee_id
           in: path
           required: true
           description: Employee id for single object
@@ -1455,6 +1477,7 @@ paths:
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
         - name: activeOnly
+          x-snake: active_only
           in: query
           description: Filter response with leaves that are currently active or yet to be taken. If not specified, all leaves (past, current, and future scheduled) are returned
           schema:
@@ -1644,6 +1667,7 @@ paths:
       summary: Retrieves a statutory sick leave for an employee
       parameters:
         - name: StatutorySickLeaveID
+          x-snake: statutory_sick_leave_id
           in: path
           required: true
           description: Statutory sick leave id for single object
@@ -1703,6 +1727,7 @@ paths:
       summary: Retrieves a specific employee's leave periods using a unique employee ID
       parameters:
         - name: EmployeeID
+          x-snake: employee_id
           in: path
           required: true
           description: Employee id for single object
@@ -1712,12 +1737,14 @@ paths:
             example: 00000000-0000-0000-0000-000000000000
         - in: query
           name: startDate
+          x-snake: start_date
           description: Filter by start date
           schema:
             type: string
             format: date
         - in: query
           name: endDate
+          x-snake: end_date
           description: Filter by end date
           schema:
             type: string
@@ -1770,6 +1797,7 @@ paths:
       summary: Retrieves a specific employee's leave types using a unique employee ID
       parameters:
         - name: EmployeeID
+          x-snake: employee_id
           in: path
           required: true
           description: Employee id for single object
@@ -1852,6 +1880,7 @@ paths:
       summary: Creates employee leave type records
       parameters:
         - name: EmployeeID
+          x-snake: employee_id
           in: path
           required: true
           description: Employee id for single object
@@ -1912,6 +1941,7 @@ paths:
       summary: Retrieves a specific employee's payment method using a unique employee ID
       parameters:
         - name: EmployeeID
+          x-snake: employee_id
           in: path
           required: true
           description: Employee id for single object
@@ -2017,6 +2047,7 @@ paths:
       summary: Creates an employee payment method
       parameters:
         - name: EmployeeID
+          x-snake: employee_id
           in: path
           required: true
           description: Employee id for single object
@@ -2084,6 +2115,7 @@ paths:
       summary: Retrieves a specific employee pay templates using a unique employee ID
       parameters:
         - name: EmployeeID
+          x-snake: employee_id
           in: path
           required: true
           description: Employee id for single object
@@ -2212,6 +2244,7 @@ paths:
       summary: Creates an earnings template records for a specific employee
       parameters:
         - name: EmployeeID
+          x-snake: employee_id
           in: path
           required: true
           description: Employee id for single object
@@ -2319,6 +2352,7 @@ paths:
       summary: Updates a specific employee's earnings template records
       parameters:
         - name: EmployeeID
+          x-snake: employee_id
           in: path
           required: true
           description: Employee id for single object
@@ -2327,6 +2361,7 @@ paths:
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
         - name: PayTemplateEarningID
+          x-snake: pay_template_earning_id
           in: path
           required: true
           description:  Id for single pay template earnings object
@@ -2383,6 +2418,7 @@ paths:
       summary: Deletes a specific employee's earnings template record
       parameters:
         - name: EmployeeID
+          x-snake: employee_id
           in: path
           required: true
           description: Employee id for single object
@@ -2391,6 +2427,7 @@ paths:
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
         - name: PayTemplateEarningID
+          x-snake: pay_template_earning_id
           in: path
           required: true
           description:  Id for single pay template earnings object
@@ -2482,6 +2519,7 @@ paths:
       summary: Creates multiple earnings template records for a specific employee using a unique employee ID
       parameters:
         - name: EmployeeID
+          x-snake: employee_id
           in: path
           required: true
           description: Employee id for single object
@@ -2939,6 +2977,7 @@ paths:
       parameters:
         - in: path
           name: deductionId
+          x-snake: deduction_id
           required: true
           description: Identifier for the deduction
           schema:
@@ -3339,6 +3378,7 @@ paths:
       parameters:
         - in: path
           name: EarningsRateID
+          x-snake: earnings_rate_id
           required: true
           description: Identifier for the earnings rate
           schema:
@@ -3390,6 +3430,7 @@ paths:
             type: integer
         - in: query
           name: ActiveOnly
+          x-snake: active_only
           description: Filters leave types by active status. By default the API returns all leave types.
           schema:
             type: boolean
@@ -3523,6 +3564,7 @@ paths:
       parameters:
         - in: path
           name: LeaveTypeID
+          x-snake: leave_type_id
           required: true
           description: Identifier for the leave type
           schema:
@@ -3682,6 +3724,7 @@ paths:
       parameters:
         - in: path
           name: ReimbursementID
+          x-snake: reimbursement_id
           required: true
           description: Identifier for the reimbursement
           schema:
@@ -3740,12 +3783,14 @@ paths:
           example: Draft
         - in: query
           name: startDate
+          x-snake: start_date
           description: filter results by any timesheets with a startDate on or after the provided date
           schema:
             type: string
           example: "2019-01-02"
         - in: query
           name: endDate
+          x-snake: end_date
           description: filter results by any timesheets with a endDate on or before the provided date
           schema:
             type: string
@@ -3950,6 +3995,7 @@ paths:
       parameters:
         - in: path
           name: TimesheetID
+          x-snake: timesheet_id
           required: true
           description: Identifier for the timesheet
           schema:
@@ -4006,6 +4052,7 @@ paths:
       parameters:
         - in: path
           name: TimesheetID
+          x-snake: timesheet_id
           required: true
           description: Identifier for the timesheet
           schema:
@@ -4097,6 +4144,7 @@ paths:
       parameters:
         - in: path
           name: TimesheetID
+          x-snake: timesheet_id
           required: true
           description: Identifier for the timesheet
           schema:
@@ -4155,6 +4203,7 @@ paths:
       parameters:
         - in: path
           name: TimesheetID
+          x-snake: timesheet_id
           required: true
           description: Identifier for the timesheet
           schema:
@@ -4228,6 +4277,7 @@ paths:
       parameters:
         - in: path
           name: TimesheetID
+          x-snake: timesheet_id
           required: true
           description: Identifier for the timesheet
           schema:
@@ -4360,6 +4410,7 @@ paths:
       parameters:
         - in: path
           name: TimesheetID
+          x-snake: timesheet_id
           required: true
           description: Identifier for the timesheet
           schema:
@@ -4367,6 +4418,7 @@ paths:
             format: uuid
         - in: path
           name: TimesheetLineID
+          x-snake: timesheet_line_id
           required: true
           description: Identifier for the timesheet line
           schema:
@@ -4421,6 +4473,7 @@ paths:
       parameters:
         - in: path
           name: TimesheetID
+          x-snake: timesheet_id
           required: true
           description: Identifier for the timesheet
           schema:
@@ -4428,6 +4481,7 @@ paths:
             format: uuid
         - in: path
           name: TimesheetLineID
+          x-snake: timesheet_line_id
           required: true
           description: Identifier for the timesheet line
           schema:
@@ -4644,6 +4698,7 @@ paths:
       parameters:
         - in: path
           name: PayRunCalendarID
+          x-snake: pay_run_calendar_id
           required: true
           description: Identifier for the payrun calendars
           schema:
@@ -4686,6 +4741,7 @@ paths:
       summary: Retrieves a specific employee's salary and wages by using a unique employee ID
       parameters:
         - name: EmployeeID
+          x-snake: employee_id
           in: path
           required: true
           description: Employee id for single object
@@ -4802,6 +4858,7 @@ paths:
       summary: Creates a salary and wage record for a specific employee
       parameters:
         - name: EmployeeID
+          x-snake: employee_id
           in: path
           required: true
           description: Employee id for single object
@@ -4871,6 +4928,7 @@ paths:
       summary: Retrieves a specific salary and wages record for a specific employee using a unique salary and wage id
       parameters:
         - name: EmployeeID
+          x-snake: employee_id
           in: path
           required: true
           description: Employee id for single object
@@ -4879,6 +4937,7 @@ paths:
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
         - name: SalaryAndWagesID
+          x-snake: salary_and_wages_id
           in: path
           required: true
           description:  Id for single pay template earnings object
@@ -4979,6 +5038,7 @@ paths:
       summary: Updates salary and wages record for a specific employee
       parameters:
         - name: EmployeeID
+          x-snake: employee_id
           in: path
           required: true
           description: Employee id for single object
@@ -4987,6 +5047,7 @@ paths:
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
         - name: SalaryAndWagesID
+          x-snake: salary_and_wages_id
           in: path
           required: true
           description:  Id for single pay template earnings object
@@ -5051,6 +5112,7 @@ paths:
       summary: Deletes a salary and wages record for a specific employee
       parameters:
         - name: EmployeeID
+          x-snake: employee_id
           in: path
           required: true
           description: Employee id for single object
@@ -5059,6 +5121,7 @@ paths:
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
         - name: SalaryAndWagesID
+          x-snake: salary_and_wages_id
           in: path
           required: true
           description:  Id for single salary and wages object
@@ -5158,6 +5221,7 @@ paths:
       parameters:
         - in: path
           name: PayRunID
+          x-snake: pay_run_id
           required: true
           description: Identifier for the pay run
           schema:
@@ -5292,6 +5356,7 @@ paths:
       parameters:
         - in: path
           name: PayRunID
+          x-snake: pay_run_id
           required: true
           description: Identifier for the pay run
           schema:
@@ -5382,6 +5447,7 @@ paths:
         - in: query
           required: true
           name: PayRunID
+          x-snake: pay_run_id
           description: PayrunID which specifies the containing payrun of payslips to retrieve. By default, the API does not group payslips by payrun.
           schema:
             type: string
@@ -5500,6 +5566,7 @@ paths:
       parameters:
         - in: path
           name: PayslipID
+          x-snake: payslip_id
           required: true
           description: Identifier for the payslip
           schema:
@@ -5724,6 +5791,7 @@ components:
     requiredHeader: 
       in: header
       name: Xero-Tenant-Id
+      x-snake: xero_tenant_id
       description: Xero identifier for Tenant
       schema:
         type: string
@@ -5880,6 +5948,9 @@ components:
           description: National insurance number of the employee
           type: string
           example: AB123456C
+        isOffPayrollWorker:
+          description: Whether the employee is an off payroll worker
+          type: boolean
     EmploymentObject:
       type: object
       properties:
@@ -5917,11 +5988,16 @@ components:
           - A
           - B
           - C
+          - F
           - H
+          - I
           - J
+          - L
           - M
-          - Z
+          - S
+          - V
           - X
+          - Z
           example: A
     EmployeeTaxObject:
       type: object
@@ -6773,8 +6849,8 @@ components:
             - StatutorySharedParentalPayNonPensionable
             - StatutorySickPay
             - StatutorySickPayNonPensionable
-            - Tips(Direct)
-            - Tips(Non-Direct)
+            - TipsNonDirect
+            - TipsDirect
             - TerminationPay
         rateType:
           description: Indicates the type of the earning rate
