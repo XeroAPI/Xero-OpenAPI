@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: "2.20.1"
+  version: "2.21.0"
   title: Xero AppStore API
   description: These endpoints are for Xero Partners to interact with the App Store Billing platform
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
@@ -46,6 +46,7 @@ paths:
                                 {
                                   "endDate": "2021-07-20T03:13:48Z",
                                   "id": "c7336bf6-8a47-4f13-9fc0-82420e6922c8",
+                                  "testMode": true,
                                   "price": {
                                     "amount": 50,
                                     "currency": "AUD",
@@ -56,8 +57,24 @@ paths:
                                     "name": "Small",
                                     "type": "FIXED"
                                   },
-                                  "startDate": "2021-07-20T03:13:48Z",
-                                  "status": "ACTIVE"
+                                  "quantity": 1,
+                                  "startDate": "2021-07-20T03:13:48Z"
+                                },
+                                {
+                                  "endDate": "2021-07-20T03:13:48Z",
+                                  "id": "1a25bc96-141a-4e42-a0fa-55ed51844da4",
+                                  "testMode": true,
+                                  "price": {
+                                    "amount": 0.20,
+                                    "currency": "AUD",
+                                    "id": "15c65048-1b48-4d9f-81c0-4e1cd3a4f49c"
+                                  },
+                                  "product": {
+                                    "id": "e8d8ac02-01b3-47f7-8a22-99cfe9035cf7",
+                                    "name": "Texts",
+                                    "type": "METERED",
+                                    "usageUnit": "txt"
+                                  },
                                 }
                               ]
                             }
@@ -229,6 +246,9 @@ components:
         product:
           description: The product subscribed to.
           $ref: "#/components/schemas/Product"
+        quantity:
+          description: The quantity of the item. For a fixed product, it is 1. For a per-seat product, it is a positive integer. For metered products, it is always null.
+          type: integer
         startDate:
           description: |
             Date the subscription started, or will start. Note: this could be in
@@ -262,15 +282,20 @@ components:
         name:
           description: The name of the product
           type: string
+        seatUnit:
+          description: The unit of the per seat product. e.g. "user", "organisation", "SMS", etc
+          type: string
         type:
           description: |
             The pricing model of the product:
             * FIXED: Customers are charged a fixed amount for each billing period
             * PER_SEAT: Customers are charged based on the number of units they purchase
+            * METERED: Customers are charged per use of this product
           type: string
           enum:
           - FIXED
           - PER_SEAT
-        seatUnit:
-          description: The unit of the per seat product. e.g. "user", "organisation", "SMS", etc
+          - METERED
+        usageUnit:
+          description: The unit of the usage product. e.g. "user", "minutes", "SMS", etc
           type: string
