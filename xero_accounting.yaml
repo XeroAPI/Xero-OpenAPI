@@ -10242,6 +10242,70 @@ paths:
                             }
                           ]
                         }'
+  '/Journals/{JournalNumber}':
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    get:
+      security:
+        - OAuth2: [accounting.journals.read]
+      tags:
+        - Accounting
+      operationId: getJournalByNumber
+      summary: Retrieves a specific journal using a unique journal number.
+      parameters:
+        - $ref: '#/components/parameters/JournalNumber'
+      responses:
+        '200':
+          description: Success - return response of type Journals array with specified Journal
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Journals'
+              example: '{
+                          "Id": "39ab8367-eb14-420d-83a9-e01ddddd21f8",
+                          "Status": "OK",
+                          "ProviderName": "Provider Name Example",
+                          "DateTimeUTC": "\/Date(1552335613002)\/",
+                          "Journals": [
+                            {
+                              "JournalID": "1b31feeb-aa23-404c-8c19-24c827c53661",
+                              "JournalDate": "\/Date(1539993600000+0000)\/",
+                              "JournalNumber": 1,
+                              "CreatedDateUTC": "\/Date(1541176243467+0000)\/",
+                              "Reference": "Red Fish, Blue Fish",
+                              "JournalLines": [
+                                {
+                                  "JournalLineID": "81e6b1bf-d812-4f87-8dc4-698558ae043e",
+                                  "AccountID": "b94495d0-44ab-4199-a1d0-427a4877e100",
+                                  "AccountCode": "610",
+                                  "AccountType": "CURRENT",
+                                  "AccountName": "Accounts Receivable",
+                                  "Description": "",
+                                  "NetAmount": 40.00,
+                                  "GrossAmount": 40.00,
+                                  "TaxAmount": 0.00,
+                                  "TaxType": "",
+                                  "TaxName": "",
+                                  "TrackingCategories": []
+                                },
+                                {
+                                  "JournalLineID": "ad221a8c-ebee-4c1b-88ed-d574e27e8803",
+                                  "AccountID": "e0a5d892-9f9f-44f0-a153-5cb7db125170",
+                                  "AccountCode": "200",
+                                  "AccountType": "REVENUE",
+                                  "AccountName": "Sales",
+                                  "Description": "Acme Tires",
+                                  "NetAmount": -40.00,
+                                  "GrossAmount": -40.00,
+                                  "TaxAmount": 0.00,
+                                  "TaxType": "NONE",
+                                  "TaxName": "No GST",
+                                  "TrackingCategories": []
+                                }
+                              ]
+                            }
+                          ]
+                        }'
   /LinkedTransactions:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -22617,6 +22681,15 @@ components:
       schema:
         type: string
         format: uuid
+    JournalNumber:
+      required: true
+      in: path
+      name: JournalNumber
+      x-snake: journal_number
+      description: Number of a Journal
+      example: 1000
+      schema:
+        type: integer
     LinkedTransactionID:
       required: true
       in: path
