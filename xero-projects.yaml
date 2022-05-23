@@ -580,12 +580,9 @@ paths:
                 "status": "INPROGRESS"
                 }'
       responses:
-        '200':
-          description: OK/success, returns a list of tasks created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Tasks'
+        '201':
+          description: OK/Success - return response 201 no content
+          x-isEmpty: true
   /Projects/{projectId}/Tasks/{taskId}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -684,12 +681,9 @@ paths:
               $ref: '#/components/schemas/TaskCreateOrUpdate'
             example: ''
       responses:
-        '200':
-          description: OK/success, returns a list of tasks updated
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Tasks'
+        '204':
+          description: OK/Success - return response 204 no content
+          x-isEmpty: true
     delete:
       security:
         - OAuth2: [projects]
