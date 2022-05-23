@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: "2.22.4"
+  version: "2.23.0"
   title: Xero Projects API
   description: This is the Xero Projects API 
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
@@ -551,40 +551,42 @@ paths:
                             }
                           ]
                         }'
-    # post:
-    #   security:
-    #     - OAuth2: [projects]
-    #   tags:
-    #     - Project
-    #   summary: Allows you to create a task
-    #   operationId: createTask
-    #   description: Allows you to create a specific task
-    #   parameters:
-    #     - name: projectId
-    #       in: path
-    #       required: true
-    #       description: You can create a task on a specified projectId
-    #       schema:
-    #         type: string
-    #         format: uuid
-    #   requestBody:
-    #     required: true
-    #     description: The task object you are creating
-    #     content:
-    #       application/json:
-    #         schema:
-    #           $ref: '#/components/schemas/TaskCreateOrUpdate'
-    #         example:
-    #           '{
-    #             "status": "INPROGRESS"
-    #             }'
-    #   responses:
-    #     '200':
-    #       description: OK/success, returns a list of tasks created
-    #       content:
-    #         application/json:
-    #           schema:
-    #             $ref: '#/components/schemas/Tasks'
+        '400':
+          $ref: '#/components/responses/400Error'
+    post:
+      security:
+        - OAuth2: [projects]
+      tags:
+        - Project
+      summary: Allows you to create a task
+      operationId: createTask
+      description: Allows you to create a specific task
+      parameters:
+        - name: projectId
+          x-snake: project_id
+          in: path
+          required: true
+          description: You can create a task on a specified projectId
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        description: The task object you are creating
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskCreateOrUpdate'
+            example:
+              '{
+                "status": "INPROGRESS"
+                }'
+      responses:
+        '201':
+          description: OK/Success - return response 201 no content
+          x-isEmpty: true
+        '400':
+          $ref: '#/components/responses/400Error'
   /Projects/{projectId}/Tasks/{taskId}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -649,71 +651,78 @@ paths:
                             "value": 0
                           }
                         }'
-    # put:
-    #   security:
-    #     - OAuth2: [projects]
-    #   tags:
-    #     - Project
-    #   summary: Allows you to update a task
-    #   operationId: updateTask
-    #   description: Allows you to update a specific task
-    #   parameters:
-    #     - name: projectId
-    #       in: path
-    #       required: true
-    #       description: You can specify an individual project by appending the projectId to the endpoint
-    #       schema:
-    #         type: string
-    #         format: uuid
-    #     - name: taskId
-    #       in: path
-    #       required: true
-    #       description: You can specify an individual task by appending the id to the endpoint
-    #       schema:
-    #         type: string
-    #         format: uuid
-    #   requestBody:
-    #     required: true
-    #     description: The task object you are updating
-    #     content:
-    #       application/json:
-    #         schema:
-    #           $ref: '#/components/schemas/TaskCreateOrUpdate'
-    #         example: ''
-    #   responses:
-    #     '200':
-    #       description: OK/success, returns a list of tasks updated
-    #       content:
-    #         application/json:
-    #           schema:
-    #             $ref: '#/components/schemas/Tasks'
-    # delete:
-    #   security:
-    #     - OAuth2: [projects]
-    #   tags:
-    #     - Project
-    #   summary: Allows you to delete a task
-    #   operationId: deleteTask
-    #   description: Allows you to delete a specific task
-    #   parameters:
-    #     - name: projectId
-    #       in: path
-    #       required: true
-    #       description: You can specify an individual project by appending the projectId to the endpoint
-    #       schema:
-    #         type: string
-    #         format: uuid
-    #     - name: taskId
-    #       in: path
-    #       required: true
-    #       description: You can specify an individual task by appending the id to the endpoint
-    #       schema:
-    #         type: string
-    #         format: uuid
-    #   responses:
-    #     '204':
-    #       description: Success - return response 204 no content
-    #       x-isEmpty: true
+        '400':
+          $ref: '#/components/responses/400Error'
+    put:
+      security:
+        - OAuth2: [projects]
+      tags:
+        - Project
+      summary: Allows you to update a task
+      operationId: updateTask
+      description: Allows you to update a specific task
+      parameters:
+        - name: projectId
+          x-snake: project_id
+          in: path
+          required: true
+          description: You can specify an individual project by appending the projectId to the endpoint
+          schema:
+            type: string
+            format: uuid
+        - name: taskId
+          x-snake: task_id
+          in: path
+          required: true
+          description: You can specify an individual task by appending the id to the endpoint
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        description: The task object you are updating
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskCreateOrUpdate'
+            example: ''
+      responses:
+        '204':
+          description: OK/Success - return response 204 no content
+          x-isEmpty: true
+        '400':
+          $ref: '#/components/responses/400Error'
+    delete:
+      security:
+        - OAuth2: [projects]
+      tags:
+        - Project
+      summary: Allows you to delete a task
+      operationId: deleteTask
+      description: Allows you to delete a specific task
+      parameters:
+        - name: projectId
+          x-snake: project_id
+          in: path
+          required: true
+          description: You can specify an individual project by appending the projectId to the endpoint
+          schema:
+            type: string
+            format: uuid
+        - name: taskId
+          x-snake: task_id
+          in: path
+          required: true
+          description: You can specify an individual task by appending the id to the endpoint
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Success - return response 204 no content
+          x-isEmpty: true
+        '400':
+          $ref: '#/components/responses/400Error'
   /Projects/{projectId}/Time:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -841,6 +850,8 @@ paths:
                               }
                           ]
                         }'
+        '400':
+          $ref: '#/components/responses/400Error'
     post:
       security:
         - OAuth2: [projects]
@@ -890,6 +901,8 @@ paths:
                           "description": "My description",
                           "status": "ACTIVE"
                         }'
+        '400':
+          $ref: '#/components/responses/400Error'
   /Projects/{projectId}/Time/{timeEntryId}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -936,6 +949,8 @@ paths:
                           "description": "My description",
                           "status": "ACTIVE"
                         }'
+        '400':
+          $ref: '#/components/responses/400Error'
     put:
       security:
         - OAuth2: [projects]
@@ -979,6 +994,8 @@ paths:
         '204':
           description: Success - return response 204 no content
           x-isEmpty: true
+        '400':
+          $ref: '#/components/responses/400Error'
     delete:
       security:
         - OAuth2: [projects]
@@ -1008,6 +1025,8 @@ paths:
         '204':
           description: Success - return response 204 no content
           x-isEmpty: true
+        '400':
+          $ref: '#/components/responses/400Error'
 components:
   securitySchemes:
     OAuth2:
@@ -1434,8 +1453,7 @@ components:
           $ref: '#/components/schemas/ChargeType'
           type: string
         estimateMinutes:
-          type: number
-          format: double
+          type: integer
           description: An estimated time to perform the task
         projectId:
           type: string
@@ -1443,27 +1461,22 @@ components:
           example: '00000000-0000-0000-000-000000000000'
           description: Identifier of the project task belongs to.
         totalMinutes:
-          type: number
-          format: double
+          type: integer
           description: Total minutes which have been logged against the task. Logged by assigning a time entry to a task
         totalAmount:
           $ref: '#/components/schemas/Amount'
           type: number
         minutesInvoiced:
-          type: number
-          format: double
+          type: integer
           description: Minutes on this task which have been invoiced.
         minutesToBeInvoiced:
-          type: number
-          format: double
+          type: integer
           description: Minutes on this task which have not been invoiced.
         fixedMinutes:
-          type: number
-          format: double
+          type: integer
           description: Minutes logged against this task if its charge type is `FIXED`.
         nonChargeableMinutes:
-          type: number
-          format: double
+          type: integer
           description: Minutes logged against this task if its charge type is `NON_CHARGEABLE`.
         amountToBeInvoiced:
           $ref: '#/components/schemas/Amount'
@@ -1496,12 +1509,13 @@ components:
           maximum: 100
         rate: 
           $ref: '#/components/schemas/Amount'
+          type: number
         chargeType:
           $ref: '#/components/schemas/ChargeType'
           type: string
         estimateMinutes:
           type: integer
-          description: "Estimated time to perform the task. EstimateMinutes has to be greater than 0 if provided."
+          description: An estimated time to perform the task
       required:
         - name
         - rate
