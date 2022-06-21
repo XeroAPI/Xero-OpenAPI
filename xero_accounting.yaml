@@ -17327,6 +17327,10 @@ paths:
                               "Type": "ACCREC",
                               "Reference": "[Week]",
                               "HasAttachments": true,
+                              "ApprovedForSending": false,
+                              "SendCopy": false,
+                              "MarkAsSent": false,
+                              "IncludePDF": false,
                               "ID": "428c0d75-909f-4b04-8403-a48dc27283b0",
                               "Contact": {
                                 "ContactID": "430fa14a-f945-44d3-9f97-5df5e28441b8",
@@ -17356,6 +17360,252 @@ paths:
                               "SubTotal": 5000.00,
                               "TotalTax": 750.00,
                               "Total": 5750.00,
+                              "CurrencyCode": "NZD"
+                            }
+                          ]
+                        }'
+    put:
+      security:
+        - OAuth2: [accounting.transactions]
+      tags:
+        - Accounting
+      operationId: createRepeatingInvoices
+      summary: Creates one or more repeating invoice templates
+      x-hasAccountingValidationError: true
+      parameters:
+        - $ref: '#/components/parameters/summarizeErrors'
+      responses:
+        '200':
+          description: Success - return response of type RepeatingInvoices array with newly created RepeatingInvoice
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RepeatingInvoices'
+              example: '{
+                          "Id": "b336833d-a3a8-4a67-ab4c-6280b3ad87b0",
+                          "Status": "OK",
+                          "ProviderName": "Provider Name Example",
+                          "DateTimeUTC": "\/Date(1553805183228)\/",
+                          "RepeatingInvoices": [
+                            {
+                              "Schedule": {
+                                "Period": 1,
+                                "Unit": "MONTHLY",
+                                "DueDate": 10,
+                                "DueDateType": "OFFOLLOWINGMONTH",
+                                "StartDate": "\/Date(1555286400000+0000)\/",
+                                "EndDate": "\/Date(1569801600000+0000)\/",
+                                "NextScheduledDate": "\/Date(1555286400000+0000)\/"
+                              },
+                              "RepeatingInvoiceID": "428c0d75-909f-4b04-8403-a48dc27283b0",
+                              "Type": "ACCREC",
+                              "Reference": "[Week]",
+                              "HasAttachments": true,
+                              "ApprovedForSending": false,
+                              "SendCopy": false,
+                              "MarkAsSent": false,
+                              "IncludePDF": false,
+                              "ID": "428c0d75-909f-4b04-8403-a48dc27283b0",
+                              "Contact": {
+                                "ContactID": "430fa14a-f945-44d3-9f97-5df5e28441b8",
+                                "Name": "Liam Gallagher",
+                                "Addresses": [],
+                                "Phones": [],
+                                "ContactGroups": [],
+                                "ContactPersons": [],
+                                "HasValidationErrors": false
+                              },
+                              "Status": "AUTHORISED",
+                              "LineAmountTypes": "Exclusive",
+                              "LineItems": [
+                                {
+                                  "Description": "Guitars Fender Strat",
+                                  "UnitAmount": 5000.00,
+                                  "TaxType": "OUTPUT2",
+                                  "TaxAmount": 750.00,
+                                  "LineAmount": 5000.00,
+                                  "AccountCode": "200",
+                                  "Tracking": [],
+                                  "Quantity": 1.0000,
+                                  "LineItemID": "13a8353c-d2af-4d5b-920c-438449f08900",
+                                  "DiscountEnteredAsPercent": true
+                                }
+                              ],
+                              "SubTotal": 5000.00,
+                              "TotalTax": 750.00,
+                              "Total": 5750.00,
+                              "CurrencyCode": "NZD"
+                            }
+                          ]
+                        }'
+        '400':
+          $ref: '#/components/responses/400Error'
+      requestBody:
+        required: true
+        description: RepeatingInvoices with an array of repeating invoice objects in body of request
+        content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RepeatingInvoices'
+              example: '{
+                          "RepeatingInvoices": [
+                            {
+                              "Schedule": {
+                                "Period": 1,
+                                "Unit": "MONTHLY",
+                                "DueDate": 10,
+                                "DueDateType": "OFFOLLOWINGMONTH",
+                                "StartDate": "\/Date(1555286400000+0000)\/"
+                              },
+                              "Type": "ACCREC",
+                              "Reference": "[Week]",
+                              "ApprovedForSending": false,
+                              "SendCopy": false,
+                              "MarkAsSent": false,
+                              "IncludePDF": false,
+                              "Contact": {
+                                "ContactID": "430fa14a-f945-44d3-9f97-5df5e28441b8",
+                                "Name": "Liam Gallagher"
+                              },
+                              "Status": "AUTHORISED",
+                              "LineAmountTypes": "Exclusive",
+                              "LineItems": [
+                                {
+                                  "Description": "Guitars Fender Strat",
+                                  "UnitAmount": 5000.00,
+                                  "TaxType": "OUTPUT2",
+                                  "TaxAmount": 750.00,
+                                  "LineAmount": 5000.00,
+                                  "AccountCode": "200",
+                                  "Tracking": [],
+                                  "Quantity": 1.0000,
+                                  "LineItemID": "13a8353c-d2af-4d5b-920c-438449f08900",
+                                  "DiscountEnteredAsPercent": true
+                                }
+                              ],
+                              "CurrencyCode": "NZD"
+                            }
+                          ]
+                        }'
+    post:
+      security:
+        - OAuth2: [accounting.transactions]
+      tags:
+        - Accounting
+      operationId: updateOrCreateRepeatingInvoices
+      summary: Creates or deletes one or more repeating invoice templates
+      x-hasAccountingValidationError: true
+      parameters:
+        - $ref: '#/components/parameters/summarizeErrors'
+      responses:
+        '200':
+          description: Success - return response of type RepeatingInvoices array with newly created RepeatingInvoice
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RepeatingInvoices'
+              example: '{
+                          "Id": "b336833d-a3a8-4a67-ab4c-6280b3ad87b0",
+                          "Status": "OK",
+                          "ProviderName": "Provider Name Example",
+                          "DateTimeUTC": "\/Date(1553805183228)\/",
+                          "RepeatingInvoices": [
+                            {
+                              "Schedule": {
+                                "Period": 1,
+                                "Unit": "MONTHLY",
+                                "DueDate": 10,
+                                "DueDateType": "OFFOLLOWINGMONTH",
+                                "StartDate": "\/Date(1555286400000+0000)\/",
+                                "EndDate": "\/Date(1569801600000+0000)\/",
+                                "NextScheduledDate": "\/Date(1555286400000+0000)\/"
+                              },
+                              "RepeatingInvoiceID": "428c0d75-909f-4b04-8403-a48dc27283b0",
+                              "Type": "ACCREC",
+                              "Reference": "[Week]",
+                              "HasAttachments": true,
+                              "ApprovedForSending": false,
+                              "SendCopy": false,
+                              "MarkAsSent": false,
+                              "IncludePDF": false,
+                              "ID": "428c0d75-909f-4b04-8403-a48dc27283b0",
+                              "Contact": {
+                                "ContactID": "430fa14a-f945-44d3-9f97-5df5e28441b8",
+                                "Name": "Liam Gallagher",
+                                "Addresses": [],
+                                "Phones": [],
+                                "ContactGroups": [],
+                                "ContactPersons": [],
+                                "HasValidationErrors": false
+                              },
+                              "Status": "AUTHORISED",
+                              "LineAmountTypes": "Exclusive",
+                              "LineItems": [
+                                {
+                                  "Description": "Guitars Fender Strat",
+                                  "UnitAmount": 5000.00,
+                                  "TaxType": "OUTPUT2",
+                                  "TaxAmount": 750.00,
+                                  "LineAmount": 5000.00,
+                                  "AccountCode": "200",
+                                  "Tracking": [],
+                                  "Quantity": 1.0000,
+                                  "LineItemID": "13a8353c-d2af-4d5b-920c-438449f08900",
+                                  "DiscountEnteredAsPercent": true
+                                }
+                              ],
+                              "SubTotal": 5000.00,
+                              "TotalTax": 750.00,
+                              "Total": 5750.00,
+                              "CurrencyCode": "NZD"
+                            }
+                          ]
+                        }'
+        '400':
+          $ref: '#/components/responses/400Error'
+      requestBody:
+        required: true
+        description: RepeatingInvoices with an array of repeating invoice objects in body of request
+        content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RepeatingInvoices'
+              example: '{
+                          "RepeatingInvoices": [
+                            {
+                              "Schedule": {
+                                "Period": 1,
+                                "Unit": "MONTHLY",
+                                "DueDate": 10,
+                                "DueDateType": "OFFOLLOWINGMONTH",
+                                "StartDate": "\/Date(1555286400000+0000)\/"
+                              },
+                              "Type": "ACCREC",
+                              "Reference": "[Week]",
+                              "ApprovedForSending": false,
+                              "SendCopy": false,
+                              "MarkAsSent": false,
+                              "IncludePDF": false,
+                              "Contact": {
+                                "ContactID": "430fa14a-f945-44d3-9f97-5df5e28441b8",
+                                "Name": "Liam Gallagher"
+                              },
+                              "Status": "AUTHORISED",
+                              "LineAmountTypes": "Exclusive",
+                              "LineItems": [
+                                {
+                                  "Description": "Guitars Fender Strat",
+                                  "UnitAmount": 5000.00,
+                                  "TaxType": "OUTPUT2",
+                                  "TaxAmount": 750.00,
+                                  "LineAmount": 5000.00,
+                                  "AccountCode": "200",
+                                  "Tracking": [],
+                                  "Quantity": 1.0000,
+                                  "LineItemID": "13a8353c-d2af-4d5b-920c-438449f08900",
+                                  "DiscountEnteredAsPercent": true
+                                }
+                              ],
                               "CurrencyCode": "NZD"
                             }
                           ]
@@ -17455,6 +17705,89 @@ paths:
                             }
                           ]
                         }'
+    post:
+      security:
+        - OAuth2: [accounting.transactions]
+      tags:
+        - Accounting
+      operationId: updateRepeatingInvoice
+      summary: Deletes a specific repeating invoice template
+      x-hasAccountingValidationError: true
+      parameters:
+        - $ref: '#/components/parameters/RepeatingInvoiceID'
+      responses:
+        '200':
+          description: Success - return response of type RepeatingInvoices array with deleted Invoice
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RepeatingInvoices'
+              example: '{
+                          "Id": "b336833d-a3a8-4a67-ab4c-6280b3ad87b0",
+                          "Status": "OK",
+                          "ProviderName": "Provider Name Example",
+                          "DateTimeUTC": "\/Date(1553805183228)\/",
+                          "RepeatingInvoices": [
+                            {
+                              "Schedule": {
+                                "Period": 1,
+                                "Unit": "MONTHLY",
+                                "DueDate": 10,
+                                "DueDateType": "OFFOLLOWINGMONTH",
+                                "StartDate": "\/Date(1555286400000+0000)\/",
+                                "EndDate": "\/Date(1569801600000+0000)\/",
+                                "NextScheduledDate": "\/Date(1555286400000+0000)\/"
+                              },
+                              "RepeatingInvoiceID": "428c0d75-909f-4b04-8403-a48dc27283b0",
+                              "Type": "ACCREC",
+                              "Reference": "[Week]",
+                              "HasAttachments": true,
+                              "ApprovedForSending": false,
+                              "SendCopy": false,
+                              "MarkAsSent": false,
+                              "IncludePDF": false,
+                              "ID": "428c0d75-909f-4b04-8403-a48dc27283b0",
+                              "Contact": {
+                                "ContactID": "430fa14a-f945-44d3-9f97-5df5e28441b8",
+                                "Name": "Liam Gallagher",
+                                "Addresses": [],
+                                "Phones": [],
+                                "ContactGroups": [],
+                                "ContactPersons": [],
+                                "HasValidationErrors": false
+                              },
+                              "Status": "DELETED",
+                              "LineAmountTypes": "Exclusive",
+                              "LineItems": [
+                                {
+                                  "Description": "Guitars Fender Strat",
+                                  "UnitAmount": 5000.00,
+                                  "TaxType": "OUTPUT2",
+                                  "TaxAmount": 750.00,
+                                  "LineAmount": 5000.00,
+                                  "AccountCode": "200",
+                                  "Tracking": [],
+                                  "Quantity": 1.0000,
+                                  "LineItemID": "13a8353c-d2af-4d5b-920c-438449f08900",
+                                  "DiscountEnteredAsPercent": true
+                                }
+                              ],
+                              "SubTotal": 5000.00,
+                              "TotalTax": 750.00,
+                              "Total": 5750.00,
+                              "CurrencyCode": "NZD"
+                            }
+                          ]
+                        }'
+        '400':
+          $ref: '#/components/responses/400Error'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RepeatingInvoices'
+            example: '{ "Status": "DELETED" }'
   '/RepeatingInvoices/{RepeatingInvoiceID}/Attachments':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -26950,7 +27283,7 @@ components:
           type: string
           format: uuid
         HasAttachments:
-          description: boolean to indicate if an invoice has an attachment
+          description: Boolean to indicate if an invoice has an attachment
           readOnly: true
           type: boolean
           default: "false"
@@ -26960,6 +27293,26 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Attachment'
+        ApprovedForSending:
+          description: Boolean to indicate whether the invoice has been approved for sending
+          type: boolean
+          default: "false"
+          example: "false"
+        SendCopy:
+          description: Boolean to indicate whether a copy is sent to sender's email
+          type: boolean
+          default: "false"
+          example: "false"
+        MarkAsSent:
+          description: Boolean to indicate whether the invoice in the Xero app displays as "sent"
+          type: boolean
+          default: "false"
+          example: "false"
+        IncludePDF:
+          description: Boolean to indicate whether to include PDF attachment
+          type: boolean
+          default: "false"
+          example: "false"
       type: object
     ReportWithRows:
       type: object
