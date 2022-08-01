@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Xero Accounting API
-  version: "2.24.0"
+  version: "2.25.0"
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
   contact:
     name: "Xero Platform Team"
@@ -993,6 +993,126 @@ paths:
                               ]
                             }
                           ]
+                        }'
+    post:
+      security:
+        - OAuth2: [accounting.transactions]
+      tags:
+        - Accounting
+      operationId: deleteBatchPayment
+      summary: Updates a specific batch payment for invoices and credit notes
+      x-hasAccountingValidationError: true
+      x-example:
+        - batchPaymentDelete:
+          is_object: true
+          key: batchPaymentDelete
+          keyPascal: BatchPaymentDelete
+        - status:
+          is_last: true
+          key: status
+          keyPascal: Status
+          default: DELETED
+          object: batchPaymentDelete
+        - batchPaymentID:
+          is_last: true
+          is_uuid: true
+          key: batchPaymentID
+          keyPascal: BatchPaymentID
+          keySnake: batch_payment_id
+          default: 00000000-0000-0000-0000-000000000000
+          object: batchPaymentDelete
+      responses:
+        '200':
+          description: Success - return response of type BatchPayments array for updated BatchPayment
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchPayments'
+              example: '{
+                          "Id": "ee23328c-4a8b-4ee7-8fb6-9796ffab9cb0",
+                          "Status": "OK",
+                          "ProviderName": "provider-name",
+                          "DateTimeUTC": "\/Date(1583945852489)\/",
+                          "BatchPayments": [
+                              {
+                                  "Account": {
+                                      "AccountID": "efb6e3a4-3156-4cee-bfe1-a282a3cc1d8f"
+                                  },
+                                  "BatchPaymentID": "b649632e-2782-4c74-95a5-d994d7140ed9",
+                                  "DateString": "2022-08-01T00:00:00",
+                                  "Date": "/Date(1659312000000+0000)/",
+                                  "Payments": [],
+                                  "Type": "PAYBATCH",
+                                  "Status": "DELETED",
+                                  "TotalAmount": 18.00,
+                                  "UpdatedDateUTC": "/Date(1659377631813+0000)/",
+                                  "IsReconciled": false
+                              }
+                          ]
+                        }'
+        '400':
+          $ref: '#/components/responses/400Error'
+      requestBody:
+        required: true
+        content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchPaymentDelete'
+              example: '{  
+                          "BatchPaymentID": "9bf296e9-0748-4d29-a3dc-24dde1098030",
+                          "Status":"DELETED"
+                        }'
+  '/BatchPayments/{BatchPaymentID}':
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    post:
+      security:
+        - OAuth2: [accounting.transactions]
+      tags:
+        - Accounting
+      operationId: deleteBatchPaymentByUrlParam
+      summary: Updates a specific batch payment for invoices and credit notes
+      parameters:
+        - $ref: '#/components/parameters/BatchPaymentID'
+      responses:
+        '200':
+            description: Success - return response of type BatchPayments array for updated BatchPayment
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/BatchPayments'
+                example: '{
+                            "Id": "ee23328c-4a8b-4ee7-8fb6-9796ffab9cb0",
+                            "Status": "OK",
+                            "ProviderName": "provider-name",
+                            "DateTimeUTC": "\/Date(1583945852489)\/",
+                            "BatchPayments": [
+                                {
+                                    "Account": {
+                                        "AccountID": "efb6e3a4-3156-4cee-bfe1-a282a3cc1d8f"
+                                    },
+                                    "BatchPaymentID": "b649632e-2782-4c74-95a5-d994d7140ed9",
+                                    "DateString": "2022-08-01T00:00:00",
+                                    "Date": "/Date(1659312000000+0000)/",
+                                    "Payments": [],
+                                    "Type": "PAYBATCH",
+                                    "Status": "DELETED",
+                                    "TotalAmount": 18.00,
+                                    "UpdatedDateUTC": "/Date(1659377631813+0000)/",
+                                    "IsReconciled": false
+                                }
+                            ]
+                          }'
+        '400':
+          $ref: '#/components/responses/400Error'
+      requestBody:
+        required: true
+        content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchPaymentDeleteByUrlParam'
+              example: '{  
+                          "Status":"DELETED"
                         }'
   '/BatchPayments/{BatchPaymentID}/History':
     parameters:
@@ -24020,6 +24140,33 @@ components:
           type: string
           maxLength: 12
           example: "Foobar"
+    BatchPaymentDelete:
+      externalDocs:
+        url: 'http://developer.xero.com/documentation/api/accounting/batchpayments'
+      properties:
+        BatchPaymentID:
+          description: The Xero generated unique identifier for the bank transaction (read-only)
+          type: string
+          format: uuid
+        Status:
+          description: The status of the batch payment.
+          type: string
+          default: "DELETED"
+      required:
+        - Status
+        - BatchPaymentID
+      type: object
+    BatchPaymentDeleteByUrlParam:
+      externalDocs:
+        url: 'http://developer.xero.com/documentation/api/accounting/batchpayments'
+      properties:
+        Status:
+          description: The status of the batch payment.
+          type: string
+          default: "DELETED"
+      required:
+        - Status
+      type: object
     BrandingThemes:
       type: object
       x-isObjectArray: true
