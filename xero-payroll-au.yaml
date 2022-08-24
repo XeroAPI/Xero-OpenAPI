@@ -3211,91 +3211,6 @@ paths:
                             ]
                         }
                       ]'
-  /TypesAndCodes/LeaveCategories:
-    parameters:
-      - $ref: '#/components/parameters/requiredHeader'
-    get:
-      security:
-        - OAuth2: [payroll.settings, payroll.settings.read]
-      tags:
-        - PayrollAu
-      operationId: getLeaveCategories
-      summary: Retrieves all active AU paid leave categories
-      responses:
-        '200':
-          description: List of leave category objects
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/LeaveCategories'
-              example: '{
-                          "Id": "00000000-0000-0000-0000-000000000000",
-                          "Status": "OK",
-                          "ProviderName": "Payroll API Test Client",
-                          "DateTimeUTC": "/Date(1660514293596)/",
-                          "LeaveCategories": [
-                              {
-                                  "LeaveCategoryCode": "ANNUALLEAVE",
-                                  "CanBeSGCExempt": false,
-                                  "Name": "Annual Leave"
-                              },
-                              {
-                                  "LeaveCategoryCode": "LONGSERVICELEAVE",
-                                  "CanBeSGCExempt": false,
-                                  "Name": "Long Service Leave"
-                              },
-                              {
-                                  "LeaveCategoryCode": "PERSONALCARERSLEAVE",
-                                  "CanBeSGCExempt": false,
-                                  "Name": "Personal/Carer’s Leave"
-                              },
-                              {
-                                  "LeaveCategoryCode": "ROSTEREDDAYOFF",
-                                  "CanBeSGCExempt": false,
-                                  "Name": "Rostered Day Off"
-                              },
-                              {
-                                  "LeaveCategoryCode": "TIMEOFFINLIEU",
-                                  "CanBeSGCExempt": false,
-                                  "Name": "Time Off In Lieu"
-                              },
-                              {
-                                  "LeaveCategoryCode": "COMPASSIONATEANDBEREAVEMENTLEAVE",
-                                  "CanBeSGCExempt": false,
-                                  "Name": "Compassionate and Bereavement Leave"
-                              },
-                              {
-                                  "LeaveCategoryCode": "STUDYLEAVE",
-                                  "CanBeSGCExempt": false,
-                                  "Name": "Study Leave"
-                              },
-                              {
-                                  "LeaveCategoryCode": "FAMILYANDDOMESTICVIOLENCELEAVE",
-                                  "CanBeSGCExempt": false,
-                                  "Name": "Family and Domestic Violence Leave"
-                              },
-                              {
-                                  "LeaveCategoryCode": "SPECIALPAIDLEAVE",
-                                  "CanBeSGCExempt": false,
-                                  "Name": "Special Paid Leave"
-                              },
-                              {
-                                  "LeaveCategoryCode": "COMMUNITYSERVICELEAVE",
-                                  "CanBeSGCExempt": true,
-                                  "Name": "Community Service Leave"
-                              },
-                              {
-                                  "LeaveCategoryCode": "JURYDUTYLEAVE",
-                                  "CanBeSGCExempt": true,
-                                  "Name": "Jury Duty Leave"
-                              },
-                              {
-                                  "LeaveCategoryCode": "DEFENCERESERVELEAVE",
-                                  "CanBeSGCExempt": true,
-                                  "Name": "Defence Reserve Leave"
-                              }
-                          ]
-                      }'
 components:
   securitySchemes:
     OAuth2:
@@ -4912,27 +4827,6 @@ components:
           description: The type of units as specified by the LeaveType (see PayItems)
           type: string
           example: Hours
-    LeaveCategories:
-      type: object
-      x-isObjectArray: true
-      description: All active AU paid leave categories
-      properties:
-        LeaveCategories:
-          type: array
-          items:
-            $ref: '#/components/schemas/LeaveCategory'
-    LeaveCategory:
-      type: object
-      properties:
-        Name:
-          description: A descriptive name for the Leave Category
-          type: string
-        LeaveCategoryCode:
-          $ref: '#/components/schemas/LeaveCategoryCode'
-        CanBeSGCExempt:
-          description: Indicates whether the Leave Category supports superannuation guarantee contribution exemption
-          type: boolean
-          example: false
     LeaveCategoryCode:
       description: Code used to identify the Leave Category
       type: string
