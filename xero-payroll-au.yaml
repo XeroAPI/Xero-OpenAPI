@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: '2.25.0'
+  version: '2.28.1'
   title: 'Xero Payroll AU API'
   description: 'This is the Xero Payroll API for orgs in Australia region.'
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
@@ -3292,7 +3292,7 @@ components:
           type: string
           example: developer@me.com
         Gender:
-          description: The employee’s gender. See Employee Gender
+          description: The employee’s gender. See Employee Gender
           type: string
           enum:
           - N
@@ -4392,6 +4392,12 @@ components:
           description: Is the current record
           type: boolean
           example: true
+        LeaveCategoryCode:
+          $ref: '#/components/schemas/LeaveCategoryCode'
+        SGCExempt:
+          description: Set this to indicate that the leave type is exempt from superannuation guarantee contribution
+          type: boolean
+          example: true
     ReimbursementType:
       type: object
       properties:
@@ -4821,6 +4827,23 @@ components:
           description: The type of units as specified by the LeaveType (see PayItems)
           type: string
           example: Hours
+    LeaveCategoryCode:
+      description: Code used to identify the Leave Category
+      type: string
+      enum:
+        - ANNUALLEAVE
+        - LONGSERVICELEAVE
+        - PERSONALCARERSLEAVE
+        - ROSTEREDDAYOFF
+        - TIMEOFFINLIEU
+        - COMPASSIONATEANDBEREAVEMENTLEAVE
+        - STUDYLEAVE
+        - FAMILYANDDOMESTICVIOLENCELEAVE
+        - SPECIALPAIDLEAVE
+        - COMMUNITYSERVICELEAVE
+        - JURYDUTYLEAVE
+        - DEFENCERESERVELEAVE
+      example: ANNUALLEAVE
     RateType:
       type: string
       enum:
