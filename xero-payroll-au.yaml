@@ -81,7 +81,8 @@ paths:
                               "StartDate": "/Date(1547164800000+0000)/",
                               "OrdinaryEarningsRateID": "ab874dfb-ab09-4c91-954e-43acf6fc23b4",
                               "PayrollCalendarID": "22a05fc5-386d-4950-9842-3e7a6c812135",
-                              "UpdatedDateUTC": "/Date(1572915814000+0000)/"
+                              "UpdatedDateUTC": "/Date(1572915814000+0000)/",
+                              "IsSTP2Qualified": false
                             },
                             {
                               "EmployeeID": "7aa04979-ded5-44d9-b09a-793749425844",
@@ -94,7 +95,8 @@ paths:
                               "StartDate": "/Date(1572566400000+0000)/",
                               "OrdinaryEarningsRateID": "ab874dfb-ab09-4c91-954e-43acf6fc23b4",
                               "PayrollCalendarID": "78bb86b9-e1ea-47ac-b75d-f087a81931de",
-                              "UpdatedDateUTC": "/Date(1572916028000+0000)/"
+                              "UpdatedDateUTC": "/Date(1572916028000+0000)/",
+                              "IsSTP2Qualified": false
                             }
                           ]
                         }'
@@ -3381,6 +3383,18 @@ components:
           $ref: '#/components/schemas/OpeningBalances'
         TaxDeclaration: 
           $ref: '#/components/schemas/TaxDeclaration'
+        IncomeType: 
+          $ref: '#/components/schemas/IncomeType'
+        EmploymentType: 
+          $ref: '#/components/schemas/EmploymentType'
+        CountryOfResidence:
+          description: Country of residence as a valid ISO 3166-1 alpha-2 country code e.g. "AU", "NZ", "CA" or an empty string ("") to unset a previously set value. Only applicable, and mandatory if income type is WORKINGHOLIDAYMAKER. 
+          type: string
+          example: AU
+        IsSTP2Qualified:
+          description: Indicates if the employee has been updated for STP Phase 2 compliance. Doesn't indicate that the employee is payable.
+          type: boolean
+          example: true
         LeaveBalances:
           type: array
           items:
@@ -4467,12 +4481,22 @@ components:
           description: The tax file number e.g 123123123.
           type: string
           example: 123123123
+        ABN:
+          description: 11-digit Australian Business Number e.g 21006819692 or an empty string ("") to unset a previously set value. Only applicable, and mandatory if income type is NONEMPLOYEE. 
+          type: string
+          example: 21006819692
         AustralianResidentForTaxPurposes:
           description: If the employee is Australian resident for tax purposes. e.g true or false
           type: boolean
           example: true
         ResidencyStatus:
           $ref: '#/components/schemas/ResidencyStatus'
+        TaxScaleType:
+          $ref: '#/components/schemas/TaxScaleType'
+        WorkCondition:
+          $ref: '#/components/schemas/WorkCondition'
+        SeniorMaritalStatus:
+          $ref: '#/components/schemas/SeniorMaritalStatus'
         TaxFreeThresholdClaimed:
           description: If tax free threshold claimed. e.g true or false
           type: boolean
@@ -4979,6 +5003,39 @@ components:
       enum:
       - REGULATED  
       - SMSF
+    EmploymentType: 
+      type: string
+      enum:
+      - EMPLOYEE  
+      - CONTRACTOR
+    IncomeType: 
+      type: string
+      enum:
+      - SALARYANDWAGES  
+      - WORKINGHOLIDAYMAKER
+      - NONEMPLOYEE  
+      - CLOSELYHELDPAYEES
+      - LABOURHIRE  
+    TaxScaleType: 
+      type: string
+      enum:
+      - REGULAR  
+      - ACTORSARTISTSENTERTAINERS
+      - HORTICULTURISTORSHEARER  
+      - SENIORORPENSIONER
+      - WORKINGHOLIDAYMAKER  
+      - FOREIGN
+    WorkCondition: 
+      type: string
+      enum:
+      - PROMOTIONAL  
+      - THREELESSPERFORMANCESPERWEEK
+    SeniorMaritalStatus: 
+      type: string
+      enum:
+      - MEMBEROFCOUPLE  
+      - MEMBEROFILLNESSSEPARATEDCOUPLE
+      - SINGLE
     EmploymentBasis: 
       type: string
       enum:
@@ -4986,7 +5043,7 @@ components:
       - PARTTIME  
       - CASUAL  
       - LABOURHIRE  
-      - SUPERINCOMESTREAM
+      - NONEMPLOYEE
     TFNExemptionType: 
       type: string
       enum:
@@ -4999,7 +5056,6 @@ components:
       enum:
       - AUSTRALIANRESIDENT
       - FOREIGNRESIDENT  
-      - WORKINGHOLIDAYMAKER
     TimesheetStatus: 
       type: string
       enum:
