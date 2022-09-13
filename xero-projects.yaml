@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: "2.29.2"
+  version: "2.29.3"
   title: Xero Projects API
   description: This is the Xero Projects API 
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
@@ -265,7 +265,7 @@ paths:
             format: uuid
       responses:
         '200':
-          description: OK/success, returns a list of project objects
+          description: OK/success, returns the specified project object
           content:
             application/json:
               schema:
@@ -437,7 +437,7 @@ paths:
             example: 100
       responses:
         '200':
-          description: OK/success, returns a list of project objects
+          description: OK/success, returns a list of project users
           content:
             application/json:
               schema:
@@ -583,8 +583,40 @@ paths:
                 }'
       responses:
         '201':
-          description: OK/Success - return response 201 no content
-          x-isEmpty: true
+          description: OK/success, returns the new task object
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Task'
+              example: '{
+                          "name": "Demolition",
+                          "rate": {
+                            "currency": "AUD",
+                            "value": 20
+                          },
+                          "chargeType": "TIME",
+                          "status": "ACTIVE",
+                          "estimateMinutes": 12000,
+                          "taskId": "00000000-0000-0000-0000-000000000000",
+                          "projectId": "00000000-0000-0000-0000-000000000000",
+                          "totalMinutes": 300,
+                          "totalAmount": {
+                            "currency": "AUD",
+                            "value": 100
+                          },
+                          "minutesToBeInvoiced": 300,
+                          "minutesInvoiced": 0,
+                          "nonChargeableMinutes": 0,
+                          "fixedMinutes": 0,
+                          "amountToBeInvoiced": {
+                            "currency": "AUD",
+                            "value": 100
+                          },
+                          "amountInvoiced": {
+                            "currency": "AUD",
+                            "value": 0
+                          }
+                        }'
         '400':
           $ref: '#/components/responses/400Error'
   /Projects/{projectId}/Tasks/{taskId}:
@@ -617,7 +649,7 @@ paths:
             format: uuid
       responses:
         '200':
-          description: OK/success, returns a list of task objects
+          description: OK/success, returns the specified task object
           content:
             application/json:
               schema:
@@ -933,7 +965,7 @@ paths:
             format: uuid
       responses:
         '200':
-          description: OK/success, returns a single time entry 
+          description: OK/success, returns the specified time entry 
           content:
             application/json:
               schema:
