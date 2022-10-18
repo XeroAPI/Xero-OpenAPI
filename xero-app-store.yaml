@@ -91,6 +91,30 @@ paths:
           description: "When a failure occurs in the endpoint"
       security:
         - OAuth2: [marketplace.billing]
+  "/subscriptions/{subscriptionId}/items/{subscriptionItemId}/usage-records":
+    post:
+      tags:
+        - AppStore
+      operationId: postUsageRecords
+      summary: "Send metered usage belonging to this subscription and subscription item"
+      parameters:
+        - $ref: "#/components/parameters/subscriptionId"
+        - $ref: "#/components/parameters/subscriptionItemId"
+      responses:
+        "200":
+          description: Success - return response of the record submitted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UsageRecord"
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetails"
+          description: "When a failure occurs in the endpoint"
+      security:
+          - OAuth2: [marketplace.billing]
 components:
   securitySchemes:
     OAuth2:
@@ -108,6 +132,19 @@ components:
       name: subscriptionId
       x-snake: subscription_id
       description: Unique identifier for Subscription object
+      example: "00000000-0000-0000-0000-000000000000"
+      x-example-java: UUID.fromString("00000000-0000-0000-0000-000000000000")
+      x-example-php: '&quot;00000000-0000-0000-0000-000000000000&quot;'
+      x-example-csharp: Guid.Parse("00000000-0000-0000-0000-000000000000");
+      schema:
+        type: string
+        format: uuid
+    subscriptionItemId:
+      required: true
+      in: path
+      name: subscriptionItemId
+      x-snake: subscription_item_id
+      description: The unique identifier of the subscriptionItem
       example: "00000000-0000-0000-0000-000000000000"
       x-example-java: UUID.fromString("00000000-0000-0000-0000-000000000000")
       x-example-php: '&quot;00000000-0000-0000-0000-000000000000&quot;'
@@ -299,3 +336,36 @@ components:
         usageUnit:
           description: The unit of the usage product. e.g. "user", "minutes", "SMS", etc
           type: string
+    UsageRecord:
+      properties:
+        quantity:
+          description: The quantity recorded
+          format: int32
+          type: integer
+        subscriptionId:
+          description: The unique identifier of the Subscription.
+          format: guid
+          type: string
+        subscriptionItemId:
+          description: The unique identifier of the SubscriptionItem.
+          format: guid
+          type: string
+        testMode:
+          description: If the subscription is a test subscription
+          type: boolean
+        timeStamp:
+          description: The timestamp when this usage occurred
+          format: date-time
+          type: string
+        usageRecordId:
+          description: The unique identifier of the usageRecord.
+          format: guid
+          type: string
+      required:
+        - usageRecordId
+        - subscriptionId
+        - subscriptionItemId
+        - quantity
+        - testMode
+        - timeStamp
+      type: object
