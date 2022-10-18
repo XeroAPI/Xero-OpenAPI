@@ -140,6 +140,29 @@ paths:
           description: "When a failure occurs in the endpoint"
       security:
           - OAuth2: [marketplace.billing]
+  "/subscriptions/{subscriptionId}/usage-records":
+    get:
+      tags:
+        - AppStore
+      operationId: getUsageRecords
+      summary: "Gets all usage records related to the subscription"
+      parameters:
+        - $ref: "#/components/parameters/subscriptionId"
+      responses:
+        "200":
+          description: Success - return response of the record submitted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UsageRecordsList"
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetails"
+          description: "When a failure occurs in the endpoint"
+      security:
+          - OAuth2: [marketplace.billing]
 components:
   securitySchemes:
     OAuth2:
@@ -170,6 +193,19 @@ components:
       name: subscriptionItemId
       x-snake: subscription_item_id
       description: The unique identifier of the subscriptionItem
+      example: "00000000-0000-0000-0000-000000000000"
+      x-example-java: UUID.fromString("00000000-0000-0000-0000-000000000000")
+      x-example-php: '&quot;00000000-0000-0000-0000-000000000000&quot;'
+      x-example-csharp: Guid.Parse("00000000-0000-0000-0000-000000000000");
+      schema:
+        type: string
+        format: uuid
+    usageRecordId:
+      required: true
+      in: path
+      name: usageRecordId
+      x-snake: usage_record_id
+      description: The unique identifier of the usage record
       example: "00000000-0000-0000-0000-000000000000"
       x-example-java: UUID.fromString("00000000-0000-0000-0000-000000000000")
       x-example-php: '&quot;00000000-0000-0000-0000-000000000000&quot;'
@@ -394,3 +430,60 @@ components:
         - testMode
         - timeStamp
       type: object
+    UsageRecordsListItem:
+      properties:
+        pricePerUnit:
+          description: The price per unit
+          format: decimal
+          type: number
+        productId:
+          description: The unique identifier of the linked Product
+          format: guid
+          type: string
+        quantity:
+          description: The quantity recorded
+          format: int32
+          type: integer
+        subscriptionId:
+          description: The unique identifier of the linked Subscription
+          format: guid
+          type: string
+        subscriptionItemId:
+          description: The unique identifier of the linked Subscription Item
+          format: guid
+          type: string
+        testMode:
+          description: If the subscription is a test subscription
+          type: boolean
+        timeStamp:
+          description: The timestamp when this usage occurred
+          format: int64
+          type: integer
+        usageRecordId:
+          description: The unique identifier of this Usage Record
+          format: guid
+          type: string
+      required:
+        - usageRecordId
+        - subscriptionId
+        - subscriptionItemId
+        - productId
+        - pricePerUnit
+        - quantity
+        - testMode
+        - timeStamp
+      type: object
+    UsageRecordsList:
+      properties:
+        usageRecords:
+          description: A collection of usage records
+          items:
+            $ref: '#/components/schemas/UsageRecordsListItem'
+          type: array
+      required:
+        - usageRecords
+      type: object
+      
+
+
+
