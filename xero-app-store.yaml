@@ -115,6 +115,31 @@ paths:
           description: "When a failure occurs in the endpoint"
       security:
           - OAuth2: [marketplace.billing]
+  "/subscriptions/{subscriptionId}/items/{subscriptionItemId}/usage-records/{usageRecordId}":
+    put:
+      tags:
+        - AppStore
+      operationId: putUsageRecords
+      summary: "Update and existing metered usage belonging to this subscription and subscription item"
+      parameters:
+        - $ref: "#/components/parameters/subscriptionId"
+        - $ref: "#/components/parameters/subscriptionItemId"
+        - $ref: "#/components/parameters/usageRecordId"
+      responses:
+        "200":
+          description: Success - return response of the modified record
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UsageRecord"
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetails"
+          description: "When a failure occurs in the endpoint"
+      security:
+          - OAuth2: [marketplace.billing]
 components:
   securitySchemes:
     OAuth2:
