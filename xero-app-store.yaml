@@ -115,6 +115,17 @@ paths:
           description: "When a failure occurs in the endpoint"
       security:
         - OAuth2: [marketplace.billing]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateUsageRecord"
+            example: '{
+              "timestamp": "2022-01-21T13:01:00Z",
+              "quantity": 10
+            }'
+        description: Contains the quantity for the usage record to create
+        required: true
   "/subscriptions/{subscriptionId}/items/{subscriptionItemId}/usage-records/{usageRecordId}":
     put:
       tags:
@@ -140,6 +151,16 @@ paths:
           description: "When a failure occurs in the endpoint"
       security:
         - OAuth2: [marketplace.billing]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateUsageRecord"
+            example: '{
+              "quantity": 10
+            }'
+        description: Contains the quantity for the usage record to update
+        required: true
   "/subscriptions/{subscriptionId}/usage-records":
     get:
       tags:
@@ -483,7 +504,30 @@ components:
       required:
         - usageRecords
       type: object
-      
-
-
-
+    CreateUsageRecord:
+      description: Data transfer object for public create usage end point
+      properties:
+        quantity:
+          description: The initial quantity for the usage record. Must be a whole number
+            that is greater than or equal to 0
+          format: int32
+          type: integer
+        timestamp:
+          description: DateTime in UTC of when the the product was consumed/used
+          format: date-time
+          type: string
+      required:
+        - quantity
+        - timestamp
+      type: object
+    UpdateUsageRecord:
+      description: Data transfer object for public update usage end point
+      properties:
+        quantity:
+          description: The new quantity for the usage record. Must be a whole number that
+            is greater than or equal to 0
+          format: int32
+          type: integer
+      required:
+        - quantity
+      type: object
