@@ -111,9 +111,11 @@ paths:
                 "usageRecordId": "2a90f7d9-4c10-4a23-9c34-b47225167a48",
                 "subscriptionId": "391be708-878a-4741-acfb-c0bc9a165bdb",
                 "subscriptionItemId": "b22b150f-a0db-447d-9117-d922110add64",
+                "productId": "d2b133d9-95d8-4446-807a-ae7ebc7353f6",
+                "pricePerUnit": 0.10, 
                 "quantity": 22,
                 "testMode": true,
-                "timeStamp": "2022-09-13T02:11:22Z"
+                "recordedAt": "2022-09-13T02:11:22Z"
               }'
         "404":
           content:
@@ -155,9 +157,11 @@ paths:
                 "usageRecordId": "2a90f7d9-4c10-4a23-9c34-b47225167a48",
                 "subscriptionId": "391be708-878a-4741-acfb-c0bc9a165bdb",
                 "subscriptionItemId": "b22b150f-a0db-447d-9117-d922110add64",
+                "productId": "d2b133d9-95d8-4446-807a-ae7ebc7353f6",
+                "pricePerUnit": 0.10, 
                 "quantity": 22,
                 "testMode": true,
-                "timeStamp": "2022-09-13T02:11:22Z"
+                "recordedAt": "2022-09-13T02:11:22Z"
               }'
         "404":
           content:
@@ -202,7 +206,7 @@ paths:
                           "pricePerUnit": 2.0,
                           "quantity": 12,
                           "testMode": false,
-                          "timeStamp": "2022-01-01T00:00:00Z"
+                          "recordedAt": "2022-01-01T00:00:00Z"
                       },
                       {
                           "usageRecordId": "47d61dc9-3c99-4587-8d55-0985f47df4a6",
@@ -212,7 +216,7 @@ paths:
                           "pricePerUnit": 5.0,
                           "quantity": 2,
                           "testMode": false,
-                          "timeStamp": "2022-01-01T00:00:00Z"
+                          "recordedAt": "2022-01-01T00:00:00Z"
                       }
                   ]
               }'
@@ -475,53 +479,20 @@ components:
         testMode:
           description: If the subscription is a test subscription
           type: boolean
-        timeStamp:
-          description: The timestamp when this usage occurred in UTC
+        recordedAt:
+          description: The time when this usage was recorded in UTC
           format: date-time
           type: string
         usageRecordId:
           description: The unique identifier of the usageRecord.
           format: guid
           type: string
-      required:
-        - usageRecordId
-        - subscriptionId
-        - subscriptionItemId
-        - quantity
-        - testMode
-        - timeStamp
-      type: object
-    UsageRecordsListItem:
-      properties:
         pricePerUnit:
           description: The price per unit
           format: decimal
           type: number
         productId:
           description: The unique identifier of the linked Product
-          format: guid
-          type: string
-        quantity:
-          description: The quantity recorded
-          format: int32
-          type: integer
-        subscriptionId:
-          description: The unique identifier of the linked Subscription
-          format: guid
-          type: string
-        subscriptionItemId:
-          description: The unique identifier of the linked Subscription Item
-          format: guid
-          type: string
-        testMode:
-          description: If the subscription is a test subscription
-          type: boolean
-        timeStamp:
-          description: The timestamp when this usage occurred in UTC
-          format: int64
-          type: integer
-        usageRecordId:
-          description: The unique identifier of this Usage Record
           format: guid
           type: string
       required:
@@ -532,14 +503,15 @@ components:
         - pricePerUnit
         - quantity
         - testMode
-        - timeStamp
+        - recordedAt
       type: object
     UsageRecordsList:
+      description: Response to get usage record
       properties:
         usageRecords:
           description: A collection of usage records
           items:
-            $ref: '#/components/schemas/UsageRecordsListItem'
+            $ref: '#/components/schemas/UsageRecord'
           type: array
       required:
         - usageRecords
