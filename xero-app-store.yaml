@@ -91,6 +91,143 @@ paths:
           description: "When a failure occurs in the endpoint"
       security:
         - OAuth2: [marketplace.billing]
+  "/subscriptions/{subscriptionId}/items/{subscriptionItemId}/usage-records":
+    post:
+      tags:
+        - AppStore
+      operationId: postUsageRecords
+      summary: "Send metered usage belonging to this subscription and subscription item"
+      parameters:
+        - $ref: "#/components/parameters/subscriptionId"
+        - $ref: "#/components/parameters/subscriptionItemId"
+      responses:
+        "200":
+          description: Success - return response of the record submitted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UsageRecord"
+              example: '{
+                "usageRecordId": "2a90f7d9-4c10-4a23-9c34-b47225167a48",
+                "subscriptionId": "391be708-878a-4741-acfb-c0bc9a165bdb",
+                "subscriptionItemId": "b22b150f-a0db-447d-9117-d922110add64",
+                "productId": "d2b133d9-95d8-4446-807a-ae7ebc7353f6",
+                "pricePerUnit": 0.10, 
+                "quantity": 22,
+                "testMode": true,
+                "recordedAt": "2022-09-13T02:11:22Z"
+              }'
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetails"
+          description: "When a failure occurs in the endpoint"
+      security:
+        - OAuth2: [marketplace.billing]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateUsageRecord"
+            example: '{
+              "timestamp": "2022-01-21T13:01:00Z",
+              "quantity": 10
+            }'
+        description: Contains the quantity for the usage record to create
+        required: true
+  "/subscriptions/{subscriptionId}/items/{subscriptionItemId}/usage-records/{usageRecordId}":
+    put:
+      tags:
+        - AppStore
+      operationId: putUsageRecords
+      summary: "Update and existing metered usage belonging to this subscription and subscription item"
+      parameters:
+        - $ref: "#/components/parameters/subscriptionId"
+        - $ref: "#/components/parameters/subscriptionItemId"
+        - $ref: "#/components/parameters/usageRecordId"
+      responses:
+        "200":
+          description: Success - return response of the modified record
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UsageRecord"
+              example: '{
+                "usageRecordId": "2a90f7d9-4c10-4a23-9c34-b47225167a48",
+                "subscriptionId": "391be708-878a-4741-acfb-c0bc9a165bdb",
+                "subscriptionItemId": "b22b150f-a0db-447d-9117-d922110add64",
+                "productId": "d2b133d9-95d8-4446-807a-ae7ebc7353f6",
+                "pricePerUnit": 0.10, 
+                "quantity": 22,
+                "testMode": true,
+                "recordedAt": "2022-09-13T02:11:22Z"
+              }'
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetails"
+          description: "When a failure occurs in the endpoint"
+      security:
+        - OAuth2: [marketplace.billing]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateUsageRecord"
+            example: '{
+              "quantity": 10
+            }'
+        description: Contains the quantity for the usage record to update
+        required: true
+  "/subscriptions/{subscriptionId}/usage-records":
+    get:
+      tags:
+        - AppStore
+      operationId: getUsageRecords
+      summary: "Gets all usage records related to the subscription"
+      parameters:
+        - $ref: "#/components/parameters/subscriptionId"
+      responses:
+        "200":
+          description: Success - return a list of all usage record submitted against this subscription for this subscription period
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UsageRecordsList"
+              example: '{
+                  "usageRecords": [
+                      {
+                          "usageRecordId": "206100d3-e18b-4c59-9372-e98e4367a73f",
+                          "subscriptionId": "7c7684cf-bbfa-4fa8-8f44-eba8d1acdc5d",
+                          "subscriptionItemId": "264f6fa2-65e6-48f4-8a92-57cde5499742",
+                          "productId": "b040838b-f85e-4e7c-8dba-5a8501e5d312",
+                          "pricePerUnit": 2.0,
+                          "quantity": 12,
+                          "testMode": false,
+                          "recordedAt": "2022-01-01T00:00:00Z"
+                      },
+                      {
+                          "usageRecordId": "47d61dc9-3c99-4587-8d55-0985f47df4a6",
+                          "subscriptionId": "7c7684cf-bbfa-4fa8-8f44-eba8d1acdc5d",
+                          "subscriptionItemId": "264f6fa2-65e6-48f4-8a92-57cde5499742",
+                          "productId": "ec8033e8-5e3c-4795-bfb4-bfb85fa4557e",
+                          "pricePerUnit": 5.0,
+                          "quantity": 2,
+                          "testMode": false,
+                          "recordedAt": "2022-01-01T00:00:00Z"
+                      }
+                  ]
+              }'
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProblemDetails"
+          description: "When a failure occurs in the endpoint"
+      security:
+        - OAuth2: [marketplace.billing]
 components:
   securitySchemes:
     OAuth2:
@@ -108,6 +245,32 @@ components:
       name: subscriptionId
       x-snake: subscription_id
       description: Unique identifier for Subscription object
+      example: "00000000-0000-0000-0000-000000000000"
+      x-example-java: UUID.fromString("00000000-0000-0000-0000-000000000000")
+      x-example-php: '&quot;00000000-0000-0000-0000-000000000000&quot;'
+      x-example-csharp: Guid.Parse("00000000-0000-0000-0000-000000000000");
+      schema:
+        type: string
+        format: uuid
+    subscriptionItemId:
+      required: true
+      in: path
+      name: subscriptionItemId
+      x-snake: subscription_item_id
+      description: The unique identifier of the subscriptionItem
+      example: "00000000-0000-0000-0000-000000000000"
+      x-example-java: UUID.fromString("00000000-0000-0000-0000-000000000000")
+      x-example-php: '&quot;00000000-0000-0000-0000-000000000000&quot;'
+      x-example-csharp: Guid.Parse("00000000-0000-0000-0000-000000000000");
+      schema:
+        type: string
+        format: uuid
+    usageRecordId:
+      required: true
+      in: path
+      name: usageRecordId
+      x-snake: usage_record_id
+      description: The unique identifier of the usage record
       example: "00000000-0000-0000-0000-000000000000"
       x-example-java: UUID.fromString("00000000-0000-0000-0000-000000000000")
       x-example-php: '&quot;00000000-0000-0000-0000-000000000000&quot;'
@@ -299,3 +462,84 @@ components:
         usageUnit:
           description: The unit of the usage product. e.g. "user", "minutes", "SMS", etc
           type: string
+    UsageRecord:
+      properties:
+        quantity:
+          description: The quantity recorded
+          format: int32
+          type: integer
+        subscriptionId:
+          description: The unique identifier of the Subscription.
+          format: guid
+          type: string
+        subscriptionItemId:
+          description: The unique identifier of the SubscriptionItem.
+          format: guid
+          type: string
+        testMode:
+          description: If the subscription is a test subscription
+          type: boolean
+        recordedAt:
+          description: The time when this usage was recorded in UTC
+          format: date-time
+          type: string
+        usageRecordId:
+          description: The unique identifier of the usageRecord.
+          format: guid
+          type: string
+        pricePerUnit:
+          description: The price per unit
+          format: decimal
+          type: number
+        productId:
+          description: The unique identifier of the linked Product
+          format: guid
+          type: string
+      required:
+        - usageRecordId
+        - subscriptionId
+        - subscriptionItemId
+        - productId
+        - pricePerUnit
+        - quantity
+        - testMode
+        - recordedAt
+      type: object
+    UsageRecordsList:
+      description: Response to get usage record
+      properties:
+        usageRecords:
+          description: A collection of usage records
+          items:
+            $ref: '#/components/schemas/UsageRecord'
+          type: array
+      required:
+        - usageRecords
+      type: object
+    CreateUsageRecord:
+      description: Data transfer object for public create usage end point
+      properties:
+        quantity:
+          description: The initial quantity for the usage record. Must be a whole number
+            that is greater than or equal to 0
+          format: int32
+          type: integer
+        timestamp:
+          description: DateTime in UTC of when the the product was consumed/used
+          format: date-time
+          type: string
+      required:
+        - quantity
+        - timestamp
+      type: object
+    UpdateUsageRecord:
+      description: Data transfer object for public update usage end point
+      properties:
+        quantity:
+          description: The new quantity for the usage record. Must be a whole number that
+            is greater than or equal to 0
+          format: int32
+          type: integer
+      required:
+        - quantity
+      type: object
