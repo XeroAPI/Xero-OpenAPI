@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Xero Accounting API
-  version: "2.32.0"
+  version: "2.33.0"
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
   contact:
     name: "Xero Platform Team"
@@ -3413,6 +3413,18 @@ paths:
           keySnake: pay_now_text
           default: Pay Now
           object: paymentService
+        - paymentServices:
+          is_object: true
+          key: paymentServices
+          keyPascal: PaymentServices
+        - add_paymentService:
+          is_last: true
+          is_array_add: true
+          key: paymentServices
+          keyPascal: PaymentServices
+          java: PaymentServices
+          csharp: PaymentService
+          object: paymentService
       parameters:
         - $ref: '#/components/parameters/BrandingThemeID'
       responses:
@@ -3441,17 +3453,22 @@ paths:
           $ref: '#/components/responses/400Error'
       requestBody:
         required: true
-        description: PaymentService object in body of request
+        description: PaymentServices array with PaymentService object in body of request
         content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PaymentService'
-            example: '{  
-                        "PaymentServiceID": "00000000-0000-0000-0000-000000000000",
-                        "PaymentServiceName": "Payments Service",
-                        "PaymentServiceUrl": "https://www.paymentservice.com/",
-                        "PayNowText": "Pay Now"
-                      }'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentServices'
+              example: '{
+                          "PaymentServices": [
+                            {
+                              "PaymentServiceID": "54b3b4f6-0443-4fba-bcd1-61ec0c35ca55",
+                              "PaymentServiceName": "PayUpNow",
+                              "PaymentServiceUrl": "https://www.payupnow.com/",
+                              "PaymentServiceType": "Custom",
+                              "PayNowText": "Time To Pay"
+                            }
+                          ]
+                        }'
   '/Budgets':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
