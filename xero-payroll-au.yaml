@@ -357,7 +357,8 @@ paths:
                                     "LeaveTypeID": "184ea8f7-d143-46dd-bef3-0c60e1aa6fca",
                                     "NumberOfUnits": 10
                                   }
-                                ]
+                                ],
+                                "PaidLeaveEarningsLines": []
                               },
                               "PayTemplate": {
                                 "EarningsLines": [
@@ -4801,6 +4802,39 @@ components:
           format: double
           x-is-money: true
           example: 2.5
+    PaidLeaveEarningsLine:
+      type: object
+      required:
+        - LeaveTypeID
+        - Amount
+      properties:
+        LeaveTypeID:
+          description: Xero leave type identifier
+          type: string
+          format: uuid
+          example: 742998cb-7584-4ecf-aa88-d694f59c50f9
+        Amount:
+          description: Paid leave amount
+          type: number
+          format: double
+          x-is-money: true
+          example: 500.0000
+        SGCAppliedLeaveLoadingAmount:
+          description: The amount of leave loading applied for the leave type that is subject to Superannuation Guarantee Contributions. *Only applicable for Leave Types with Annual Leave Categories
+          type: number
+          format: double
+          x-is-money: true
+          example: 50.00
+        SGCExemptedLeaveLoadingAmount:
+          description: The amount of leave loading applied for the leave type that is exempt from Superannuation Guarantee Contributions. *Only applicable for Leave Types with Annual Leave Categories
+          type: number
+          format: double
+          x-is-money: true
+          example: 60.00
+        ResetSTPCategorisation:
+          description: Reset the STP categorisations for the leave type. *Only applicable for Leave Types with Annual Leave Categories 
+          type: boolean
+          example: true
     OpeningBalances:
       type: object
       properties:
@@ -4833,6 +4867,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LeaveLine'
+        PaidLeaveEarningsLines:
+          type: array
+          items:
+            $ref: '#/components/schemas/PaidLeaveEarningsLine'
     LeaveBalance:
       type: object
       properties:
