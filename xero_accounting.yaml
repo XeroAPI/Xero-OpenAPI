@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Xero Accounting API
-  version: "2.33.0"
+  version: "2.33.1"
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
   contact:
     name: "Xero Platform Team"
@@ -24193,8 +24193,10 @@ components:
           - DELETED
         TotalAmount:
           description: The total of the payments that make up the batch (read-only)
+          type: number
+          format: double
+          x-is-money: true
           readOnly: true
-          type: string
         UpdatedDateUTC:
           description: UTC timestamp of last update to the payment
           type: string
@@ -24204,7 +24206,7 @@ components:
         IsReconciled:
           description: Booelan that tells you if the batch payment has been reconciled (read-only)
           readOnly: true
-          type: string
+          type: boolean
         ValidationErrors: 
           description: Displays array of validation error messages from the API
           type: array
