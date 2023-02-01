@@ -1,11 +1,10 @@
+name: Create Issue In Jira
 on:
   issues:
     types:
       - opened
       - reopened
-
-name: Create Issue In Jira
-
+  workflow_call:
 jobs:
   create_jira_issue:
     name: Create Jira Issue
@@ -13,14 +12,12 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@master
-
     - name: Login
       uses: atlassian/gajira-login@master
       env:
         JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
         JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
         JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
-    
     - name: Create
       id: create
       uses: atlassian/gajira-create@v3
@@ -29,6 +26,5 @@ jobs:
         issuetype: Task
         summary: ${{ github.event.repository.name }} ${{ github.event.issue.number }} ${{ github.event.issue.title }}
         description: ${{ github.event.issue.body }}
-
     - name: Log created issue
       run: echo "Issue ${{ steps.create.outputs.issue }} was created"
