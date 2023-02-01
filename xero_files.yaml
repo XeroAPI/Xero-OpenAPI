@@ -518,6 +518,42 @@ paths:
                               "ObjectGroup":"Contact"
                           }
                         ]'
+  /Associations/Count:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    get:
+      security:
+        - OAuth2: [files, files.read]
+      tags:
+        - Files
+      summary: Retrieves a count of associations for a list of objects.
+      operationId: getAssociationsCount
+      description: By passing in the appropriate options, 
+      parameters: 
+        - name: ObjectIds
+          in: query
+          required: true
+          description: A comma-separated list of object ids
+          schema: 
+            type: array
+            items:
+              type: string
+              format: uuid
+              example: 1270bf7c-5d18-473a-9231-1e36c4bd33ed
+      responses:
+        '200':
+          description: A dictionary of the object Ids and associations count
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AssociationCount'
+              example: '{
+                          "19d4fc59-e799-410f-912b-03d4ab294d73": 2,
+                          "82195976-5175-45d4-926e-807ff10892e7": 1,
+                          "a8547af2-2900-4879-98b8-f1a780c78feb": 0
+                }'                        
   /Folders:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -909,6 +945,14 @@ components:
           $ref: '#/components/schemas/ObjectGroup'
         ObjectType:
           $ref: '#/components/schemas/ObjectType'
+    AssociationCount:
+      type: object
+      additionalProperties:
+        type: integer
+        example: 
+           19d4fc59-e799-410f-912b-03d4ab294d73: 2
+           82195976-5175-45d4-926e-807ff10892e7: 1
+           a8547af2-2900-4879-98b8-f1a780c78feb: 0          
     ObjectGroup:
       description: The Object Group that the object is in. These roughly correlate to the endpoints that can be used to retrieve the object via the core accounting API. 
       type: string
