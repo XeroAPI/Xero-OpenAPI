@@ -1,29 +1,38 @@
-name: Update Issue In Jira
+name: Update Issue In Jira When Issue Closed
+
 on:
   issues:
     types:
       - closed
+
   workflow_call:
 jobs:
   update_jira_status:
     name: Set Jira Status To Done
     runs-on: ubuntu-latest
+    
     steps:
+    # Look through all comments in issue and get contents of comment that 
+    # includes text PETOSS
     - name: Find Jira ticket Id in issue comments
       uses: peter-evans/find-comment@v2
       id: fc
       with:
         issue-number: ${{ github.event.issue.number }}
         body-includes: PETOSS
-        direction: last
+        direction: last 
+    
     - name: Checkout
       uses: actions/checkout@master
+    
     - name: Login
       uses: atlassian/gajira-login@master
       env:
         JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
         JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
         JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+    
+    # Transition jira ticket identified in first step to status of done
     - name: Update Jira ticket status
       uses: atlassian/gajira-transition@v3
       with:
