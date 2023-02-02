@@ -1,0 +1,23 @@
+name: Update Issue In Jira
+on:
+  issues:
+    types:
+      - closed
+  workflow_call:
+jobs:
+  update_jira_status:
+    name: Set Jira Status To Done
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@master
+    - name: Login
+      uses: atlassian/gajira-login@master
+      env:
+        JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
+        JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
+        JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+    - name: Update Jira ticket status
+      uses: atlassian/gajira@v3
+      with:
+        args: transition --issue PETOSS-23 --transition "Done"
