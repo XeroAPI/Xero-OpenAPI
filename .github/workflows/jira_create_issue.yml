@@ -27,10 +27,15 @@ jobs:
         issuetype: Story
         summary: ${{ github.event.repository.name }} ${{ github.event.issue.number }} ${{ github.event.issue.title }}
         description: ${{ github.event.issue.body }}
-    - name: Add comment to issue
+    - name: Add jira ticket id as comment
       uses: peter-evans/create-or-update-comment@v2
       with:
         issue-number: ${{ github.event.issue.number }}
-        body: ${{ steps.create.outputs.issue }} Thanks for raising an issue, a ticket has been created to track your request
+        body: ${{ steps.create.outputs.issue }}
+    - name: Add additional comment notifying user that a ticket has been created
+      uses: peter-evans/create-or-update-comment@v2
+      with:
+        issue-number: ${{ github.event.issue.number }}
+        body: Thanks for raising an issue, a ticket has been created to track your request    
     - name: Log created issue
       run: echo "Issue ${{ steps.create.outputs.issue }} was created"

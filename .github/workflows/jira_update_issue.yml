@@ -9,6 +9,13 @@ jobs:
     name: Set Jira Status To Done
     runs-on: ubuntu-latest
     steps:
+    - name: Find Jira ticket Id in issue comments
+      uses: peter-evans/find-comment@v2
+      id: fc
+      with:
+        issue-number: ${{ github.event.issue.number }}
+        body-includes: PETOSS
+        direction: last
     - name: Checkout
       uses: actions/checkout@master
     - name: Login
@@ -20,5 +27,5 @@ jobs:
     - name: Update Jira ticket status
       uses: atlassian/gajira-transition@v3
       with:
-        issue: PETOSS-23
+        issue: ${{ steps.fc.outputs.comment-id }}
         transition: "Done"
