@@ -9,6 +9,8 @@ jobs:
   create_jira_issue:
     name: Create Jira Issue
     runs-on: ubuntu-latest
+    permissions:
+      issues: write
     steps:
     - name: Checkout
       uses: actions/checkout@master
@@ -26,5 +28,10 @@ jobs:
         issuetype: Story
         summary: ${{ github.event.repository.name }} ${{ github.event.issue.number }} ${{ github.event.issue.title }}
         description: ${{ github.event.issue.body }}
+    - name: Add comment to issue
+      uses: peter-evans/create-or-update-comment@v2
+      with:
+        issue-number: ${{ github.event.issue.number }}
+        body: ${{ steps.create.outputs.issue }} Thanks for raising an issue, a ticket has been created to track your request
     - name: Log created issue
       run: echo "Issue ${{ steps.create.outputs.issue }} was created"
