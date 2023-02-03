@@ -37,7 +37,7 @@ jobs:
       with:
         project: PETOSS
         issuetype: Story
-        summary: ${{ github.event.repository.name }} ${{ github.event.number }} ${{ github.event.issue.title || github.event.pull_request.title }}
+        summary: ${{ github.event.repository.name }} ${{ github.event.issue.number || github.event.pull_request.number }} ${{ github.event.issue.title || github.event.pull_request.title }}
         description: ${{ github.event.issue.body || github.event.pull_request.body }}
 
    # Add created jira id as comment in issue thread. This allows us to easily 
@@ -45,12 +45,12 @@ jobs:
     - name: Add jira ticket id as comment
       uses: peter-evans/create-or-update-comment@v2
       with:
-        issue-number: ${{ github.event.number }}
+        issue-number: ${{ github.event.issue.number || github.event.pull_request.number }}
         body: ${{ steps.create.outputs.issue }}
    
    # Add additional comment to let user know what is happening
     - name: Add additional comment notifying user that a ticket has been created
       uses: peter-evans/create-or-update-comment@v2
       with:
-        issue-number: ${{ github.event.number }}
+        issue-number: ${{ github.event.issue.number || github.event.pull_request.number }}
         body: Thanks for raising an issue, a ticket has been created to track your request  
