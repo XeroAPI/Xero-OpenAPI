@@ -4,12 +4,16 @@ on:
   issues:
     types:
       - closed
+  pull_request_target:
+    types:
+      - closed
 
   workflow_call:
 jobs:
   update_jira_status:
     name: Set Jira Status To Done
     runs-on: ubuntu-latest
+    permissions: write-all
     
     steps:
     # Look through all comments in issue and get contents of comment that 
@@ -18,7 +22,7 @@ jobs:
       uses: peter-evans/find-comment@v2
       id: fc
       with:
-        issue-number: ${{ github.event.issue.number }}
+        issue-number: ${{ github.event.issue.number || github.event.pull_request.number }}
         body-includes: PETOSS
         comment-author: github-actions[bot]
         direction: last 
