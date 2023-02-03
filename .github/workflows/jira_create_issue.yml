@@ -45,6 +45,7 @@ jobs:
       with:
         issue-number: ${{ github.event.issue.number || github.event.pull_request.number }}
         body: ${{ steps.create.outputs.issue }}
+        token: ${{ secrets.GITHUB_TOKEN }}
    
    # Add additional comment to let user know what is happening
     - name: Add additional comment notifying user that a ticket has been created
@@ -52,3 +53,4 @@ jobs:
       with:
         issue-number: ${{ github.event.issue.number || github.event.pull_request.number }}
         body: Thanks for raising an issue, a ticket has been created to track your request  
+        token: ${{ secrets.GITHUB_TOKEN }}
