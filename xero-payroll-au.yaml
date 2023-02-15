@@ -3490,11 +3490,7 @@ components:
           type: string
           example: My leave
         PayOutType:
-          description: How the requested leave will be paid out, e.g. cashed out.
-          type: string
-          enum:
-            - DEFAULT
-            - CASHED_OUT
+          $ref: '#/components/schemas/PayOutType'
         LeavePeriods:
           type: array
           items:
@@ -3510,6 +3506,12 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ValidationError'
+    PayOutType:
+      description: How the requested leave will be paid out, e.g. cashed out.
+      type: string
+      enum:
+        - DEFAULT
+        - CASHED_OUT
     LeavePeriod:
       type: object
       properties:
@@ -4116,11 +4118,7 @@ components:
           x-is-money: true
           example: 2.5
         PayOutType:
-          description: Indicates the type of payout the leave earnings line represents, e.g. whether it was cashed out.
-          type: string
-          enum:
-            - DEFAULT
-            - CASHED_OUT
+          $ref: '#/components/schemas/PayOutType'
     SettingsObject:
       type: object
       properties:
