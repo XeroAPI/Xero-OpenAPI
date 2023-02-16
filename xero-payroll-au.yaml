@@ -630,7 +630,26 @@ paths:
                               "Title": "vacation",
                               "StartDate": "/Date(1573516800000+0000)/",
                               "EndDate": "/Date(1573516800000+0000)/",
+                              "UpdatedDateUTC": "/Date(1573623008000+0000)/",
+                              "PayOutType": "DEFAULT"
+                            },
+                            {
+                              "LeaveApplicationID": "3b934902-1e16-4c02-a3d3-68fa7d63e01d",
+                              "EmployeeID": "cdfb8371-0b21-4b8a-8903-1024df6c391e",
+                              "LeaveTypeID": "184ea8f7-d143-46dd-bef3-0c60e1aa6fca",
+                              "LeavePeriods": [
+                                {
+                                  "PayPeriodStartDate": "/Date(1573171200000+0000)/",
+                                  "PayPeriodEndDate": "/Date(1573689600000+0000)/",
+                                  "LeavePeriodStatus": "SCHEDULED",
+                                  "NumberOfUnits": 8
+                                }
+                              ],
+                              "Title": "Cashed Out",
+                              "StartDate": "/Date(1573516800000+0000)/",
+                              "EndDate": "/Date(1573516800000+0000)/",
                               "UpdatedDateUTC": "/Date(1573623008000+0000)/"
+                              "PayOutType": " CASHED_OUT"
                             },
                             {
                               "LeaveApplicationID": "62b90465-66e9-4c3a-8151-de1e6335554d",
@@ -654,7 +673,8 @@ paths:
                               "Description": "My updated Description",
                               "StartDate": "/Date(1572559200000+0000)/",
                               "EndDate": "/Date(1572645600000+0000)/",
-                              "UpdatedDateUTC": "/Date(1573447344000+0000)/"
+                              "UpdatedDateUTC": "/Date(1573447344000+0000)/",
+                              "PayOutType": "DEFAULT"
                             },
                             {
                               "LeaveApplicationID": "e8bd9eeb-18c9-4475-9c81-b298f9aa26c0",
@@ -677,7 +697,8 @@ paths:
                               "Title": "Hello World",
                               "StartDate": "/Date(1572559200000+0000)/",
                               "EndDate": "/Date(1572645600000+0000)/",
-                              "UpdatedDateUTC": "/Date(1573447343000+0000)/"
+                              "UpdatedDateUTC": "/Date(1573447343000+0000)/",
+                              "PayOutType": "DEFAULT"
                             }
                           ]
                         }'
@@ -797,7 +818,8 @@ paths:
                               "Title": "Hello World",
                               "StartDate": "/Date(1572559200000+0000)/",
                               "EndDate": "/Date(1572645600000+0000)/",
-                              "UpdatedDateUTC": "/Date(1573679791897+0000)/"
+                              "UpdatedDateUTC": "/Date(1573679791897+0000)/",
+                              "PayOutType": "DEFAULT"
                             }
                           ]
                         }'
@@ -868,7 +890,8 @@ paths:
                               "Title": "vacation",
                               "StartDate": "/Date(1573516800000+0000)/",
                               "EndDate": "/Date(1573516800000+0000)/",
-                              "UpdatedDateUTC": "/Date(1573623008000+0000)/"
+                              "UpdatedDateUTC": "/Date(1573623008000+0000)/",
+                              "PayOutType": "DEFAULT"
                             }
                           ]
                         }'
@@ -992,7 +1015,8 @@ paths:
                             "Description": "My updated Description",
                             "StartDate": "/Date(1572559200000+0000)/",
                             "EndDate": "/Date(1572645600000+0000)/",
-                            "UpdatedDateUTC": "/Date(1573679792293+0000)/"
+                            "UpdatedDateUTC": "/Date(1573679792293+0000)/",
+                            "PayOutType": "DEFAULT"
                           }
                         ]
                       }'
@@ -2142,12 +2166,14 @@ paths:
                               {
                                 "EarningsRateID": "ab874dfb-ab09-4c91-954e-43acf6fc23b4",
                                 "RatePerUnit": 0,
-                                "NumberOfUnits": 0.6
+                                "NumberOfUnits": 0.6,
+                                "PayOutType": "DEFAULT"
                               },
                               {
                                 "EarningsRateID": "ab874dfb-ab09-4c91-954e-43acf6fc23b4",
-                                "RatePerUnit": 0,
-                                "NumberOfUnits": 0.6
+                                "RatePerUnit": 3,
+                                "NumberOfUnits": 0.6,
+                                "PayOutType": "CASHED_OUT"
                               }
                             ],
                             "TimesheetEarningsLines": [],
@@ -3480,6 +3506,8 @@ components:
           description: The Description of the Leave
           type: string
           example: My leave
+        PayOutType:
+          $ref: '#/components/schemas/PayOutType'
         LeavePeriods:
           type: array
           items:
@@ -3495,6 +3523,12 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ValidationError'
+    PayOutType:
+      description: How the requested leave will be paid out, e.g. cashed out.
+      type: string
+      enum:
+        - DEFAULT
+        - CASHED_OUT
     LeavePeriod:
       type: object
       properties:
@@ -4100,6 +4134,8 @@ components:
           format: double
           x-is-money: true
           example: 2.5
+        PayOutType:
+          $ref: '#/components/schemas/PayOutType'
     SettingsObject:
       type: object
       properties:
