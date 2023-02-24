@@ -350,6 +350,16 @@ paths:
                               "payrollCalendarID": null,
                               "updatedDateUTC": "2017-05-12T10:00:24",
                               "createdDateUTC": "2017-05-12T10:00:24",
+                              "niCategories": [
+                               {
+                                 "startDate": "2020-05-01T00:00:00",
+                                 "niCategory": "A"
+                               },
+                               {
+                                 "startDate": null,
+                                 "niCategory": "H"
+                               }
+                             ],
                               "endDate": null
                           }
                         }'
@@ -5948,9 +5958,40 @@ components:
           description: National insurance number of the employee
           type: string
           example: AB123456C
+        niCategories:
+          $ref: '#/components/schemas/Nicategories'
         isOffPayrollWorker:
           description: Whether the employee is an off payroll worker
           type: boolean
+    Nicategories:
+      type: object
+      properties:
+        startDate:
+          description: Start date of the employment (YYYY-MM-DD)
+          type: string
+          format: date
+          x-is-date: true 
+        niCategory:
+          description: The NI Category of the employee
+          type: string
+          enum:
+          - A
+          - B
+          - C
+          - F
+          - H
+          - I
+          - J
+          - L
+          - M
+          - S
+          - V
+          - X
+          - Z
+          example: A   
+        niCategoryID:
+          type: integer     
+          example: 2093531
     EmploymentObject:
       type: object
       properties:
