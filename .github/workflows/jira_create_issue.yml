@@ -8,11 +8,6 @@ on:
     types:
       - opened
   workflow_call:
-    inputs:
-      jira_labels:
-        required: true
-        type: string
-        default: "['OAS', 'BIG13']"
 
 jobs:
   create_jira_issue:
@@ -41,7 +36,6 @@ jobs:
         issuetype: Story
         summary: ${{ github.event.repository.name }} ${{ github.event.issue.number || github.event.pull_request.number }} ${{ github.event.issue.title || github.event.pull_request.title }}
         description: ${{ github.event.issue.body || github.event.pull_request.body }}
-        fields: '{"labels": ${{ fromJson(inputs.jira_labels) }} }'
 
    # Add created jira id as comment in issue thread. This allows us to easily 
    # retrieve the id when the issue state is updated, i.e. closed 
