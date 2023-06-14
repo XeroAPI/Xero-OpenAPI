@@ -703,10 +703,10 @@ paths:
                           ]
                         }'
         '400':
-          description: validation error for a bad request         
-          content: 
-            application/json:               
-              schema:                 
+          description: validation error for a bad request
+          content:
+            application/json:
+              schema:
                $ref: '#/components/schemas/APIException'
     post:
       security:
@@ -812,7 +812,7 @@ paths:
                                   "PayPeriodStartDate": "/Date(1572566400000+0000)/",
                                   "PayPeriodEndDate": "/Date(1573084800000+0000)/",
                                   "LeavePeriodStatus": "SCHEDULED",
-                                  "NumberOfUnits": 0.6
+                                  "NumberOfUnits": 7.6
                                 }
                               ],
                               "Title": "Hello World",
@@ -842,6 +842,166 @@ paths:
                           "EndDate": "/Date(1572645600000+0000)/"
                         }
                       ]'
+  /LeaveApplications/v2:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    get:
+      security:
+        - OAuth2: [payroll.employees, payroll.employees.read]
+      tags:
+        - PayrollAu
+      operationId: getLeaveApplicationsV2
+      summary:  Retrieves leave applications including leave requests
+      parameters:
+        - in: header
+          name: If-Modified-Since
+          x-snake: if_modified_since
+          description: Only records created or modified since this timestamp will be returned
+          example: "2020-02-06T12:17:43.202-08:00"
+          schema:
+            type: string
+            format: date-time
+        - in: query
+          name: where
+          description: Filter by an any element
+          schema:
+            type: string
+          example: Status=="ACTIVE"
+        - in: query
+          name: order
+          description: Order by an any element
+          schema:
+            type: string
+          example: EmailAddress%20DESC
+        - in: query
+          name: page
+          description: e.g. page=1 – Up to 100 objects will be returned in a single API call
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LeaveApplications'
+              example: '{
+                          "Id": "00000000-0000-0000-0000-000000000000",
+                          "Status": "OK",
+                          "ProviderName": "provider-name",
+                          "DateTimeUTC": "/Date(1573679791199)/",
+                          "LeaveApplications": [
+                            {
+                              "LeaveApplicationID": "1d4cd583-0107-4386-936b-672eb3d1f624",
+                              "EmployeeID": "cdfb8371-0b21-4b8a-8903-1024df6c391e",
+                              "LeaveTypeID": "184ea8f7-d143-46dd-bef3-0c60e1aa6fca",
+                              "LeavePeriods": [
+                                {
+                                  "PayPeriodStartDate": "/Date(1573171200000+0000)/",
+                                  "PayPeriodEndDate": "/Date(1573689600000+0000)/",
+                                  "LeavePeriodStatus": "REQUESTED",
+                                  "NumberOfUnits": 4
+                                }
+                              ],
+                              "Title": "vacation",
+                              "StartDate": "/Date(1573516800000+0000)/",
+                              "EndDate": "/Date(1573516800000+0000)/",
+                              "UpdatedDateUTC": "/Date(1573623008000+0000)/",
+                              "PayOutType": "DEFAULT"
+                            },
+                            {
+                              "LeaveApplicationID": "3b934902-1e16-4c02-a3d3-68fa7d63e01d",
+                              "EmployeeID": "cdfb8371-0b21-4b8a-8903-1024df6c391e",
+                              "LeaveTypeID": "184ea8f7-d143-46dd-bef3-0c60e1aa6fca",
+                              "LeavePeriods": [
+                                {
+                                  "PayPeriodStartDate": "/Date(1573171200000+0000)/",
+                                  "PayPeriodEndDate": "/Date(1573689600000+0000)/",
+                                  "LeavePeriodStatus": "SCHEDULED",
+                                  "NumberOfUnits": 8
+                                }
+                              ],
+                              "Title": "Cashed Out",
+                              "StartDate": "/Date(1573516800000+0000)/",
+                              "EndDate": "/Date(1573516800000+0000)/",
+                              "UpdatedDateUTC": "/Date(1573623008000+0000)/"
+                              "PayOutType": "CASHED_OUT"
+                            },
+                            {
+                              "LeaveApplicationID": "62b90465-66e9-4c3a-8151-de1e6335554d",
+                              "EmployeeID": "b34e89ff-770d-4099-b7e5-f968767118bc",
+                              "LeaveTypeID": "184ea8f7-d143-46dd-bef3-0c60e1aa6fca",
+                              "LeavePeriods": [
+                                {
+                                  "PayPeriodStartDate": "/Date(1571961600000+0000)/",
+                                  "PayPeriodEndDate": "/Date(1572480000000+0000)/",
+                                  "LeavePeriodStatus": "SCHEDULED",
+                                  "NumberOfUnits": 8
+                                },
+                                {
+                                  "PayPeriodStartDate": "/Date(1572566400000+0000)/",
+                                  "PayPeriodEndDate": "/Date(1573084800000+0000)/",
+                                  "LeavePeriodStatus": "SCHEDULED",
+                                  "NumberOfUnits": 8
+                                }
+                              ],
+                              "Title": "Yep Carer Leave",
+                              "Description": "My updated Description",
+                              "StartDate": "/Date(1572559200000+0000)/",
+                              "EndDate": "/Date(1572645600000+0000)/",
+                              "UpdatedDateUTC": "/Date(1573447344000+0000)/",
+                              "PayOutType": "DEFAULT"
+                            },
+                            {
+                              "LeaveApplicationID": "e8bd9eeb-18c9-4475-9c81-b298f9aa26c0",
+                              "EmployeeID": "b34e89ff-770d-4099-b7e5-f968767118bc",
+                              "LeaveTypeID": "184ea8f7-d143-46dd-bef3-0c60e1aa6fca",
+                              "LeavePeriods": [
+                                {
+                                  "PayPeriodStartDate": "/Date(1571961600000+0000)/",
+                                  "PayPeriodEndDate": "/Date(1572480000000+0000)/",
+                                  "LeavePeriodStatus": "PROCESSED",
+                                  "NumberOfUnits": 8
+                                },
+                                {
+                                  "PayPeriodStartDate": "/Date(1572566400000+0000)/",
+                                  "PayPeriodEndDate": "/Date(1573084800000+0000)/",
+                                  "LeavePeriodStatus": "SCHEDULED",
+                                  "NumberOfUnits": 8
+                                }
+                              ],
+                              "Title": "Hello World",
+                              "StartDate": "/Date(1572559200000+0000)/",
+                              "EndDate": "/Date(1572645600000+0000)/",
+                              "UpdatedDateUTC": "/Date(1573447343000+0000)/",
+                              "PayOutType": "DEFAULT"
+                            },
+                            {
+                              "LeaveApplicationID": "3f93110a-df13-49c7-b82f-a069813df188",
+                              "EmployeeID": "cdfb8371-0b21-4b8a-8903-1024df6c391e",
+                              "LeaveTypeID": "184ea8f7-d143-46dd-bef3-0c60e1aa6fca",
+                              "LeavePeriods": [
+                                {
+                                  "PayPeriodStartDate": "/Date(1573171200000+0000)/",
+                                  "PayPeriodEndDate": "/Date(1573689600000+0000)/",
+                                  "LeavePeriodStatus": "REJECTED",
+                                  "NumberOfUnits": 8
+                                }
+                              ],
+                              "Title": "vacation",
+                              "StartDate": "/Date(1573516800000+0000)/",
+                              "EndDate": "/Date(1573516800000+0000)/",
+                              "UpdatedDateUTC": "/Date(1573623008000+0000)/",
+                              "PayOutType": "DEFAULT"
+                            }
+                          ]
+                        }'
+        '400':
+          description: validation error for a bad request
+          content:
+            application/json:
+              schema:
+               $ref: '#/components/schemas/APIException'
   /LeaveApplications/{LeaveApplicationID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -884,7 +1044,7 @@ paths:
                                   "PayPeriodStartDate": "/Date(1573171200000+0000)/",
                                   "PayPeriodEndDate": "/Date(1573689600000+0000)/",
                                   "LeavePeriodStatus": "SCHEDULED",
-                                  "NumberOfUnits": 0
+                                  "NumberOfUnits": 7.6
                                 }
                               ],
                               "Title": "vacation",
@@ -1008,7 +1168,7 @@ paths:
                                 "PayPeriodStartDate": "/Date(1572566400000+0000)/",
                                 "PayPeriodEndDate": "/Date(1573084800000+0000)/",
                                 "LeavePeriodStatus": "SCHEDULED",
-                                "NumberOfUnits": 0.6
+                                "NumberOfUnits": 7.6
                               }
                             ],
                             "Title": "vacation",
@@ -1033,12 +1193,141 @@ paths:
             example: '[
                         {
                           "EmployeeID": "cdfb8371-0b21-4b8a-8903-1024df6c391e",
+                          "LeaveApplicationID": "1d4cd583-0107-4386-936b-672eb3d1f624",
                           "LeaveTypeID": "184ea8f7-d143-46dd-bef3-0c60e1aa6fca",
+                          "LeavePeriods": [
+                            {
+                              "PayPeriodStartDate": "/Date(1572566400000+0000)/",
+                              "PayPeriodEndDate": "/Date(1573084800000+0000)/",
+                              "LeavePeriodStatus": "SCHEDULED",
+                              "NumberOfUnits": 7.6
+                            }
+                          ],
+                          "Title": "vacation",
+                          "Description": "My updated Description",
                           "StartDate": "/Date(1572559200000+0000)/",
                           "EndDate": "/Date(1572645600000+0000)/",
-                          "Description": "My updated Description"
+                          "PayOutType": "DEFAULT"
                         }
                       ]'
+  /LeaveApplications/{LeaveApplicationID}/approve:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    post:
+      security:
+        - OAuth2: [payroll.employees]
+      tags:
+        - PayrollAu
+      summary: Approve a requested leave application by a unique leave application id
+      operationId: approveLeaveApplication
+      parameters:
+        - name: LeaveApplicationID
+          x-snake: leave_application_id
+          in: path
+          required: true
+          description: Leave Application id for single object
+          schema:
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+      responses:
+        '200':
+          description: Application successfully approved
+          content:
+             application/json:
+              schema:
+                $ref: '#/components/schemas/LeaveApplications'
+              example: '{
+                          "Id": "00000000-0000-0000-0000-000000000000",
+                          "Status": "OK",
+                          "ProviderName": "provider-name",
+                          "DateTimeUTC": "/Date(1573679791457)/",
+                          "LeaveApplications": [
+                            {
+                              "LeaveApplicationID": "1d4cd583-0107-4386-936b-672eb3d1f624",
+                              "EmployeeID": "cdfb8371-0b21-4b8a-8903-1024df6c391e",
+                              "LeaveTypeID": "184ea8f7-d143-46dd-bef3-0c60e1aa6fca",
+                              "LeavePeriods": [
+                                {
+                                  "PayPeriodStartDate": "/Date(1573171200000+0000)/",
+                                  "PayPeriodEndDate": "/Date(1573689600000+0000)/",
+                                  "LeavePeriodStatus": "SCHEDULED",
+                                  "NumberOfUnits": 7.6
+                                }
+                              ],
+                              "Title": "Requested Leave",
+                              "StartDate": "/Date(1573516800000+0000)/",
+                              "EndDate": "/Date(1573516800000+0000)/",
+                              "UpdatedDateUTC": "/Date(1573623008000+0000)/",
+                              "PayOutType": "DEFAULT"
+                            }
+                          ]
+                        }'
+        '400':
+          description: validation error for a bad request
+          content:
+            application/json:
+              schema:
+               $ref: '#/components/schemas/APIException'
+  /LeaveApplications/{LeaveApplicationID}/reject:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    post:
+      security:
+        - OAuth2: [payroll.employees]
+      tags:
+        - PayrollAu
+      summary: Reject a leave application by a unique leave application id
+      operationId: rejectLeaveApplication
+      parameters:
+        - name: LeaveApplicationID
+          x-snake: leave_application_id
+          in: path
+          required: true
+          description: Leave Application id for single object
+          schema:
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+      responses:
+        '200':
+          description: Application successfully rejected
+          content:
+             application/json:
+              schema:
+                $ref: '#/components/schemas/LeaveApplications'
+              example: '{
+                          "Id": "00000000-0000-0000-0000-000000000000",
+                          "Status": "OK",
+                          "ProviderName": "provider-name",
+                          "DateTimeUTC": "/Date(1573679791457)/",
+                          "LeaveApplications": [
+                            {
+                              "LeaveApplicationID": "1d4cd583-0107-4386-936b-672eb3d1f624",
+                              "EmployeeID": "cdfb8371-0b21-4b8a-8903-1024df6c391e",
+                              "LeaveTypeID": "184ea8f7-d143-46dd-bef3-0c60e1aa6fca",
+                              "LeavePeriods": [
+                                {
+                                  "PayPeriodStartDate": "/Date(1573171200000+0000)/",
+                                  "PayPeriodEndDate": "/Date(1573689600000+0000)/",
+                                  "LeavePeriodStatus": "REJECTED",
+                                  "NumberOfUnits": 7.6
+                                }
+                              ],
+                              "Title": "Requested Leave",
+                              "StartDate": "/Date(1573516800000+0000)/",
+                              "EndDate": "/Date(1573516800000+0000)/",
+                              "UpdatedDateUTC": "/Date(1573623008000+0000)/",
+                              "PayOutType": "DEFAULT"
+                            }
+                          ]
+                        }'
+        '400':
+          description: validation error for a bad request
+          content:
+            application/json:
+              schema:
+               $ref: '#/components/schemas/APIException'
   /PayItems:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
