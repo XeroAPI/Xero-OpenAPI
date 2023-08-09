@@ -6637,7 +6637,7 @@ paths:
                             ]
                           }
                         ]
-                      }'
+                      }'    
   '/CreditNotes/{CreditNoteID}/Attachments':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -6964,6 +6964,36 @@ paths:
                           }
                         ]
                       }'
+  '/CreditNotes/{CreditNoteID}/Allocations/{AllocationID}':
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    delete:
+      security:
+        - OAuth2: [accounting.transactions]
+      tags:
+        - Accounting
+      operationId: deleteCreditNoteAllocations
+      summary: Deletes an Allocation from a Credit Note
+      parameters:
+        - $ref: '#/components/parameters/CreditNoteID'
+        - $ref: '#/components/parameters/AllocationID'
+      responses:
+        '200':
+          description: Success - return response of type Allocation with the isDeleted flag as true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Allocation'
+              example: '{
+                          "AllocationId": "2bb15054-3868-4f85-a9c6-0402ec8c1201",
+                          "Date": "\/Date(1551822670731)\/",
+                          "Invoice": [
+                            {
+                              "InvoiceID": "b7eb1fc9-a0f9-4e8e-9373-6689f5350832",
+                            }
+                          ],
+                          "IsDeleted": true,
+                        }'                      
   '/CreditNotes/{CreditNoteID}/History':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -12534,6 +12564,36 @@ paths:
                             }
                           ]
                         }'
+  '/Overpayments/{OverpaymentID}/Allocations/{AllocationID}':
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    delete:
+      security:
+        - OAuth2: [accounting.transactions]
+      tags:
+        - Accounting
+      operationId: deleteOverpaymentAllocations
+      summary: Deletes an Allocation from an overpayment
+      parameters:
+        - $ref: '#/components/parameters/OverpaymentID'
+        - $ref: '#/components/parameters/AllocationID'
+      responses:
+        '200':
+          description: Success - return response of type Allocation with the isDeleted flag as true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Allocation'
+              example: '{
+                          "AllocationId": "2bb15054-3868-4f85-a9c6-0402ec8c1201",
+                          "Date": "\/Date(1551822670731)\/",
+                          "Invoice": [
+                            {
+                              "InvoiceID": "b7eb1fc9-a0f9-4e8e-9373-6689f5350832",
+                            }
+                          ],
+                          "IsDeleted": true,
+                        }'                                     
   '/Overpayments/{OverpaymentID}/History':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -13946,6 +14006,36 @@ paths:
                             }
                           ]
                         }'
+  '/Prepayments/{PrepaymentID}/Allocations/{AllocationID}':
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    delete:
+      security:
+        - OAuth2: [accounting.transactions]
+      tags:
+        - Accounting
+      operationId: deletePrepaymentAllocations
+      summary: Deletes an Allocation from a Prepayment
+      parameters:
+        - $ref: '#/components/parameters/PrepaymentID'
+        - $ref: '#/components/parameters/AllocationID'
+      responses:
+        '200':
+          description: Success - return response of type Allocation with the isDeleted flag as true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Allocation'
+              example: '{
+                          "AllocationId": "2bb15054-3868-4f85-a9c6-0402ec8c1201",
+                          "Date": "\/Date(1551822670731)\/",
+                          "Invoice": [
+                            {
+                              "InvoiceID": "b7eb1fc9-a0f9-4e8e-9373-6689f5350832",
+                            }
+                          ],
+                          "IsDeleted": true,
+                        }'                        
   '/Prepayments/{PrepaymentID}/History':
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -23124,6 +23214,16 @@ components:
       schema:
         type: string
         format: uuid
+    AllocationID:
+      required: true
+      in: path
+      name: AllocationID
+      x-snake: allocation_id
+      description: Unique identifier for Allocation object
+      example: "00000000-0000-0000-0000-000000000000"
+      schema:
+        type: string
+        format: uuid        
     AttachmentID:
       required: true
       in: path
@@ -24927,6 +25027,10 @@ components:
       externalDocs:
         url: 'http://developer.xero.com/documentation/api/prepayments/'
       properties:
+        AllocationID:
+          description: Xero generated unique identifier
+          type: string
+          format: uuid
         Invoice:
           $ref: '#/components/schemas/Invoice'
         Overpayment:
@@ -24944,6 +25048,10 @@ components:
           description:   the date the allocation is applied YYYY-MM-DD. 
           type: string
           x-is-msdate: true
+        IsDeleted:
+          description: A flag that returns true when the allocation is succesfully deleted
+          type: boolean
+          readOnly: true
         StatusAttributeString:
           description: A string to indicate if a invoice status
           type: string
