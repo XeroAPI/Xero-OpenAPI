@@ -4,7 +4,7 @@ servers:
     url: https://api.xero.com/files.xro/1.0/
 info:
   title: Xero Files API
-  version: "2.39.0"
+  version: "2.39.1"
   description: "These endpoints are specific to Xero Files API"
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
   contact:
@@ -102,6 +102,8 @@ paths:
       tags:
         - Files
       summary: Uploads a File to the inbox
+      parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
       operationId: uploadFile
       responses:
         '201':
@@ -193,7 +195,8 @@ paths:
       summary: Update a file 
       operationId: updateFile
       description:  Updates file properties of a single file
-      parameters: 
+      parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - name: FileId
           x-snake: file_id
           in: path
@@ -278,6 +281,7 @@ paths:
       summary: Uploads a File to a specific folder
       operationId: uploadFileToFolder
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - in: path
           x-snake: folder_id
           name: FolderId
@@ -402,7 +406,8 @@ paths:
       summary: Creates a new file association
       operationId: createFileAssociation
       description: By passing in the appropriate options, you can create a new folder
-      parameters: 
+      parameters:
+        - $ref: '#/components/parameters/idempotencyKey' 
         - name: FileId
           x-snake: file_id
           in: path
@@ -605,6 +610,8 @@ paths:
       tags:
         - Files
       summary: Creates a new folder
+      parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
       operationId: createFolder
       description: By passing in the appropriate properties, you can create a new folder
       responses:
@@ -682,6 +689,7 @@ paths:
       operationId: updateFolder
       description: By passing in the appropriate ID and properties, you can update a folder
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - name: FolderId
           x-snake: folder_id
           in: path
@@ -796,6 +804,14 @@ components:
       schema:
         type: string
       required: true
+    idempotencyKey:
+      in: header
+      name: Idempotency-Key
+      x-snake: idempotency_key
+      description: This allows you to safely retry requests without the risk of duplicate processing. 128 character max.
+      example: "KEY_VALUE"
+      schema:
+        type: string
   schemas:
     Files:
       type: object

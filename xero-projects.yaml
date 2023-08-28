@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: "2.39.0"
+  version: "2.39.1"
   title: Xero Projects API
   description: This is the Xero Projects API 
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
@@ -157,6 +157,8 @@ paths:
       tags:
         - Project
       summary: Create one or more new projects
+      parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
       operationId: createProject
       requestBody:
         required: true
@@ -343,6 +345,7 @@ paths:
       operationId: updateProject
       description: Allows you to update a specific projects.
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - name: projectId
           x-snake: project_id
           in: path
@@ -379,6 +382,7 @@ paths:
       operationId: patchProject
       description: Allows you to update a specific projects.
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - name: projectId
           x-snake: project_id
           in: path
@@ -562,6 +566,7 @@ paths:
       operationId: createTask
       description: Allows you to create a specific task
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - name: projectId
           x-snake: project_id
           in: path
@@ -694,6 +699,7 @@ paths:
       operationId: updateTask
       description: Allows you to update a specific task
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - name: projectId
           x-snake: project_id
           in: path
@@ -893,6 +899,7 @@ paths:
       operationId: createTimeEntry
       description: Allows you to create a specific task
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - name: projectId
           x-snake: project_id
           in: path
@@ -992,6 +999,7 @@ paths:
       operationId: updateTimeEntry
       description: Allows you to update time entry in a project
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - name: projectId
           x-snake: project_id
           in: path
@@ -1089,6 +1097,14 @@ components:
       x-snake: charge_type
       schema: 
         $ref: '#/components/schemas/ChargeType'
+    idempotencyKey:
+      in: header
+      name: Idempotency-Key
+      x-snake: idempotency_key
+      description: This allows you to safely retry requests without the risk of duplicate processing. 128 character max.
+      example: "KEY_VALUE"
+      schema:
+        type: string
   schemas:
     Projects: 
       externalDocs:

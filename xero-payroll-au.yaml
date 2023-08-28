@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: '2.39.0'
+  version: '2.39.1'
   title: 'Xero Payroll AU API'
   description: 'This is the Xero Payroll API for orgs in Australia region.'
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
@@ -112,6 +112,8 @@ paths:
       tags:
         - PayrollAu
       summary: Creates a payroll employee
+      parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
       operationId: createEmployee
       x-hasPayrollAuProblem: true
       x-example:
@@ -503,7 +505,8 @@ paths:
           python: home_address
           ruby: home_address
           object: employee
-      parameters: 
+      parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - name: EmployeeID
           x-snake: employee_id
           in: path
@@ -714,6 +717,8 @@ paths:
       tags:
         - PayrollAu
       summary: Creates a leave application
+      parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
       operationId: createLeaveApplication
       x-hasPayrollAuProblem: true
       x-example:
@@ -1136,7 +1141,8 @@ paths:
           python: end_date
           ruby: end_date
           object: leaveApplication
-      parameters: 
+      parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - name: LeaveApplicationID
           x-snake: leave_application_id
           in: path
@@ -1221,6 +1227,7 @@ paths:
       summary: Approve a requested leave application by a unique leave application id
       operationId: approveLeaveApplication
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - name: LeaveApplicationID
           x-snake: leave_application_id
           in: path
@@ -1280,6 +1287,7 @@ paths:
       summary: Reject a leave application by a unique leave application id
       operationId: rejectLeaveApplication
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - name: LeaveApplicationID
           x-snake: leave_application_id
           in: path
@@ -1525,6 +1533,8 @@ paths:
       tags:
         - PayrollAu
       summary: Creates a pay item
+      parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
       operationId: createPayItem
       x-example:
         - earningsRate:
@@ -1934,6 +1944,8 @@ paths:
       tags:
         - PayrollAu
       summary: Creates a Payroll Calendar
+      parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
       operationId: createPayrollCalendar
       x-hasPayrollAuProblem: true
       x-example:
@@ -2198,6 +2210,8 @@ paths:
       tags:
         - PayrollAu
       summary: Creates a pay run
+      parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
       operationId: createPayRun
       x-hasPayrollAuProblem: true
       x-example:    
@@ -2358,7 +2372,8 @@ paths:
           keySnake: payroll_calendar_id
           object: payRun
           is_last: true     
-      parameters: 
+      parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - name: PayRunID
           x-snake: pay_run_id
           in: path
@@ -2599,7 +2614,8 @@ paths:
           csharp: PayslipLine
           object: payslipLine
       description:  Update lines on a single payslips
-      parameters: 
+      parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - name: PayslipID
           x-snake: payslip_id
           in: path
@@ -2812,6 +2828,8 @@ paths:
       tags:
         - PayrollAu
       summary: Creates a superfund
+      parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
       operationId: createSuperfund
       x-example:
         - superfund:
@@ -2966,7 +2984,8 @@ paths:
           default: 40022701955002
           object: superfund
           is_last: true 
-      parameters: 
+      parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - name: SuperFundID
           x-snake: super_fund_id
           in: path
@@ -3173,6 +3192,8 @@ paths:
       tags:
         - PayrollAu
       summary: Creates a timesheet
+      parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
       operationId: createTimesheet
       x-hasPayrollAuProblem: true
       x-example:
@@ -3463,7 +3484,8 @@ paths:
           java: com.xero.models.payrollau.TimesheetStatus.DRAFT
           csharp: TimesheetStatus.DRAFT
           object: timesheet
-      parameters: 
+      parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - name: TimesheetID
           x-snake: timesheet_id
           in: path
@@ -3578,6 +3600,14 @@ components:
       schema:
         type: string
       required: true 
+    idempotencyKey:
+      in: header
+      name: Idempotency-Key
+      x-snake: idempotency_key
+      description: This allows you to safely retry requests without the risk of duplicate processing. 128 character max.
+      example: "KEY_VALUE"
+      schema:
+        type: string
   schemas:
     Employees:
       type: object
