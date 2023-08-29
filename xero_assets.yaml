@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: "2.39.0"
+  version: "2.39.1"
   title: Xero Assets API
   description: The Assets API exposes fixed asset related functions of the Xero Accounting application and can be used for a variety of purposes such as creating assets, retrieving asset valuations etc.
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
@@ -189,6 +189,8 @@ paths:
       tags:
         - Asset
       summary: adds a fixed asset
+      parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
       operationId: createAsset
       x-hasAssetsValidationError: true
       x-example:
@@ -456,6 +458,8 @@ paths:
       tags:
         - Asset
       summary: adds a fixed asset type
+      parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
       operationId: createAssetType
       x-example:
         - bookDepreciationSetting:
@@ -660,6 +664,14 @@ components:
       schema:
         type: string
       required: true
+    idempotencyKey:
+      in: header
+      name: Idempotency-Key
+      x-snake: idempotency_key
+      description: This allows you to safely retry requests without the risk of duplicate processing. 128 character max.
+      example: "KEY_VALUE"
+      schema:
+        type: string
   schemas:
     Assets:
       type: object

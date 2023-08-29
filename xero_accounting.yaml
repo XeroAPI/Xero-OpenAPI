@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Xero Accounting API
-  version: "2.39.0"
+  version: "2.39.1"
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
   contact:
     name: "Xero Platform Team"
@@ -75,6 +75,8 @@ paths:
         - Accounting
       operationId: createAccount
       summary: Creates a new chart of accounts
+      parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
       x-hasAccountingValidationError: true
       x-example:
         - object:
@@ -280,6 +282,7 @@ paths:
           object: account
       parameters:
         - $ref: '#/components/parameters/AccountID'
+        - $ref: '#/components/parameters/idempotencyKey'
       responses:
         '200':
           description: Success - update existing Account and return response of type Accounts array with updated Account 
@@ -515,6 +518,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/AccountID'
         - $ref: '#/components/parameters/FileName'
+        - $ref: '#/components/parameters/idempotencyKey'
       responses:
         '200':
           description: Success - return response of type Attachments array of Attachment 
@@ -563,6 +567,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/AccountID'
         - $ref: '#/components/parameters/FileName'
+        - $ref: '#/components/parameters/idempotencyKey'
       responses:
         '200':
           description: Success - return response of type Attachments array of Attachment 
@@ -886,6 +891,7 @@ paths:
           object: batchPayment
       parameters:
         - $ref: '#/components/parameters/summarizeErrors'
+        - $ref: '#/components/parameters/idempotencyKey'
       responses:
         '200':
           description: Success - return response of type BatchPayments array of BatchPayment objects 
@@ -1001,6 +1007,8 @@ paths:
         - Accounting
       operationId: deleteBatchPayment
       summary: Updates a specific batch payment for invoices and credit notes
+      parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
       x-hasAccountingValidationError: true
       x-example:
         - batchPaymentDelete:
@@ -1156,6 +1164,7 @@ paths:
       operationId: deleteBatchPaymentByUrlParam
       summary: Updates a specific batch payment for invoices and credit notes
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/BatchPaymentID'
       responses:
         '200':
@@ -1267,6 +1276,7 @@ paths:
           csharp: HistoryRecord
           object: historyRecord 
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/BatchPaymentID'
       responses:
         '200':
@@ -1590,6 +1600,7 @@ paths:
           csharp: BankTransaction
           object: bankTransaction
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/summarizeErrors'
         - $ref: '#/components/parameters/unitdp'
       responses:
@@ -1860,6 +1871,7 @@ paths:
           csharp: BankTransaction
           object: bankTransaction
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/summarizeErrors'
         - $ref: '#/components/parameters/unitdp'
       responses:
@@ -2294,6 +2306,7 @@ paths:
           csharp: BankTransaction
           object: bankTransaction
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/BankTransactionID'
         - $ref: '#/components/parameters/unitdp'
       responses:
@@ -2592,6 +2605,7 @@ paths:
       x-hasAccountingValidationError: true
       summary: Updates a specific attachment from a specific bank transaction by filename
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/BankTransactionID'
         - $ref: '#/components/parameters/FileName'
       responses:
@@ -2636,6 +2650,7 @@ paths:
       x-hasAccountingValidationError: true
       summary: Creates an attachment for a specific bank transaction by filename
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/BankTransactionID'
         - $ref: '#/components/parameters/FileName'
       responses:
@@ -2722,6 +2737,7 @@ paths:
           csharp: HistoryRecord
           object: historyRecord 
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/BankTransactionID'
       responses:
         '200':
@@ -2820,6 +2836,8 @@ paths:
         - Accounting
       operationId: createBankTransfer
       summary: Creates a bank transfer
+      parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
       x-hasAccountingValidationError: true
       x-example:
         - fromBankAccount:
@@ -3131,6 +3149,7 @@ paths:
       operationId: updateBankTransferAttachmentByFileName
       x-hasAccountingValidationError: true
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/BankTransferID'
         - $ref: '#/components/parameters/FileName'
       responses:
@@ -3174,6 +3193,7 @@ paths:
       operationId: createBankTransferAttachmentByFileName
       x-hasAccountingValidationError: true
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/BankTransferID'
         - $ref: '#/components/parameters/FileName'
       responses:
@@ -3260,6 +3280,7 @@ paths:
           csharp: HistoryRecord
           object: historyRecord 
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/BankTransferID'
       responses:
         '200':
@@ -3426,6 +3447,7 @@ paths:
           csharp: PaymentService
           object: paymentService
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/BrandingThemeID'
       responses:
         '200':
@@ -3946,6 +3968,7 @@ paths:
           csharp: Contact
           object: contact
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/summarizeErrors'
       responses:
         '200':
@@ -4250,6 +4273,7 @@ paths:
           csharp: Contact
           object: contact
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/summarizeErrors'
       responses:
         '200':
@@ -4772,6 +4796,7 @@ paths:
           csharp: Contact
           object: contact
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/ContactID'
       responses:
         '200':
@@ -4955,6 +4980,7 @@ paths:
       operationId: updateContactAttachmentByFileName
       x-hasAccountingValidationError: true
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/ContactID'
         - $ref: '#/components/parameters/FileName'
       responses:
@@ -4998,6 +5024,7 @@ paths:
       operationId: createContactAttachmentByFileName
       x-hasAccountingValidationError: true
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/ContactID'
         - $ref: '#/components/parameters/FileName'
       responses:
@@ -5103,6 +5130,7 @@ paths:
           csharp: HistoryRecord
           object: historyRecord 
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/ContactID'
       requestBody:
         $ref: '#/components/requestBodies/historyRecords'
@@ -5174,6 +5202,8 @@ paths:
         - Accounting
       operationId: createContactGroup
       summary: Creates a contact group
+      parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
       x-hasAccountingValidationError: true
       x-example:
         - contact:
@@ -5345,6 +5375,7 @@ paths:
           csharp: ContactGroup
           object: contactGroup
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/ContactGroupID'
       responses:
         '200':
@@ -5421,6 +5452,7 @@ paths:
           csharp: Contact
           object: contact
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/ContactGroupID'
       responses:
         '200':
@@ -5772,6 +5804,7 @@ paths:
           csharp: CreditNote
           object: creditNote
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/summarizeErrors'
         - $ref: '#/components/parameters/unitdp'
       responses:
@@ -6057,6 +6090,7 @@ paths:
           csharp: CreditNote
           object: creditNote
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/summarizeErrors'
         - $ref: '#/components/parameters/unitdp'
       responses:
@@ -6499,6 +6533,7 @@ paths:
           csharp: CreditNote
           object: creditNote
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/CreditNoteID'
         - $ref: '#/components/parameters/unitdp'
       responses:
@@ -6724,6 +6759,7 @@ paths:
       x-hasAccountingValidationError: true
       summary: Updates attachments on a specific credit note by file name
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/CreditNoteID'
         - $ref: '#/components/parameters/FileName'
       responses:
@@ -6768,6 +6804,7 @@ paths:
       x-hasAccountingValidationError: true
       summary: Creates an attachment for a specific credit note
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/CreditNoteID'
         - $ref: '#/components/parameters/FileName'
         - $ref: '#/components/parameters/includeOnline'
@@ -6903,6 +6940,7 @@ paths:
           csharp: Allocation
           object: allocation
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/CreditNoteID'
         - $ref: '#/components/parameters/summarizeErrors'
       responses:
@@ -7043,6 +7081,7 @@ paths:
           csharp: HistoryRecord 
           object: historyRecord 
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/CreditNoteID'
       responses:
         '200':
@@ -7103,6 +7142,8 @@ paths:
         - Accounting
       operationId: createCurrency
       summary: Create a new currency for a Xero organisation
+      parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
       x-hasAccountingValidationError: true
       x-example:
         - currency:
@@ -7260,6 +7301,7 @@ paths:
           csharp: Employee
           object: employee
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/summarizeErrors'
       responses:
         '200':
@@ -7346,6 +7388,7 @@ paths:
           csharp: Employee
           object: employee
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/summarizeErrors'
       responses:
         '200':
@@ -7501,6 +7544,8 @@ paths:
         - Accounting
       operationId: createExpenseClaims
       summary: Creates expense claims 
+      parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
       x-hasAccountingValidationError: true
       x-example:
         - currDate:
@@ -7915,6 +7960,7 @@ paths:
           csharp: ExpenseClaim
           object: expenseClaim
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/ExpenseClaimID'
       responses:
         '200':
@@ -8071,6 +8117,7 @@ paths:
           csharp: HistoryRecord
           object: historyRecord 
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/ExpenseClaimID'
       responses:
         '200':
@@ -8549,6 +8596,7 @@ paths:
           csharp: Invoice
           object: invoice
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/summarizeErrors'
         - $ref: '#/components/parameters/unitdp'
       responses:
@@ -8895,6 +8943,7 @@ paths:
           csharp: Invoice
           object: invoice
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/summarizeErrors'
         - $ref: '#/components/parameters/unitdp'
       responses:
@@ -9264,6 +9313,7 @@ paths:
           csharp: Invoice
           object: invoice
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/InvoiceID'
         - $ref: '#/components/parameters/unitdp'
       responses:
@@ -9503,6 +9553,7 @@ paths:
       x-hasAccountingValidationError: true
       summary: Updates an attachment from a specific invoices or purchase bill by filename
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/InvoiceID'
         - $ref: '#/components/parameters/FileName'
       responses:
@@ -9547,6 +9598,7 @@ paths:
       x-hasAccountingValidationError: true
       summary: Creates an attachment for a specific invoice or purchase bill by filename
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/InvoiceID'
         - $ref: '#/components/parameters/FileName'
         - $ref: '#/components/parameters/includeOnline'
@@ -9631,6 +9683,7 @@ paths:
           key: requestEmpty
           keyPascal: RequestEmpty
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/InvoiceID'
       responses:
         '204':
@@ -9696,6 +9749,7 @@ paths:
           csharp: HistoryRecord
           object: historyRecord 
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/InvoiceID'
       responses:
         '200':
@@ -9871,6 +9925,7 @@ paths:
           csharp: Item
           object: item
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/summarizeErrors'
         - $ref: '#/components/parameters/unitdp'
       responses:
@@ -9969,6 +10024,7 @@ paths:
           csharp: Item
           object: item
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/summarizeErrors'
         - $ref: '#/components/parameters/unitdp'
       responses:
@@ -10110,6 +10166,7 @@ paths:
           csharp: Item
           object: item
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/ItemID'
         - $ref: '#/components/parameters/unitdp'
       responses:
@@ -10222,6 +10279,7 @@ paths:
           csharp: HistoryRecord
           object: historyRecord 
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/ItemID'
       responses:
         '200':
@@ -10644,6 +10702,8 @@ paths:
         - Accounting
       operationId: createLinkedTransaction
       summary: Creates linked transactions (billable expenses)
+      parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
       x-hasAccountingValidationError: true
       x-example:
         - linkedTransaction:
@@ -10795,6 +10855,7 @@ paths:
           csharp: LinkedTransaction
           object: linkedTransaction
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/LinkedTransactionID'
       responses:
         '200':
@@ -11098,6 +11159,7 @@ paths:
           csharp: ManualJournal
           object: manualJournal
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/summarizeErrors'
       responses:
         '200':
@@ -11331,6 +11393,7 @@ paths:
           csharp: ManualJournal
           object: manualJournal
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/summarizeErrors'
       responses:
         '200':
@@ -11639,6 +11702,7 @@ paths:
           csharp: ManualJournal
           object: manualJournal
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/ManualJournalID'
       responses:
         '200':
@@ -11800,6 +11864,7 @@ paths:
       x-hasAccountingValidationError: true
       summary: Updates a specific attachment from a specific manual journal by file name
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/ManualJournalID'
         - $ref: '#/components/parameters/FileName'
       responses:
@@ -11844,6 +11909,7 @@ paths:
       x-hasAccountingValidationError: true
       summary: Creates a specific attachment for a specific manual journal by file name
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/ManualJournalID'
         - $ref: '#/components/parameters/FileName'
       responses:
@@ -11930,6 +11996,7 @@ paths:
           csharp: HistoryRecord
           object: historyRecord 
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/ManualJournalID'
       responses:
         '200':
@@ -12501,6 +12568,7 @@ paths:
           csharp: Allocation
           object: allocation
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/OverpaymentID'
         - $ref: '#/components/parameters/summarizeErrors'
       responses:
@@ -12643,6 +12711,7 @@ paths:
           csharp: HistoryRecord
           object: historyRecord 
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/OverpaymentID'
       responses:
         '200':
@@ -12910,6 +12979,7 @@ paths:
           csharp: Payment
           object: payment
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/summarizeErrors'
       responses:
         '200':
@@ -13025,6 +13095,8 @@ paths:
         - Accounting
       operationId: createPayment
       summary: Creates a single payment for invoice or credit notes  
+      parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
       x-hasAccountingValidationError: true
       x-example:
         - dateValue:
@@ -13352,6 +13424,7 @@ paths:
           default: DELETED
           object: paymentDelete
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/PaymentID'
       responses:
         '200':
@@ -13495,6 +13568,7 @@ paths:
           csharp: HistoryRecord
           object: historyRecord 
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/PaymentID'
       responses:
         '200':
@@ -13564,6 +13638,8 @@ paths:
         - Accounting
       operationId: createPaymentService
       summary: Creates a payment service
+      parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
       x-excludeFromPreview: true
       x-hasAccountingValidationError: true
       x-example:
@@ -13945,6 +14021,7 @@ paths:
           csharp: Allocation
           object: allocation
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/PrepaymentID'
         - $ref: '#/components/parameters/summarizeErrors'
       responses:
@@ -14085,6 +14162,7 @@ paths:
           csharp: HistoryRecord
           object: historyRecord 
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/PrepaymentID'
       responses:
         '200':
@@ -14454,6 +14532,7 @@ paths:
           csharp: PurchaseOrder
           object: purchaseOrder
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/summarizeErrors'
       responses:
         '200':
@@ -14729,6 +14808,7 @@ paths:
           csharp: PurchaseOrder
           object: purchaseOrder
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/summarizeErrors'
       responses:
         '200':
@@ -15072,6 +15152,7 @@ paths:
           csharp: PurchaseOrder
           object: purchaseOrder
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/PurchaseOrderID'
       responses:
         '200':
@@ -15397,6 +15478,7 @@ paths:
           csharp: HistoryRecord
           object: historyRecord 
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/PurchaseOrderID'
       responses:
         '200':
@@ -15507,6 +15589,7 @@ paths:
       x-hasAccountingValidationError: true
       summary: Updates a specific attachment for a specific purchase order by filename
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/PurchaseOrderID'
         - $ref: '#/components/parameters/FileName'
       responses:
@@ -15555,6 +15638,7 @@ paths:
       x-hasAccountingValidationError: true
       summary: Creates attachment for a specific purchase order
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/PurchaseOrderID'
         - $ref: '#/components/parameters/FileName'
       responses:
@@ -15859,6 +15943,7 @@ paths:
           csharp: Quote
           object: quote
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/summarizeErrors'
       responses:
         '200':
@@ -16067,6 +16152,7 @@ paths:
           csharp: Quote
           object: quote
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/summarizeErrors'
       responses:
         '200':
@@ -16297,6 +16383,7 @@ paths:
           csharp: Quote
           object: quote
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/QuoteID'
       responses:
         '200':
@@ -16418,6 +16505,7 @@ paths:
           csharp: HistoryRecord
           object: historyRecord 
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/QuoteID'
       responses:
         '200':
@@ -16535,6 +16623,7 @@ paths:
       x-hasAccountingValidationError: true
       summary: Updates a specific attachment from a specific quote by filename
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/QuoteID'
         - $ref: '#/components/parameters/FileName'
       responses:
@@ -16583,6 +16672,7 @@ paths:
       x-hasAccountingValidationError: true
       summary: Creates attachment for a specific quote
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/QuoteID'
         - $ref: '#/components/parameters/FileName'
       responses:
@@ -16851,6 +16941,7 @@ paths:
           csharp: Receipt
           object: receipt
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/unitdp'
       responses:
         '200':
@@ -17205,6 +17296,7 @@ paths:
           csharp: Receipt
           object: receipt
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/ReceiptID'
         - $ref: '#/components/parameters/unitdp'
       responses:
@@ -17422,6 +17514,7 @@ paths:
       x-hasAccountingValidationError: true
       summary: Updates a specific attachment on a specific expense claim receipts by file name
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/ReceiptID'
         - $ref: '#/components/parameters/FileName'
       responses:
@@ -17466,6 +17559,7 @@ paths:
       x-hasAccountingValidationError: true
       summary: Creates an attachment on a specific expense claim receipts by file name
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/ReceiptID'
         - $ref: '#/components/parameters/FileName'
       responses:
@@ -17552,6 +17646,7 @@ paths:
           csharp: HistoryRecord
           object: historyRecord 
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/ReceiptID'
       responses:
         '200':
@@ -17681,6 +17776,7 @@ paths:
       summary: Creates one or more repeating invoice templates
       x-hasAccountingValidationError: true
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/summarizeErrors'
       responses:
         '200':
@@ -17804,6 +17900,7 @@ paths:
       summary: Creates or deletes one or more repeating invoice templates
       x-hasAccountingValidationError: true
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/summarizeErrors'
       responses:
         '200':
@@ -18022,6 +18119,7 @@ paths:
       summary: Deletes a specific repeating invoice template
       x-hasAccountingValidationError: true
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/RepeatingInvoiceID'
       responses:
         '200':
@@ -18246,6 +18344,7 @@ paths:
       x-hasAccountingValidationError: true
       summary: Updates a specific attachment from a specific repeating invoices by file name
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/RepeatingInvoiceID'
         - $ref: '#/components/parameters/FileName'
       responses:
@@ -18290,6 +18389,7 @@ paths:
       x-hasAccountingValidationError: true
       summary: Creates an attachment from a specific repeating invoices by file name
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/RepeatingInvoiceID'
         - $ref: '#/components/parameters/FileName'
       responses:
@@ -18376,6 +18476,7 @@ paths:
           csharp: HistoryRecord
           object: historyRecord 
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/RepeatingInvoiceID'
       responses:
         '200':
@@ -22063,6 +22164,8 @@ paths:
         - Accounting
       operationId: postSetup
       summary: Sets the chart of accounts, the conversion date and conversion balances
+      parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
       x-example:
         - account:
           is_object: true
@@ -22385,6 +22488,8 @@ paths:
         - Accounting
       operationId: createTaxRates
       summary: Creates one or more tax rates      
+      parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
       x-hasAccountingValidationError: true
       x-example:
         - taxComponent:
@@ -22518,6 +22623,8 @@ paths:
         - Accounting
       operationId: updateTaxRate
       summary: Updates tax rates
+      parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
       x-hasAccountingValidationError: true
       x-example:
         - taxComponent:
@@ -22714,6 +22821,8 @@ paths:
         - Accounting
       operationId: createTrackingCategory
       summary: Create tracking categories
+      parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
       x-hasAccountingValidationError: true
       x-example:
         - trackingCategory:
@@ -22810,6 +22919,7 @@ paths:
           default: Foobar
           object: trackingCategory
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/TrackingCategoryID'
       responses:
         '200':
@@ -22896,6 +23006,7 @@ paths:
           default: Foobar
           object: trackingOption
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/TrackingCategoryID'
       responses:
         '200':
@@ -22954,6 +23065,7 @@ paths:
           default: Foobar
           object: trackingOption
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/TrackingCategoryID'
         - $ref: '#/components/parameters/TrackingOptionID'
       responses:
@@ -23194,6 +23306,14 @@ components:
       schema:
         type: string
         format: date-time
+    idempotencyKey:
+      in: header
+      name: Idempotency-Key
+      x-snake: idempotency_key
+      description: This allows you to safely retry requests without the risk of duplicate processing. 128 character max.
+      example: "KEY_VALUE"
+      schema:
+        type: string
     includeOnline:
       in: query
       name: IncludeOnline
@@ -23881,11 +24001,7 @@ components:
         - REVENUE
         - SALES
         - TERMLIAB
-        - PAYGLIABILITY
         - PAYG
-        - SUPERANNUATIONEXPENSE
-        - SUPERANNUATIONLIABILITY
-        - WAGESEXPENSE
     Attachments:
       type: object
       x-isObjectArray: true

@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: "2.39.0"
+  version: "2.39.1"
   title: Xero Bank Feeds API
   description: The Bank Feeds API is a closed API that is only available to financial institutions that have an established financial services partnership with Xero.
                If you're an existing financial services partner that wants access, contact your local Partner Manager.
@@ -87,6 +87,8 @@ paths:
       tags:
         - BankFeeds
       summary: Create one or more new feed connection
+      parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
       operationId: createFeedConnections
       x-hasBankFeedsValidationError: true
       description: By passing in the FeedConnections array object in the body, you can create one or more new feed connections
@@ -195,6 +197,8 @@ paths:
       tags:
         - BankFeeds
       summary: Delete an existing feed connection
+      parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
       operationId: deleteFeedConnections
       description: By passing in FeedConnections array object in the body, you can delete a feed connection.
       requestBody:
@@ -353,6 +357,8 @@ paths:
       tags:
         - BankFeeds
       summary: Creates one or more new statements
+      parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
       operationId: createStatements
       x-hasBankFeedsValidationError: true
       responses:
@@ -591,6 +597,14 @@ components:
       schema:
         type: string
       required: true 
+    idempotencyKey:
+      in: header
+      name: Idempotency-Key
+      x-snake: idempotency_key
+      description: This allows you to safely retry requests without the risk of duplicate processing. 128 character max.
+      example: "KEY_VALUE"
+      schema:
+        type: string
   schemas:
     FeedConnections:
       externalDocs:

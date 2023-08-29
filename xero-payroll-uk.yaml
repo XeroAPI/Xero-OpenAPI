@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: '2.39.0'
+  version: '2.39.1'
   title: 'Xero Payroll UK'
   description: 'This is the Xero Payroll API for orgs in the UK region.'
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
@@ -225,6 +225,8 @@ paths:
           ruby: address
           object: employee      
       summary: Creates employees
+      parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
       responses:
         '200':
           description: search results matching criteria
@@ -444,6 +446,7 @@ paths:
           ruby: address
           object: employee      
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - name: EmployeeID
           x-snake: employee_id
           in: path
@@ -570,6 +573,7 @@ paths:
           is_last: true 
       summary: Creates employment detail for a specific employee using a unique employee ID
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - name: EmployeeID
           x-snake: employee_id
           in: path
@@ -767,6 +771,7 @@ paths:
           is_last: true
       summary: Creates an opening balance for a specific employee
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - name: EmployeeID
           x-snake: employee_id
           in: path
@@ -868,6 +873,7 @@ paths:
           is_last: true
       summary: Updates a specific employee's opening balances
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - name: EmployeeID
           x-snake: employee_id
           in: path
@@ -1038,6 +1044,7 @@ paths:
           object: employeeLeave
       summary: Creates leave records for a specific employee
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - name: EmployeeID
           x-snake: employee_id
           in: path
@@ -1228,6 +1235,7 @@ paths:
           object: employeeLeave
       summary: Updates a specific employee's leave records
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - name: EmployeeID
           x-snake: employee_id
           in: path
@@ -1588,6 +1596,8 @@ paths:
           ruby: end_date
           object: employeeStatutorySickLeave
       summary: Creates statutory sick leave records
+      parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
       responses:
         '200':
           description: search results matching criteria
@@ -1879,6 +1889,7 @@ paths:
           is_last: true
       summary: Creates employee leave type records
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - name: EmployeeID
           x-snake: employee_id
           in: path
@@ -2046,6 +2057,7 @@ paths:
           object: paymentMethod
       summary: Creates an employee payment method
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - name: EmployeeID
           x-snake: employee_id
           in: path
@@ -2243,6 +2255,7 @@ paths:
           object: earningsTemplate
       summary: Creates an earnings template records for a specific employee
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - name: EmployeeID
           x-snake: employee_id
           in: path
@@ -2351,6 +2364,7 @@ paths:
           object: earningsTemplate
       summary: Updates a specific employee's earnings template records
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - name: EmployeeID
           x-snake: employee_id
           in: path
@@ -2518,6 +2532,7 @@ paths:
           object: earningsTemplate
       summary: Creates multiple earnings template records for a specific employee using a unique employee ID
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - name: EmployeeID
           x-snake: employee_id
           in: path
@@ -2647,6 +2662,8 @@ paths:
       operationId: createBenefit
       x-hasPayrollUkProblem: true
       summary: Creates a new employee benefit
+      parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
       x-example:
         - benefit:
           key: benefit
@@ -2912,6 +2929,8 @@ paths:
           object: deduction
           is_last: true
       summary: Creates a new deduction
+      parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
       responses:
         '200':
           description: search results matching criteria
@@ -3272,6 +3291,8 @@ paths:
       operationId: createEarningsRate
       x-hasPayrollUkProblem: true
       summary: Creates a new earnings rate
+      parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
       x-example:
         - earningsRate:
           key: earningsRate
@@ -3509,6 +3530,8 @@ paths:
           default: true 
           is_last: true
       summary: Creates a new leave type
+      parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
       responses:
         '200':
           description: search results matching criteria
@@ -3673,6 +3696,8 @@ paths:
           object: reimbursement
           is_last: true
       summary: Creates a new reimbursement
+      parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
       responses:
         '200':
           description: search results matching criteria
@@ -3910,6 +3935,8 @@ paths:
           ruby: end_date
           object: timesheet
       summary: Creates a new timesheet
+      parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
       responses:
         '200':
           description: search results matching criteria
@@ -4142,6 +4169,7 @@ paths:
           is_last: true
       summary: Creates a new timesheet line for a specific timesheet using a unique timesheet ID
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - in: path
           name: TimesheetID
           x-snake: timesheet_id
@@ -4201,6 +4229,7 @@ paths:
       x-hasPayrollUkProblem: true
       summary: Approves a specific timesheet
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - in: path
           name: TimesheetID
           x-snake: timesheet_id
@@ -4275,6 +4304,7 @@ paths:
       x-hasPayrollUkProblem: true
       summary: Reverts a specific timesheet to draft
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - in: path
           name: TimesheetID
           x-snake: timesheet_id
@@ -4408,6 +4438,7 @@ paths:
           is_last: true
       summary: Updates a specific timesheet line for a specific timesheet
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - in: path
           name: TimesheetID
           x-snake: timesheet_id
@@ -4642,6 +4673,8 @@ paths:
           ruby: payment_date
           object: payRunCalendar
       summary: Creates a new payrun calendar
+      parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
       responses:
         '200':
           description: search results matching criteria
@@ -4857,6 +4890,7 @@ paths:
           is_last: true
       summary: Creates a salary and wage record for a specific employee
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - name: EmployeeID
           x-snake: employee_id
           in: path
@@ -5037,6 +5071,7 @@ paths:
           is_last: true
       summary: Updates salary and wages record for a specific employee
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - name: EmployeeID
           x-snake: employee_id
           in: path
@@ -5354,6 +5389,7 @@ paths:
           object: payRunCalendar
       summary: Updates a specific pay run
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - in: path
           name: PayRunID
           x-snake: pay_run_id
@@ -5796,6 +5832,14 @@ components:
       schema:
         type: string
       required: true 
+    idempotencyKey:
+      in: header
+      name: Idempotency-Key
+      x-snake: idempotency_key
+      description: This allows you to safely retry requests without the risk of duplicate processing. 128 character max.
+      example: "KEY_VALUE"
+      schema:
+        type: string
   schemas:
     Pagination:
       properties:

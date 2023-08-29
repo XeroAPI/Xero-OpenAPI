@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: "2.39.0"
+  version: "2.39.1"
   title: Xero AppStore API
   description: These endpoints are for Xero Partners to interact with the App Store Billing platform
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
@@ -98,6 +98,7 @@ paths:
       operationId: postUsageRecords
       summary: "Send metered usage belonging to this subscription and subscription item"
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: "#/components/parameters/subscriptionId"
         - $ref: "#/components/parameters/subscriptionItemId"
       responses:
@@ -143,6 +144,7 @@ paths:
       operationId: putUsageRecords
       summary: "Update and existing metered usage belonging to this subscription and subscription item"
       parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: "#/components/parameters/subscriptionId"
         - $ref: "#/components/parameters/subscriptionItemId"
         - $ref: "#/components/parameters/usageRecordId"
@@ -278,6 +280,14 @@ components:
       schema:
         type: string
         format: uuid
+    idempotencyKey:
+      in: header
+      name: Idempotency-Key
+      x-snake: idempotency_key
+      description: This allows you to safely retry requests without the risk of duplicate processing. 128 character max.
+      example: "KEY_VALUE"
+      schema:
+        type: string
   schemas:
     Subscription:
       type: object
