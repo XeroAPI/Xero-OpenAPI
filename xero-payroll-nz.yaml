@@ -78,7 +78,9 @@ paths:
                               "payrollCalendarID": "9aa56064-990f-4ad3-a189-d966d8f6a030",
                               "updatedDateUTC": "2019-09-24T05:08:45",
                               "createdDateUTC": "2019-09-22T23:58:23",
-                              "endDate": null
+                              "endDate": null,
+                              "engagementType": "FixedTerm",
+                              "fixedTermEndDate": "2026-01-01T00:00:00"
                             },
                             {
                               "employeeID": "1c4f0c92-03ad-43f2-a690-ee51397ece6a",
@@ -100,7 +102,9 @@ paths:
                               "payrollCalendarID": "9aa56064-990f-4ad3-a189-d966d8f6a030",
                               "updatedDateUTC": "2019-09-23T00:16:25",
                               "createdDateUTC": "2019-09-23T00:12:16",
-                              "endDate": null
+                              "endDate": null,
+                              "engagementType": "Permanent",
+                              "fixedTermEndDate": null 
                             }
                           ]
                         }'
@@ -236,7 +240,9 @@ paths:
                           "payrollCalendarID": null,
                           "updatedDateUTC": "2020-08-24T20:27:22",
                           "createdDateUTC": "2020-08-24T20:27:22",
-                          "endDate": null
+                          "endDate": null,
+                          "engagementType": null,
+                          "fixedTermEndDate": null                     
                         }
                       }'
         '400':
@@ -320,7 +326,9 @@ paths:
                             "payrollCalendarID": "9aa56064-990f-4ad3-a189-d966d8f6a030",
                             "updatedDateUTC": "2019-09-24T05:08:45",
                             "createdDateUTC": "2019-09-22T23:58:23",
-                            "endDate": null
+                            "endDate": null,
+                            "engagementType": "FixedTerm",
+                            "fixedTermEndDate": "2026-01-01T00:00:00"
                           }
                         }'
     put:
@@ -458,7 +466,9 @@ paths:
                             "payrollCalendarID": "9aa56064-990f-4ad3-a189-d966d8f6a030",
                             "updatedDateUTC": "2020-08-24T20:29:43",
                             "createdDateUTC": "2019-09-22T23:58:23",
-                            "endDate": null
+                            "endDate": null,
+                            "engagementType": null
+                            "fixedTermEndDate": null
                           }
                         }'
         '400':
@@ -534,6 +544,19 @@ paths:
           python: start_date
           ruby: start_date
           object: employment
+        - engagementType:
+          is_variable: true
+          key: engagementType
+          keyPascal: EngagementType
+          keySnake: engagement_type
+          object: employment
+        - fixedTermEndDate:
+          is_variable: true
+          nonString: true
+          key: fixedTermEndDate
+          keyPascal: FixedTermEndDate
+          keySnake: fixed_term_end_date
+          object: employment
           is_last: true 
       summary: Creates an employment detail for a specific employee
       parameters:
@@ -563,7 +586,9 @@ paths:
                           "problem": null,
                           "employment": {
                             "payrollCalendarID": "9aa56064-990f-4ad3-a189-d966d8f6a030",
-                            "startDate": "2020-09-02T00:00:00"
+                            "startDate": "2020-09-02T00:00:00",
+                            "engagementType": "FixedTerm",
+                            "fixedTermEndDate": "2026-01-01T00:00:00"
                           }
                         }'
         '400':
@@ -580,7 +605,9 @@ paths:
               $ref: '#/components/schemas/Employment'
             example: '{
                         "payrollCalendarID": "9aa56064-990f-4ad3-a189-d966d8f6a030",
-                        "startDate": "2020-09-02"
+                        "startDate": "2020-09-02",
+                        "engagementType": "FixedTerm",
+                        "fixedTermEndDate": "2026-01-01"
                       }'
   /Employees/{EmployeeID}/Tax:
     parameters:
@@ -1544,7 +1571,20 @@ paths:
           nonString: true
           default: 10.50
           object: employeeLeaveSetup
-          is_last: true
+        - sickLeaveScheduleOfAccrual:
+          is_variable: true
+          key: sickLeaveScheduleOfAccrual
+          keyPascal: SickLeaveScheduleOfAccrual
+          keySnake: sick_leave_schedule_of_accrual
+          object: employeeLeaveSetup
+        - sickLeaveAnniversaryDate:
+          is_variable: true
+          nonString: true
+          key: sickLeaveAnniversaryDate
+          keyPascal: SickLeaveAnniversaryDate
+          keySnake: sick_leave_anniversary_date
+          object: employeeLeaveSetup
+          is_last: true 
       summary: Creates a leave set-up for a specific employee. This is required before viewing, configuring and requesting leave for an employee
       parameters:
         - $ref: '#/components/parameters/idempotencyKey'
@@ -1578,7 +1618,9 @@ paths:
                             "negativeAnnualLeaveBalancePaidAmount": null,
                             "sickLeaveHoursToAccrueAnnually": 20,
                             "sickLeaveMaximumHoursToAccrue": null,
-                            "sickLeaveOpeningBalance": 10
+                            "sickLeaveOpeningBalance": 10,
+                            "sickLeaveScheduleOfAccrual": "OnAnniversaryDate",
+                            "sickLeaveAnniversaryDate": "2023-12-31"
                           }
                         }'
         '400':
@@ -1597,7 +1639,9 @@ paths:
                         "holidayPayOpeningBalance": 10,
                         "annualLeaveOpeningBalance": 100,
                         "sickLeaveHoursToAccrueAnnually": 20,
-                        "sickLeaveOpeningBalance": 10
+                        "sickLeaveOpeningBalance": 10,
+                        "sickLeaveScheduleOfAccrual": "OnAnniversaryDate",
+                        "sickLeaveAnniversaryDate": "2023-12-31"
                       }'
   /Employees/{EmployeeID}/LeaveTypes:
     parameters:
@@ -1645,7 +1689,7 @@ paths:
                               "percentageOfGrossEarnings": 8,
                               "includeHolidayPayEveryPay": true,
                               "showAnnualLeaveInAdvance": null,
-                              "annualLeaveTotalAmountPaid": null
+                              "annualLeaveTotalAmountPaid": null,            "scheduleOfAccrualDate": null
                             }
                           ]
                         }'
@@ -1697,7 +1741,13 @@ paths:
           nonString: true 
           default: 5.25
           object: employeeLeaveType
-          is_last: true
+        - scheduleOfAccrualDate:
+          is_variable: true
+          nonString: true
+          key: scheduleOfAccrualDate
+          keyPascal: ScheduleOfAccrualDate
+          keySnake: schedule_of_accrual_date
+          object: employeeLeaveType
       parameters:
         - $ref: '#/components/parameters/idempotencyKey'
         - name: EmployeeID
@@ -1733,7 +1783,8 @@ paths:
                             "percentageOfGrossEarnings": 0,
                             "includeHolidayPayEveryPay": null,
                             "showAnnualLeaveInAdvance": null,
-                            "annualLeaveTotalAmountPaid": null
+                            "annualLeaveTotalAmountPaid": null,
+                            "scheduleOfAccrualDate": null
                           }
                         }'
         '400':
@@ -6405,6 +6456,16 @@ components:
           type: string
           format: date-time
           x-is-datetime: true
+        engagementType:
+          description: Engagement type of the employee
+          type: string
+          example: Permanent
+        fixedTermEndDate:
+          description: End date for an employee with a fixed-term engagement type
+          type: string
+          format: date
+          example: 2020-01-19
+          x-is-date: true
     EmploymentObject:
       type: object
       properties:
@@ -6433,6 +6494,16 @@ components:
           type: string
           format: date
           x-is-date: true 
+        engagementType:
+          description: Engagement type of the employee
+          type: string
+          example: Permanent
+        fixedTermEndDate:
+          description: End date for an employee with a fixed-term engagement type
+          type: string
+          format: date
+          example: 2020-01-19
+          x-is-date: true
     EmployeeTaxObject:
       type: object
       properties:
@@ -6968,6 +7039,16 @@ components:
           format: double
           x-is-money: true
           example: 10.5
+        SickLeaveScheduleOfAccrual:
+          description: Set Schedule of Accrual Type for Sick Leave
+          type: string
+          example: OnAnniversaryDate
+        SickLeaveAnniversaryDate:
+          description: If Sick Leave Schedule of Accrual is "OnAnniversaryDate", this is the date when entitled to Sick Leave
+          type: string
+          format: date
+          example: 2020-01-19
+          x-is-date: true
     EmployeeLeaveTypeObject:
       type: object
       properties:
@@ -7028,6 +7109,12 @@ components:
           type: number
           format: double
           x-is-money: true
+        scheduleOfAccrualDate:
+          description: The date when an employee becomes entitled to their accrual.
+          type: string
+          format: date
+          example: 2020-01-19
+          x-is-date: true
     EmployeePayTemplateObject:
       type: object
       properties:
