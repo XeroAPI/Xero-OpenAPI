@@ -506,6 +506,29 @@ paths:
             type: string
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+        - in: query
+          name: pagesize
+          description: pass an optional page size value
+          schema:
+            type: integer
+            maximum: 100
+            example: 50
+        - in: query
+          name: page
+          description: number of records to skip for pagination
+          schema:
+            type: integer
+            minimum: 1
+            example: 2
+        - in: query
+          name: sort
+          description: values to sort by
+          schema:
+            type: string
+            enum:
+              - Name
+              - CreatedDateUTC
+            example: "CreatedDateUTC DESC"
       responses:
         '200':
           description: search results matching criteria
