@@ -79,8 +79,8 @@ paths:
                               "updatedDateUTC": "2019-09-24T05:08:45",
                               "createdDateUTC": "2019-09-22T23:58:23",
                               "endDate": null,
-                              "engagementType": "FixedTerm",
-                              "fixedTermEndDate": "2026-01-01T00:00:00"
+                              "engagementType": "Casual",
+                              "fixedTermEndDate": null
                             },
                             {
                               "employeeID": "1c4f0c92-03ad-43f2-a690-ee51397ece6a",
@@ -103,7 +103,7 @@ paths:
                               "updatedDateUTC": "2019-09-23T00:16:25",
                               "createdDateUTC": "2019-09-23T00:12:16",
                               "endDate": null,
-                              "engagementType": "Permanent",
+                              "engagementType": null,
                               "fixedTermEndDate": null 
                             }
                           ]
@@ -819,7 +819,7 @@ paths:
             schema:
               $ref: '#/components/schemas/EmployeeTax'
             example: ''
-  /Employees/{EmployeeID}/openingBalances:
+  /Employees/{EmployeeID}/OpeningBalances:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get: 
@@ -1508,7 +1508,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Problem'
-  /Employees/{EmployeeID}/leaveSetup:
+  /Employees/{EmployeeID}/LeaveSetup:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     post:
@@ -1689,7 +1689,8 @@ paths:
                               "percentageOfGrossEarnings": 8,
                               "includeHolidayPayEveryPay": true,
                               "showAnnualLeaveInAdvance": null,
-                              "annualLeaveTotalAmountPaid": null,            "scheduleOfAccrualDate": null
+                              "annualLeaveTotalAmountPaid": null,            
+                              "scheduleOfAccrualDate": null
                             }
                           ]
                         }'
@@ -1748,6 +1749,7 @@ paths:
           keyPascal: ScheduleOfAccrualDate
           keySnake: schedule_of_accrual_date
           object: employeeLeaveType
+          is_last: true 
       parameters:
         - $ref: '#/components/parameters/idempotencyKey'
         - name: EmployeeID
@@ -2021,7 +2023,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Problem'
-  /Employees/{EmployeeID}/PayTemplates/earnings:
+  /Employees/{EmployeeID}/PayTemplates/Earnings:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     post:
@@ -2152,7 +2154,7 @@ paths:
                         "earningsRateID": "f9d8f5b5-9049-47f4-8541-35e200f750a5",
                         "name": "My New One"
                       }'
-  /Employees/{EmployeeID}/PayTemplates/earnings/{PayTemplateEarningID}:
+  /Employees/{EmployeeID}/PayTemplates/Earnings/{PayTemplateEarningID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     put:
@@ -2332,7 +2334,7 @@ paths:
                           "pagination": null,
                           "problem": null
                         }'
-  /Employees/{EmployeeID}/paytemplateearnings:
+  /Employees/{EmployeeID}/Paytemplateearnings:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     post:
@@ -6480,6 +6482,7 @@ components:
       required:
         - PayrollCalendarID
         - StartDate
+        - EngagementType
       properties:
         payrollCalendarID:
           description: Xero unique identifier for the payroll calendar of the employee
