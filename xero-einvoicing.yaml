@@ -1,0 +1,389 @@
+openapi: 3.0.1
+info:
+  title: Xero EInvoicing API
+  version: "2.5.0"
+  description: "These endpoints are specific to Xero EInvoicing API"
+  termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
+  contact:
+    name: "Xero Platform Team"
+    url: "https://developer.xero.com"
+    email: "api@xero.com"
+servers:
+  - url: https://api.xero.com/einvoicing.xro/1.0/
+    description: EInvoicing
+paths:
+  '/api/v2/registrations/{organisationId}/registerbybusinessnumber':
+    put:
+      security:
+        - OAuth2: [einvoicing]
+      tags:
+        - RegistrationsV2
+      operationId: registerByBusinessNumber
+      summary: Registers organisation to receive eInvoices using business number.
+      parameters:
+        - name: organisationId
+          in: path
+          description: Xero Organisation ID.
+          required: true
+          schema:
+            type: string
+            description: Xero Organisation ID.
+            format: uuid
+            example: "d8102856-8439-4e31-84bf-a5dcf20e045a"
+        - name: Xero-Tenant-Id
+          in: header
+          description: Xero Tenant ID.
+          required: true
+          schema:
+            type: string
+            description: Xero Tenant ID.
+            format: uuid
+            example: "b17456c9-691f-472f-a985-658edef959df"
+        - name: Xero-User-Id
+          in: header
+          description: Xero User ID.
+          required: true
+          schema:
+            type: string
+            description: Xero User ID.
+            format: uuid
+            example: "4aabbabb-7af5-448b-be34-d339f08a2db6"
+        - name: Xero-Client-Name
+          in: header
+          description: Name of the application calling this API.
+          required: true
+          schema:
+            type: string
+            description: Name of the application calling this API.
+            example: "ApplicationName"
+        - name: Xero-Correlation-Id
+          in: header
+          description: Identifier to correlate calls across services.
+          required: true
+          schema:
+            type: string
+            description: Identifier to correlate calls across services.
+            example: "42117e33-0029-4378-b584-ff48a924e871"
+      requestBody:
+        description: Registration information
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegistrationInfoByBusinessNumber'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/RegistrationInfoByBusinessNumber'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/RegistrationInfoByBusinessNumber'
+          example: '{
+                      "BusinessNumber": "123456789",
+                      "Country": "AU"
+                    }'
+      responses:
+        '200':
+          description: Success
+        '400':
+          description: Bad Request
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/EInvoicingRegistrationProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EInvoicingRegistrationProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/EInvoicingRegistrationProblemDetails'
+        '401':
+          description: Unauthorized
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '403':
+          description: Forbidden
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '422':
+          description: Client Error
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+  '/api/v2/registrations/{organisationId}':
+    get:
+      security:
+        - OAuth2: [einvoicing]
+      tags:
+        - RegistrationsV2
+      operationId: getRegistrationInformation
+      summary: Gets organisation's registration information for receiving eInvoices.
+      parameters:
+        - name: organisationId
+          in: path
+          description: Xero Organisation ID.
+          required: true
+          schema:
+            type: string
+            description: Xero Organisation ID.
+            format: uuid
+            example: "d8102856-8439-4e31-84bf-a5dcf20e045a"
+        - name: Xero-Tenant-Id
+          in: header
+          description: Xero Tenant ID.
+          required: true
+          schema:
+            type: string
+            description: Xero Tenant ID.
+            format: uuid
+            example: "b17456c9-691f-472f-a985-658edef959df"
+        - name: Xero-User-Id
+          in: header
+          description: Xero User ID.
+          required: true
+          schema:
+            type: string
+            description: Xero User ID.
+            format: uuid
+            example: "4aabbabb-7af5-448b-be34-d339f08a2db6"
+        - name: Xero-Client-Name
+          in: header
+          description: Name of the application calling this API.
+          required: true
+          schema:
+            type: string
+            description: Name of the application calling this API.
+            example: "ApplicationName"
+        - name: Xero-Correlation-Id
+          in: header
+          description: Identifier to correlate calls across services.
+          required: true
+          schema:
+            type: string
+            description: Identifier to correlate calls across services.
+            example: "42117e33-0029-4378-b584-ff48a924e871"
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/RegistrationInfo'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegistrationInfo'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/RegistrationInfo'
+            example: '{
+                        "businessNumber": "12345678",
+                        "businessInfo": {
+                          "legalBusinessName": "NZ Test Ltd",
+                          "entityTypeCode": "LTD",
+                          "entityTypeDescription": "NZ Limited Company",
+                          "registeredCountryCode": "NZ",
+                          "address": {
+                            "addressType": "Registered",
+                            "addressLine1": "Shop 5, 1-13 Beach Road",
+                            "addressLine2": "Beach Bay",
+                            "addressLine3": "Beachland",
+                            "region": "land",
+                            "postalCode": "3333",
+                            "countryCode": "NZ"
+                          }
+                        }
+                      }'
+        '404':
+          description: Not Found
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '401':
+          description: Unauthorized
+          content:
+            text/plain:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+            text/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+components:
+  schemas:
+    Country:
+      enum:
+        - AU
+        - NZ
+      type: string
+    RegistrationInfoByBusinessNumber:
+      required:
+        - businessNumber
+        - country
+      type: object
+      properties:
+        country:
+          $ref: '#/components/schemas/Country'
+        businessNumber:
+          type: string
+      additionalProperties: false
+    ValidationFailure:
+      enum:
+        - OrganisationWithBusinessNumberNotFound
+        - OrganisationBusinessNamesCouldNotBeFetchedDueToUpstreamError
+        - OrganisationRegistrationNumberIsNotValid
+        - OrganisationAlreadyRegisteredWithDifferentBusinessNameOrBusinessNumber
+        - OrganisationRegistrationNumberAlreadyRegistered
+        - BusinessEntityTypeCodeCanNotRegisterForEInvoicing
+        - BusinessDoesNotHaveSufficientDataToRegisterForEInvoicing
+        - BusinessNotFound
+        - BusinessDoesNotHaveValidEntityStatusToRegisterForEInvoicing
+      type: string
+      description: Validation failures.
+    EInvoicingRegistrationProblemDetails:
+      type: object
+      properties:
+        type:
+          type: string
+          nullable: true
+        title:
+          type: string
+          nullable: true
+        status:
+          type: integer
+          format: int32
+          nullable: true
+        detail:
+          type: string
+          nullable: true
+        instance:
+          type: string
+          nullable: true
+        validationFailures:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationFailure'
+          description: Validation failures.
+          nullable: true
+          readOnly: true
+      additionalProperties: { }
+      description: Custom problem details class for EInvoicing Registration.
+    ProblemDetails:
+      type: object
+      properties:
+        type:
+          type: string
+          nullable: true
+        title:
+          type: string
+          nullable: true
+        status:
+          type: integer
+          format: int32
+          nullable: true
+        detail:
+          type: string
+          nullable: true
+        instance:
+          type: string
+          nullable: true
+      additionalProperties: { }
+    AddressType:
+      enum:
+        - MainBusinessPhysicalAddress
+        - Registered
+        - Postal
+      type: string
+    Address:
+      required:
+        - addressType
+        - countryCode
+      type: object
+      properties:
+        addressType:
+          $ref: '#/components/schemas/AddressType'
+        addressLine1:
+          type: string
+          nullable: true
+        addressLine2:
+          type: string
+          nullable: true
+        addressLine3:
+          type: string
+          nullable: true
+        addressLine4:
+          type: string
+          nullable: true
+        region:
+          type: string
+          nullable: true
+        postalCode:
+          type: string
+          nullable: true
+        countryCode:
+          $ref: '#/components/schemas/Country'
+      additionalProperties: false
+    BusinessInfo:
+      required:
+        - registeredCountryCode
+      type: object
+      properties:
+        legalBusinessName:
+          type: string
+          nullable: true
+        entityTypeCode:
+          type: string
+          nullable: true
+        entityTypeDescription:
+          type: string
+          nullable: true
+        entityStatus:
+          type: string
+          nullable: true
+        registeredCountryCode:
+          $ref: '#/components/schemas/Country'
+        address:
+          $ref: '#/components/schemas/Address'
+      additionalProperties: false
+    RegistrationInfo:
+      required:
+        - businessInfo
+        - businessNumber
+      type: object
+      properties:
+        businessNumber:
+          type: string
+          description: Business number.
+        businessInfo:
+          $ref: '#/components/schemas/BusinessInfo'
+      additionalProperties: false
+      description: Business details to register on Peppol.
