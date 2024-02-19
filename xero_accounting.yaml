@@ -22354,13 +22354,6 @@ paths:
           example: "Name ASC"
           schema:
             type: string
-        - in: query
-          name: TaxType
-          x-snake: tax_type
-          description: Filter by tax type
-          example: "INPUT"
-          schema:
-            type: string
       responses:
         '200':
           description: Success - return response of type TaxRates array with TaxRates
@@ -22752,6 +22745,54 @@ paths:
                           }
                         ]
                       }'
+  "/TaxRates/{TaxType}":
+    parameters:
+      - $ref: "#/components/parameters/requiredHeader"
+    get:
+      security:
+        - OAuth2: [accounting.settings, accounting.settings.read]
+      tags:
+        - Accounting
+      operationId: getTaxRateByTaxType
+      summary: Retrieves a specific tax rate according to given TaxType code
+      parameters:
+        - $ref: "#/components/parameters/TaxType"
+      responses:
+        "200":
+          description: Success - return response of type TaxRates array with one TaxRate
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TaxRates"
+              example: '{
+                          "Id": "455d494d-9706-465b-b584-7086ca406b27",
+                          "Status": "OK",
+                          "ProviderName": "Xero API Partner",
+                          "DateTimeUTC": "\/Date(1550797359081)\/",
+                          "TaxRates": [
+                            {
+                              "Name": "15% GST on Expenses",
+                              "TaxType": "INPUT2",
+                              "ReportTaxType": "INPUT",
+                              "CanApplyToAssets": true,
+                              "CanApplyToEquity": true,
+                              "CanApplyToExpenses": true,
+                              "CanApplyToLiabilities": true,
+                              "CanApplyToRevenue": false,
+                              "DisplayTaxRate": 15.0000,
+                              "EffectiveRate": 15.0000,
+                              "Status": "ACTIVE",
+                              "TaxComponents": [
+                                {
+                                  "Name": "GST",
+                                  "Rate": 15.0000,
+                                  "IsCompound": false,
+                                  "IsNonRecoverable": false
+                                }
+                              ]
+                            }
+                          ]
+                        }'
   /TrackingCategories:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -23669,6 +23710,14 @@ components:
       schema:
         type: string
         format: uuid
+    TaxType:
+      required: true
+      in: path
+      name: TaxType
+      description: A valid TaxType code
+      example: "INPUT2"
+      schema:
+        type: string
   responses:
     400Error:
       description: A failed request due to validation error
