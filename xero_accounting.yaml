@@ -1338,6 +1338,7 @@ paths:
           schema:
             type: integer
         - $ref: '#/components/parameters/unitdp'
+        - $ref: '#/components/parameters/pageSize'
       responses:
         '200':
           description:  Success - return response of type BankTransactions array with 0 to n BankTransaction 
@@ -3737,6 +3738,7 @@ paths:
           example: "Joe Bloggs"
           schema:
             type: string
+        - $ref: '#/components/parameters/pageSize'
       responses:
         '200':
           description: Success - return response of type Contacts array with 0 to N Contact
@@ -5573,6 +5575,7 @@ paths:
           schema:
             type: integer
         - $ref: '#/components/parameters/unitdp'
+        - $ref: '#/components/parameters/pageSize'
       responses:
         '200':
           description: Success - return response of type Credit Notes array of CreditNote
@@ -8233,6 +8236,7 @@ paths:
             type: boolean
         - $ref: '#/components/parameters/unitdp'
         - $ref: '#/components/parameters/summaryOnly'
+        - $ref: '#/components/parameters/pageSize'
       responses:
         '200':
           description: Success - return response of type Invoices array with all Invoices
@@ -10975,6 +10979,7 @@ paths:
           example: 1
           schema:
             type: integer
+        - $ref: '#/components/parameters/pageSize'
       responses:
         '200':
           description: Success - return response of type ManualJournals array with a all ManualJournals
@@ -12775,6 +12780,7 @@ paths:
           example: 1
           schema:
             type: integer
+        - $ref: '#/components/parameters/pageSize'
       responses:
         '200':
           description: Success - return response of type Payments array for all Payments
@@ -14243,6 +14249,7 @@ paths:
           example: 1
           schema:
             type: integer
+        - $ref: '#/components/parameters/pageSize'
       responses:
         '200':
           description: Success - return response of type PurchaseOrder array of all PurchaseOrder      
@@ -23393,6 +23400,13 @@ components:
       schema:
         type: string
         format: date
+    pageSize:
+      in: query
+      name: pageSize
+      description: Number of records to retrieve per page
+      example: 100
+      schema:
+        type: integer
     AccountID:
       required: true
       in: path
