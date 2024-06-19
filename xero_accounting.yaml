@@ -8245,12 +8245,18 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Invoices'
+                $ref: '#/components/schemas/GetInvoicesResponse'
               example: '{
                           "Id": "900c500b-e83c-4ce2-902a-b8ba04751748",
                           "Status": "OK",
                           "ProviderName": "Provider Name Example",
                           "DateTimeUTC": "\/Date(1552326816230)\/",
+                          "PageInfo" : {
+                            "Page": 1,
+                            "PageSize": 100,
+                            "TotalPages": 1,
+                            "TotalRows": 3
+                          },
                           "Invoices": [
                             {
                               "Type": "ACCREC",
@@ -26015,6 +26021,24 @@ components:
           items:
             $ref: '#/components/schemas/ValidationError'
       type: object
+    GetInvoicesResponse:
+      type: object
+      properties:
+        Id:
+          type: string
+        Status:
+          type: string
+        ProviderName:
+          type: string
+        DateTimeUTC:
+          type: string
+        PageInfo:
+          $ref: '#/components/schemas/PageInfo'
+        Invoices:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/Invoices'
     OnlineInvoices:
       type: object
       x-isObjectArray: true
