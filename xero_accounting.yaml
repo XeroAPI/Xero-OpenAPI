@@ -5585,12 +5585,18 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CreditNotes'
+                $ref: '#/components/schemas/GetCreditNotesResponse'
               example: '{
                           "Id": "306379b0-3d75-4c77-953a-be08fa0efae8",
                           "Status": "OK",
                           "ProviderName": "Provider Name Example",
                           "DateTimeUTC": "\/Date(1551812506620)\/",
+                          "PageInfo" : {
+                            "Page": 1,
+                            "PageSize": 100,
+                            "TotalPages": 1,
+                            "TotalRows": 2
+                          },
                           "CreditNotes": [
                             {
                               "CreditNoteID": "249f15fa-f2a7-4acc-8769-0984103f2225",
@@ -25241,6 +25247,24 @@ components:
           items:
             $ref: '#/components/schemas/ValidationError'
       type: object
+    GetCreditNotesResponse:
+      type: object
+      properties:
+        Id:
+          type: string
+        Status:
+          type: string
+        ProviderName:
+          type: string
+        DateTimeUTC:
+          type: string
+        PageInfo:
+          $ref: '#/components/schemas/PageInfo'
+        CreditNotes:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/CreditNotes'
     Allocations:
       type: object
       x-isObjectArray: true
