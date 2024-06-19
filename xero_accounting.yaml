@@ -10993,12 +10993,18 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ManualJournals'
+                $ref: '#/components/schemas/GetManualJournalsResponse'
               example: '{
                           "Id": "8a508ec1-b578-48bf-97df-020c918fbf7d",
                           "Status": "OK",
                           "ProviderName": "Provider Name Example",
                           "DateTimeUTC": "\/Date(1552357217359)\/",
+                          "PageInfo" : {
+                            "Page": 1,
+                            "PageSize": 100,
+                            "TotalPages": 1,
+                            "TotalRows": 3
+                          },
                           "ManualJournals": [
                             {
                               "Date": "\/Date(1553126400000+0000)\/",
@@ -26469,6 +26475,24 @@ components:
       required:
         - Narration
       type: object
+    GetManualJournalsResponse:
+      type: object
+      properties:
+        Id:
+          type: string
+        Status:
+          type: string
+        ProviderName:
+          type: string
+        DateTimeUTC:
+          type: string
+        PageInfo:
+          $ref: '#/components/schemas/PageInfo'
+        ManualJournals:
+          type: array
+          minItems: 1
+          items:
+            $ref: '#/components/schemas/ManualJournals'
     ManualJournalLine:
       externalDocs:
         url: 'http://developer.xero.com/documentation/api/manual-journals/'
