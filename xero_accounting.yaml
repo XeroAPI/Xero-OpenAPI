@@ -6135,6 +6135,7 @@ paths:
                               "CurrencyRate": 1.000000,
                               "Type": "ACCPAYCREDIT",
                               "Reference": "",
+                              "SentToContact": true,
                               "RemainingCredit": 46.00,
                               "Allocations": [],
                               "Contact": {
@@ -6244,6 +6245,7 @@ paths:
                             "Date":"2019-01-05",
                             "Status":"AUTHORISED",
                             "Reference": "HelloWorld",
+                            "SentToContact": true,
                             "LineItems":[  
                               {  
                                 "Description":"Foobar",
@@ -25263,8 +25265,8 @@ components:
           description: ACCRECCREDIT only – additional reference number
           type: string
         SentToContact:
-          description: boolean to indicate if a credit note has been sent to a contact via  the Xero app (currently read only)
-          readOnly: true
+          description: Boolean to set whether the credit note in the Xero app should be marked
+            as “sent”. This can be set only on credit notes that have been approved
           type: boolean
         CurrencyRate:
           description: The currency rate for a multicurrency invoice. If no rate is
@@ -25982,8 +25984,7 @@ components:
             - PAID
             - VOIDED
         SentToContact:
-          description: Boolean to set whether the invoice in the Xero app should be marked
-            as “sent”. This can be set only on invoices that have been approved
+          description: Boolean to set whether the invoice in the Xero app should be marked as “sent”. This can be set only on invoices that have been approved
           type: boolean
         ExpectedPaymentDate:
           description: Shown on sales invoices (Accounts Receivable) when this has been set
