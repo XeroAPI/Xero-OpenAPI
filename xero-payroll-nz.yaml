@@ -4581,7 +4581,8 @@ paths:
                               "effectiveFrom": "2019-02-07T00:00:00",
                               "annualSalary": 25,
                               "status": "Active",
-                              "paymentType": "Hourly"
+                              "paymentType": "Hourly",
+                              "workPatternType": "DaysAndHours"
                             },
                             {
                               "salaryAndWagesID": "0211c70c-93d5-4da1-a570-b66d8df2ca15",
@@ -4593,7 +4594,8 @@ paths:
                               "effectiveFrom": "2020-05-01T00:00:00",
                               "annualSalary": 100,
                               "status": "Active",
-                              "paymentType": "Salary"
+                              "paymentType": "Salary",
+                              "workPatternType": "DaysAndHours"
                             }
                           ]
                         }'
@@ -4687,7 +4689,8 @@ paths:
                             "effectiveFrom": "2020-05-01T00:00:00",
                             "annualSalary": 100,
                             "status": "Active",
-                            "paymentType": "Salary"
+                            "paymentType": "Salary",
+                            "workPatternType": "DaysAndHours"
                           }
                         }'
         '400':
@@ -4768,7 +4771,8 @@ paths:
                               "effectiveFrom": "2019-02-07T00:00:00",
                               "annualSalary": 25,
                               "status": "Active",
-                              "paymentType": "Hourly"
+                              "paymentType": "Hourly",
+                              "workPatternType": "DaysAndHours"
                             }
                           ]
                         }'
@@ -4865,7 +4869,8 @@ paths:
                             "effectiveFrom": "2020-05-15T00:00:00",
                             "annualSalary": 101,
                             "status": "Active",
-                            "paymentType": "Salary"
+                            "paymentType": "Salary",
+                            "workPatternType": "RegularWeek"
                           }
                         }'
         '400':
@@ -6222,6 +6227,310 @@ paths:
                             "timesheetTrackingCategoryID": "f8c0b291-be04-497a-a083-dd9cd19658b5"
                           }
                         }'
+  /Employees/{EmployeeID}/Working-Patterns:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    get: 
+      security:
+        - OAuth2: [payroll.employees, payroll.employees.read]
+      tags:
+        - PayrollNz
+      operationId: getEmployeeWorkingPatterns
+      x-hasPayrollUkProblem: true
+      summary: Retrieves employee's working patterns
+      parameters:
+        - name: EmployeeID
+          x-snake: employee_id
+          in: path
+          required: true
+          description: Employee id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeWorkingPatternsObject'
+              example: '{
+                          "id": "00000000-0000-0000-0000-000000000000",
+                          "providerName": "provider-name",
+                          "dateTimeUTC": "2020-08-24T20:16:15.3542191",
+                          "httpStatusCode": "OK",
+                          "pagination": {
+                              "page": 1,
+                              "pageSize": 100,
+                              "pageCount": 1,
+                              "itemCount": 2
+                          },
+                          "problem": null,
+                          "payeeWorkingPatterns": [
+                              {
+                                  "payeeWorkingPatternID": "d0a325df-c9d5-4246-9e95-5172328a729b",
+                                  "effectiveFrom": "2020-01-01T00:00:00"
+                              },
+                              {
+                                  "payeeWorkingPatternID": "af50c5d4-a0f5-4306-ad61-8505b8ec6286",
+                                  "effectiveFrom": "2024-07-09T00:00:00"
+                              }
+                          ]
+                        }'
+    post: 
+      security:
+        - OAuth2: [payroll.employees]
+      tags:
+        - PayrollNz
+      operationId: createEmployeeWorkingPattern
+      x-hasPayrollUkProblem: true
+      x-example:
+        - effectiveFrom:
+          key: effectiveFrom
+          keyPascal: EffectiveFrom
+          keySnake: effective_from
+          is_date: true
+          java_datatype: LocalDate
+          csharp_datatype: DateTime
+          default: "LocalDate.of(2020, Month.OCTOBER, 28)"
+          java: "LocalDate.of(2020, Month.OCTOBER, 28)"
+          csharp: "new DateTime(2020, 10, 10)"
+          php: "new DateTime('2020-10-28')"
+          node: "'2020-10-28'"
+          python: "dateutil.parser.parse('2020-10-28T00:00:00Z')"
+          ruby: "'YYYY-MM-DD'"
+        - workingWeek:
+          key: workingWeek
+          keyPascal: WorkingWeek
+          keySnake: workingWeek
+          is_object: true
+        - monday:
+          key: monday
+          keyPascal: monday
+          keySnake: monday
+          default: 8
+          nonString: true 
+          object: workingWeek
+        - tuesday:
+          key: tuesday
+          keyPascal: tuesday
+          keySnake: tuesday
+          default: 8
+          nonString: true 
+          object: workingWeek
+        - wednesday:
+          key: wednesday
+          keyPascal: wednesday
+          keySnake: wednesday
+          default: 8
+          nonString: true 
+          object: workingWeek
+        - thursday:
+          key: thursday
+          keyPascal: thursday
+          keySnake: thursday
+          default: 8
+          nonString: true 
+          object: workingWeek
+        - friday:
+          key: friday
+          keyPascal: friday
+          keySnake: friday
+          default: 8
+          nonString: true 
+          object: workingWeek
+        - saturday:
+          key: saturday
+          keyPascal: saturday
+          keySnake: saturday
+          default: 0
+          nonString: true 
+          object: workingWeek
+        - sunday:
+          key: sunday
+          keyPascal: sunday
+          keySnake: sunday
+          default: 0
+          nonString: true 
+          object: workingWeek
+          is_last: true 
+      summary: Creates an employee working pattern
+      parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
+        - name: EmployeeID
+          x-snake: employee_id
+          in: path
+          required: true
+          description: Employee id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+      responses:
+        '200':
+          description: employee working pattern correctly added
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeWorkingPatternWithWorkingWeeks'
+              example: '{
+                          "id": "00000000-0000-0000-0000-000000000000",
+                          "providerName": "provider-name",
+                          "dateTimeUTC": "2020-08-24T20:53:58.8624623",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null,
+                          "payeeWorkingPattern": {
+                              "payeeWorkingPatternID": "d0a325df-c9d5-4246-9e95-5172328a729b",
+                              "effectiveFrom": "2020-01-01T00:00:00",
+                              "workingWeeks": [
+                                  {
+                                      "monday": 0.0,
+                                      "tuesday": 3.0000,
+                                      "wednesday": 0.0,
+                                      "thursday": 0.0,
+                                      "friday": 0.0,
+                                      "saturday": 0.0,
+                                      "sunday": 0.0
+                                  }
+                              ]
+                          }
+                        }'
+        '400':
+          description: validation error for a bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmployeeWorkingPatternWithWorkingWeeksRequest'
+            example: '{
+                        "effectiveFrom": "2020-01-01T00:00:00",
+                        "workingWeeks": [
+                            {
+                                "monday": 0.0,
+                                "tuesday": 3.0000,
+                                "wednesday": 0.0,
+                                "thursday": 0.0,
+                                "friday": 0.0,
+                                "saturday": 0.0,
+                                "sunday": 0.0
+                            }
+                        ]
+                      }'
+  /Employees/{EmployeeID}/Working-Patterns/{EmployeeWorkingPatternID}:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    get: 
+      security:
+        - OAuth2: [payroll.employees, payroll.employees.read]
+      tags:
+        - PayrollNz
+      operationId: getEmployeeWorkingPattern
+      x-hasPayrollUkProblem: true
+      summary: Retrieves employee's working patterns
+      parameters:
+        - name: EmployeeID
+          x-snake: employee_id
+          in: path
+          required: true
+          description: Employee id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+        - name: EmployeeWorkingPatternID
+          x-snake: employee_working_pattern_id
+          in: path
+          required: true
+          description: Employee working pattern id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09f3b118db9c
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeWorkingPatternWithWorkingWeeksObject'
+              example: '{
+                          "id": "00000000-0000-0000-0000-000000000000",
+                          "providerName": "provider-name",
+                          "dateTimeUTC": "2020-08-24T20:16:15.3542191",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null,
+                          "payeeWorkingPattern": {
+                              "payeeWorkingPatternID": "d0a325df-c9d5-4246-9e95-5172328a729b",
+                              "effectiveFrom": "2020-01-01T00:00:00",
+                              "workingWeeks": [
+                                  {
+                                      "monday": 0.0,
+                                      "tuesday": 3.0000,
+                                      "wednesday": 0.0,
+                                      "thursday": 0.0,
+                                      "friday": 0.0,
+                                      "saturday": 0.0,
+                                      "sunday": 0.0
+                                  }
+                              ]
+                          }
+                        }'
+    delete:
+      security:
+        - OAuth2: [payroll.employees]
+      tags:
+        - PayrollNz
+      operationId: deleteEmployeeWorkingPattern
+      x-hasPayrollUkProblem: true
+      summary: deletes employee's working patterns
+      parameters:
+        - name: EmployeeID
+          x-snake: employee_id
+          in: path
+          required: true
+          description: Employee id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+        - name: EmployeeWorkingPatternID
+          x-snake: employee_working_pattern_id
+          in: path
+          required: true
+          description: Employee working pattern id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09f3b118db9c
+      responses:
+        '200':
+          description: successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeLeaveObject'
+              example: '{
+                          "id": "00000000-0000-0000-0000-000000000000",
+                          "providerName": "provider-name",
+                          "dateTimeUTC": "2020-08-26T22:11:10.809249",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null
+                        }'
+        '400':
+          description: validation error for a bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
 components:
   securitySchemes:
     OAuth2:
@@ -7816,6 +8125,12 @@ components:
           enum:
             - Salary
             - Hourly
+        workPatternType:
+          description: The type of the Working Pattern of the corresponding salary and wages
+          type: string
+          enum:
+            - DaysAndHours
+            - RegularWeek
     PayRuns:
       type: object
       properties:
@@ -8518,3 +8833,120 @@ components:
           description: The Xero identifier for Timesheet tracking category.
           type: string
           format: uuid
+    WorkingWeek:
+      type: object
+      required:
+        - monday
+        - tuesday
+        - wednesday
+        - thursday
+        - friday
+        - saturday
+        - sunday
+      properties:
+        monday:
+          description: The number of hours worked on a Monday
+          type: number
+          format: double
+          x-is-money: true
+        tuesday:
+          description: The number of hours worked on a Tuesday
+          type: number
+          format: double
+          x-is-money: true
+        wednesday:
+          description: The number of hours worked on a Wednesday
+          type: number
+          format: double
+          x-is-money: true
+        thursday:
+          description: The number of hours worked on a Thursday
+          type: number
+          format: double
+          x-is-money: true
+        friday:
+          description: The number of hours worked on a Friday
+          type: number
+          format: double
+          x-is-money: true
+        saturday:
+          description: The number of hours worked on a Saturday
+          type: number
+          format: double
+          x-is-money: true
+        sunday:
+          description: The number of hours worked on a Sunday
+          type: number
+          format: double
+          x-is-money: true
+    WorkingWeeks:
+      type: array
+      items:
+        $ref: '#/components/schemas/WorkingWeek'
+    EmployeeWorkingPattern:
+      type: object
+      required:
+        - payeeWorkingPatternID
+        - effectiveFrom
+      properties:
+        payeeWorkingPatternID:
+          description: The Xero identifier for for Employee working pattern
+          type: string
+          format: uuid 
+        effectiveFrom:
+          description: The effective date of the corresponding salary and wages
+          type: string
+          format: date 
+          x-is-date: true
+    EmployeeWorkingPatterns:
+      type: array
+      items:
+        $ref: '#/components/schemas/EmployeeWorkingPattern'
+    EmployeeWorkingPatternsObject:
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        problem:
+          $ref: '#/components/schemas/Problem'
+        payeeWorkingPatterns:
+          $ref: '#/components/schemas/EmployeeWorkingPatterns'
+    EmployeeWorkingPatternWithWorkingWeeks:
+      type: object
+      required:
+        - payeeWorkingPatternID
+        - effectiveFrom
+      properties:
+        payeeWorkingPatternID:
+          description: The Xero identifier for for Employee working pattern
+          type: string
+          format: uuid
+        effectiveFrom:
+          description: The effective date of the corresponding salary and wages
+          type: string
+          format: date 
+          x-is-date: true
+        workingWeeks:
+          $ref: '#/components/schemas/WorkingWeeks'
+    EmployeeWorkingPatternWithWorkingWeeksRequest:
+      type: object
+      required:
+        - effectiveFrom
+        - workingWeeks
+      properties:
+        effectiveFrom:
+          description: The effective date of the corresponding salary and wages
+          type: string
+          format: date 
+          x-is-date: true
+        workingWeeks:
+          $ref: '#/components/schemas/WorkingWeeks'
+    EmployeeWorkingPatternWithWorkingWeeksObject:
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        problem:
+          $ref: '#/components/schemas/Problem'
+        payeeWorkingPattern:
+          $ref: '#/components/schemas/EmployeeWorkingPatternWithWorkingWeeks'
