@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Xero Accounting API
-  version: "2.40.0"
+  version: "6.0.1"
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
   contact:
     name: "Xero Platform Team"
@@ -1338,6 +1338,7 @@ paths:
           schema:
             type: integer
         - $ref: '#/components/parameters/unitdp'
+        - $ref: '#/components/parameters/pageSize'
       responses:
         '200':
           description:  Success - return response of type BankTransactions array with 0 to n BankTransaction 
@@ -1350,6 +1351,12 @@ paths:
                           "Status": "OK",
                           "ProviderName": "Xero API Partner",
                           "DateTimeUTC": "/Date(1551212901659)/",
+                          "pagination": {
+                            "page": 1,
+                            "pageSize": 100,
+                            "pageCount": 1,
+                            "itemCount": 3
+                          },
                           "BankTransactions": [
                             {
                               "BankTransactionID": "db54aab0-ad40-4ced-bcff-0940ba20db2c",
@@ -1600,9 +1607,9 @@ paths:
           csharp: BankTransaction
           object: bankTransaction
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/summarizeErrors'
         - $ref: '#/components/parameters/unitdp'
+        - $ref: '#/components/parameters/idempotencyKey'
       responses:
         '200':
           description: Success - return response of type BankTransactions array with new BankTransaction 
@@ -1871,9 +1878,9 @@ paths:
           csharp: BankTransaction
           object: bankTransaction
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/summarizeErrors'
         - $ref: '#/components/parameters/unitdp'
+        - $ref: '#/components/parameters/idempotencyKey'
       responses:
         '200':
           description: Success - return response of type BankTransactions array with new BankTransaction 
@@ -2306,9 +2313,9 @@ paths:
           csharp: BankTransaction
           object: bankTransaction
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/BankTransactionID'
         - $ref: '#/components/parameters/unitdp'
+        - $ref: '#/components/parameters/idempotencyKey'
       responses:
         '200':
           description: Success - return response of type BankTransactions array with updated BankTransaction 
@@ -3737,6 +3744,7 @@ paths:
           example: "Joe Bloggs"
           schema:
             type: string
+        - $ref: '#/components/parameters/pageSize'
       responses:
         '200':
           description: Success - return response of type Contacts array with 0 to N Contact
@@ -3749,6 +3757,12 @@ paths:
                             "Status": "OK",
                             "ProviderName": "Xero API Partner",
                             "DateTimeUTC": "\/Date(1551399323399)\/",
+                            "pagination": {
+                              "page": 1,
+                              "pageSize": 100,
+                              "pageCount": 1,
+                              "itemCount": 2
+                            },
                             "Contacts": [
                               {
                                 "ContactID": "5cc8cf28-567e-4d43-b287-687cfcaec47c",
@@ -3968,8 +3982,8 @@ paths:
           csharp: Contact
           object: contact
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/summarizeErrors'
+        - $ref: '#/components/parameters/idempotencyKey'
       responses:
         '200':
           description: Success - return response of type Contacts array with newly created Contact
@@ -4273,8 +4287,8 @@ paths:
           csharp: Contact
           object: contact
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/summarizeErrors'
+        - $ref: '#/components/parameters/idempotencyKey'
       responses:
         '200':
           description: Success - return response of type Contacts array with newly created Contact
@@ -5573,6 +5587,7 @@ paths:
           schema:
             type: integer
         - $ref: '#/components/parameters/unitdp'
+        - $ref: '#/components/parameters/pageSize'
       responses:
         '200':
           description: Success - return response of type Credit Notes array of CreditNote
@@ -5585,6 +5600,12 @@ paths:
                           "Status": "OK",
                           "ProviderName": "Provider Name Example",
                           "DateTimeUTC": "\/Date(1551812506620)\/",
+                          "pagination": {
+                            "page": 1,
+                            "pageSize": 100,
+                            "pageCount": 1,
+                            "itemCount": 2
+                          },
                           "CreditNotes": [
                             {
                               "CreditNoteID": "249f15fa-f2a7-4acc-8769-0984103f2225",
@@ -5804,9 +5825,9 @@ paths:
           csharp: CreditNote
           object: creditNote
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/summarizeErrors'
         - $ref: '#/components/parameters/unitdp'
+        - $ref: '#/components/parameters/idempotencyKey'
       responses:
         '200':
           description: Success - return response of type Credit Notes array of newly created CreditNote
@@ -6090,9 +6111,9 @@ paths:
           csharp: CreditNote
           object: creditNote
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/summarizeErrors'
         - $ref: '#/components/parameters/unitdp'
+        - $ref: '#/components/parameters/idempotencyKey'
       responses:
         '200':
           description: Success - return response of type Credit Notes array of newly created CreditNote
@@ -6533,9 +6554,9 @@ paths:
           csharp: CreditNote
           object: creditNote
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/CreditNoteID'
         - $ref: '#/components/parameters/unitdp'
+        - $ref: '#/components/parameters/idempotencyKey'
       responses:
         '200':
           description: Success - return response of type Credit Notes array with updated CreditNote
@@ -6804,10 +6825,10 @@ paths:
       x-hasAccountingValidationError: true
       summary: Creates an attachment for a specific credit note
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/CreditNoteID'
         - $ref: '#/components/parameters/FileName'
         - $ref: '#/components/parameters/includeOnline'
+        - $ref: '#/components/parameters/idempotencyKey'
       responses:
         '200':
           description: Success - return response of type Attachments array with newly created Attachment for specific Credit Note
@@ -6940,9 +6961,9 @@ paths:
           csharp: Allocation
           object: allocation
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/CreditNoteID'
         - $ref: '#/components/parameters/summarizeErrors'
+        - $ref: '#/components/parameters/idempotencyKey'
       responses:
         '200':
           description: Success - return response of type Allocations array with newly created Allocation for specific Credit Note
@@ -7301,8 +7322,8 @@ paths:
           csharp: Employee
           object: employee
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/summarizeErrors'
+        - $ref: '#/components/parameters/idempotencyKey'
       responses:
         '200':
           description: Success - return response of type Employees array with new Employee
@@ -7388,8 +7409,8 @@ paths:
           csharp: Employee
           object: employee
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/summarizeErrors'
+        - $ref: '#/components/parameters/idempotencyKey'
       responses:
         '200':
           description: Success - return response of type Employees array with new Employee
@@ -8233,6 +8254,8 @@ paths:
             type: boolean
         - $ref: '#/components/parameters/unitdp'
         - $ref: '#/components/parameters/summaryOnly'
+        - $ref: '#/components/parameters/pageSize'
+        - $ref: '#/components/parameters/searchTerm'
       responses:
         '200':
           description: Success - return response of type Invoices array with all Invoices
@@ -8245,6 +8268,12 @@ paths:
                           "Status": "OK",
                           "ProviderName": "Provider Name Example",
                           "DateTimeUTC": "\/Date(1552326816230)\/",
+                          "pagination": {
+                            "page": 1,
+                            "pageSize": 100,
+                            "pageCount": 1,
+                            "itemCount": 3
+                          },
                           "Invoices": [
                             {
                               "Type": "ACCREC",
@@ -8596,9 +8625,9 @@ paths:
           csharp: Invoice
           object: invoice
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/summarizeErrors'
         - $ref: '#/components/parameters/unitdp'
+        - $ref: '#/components/parameters/idempotencyKey'
       responses:
         '200':
           description: Success - return response of type Invoices array with newly created Invoice
@@ -8943,9 +8972,9 @@ paths:
           csharp: Invoice
           object: invoice
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/summarizeErrors'
         - $ref: '#/components/parameters/unitdp'
+        - $ref: '#/components/parameters/idempotencyKey'
       responses:
         '200':
           description: Success - return response of type Invoices array with newly created Invoice
@@ -9313,9 +9342,9 @@ paths:
           csharp: Invoice
           object: invoice
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/InvoiceID'
         - $ref: '#/components/parameters/unitdp'
+        - $ref: '#/components/parameters/idempotencyKey'
       responses:
         '200':
           description: Success - return response of type Invoices array with updated Invoice
@@ -9598,10 +9627,10 @@ paths:
       x-hasAccountingValidationError: true
       summary: Creates an attachment for a specific invoice or purchase bill by filename
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/InvoiceID'
         - $ref: '#/components/parameters/FileName'
         - $ref: '#/components/parameters/includeOnline'
+        - $ref: '#/components/parameters/idempotencyKey'
       responses:
         '200':
           description: Success - return response of type Attachments array with newly created Attachment
@@ -9925,9 +9954,9 @@ paths:
           csharp: Item
           object: item
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/summarizeErrors'
         - $ref: '#/components/parameters/unitdp'
+        - $ref: '#/components/parameters/idempotencyKey'
       responses:
         '200':
           description: Success - return response of type Items array with newly created Item
@@ -10024,9 +10053,9 @@ paths:
           csharp: Item
           object: item
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/summarizeErrors'
         - $ref: '#/components/parameters/unitdp'
+        - $ref: '#/components/parameters/idempotencyKey'
       responses:
         '200':
           description: Success - return response of type Items array with newly created Item
@@ -10166,9 +10195,9 @@ paths:
           csharp: Item
           object: item
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/ItemID'
         - $ref: '#/components/parameters/unitdp'
+        - $ref: '#/components/parameters/idempotencyKey'
       responses:
         '200':
           description: Success - return response of type Items array with updated Item
@@ -10975,6 +11004,7 @@ paths:
           example: 1
           schema:
             type: integer
+        - $ref: '#/components/parameters/pageSize'
       responses:
         '200':
           description: Success - return response of type ManualJournals array with a all ManualJournals
@@ -10987,6 +11017,12 @@ paths:
                           "Status": "OK",
                           "ProviderName": "Provider Name Example",
                           "DateTimeUTC": "\/Date(1552357217359)\/",
+                          "pagination": {
+                            "page": 1,
+                            "pageSize": 100,
+                            "pageCount": 1,
+                            "itemCount": 3
+                          },
                           "ManualJournals": [
                             {
                               "Date": "\/Date(1553126400000+0000)\/",
@@ -11059,7 +11095,7 @@ paths:
           key: lineAmount
           keyPascal: LineAmount
           keySnake: line_amount
-          default: 100.0
+          default: -100.0
           is_money: true
           object: credit
         - accountCode:
@@ -11090,7 +11126,7 @@ paths:
           key: lineAmount
           keyPascal: LineAmount
           keySnake: line_amount
-          default: -100.0
+          default: 100.0
           is_money: true
           object: debit
         - accountCode:
@@ -11159,8 +11195,8 @@ paths:
           csharp: ManualJournal
           object: manualJournal
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/summarizeErrors'
+        - $ref: '#/components/parameters/idempotencyKey'
       responses:
         '200':
           description: Success - return response of type ManualJournals array with newly created ManualJournal
@@ -11293,7 +11329,7 @@ paths:
           key: lineAmount
           keyPascal: LineAmount
           keySnake: line_amount
-          default: 100.0
+          default: -100.0
           is_money: true
           object: credit
         - accountCode:
@@ -11324,7 +11360,7 @@ paths:
           key: lineAmount
           keyPascal: LineAmount
           keySnake: line_amount
-          default: -100.0
+          default: 100.0
           is_money: true
           object: debit
         - accountCode:
@@ -11393,8 +11429,8 @@ paths:
           csharp: ManualJournal
           object: manualJournal
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/summarizeErrors'
+        - $ref: '#/components/parameters/idempotencyKey'
       responses:
         '200':
           description: Success - return response of type ManualJournals array with newly created ManualJournal
@@ -11602,7 +11638,7 @@ paths:
           key: lineAmount
           keyPascal: LineAmount
           keySnake: line_amount
-          default: 100.0
+          default: -100.0
           is_money: true
           object: credit
         - accountCode:
@@ -11633,7 +11669,7 @@ paths:
           key: lineAmount
           keyPascal: LineAmount
           keySnake: line_amount
-          default: -100.0
+          default: 100.0
           is_money: true
           object: debit
         - accountCode:
@@ -12193,6 +12229,7 @@ paths:
           schema:
             type: integer
         - $ref: '#/components/parameters/unitdp'
+        - $ref: '#/components/parameters/pageSize'
       responses:
         '200':
           description: Success - return response of type Overpayments array with all Overpayments
@@ -12205,6 +12242,12 @@ paths:
                           "Status": "OK",
                           "ProviderName": "Provider Name Example",
                           "DateTimeUTC": "\/Date(1552428951416)\/",
+                          "pagination": {
+                            "page": 1,
+                            "pageSize": 100,
+                            "pageCount": 1,
+                            "itemCount": 5
+                          },
                           "Overpayments": [
                             {
                               "OverpaymentID": "098b4dcb-5622-4699-87f8-9d40c4ccceb3",
@@ -12568,9 +12611,9 @@ paths:
           csharp: Allocation
           object: allocation
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/OverpaymentID'
         - $ref: '#/components/parameters/summarizeErrors'
+        - $ref: '#/components/parameters/idempotencyKey'
       responses:
         '200':
           description: Success - return response of type Allocations array with all Allocation for Overpayments
@@ -12775,6 +12818,7 @@ paths:
           example: 1
           schema:
             type: integer
+        - $ref: '#/components/parameters/pageSize'
       responses:
         '200':
           description: Success - return response of type Payments array for all Payments
@@ -12787,6 +12831,12 @@ paths:
                           "Status": "OK",
                           "ProviderName": "Provider Name Example",
                           "DateTimeUTC": "\/Date(1552431874205)\/",
+                          "pagination": {
+                            "page": 1,
+                            "pageSize": 100,
+                            "pageCount": 1,
+                            "itemCount": 2
+                          },
                           "Payments": [
                             {
                               "PaymentID": "99ea7f6b-c513-4066-bc27-b7c65dcd76c2",
@@ -12979,8 +13029,8 @@ paths:
           csharp: Payment
           object: payment
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/summarizeErrors'
+        - $ref: '#/components/parameters/idempotencyKey'
       responses:
         '200':
           description: Success - return response of type Payments array for newly created Payment
@@ -13759,6 +13809,7 @@ paths:
           schema:
             type: integer
         - $ref: '#/components/parameters/unitdp'
+        - $ref: '#/components/parameters/pageSize'
       responses:
         '200':
           description: Success - return response of type Prepayments array for all Prepayment
@@ -13771,6 +13822,12 @@ paths:
                           "Status": "OK",
                           "ProviderName": "Provider Name Example",
                           "DateTimeUTC": "\/Date(1552489227595)\/",
+                          "pagination": {
+                            "page": 1,
+                            "pageSize": 100,
+                            "pageCount": 1,
+                            "itemCount": 1
+                          },
                           "Prepayments": [
                             {
                               "PrepaymentID": "ce0cddef-cf5a-4e59-b638-f225679115a7",
@@ -14021,9 +14078,9 @@ paths:
           csharp: Allocation
           object: allocation
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/PrepaymentID'
         - $ref: '#/components/parameters/summarizeErrors'
+        - $ref: '#/components/parameters/idempotencyKey'
       responses:
         '200':
           description: Success - return response of type Allocations array of Allocation for all Prepayment
@@ -14243,6 +14300,7 @@ paths:
           example: 1
           schema:
             type: integer
+        - $ref: '#/components/parameters/pageSize'
       responses:
         '200':
           description: Success - return response of type PurchaseOrder array of all PurchaseOrder      
@@ -14255,6 +14313,12 @@ paths:
                           "Status": "OK",
                           "ProviderName": "Provider Name Example",
                           "DateTimeUTC": "\/Date(1552523977238)\/",
+                          "pagination": {
+                            "page": 1,
+                            "pageSize": 100,
+                            "pageCount": 1,
+                            "itemCount": 2
+                          },
                           "PurchaseOrders": [
                             {
                               "PurchaseOrderID": "f9627f0d-b715-4039-bb6a-96dc3eae5ec5",
@@ -14532,8 +14596,8 @@ paths:
           csharp: PurchaseOrder
           object: purchaseOrder
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/summarizeErrors'
+        - $ref: '#/components/parameters/idempotencyKey'
       responses:
         '200':
           description: Success - return response of type PurchaseOrder array for specified PurchaseOrder          
@@ -14808,8 +14872,8 @@ paths:
           csharp: PurchaseOrder
           object: purchaseOrder
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/summarizeErrors'
+        - $ref: '#/components/parameters/idempotencyKey'
       responses:
         '200':
           description: Success - return response of type PurchaseOrder array for specified PurchaseOrder          
@@ -15943,8 +16007,8 @@ paths:
           csharp: Quote
           object: quote
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/summarizeErrors'
+        - $ref: '#/components/parameters/idempotencyKey'
       responses:
         '200':
           description: Success - return response of type Quotes with array with newly created Quote
@@ -16152,8 +16216,8 @@ paths:
           csharp: Quote
           object: quote
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/summarizeErrors'
+        - $ref: '#/components/parameters/idempotencyKey'
       responses:
         '200':
           description: Success - return response of type Quotes array with updated or created Quote
@@ -16941,8 +17005,8 @@ paths:
           csharp: Receipt
           object: receipt
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/unitdp'
+        - $ref: '#/components/parameters/idempotencyKey'
       responses:
         '200':
           description: Success - return response of type Receipts array for newly created Receipt   
@@ -17296,9 +17360,9 @@ paths:
           csharp: Receipt
           object: receipt
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/ReceiptID'
         - $ref: '#/components/parameters/unitdp'
+        - $ref: '#/components/parameters/idempotencyKey'
       responses:
         '200':
           description: Success - return response of type Receipts array for updated Receipt   
@@ -17776,8 +17840,8 @@ paths:
       summary: Creates one or more repeating invoice templates
       x-hasAccountingValidationError: true
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/summarizeErrors'
+        - $ref: '#/components/parameters/idempotencyKey'
       responses:
         '200':
           description: Success - return response of type RepeatingInvoices array with newly created RepeatingInvoice
@@ -17900,8 +17964,8 @@ paths:
       summary: Creates or deletes one or more repeating invoice templates
       x-hasAccountingValidationError: true
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
         - $ref: '#/components/parameters/summarizeErrors'
+        - $ref: '#/components/parameters/idempotencyKey'
       responses:
         '200':
           description: Success - return response of type RepeatingInvoices array with newly created RepeatingInvoice
@@ -22354,13 +22418,6 @@ paths:
           example: "Name ASC"
           schema:
             type: string
-        - in: query
-          name: TaxType
-          x-snake: tax_type
-          description: Filter by tax type
-          example: "INPUT"
-          schema:
-            type: string
       responses:
         '200':
           description: Success - return response of type TaxRates array with TaxRates
@@ -22752,6 +22809,54 @@ paths:
                           }
                         ]
                       }'
+  "/TaxRates/{TaxType}":
+    parameters:
+      - $ref: "#/components/parameters/requiredHeader"
+    get:
+      security:
+        - OAuth2: [accounting.settings, accounting.settings.read]
+      tags:
+        - Accounting
+      operationId: getTaxRateByTaxType
+      summary: Retrieves a specific tax rate according to given TaxType code
+      parameters:
+        - $ref: "#/components/parameters/TaxType"
+      responses:
+        "200":
+          description: Success - return response of type TaxRates array with one TaxRate
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TaxRates"
+              example: '{
+                          "Id": "455d494d-9706-465b-b584-7086ca406b27",
+                          "Status": "OK",
+                          "ProviderName": "Xero API Partner",
+                          "DateTimeUTC": "\/Date(1550797359081)\/",
+                          "TaxRates": [
+                            {
+                              "Name": "15% GST on Expenses",
+                              "TaxType": "INPUT2",
+                              "ReportTaxType": "INPUT",
+                              "CanApplyToAssets": true,
+                              "CanApplyToEquity": true,
+                              "CanApplyToExpenses": true,
+                              "CanApplyToLiabilities": true,
+                              "CanApplyToRevenue": false,
+                              "DisplayTaxRate": 15.0000,
+                              "EffectiveRate": 15.0000,
+                              "Status": "ACTIVE",
+                              "TaxComponents": [
+                                {
+                                  "Name": "GST",
+                                  "Rate": 15.0000,
+                                  "IsCompound": false,
+                                  "IsNonRecoverable": false
+                                }
+                              ]
+                            }
+                          ]
+                        }'
   /TrackingCategories:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -23334,6 +23439,15 @@ components:
       schema:
         type: boolean
         default: false
+    searchTerm:
+      in: query
+      name: searchTerm
+      x-snake: search_term
+      description: Search parameter that performs a case-insensitive text search across the fields e.g. InvoiceNumber, Reference.
+      example: "SearchTerm=REF12"
+      x-example-python: "True"
+      schema:
+        type: string
     FromDate:
       in: query
       name: fromDate
@@ -23352,6 +23466,13 @@ components:
       schema:
         type: string
         format: date
+    pageSize:
+      in: query
+      name: pageSize
+      description: Number of records to retrieve per page
+      example: 100
+      schema:
+        type: integer
     AccountID:
       required: true
       in: path
@@ -23669,6 +23790,14 @@ components:
       schema:
         type: string
         format: uuid
+    TaxType:
+      required: true
+      in: path
+      name: TaxType
+      description: A valid TaxType code
+      example: "INPUT2"
+      schema:
+        type: string
   responses:
     400Error:
       description: A failed request due to validation error
@@ -23847,7 +23976,7 @@ components:
       type: object
     Accounts:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: accounts
       properties:
         Accounts:
           type: array
@@ -24004,7 +24133,7 @@ components:
         - PAYG
     Attachments:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: attachments
       properties:
         Attachments:
           type: array
@@ -24040,8 +24169,10 @@ components:
           type: boolean
     BankTransactions:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: bank_transactions
       properties:
+        pagination:
+          $ref: '#/components/schemas/Pagination'
         BankTransactions:
           type: array
           items:
@@ -24286,7 +24417,7 @@ components:
       type: object
     BankTransfers:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: bank_transfers
       properties:
         BankTransfers:
           type: array
@@ -24367,7 +24498,7 @@ components:
       type: object
     BatchPayments:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: batch_payments
       properties:
         BatchPayments:
           type: array
@@ -24513,7 +24644,7 @@ components:
       type: object
     BrandingThemes:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: branding_themes
       properties:
         BrandingThemes:
           type: array
@@ -24550,7 +24681,7 @@ components:
       type: object
     PaymentServices:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: payment_services
       properties:
         PaymentServices:
           type: array
@@ -24583,8 +24714,10 @@ components:
             $ref: '#/components/schemas/ValidationError'
     Contacts:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: contacts
       properties:
+        pagination:
+          $ref: '#/components/schemas/Pagination'
         Contacts:
           type: array
           items:
@@ -24783,7 +24916,7 @@ components:
       type: object
     Budgets:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: budgets
       properties:
         Budgets:
           type: array
@@ -24894,7 +25027,7 @@ components:
           x-is-money: true
     CISSettings:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: cis_settings
       properties:
         CISSettings:
           type: array
@@ -24915,7 +25048,7 @@ components:
           x-is-money: true 
     CISOrgSettings:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: cis_settings
       properties:
         CISSettings:
           type: array
@@ -24957,7 +25090,8 @@ components:
       type: object
     ContactGroups:
       type: object
-      x-isObjectArray: true
+       
+      x-objectArrayKey: contact_groups
       properties:
         ContactGroups:
           type: array
@@ -24999,8 +25133,10 @@ components:
       type: object
     CreditNotes:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: credit_notes
       properties:
+        pagination:
+          $ref: '#/components/schemas/Pagination'
         CreditNotes:
           type: array
           items:
@@ -25158,7 +25294,7 @@ components:
       type: object
     Allocations:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: allocations
       properties:
         Allocations:
           type: array
@@ -25208,7 +25344,7 @@ components:
       type: object
     Currencies:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: currencies
       properties:
         Currencies:
           type: array
@@ -25567,10 +25703,9 @@ components:
         - ZMW
         - ZMK
         - ZWD
-        - "" 
     Employees:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: employees
       properties:
         Employees:
           type: array
@@ -25619,7 +25754,7 @@ components:
       type: object
     ExpenseClaims:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: expense_claims
       properties:
         ExpenseClaims:
           type: array
@@ -25694,7 +25829,7 @@ components:
       type: object
     HistoryRecords:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: history_records
       properties:
         HistoryRecords:
           type: array
@@ -25722,8 +25857,10 @@ components:
       type: object
     Invoices:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: invoices
       properties:
+        pagination:
+          $ref: '#/components/schemas/Pagination'
         Invoices:
           type: array
           items:
@@ -25945,7 +26082,7 @@ components:
       type: object
     OnlineInvoices:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: online_invoices
       properties:
         OnlineInvoices:
           type: array
@@ -25961,7 +26098,7 @@ components:
       type: object
     InvoiceReminders:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: invoice_reminders
       properties:
         InvoiceReminders:
           type: array
@@ -25977,7 +26114,7 @@ components:
       type: object
     Items:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: items
       properties:
         Items:
           type: array
@@ -26084,7 +26221,7 @@ components:
       type: object
     Journals:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: journals
       properties:
         Journals:
           type: array
@@ -26217,7 +26354,7 @@ components:
       type: object
     LinkedTransactions:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: linked_transactions
       properties:
         LinkedTransactions:
           type: array
@@ -26294,8 +26431,10 @@ components:
       type: object
     ManualJournals:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: manual_journals
       properties:
+        pagination:
+          $ref: '#/components/schemas/Pagination'
         ManualJournals:
           type: array
           items:
@@ -26416,7 +26555,7 @@ components:
       type: object
     Actions:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: actions
       properties:
         Actions:
           type: array
@@ -26438,7 +26577,7 @@ components:
             - NOT-ALLOWED
     Organisations:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: organisations
       properties:
         Organisations:
           type: array
@@ -26618,6 +26757,13 @@ components:
           - NON_GST_CASHBOOK 
           - ULTIMATE
           - LITE
+          - ULTIMATE_10
+          - ULTIMATE_20
+          - ULTIMATE_50
+          - ULTIMATE_100
+          - IGNITE
+          - GROW
+          - COMPREHENSIVE
         Edition:  
           description: BUSINESS or PARTNER. Partner edition organisations are sold exclusively through accounting partners and have restricted functionality (e.g. no access to invoicing)  
           type: string
@@ -27082,8 +27228,10 @@ components:
       type: object
     Overpayments:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: overpayments
       properties:
+        pagination:
+          $ref: '#/components/schemas/Pagination'
         Overpayments:
           type: array
           items:
@@ -27188,8 +27336,10 @@ components:
       type: object
     Payments:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: payments
       properties:
+        pagination:
+          $ref: '#/components/schemas/Pagination'
         Payments:
           type: array
           items:
@@ -27319,11 +27469,18 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ValidationError'
+        Warnings:
+          description: Displays array of warning messages from the API
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
       type: object
     Prepayments:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: prepayments
       properties:
+        pagination:
+          $ref: '#/components/schemas/Pagination'
         Prepayments:
           type: array
           items:
@@ -27433,8 +27590,10 @@ components:
       type: object
     PurchaseOrders:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: purchase_orders
       properties:
+        pagination:
+          $ref: '#/components/schemas/Pagination'
         PurchaseOrders:
           type: array
           items:
@@ -27570,9 +27729,20 @@ components:
           items:
             $ref: '#/components/schemas/Attachment'
       type: object
+    Pagination:
+      type: object
+      properties:
+        page:
+          type: integer
+        pageSize:
+          type: integer
+        pageCount:
+          type: integer
+        itemCount:
+          type: integer
     Quotes:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: quotes
       properties:
         Quotes:
           type: array
@@ -27704,7 +27874,7 @@ components:
         - DELETED
     Receipts:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: receipts
       properties:
         Receipts:
           type: array
@@ -27798,7 +27968,7 @@ components:
       type: object
     RepeatingInvoices:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: repeating_invoices
       properties:
         RepeatingInvoices:
           type: array
@@ -28005,7 +28175,7 @@ components:
           type: string
     Reports:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: reports
       properties:
         Reports:
           type: array
@@ -28193,7 +28363,7 @@ components:
       type: object
     TaxRates:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: tax_rates
       properties:
         TaxRates:
           type: array
@@ -28299,6 +28469,33 @@ components:
       - IMREY23
       - BADDEBTRECOVERY
       - BADDEBTRECOVERYY23
+      - OUTPUTY24
+      - DSOUTPUTY24
+      - INPUTY24
+      - IGDSINPUT2Y24
+      - TXPETINPUTY24
+      - TXESSINPUTY24
+      - TXN33INPUTY24
+      - TXREINPUTY24
+      - TXCAY24
+      - BADDEBTRELIEFY24
+      - IGDSINPUT3Y24
+      - SROVRRSY24
+      - SROVRLVGY24
+      - SRLVGY24
+      - TXRCTSY24
+      - TXRCESSY24
+      - TXRCN33Y24
+      - TXRCREY24
+      - IMY24
+      - IMESSY24
+      - IMN33Y24
+      - IMREY24
+      - BADDEBTRECOVERYY24
+      - OSOUTPUT2
+      - BLINPUT3
+      - BLINPUT3Y23
+      - BLINPUT3Y24
     Setup:
       externalDocs:
         url: 'https://developer.xero.com/documentation/api-guides/conversions'
@@ -28540,6 +28737,8 @@ components:
           - IMN33
           - IMRE
           - BADDEBTRECOVERY
+          - USSALESTAX
+          - BLINPUT3
         CanApplyToAssets:
           description: Boolean to describe if tax rate can be used for asset accounts i.e.  true,false
           readOnly: true
@@ -28595,7 +28794,7 @@ components:
       type: object
     TrackingCategories:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: tracking_categories
       properties:
         TrackingCategories:
           type: array
@@ -28638,7 +28837,7 @@ components:
       type: object
     TrackingOptions:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: options
       properties:
         Options:
           type: array
@@ -28682,7 +28881,7 @@ components:
       type: object
     Users:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: users
       properties:
         Users:
           type: array

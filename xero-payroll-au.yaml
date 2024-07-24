@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: '2.40.0'
+  version: "6.0.1"
   title: 'Xero Payroll AU API'
   description: 'This is the Xero Payroll API for orgs in Australia region.'
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
@@ -558,6 +558,7 @@ paths:
                           ]
                         }'
       requestBody:
+        required: true
         content:
           application/json:
             schema:
@@ -2408,6 +2409,7 @@ paths:
                           ]
                         }'
       requestBody:
+        required: true
         content:
           application/json:
             schema:
@@ -2658,6 +2660,7 @@ paths:
                           ]
                         }'
       requestBody:
+        required: true
         content:
           application/json:
             schema:
@@ -3019,6 +3022,7 @@ paths:
                           ]
                         }'
       requestBody:
+        required: true
         content:
           application/json:
               schema:
@@ -3536,6 +3540,7 @@ paths:
                           ]
                         }'
       requestBody:
+        required: true
         content:
           application/json:
             schema:
@@ -3611,7 +3616,7 @@ components:
   schemas:
     Employees:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: employees
       properties:
         Employees:
           type: array
@@ -3783,7 +3788,7 @@ components:
             $ref: '#/components/schemas/ValidationError'
     LeaveApplications:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: leave_applications
       properties:
         LeaveApplications:
           type: array
@@ -3878,7 +3883,7 @@ components:
       - REJECTED
     PayItems:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: pay_items
       properties:
         PayItems:
           $ref: '#/components/schemas/PayItem'
@@ -3903,7 +3908,7 @@ components:
             $ref: '#/components/schemas/ReimbursementType'
     PayrollCalendars:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: payroll_calendars
       properties:
         PayrollCalendars:
           type: array
@@ -3951,7 +3956,7 @@ components:
             $ref: '#/components/schemas/ValidationError'
     Timesheets:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: timesheets
       properties:
         Timesheets:
           type: array
@@ -4043,7 +4048,7 @@ components:
           example: '/Date(1583967733054+0000)/'
     PayRuns:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: pay_runs
       properties:
         PayRuns:
           type: array
@@ -4246,7 +4251,7 @@ components:
           $ref: '#/components/schemas/Payslip'
     Payslips:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: payslips
       properties:
         Payslips:
           type: array
@@ -4509,7 +4514,7 @@ components:
           example: true
     SuperFunds:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: super_funds
       properties:
         SuperFunds:
           type: array
@@ -4576,7 +4581,7 @@ components:
             $ref: '#/components/schemas/ValidationError'
     SuperFundProducts:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: super_fund_products
       properties:
         SuperFundProducts:
           type: array
@@ -5108,7 +5113,8 @@ components:
           example: 10.00
     ReimbursementLines:
       type: object
-      x-isObjectArray: true
+       
+      x-objectArrayKey: reimbursement_lines
       description: The reimbursement type lines
       properties:
         ReimbursementLines:
@@ -5140,7 +5146,7 @@ components:
           example: 420
     LeaveLines:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: employee
       description: The leave type lines
       properties:
         Employee:
@@ -5327,7 +5333,6 @@ components:
       - MEALS
       - TRAVEL
       - OTHER
-      - JOBKEEPER
       - TOOLS
       - TASKS
       - QUALIFICATIONS
@@ -5370,7 +5375,6 @@ components:
       - FIXEDAMOUNTEACHPERIOD
       - ENTERRATEINPAYTEMPLATE
       - BASEDONORDINARYEARNINGS
-      - ""
     SuperannuationContributionType: 
       type: string
       enum:
@@ -5431,7 +5435,7 @@ components:
       - EMPLOYEE  
       - CONTRACTOR
     CountryOfResidence:
-      description: Country of residence as a valid ISO 3166-1 alpha-2 country code e.g. "AU", "NZ", "CA" or an empty string ("") to unset a previously set value. Only applicable, and mandatory if income type is WORKINGHOLIDAYMAKER.
+      description: Country of residence as a valid ISO 3166-1 alpha-2 country code e.g. "AU", "NZ", "CA". Only applicable, and mandatory if income type is WORKINGHOLIDAYMAKER.
       type: string
       example: "AU"
       enum:
@@ -5685,7 +5689,6 @@ components:
       - CW
       - SX
       - SS
-      - ""
     IncomeType: 
       type: string
       enum:

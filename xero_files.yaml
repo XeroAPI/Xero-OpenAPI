@@ -4,7 +4,7 @@ servers:
     url: https://api.xero.com/files.xro/1.0/
 info:
   title: Xero Files API
-  version: "2.40.0"
+  version: "6.0.1"
   description: "These endpoints are specific to Xero Files API"
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
   contact:
@@ -140,6 +140,7 @@ paths:
                       }
                     ]'
       requestBody:
+        required: true
         content:
           multipart/form-data:
             schema: 
@@ -241,6 +242,7 @@ paths:
                           }
                         ]'
       requestBody:
+        required: true
         content:
           application/json:
               schema:
@@ -326,6 +328,7 @@ paths:
                       }
                     ]'
       requestBody:
+        required: true
         content:
           multipart/form-data:
             schema: 
@@ -442,6 +445,7 @@ paths:
                           }
                         ]'
       requestBody:
+        required: true
         content:
           application/json:
               schema:
@@ -506,6 +510,38 @@ paths:
             type: string
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+        - in: query
+          name: pagesize
+          description: pass an optional page size value
+          schema:
+            type: integer
+            maximum: 100
+            example: 50
+        - in: query
+          name: page
+          description: number of records to skip for pagination
+          schema:
+            type: integer
+            minimum: 1
+            example: 2
+        - in: query
+          name: sort
+          description: values to sort by
+          schema:
+            type: string
+            enum:
+              - Name
+              - CreatedDateUTC
+            example: "Associations/{ObjectId}?sort=CreatedDateUtc"
+        - in: query
+          name: direction
+          description: direction to sort by
+          schema:
+            type: string
+            enum:
+              - ASC
+              - DESC
+            example: "Associations/{ObjectId}?sort=CreatedDateUtc&direction=DESC"
       responses:
         '200':
           description: search results matching criteria
@@ -517,6 +553,9 @@ paths:
                   $ref: '#/components/schemas/Association'
               example: '[
                           {
+                              "SendWithObject":false,
+                              "Name":"testfile.pdf",
+                              "Size":12357,
                               "FileId":"6beccb4a-0d7d-4518-93f3-e0cd1dccb254",
                               "ObjectId":"1270bf7c-5d18-473a-9231-1e36c4bd33ed",
                               "ObjectType":"Business",
@@ -555,8 +594,7 @@ paths:
                 example: '{
                           "19d4fc59-e799-410f-912b-03d4ab294d73": 2,
                           "82195976-5175-45d4-926e-807ff10892e7": 1,
-                          "a8547af2-2900-4879-98b8-f1a780c78feb": 0
-                }'                        
+                          "a8547af2-2900-4879-98b8-f1a780c78feb": 0}'
   /Folders:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -639,6 +677,7 @@ paths:
                           }
                         ]'
       requestBody:
+        required: true
         content:
           application/json:
             schema:
@@ -947,6 +986,18 @@ components:
     Association:
       type: object
       properties:
+        SendWithObject:
+          description: Boolean flag to determines whether the file is sent with the document it is attached to on client facing communications. Note- The SendWithObject element is only returned when using /Associations/{ObjectId} endpoint. 
+          type: boolean
+          example: true
+        Name:
+          description: The name of the associated file. Note- The Name element is only returned when using /Associations/{ObjectId} endpoint. 
+          type: string
+          example: Test.pdf
+        Size:
+          description: The size of the associated file in bytes. Note- The Size element is only returned when using /Associations/{ObjectId} endpoint. 
+          type: integer
+          example: 12357
         FileId:
           description: The unique identifier of the file  
           type: string

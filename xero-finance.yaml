@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: "2.40.0"
+  version: "6.0.1"
   title: Xero Finance API
   description: The Finance API is a collection of endpoints which customers can use in the course of a loan application, which may assist lenders to gain the confidence they need to provide capital.
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
@@ -1496,117 +1496,80 @@ components:
       properties:
         directBankFeed:
           type: number
-          description: Sum of the amounts of all statement lines where the source
-            of the data was a direct bank feed in to Xero.   This gives an indication
-            on the certainty of correctness of the data.
+          description: Sum of the amounts of all statement lines where the source of the data was a direct bank feed in to Xero via an API integration.   This could be from a bank or aggregator.   This gives an indication on the certainty of correctness of the data.
           format: double
           x-is-money: true
         indirectBankFeed:
           type: number
-          description: Sum of the amounts of all statement lines where the source
-            of the data was a indirect bank feed to Xero (usually via Yodlee).   This
-            gives an indication on the certainty of correctness of the data.
+          deprecated: true
+          description: No longer in use.
           format: double
           x-is-money: true
         fileUpload:
           type: number
-          description: Sum of the amounts of all statement lines where the source
-            of the data was a CSV file upload in to Xero.   This gives an indication
-            on the certainty of correctness of the data.
+          description: Sum of the amounts of all statement lines where the source of the data was a file manually uploaded in to Xero.   This gives an indication on the certainty of correctness of the data.
           format: double
           x-is-money: true
         manual:
           type: number
-          description: Sum of the amounts of all statement lines where the source
-            of the data was manually keyed in to Xero.   This gives an indication
-            on the certainty of correctness of the data.
+          description: Sum of the amounts of all statement lines where the source of the data was manually input in to Xero.   This gives an indication on the certainty of correctness of the data.
           format: double
           x-is-money: true
         directBankFeedPos:
           type: number
-          description: Sum of the amounts of all statement lines where the source
-            of the data was a direct bank feed in to Xero.  This gives an indication
-            on the certainty of correctness of the data.  Only positive transactions
-            are included.
+          description: Sum of the amounts of all statement lines where the source of the data was a direct bank feed in to Xero via an API integration.   This could be from a bank or aggregator.  This gives an indication on the certainty of correctness of the data.  Only positive transactions are included.
           format: double
           x-is-money: true
         indirectBankFeedPos:
           type: number
-          description: Sum of the amounts of all statement lines where the source
-            of the data was a indirect bank feed to Xero (usually via Yodlee).   This
-            gives an indication on the certainty of correctness of the data. Only
-            positive transactions are included.
+          deprecated: true
+          description: No longer in use.
           format: double
           x-is-money: true
         fileUploadPos:
           type: number
-          description: Sum of the amounts of all statement lines where the source
-            of the data was a CSV file upload in to Xero.   This gives an indication
-            on the certainty of correctness of the data. Only positive transactions
-            are included.
+          description: Sum of the amounts of all statement lines where the source of the data was a file manually uploaded in to Xero.   This gives an indication on the certainty of correctness of the data. Only positive transactions are included.
           format: double
           x-is-money: true
         manualPos:
           type: number
-          description: Sum of the amounts of all statement lines where the source
-            of the data was manually keyed in to Xero.   This gives an indication
-            on the certainty of correctness of the data. Only positive transactions
-            are included.
+          description: Sum of the amounts of all statement lines where the source of the data was manually input in to Xero.   This gives an indication on the certainty of correctness of the data. Only positive transactions are included.
           format: double
           x-is-money: true
         directBankFeedNeg:
           type: number
-          description: Sum of the amounts of all statement lines where the source
-            of the data was a direct bank feed in to Xero.   This gives an indication
-            on the certainty of correctness of the data.  Only negative transactions
-            are included.
+          description: Sum of the amounts of all statement lines where the source of the data was a direct bank feed in to Xero via an API integration.   This could be from a bank or aggregator.   This gives an indication on the certainty of correctness of the data.  Only negative transactions are included.
           format: double
           x-is-money: true
         indirectBankFeedNeg:
           type: number
-          description: Sum of the amounts of all statement lines where the source
-            of the data was a indirect bank feed to Xero (usually via Yodlee).   This
-            gives an indication on the certainty of correctness of the data.  Only
-            negative transactions are included.
+          deprecated: true
+          description: No longer in use.
           format: double
           x-is-money: true
         fileUploadNeg:
           type: number
-          description: Sum of the amounts of all statement lines where the source
-            of the data was a CSV file upload in to Xero.   This gives an indication
-            on the certainty of correctness of the data.  Only negative transactions
-            are included.
+          description: Sum of the amounts of all statement lines where the source of the data was a file manually uploaded in to Xero.   This gives an indication on the certainty of correctness of the data.  Only negative transactions are included.
           format: double
           x-is-money: true
         manualNeg:
           type: number
-          description: Sum of the amounts of all statement lines where the source
-            of the data was manually keyed in to Xero.   This gives an indication
-            on the certainty of correctness of the data.  Only negative transactions
-            are included.
+          description: Sum of the amounts of all statement lines where the source of the data was manually input in to Xero.   This gives an indication on the certainty of correctness of the data.  Only negative transactions are included.
           format: double
           x-is-money: true
         otherPos:
           type: number
-          description: Sum of the amounts of all statement lines where the source
-            of the data was any other category.   This gives an indication on the
-            certainty of correctness of the data.  Only positive transactions are
-            included.
+          description: Sum of the amounts of all statement lines where the source of the data was unknown.   This gives an indication on the certainty of correctness of the data.  Only positive transactions are included.
           format: double
           x-is-money: true
         otherNeg:
           type: number
-          description: Sum of the amounts of all statement lines where the source
-            of the data was any other category.   This gives an indication on the
-            certainty of correctness of the data.  Only negative transactions are
-            included.
+          description: Sum of the amounts of all statement lines where the source of the data was unknown.   This gives an indication on the certainty of correctness of the data.  Only negative transactions are included.
           format: double
           x-is-money: true
         other:
           type: number
-          description: Sum of the amounts of all statement lines where the source
-            of the data was any other category.   This gives an indication on the
-            certainty of correctness of the data.
+          description: Sum of the amounts of all statement lines where the source of the data was unknown.   This gives an indication on the certainty of correctness of the data.
           format: double
           x-is-money: true
       additionalProperties: false
