@@ -1041,7 +1041,10 @@ paths:
                                   "periodStartDate": "2019-07-01T00:00:00",
                                   "periodEndDate": "2019-07-07T00:00:00",
                                   "numberOfUnits": 36,
-                                  "periodStatus": "Completed"
+                                  "periodStatus": "Completed",
+                                  "typeOfUnits": "Hours",
+                                  "numberOfUnitsTaken": 1,
+                                  "typeOfUnitsTaken": "Weeks"
                                 }
                               ],
                               "updatedDateUTC": "2019-09-24T05:08:44"
@@ -1107,7 +1110,6 @@ paths:
           ruby: start_date
           object: employeeLeave
         - endDate:
-          is_last: true 
           is_variable: true
           nonString: true
           key: endDate
@@ -1116,6 +1118,27 @@ paths:
           default: endDate
           python: end_date
           ruby: end_date
+          object: employeeLeave
+        - numberOfUnits:
+          is_variable: true
+          nonString: true
+          key: numberOfUnits
+          keyPascal: NumberOfUnits
+          keySnake: number_of_units
+          default: numberOfUnits
+          python: number_of_units
+          ruby: number_of_units
+          object: employeeLeave
+        - numberOfUnitsTaken:
+          is_last: true 
+          is_variable: true
+          nonString: true
+          key: numberOfUnitsTaken
+          keyPascal: NumberOfUnitsTaken
+          keySnake: number_of_units_taken
+          default: numberOfUnitsTaken
+          python: number_of_units_taken
+          ruby: number_of_units_taken
           object: employeeLeave
       summary: Creates leave records for a specific employee
       parameters:
@@ -1154,7 +1177,10 @@ paths:
                                 "periodStartDate": "2020-04-20T00:00:00",
                                 "periodEndDate": "2020-04-26T00:00:00",
                                 "numberOfUnits": 0,
-                                "periodStatus": "Approved"
+                                "periodStatus": "Approved",
+                                "typeOfUnits": "Hours",
+                                "numberOfUnitsTaken": 0.2,
+                                "typeOfUnitsTaken": "Weeks"
                               }
                             ],
                             "updatedDateUTC": "2020-08-26T20:29:55.2151561"
@@ -1491,14 +1517,20 @@ paths:
                             {
                               "periodStartDate": "2020-02-24T00:00:00",
                               "periodEndDate": "2020-03-01T00:00:00",
-                              "numberOfUnits": 0,
-                              "periodStatus": null
+                              "numberOfUnits": 24,
+                              "periodStatus": "Estimated",
+                              "typeOfUnits": "Hours",
+                              "numberOfUnitsTaken": 0.6,
+                              "typeOfUnitsTaken": "Weeks"
                             },
                             {
                               "periodStartDate": "2020-03-02T00:00:00",
                               "periodEndDate": "2020-03-08T00:00:00",
-                              "numberOfUnits": 0,
-                              "periodStatus": null
+                              "numberOfUnits": 40,
+                              "periodStatus": "Estimated",
+                              "typeOfUnits": "Hours",
+                              "numberOfUnitsTaken": 1,
+                              "typeOfUnitsTaken": "Weeks"
                             }
                           ]
                         }'
@@ -1571,6 +1603,24 @@ paths:
           nonString: true
           default: 10.50
           object: employeeLeaveSetup
+        - sickLeaveUnitsToAccrueAnnually:
+          is_variable: true
+          key: sickLeaveUnitsToAccrueAnnually
+          keyPascal: SickLeaveUnitsToAccrueAnnually
+          keySnake: sick_leave_units_to_accrue_annually
+          is_money: true
+          nonString: true
+          default: 100.0
+          object: employeeLeaveSetup
+        - sickLeaveMaximumUnitsToAccrue:
+          is_variable: true
+          key: sickLeaveMaximumUnitsToAccrue
+          keyPascal: SickLeaveMaximumUnitsToAccrue
+          keySnake: sick_leave_maximum_units_to_accrue
+          is_money: true
+          nonString: true
+          default: 200.0
+          object: employeeLeaveSetup
         - sickLeaveScheduleOfAccrual:
           is_variable: true
           key: sickLeaveScheduleOfAccrual
@@ -1583,6 +1633,13 @@ paths:
           key: sickLeaveAnniversaryDate
           keyPascal: SickLeaveAnniversaryDate
           keySnake: sick_leave_anniversary_date
+          object: employeeLeaveSetup
+        - annualLeaveAnniversaryDate:
+          is_variable: true
+          nonString: true
+          key: annualLeaveAnniversaryDate
+          keyPascal: AnnualLeaveAnniversaryDate
+          keySnake: annual_leave_anniversary_date
           object: employeeLeaveSetup
           is_last: true 
       summary: Creates a leave set-up for a specific employee. This is required before viewing, configuring and requesting leave for an employee
@@ -1617,10 +1674,13 @@ paths:
                             "annualLeaveOpeningBalance": 100,
                             "negativeAnnualLeaveBalancePaidAmount": null,
                             "sickLeaveHoursToAccrueAnnually": 20,
+                            "sickLeaveToAccrueAnnually": 20,
                             "sickLeaveMaximumHoursToAccrue": null,
+                            "sickLeaveMaximumToAccrue": null,
                             "sickLeaveOpeningBalance": 10,
                             "sickLeaveScheduleOfAccrual": "OnAnniversaryDate",
-                            "sickLeaveAnniversaryDate": "2023-12-31"
+                            "sickLeaveAnniversaryDate": "2023-12-31",
+                            "annualLeaveAnniversaryDate": "2023-12-31"
                           }
                         }'
         '400':
@@ -1639,9 +1699,11 @@ paths:
                         "holidayPayOpeningBalance": 10,
                         "annualLeaveOpeningBalance": 100,
                         "sickLeaveHoursToAccrueAnnually": 20,
+                        "sickLeaveToAccrueAnnually": 20,
                         "sickLeaveOpeningBalance": 10,
                         "sickLeaveScheduleOfAccrual": "OnAnniversaryDate",
-                        "sickLeaveAnniversaryDate": "2023-12-31"
+                        "sickLeaveAnniversaryDate": "2023-12-31",
+                        "annualLeaveAnniversaryDate": "2023-12-31"
                       }'
   /Employees/{EmployeeID}/LeaveTypes:
     parameters:
@@ -1690,7 +1752,10 @@ paths:
                               "includeHolidayPayEveryPay": true,
                               "showAnnualLeaveInAdvance": null,
                               "annualLeaveTotalAmountPaid": null,            
-                              "scheduleOfAccrualDate": null
+                              "scheduleOfAccrualDate": null,
+                              "unitsAccruedAnnually": 0,
+                              "typeOfUnitsToAccrue": "Weeks",
+                              "openingBalanceTypeOfUnits": "Weeks"
                             }
                           ]
                         }'
@@ -1786,7 +1851,10 @@ paths:
                             "includeHolidayPayEveryPay": null,
                             "showAnnualLeaveInAdvance": null,
                             "annualLeaveTotalAmountPaid": null,
-                            "scheduleOfAccrualDate": null
+                            "scheduleOfAccrualDate": null,
+                            "unitsAccruedAnnually": 0,
+                            "typeOfUnitsToAccrue": "Hours",
+                            "openingBalanceTypeOfUnits": "Hours"
                           }
                         }'
         '400':
@@ -1805,6 +1873,9 @@ paths:
                         "leaveTypeID": "35da97ae-05b9-427f-9a98-69157ba42cec",
                         "scheduleOfAccrual": "AnnuallyAfter6Months",
                         "hoursAccruedAnnually": 10,
+                        "unitsAccruedAnnually": 10,
+                        "typeOfUnitsToAccrue": "Hours",
+                        "openingBalanceTypeOfUnits": "Hours"
                         "maximumToAccrue": 80,
                         "openingBalance": 100,
                         "rateAccruedHourly": 3.5
@@ -3238,7 +3309,9 @@ paths:
                               "isPaidLeave": true,
                               "showOnPayslip": true,
                               "updatedDateUTC": "2019-09-22T23:09:32",
-                              "isActive": true
+                              "isActive": true,
+                              "typeOfUnits": "Hours",
+                              "typeOfUnitsToAccrue": "Days"
                             },
                             {
                               "leaveTypeID": "71b548db-6e40-4b64-be8b-f6a71455d8ab",
@@ -3246,7 +3319,9 @@ paths:
                               "isPaidLeave": true,
                               "showOnPayslip": true,
                               "updatedDateUTC": "2019-09-22T23:09:32",
-                              "isActive": true
+                              "isActive": true,
+                              "typeOfUnits": "Hours",
+                              "typeOfUnitsToAccrue": "Days"
                             }
                           ]
                         }'
@@ -3307,7 +3382,9 @@ paths:
                             "isPaidLeave": false,
                             "showOnPayslip": true,
                             "updatedDateUTC": "2020-08-27T20:49:59.8315619",
-                            "isActive": true
+                            "isActive": true,
+                            "typeOfUnits": "Hours",
+                            "typeOfUnitsToAccrue": "Hours"
                           }
                         }'
         '400':
@@ -3367,7 +3444,9 @@ paths:
                             "isPaidLeave": true,
                             "showOnPayslip": true,
                             "updatedDateUTC": "2019-09-22T23:09:32",
-                            "isActive": true
+                            "isActive": true,
+                            "typeOfUnits": "Hours",
+                            "typeOfUnitsToAccrue": "Days"
                           }
                         }'
   /Reimbursements:
