@@ -182,7 +182,7 @@ paths:
                         ]
                       }'
         '400':
-          description: bad input parameter
+          $ref: '#/components/responses/400Error'
     post:
       security:
         - OAuth2: [assets]
@@ -270,6 +270,8 @@ paths:
           description: 'invalid input, object invalid'
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/Asset'
               example: '{ 
                           "resourceValidationErrors":[ ],
                           "fieldValidationErrors":[ 
@@ -386,7 +388,7 @@ paths:
                           "isDeleteEnabledForDate":true
                         }'
         '400':
-          description: bad input parameter
+          $ref: '#/components/responses/400Error'
   /AssetTypes:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -451,7 +453,7 @@ paths:
                           }
                         ]'
         '400':
-          description: bad input parameter
+          $ref: '#/components/responses/400Error'
     post:
       security:
         - OAuth2: [assets]
@@ -567,6 +569,8 @@ paths:
           description: 'invalid input, object invalid'
           content:
             application/json:
+              schema:
+                $ref: '#/components/schemas/AssetType'
               example: '{ 
                           "resourceValidationErrors":[ 
                           ],
@@ -639,7 +643,7 @@ paths:
                           "optInForTax":false
                         }'
         '400':
-          description: bad input parameter
+          $ref: '#/components/responses/400Error'
 components:
   securitySchemes:
     OAuth2:
