@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: "5.0.0"
+  version: "6.1.1"
   title: 'Xero Payroll NZ'
   description: 'This is the Xero Payroll API for orgs in the NZ region.'
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
@@ -78,7 +78,9 @@ paths:
                               "payrollCalendarID": "9aa56064-990f-4ad3-a189-d966d8f6a030",
                               "updatedDateUTC": "2019-09-24T05:08:45",
                               "createdDateUTC": "2019-09-22T23:58:23",
-                              "endDate": null
+                              "endDate": null,
+                              "engagementType": "Casual",
+                              "fixedTermEndDate": null
                             },
                             {
                               "employeeID": "1c4f0c92-03ad-43f2-a690-ee51397ece6a",
@@ -100,7 +102,9 @@ paths:
                               "payrollCalendarID": "9aa56064-990f-4ad3-a189-d966d8f6a030",
                               "updatedDateUTC": "2019-09-23T00:16:25",
                               "createdDateUTC": "2019-09-23T00:12:16",
-                              "endDate": null
+                              "endDate": null,
+                              "engagementType": null,
+                              "fixedTermEndDate": null 
                             }
                           ]
                         }'
@@ -236,7 +240,9 @@ paths:
                           "payrollCalendarID": null,
                           "updatedDateUTC": "2020-08-24T20:27:22",
                           "createdDateUTC": "2020-08-24T20:27:22",
-                          "endDate": null
+                          "endDate": null,
+                          "engagementType": null,
+                          "fixedTermEndDate": null                     
                         }
                       }'
         '400':
@@ -320,7 +326,9 @@ paths:
                             "payrollCalendarID": "9aa56064-990f-4ad3-a189-d966d8f6a030",
                             "updatedDateUTC": "2019-09-24T05:08:45",
                             "createdDateUTC": "2019-09-22T23:58:23",
-                            "endDate": null
+                            "endDate": null,
+                            "engagementType": "FixedTerm",
+                            "fixedTermEndDate": "2026-01-01T00:00:00"
                           }
                         }'
     put:
@@ -458,7 +466,9 @@ paths:
                             "payrollCalendarID": "9aa56064-990f-4ad3-a189-d966d8f6a030",
                             "updatedDateUTC": "2020-08-24T20:29:43",
                             "createdDateUTC": "2019-09-22T23:58:23",
-                            "endDate": null
+                            "endDate": null,
+                            "engagementType": null
+                            "fixedTermEndDate": null
                           }
                         }'
         '400':
@@ -534,6 +544,19 @@ paths:
           python: start_date
           ruby: start_date
           object: employment
+        - engagementType:
+          is_variable: true
+          key: engagementType
+          keyPascal: EngagementType
+          keySnake: engagement_type
+          object: employment
+        - fixedTermEndDate:
+          is_variable: true
+          nonString: true
+          key: fixedTermEndDate
+          keyPascal: FixedTermEndDate
+          keySnake: fixed_term_end_date
+          object: employment
           is_last: true 
       summary: Creates an employment detail for a specific employee
       parameters:
@@ -563,7 +586,9 @@ paths:
                           "problem": null,
                           "employment": {
                             "payrollCalendarID": "9aa56064-990f-4ad3-a189-d966d8f6a030",
-                            "startDate": "2020-09-02T00:00:00"
+                            "startDate": "2020-09-02T00:00:00",
+                            "engagementType": "FixedTerm",
+                            "fixedTermEndDate": "2026-01-01T00:00:00"
                           }
                         }'
         '400':
@@ -580,7 +605,9 @@ paths:
               $ref: '#/components/schemas/Employment'
             example: '{
                         "payrollCalendarID": "9aa56064-990f-4ad3-a189-d966d8f6a030",
-                        "startDate": "2020-09-02"
+                        "startDate": "2020-09-02",
+                        "engagementType": "FixedTerm",
+                        "fixedTermEndDate": "2026-01-01"
                       }'
   /Employees/{EmployeeID}/Tax:
     parameters:
@@ -792,7 +819,7 @@ paths:
             schema:
               $ref: '#/components/schemas/EmployeeTax'
             example: ''
-  /Employees/{EmployeeID}/openingBalances:
+  /Employees/{EmployeeID}/OpeningBalances:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get: 
@@ -1014,7 +1041,10 @@ paths:
                                   "periodStartDate": "2019-07-01T00:00:00",
                                   "periodEndDate": "2019-07-07T00:00:00",
                                   "numberOfUnits": 36,
-                                  "periodStatus": "Completed"
+                                  "periodStatus": "Completed",
+                                  "typeOfUnits": "Hours",
+                                  "numberOfUnitsTaken": 1,
+                                  "typeOfUnitsTaken": "Weeks"
                                 }
                               ],
                               "updatedDateUTC": "2019-09-24T05:08:44"
@@ -1080,7 +1110,6 @@ paths:
           ruby: start_date
           object: employeeLeave
         - endDate:
-          is_last: true 
           is_variable: true
           nonString: true
           key: endDate
@@ -1089,6 +1118,27 @@ paths:
           default: endDate
           python: end_date
           ruby: end_date
+          object: employeeLeave
+        - numberOfUnits:
+          is_variable: true
+          nonString: true
+          key: numberOfUnits
+          keyPascal: NumberOfUnits
+          keySnake: number_of_units
+          default: numberOfUnits
+          python: number_of_units
+          ruby: number_of_units
+          object: employeeLeave
+        - numberOfUnitsTaken:
+          is_last: true 
+          is_variable: true
+          nonString: true
+          key: numberOfUnitsTaken
+          keyPascal: NumberOfUnitsTaken
+          keySnake: number_of_units_taken
+          default: numberOfUnitsTaken
+          python: number_of_units_taken
+          ruby: number_of_units_taken
           object: employeeLeave
       summary: Creates leave records for a specific employee
       parameters:
@@ -1127,7 +1177,10 @@ paths:
                                 "periodStartDate": "2020-04-20T00:00:00",
                                 "periodEndDate": "2020-04-26T00:00:00",
                                 "numberOfUnits": 0,
-                                "periodStatus": "Approved"
+                                "periodStatus": "Approved",
+                                "typeOfUnits": "Hours",
+                                "numberOfUnitsTaken": 0.2,
+                                "typeOfUnitsTaken": "Weeks"
                               }
                             ],
                             "updatedDateUTC": "2020-08-26T20:29:55.2151561"
@@ -1464,14 +1517,20 @@ paths:
                             {
                               "periodStartDate": "2020-02-24T00:00:00",
                               "periodEndDate": "2020-03-01T00:00:00",
-                              "numberOfUnits": 0,
-                              "periodStatus": null
+                              "numberOfUnits": 24,
+                              "periodStatus": "Estimated",
+                              "typeOfUnits": "Hours",
+                              "numberOfUnitsTaken": 0.6,
+                              "typeOfUnitsTaken": "Weeks"
                             },
                             {
                               "periodStartDate": "2020-03-02T00:00:00",
                               "periodEndDate": "2020-03-08T00:00:00",
-                              "numberOfUnits": 0,
-                              "periodStatus": null
+                              "numberOfUnits": 40,
+                              "periodStatus": "Estimated",
+                              "typeOfUnits": "Hours",
+                              "numberOfUnitsTaken": 1,
+                              "typeOfUnitsTaken": "Weeks"
                             }
                           ]
                         }'
@@ -1481,7 +1540,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Problem'
-  /Employees/{EmployeeID}/leaveSetup:
+  /Employees/{EmployeeID}/LeaveSetup:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     post:
@@ -1544,7 +1603,45 @@ paths:
           nonString: true
           default: 10.50
           object: employeeLeaveSetup
-          is_last: true
+        - sickLeaveToAccrueAnnually:
+          is_variable: true
+          key: sickLeaveToAccrueAnnually
+          keyPascal: SickLeaveToAccrueAnnually
+          keySnake: sick_leave_to_accrue_annually
+          is_money: true
+          nonString: true
+          default: 100.0
+          object: employeeLeaveSetup
+        - sickLeaveMaximumToAccrue:
+          is_variable: true
+          key: sickLeaveMaximumToAccrue
+          keyPascal: SickLeaveMaximumToAccrue
+          keySnake: sick_leave_maximum_to_accrue
+          is_money: true
+          nonString: true
+          default: 200.0
+          object: employeeLeaveSetup
+        - sickLeaveScheduleOfAccrual:
+          is_variable: true
+          key: sickLeaveScheduleOfAccrual
+          keyPascal: SickLeaveScheduleOfAccrual
+          keySnake: sick_leave_schedule_of_accrual
+          object: employeeLeaveSetup
+        - sickLeaveAnniversaryDate:
+          is_variable: true
+          nonString: true
+          key: sickLeaveAnniversaryDate
+          keyPascal: SickLeaveAnniversaryDate
+          keySnake: sick_leave_anniversary_date
+          object: employeeLeaveSetup
+        - annualLeaveAnniversaryDate:
+          is_variable: true
+          nonString: true
+          key: annualLeaveAnniversaryDate
+          keyPascal: AnnualLeaveAnniversaryDate
+          keySnake: annual_leave_anniversary_date
+          object: employeeLeaveSetup
+          is_last: true 
       summary: Creates a leave set-up for a specific employee. This is required before viewing, configuring and requesting leave for an employee
       parameters:
         - $ref: '#/components/parameters/idempotencyKey'
@@ -1577,8 +1674,13 @@ paths:
                             "annualLeaveOpeningBalance": 100,
                             "negativeAnnualLeaveBalancePaidAmount": null,
                             "sickLeaveHoursToAccrueAnnually": 20,
+                            "sickLeaveToAccrueAnnually": 20,
                             "sickLeaveMaximumHoursToAccrue": null,
-                            "sickLeaveOpeningBalance": 10
+                            "sickLeaveMaximumToAccrue": null,
+                            "sickLeaveOpeningBalance": 10,
+                            "sickLeaveScheduleOfAccrual": "OnAnniversaryDate",
+                            "sickLeaveAnniversaryDate": "2023-12-31",
+                            "annualLeaveAnniversaryDate": "2023-12-31"
                           }
                         }'
         '400':
@@ -1597,7 +1699,11 @@ paths:
                         "holidayPayOpeningBalance": 10,
                         "annualLeaveOpeningBalance": 100,
                         "sickLeaveHoursToAccrueAnnually": 20,
-                        "sickLeaveOpeningBalance": 10
+                        "sickLeaveToAccrueAnnually": 20,
+                        "sickLeaveOpeningBalance": 10,
+                        "sickLeaveScheduleOfAccrual": "OnAnniversaryDate",
+                        "sickLeaveAnniversaryDate": "2023-12-31",
+                        "annualLeaveAnniversaryDate": "2023-12-31"
                       }'
   /Employees/{EmployeeID}/LeaveTypes:
     parameters:
@@ -1645,7 +1751,11 @@ paths:
                               "percentageOfGrossEarnings": 8,
                               "includeHolidayPayEveryPay": true,
                               "showAnnualLeaveInAdvance": null,
-                              "annualLeaveTotalAmountPaid": null
+                              "annualLeaveTotalAmountPaid": null,            
+                              "scheduleOfAccrualDate": null,
+                              "unitsAccruedAnnually": 0,
+                              "typeOfUnitsToAccrue": "Weeks",
+                              "openingBalanceTypeOfUnits": "Weeks"
                             }
                           ]
                         }'
@@ -1697,7 +1807,14 @@ paths:
           nonString: true 
           default: 5.25
           object: employeeLeaveType
-          is_last: true
+        - scheduleOfAccrualDate:
+          is_variable: true
+          nonString: true
+          key: scheduleOfAccrualDate
+          keyPascal: ScheduleOfAccrualDate
+          keySnake: schedule_of_accrual_date
+          object: employeeLeaveType
+          is_last: true 
       parameters:
         - $ref: '#/components/parameters/idempotencyKey'
         - name: EmployeeID
@@ -1733,7 +1850,11 @@ paths:
                             "percentageOfGrossEarnings": 0,
                             "includeHolidayPayEveryPay": null,
                             "showAnnualLeaveInAdvance": null,
-                            "annualLeaveTotalAmountPaid": null
+                            "annualLeaveTotalAmountPaid": null,
+                            "scheduleOfAccrualDate": null,
+                            "unitsAccruedAnnually": 0,
+                            "typeOfUnitsToAccrue": "Hours",
+                            "openingBalanceTypeOfUnits": "Hours"
                           }
                         }'
         '400':
@@ -1752,6 +1873,9 @@ paths:
                         "leaveTypeID": "35da97ae-05b9-427f-9a98-69157ba42cec",
                         "scheduleOfAccrual": "AnnuallyAfter6Months",
                         "hoursAccruedAnnually": 10,
+                        "unitsAccruedAnnually": 10,
+                        "typeOfUnitsToAccrue": "Hours",
+                        "openingBalanceTypeOfUnits": "Hours"
                         "maximumToAccrue": 80,
                         "openingBalance": 100,
                         "rateAccruedHourly": 3.5
@@ -1970,7 +2094,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Problem'
-  /Employees/{EmployeeID}/PayTemplates/earnings:
+  /Employees/{EmployeeID}/PayTemplates/Earnings:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     post:
@@ -2101,7 +2225,7 @@ paths:
                         "earningsRateID": "f9d8f5b5-9049-47f4-8541-35e200f750a5",
                         "name": "My New One"
                       }'
-  /Employees/{EmployeeID}/PayTemplates/earnings/{PayTemplateEarningID}:
+  /Employees/{EmployeeID}/PayTemplates/Earnings/{PayTemplateEarningID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     put:
@@ -2281,7 +2405,7 @@ paths:
                           "pagination": null,
                           "problem": null
                         }'
-  /Employees/{EmployeeID}/paytemplateearnings:
+  /Employees/{EmployeeID}/PayTemplateEarnings:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     post:
@@ -3185,7 +3309,9 @@ paths:
                               "isPaidLeave": true,
                               "showOnPayslip": true,
                               "updatedDateUTC": "2019-09-22T23:09:32",
-                              "isActive": true
+                              "isActive": true,
+                              "typeOfUnits": "Hours",
+                              "typeOfUnitsToAccrue": "Days"
                             },
                             {
                               "leaveTypeID": "71b548db-6e40-4b64-be8b-f6a71455d8ab",
@@ -3193,7 +3319,9 @@ paths:
                               "isPaidLeave": true,
                               "showOnPayslip": true,
                               "updatedDateUTC": "2019-09-22T23:09:32",
-                              "isActive": true
+                              "isActive": true,
+                              "typeOfUnits": "Hours",
+                              "typeOfUnitsToAccrue": "Days"
                             }
                           ]
                         }'
@@ -3254,7 +3382,9 @@ paths:
                             "isPaidLeave": false,
                             "showOnPayslip": true,
                             "updatedDateUTC": "2020-08-27T20:49:59.8315619",
-                            "isActive": true
+                            "isActive": true,
+                            "typeOfUnits": "Hours",
+                            "typeOfUnitsToAccrue": "Hours"
                           }
                         }'
         '400':
@@ -3314,7 +3444,9 @@ paths:
                             "isPaidLeave": true,
                             "showOnPayslip": true,
                             "updatedDateUTC": "2019-09-22T23:09:32",
-                            "isActive": true
+                            "isActive": true,
+                            "typeOfUnits": "Hours",
+                            "typeOfUnitsToAccrue": "Days"
                           }
                         }'
   /Reimbursements:
@@ -4581,7 +4713,8 @@ paths:
                               "effectiveFrom": "2019-02-07T00:00:00",
                               "annualSalary": 25,
                               "status": "Active",
-                              "paymentType": "Hourly"
+                              "paymentType": "Hourly",
+                              "workPatternType": "DaysAndHours"
                             },
                             {
                               "salaryAndWagesID": "0211c70c-93d5-4da1-a570-b66d8df2ca15",
@@ -4593,7 +4726,8 @@ paths:
                               "effectiveFrom": "2020-05-01T00:00:00",
                               "annualSalary": 100,
                               "status": "Active",
-                              "paymentType": "Salary"
+                              "paymentType": "Salary",
+                              "workPatternType": "DaysAndHours"
                             }
                           ]
                         }'
@@ -4687,7 +4821,8 @@ paths:
                             "effectiveFrom": "2020-05-01T00:00:00",
                             "annualSalary": 100,
                             "status": "Active",
-                            "paymentType": "Salary"
+                            "paymentType": "Salary",
+                            "workPatternType": "DaysAndHours"
                           }
                         }'
         '400':
@@ -4768,7 +4903,8 @@ paths:
                               "effectiveFrom": "2019-02-07T00:00:00",
                               "annualSalary": 25,
                               "status": "Active",
-                              "paymentType": "Hourly"
+                              "paymentType": "Hourly",
+                              "workPatternType": "DaysAndHours"
                             }
                           ]
                         }'
@@ -4865,7 +5001,8 @@ paths:
                             "effectiveFrom": "2020-05-15T00:00:00",
                             "annualSalary": 101,
                             "status": "Active",
-                            "paymentType": "Salary"
+                            "paymentType": "Salary",
+                            "workPatternType": "RegularWeek"
                           }
                         }'
         '400':
@@ -6222,6 +6359,310 @@ paths:
                             "timesheetTrackingCategoryID": "f8c0b291-be04-497a-a083-dd9cd19658b5"
                           }
                         }'
+  /Employees/{EmployeeID}/Working-Patterns:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    get: 
+      security:
+        - OAuth2: [payroll.employees, payroll.employees.read]
+      tags:
+        - PayrollNz
+      operationId: getEmployeeWorkingPatterns
+      x-hasPayrollUkProblem: true
+      summary: Retrieves employee's working patterns
+      parameters:
+        - name: EmployeeID
+          x-snake: employee_id
+          in: path
+          required: true
+          description: Employee id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeWorkingPatternsObject'
+              example: '{
+                          "id": "00000000-0000-0000-0000-000000000000",
+                          "providerName": "provider-name",
+                          "dateTimeUTC": "2020-08-24T20:16:15.3542191",
+                          "httpStatusCode": "OK",
+                          "pagination": {
+                              "page": 1,
+                              "pageSize": 100,
+                              "pageCount": 1,
+                              "itemCount": 2
+                          },
+                          "problem": null,
+                          "payeeWorkingPatterns": [
+                              {
+                                  "payeeWorkingPatternID": "d0a325df-c9d5-4246-9e95-5172328a729b",
+                                  "effectiveFrom": "2020-01-01T00:00:00"
+                              },
+                              {
+                                  "payeeWorkingPatternID": "af50c5d4-a0f5-4306-ad61-8505b8ec6286",
+                                  "effectiveFrom": "2024-07-09T00:00:00"
+                              }
+                          ]
+                        }'
+    post: 
+      security:
+        - OAuth2: [payroll.employees]
+      tags:
+        - PayrollNz
+      operationId: createEmployeeWorkingPattern
+      x-hasPayrollUkProblem: true
+      x-example:
+        - effectiveFrom:
+          key: effectiveFrom
+          keyPascal: EffectiveFrom
+          keySnake: effective_from
+          is_date: true
+          java_datatype: LocalDate
+          csharp_datatype: DateTime
+          default: "LocalDate.of(2020, Month.OCTOBER, 28)"
+          java: "LocalDate.of(2020, Month.OCTOBER, 28)"
+          csharp: "new DateTime(2020, 10, 10)"
+          php: "new DateTime('2020-10-28')"
+          node: "'2020-10-28'"
+          python: "dateutil.parser.parse('2020-10-28T00:00:00Z')"
+          ruby: "'YYYY-MM-DD'"
+        - workingWeek:
+          key: workingWeek
+          keyPascal: WorkingWeek
+          keySnake: workingWeek
+          is_object: true
+        - monday:
+          key: monday
+          keyPascal: monday
+          keySnake: monday
+          default: 8
+          nonString: true 
+          object: workingWeek
+        - tuesday:
+          key: tuesday
+          keyPascal: tuesday
+          keySnake: tuesday
+          default: 8
+          nonString: true 
+          object: workingWeek
+        - wednesday:
+          key: wednesday
+          keyPascal: wednesday
+          keySnake: wednesday
+          default: 8
+          nonString: true 
+          object: workingWeek
+        - thursday:
+          key: thursday
+          keyPascal: thursday
+          keySnake: thursday
+          default: 8
+          nonString: true 
+          object: workingWeek
+        - friday:
+          key: friday
+          keyPascal: friday
+          keySnake: friday
+          default: 8
+          nonString: true 
+          object: workingWeek
+        - saturday:
+          key: saturday
+          keyPascal: saturday
+          keySnake: saturday
+          default: 0
+          nonString: true 
+          object: workingWeek
+        - sunday:
+          key: sunday
+          keyPascal: sunday
+          keySnake: sunday
+          default: 0
+          nonString: true 
+          object: workingWeek
+          is_last: true 
+      summary: Creates an employee working pattern
+      parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
+        - name: EmployeeID
+          x-snake: employee_id
+          in: path
+          required: true
+          description: Employee id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+      responses:
+        '200':
+          description: employee working pattern correctly added
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeWorkingPatternWithWorkingWeeksObject'
+              example: '{
+                          "id": "00000000-0000-0000-0000-000000000000",
+                          "providerName": "provider-name",
+                          "dateTimeUTC": "2020-08-24T20:53:58.8624623",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null,
+                          "payeeWorkingPattern": {
+                              "payeeWorkingPatternID": "d0a325df-c9d5-4246-9e95-5172328a729b",
+                              "effectiveFrom": "2020-01-01T00:00:00",
+                              "workingWeeks": [
+                                  {
+                                      "monday": 0.0,
+                                      "tuesday": 3.0000,
+                                      "wednesday": 0.0,
+                                      "thursday": 0.0,
+                                      "friday": 0.0,
+                                      "saturday": 0.0,
+                                      "sunday": 0.0
+                                  }
+                              ]
+                          }
+                        }'
+        '400':
+          description: validation error for a bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmployeeWorkingPatternWithWorkingWeeksRequest'
+            example: '{
+                        "effectiveFrom": "2020-01-01T00:00:00",
+                        "workingWeeks": [
+                            {
+                                "monday": 0.0,
+                                "tuesday": 3.0000,
+                                "wednesday": 0.0,
+                                "thursday": 0.0,
+                                "friday": 0.0,
+                                "saturday": 0.0,
+                                "sunday": 0.0
+                            }
+                        ]
+                      }'
+  /Employees/{EmployeeID}/Working-Patterns/{EmployeeWorkingPatternID}:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    get: 
+      security:
+        - OAuth2: [payroll.employees, payroll.employees.read]
+      tags:
+        - PayrollNz
+      operationId: getEmployeeWorkingPattern
+      x-hasPayrollUkProblem: true
+      summary: Retrieves employee's working patterns
+      parameters:
+        - name: EmployeeID
+          x-snake: employee_id
+          in: path
+          required: true
+          description: Employee id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+        - name: EmployeeWorkingPatternID
+          x-snake: employee_working_pattern_id
+          in: path
+          required: true
+          description: Employee working pattern id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09f3b118db9c
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeWorkingPatternWithWorkingWeeksObject'
+              example: '{
+                          "id": "00000000-0000-0000-0000-000000000000",
+                          "providerName": "provider-name",
+                          "dateTimeUTC": "2020-08-24T20:16:15.3542191",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null,
+                          "payeeWorkingPattern": {
+                              "payeeWorkingPatternID": "d0a325df-c9d5-4246-9e95-5172328a729b",
+                              "effectiveFrom": "2020-01-01T00:00:00",
+                              "workingWeeks": [
+                                  {
+                                      "monday": 0.0,
+                                      "tuesday": 3.0000,
+                                      "wednesday": 0.0,
+                                      "thursday": 0.0,
+                                      "friday": 0.0,
+                                      "saturday": 0.0,
+                                      "sunday": 0.0
+                                  }
+                              ]
+                          }
+                        }'
+    delete:
+      security:
+        - OAuth2: [payroll.employees]
+      tags:
+        - PayrollNz
+      operationId: deleteEmployeeWorkingPattern
+      x-hasPayrollUkProblem: true
+      summary: deletes employee's working patterns
+      parameters:
+        - name: EmployeeID
+          x-snake: employee_id
+          in: path
+          required: true
+          description: Employee id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+        - name: EmployeeWorkingPatternID
+          x-snake: employee_working_pattern_id
+          in: path
+          required: true
+          description: Employee working pattern id for single object
+          schema: 
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09f3b118db9c
+      responses:
+        '200':
+          description: successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeLeaveObject'
+              example: '{
+                          "id": "00000000-0000-0000-0000-000000000000",
+                          "providerName": "provider-name",
+                          "dateTimeUTC": "2020-08-26T22:11:10.809249",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null
+                        }'
+        '400':
+          description: validation error for a bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
 components:
   securitySchemes:
     OAuth2:
@@ -6409,6 +6850,16 @@ components:
           description: Employee's job title
           type: string
           example: General Manager
+        engagementType:
+          description: Engagement type of the employee
+          type: string
+          example: Permanent
+        fixedTermEndDate:
+          description: End date for an employee with a fixed-term engagement type
+          type: string
+          format: date
+          example: 2020-01-19
+          x-is-date: true
     EmploymentObject:
       type: object
       properties:
@@ -6423,6 +6874,7 @@ components:
       required:
         - PayrollCalendarID
         - StartDate
+        - EngagementType
       properties:
         payrollCalendarID:
           description: Xero unique identifier for the payroll calendar of the employee
@@ -6437,6 +6889,16 @@ components:
           type: string
           format: date
           x-is-date: true 
+        engagementType:
+          description: Engagement type of the employee
+          type: string
+          example: Permanent
+        fixedTermEndDate:
+          description: End date for an employee with a fixed-term engagement type
+          type: string
+          format: date
+          example: 2020-01-19
+          x-is-date: true
     EmployeeTaxObject:
       type: object
       properties:
@@ -6972,6 +7434,16 @@ components:
           format: double
           x-is-money: true
           example: 10.5
+        SickLeaveScheduleOfAccrual:
+          description: Set Schedule of Accrual Type for Sick Leave
+          type: string
+          example: OnAnniversaryDate
+        SickLeaveAnniversaryDate:
+          description: If Sick Leave Schedule of Accrual is "OnAnniversaryDate", this is the date when entitled to Sick Leave
+          type: string
+          format: date
+          example: 2020-01-19
+          x-is-date: true
     EmployeeLeaveTypeObject:
       type: object
       properties:
@@ -7032,6 +7504,12 @@ components:
           type: number
           format: double
           x-is-money: true
+        scheduleOfAccrualDate:
+          description: The date when an employee becomes entitled to their accrual.
+          type: string
+          format: date
+          example: 2020-01-19
+          x-is-date: true
     EmployeePayTemplateObject:
       type: object
       properties:
@@ -7816,6 +8294,12 @@ components:
           enum:
             - Salary
             - Hourly
+        workPatternType:
+          description: The type of the Working Pattern of the corresponding salary and wages
+          type: string
+          enum:
+            - DaysAndHours
+            - RegularWeek
     PayRuns:
       type: object
       properties:
@@ -8518,3 +9002,120 @@ components:
           description: The Xero identifier for Timesheet tracking category.
           type: string
           format: uuid
+    WorkingWeek:
+      type: object
+      required:
+        - monday
+        - tuesday
+        - wednesday
+        - thursday
+        - friday
+        - saturday
+        - sunday
+      properties:
+        monday:
+          description: The number of hours worked on a Monday
+          type: number
+          format: double
+          x-is-money: true
+        tuesday:
+          description: The number of hours worked on a Tuesday
+          type: number
+          format: double
+          x-is-money: true
+        wednesday:
+          description: The number of hours worked on a Wednesday
+          type: number
+          format: double
+          x-is-money: true
+        thursday:
+          description: The number of hours worked on a Thursday
+          type: number
+          format: double
+          x-is-money: true
+        friday:
+          description: The number of hours worked on a Friday
+          type: number
+          format: double
+          x-is-money: true
+        saturday:
+          description: The number of hours worked on a Saturday
+          type: number
+          format: double
+          x-is-money: true
+        sunday:
+          description: The number of hours worked on a Sunday
+          type: number
+          format: double
+          x-is-money: true
+    WorkingWeeks:
+      type: array
+      items:
+        $ref: '#/components/schemas/WorkingWeek'
+    EmployeeWorkingPattern:
+      type: object
+      required:
+        - payeeWorkingPatternID
+        - effectiveFrom
+      properties:
+        payeeWorkingPatternID:
+          description: The Xero identifier for for Employee working pattern
+          type: string
+          format: uuid 
+        effectiveFrom:
+          description: The effective date of the corresponding salary and wages
+          type: string
+          format: date 
+          x-is-date: true
+    EmployeeWorkingPatterns:
+      type: array
+      items:
+        $ref: '#/components/schemas/EmployeeWorkingPattern'
+    EmployeeWorkingPatternsObject:
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        problem:
+          $ref: '#/components/schemas/Problem'
+        payeeWorkingPatterns:
+          $ref: '#/components/schemas/EmployeeWorkingPatterns'
+    EmployeeWorkingPatternWithWorkingWeeks:
+      type: object
+      required:
+        - payeeWorkingPatternID
+        - effectiveFrom
+      properties:
+        payeeWorkingPatternID:
+          description: The Xero identifier for for Employee working pattern
+          type: string
+          format: uuid
+        effectiveFrom:
+          description: The effective date of the corresponding salary and wages
+          type: string
+          format: date 
+          x-is-date: true
+        workingWeeks:
+          $ref: '#/components/schemas/WorkingWeeks'
+    EmployeeWorkingPatternWithWorkingWeeksRequest:
+      type: object
+      required:
+        - effectiveFrom
+        - workingWeeks
+      properties:
+        effectiveFrom:
+          description: The effective date of the corresponding salary and wages
+          type: string
+          format: date 
+          x-is-date: true
+        workingWeeks:
+          $ref: '#/components/schemas/WorkingWeeks'
+    EmployeeWorkingPatternWithWorkingWeeksObject:
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        problem:
+          $ref: '#/components/schemas/Problem'
+        payeeWorkingPattern:
+          $ref: '#/components/schemas/EmployeeWorkingPatternWithWorkingWeeks'

@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Xero Accounting API
-  version: "5.0.0"
+  version: "6.1.1"
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
   contact:
     name: "Xero Platform Team"
@@ -1345,17 +1345,17 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GetBankTransactionsResponse'
+                $ref: '#/components/schemas/BankTransactions'
               example: '{
                           "Id": "18e7e80c-5dca-4a57-974e-8b572cc5efe8",
                           "Status": "OK",
                           "ProviderName": "Xero API Partner",
                           "DateTimeUTC": "/Date(1551212901659)/",
-                          "PageInfo" : {
-                            "Page": 1,
-                            "PageSize": 100,
-                            "TotalPages": 1,
-                            "TotalRows": 3
+                          "pagination": {
+                            "page": 1,
+                            "pageSize": 100,
+                            "pageCount": 1,
+                            "itemCount": 3
                           },
                           "BankTransactions": [
                             {
@@ -3751,17 +3751,17 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GetContactsResponse'
+                $ref: '#/components/schemas/Contacts'
               example: '{
                             "Id": "04e93d48-e72f-4775-b7dd-15a041fab972",
                             "Status": "OK",
                             "ProviderName": "Xero API Partner",
                             "DateTimeUTC": "\/Date(1551399323399)\/",
-                            "PageInfo" : {
-                              "Page": 1,
-                              "PageSize": 100,
-                              "TotalPages": 1,
-                              "TotalRows": 2
+                            "pagination": {
+                              "page": 1,
+                              "pageSize": 100,
+                              "pageCount": 1,
+                              "itemCount": 2
                             },
                             "Contacts": [
                               {
@@ -5594,17 +5594,17 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GetCreditNotesResponse'
+                $ref: '#/components/schemas/CreditNotes'
               example: '{
                           "Id": "306379b0-3d75-4c77-953a-be08fa0efae8",
                           "Status": "OK",
                           "ProviderName": "Provider Name Example",
                           "DateTimeUTC": "\/Date(1551812506620)\/",
-                          "PageInfo" : {
-                            "Page": 1,
-                            "PageSize": 100,
-                            "TotalPages": 1,
-                            "TotalRows": 2
+                          "pagination": {
+                            "page": 1,
+                            "pageSize": 100,
+                            "pageCount": 1,
+                            "itemCount": 2
                           },
                           "CreditNotes": [
                             {
@@ -8264,17 +8264,17 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GetInvoicesResponse'
+                $ref: '#/components/schemas/Invoices'
               example: '{
                           "Id": "900c500b-e83c-4ce2-902a-b8ba04751748",
                           "Status": "OK",
                           "ProviderName": "Provider Name Example",
                           "DateTimeUTC": "\/Date(1552326816230)\/",
-                          "PageInfo" : {
-                            "Page": 1,
-                            "PageSize": 100,
-                            "TotalPages": 1,
-                            "TotalRows": 3
+                          "pagination": {
+                            "page": 1,
+                            "pageSize": 100,
+                            "pageCount": 1,
+                            "itemCount": 3
                           },
                           "Invoices": [
                             {
@@ -11013,17 +11013,17 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GetManualJournalsResponse'
+                $ref: '#/components/schemas/ManualJournals'
               example: '{
                           "Id": "8a508ec1-b578-48bf-97df-020c918fbf7d",
                           "Status": "OK",
                           "ProviderName": "Provider Name Example",
                           "DateTimeUTC": "\/Date(1552357217359)\/",
-                          "PageInfo" : {
-                            "Page": 1,
-                            "PageSize": 100,
-                            "TotalPages": 1,
-                            "TotalRows": 3
+                          "pagination": {
+                            "page": 1,
+                            "pageSize": 100,
+                            "pageCount": 1,
+                            "itemCount": 3
                           },
                           "ManualJournals": [
                             {
@@ -11097,7 +11097,7 @@ paths:
           key: lineAmount
           keyPascal: LineAmount
           keySnake: line_amount
-          default: 100.0
+          default: -100.0
           is_money: true
           object: credit
         - accountCode:
@@ -11128,7 +11128,7 @@ paths:
           key: lineAmount
           keyPascal: LineAmount
           keySnake: line_amount
-          default: -100.0
+          default: 100.0
           is_money: true
           object: debit
         - accountCode:
@@ -11331,7 +11331,7 @@ paths:
           key: lineAmount
           keyPascal: LineAmount
           keySnake: line_amount
-          default: 100.0
+          default: -100.0
           is_money: true
           object: credit
         - accountCode:
@@ -11362,7 +11362,7 @@ paths:
           key: lineAmount
           keyPascal: LineAmount
           keySnake: line_amount
-          default: -100.0
+          default: 100.0
           is_money: true
           object: debit
         - accountCode:
@@ -11640,7 +11640,7 @@ paths:
           key: lineAmount
           keyPascal: LineAmount
           keySnake: line_amount
-          default: 100.0
+          default: -100.0
           is_money: true
           object: credit
         - accountCode:
@@ -11671,7 +11671,7 @@ paths:
           key: lineAmount
           keyPascal: LineAmount
           keySnake: line_amount
-          default: -100.0
+          default: 100.0
           is_money: true
           object: debit
         - accountCode:
@@ -12238,17 +12238,17 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GetOverpaymentsResponse'
+                $ref: '#/components/schemas/Overpayments'
               example: '{
                           "Id": "c0ce675e-e5bc-4b2a-a20e-76a9eaedf89d",
                           "Status": "OK",
                           "ProviderName": "Provider Name Example",
                           "DateTimeUTC": "\/Date(1552428951416)\/",
-                          "PageInfo" : {
-                            "Page": 1,
-                            "PageSize": 100,
-                            "TotalPages": 1,
-                            "TotalRows": 5
+                          "pagination": {
+                            "page": 1,
+                            "pageSize": 100,
+                            "pageCount": 1,
+                            "itemCount": 5
                           },
                           "Overpayments": [
                             {
@@ -12827,17 +12827,17 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GetPaymentsResponse'
+                $ref: '#/components/schemas/Payments'
               example: '{
                           "Id": "9f310473-e1b5-4704-a25c-eec653deb596",
                           "Status": "OK",
                           "ProviderName": "Provider Name Example",
                           "DateTimeUTC": "\/Date(1552431874205)\/",
-                          "PageInfo" : {
-                            "Page": 1,
-                            "PageSize": 100,
-                            "TotalPages": 1,
-                            "TotalRows": 2
+                          "pagination": {
+                            "page": 1,
+                            "pageSize": 100,
+                            "pageCount": 1,
+                            "itemCount": 2
                           },
                           "Payments": [
                             {
@@ -13818,17 +13818,17 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GetPrepaymentsResponse'
+                $ref: '#/components/schemas/Prepayments'
               example: '{
                           "Id": "d7a9ca0c-6159-4c26-ad2e-715440c50b7d",
                           "Status": "OK",
                           "ProviderName": "Provider Name Example",
                           "DateTimeUTC": "\/Date(1552489227595)\/",
-                          "PageInfo" : {
-                            "Page": 1,
-                            "PageSize": 100,
-                            "TotalPages": 1,
-                            "TotalRows": 1
+                          "pagination": {
+                            "page": 1,
+                            "pageSize": 100,
+                            "pageCount": 1,
+                            "itemCount": 1
                           },
                           "Prepayments": [
                             {
@@ -14309,17 +14309,17 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GetPurchaseOrdersResponse'
+                $ref: '#/components/schemas/PurchaseOrders'
               example: '{
                           "Id": "66910bfc-15cc-4692-bd4c-cc8f671e653c",
                           "Status": "OK",
                           "ProviderName": "Provider Name Example",
                           "DateTimeUTC": "\/Date(1552523977238)\/",
-                          "PageInfo" : {
-                            "Page": 1,
-                            "PageSize": 100,
-                            "TotalPages": 1,
-                            "TotalRows": 2
+                          "pagination": {
+                            "page": 1,
+                            "pageSize": 100,
+                            "pageCount": 1,
+                            "itemCount": 2
                           },
                           "PurchaseOrders": [
                             {
@@ -23978,7 +23978,7 @@ components:
       type: object
     Accounts:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: accounts
       properties:
         Accounts:
           type: array
@@ -24135,7 +24135,7 @@ components:
         - PAYG
     Attachments:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: attachments
       properties:
         Attachments:
           type: array
@@ -24171,8 +24171,15 @@ components:
           type: boolean
     BankTransactions:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: bank_transactions
       properties:
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        Warnings: 
+          description: Displays array of warning messages from the API
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
         BankTransactions:
           type: array
           items:
@@ -24295,24 +24302,6 @@ components:
         - LineItems
         - BankAccount
       type: object
-    GetBankTransactionsResponse:
-      type: object
-      properties:
-        Id:
-          type: string
-        Status:
-          type: string
-        ProviderName:
-          type: string
-        DateTimeUTC:
-          type: string
-        PageInfo:
-          $ref: '#/components/schemas/PageInfo'
-        BankTransactions:
-          type: array
-          minItems: 1
-          items:
-            $ref: '#/components/schemas/BankTransaction'
     LineAmountTypes:
       description: Line amounts are exclusive of tax by default if you don’t specify this element. See Line Amount Types
       type: string
@@ -24435,7 +24424,7 @@ components:
       type: object
     BankTransfers:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: bank_transfers
       properties:
         BankTransfers:
           type: array
@@ -24516,7 +24505,7 @@ components:
       type: object
     BatchPayments:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: batch_payments
       properties:
         BatchPayments:
           type: array
@@ -24662,7 +24651,7 @@ components:
       type: object
     BrandingThemes:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: branding_themes
       properties:
         BrandingThemes:
           type: array
@@ -24699,7 +24688,7 @@ components:
       type: object
     PaymentServices:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: payment_services
       properties:
         PaymentServices:
           type: array
@@ -24732,8 +24721,15 @@ components:
             $ref: '#/components/schemas/ValidationError'
     Contacts:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: contacts
       properties:
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        Warnings: 
+          description: Displays array of warning messages from the API
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
         Contacts:
           type: array
           items:
@@ -24930,27 +24926,9 @@ components:
           description: Status of object
           type: string
       type: object
-    GetContactsResponse:
-      type: object
-      properties:
-        Id:
-          type: string
-        Status:
-          type: string
-        ProviderName:
-          type: string
-        DateTimeUTC:
-          type: string
-        PageInfo:
-          $ref: '#/components/schemas/PageInfo'
-        Contacts:
-          type: array
-          minItems: 1
-          items:
-            $ref: '#/components/schemas/Contact'
     Budgets:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: budgets
       properties:
         Budgets:
           type: array
@@ -25061,7 +25039,7 @@ components:
           x-is-money: true
     CISSettings:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: cis_settings
       properties:
         CISSettings:
           type: array
@@ -25082,7 +25060,7 @@ components:
           x-is-money: true 
     CISOrgSettings:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: cis_settings
       properties:
         CISSettings:
           type: array
@@ -25124,7 +25102,8 @@ components:
       type: object
     ContactGroups:
       type: object
-      x-isObjectArray: true
+       
+      x-objectArrayKey: contact_groups
       properties:
         ContactGroups:
           type: array
@@ -25166,8 +25145,15 @@ components:
       type: object
     CreditNotes:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: credit_notes
       properties:
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        Warnings: 
+          description: Displays array of warning messages from the API
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
         CreditNotes:
           type: array
           items:
@@ -25323,27 +25309,9 @@ components:
           items:
             $ref: '#/components/schemas/ValidationError'
       type: object
-    GetCreditNotesResponse:
-      type: object
-      properties:
-        Id:
-          type: string
-        Status:
-          type: string
-        ProviderName:
-          type: string
-        DateTimeUTC:
-          type: string
-        PageInfo:
-          $ref: '#/components/schemas/PageInfo'
-        CreditNotes:
-          type: array
-          minItems: 1
-          items:
-            $ref: '#/components/schemas/CreditNote'
     Allocations:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: allocations
       properties:
         Allocations:
           type: array
@@ -25393,7 +25361,7 @@ components:
       type: object
     Currencies:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: currencies
       properties:
         Currencies:
           type: array
@@ -25754,7 +25722,7 @@ components:
         - ZWD
     Employees:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: employees
       properties:
         Employees:
           type: array
@@ -25803,7 +25771,7 @@ components:
       type: object
     ExpenseClaims:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: expense_claims
       properties:
         ExpenseClaims:
           type: array
@@ -25878,7 +25846,7 @@ components:
       type: object
     HistoryRecords:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: history_records
       properties:
         HistoryRecords:
           type: array
@@ -25906,8 +25874,15 @@ components:
       type: object
     Invoices:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: invoices
       properties:
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        Warnings: 
+          description: Displays array of warning messages from the API
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
         Invoices:
           type: array
           items:
@@ -26126,27 +26101,9 @@ components:
           items:
             $ref: '#/components/schemas/ValidationError'
       type: object
-    GetInvoicesResponse:
-      type: object
-      properties:
-        Id:
-          type: string
-        Status:
-          type: string
-        ProviderName:
-          type: string
-        DateTimeUTC:
-          type: string
-        PageInfo:
-          $ref: '#/components/schemas/PageInfo'
-        Invoices:
-          type: array
-          minItems: 1
-          items:
-            $ref: '#/components/schemas/Invoice'
     OnlineInvoices:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: online_invoices
       properties:
         OnlineInvoices:
           type: array
@@ -26162,7 +26119,7 @@ components:
       type: object
     InvoiceReminders:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: invoice_reminders
       properties:
         InvoiceReminders:
           type: array
@@ -26178,7 +26135,7 @@ components:
       type: object
     Items:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: items
       properties:
         Items:
           type: array
@@ -26285,8 +26242,13 @@ components:
       type: object
     Journals:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: journals
       properties:
+        Warnings: 
+          description: Displays array of warning messages from the API
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
         Journals:
           type: array
           items:
@@ -26418,7 +26380,7 @@ components:
       type: object
     LinkedTransactions:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: linked_transactions
       properties:
         LinkedTransactions:
           type: array
@@ -26495,8 +26457,15 @@ components:
       type: object
     ManualJournals:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: manual_journals
       properties:
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        Warnings: 
+          description: Displays array of warning messages from the API
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
         ManualJournals:
           type: array
           items:
@@ -26574,24 +26543,6 @@ components:
       required:
         - Narration
       type: object
-    GetManualJournalsResponse:
-      type: object
-      properties:
-        Id:
-          type: string
-        Status:
-          type: string
-        ProviderName:
-          type: string
-        DateTimeUTC:
-          type: string
-        PageInfo:
-          $ref: '#/components/schemas/PageInfo'
-        ManualJournals:
-          type: array
-          minItems: 1
-          items:
-            $ref: '#/components/schemas/ManualJournal'
     ManualJournalLine:
       externalDocs:
         url: 'http://developer.xero.com/documentation/api/manual-journals/'
@@ -26635,7 +26586,7 @@ components:
       type: object
     Actions:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: actions
       properties:
         Actions:
           type: array
@@ -26657,7 +26608,7 @@ components:
             - NOT-ALLOWED
     Organisations:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: organisations
       properties:
         Organisations:
           type: array
@@ -26837,6 +26788,10 @@ components:
           - NON_GST_CASHBOOK 
           - ULTIMATE
           - LITE
+          - ULTIMATE_10
+          - ULTIMATE_20
+          - ULTIMATE_50
+          - ULTIMATE_100
           - IGNITE
           - GROW
           - COMPREHENSIVE
@@ -27304,8 +27259,15 @@ components:
       type: object
     Overpayments:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: overpayments
       properties:
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        Warnings: 
+          description: Displays array of warning messages from the API
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
         Overpayments:
           type: array
           items:
@@ -27408,28 +27370,17 @@ components:
           items:
             $ref: '#/components/schemas/Attachment'
       type: object
-    GetOverpaymentsResponse:
-      type: object
-      properties:
-        Id:
-          type: string
-        Status:
-          type: string
-        ProviderName:
-          type: string
-        DateTimeUTC:
-          type: string
-        PageInfo:
-          $ref: '#/components/schemas/PageInfo'
-        Overpayments:
-          type: array
-          minItems: 1
-          items:
-            $ref: '#/components/schemas/Overpayment'
     Payments:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: payments
       properties:
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        Warnings: 
+          description: Displays array of warning messages from the API
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
         Payments:
           type: array
           items:
@@ -27565,28 +27516,17 @@ components:
           items:
             $ref: '#/components/schemas/ValidationError'
       type: object
-    GetPaymentsResponse:
-      type: object
-      properties:
-        Id:
-          type: string
-        Status:
-          type: string
-        ProviderName:
-          type: string
-        DateTimeUTC:
-          type: string
-        PageInfo:
-          $ref: '#/components/schemas/PageInfo'
-        Payments:
-          type: array
-          minItems: 1
-          items:
-            $ref: '#/components/schemas/Payment'
     Prepayments:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: prepayments
       properties:
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        Warnings: 
+          description: Displays array of warning messages from the API
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
         Prepayments:
           type: array
           items:
@@ -27694,28 +27634,17 @@ components:
           items:
             $ref: '#/components/schemas/Attachment'
       type: object
-    GetPrepaymentsResponse:
-      type: object
-      properties:
-        Id:
-          type: string
-        Status:
-          type: string
-        ProviderName:
-          type: string
-        DateTimeUTC:
-          type: string
-        PageInfo:
-          $ref: '#/components/schemas/PageInfo'
-        Prepayments:
-          type: array
-          minItems: 1
-          items:
-            $ref: '#/components/schemas/Prepayment'
     PurchaseOrders:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: purchase_orders
       properties:
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        Warnings: 
+          description: Displays array of warning messages from the API
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
         PurchaseOrders:
           type: array
           items:
@@ -27851,39 +27780,20 @@ components:
           items:
             $ref: '#/components/schemas/Attachment'
       type: object
-    GetPurchaseOrdersResponse:
+    Pagination:
       type: object
       properties:
-        Id:
-          type: string
-        Status:
-          type: string
-        ProviderName:
-          type: string
-        DateTimeUTC:
-          type: string
-        PageInfo:
-          $ref: '#/components/schemas/PageInfo'
-        PurchaseOrders:
-          type: array
-          minItems: 1
-          items:
-            $ref: '#/components/schemas/PurchaseOrder'
-    PageInfo:
-      type: object
-      description: Pagination information
-      properties:
-        Page:
+        page:
           type: integer
-        PageSize:
+        pageSize:
           type: integer
-        TotalPages:
+        pageCount:
           type: integer
-        TotalRows:
+        itemCount:
           type: integer
     Quotes:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: quotes
       properties:
         Quotes:
           type: array
@@ -28015,7 +27925,7 @@ components:
         - DELETED
     Receipts:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: receipts
       properties:
         Receipts:
           type: array
@@ -28109,7 +28019,7 @@ components:
       type: object
     RepeatingInvoices:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: repeating_invoices
       properties:
         RepeatingInvoices:
           type: array
@@ -28316,7 +28226,7 @@ components:
           type: string
     Reports:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: reports
       properties:
         Reports:
           type: array
@@ -28504,7 +28414,7 @@ components:
       type: object
     TaxRates:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: tax_rates
       properties:
         TaxRates:
           type: array
@@ -28935,7 +28845,7 @@ components:
       type: object
     TrackingCategories:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: tracking_categories
       properties:
         TrackingCategories:
           type: array
@@ -28978,7 +28888,7 @@ components:
       type: object
     TrackingOptions:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: options
       properties:
         Options:
           type: array
@@ -29022,7 +28932,7 @@ components:
       type: object
     Users:
       type: object
-      x-isObjectArray: true
+      x-objectArrayKey: users
       properties:
         Users:
           type: array
