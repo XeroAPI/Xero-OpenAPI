@@ -1836,7 +1836,8 @@ paths:
                               "hoursAccruedAnnually": 200,
                               "maximumToAccrue": 0,
                               "openingBalance": 72,
-                              "rateAccruedHourly": 0
+                              "rateAccruedHourly": 0,
+                              "scheduleOfAccrualDate": null
                             }
                           ]
                         }'
@@ -1886,7 +1887,14 @@ paths:
           nonString: true 
           default: 5.25
           object: employeeLeaveType
-          is_last: true
+        - scheduleOfAccrualDate:
+          is_variable: true
+          nonString: true
+          key: scheduleOfAccrualDate
+          keyPascal: ScheduleOfAccrualDate
+          keySnake: schedule_of_accrual_date
+          object: employeeLeaveType
+          is_last: true 
       summary: Creates employee leave type records
       parameters:
         - $ref: '#/components/parameters/idempotencyKey'
@@ -6500,6 +6508,12 @@ components:
           description: The number of hours added to the leave balance for every hour worked by the employee. This is normally 0, unless the scheduleOfAccrual chosen is "OnHourWorked"
           type: number
           format: double
+        scheduleOfAccrualDate:
+          description: The date when an employee becomes entitled to their accrual. Only applicable when scheduleOfAccrual is "OnAnniversaryDate"
+          type: string
+          format: date
+          example: 2024-04-01
+          x-is-date: true
     EmployeePayTemplateObject:
       type: object
       properties:
