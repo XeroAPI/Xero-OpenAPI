@@ -2062,7 +2062,28 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PaymentMethodObject'
-              example: ''
+              example: {
+                          "id": "00000000-0000-0000-0000-000000000000",
+                          "providerName": "provider-name",
+                          "dateTimeUTC": "2020-08-26T23:34:53.6856317",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null,
+                          "paymentMethod": {
+                            "bankAccounts": [
+                              {
+                                "accountName": "Casual Worker",
+                                "accountNumber": "0607050201419000",
+                                "sortCode": null,
+                                "particulars": null,
+                                "code": null,
+                                "dollarAmount": null,
+                                "reference": "",
+                                "calculationType": "Balance"
+                              }
+                            ]
+                          }
+                        }
         '400':
           description: validation error for a bad request
           content:
@@ -2075,7 +2096,20 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/PaymentMethod'
-            example: ''
+            example: {
+                      "bankAccounts": [
+                              {
+                                "accountName": "Casual Worker",
+                                "accountNumber": "0607050201419000",
+                                "sortCode": null,
+                                "particulars": null,
+                                "code": null,
+                                "dollarAmount": null,
+                                "reference": "",
+                                "calculationType": "Balance"
+                              }
+                      ] 
+                    }       
   /Employees/{EmployeeID}/PayTemplates:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
