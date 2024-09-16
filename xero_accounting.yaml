@@ -24383,6 +24383,23 @@ components:
           example: "00000000-0000-0000-0000-000000000000"
           type: string
           format: uuid
+        Taxability:
+          description: The type of taxability
+          type: string
+          enum:
+            - TAXABLE
+            - NON_TAXABLE
+            - EXEMPT
+            - PART_TAXABLE
+            - NOT_APPLICABLE
+        SalesTaxCodeId:
+          description: The ID of the sales tax code
+          type: number
+        TaxBreakdown:
+          description: An array of tax components defined for this line item
+          type: array
+          items:
+            $ref: '#/components/schemas/TaxBreakdownComponent'
       type: object
     LineItemItem:
       properties:
@@ -25309,6 +25326,11 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ValidationError'
+        InvoiceAddresses:
+          description: An array of addresses used to auto calculate sales tax
+          type: array
+          items:
+            $ref: '#/components/schemas/InvoiceAddress'
       type: object
     Allocations:
       type: object
@@ -26101,6 +26123,11 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ValidationError'
+        InvoiceAddresses:
+          description: An array of addresses used to auto calculate sales tax
+          type: array
+          items:
+            $ref: '#/components/schemas/InvoiceAddress'
       type: object
     OnlineInvoices:
       type: object
@@ -29034,5 +29061,78 @@ components:
       properties:
         Message:
           description: Validation error message
+          type: string
+      type: object
+    InvoiceAddress:
+      properties:
+        InvoiceAddressType:
+          description: Indicates whether the address is defined as origin (FROM) or destination (TO)
+          type: string
+          enum:
+            - FROM
+            - TO
+        AddressLine1:
+          description: First line of a physical address
+          type: string
+        AddressLine2:
+          description: Second line of a physical address
+          type: string
+        AddressLine3:
+          description: Third line of a physical address
+          type: string
+        AddressLine4:
+          description: Fourth line of a physical address
+          type: string
+        City:
+          description: City of a physical address
+          type: string
+        Region:
+          description: Region or state of a physical address
+          type: string
+        PostalCode:
+          description: Postal code of a physical address
+          type: string
+        Country:
+          description: Country of a physical address
+          type: string
+      type: object
+    TaxBreakdownComponent:
+      properties:
+        TaxComponentId:
+          description: The unique ID number of this component
+          type: string
+          format: uuid
+        Type:
+          description: The type of the jurisdiction
+          type: string
+          enum:
+            - SYSGST/USCOUNTRY
+            - SYSGST/USSTATE
+            - SYSGST/USCOUNTY
+            - SYSGST/USCITY
+            - SYSGST/USSPECIAL
+        Name:
+          description: The name of the jurisdiction
+          type: string
+        TaxPercentage:
+          description: The percentage of the tax
+          type: number
+        TaxAmount:
+          description: The amount of the tax
+          type: number
+        TaxableAmount:
+          description: The amount that is taxable
+          type: number
+        NonTaxableAmount:
+          description: The amount that is not taxable
+          type: number
+        ExemptAmount:
+          description: The amount that is exempt
+          type: number
+        StateAssignedNo:
+          description: The state assigned number of the jurisdiction
+          type: string
+        JurisdictionRegion:
+          description: Name identifying the region within the country
           type: string
       type: object
