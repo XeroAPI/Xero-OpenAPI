@@ -23,8 +23,8 @@ jobs:
 
             - name: Run yamllint
               run: |
+               git fetch
                git checkout ${{github.head_ref}}
-               
                find . -type f \( - name "*.yaml" \) > yaml_files.txt
 
                if [ -s yaml_files.txt ]; then
