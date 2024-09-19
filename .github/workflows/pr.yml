@@ -33,40 +33,40 @@ jobs:
             #     xargs yamllint < yaml_files.txt
             #    fi
 
+            # - name: Get github app access token
+            #   uses: actions/create-github-app-token@v1
+            #   id: get_access_token
+            #   with:
+            #    app-id: ${{ secrets.XERO_GITHUB_APP_ID }}
+            #    private-key: ${{ secrets.XERO_GITHUB_APPLICATION_KEY }}
+            
+            - name: Install octokit dependencies
+              run: npm i
+              working-directory: xeroapi-sdk-codegen/.github/octokit
+      
             - name: Get github app access token
-              uses: actions/create-github-app-token@v1
               id: get_access_token
+              env:
+                GITHUB_APP_ID: ${{ secrets.XERO_GITHUB_APP_ID }}
+                GITHUB_APP_PRIVATE_KEY: ${{ secrets.XERO_GITHUB_APPLICATION_KEY }}
+              uses: actions/github-script@v7
               with:
-               app-id: ${{ secrets.XERO_GITHUB_APP_ID }}
-               private-key: ${{ secrets.XERO_GITHUB_APPLICATION_KEY }}
+                result-encoding: string
+                script: |
+                  const { getAccessToken } = await import('${{ github.workspace }}/xeroapi-sdk-codegen/.github/octokit/index.js')
+                  const token = await getAccessToken()
+                  return token
 
             - name: Checkout codegen repo
               uses: actions/checkout@v4
               with:
                 repository: xero-internal/xeroapi-sdk-codegen
                 path: xeroapi-sdk-codegen
-                token: ${{ steps.app-get_access_token.outputs.token }}
-            
-            # - name: Install octokit dependencies
-            #   run: npm i
-            #   working-directory: xeroapi-sdk-codegen/.github/octokit
-      
-            # - name: Get github app access token
-            #   id: get_access_token
-            #   env:
-            #     GITHUB_APP_ID: ${{ secrets.XERO_GITHUB_APP_ID }}
-            #     GITHUB_APP_PRIVATE_KEY: ${{ secrets.XERO_GITHUB_APPLICATION_KEY }}
-            #   uses: actions/github-script@v7
-            #   with:
-            #     result-encoding: string
-            #     script: |
-            #       const { getAccessToken } = await import('${{ github.workspace }}/xeroapi-sdk-codegen/.github/octokit/index.js')
-            #       const token = await getAccessToken()
-            #       return token
+                token: ${{ steps.get_access_token.outputs.result }}
 
-            # - name: Checkout xero-node repo
-            #   uses: actions/checkout@v4
-            #   with:
-            #    repository: XeroAPI/xero-node
-            #    path: xero-node
-            #    token: ${{steps.get_access_token.outputs.result}}
+            - name: Checkout xero-node repo
+              uses: actions/checkout@v4
+              with:
+               repository: XeroAPI/xero-node
+               path: xero-node
+               token: ${{steps.get_access_token.outputs.result}}
