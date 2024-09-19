@@ -23,9 +23,9 @@ jobs:
 
             - name: Run yamllint
               run: |
-               git fetch
+               git fetch > /dev/null 2>&1
                git checkout ${{github.head_ref}}
-               find . -type f \( - name "*.yaml" \) > yaml_files.txt
+               find . -type f \( -name "*.yaml" \) > yaml_files.txt
 
                if [ -s yaml_files.txt ]; then
                 echo "linting the following yaml files:"
