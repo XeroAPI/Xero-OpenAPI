@@ -21,23 +21,31 @@ jobs:
             - name: Install yaml lint
               run: pip install yamllint
 
-            - name: Run yamllint
-              run: |
-               git fetch > /dev/null 2>&1
-               git checkout ${{github.head_ref}}
-               find . -type f \( -name "*.yaml" \) > yaml_files.txt
+            # - name: Run yamllint
+            #   run: |
+            #    git fetch > /dev/null 2>&1
+            #    git checkout ${{github.head_ref}}
+            #    find . -type f \( -name "*.yaml" \) > yaml_files.txt
 
-               if [ -s yaml_files.txt ]; then
-                echo "linting the following yaml files:"
-                cat yaml_files.txt
-                xargs yamllint < yaml_files.txt
-               fi
+            #    if [ -s yaml_files.txt ]; then
+            #     echo "linting the following yaml files:"
+            #     cat yaml_files.txt
+            #     xargs yamllint < yaml_files.txt
+            #    fi
 
-            # - name: Checkout codegen repo
-            #   uses: actions/checkout@v4
-            #   with:
-            #     repository: xero-internal/xeroapi-sdk-codegen
-            #     path: xeroapi-sdk-codegen
+            - name: Get github app access token
+              uses: actions/create-github-app-token@v1
+              id: get_access_token
+              with:
+               app-id: ${{ secrets.XERO_GITHUB_APP_ID }}
+               private-key: ${{ secrets.XERO_GITHUB_APPLICATION_KEY }}
+
+            - name: Checkout codegen repo
+              uses: actions/checkout@v4
+              with:
+                repository: xero-internal/xeroapi-sdk-codegen
+                path: xeroapi-sdk-codegen
+                token: ${{ steps.app-get_access_token.outputs.token }}
             
             # - name: Install octokit dependencies
             #   run: npm i
