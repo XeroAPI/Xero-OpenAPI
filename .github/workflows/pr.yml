@@ -42,7 +42,7 @@ jobs:
             
             - name: Install octokit dependencies
               run: npm i
-              working-directory: xeroapi-sdk-codegen/.github/octokit
+              working-directory: ${{ github.workspace }}/.github/octokit
       
             - name: Get github app access token
               id: get_access_token
@@ -53,7 +53,7 @@ jobs:
               with:
                 result-encoding: string
                 script: |
-                  const { getAccessToken } = await import('${{ github.workspace }}/xeroapi-sdk-codegen/.github/octokit/index.js')
+                  const { getAccessToken } = await import('${{ github.workspace }}/.github/octokit/index.js')
                   const token = await getAccessToken()
                   return token
 
