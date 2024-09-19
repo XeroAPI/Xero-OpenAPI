@@ -21,21 +21,16 @@ jobs:
             - name: Install yaml lint
               run: pip install yamllint
 
-            - name: Get list of changed files
-              id: changed_files
+            - name: Run yamllint
               run: |
-               git fetch origin ${{github.base_ref}} --depth=1
-               git diff --name-only origin/${{github.base_ref}}...HEAD > changed_files.txt
-               grep -E '\.ya?ml$' changed_files.txt > yaml_files.txt || true
+               git checkout ${{github.head_ref}}
+               
+               find . -type f \( - name "*.yaml" \) > yaml_files.txt
 
-            - name: Run yaml lint on changed files
-              run: |
                if [ -s yaml_files.txt ]; then
-                 echo "Linting the following yaml files:"
-                 cat yaml_files.txt
-                 xargs yamllint < yaml_files.txt
-                else 
-                 echo 'no yaml files changed'
+                echo "linting the following yaml files:"
+                cat yaml_files.txt
+                xargs yamllint < yaml_files.txt
                fi
 
             # - name: Checkout codegen repo
