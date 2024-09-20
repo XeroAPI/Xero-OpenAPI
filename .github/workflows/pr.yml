@@ -50,16 +50,12 @@ jobs:
                   const token = await getAccessToken()
                   return token
 
-            - name: Checkout codegen repo
-              uses: actions/checkout@v4
-              with:
-                repository: xero-internal/xeroapi-sdk-codegen
-                path: xeroapi-sdk-codegen
-                token: ${{ steps.get_access_token.outputs.result }}
-
-            - name: Checkout xero-node repo
-              uses: actions/checkout@v4
-              with:
-               repository: XeroAPI/xero-node
-               path: xero-node
-               token: ${{steps.get_access_token.outputs.result}}
+            - name: Calling node SDK workflow
+              run: |
+                curl --fail-with-body \
+                  -XPOST \
+                  -H 'Authorization: token ${{ steps.get_access_token.outputs.result }}' \
+                  -H "Accept: application/vnd.github.everest-preview+json" \
+                  -H "Content-Type: application/json" \
+                  https://api.github.com/repos/xero-internal/xeroapi-sdk-codegen/actions/workflows/codegen-node-pr.yml/dispatches \
+                  -d '{"ref":"PETOSS-536-enabling-workflow-dispatch","inputs":{"branch_name":"master"}}'
