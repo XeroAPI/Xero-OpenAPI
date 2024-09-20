@@ -54,8 +54,8 @@ jobs:
               run: |
                 curl --fail-with-body \
                   -XPOST \
-                  -H 'Authorization: token ${{ steps.get_access_token.outputs.result }}' \
+                  -H 'Authorization: Bearer ${{ steps.get_access_token.outputs.result }}' \
                   -H "Accept: application/vnd.github.everest-preview+json" \
-                  -H "Content-Type: application/json" \
+                  -H "X-GitHub-Api-Version: 2022-11-28" \
                   https://api.github.com/repos/xero-internal/xeroapi-sdk-codegen/actions/workflows/codegen-node-pr.yml/dispatches \
                   -d '{"ref":"PETOSS-536-enabling-workflow-dispatch","inputs":{"branch_name":"master"}}'
