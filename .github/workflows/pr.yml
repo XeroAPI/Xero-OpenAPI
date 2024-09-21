@@ -53,12 +53,13 @@ jobs:
                   const token = await getAccessToken()
                   return token
 
-            - name: Calling node SDK workflow
+            - name: Calling All SDK workflows
               run: |
                 curl -L \
                   -XPOST \
                   -H 'Authorization: Bearer ${{ steps.get_access_token.outputs.result }}' \
                   -H "Accept: application/vnd.github.everest-preview+json" \
                   -H "X-GitHub-Api-Version: 2022-11-28" \
-                  https://api.github.com/repos/xero-internal/xeroapi-sdk-codegen/actions/workflows/codegen-node-pr.yml/dispatches \
+                  https://api.github.com/repos/xero-internal/xeroapi-sdk-codegen/actions/workflows/pr.yml/dispatches \
                   -d '{"ref":"PETOSS-536-enabling-workflow-dispatch","inputs":{"branch_name": "${{github.head_ref}}"}}'
+            
