@@ -62,7 +62,8 @@ jobs:
                   --arg ref "PETOSS-536-enabling-workflow-dispatch" \
                   --arg dispatch_id "$dispatchId" \
                   --arg branch_name "${{github.head_ref}}"
-                  '{ref: $ref, inputs: {dispatch_id: $dispatch_id, branch_name: $branch_name}}'
+                  --arg wait-for-completion "true"
+                  '{ref: $ref, inputs: {dispatch_id: $dispatch_id, branch_name: $branch_name, wait_for_completion: $wait-for-completion}}'
                  
                  )
                  curl -X POST \
