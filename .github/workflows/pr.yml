@@ -57,12 +57,20 @@ jobs:
               run: |
                  dispatchId=$((10000 + RANDOM % 90000))
                  echo "dispatchId: $dispatchId"
+
+                 json_payload=$(jq -n \
+                  --arg ref "PETOSS-536-enabling-workflow-dispatch" \
+                  --arg dispatch_id "$dispatchId" \
+                  --arg branch_name "${{github.head_ref}}"
+                  '{ref: $ref, inputs: {dispatch_id: $dispatch_id, branch_name: $branch_name}}'
+                 
+                 )
                  curl -X POST \
                   -H 'Authorization: Bearer ${{ steps.get_access_token.outputs.result }}' \
                   -H "Accept: application/vnd.github.everest-preview+json" \
                   -H "X-GitHub-Api-Version: 2022-11-28" \
                   https://api.github.com/repos/xero-internal/xeroapi-sdk-codegen/actions/workflows/pr.yml/dispatches \
-                  -d '{"ref":"PETOSS-536-enabling-workflow-dispatch","inputs":{"branch_name": "${{github.head_ref}}", "dispatch_id": $dispatchId}}'
+                  -d "$json_payload"
 
             # - name: Get workflow run ID
             #   id: get-run-id
