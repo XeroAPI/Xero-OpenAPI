@@ -55,28 +55,38 @@ jobs:
 
             - name: Calling All SDK workflows
               run: |
-                response=$(curl -X POST \
+                 curl -X POST \
                   -H 'Authorization: Bearer ${{ steps.get_access_token.outputs.result }}' \
                   -H "Accept: application/vnd.github.everest-preview+json" \
                   -H "X-GitHub-Api-Version: 2022-11-28" \
                   https://api.github.com/repos/xero-internal/xeroapi-sdk-codegen/actions/workflows/pr.yml/dispatches \
-                  -d '{"ref":"PETOSS-536-enabling-workflow-dispatch","inputs":{"branch_name": "${{github.head_ref}}"}}')
-                echo "Triggered workflow with response:"
-                echo $response
+                  -d '{"ref":"PETOSS-536-enabling-workflow-dispatch","inputs":{"branch_name": "${{github.head_ref}}"}}'
+
+            # - name: Get workflow run ID
+            #   id: get-run-id
+            #   run: |
+            #     run_id=$(curl -s \
+            #       -H 'Authorization: Bearer ${{ steps.get_access_token.outputs.result }}' \
+            #       -H "Accept: application/vnd.github.everest-preview+json" \
+            #       -H "X-GitHub-Api-Version: 2022-11-28" \
+            #       https://api.github.com/repos/xero-internal/xeroapi-sdk-codegen/actions/workflows/pr.yml/runs \
+            #       | jq -r '.workflow_runs[0] | select(.head_branch=="PETOSS-536-enabling-workflow-dispatch") | .id' | head -n 1)
+
+            #     if [ -z "$run_id"]; then
+            #       echo "Failed to retrieve workflow run id"
+            #       exit 1
+            #     else
+            #      echo "workflow run ID: $run_id"
+            #     fi
 
             - name: Get workflow run ID
               id: get-run-id
               run: |
-                run_id=$(curl -s \
+                workflow_run=$(curl -s \
                   -H 'Authorization: Bearer ${{ steps.get_access_token.outputs.result }}' \
                   -H "Accept: application/vnd.github.everest-preview+json" \
                   -H "X-GitHub-Api-Version: 2022-11-28" \
-                  https://api.github.com/repos/xero-internal/xeroapi-sdk-codegen/actions/runs \
-                  | jq -r '.workflow_runs[] | select(.head_branch=="PETOSS-536-enabling-workflow-dispatch") | .id' | head -n 1)
+                  https://api.github.com/repos/xero-internal/xeroapi-sdk-codegen/actions/workflows/pr.yml/runs \
+                  | jq -r '.workflow_runs[0]')
 
-                if [ -z "$run_id"]; then
-                  echo "Failed to retrieve workflow run id"
-                  exit 1
-                else
-                 echo "workflow run ID: $run_id"
-                fi
+                echo "workflow run: $workflow_run"
