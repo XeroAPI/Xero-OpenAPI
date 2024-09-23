@@ -53,25 +53,40 @@ jobs:
                   const token = await getAccessToken()
                   return token
 
-            - name: Calling All SDK workflows
-              run: |
-                 dispatchId=$((10000 + RANDOM % 90000))
-                 echo "dispatchId: $dispatchId"
+            - name: Trigger All SDK workflow
+              uses: convictional/trigger-workflow-and-wait@v1.6.1
+              with: 
+                owner: xero-internal
+                repo: xeroapi-sdk-codegen
+                github_token: ${{ steps.get_access_token.outputs.result }}
+                workflow_file_name: pr.yml
+                ref: PETOSS-536-enabling-workflow-dispatch
+                wait_interval: 10
+                client_payload: '{"branch_name": "${{github.head_ref}}"}'
+                propagate_failure: false
+                trigger_workflow: true
+                wait_workflow: true
+                
 
-                 json_payload=$(jq -n \
-                  --arg ref "PETOSS-536-enabling-workflow-dispatch" \
-                  --arg dispatch_id "$dispatchId" \
-                  --arg branch_name "${{github.head_ref}}" \
-                  --arg wait-for-completion "true" \
-                  '{ref: $ref, inputs: {dispatch_id: $dispatch_id, branch_name: $branch_name, wait_for_completion: $wait-for-completion}}'
+            # - name: Calling All SDK workflows
+            #   run: |
+            #      dispatchId=$((10000 + RANDOM % 90000))
+            #      echo "dispatchId: $dispatchId"
+
+            #      json_payload=$(jq -n \
+            #       --arg ref "PETOSS-536-enabling-workflow-dispatch" \
+            #       --arg dispatch_id "$dispatchId" \
+            #       --arg branch_name "${{github.head_ref}}" \
+            #       --arg wait-for-completion "true" \
+            #       '{ref: $ref, inputs: {dispatch_id: $dispatch_id, branch_name: $branch_name, wait_for_completion: $wait-for-completion}}'
                  
-                 )
-                 curl -X POST \
-                  -H 'Authorization: Bearer ${{ steps.get_access_token.outputs.result }}' \
-                  -H "Accept: application/vnd.github.everest-preview+json" \
-                  -H "X-GitHub-Api-Version: 2022-11-28" \
-                  https://api.github.com/repos/xero-internal/xeroapi-sdk-codegen/actions/workflows/pr.yml/dispatches \
-                  -d "$json_payload"
+            #      )
+            #      curl -X POST \
+            #       -H 'Authorization: Bearer ${{ steps.get_access_token.outputs.result }}' \
+            #       -H "Accept: application/vnd.github.everest-preview+json" \
+            #       -H "X-GitHub-Api-Version: 2022-11-28" \
+            #       https://api.github.com/repos/xero-internal/xeroapi-sdk-codegen/actions/workflows/pr.yml/dispatches \
+            #       -d "$json_payload"
 
             # - name: Get workflow run ID
             #   id: get-run-id
@@ -90,18 +105,18 @@ jobs:
             #      echo "workflow run ID: $run_id"
             #     fi
 
-            - name: Get workflow run ID
-              id: get-run-id
-              run: |
-                workflow_run=$(curl -s \
-                  -H 'Authorization: Bearer ${{ steps.get_access_token.outputs.result }}' \
-                  -H "Accept: application/vnd.github.everest-preview+json" \
-                  -H "X-GitHub-Api-Version: 2022-11-28" \
-                  https://api.github.com/repos/xero-internal/xeroapi-sdk-codegen/actions/workflows/pr.yml/runs \
-                  | jq -r '.workflow_runs[0]')
+            # - name: Get workflow run ID
+            #   id: get-run-id
+            #   run: |
+            #     workflow_run=$(curl -s \
+            #       -H 'Authorization: Bearer ${{ steps.get_access_token.outputs.result }}' \
+            #       -H "Accept: application/vnd.github.everest-preview+json" \
+            #       -H "X-GitHub-Api-Version: 2022-11-28" \
+            #       https://api.github.com/repos/xero-internal/xeroapi-sdk-codegen/actions/workflows/pr.yml/runs \
+            #       | jq -r '.workflow_runs[0]')
 
-                echo "workflow run: $workflow_run"
+            #     echo "workflow run: $workflow_run"
                 
-                run_id=(echo $workflow_run | jq -r '.id')
+            #     run_id=(echo $workflow_run | jq -r '.id')
 
-                echo "workflow run ID: $run_id"
+            #     echo "workflow run ID: $run_id"
