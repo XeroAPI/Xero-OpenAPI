@@ -61,14 +61,13 @@ jobs:
                 repo: xeroapi-sdk-codegen
                 owner: xero-internal
                 workflow: pr.yml
-                ref: master
+                ref: PETOSS-536-workflow-dispatch-update
                 workflow_inputs: '{"branch_name": "${{github.head_ref}}"}'
-                distinct_id: 1378719879
             
             - name: Await Run ID ${{ steps.return_dispatch.outputs.run_id }}
               uses: Codex-/await-remote-run@v1.12.2
               with:
-                token: ${{ steps.get_access_token.outputs.result }}
+                token: ${{ github.token }}
                 repo: return-dispatch
                 owner: codex-
                 run_id: ${{ steps.return_dispatch.outputs.run_id }}
