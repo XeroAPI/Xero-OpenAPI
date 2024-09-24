@@ -54,7 +54,7 @@ jobs:
                   return token
 
             - name: Dispatch an action and get the run ID
-              uses: codex-/return-dispatch@v1
+              uses: codex-/return-dispatch@v1.15.0
               id: return_dispatch
               with:
                 token: ${{ steps.get_access_token.outputs.result }}
@@ -65,7 +65,7 @@ jobs:
                 workflow_inputs: '{"branch_name": "${{github.head_ref}}"}'
             
             - name: Await Run ID ${{ steps.return_dispatch.outputs.run_id }}
-              uses: Codex-/await-remote-run@v1.0.0
+              uses: Codex-/await-remote-run@v1.12.2
               with:
                 token: ${{ steps.get_access_token.outputs.result }}
                 repo: return-dispatch
