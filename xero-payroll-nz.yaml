@@ -45,7 +45,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Employees'
-              example: '{
+              example: {
                           "id": "00000000-0000-0000-0000-000000000000",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-08-24T20:16:14.6198711",
@@ -107,7 +107,7 @@ paths:
                               "fixedTermEndDate": null 
                             }
                           ]
-                        }'
+                        }
         '400':
           description: validation error for a bad request
           content:
@@ -213,7 +213,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmployeeObject'
-              example: '{
+              example: {
                         "id": "00000000-0000-0000-0000-000000000000",
                         "providerName": "provider-name",
                         "dateTimeUTC": "2020-08-24T20:27:22.5779577",
@@ -244,7 +244,7 @@ paths:
                           "engagementType": null,
                           "fixedTermEndDate": null                     
                         }
-                      }'
+                      }
         '400':
           description: validation error for a bad request
           content:
@@ -257,7 +257,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Employee'
-            example: '{
+            example: {
                         "title": "Mr",
                         "firstName": "Mike",
                         "lastName": "Johntzxzpxhmkgson",
@@ -270,7 +270,7 @@ paths:
                         },
                         "email": "83139@starkindustries.com",
                         "gender": "M"
-                      }'
+                      }
   /Employees/{EmployeeID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -299,7 +299,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmployeeObject'
-              example: '{
+              example: {
                           "id": "00000000-0000-0000-0000-000000000000",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-08-24T20:16:15.3542191",
@@ -330,7 +330,7 @@ paths:
                             "engagementType": "FixedTerm",
                             "fixedTermEndDate": "2026-01-01T00:00:00"
                           }
-                        }'
+                        }
     put:
       security:
         - OAuth2: [payroll.employees]
@@ -439,7 +439,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmployeeObject'
-              example: '{
+              example: {
                           "id": "00000000-0000-0000-0000-000000000000",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-08-24T20:29:43.3452832",
@@ -467,10 +467,10 @@ paths:
                             "updatedDateUTC": "2020-08-24T20:29:43",
                             "createdDateUTC": "2019-09-22T23:58:23",
                             "endDate": null,
-                            "engagementType": null
+                            "engagementType": null,
                             "fixedTermEndDate": null
                           }
-                        }'
+                        }
         '400':
           description: validation error for a bad request
           content:
@@ -483,7 +483,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Employee'
-            example: '{
+            example: {
                         "title": "Mr",
                         "firstName": "Tony",
                         "lastName": "Starkgtrzgquusrson",
@@ -496,7 +496,7 @@ paths:
                         },
                         "email": "58315@starkindustries.com",
                         "gender": "M"
-                      }'
+                      }
   /Employees/{EmployeeID}/Employment:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -577,7 +577,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmploymentObject'
-              example: '{
+              example: {
                           "id": "00000000-0000-0000-0000-000000000000",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-08-24T20:53:58.8624623",
@@ -590,7 +590,7 @@ paths:
                             "engagementType": "FixedTerm",
                             "fixedTermEndDate": "2026-01-01T00:00:00"
                           }
-                        }'
+                        }
         '400':
           description: validation error for a bad request
           content:
@@ -603,12 +603,12 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Employment'
-            example: '{
+            example: {
                         "payrollCalendarID": "9aa56064-990f-4ad3-a189-d966d8f6a030",
                         "startDate": "2020-09-02",
                         "engagementType": "FixedTerm",
                         "fixedTermEndDate": "2026-01-01"
-                      }'
+                      }
   /Employees/{EmployeeID}/Tax:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -637,7 +637,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmployeeTaxObject'
-              example: '{
+              example: {
                           "id": "00000000-0000-0000-0000-000000000000",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-08-24T20:57:27.5434491",
@@ -662,7 +662,7 @@ paths:
                             "studentLoanBalance": null,
                             "studentLoanAsAt": null
                           }
-                        }'
+                        }
     post: 
       security:
         - OAuth2: [payroll.employees]
@@ -811,14 +811,56 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmployeeTaxObject'
-              example: ''
+              example: {
+                          "id": "00000000-0000-0000-0000-000000000000",
+                          "providerName": "provider-name",
+                          "dateTimeUTC": "2020-08-24T20:57:27.5434491",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null,
+                          "employeeTax": {
+                            "irdNumber": "111111111",
+                            "taxCode": "M",
+                            "esctRatePercentage": 17.5,
+                            "isEligibleForKiwiSaver": true,
+                            "hasSpecialStudentLoanRate": false,
+                            "specialStudentLoanRatePercentage": null,
+                            "specialTaxRatePercentage": null,
+                            "kiwiSaverContributions": "MakeContributions",
+                            "kiwiSaverOptOutDate": null,
+                            "kiwiSaverContributionHolidayEndDate": null,
+                            "kiwiSaverEmployeeContributionRatePercentage": 3,
+                            "kiwiSaverEmployerContributionRatePercentage": 3,
+                            "kiwiSaverEmployerSalarySacrificeContributionRatePercentage": 0,
+                            "hasStudentLoanBalance": false,
+                            "studentLoanBalance": null,
+                            "studentLoanAsAt": null
+                          }
+                        }
       requestBody:
         required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/EmployeeTax'
-            example: ''
+            example: {
+                            "irdNumber": "111111111",
+                            "taxCode": "M",
+                            "esctRatePercentage": 17.5,
+                            "isEligibleForKiwiSaver": true,
+                            "hasSpecialStudentLoanRate": false,
+                            "specialStudentLoanRatePercentage": null,
+                            "specialTaxRatePercentage": null,
+                            "kiwiSaverContributions": "MakeContributions",
+                            "kiwiSaverOptOutDate": null,
+                            "kiwiSaverContributionHolidayEndDate": null,
+                            "kiwiSaverEmployeeContributionRatePercentage": 3,
+                            "kiwiSaverEmployerContributionRatePercentage": 3,
+                            "kiwiSaverEmployerSalarySacrificeContributionRatePercentage": 0,
+                            "hasStudentLoanBalance": false,
+                            "studentLoanBalance": null,
+                            "studentLoanAsAt": null
+                          }
   /Employees/{EmployeeID}/OpeningBalances:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -847,7 +889,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmployeeOpeningBalancesObject'
-              example: '{
+              example: {
                           "id": "00000000-0000-0000-0000-000000000000",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-08-28T20:00:07.7343966",
@@ -867,7 +909,7 @@ paths:
                               "grossEarnings": 40
                             }
                           ]
-                        }'
+                        }
     post:
       security:
         - OAuth2: [payroll.employees]
@@ -965,7 +1007,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmployeeOpeningBalancesObject'
-              example: '{
+              example: {
                           "id": "00000000-0000-0000-0000-000000000000",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-08-28T19:55:36.539949",
@@ -980,7 +1022,7 @@ paths:
                               "grossEarnings": 40
                             }
                           ]
-                        }'
+                        }
         '400':
           description: validation error for a bad request
           content:
@@ -1022,7 +1064,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmployeeLeaves'
-              example: '{
+              example: {
                           "id": "00000000-0000-0000-0000-000000000000",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-08-26T16:57:18.4657329",
@@ -1050,7 +1092,7 @@ paths:
                               "updatedDateUTC": "2019-09-24T05:08:44"
                             }
                           ]
-                        }'
+                        }
     post:
       security:
         - OAuth2: [payroll.employees]
@@ -1159,7 +1201,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmployeeLeaveObject'
-              example: '{
+              example: {
                           "id": "00000000-0000-0000-0000-000000000000",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-08-26T20:29:55.4086404",
@@ -1185,7 +1227,7 @@ paths:
                             ],
                             "updatedDateUTC": "2020-08-26T20:29:55.2151561"
                           }
-                        }'
+                        }
         '400':
           description: validation error for a bad request
           content:
@@ -1198,12 +1240,12 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/EmployeeLeave'
-            example: '{
+            example: {
                         "leaveTypeID": "b0b1b79e-2a25-46c2-ad08-ca25ef48d7e4",
                         "description": "Creating a Description",
                         "startDate": "2020-04-24",
                         "endDate": "2020-04-26"
-                      }'
+                      }
   /Employees/{EmployeeID}/Leave/{LeaveID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -1304,7 +1346,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmployeeLeaveObject'
-              example: '{
+              example: {
                           "id": "00000000-0000-0000-0000-000000000000",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-08-26T20:29:55.8432792",
@@ -1327,7 +1369,7 @@ paths:
                             ],
                             "updatedDateUTC": "2020-08-26T20:29:55.8854536"
                           }
-                        }'
+                        }
         '400':
           description: validation error for a bad request
           content:
@@ -1340,7 +1382,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/EmployeeLeave'
-            example: '{
+            example: {
                         "leaveTypeID": "b0b1b79e-2a25-46c2-ad08-ca25ef48d7e4",
                         "description": "Creating a Description",
                         "startDate": "2020-04-24",
@@ -1353,7 +1395,7 @@ paths:
                             "periodStatus": "Approved"
                           }
                         ]
-                      }'
+                      }
     delete:
       security:
         - OAuth2: [payroll.employees]
@@ -1388,14 +1430,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmployeeLeaveObject'
-              example: '{
+              example: {
                           "id": "00000000-0000-0000-0000-000000000000",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-08-26T22:11:10.809249",
                           "httpStatusCode": "OK",
                           "pagination": null,
                           "problem": null
-                        }'
+                        }
   /Employees/{EmployeeID}/LeaveBalances:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -1424,7 +1466,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmployeeLeaveBalances'
-              example: '{
+              example: {
                           "id": "00000000-0000-0000-0000-000000000000",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-08-26T22:26:48.0448356",
@@ -1462,7 +1504,7 @@ paths:
                               "typeOfUnits": "Hours"
                             }
                           ]
-                        }'
+                        }
   /Employees/{EmployeeID}/LeavePeriods:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -1506,7 +1548,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LeavePeriods'
-              example: '{
+              example: {
                           "id": "00000000-0000-0000-0000-000000000000",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-08-27T13:35:49.4407417",
@@ -1533,7 +1575,7 @@ paths:
                               "typeOfUnitsTaken": "Weeks"
                             }
                           ]
-                        }'
+                        }
         '400':
           description: validation error for a bad request
           content:
@@ -1661,7 +1703,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmployeeLeaveSetupObject'
-              example: '{
+              example: {
                           "id": "00000000-0000-0000-0000-000000000000",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-08-26T16:50:48.7245664",
@@ -1682,7 +1724,7 @@ paths:
                             "sickLeaveAnniversaryDate": "2023-12-31",
                             "annualLeaveAnniversaryDate": "2023-12-31"
                           }
-                        }'
+                        }
         '400':
           description: validation error for a bad request
           content:
@@ -1695,7 +1737,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/EmployeeLeaveSetup'
-            example: '{
+            example: {
                         "holidayPayOpeningBalance": 10,
                         "annualLeaveOpeningBalance": 100,
                         "sickLeaveHoursToAccrueAnnually": 20,
@@ -1704,7 +1746,7 @@ paths:
                         "sickLeaveScheduleOfAccrual": "OnAnniversaryDate",
                         "sickLeaveAnniversaryDate": "2023-12-31",
                         "annualLeaveAnniversaryDate": "2023-12-31"
-                      }'
+                      }
   /Employees/{EmployeeID}/LeaveTypes:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -1733,7 +1775,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmployeeLeaveTypes'
-              example: '{
+              example: {
                           "id": "00000000-0000-0000-0000-000000000000",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-08-27T14:25:16.004485",
@@ -1758,7 +1800,7 @@ paths:
                               "openingBalanceTypeOfUnits": "Weeks"
                             }
                           ]
-                        }'
+                        }
         '400':
           description: validation error for a bad request
           content:
@@ -1833,7 +1875,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmployeeLeaveTypeObject'
-              example: '{
+              example: {
                           "id": "00000000-0000-0000-0000-000000000000",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-08-27T14:31:54.3370081",
@@ -1856,7 +1898,7 @@ paths:
                             "typeOfUnitsToAccrue": "Hours",
                             "openingBalanceTypeOfUnits": "Hours"
                           }
-                        }'
+                        }
         '400':
           description: validation error for a bad request
           content:
@@ -1869,17 +1911,17 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/EmployeeLeaveType'
-            example: '{
+            example: {
                         "leaveTypeID": "35da97ae-05b9-427f-9a98-69157ba42cec",
                         "scheduleOfAccrual": "AnnuallyAfter6Months",
                         "hoursAccruedAnnually": 10,
                         "unitsAccruedAnnually": 10,
                         "typeOfUnitsToAccrue": "Hours",
-                        "openingBalanceTypeOfUnits": "Hours"
+                        "openingBalanceTypeOfUnits": "Hours",
                         "maximumToAccrue": 80,
                         "openingBalance": 100,
                         "rateAccruedHourly": 3.5
-                      }'
+                      }
   /Employees/{EmployeeID}/PaymentMethods:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -1908,7 +1950,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PaymentMethodObject'
-              example: '{
+              example: {
                           "id": "00000000-0000-0000-0000-000000000000",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-08-26T23:34:53.6856317",
@@ -1929,7 +1971,7 @@ paths:
                               }
                             ]
                           }
-                        }'
+                        }
         '400':
           description: validation error for a bad request
           content:
@@ -2020,7 +2062,28 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PaymentMethodObject'
-              example: ''
+              example: {
+                          "id": "00000000-0000-0000-0000-000000000000",
+                          "providerName": "provider-name",
+                          "dateTimeUTC": "2020-08-26T23:34:53.6856317",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null,
+                          "paymentMethod": {
+                            "bankAccounts": [
+                              {
+                                "accountName": "Casual Worker",
+                                "accountNumber": "0607050201419000",
+                                "sortCode": null,
+                                "particulars": null,
+                                "code": null,
+                                "dollarAmount": null,
+                                "reference": "",
+                                "calculationType": "Balance"
+                              }
+                            ]
+                          }
+                        }
         '400':
           description: validation error for a bad request
           content:
@@ -2033,7 +2096,20 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/PaymentMethod'
-            example: ''
+            example: {
+                      "bankAccounts": [
+                              {
+                                "accountName": "Casual Worker",
+                                "accountNumber": "0607050201419000",
+                                "sortCode": null,
+                                "particulars": null,
+                                "code": null,
+                                "dollarAmount": null,
+                                "reference": "",
+                                "calculationType": "Balance"
+                              }
+                      ] 
+                    }       
   /Employees/{EmployeeID}/PayTemplates:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -2062,7 +2138,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmployeePayTemplates'
-              example: '{
+              example: {
                           "id": "00000000-0000-0000-0000-000000000000",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-08-27T15:09:19.0627389",
@@ -2087,7 +2163,7 @@ paths:
                               }
                             ]
                           }
-                        }'
+                        }
         '400':
           description: validation error for a bad request
           content:
@@ -2191,7 +2267,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EarningsTemplateObject'
-              example: '{
+              example: {
                           "id": "00000000-0000-0000-0000-000000000000",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-08-27T14:48:24.6032145",
@@ -2206,7 +2282,7 @@ paths:
                             "earningsRateID": "f9d8f5b5-9049-47f4-8541-35e200f750a5",
                             "name": "Ordinary Time"
                           }
-                        }'
+                        }
         '400':
           description: validation error for a bad request
           content:
@@ -2219,12 +2295,12 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/EarningsTemplate'
-            example: '{
+            example: {
                         "ratePerUnit": 20,
                         "numberOfUnits": 8,
                         "earningsRateID": "f9d8f5b5-9049-47f4-8541-35e200f750a5",
                         "name": "My New One"
-                      }'
+                      }
   /Employees/{EmployeeID}/PayTemplates/Earnings/{PayTemplateEarningID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -2331,7 +2407,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EarningsTemplateObject'
-              example: '{
+              example: {
                           "id": "00000000-0000-0000-0000-000000000000",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-08-27T18:54:08.6524341",
@@ -2346,7 +2422,7 @@ paths:
                             "earningsRateID": "f9d8f5b5-9049-47f4-8541-35e200f750a5",
                             "name": "Ordinary Time"
                           }
-                        }'
+                        }
         '400':
           description: validation error for a bad request
           content:
@@ -2359,11 +2435,11 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/EarningsTemplate'
-            example: '{
+            example: {
                         "ratePerUnit": 25,
                         "numberOfUnits": 4,
                         "earningsRateID": "f9d8f5b5-9049-47f4-8541-35e200f750a5"
-                      }'
+                      }
     delete:
       security:
         - OAuth2: [payroll.employees]
@@ -2397,14 +2473,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EarningsTemplateObject'
-              example: '{
+              example: {
                           "id": "00000000-0000-0000-0000-000000000000",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-08-27T18:54:09.1368544",
                           "httpStatusCode": "OK",
                           "pagination": null,
                           "problem": null
-                        }'
+                        }
   /Employees/{EmployeeID}/PayTemplateEarnings:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -2502,7 +2578,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmployeeEarningsTemplates'
-              example: '{
+              example: {
                           "id": "00000000-0000-0000-0000-000000000000",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-08-27T15:01:52.9369043",
@@ -2527,7 +2603,7 @@ paths:
                               "name": "Salary"
                             }
                           ]
-                        }'
+                        }
         '400':
           description: validation error for a bad request
           content:
@@ -2565,7 +2641,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Deductions'
-              example: '{
+              example: {
                           "id": "00000000-0000-0000-0000-000000000000",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-08-27T20:43:53.931198",
@@ -2595,7 +2671,7 @@ paths:
                               "standardAmount": 200
                             }
                           ]
-                        }'
+                        }
     post:
       security:
         - OAuth2: [payroll.settings]
@@ -2646,7 +2722,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DeductionObject'
-              example: '{
+              example: {
                           "id": "00000000-0000-0000-0000-000000000000",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-08-27T20:43:54.9563295",
@@ -2661,7 +2737,7 @@ paths:
                             "currentRecord": true,
                             "standardAmount": null
                           }
-                        }'
+                        }
         '400':
           description: validation error for a bad request
           content:
@@ -2674,11 +2750,11 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Deduction'
-            example: '{
+            example: {
                         "deductionName": "My new deduction",
                         "deductionCategory": "NzOther",
                         "liabilityAccountId": "568f2e9a-0870-46cc-8678-f83f132ed4e3"
-                      }'
+                      }
   /Deductions/{deductionId}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -2706,7 +2782,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DeductionObject'
-              example: '{
+              example: {
                           "id": "00000000-0000-0000-0000-000000000000",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-08-27T20:43:54.846821",
@@ -2721,7 +2797,7 @@ paths:
                             "currentRecord": true,
                             "standardAmount": null
                           }
-                        }'
+                        }
   /StatutoryDeductions:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -2745,8 +2821,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/StatutoryDeductions'
-              example: '{
-                          "id": "00000000-0000-0000-0000-000000000000",
+              example: {
+                          "id": "e3731829-9801-4809-a1a1-bbe40cd18b7e",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-08-27T23:46:21.0212854",
                           "httpStatusCode": "OK",
@@ -2759,7 +2835,7 @@ paths:
                           "problem": null,
                           "statutoryDeductions": [
                             {
-                              "id": "00000000-0000-0000-0000-000000000000",
+                              "id": "e3731829-9801-4809-a1a1-bbe40cd18b7e",
                               "name": "Child Support",
                               "liabilityAccountId": "fa5cdc43-643b-4ad8-b4ac-3ffe0d0f4488",
                               "statutoryDeductionCategory": "ChildSupport",
@@ -2773,7 +2849,7 @@ paths:
                               "currentRecord": true
                             }
                           ]
-                        }'
+                        }
   /StatutoryDeductions/{id}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -2799,21 +2875,21 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/StatutoryDeductionObject'
-              example: '{
-                          "id": "00000000-0000-0000-0000-000000000000",
+              example: {
+                          "id": "e3731829-9801-4809-a1a1-bbe40cd18b7e",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-08-28T00:01:57.6562992",
                           "httpStatusCode": "OK",
                           "pagination": null,
                           "problem": null,
                           "statutoryDeduction": {
-                            "id": "00000000-0000-0000-0000-000000000000",
+                            "id": "e3731829-9801-4809-a1a1-bbe40cd18b7e",
                             "name": "Child Support",
                             "liabilityAccountId": "fa5cdc43-643b-4ad8-b4ac-3ffe0d0f4488",
                             "statutoryDeductionCategory": "ChildSupport",
                             "currentRecord": true
                           }
-                        }'
+                        }
   /Superannuations:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -2837,8 +2913,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Superannuations'
-              example: '{
-                          "id": "00000000-0000-0000-0000-000000000000",
+              example: {
+                          "id": "563273ea-0dae-4f82-86a4-e0db77c008ea",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-09-14T22:35:14.6806088",
                           "httpStatusCode": "OK",
@@ -2851,16 +2927,16 @@ paths:
                           "problem": null,
                           "benefits": [
                             {
-                              "id": "00000000-0000-0000-0000-000000000000",
+                              "id": "563273ea-0dae-4f82-86a4-e0db77c008ea",
                               "name": "KiwiSaver",
                               "category": "KiwiSaver",
                               "liabilityAccountId": "fa5cdc43-643b-4ad8-b4ac-3ffe0d0f4488",
                               "expenseAccountId": "b343c3b0-5941-4166-82b4-dd926622e0e2",
-                              "standardAmount": null,
+                              "standardAmount": 5,
                               "percentage": 3,
                               "calculationTypeNZ": "PercentageOfTaxableEarnings",
                               "currentRecord": true,
-                              "companyMax": null
+                              "companyMax": 2
                             },
                             {
                               "id": "00000000-0000-0000-0000-000000000000",
@@ -2869,13 +2945,13 @@ paths:
                               "liabilityAccountId": "568f2e9a-0870-46cc-8678-f83f132ed4e3",
                               "expenseAccountId": "e4eb36f6-97e3-4427-a394-dd4e1b355c2e",
                               "standardAmount": 10,
-                              "percentage": null,
+                              "percentage": 4,
                               "calculationTypeNZ": "FixedAmount",
                               "currentRecord": true,
-                              "companyMax": null
+                              "companyMax": 4
                             }
                           ]
-                        }'
+                        }
     post:
       security:
         - OAuth2: [payroll.settings]
@@ -2954,15 +3030,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuperannuationObject'
-              example: '{
-                          "id": "00000000-0000-0000-0000-000000000000",
+              example: {
+                          "id": "8905a754-7ce8-40e2-9fa5-f819deb7adce",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-09-11T00:36:31.7680431",
                           "httpStatusCode": "OK",
                           "pagination": null,
                           "problem": null,
                           "benefit": {
-                            "id": "00000000-0000-0000-0000-000000000000",
+                            "id": "8905a754-7ce8-40e2-9fa5-f819deb7adce",
                             "name": "SidSaver",
                             "category": "Other",
                             "liabilityAccountId": "568f2e9a-0870-46cc-8678-f83f132ed4e3",
@@ -2973,7 +3049,7 @@ paths:
                             "currentRecord": true,
                             "companyMax": null
                           }
-                        }'
+                        }
         '400':
           description: validation error for a bad request
           content:
@@ -2986,14 +3062,14 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Benefit'
-            example: '{
+            example: {
                         "name": "SidSaver",
                         "category": "Other",
                         "liabilityAccountId": "568f2e9a-0870-46cc-8678-f83f132ed4e3",
                         "expenseAccountId": "e4eb36f6-97e3-4427-a394-dd4e1b355c2e",
                         "CalculationTypeNZ": "FixedAmount",
                         "standardAmount": 10
-                      }'
+                      }
   /Superannuations/{SuperannuationID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -3020,15 +3096,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuperannuationObject'
-              example: '{
-                          "id": "00000000-0000-0000-0000-000000000000",
+              example: {
+                          "id": "563273ea-0dae-4f82-86a4-e0db77c008ea",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-09-11T00:36:29.5745157",
                           "httpStatusCode": "OK",
                           "pagination": null,
                           "problem": null,
                           "benefit": {
-                            "id": "00000000-0000-0000-0000-000000000000",
+                            "id": "563273ea-0dae-4f82-86a4-e0db77c008ea",
                             "name": "KiwiSaver",
                             "category": "KiwiSaver",
                             "liabilityAccountId": "fa5cdc43-643b-4ad8-b4ac-3ffe0d0f4488",
@@ -3039,7 +3115,7 @@ paths:
                             "currentRecord": true,
                             "companyMax": null
                           }
-                        }'
+                        }
   /EarningsRates:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -3064,7 +3140,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EarningsRates'
-              example: '{
+              example: {
                           "id": "00000000-0000-0000-0000-000000000000",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-08-28T18:25:57.0647738",
@@ -3114,7 +3190,7 @@ paths:
                               "multipleOfOrdinaryEarningsRate": null
                             }
                           ]
-                        }'
+                        }
     post:
       security:
         - OAuth2: [payroll.settings]
@@ -3172,7 +3248,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EarningsRateObject'
-              example: '{
+              example: {
                           "id": "00000000-0000-0000-0000-000000000000",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-08-28T18:25:57.8141393",
@@ -3191,7 +3267,7 @@ paths:
                             "ratePerUnit": null,
                             "multipleOfOrdinaryEarningsRate": null
                           }
-                        }'
+                        }
         '400':
           description: validation error for a bad request
           content:
@@ -3204,13 +3280,13 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/EarningsRate'
-            example: '{
+            example: {
                         "name": "My Earnings Rate",
                         "earningsType": "RegularEarnings",
                         "rateType": "RatePerUnit",
                         "typeOfUnits": "hours",
                         "expenseAccountID": "e4eb36f6-97e3-4427-a394-dd4e1b355c2e"
-                      }'
+                      }
   /EarningsRates/{EarningsRateID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -3238,7 +3314,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EarningsRateObject'
-              example: '{
+              example: {
                           "id": "00000000-0000-0000-0000-000000000000",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-08-28T18:25:57.8191994",
@@ -3257,7 +3333,7 @@ paths:
                             "ratePerUnit": null,
                             "multipleOfOrdinaryEarningsRate": null
                           }
-                        }'
+                        }
   /LeaveTypes:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -3290,7 +3366,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LeaveTypes'
-              example: '{
+              example: {
                           "id": "00000000-0000-0000-0000-000000000000",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-08-27T20:49:58.4095603",
@@ -3308,7 +3384,7 @@ paths:
                               "name": "Annual Leave",
                               "isPaidLeave": true,
                               "showOnPayslip": true,
-                              "updatedDateUTC": "2019-09-22T23:09:32",
+                              "updatedDateUTC": "2019-09-22T23:09:32Z",
                               "isActive": true,
                               "typeOfUnits": "Hours",
                               "typeOfUnitsToAccrue": "Days"
@@ -3318,13 +3394,13 @@ paths:
                               "name": "Annual Leave - Cash Up",
                               "isPaidLeave": true,
                               "showOnPayslip": true,
-                              "updatedDateUTC": "2019-09-22T23:09:32",
+                              "updatedDateUTC": "2019-09-22T23:09:32Z",
                               "isActive": true,
                               "typeOfUnits": "Hours",
                               "typeOfUnitsToAccrue": "Days"
                             }
                           ]
-                        }'
+                        }
     post:
       security:
         - OAuth2: [payroll.settings]
@@ -3369,7 +3445,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LeaveTypeObject'
-              example: '{
+              example: {
                           "id": "00000000-0000-0000-0000-000000000000",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-08-27T20:49:59.9135451",
@@ -3386,7 +3462,7 @@ paths:
                             "typeOfUnits": "Hours",
                             "typeOfUnitsToAccrue": "Hours"
                           }
-                        }'
+                        }
         '400':
           description: validation error for a bad request
           content:
@@ -3399,11 +3475,11 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/LeaveType'
-            example: '{
+            example: {
                         "name": "My wqwhhiktun Leave",
                         "isPaidLeave": false,
                         "showOnPayslip": true
-                      }'
+                      }
   /LeaveTypes/{LeaveTypeID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -3431,7 +3507,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/LeaveTypeObject'
-              example: '{
+              example: {
                           "id": "00000000-0000-0000-0000-000000000000",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-08-27T20:49:58.7293665",
@@ -3448,7 +3524,7 @@ paths:
                             "typeOfUnits": "Hours",
                             "typeOfUnitsToAccrue": "Days"
                           }
-                        }'
+                        }
   /Reimbursements:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -3473,7 +3549,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Reimbursements'
-              example: '{
+              example: {
                           "id": "00000000-0000-0000-0000-000000000000",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-08-27T21:59:44.5592312",
@@ -3498,7 +3574,7 @@ paths:
                               "calculationType": "RatePerUnit"
                             }
                           ]
-                        }'
+                        }
     post:
       security:
         - OAuth2: [payroll.settings]
@@ -3563,7 +3639,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ReimbursementObject'
-              example: '{
+              example: {
                           "id": "00000000-0000-0000-0000-000000000000",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-08-27T23:25:30.5238274",
@@ -3581,7 +3657,7 @@ paths:
                             "reimbursementCategory": "GSTInclusive",
                             "calculationType": "FixedAmount"
                           }
-                        }'
+                        }
         '400':
           description: validation error for a bad request
           content:
@@ -3594,12 +3670,12 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Reimbursement'
-            example: '{
+            example: {
                         "name": "My new Reimburse",
                         "accountID": "fa5cdc43-643b-4ad8-b4ac-3ffe0d0f4488",
                         "reimbursementCategory": "GSTInclusive",
                         "calculationType": "FixedAmount"
-                      }'
+                      }
   /Reimbursements/{ReimbursementID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -3627,7 +3703,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ReimbursementObject'
-              example: '{
+              example: {
                           "id": "00000000-0000-0000-0000-000000000000",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-08-27T21:59:46.5643076",
@@ -3645,7 +3721,7 @@ paths:
                             "reimbursementCategory": "GST",
                             "calculationType": null
                           }
-                        }'
+                        }
   /Timesheets:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -3703,7 +3779,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Timesheets'
-              example: '{
+              example: {
                           "id": "00000000-0000-0000-0000-000000000000",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-08-28T21:07:39.0921081",
@@ -3727,7 +3803,7 @@ paths:
                               "updatedDateUTC": "2020-08-28T20:50:40"
                             }
                           ]
-                        }'
+                        }
     post:
       security:
         - OAuth2: [payroll.timesheets]
@@ -3812,7 +3888,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TimesheetObject'
-              example: '{
+              example: {
                           "id": "00000000-0000-0000-0000-000000000000",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-08-28T21:07:41.7980254",
@@ -3845,7 +3921,7 @@ paths:
                               }
                             ]
                           }
-                        }'
+                        }
         '400':
           description: validation error for a bad request
           content:
@@ -3858,7 +3934,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Timesheet'
-            example: '{
+            example: {
                         "payrollCalendarID": "9aa56064-990f-4ad3-a189-d966d8f6a030",
                         "employeeID": "68342973-c405-4b86-b5d3-d7b877c27995",
                         "startDate": "2020-04-13",
@@ -3875,7 +3951,7 @@ paths:
                             "numberOfUnits": 6
                           }
                         ]
-                      }'
+                      }
   /Timesheets/{TimesheetID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -3903,7 +3979,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TimesheetObject'
-              example: '{
+              example: {
                           "id": "00000000-0000-0000-0000-000000000000",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-08-28T21:07:39.0637818",
@@ -3943,7 +4019,7 @@ paths:
                               }
                             ]
                           }
-                        }'
+                        }
     delete:
       security:
         - OAuth2: [payroll.timesheets]
@@ -3967,14 +4043,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TimesheetLine'
-              example: '{
+              example: {
                           "id": "00000000-0000-0000-0000-000000000000",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-08-28T21:07:41.4217222",
                           "httpStatusCode": "OK",
                           "pagination": null,
                           "problem": null
-                        }'
+                        }
         '400':
           description: validation error for a bad request
           content:
@@ -4068,7 +4144,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TimesheetLineObject'
-              example: '{
+              example: {
                           "id": "00000000-0000-0000-0000-000000000000",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-08-28T21:07:39.5955147",
@@ -4082,7 +4158,7 @@ paths:
                             "trackingItemID": null,
                             "numberOfUnits": 1
                           }
-                        }'
+                        }
         '400':
           description: validation error for a bad request
           content:
@@ -4095,11 +4171,11 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/TimesheetLine'
-            example: '{
+            example: {
                         "date": "2020-08-03",
                         "earningsRateID": "f9d8f5b5-9049-47f4-8541-35e200f750a5",
                         "numberOfUnits": 1
-                      }'
+                      }
   /Timesheets/{TimesheetID}/Approve:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -4128,7 +4204,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TimesheetObject'
-              example: '{
+              example: {
                           "id": "00000000-0000-0000-0000-000000000000",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-08-28T21:07:40.3918669",
@@ -4175,7 +4251,7 @@ paths:
                               }
                             ]
                           }
-                        }'
+                        }
         '400':
           description: validation error for a bad request
           content:
@@ -4210,7 +4286,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TimesheetObject'
-              example: '{
+              example: {
                           "id": "00000000-0000-0000-0000-000000000000",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-08-28T21:07:41.3053619",
@@ -4257,7 +4333,7 @@ paths:
                               }
                             ]
                           }
-                        }'
+                        }
         '400':
           description: validation error for a bad request
           content:
@@ -4359,7 +4435,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TimesheetLineObject'
-              example: '{
+              example: {
                           "id": "00000000-0000-0000-0000-000000000000",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-08-28T21:07:39.9074596",
@@ -4373,7 +4449,7 @@ paths:
                             "trackingItemID": null,
                             "numberOfUnits": 2
                           }
-                        }'
+                        }
         '400':
           description: validation error for a bad request
           content:
@@ -4386,11 +4462,11 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/TimesheetLine'
-            example: '{
+            example: {
                         "date": "2020-08-04",
                         "earningsRateID": "f9d8f5b5-9049-47f4-8541-35e200f750a5",
                         "numberOfUnits": 2
-                      }'
+                      }
     delete:
       security:
         - OAuth2: [payroll.timesheets]
@@ -4422,14 +4498,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TimesheetLine'
-              example: '{
+              example: {
                           "id": "00000000-0000-0000-0000-000000000000",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-08-28T22:01:51.861069",
                           "httpStatusCode": "OK",
                           "pagination": null,
                           "problem": null
-                        }'
+                        }
         '400':
           description: validation error for a bad request
           content:
@@ -4460,7 +4536,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PayRunCalendars'
-              example: '{
+              example: {
                           "id": "00000000-0000-0000-0000-000000000000",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-08-26T23:54:48.3357097",
@@ -4492,7 +4568,7 @@ paths:
                               "updatedDateUTC": "2019-09-24T03:11:16"
                             }
                           ]
-                        }'
+                        }
     post:
       security:
         - OAuth2: [payroll.settings]
@@ -4578,7 +4654,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PayRunCalendarObject'
-              example: '{
+              example: {
                           "id": "00000000-0000-0000-0000-000000000000",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-08-26T23:54:49.3159839",
@@ -4594,7 +4670,7 @@ paths:
                             "paymentDate": "2020-05-15T00:00:00",
                             "updatedDateUTC": "2020-08-26T23:54:49.4863322"
                           }
-                        }'
+                        }
         '400':
           description: validation error for a bad request
           content:
@@ -4607,12 +4683,12 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/PayRunCalendar'
-            example: '{
+            example: {
                         "name": "My Weekly Cal",
                         "calendarType": "Weekly",
                         "periodStartDate": "2020-05-01",
                         "paymentDate": "2020-05-15"
-                      }'
+                      }
   /PayRunCalendars/{PayrollCalendarID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -4640,7 +4716,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PayRunCalendarObject'
-              example: '{
+              example: {
                           "id": "00000000-0000-0000-0000-000000000000",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-08-26T23:54:48.4398063",
@@ -4656,7 +4732,7 @@ paths:
                             "paymentDate": "2019-07-16T00:00:00",
                             "updatedDateUTC": "2019-09-24T05:08:45"
                           }
-                        }'
+                        }
   /Employees/{EmployeeID}/SalaryAndWages:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -4690,7 +4766,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SalaryAndWages'
-              example: '{
+              example: {
                           "id": "00000000-0000-0000-0000-000000000000",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-08-27T00:25:03.6697493",
@@ -4730,7 +4806,7 @@ paths:
                               "workPatternType": "DaysAndHours"
                             }
                           ]
-                        }'
+                        }
         '400':
           description: validation error for a bad request
           content:
@@ -4804,7 +4880,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SalaryAndWageObject'
-              example: '{
+              example: {
                           "id": "00000000-0000-0000-0000-000000000000",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-08-27T00:22:47.464262",
@@ -4824,7 +4900,7 @@ paths:
                             "paymentType": "Salary",
                             "workPatternType": "DaysAndHours"
                           }
-                        }'
+                        }
         '400':
           description: validation error for a bad request
           content:
@@ -4837,7 +4913,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/SalaryAndWage'
-            example: '{
+            example: {
                         "earningsRateID": "f9d8f5b5-9049-47f4-8541-35e200f750a5",
                         "numberOfUnitsPerWeek": 2,
                         "ratePerUnit": 10,
@@ -4847,7 +4923,7 @@ paths:
                         "annualSalary": 100,
                         "status": "Active",
                         "paymentType": "Salary"
-                      }'
+                      }
   /Employees/{EmployeeID}/SalaryAndWages/{SalaryAndWagesID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -4885,7 +4961,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SalaryAndWages'
-              example: '{
+              example: {
                           "id": "00000000-0000-0000-0000-000000000000",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-08-27T00:25:03.8641784",
@@ -4907,7 +4983,7 @@ paths:
                               "workPatternType": "DaysAndHours"
                             }
                           ]
-                        }'
+                        }
     put:
       security:
         - OAuth2: [payroll.employees]
@@ -4984,7 +5060,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SalaryAndWageObject'
-              example: '{
+              example: {
                           "id": "00000000-0000-0000-0000-000000000000",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-08-27T00:25:11.4976642",
@@ -5004,7 +5080,7 @@ paths:
                             "paymentType": "Salary",
                             "workPatternType": "RegularWeek"
                           }
-                        }'
+                        }
         '400':
           description: validation error for a bad request
           content:
@@ -5017,7 +5093,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/SalaryAndWage'
-            example: '{
+            example: {
                         "earningsRateID": "f9d8f5b5-9049-47f4-8541-35e200f750a5",
                         "numberOfUnitsPerWeek": 3,
                         "ratePerUnit": 11,
@@ -5027,7 +5103,7 @@ paths:
                         "annualSalary": 101,
                         "status": "Active",
                         "paymentType": "Salary"
-                      }'
+                      }
     delete:
       security:
         - OAuth2: [payroll.employees]
@@ -5061,14 +5137,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SalaryAndWageObject'
-              example: '{
+              example: {
                       "id": "00000000-0000-0000-0000-000000000000",
                       "providerName": "provider-name",
                       "dateTimeUTC": "2020-08-27T00:25:11.5391097",
                       "httpStatusCode": "OK",
                       "pagination": null,
                       "problem": null
-                    }'
+                    }
   /PayRuns:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -5101,7 +5177,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PayRuns'
-              example: '{
+              example: {
                           "id": "00000000-0000-0000-0000-000000000000",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-08-28T23:01:56.762619",
@@ -5129,7 +5205,7 @@ paths:
                               "payslipMessage": null
                             }
                           ]
-                        }'
+                        }
     post:
       security:
         - OAuth2: [payroll.payruns]
@@ -5174,7 +5250,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PayRunObject'
-              example: '{
+              example: {
                           "id": "00000000-0000-0000-0000-000000000000",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-09-10T23:56:16.2964746",
@@ -5234,7 +5310,7 @@ paths:
                             "payslipMessage": null,
                             "invalidPayeeIDs": null
                           }
-                        }'
+                        }
         '400':
           description: validation error for a bad request
           content:
@@ -5247,7 +5323,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/PayRun'
-            example: '{
+            example: {
                         "payrollCalendarID": "9aa56064-990f-4ad3-a189-d966d8f6a030",
                         "periodStartDate": "2020-09-08",
                         "periodEndDate": "2020-09-15",
@@ -5255,7 +5331,7 @@ paths:
                         "payRunStatus": "Draft",
                         "payRunType": "Scheduled",
                         "calendarType": "Weekly"
-                      }'
+                      }
   /PayRuns/{PayRunID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -5283,7 +5359,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PayRunObject'
-              example: '{
+              example: {
                           "id": "00000000-0000-0000-0000-000000000000",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-08-28T23:01:57.3773969",
@@ -5325,7 +5401,7 @@ paths:
                             "payslipMessage": null,
                             "invalidPayeeIDs": null
                           }
-                        }'
+                        }
     put:
       security:
         - OAuth2: [payroll.payruns]
@@ -5419,7 +5495,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PayRunObject'
-              example: '{
+              example: {
                           "id": "00000000-0000-0000-0000-000000000000",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-09-10T17:38:14.8294283",
@@ -5551,7 +5627,7 @@ paths:
                             "payslipMessage": null,
                             "invalidPayeeIDs": null
                           }
-                        }'
+                        }
         '400':
           description: validation error for a bad request
           content:
@@ -5564,9 +5640,9 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/PayRun'
-            example: '{
+            example: {
                         "paymentDate": "2019-07-01"
-                      }'
+                      }
   /PaySlips:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -5599,7 +5675,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PaySlips'
-              example: '{
+              example: {
                           "id": "00000000-0000-0000-0000-000000000000",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-08-28T22:55:58.6809685",
@@ -5738,7 +5814,7 @@ paths:
                               }
                             }
                           ]
-                        }'
+                        }
   /PaySlips/{PaySlipID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -5766,7 +5842,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PaySlipObject'
-              example: '{
+              example: {
                           "id": "00000000-0000-0000-0000-000000000000",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-08-28T22:55:59.3854985",
@@ -5898,7 +5974,7 @@ paths:
                               "unpaidWeeks": 0
                             }
                           }
-                        }'
+                        }
     put:
       security:
         - OAuth2: [payroll.payslip]
@@ -6008,7 +6084,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PaySlipObject'
-              example: '{
+              example: {
                           "id": "00000000-0000-0000-0000-000000000000",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-09-10T17:20:24.2970169",
@@ -6167,7 +6243,7 @@ paths:
                               "unpaidWeeks": 0
                             }
                           }
-                        }'
+                        }
         '400':
           description: validation error for a bad request
           content:
@@ -6180,7 +6256,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/PaySlip'
-            example: '{
+            example: {
                         "earningsLines": [
                           {
                             "earningsLineID": "f9d8f5b5-9049-47f4-8541-35e200f750a5",
@@ -6274,7 +6350,7 @@ paths:
                           "daysPaid": 3,
                           "unpaidWeeks": 0
                         }
-                      }'
+                      }
   /Settings:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -6293,7 +6369,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Settings'
-              example: '{
+              example: {
                           "id": "00000000-0000-0000-0000-000000000000",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-08-28T22:18:40.4518638",
@@ -6328,7 +6404,7 @@ paths:
                               }
                             ]
                           }
-                        }'
+                        }
   /Settings/TrackingCategories:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -6347,7 +6423,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TrackingCategories'
-              example: '{
+              example: {
                           "id": "00000000-0000-0000-0000-000000000000",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-08-28T22:18:50.0075482",
@@ -6358,7 +6434,7 @@ paths:
                             "employeeGroupsTrackingCategoryID": "351953c4-8127-4009-88c3-f9cd8c9cbe9f",
                             "timesheetTrackingCategoryID": "f8c0b291-be04-497a-a083-dd9cd19658b5"
                           }
-                        }'
+                        }
   /Employees/{EmployeeID}/Working-Patterns:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -6387,7 +6463,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmployeeWorkingPatternsObject'
-              example: '{
+              example: {
                           "id": "00000000-0000-0000-0000-000000000000",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-08-24T20:16:15.3542191",
@@ -6409,7 +6485,7 @@ paths:
                                   "effectiveFrom": "2024-07-09T00:00:00"
                               }
                           ]
-                        }'
+                        }
     post: 
       security:
         - OAuth2: [payroll.employees]
@@ -6506,7 +6582,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmployeeWorkingPatternWithWorkingWeeksObject'
-              example: '{
+              example: {
                           "id": "00000000-0000-0000-0000-000000000000",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-08-24T20:53:58.8624623",
@@ -6528,7 +6604,7 @@ paths:
                                   }
                               ]
                           }
-                        }'
+                        }
         '400':
           description: validation error for a bad request
           content:
@@ -6541,7 +6617,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/EmployeeWorkingPatternWithWorkingWeeksRequest'
-            example: '{
+            example: {
                         "effectiveFrom": "2020-01-01T00:00:00",
                         "workingWeeks": [
                             {
@@ -6554,7 +6630,7 @@ paths:
                                 "sunday": 0.0
                             }
                         ]
-                      }'
+                      }
   /Employees/{EmployeeID}/Working-Patterns/{EmployeeWorkingPatternID}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -6592,7 +6668,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmployeeWorkingPatternWithWorkingWeeksObject'
-              example: '{
+              example: {
                           "id": "00000000-0000-0000-0000-000000000000",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-08-24T20:16:15.3542191",
@@ -6614,7 +6690,7 @@ paths:
                                   }
                               ]
                           }
-                        }'
+                        }
     delete:
       security:
         - OAuth2: [payroll.employees]
@@ -6649,14 +6725,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmployeeLeaveObject'
-              example: '{
+              example: {
                           "id": "00000000-0000-0000-0000-000000000000",
                           "providerName": "provider-name",
                           "dateTimeUTC": "2020-08-26T22:11:10.809249",
                           "httpStatusCode": "OK",
                           "pagination": null,
                           "problem": null
-                        }'
+                        }
         '400':
           description: validation error for a bad request
           content:
@@ -6775,10 +6851,10 @@ components:
     Employee:
       type: object
       required:
-        - FirstName
-        - LastName
-        - DateOfBirth
-        - Address
+        - firstName
+        - lastName
+        - dateOfBirth
+        - address
       properties:
         employeeID:
           description:  Xero unique identifier for the employee
@@ -6872,9 +6948,9 @@ components:
     Employment:
       type: object
       required:
-        - PayrollCalendarID
-        - StartDate
-        - EngagementType
+        - payrollCalendarID
+        - startDate
+        - engagementType
       properties:
         payrollCalendarID:
           description: Xero unique identifier for the payroll calendar of the employee
@@ -7692,7 +7768,6 @@ components:
         - deductionName
         - deductionCategory
         - liabilityAccountId
-        - calculationType
       properties:
         deductionId:
           description: The Xero identifier for Deduction
