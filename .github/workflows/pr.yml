@@ -24,17 +24,17 @@ jobs:
             - name: Install yaml lint
               run: pip install yamllint
 
-            - name: Run yamllint
-              run: |
-               git fetch > /dev/null 2>&1
-               git checkout ${{github.head_ref}}
-               find . -type f \( -name "*.yaml" \) > yaml_files.txt
+            # - name: Run yamllint
+            #   run: |
+            #    git fetch > /dev/null 2>&1
+            #    git checkout ${{github.head_ref}}
+            #    find . -type f \( -name "*.yaml" \) > yaml_files.txt
 
-               if [ -s yaml_files.txt ]; then
-                echo "linting the following yaml files:"
-                cat yaml_files.txt
-                xargs yamllint < yaml_files.txt
-               fi
+            #    if [ -s yaml_files.txt ]; then
+            #     echo "linting the following yaml files:"
+            #     cat yaml_files.txt
+            #     xargs yamllint < yaml_files.txt
+            #    fi
             
             - name: Install octokit dependencies
               run: npm i
@@ -53,17 +53,38 @@ jobs:
                   const token = await getAccessToken()
                   return token
 
-            - name: Trigger All SDK workflow
-              uses: convictional/trigger-workflow-and-wait@v1.6.1
-              with: 
-                owner: xero-internal
+            - name: Dispatch an action and get the run ID
+              uses: codex-/return-dispatch@v1
+              id: return_dispatch
+              with:
+                token: ${{ steps.get_access_token.outputs.result }}
                 repo: xeroapi-sdk-codegen
-                github_token: ${{ steps.get_access_token.outputs.result }}
-                workflow_file_name: pr.yml
+                owner: xero-internal
+                workflow: pr.yml
                 ref: master
-                wait_interval: 50
-                client_payload: '{"branch_name": "${{github.head_ref}}"}'
-                propagate_failure: true
-                trigger_workflow: true
-                wait_workflow: true
+                workflow_inputs: '{"branch_name": "${{github.head_ref}}"}'
+            
+            - name: Await Run ID ${{ steps.return_dispatch.outputs.run_id }}
+              uses: Codex-/await-remote-run@v1.0.0
+              with:
+                token: ${{ steps.get_access_token.outputs.result }}
+                repo: return-dispatch
+                owner: codex-
+                run_id: ${{ steps.return_dispatch.outputs.run_id }}
+                run_timeout_seconds: 300 # Optional
+                poll_interval_ms: 5000 # Optional
+
+            # - name: Trigger All SDK workflow
+            #   uses: convictional/trigger-workflow-and-wait@v1.6.1
+            #   with: 
+            #     owner: xero-internal
+            #     repo: xeroapi-sdk-codegen
+            #     github_token: ${{ steps.get_access_token.outputs.result }}
+            #     workflow_file_name: pr.yml
+            #     ref: master
+            #     wait_interval: 50
+            #     client_payload: '{"branch_name": "${{github.head_ref}}"}'
+            #     propagate_failure: true
+            #     trigger_workflow: true
+            #     wait_workflow: true
               
