@@ -68,9 +68,9 @@ jobs:
             - name: Await Run ID ${{ steps.return_dispatch.outputs.run_id }}
               uses: Codex-/await-remote-run@v1.12.2
               with:
-                token: ${{ github.token }}
-                repo: return-dispatch
-                owner: codex-
+                token: ${{ steps.get_access_token.outputs.result }}
+                repo: xeroapi-sdk-codegen
+                owner: xero-internal
                 run_id: ${{ steps.return_dispatch.outputs.run_id }}
                 run_timeout_seconds: 700 # Optional
                 poll_interval_ms: 5000 # Optional
