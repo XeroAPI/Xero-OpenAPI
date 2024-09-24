@@ -54,7 +54,7 @@ jobs:
                   return token
 
             - name: Trigger all SDK workflow
-              uses: codex-/return-dispatch@v1.15.0
+              uses: codex-/return-dispatch@feat/improve_retry_strategy
               id: return_dispatch
               with:
                 token: ${{ steps.get_access_token.outputs.result }}
@@ -63,7 +63,7 @@ jobs:
                 workflow: pr.yml
                 ref: PETOSS-536-workflow-dispatch-update
                 workflow_inputs: '{"branch_name": "${{github.head_ref}}"}'
-                workflow_timeout_seconds: "600"
+                workflow_timeout_seconds: 600
             
             - name: Await Run ID ${{ steps.return_dispatch.outputs.run_id }}
               uses: Codex-/await-remote-run@v1.12.2
