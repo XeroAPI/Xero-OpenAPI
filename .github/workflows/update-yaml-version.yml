@@ -1,0 +1,21 @@
+name: Update YAML version and raise PR
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+jobs:
+    Update-OpenAPI-version:
+        runs-on: ubuntu-latest    
+        permissions:
+          contents: write
+          pull-requests: write
+        
+        steps:
+            - name: Checkout Repository
+              uses: actions/checkout@v4
+              
+            - name: Install yq
+              run: sudo apt-get install -y yq
+               
