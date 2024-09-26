@@ -1,0 +1,92 @@
+name: Open API PR check
+
+on:
+    pull_request:
+        paths:
+            - '**'
+
+jobs:
+    pr-health-check:
+        runs-on: ubuntu-latest    
+        permissions:
+          contents: write
+          pull-requests: write
+          actions: read
+        
+        steps:
+            - name: Checkout Repository
+              uses: actions/checkout@v4
+
+            - name: Set up Python
+              uses: actions/setup-python@v4
+              with:
+                python-version: '3.x'
+
+            - name: Install yaml lint
+              run: pip install yamllint
+
+            # - name: Run yamllint
+            #   run: |
+            #    git fetch > /dev/null 2>&1
+            #    git checkout ${{github.head_ref}}
+            #    find . -type f \( -name "*.yaml" \) > yaml_files.txt
+
+            #    if [ -s yaml_files.txt ]; then
+            #     echo "linting the following yaml files:"
+            #     cat yaml_files.txt
+            #     xargs yamllint < yaml_files.txt
+            #    fi
+            
+            - name: Install octokit dependencies
+              run: npm i
+              working-directory: ${{ github.workspace }}/.github/octokit
+      
+            - name: Get github app access token
+              id: get_access_token
+              env:
+                GITHUB_APP_ID: ${{ secrets.XERO_GITHUB_APP_ID }}
+                GITHUB_APP_PRIVATE_KEY: ${{ secrets.XERO_GITHUB_APPLICATION_KEY }}
+              uses: actions/github-script@v7
+              with:
+                result-encoding: string
+                script: |
+                  const { getAccessToken } = await import('${{ github.workspace }}/.github/octokit/index.js')
+                  const token = await getAccessToken()
+                  return token
+
+            # - name: Trigger all SDK workflow
+            #   uses: codex-/return-dispatch@v1
+            #   id: return_dispatch
+            #   with:
+            #     token: ${{ steps.get_access_token.outputs.result }}
+            #     repo: xeroapi-sdk-codegen
+            #     owner: xero-internal
+            #     workflow: pr.yml
+            #     ref: refs/heads/PETOSS-536-Action-Dispatch-permission
+            #     workflow_inputs: '{"branch_name": "${{github.head_ref}}"}'
+            #     workflow_timeout_seconds: "600"
+            
+            # - name: Await Run ID ${{ steps.return_dispatch.outputs.run_id }}
+            #   uses: Codex-/await-remote-run@v1.12.2
+            #   with:
+            #     token: ${{ steps.get_access_token.outputs.result }}
+            #     repo: xeroapi-sdk-codegen
+            #     owner: xero-internal
+            #     run_id: ${{ steps.return_dispatch.outputs.run_id }}
+            #     run_timeout_seconds: 700 # Optional
+            #     poll_interval_ms: 5000 # Optional
+
+            # - name: Trigger All SDK workflow
+            #   uses: convictional/trigger-workflow-and-wait@v1.6.1
+            #   with: 
+            #     owner: xero-internal
+            #     repo: xeroapi-sdk-codegen
+            #     github_token: ${{ steps.get_access_token.outputs.result }}
+            #     workflow_file_name: pr.yml
+            #     ref: master
+            #     wait_interval: 50
+            #     client_payload: '{"branch_name": "${{github.head_ref}}"}'
+            #     propagate_failure: true
+            #     trigger_workflow: true
+            #     wait_workflow: true
+              

@@ -1,0 +1,128 @@
+name: Update YAML version and raise PR
+
+on:
+   release:
+     types: [published]
+
+   workflow_dispatch:
+
+   pull_request:
+      paths:
+          - '**'
+
+jobs:
+    Update-yaml-version:
+        runs-on: ubuntu-latest    
+        permissions:
+          contents: write
+          pull-requests: write
+        
+        steps:
+            - name: Checkout Repository
+              uses: actions/checkout@v4
+
+            - name: Fetch Latest release number
+              id: get_latest_release_number
+              run: |
+               latest_version=$(gh release view --json tagName --jq '.tagName')
+               echo "Latest release version is - $latest_version"
+               echo "releaseVersion=$latest_version" >> $GITHUB_OUTPUT
+              env:
+               GH_TOKEN: ${{ github.token }}
+               
+
+            - name: Update version of the yaml files
+              run: |
+               ls
+               for file in xero_accounting.yaml xero_assets.yaml xero_bankfeeds.yaml xero_files.yaml xero-app-store.yaml xero-finance.yaml xero-identity.yaml xero-payroll-au.yaml xero-payroll-nz.yaml xero-payroll-uk.yaml xero-projects.yaml; do
+                 yq eval ".info.version = \"10.1.0\"" -i "$file"
+                echo "updated version in $file"
+               done
+               head -n 20 xero_assets.yaml
+
+
+            - name: Identify the branch name
+              id: identify_branch_name
+              run: |
+                  branch_name='OAS-version-update-10.3.7'
+                  echo "branchName=$branch_name" >> $GITHUB_OUTPUT
+
+            - name: Checkout branch
+              run: |
+                  if git ls-remote --heads origin ${{steps.identify_branch_name.outputs.branchName}} | grep -q "refs/heads/${{steps.identify_branch_name.outputs.branchName}}"; then
+                    echo "checking out existing branch"
+                    git fetch origin > /dev/null 2>&1
+                    git checkout ${{steps.identify_branch_name.outputs.branchName}} 
+                  else
+                    echo "branch does not exists, creating new branch"
+                    echo "branchName *****>> ${{steps.identify_branch_name.outputs.branchName}}"
+                    git checkout -b ${{steps.identify_branch_name.outputs.branchName}}
+                  fi
+
+            - name: Staging & commiting
+              id: detect-changes
+              run: |
+                CHANGES_DETECTED=$(git diff)
+                if [ -z "$CHANGES_DETECTED" ]; then
+                  echo "no new changes, nothing to commit"
+                  echo "changes_detected=false" >> $GITHUB_OUTPUT
+                else
+                  echo "changes_detected=true" >> $GITHUB_OUTPUT
+                  echo "running the git commands......"
+
+                  git branch
+                          
+                  echo 'staging the changes'
+                  git add --all
+                          
+                  echo 'git status'
+                  git diff
+                          
+                  echo "git config setup"
+                  git config --global user.name "Github Actions"
+                  git config --global user.email "actions@github.com"
+                          
+                  echo 'commiting changes....'
+                  git commit -m "chore: version update for all the yaml files" 
+                fi
+
+            - name: Pushing the Branch
+              run: |
+                if [ "${{steps.detect-changes.outputs.changes_detected}}" == "true" ]; then
+                  echo "pushing the code to ${{steps.identify_branch_name.outputs.branchName}}"
+                  git branch
+                  git push origin ${{steps.identify_branch_name.outputs.branchName}} 
+                fi
+
+            - name: Create PR
+              run: |
+                if [ "${{steps.detect-changes.outputs.changes_detected}}" == "true" ]; then
+                  echo "Creating PR in ${{steps.identify_branch_name.outputs.branchName}}"
+                  gh pr create \
+                    --title "OAS version update - x.x.x" \
+                    --base master \
+                    --head ${{steps.identify_branch_name.outputs.branchName}} \
+                    --body "chore: version update for all the yaml files"
+                fi
+              env:
+                GITHUB_TOKEN: ${{ github.token }}
+
+            # - name: Auto Merge PR & deletes branch
+            #   run: |
+            #     BRANCH_NAME=${{steps.identify_branch_name.outputs.branchName}} 
+            #     PR_NUMBER=$(gh pr list --head "$BRANCH_NAME" --json number --jq '. [0].number')
+
+            #     if [ -z "$PR_NUMBER" ]; then
+            #      echo "No PR found for branch: $BRANCH_NAME"
+            #      exit 1
+            #     fi
+
+            #     echo "Merging the PR...."
+                
+            #     gh pr merge $PR_NUMBER --merge --delete-branch --repo ${{github.repository}}
+
+            #     echo "PR #$PR_NUMBER has been merged & branch has been deleted"
+            #   env:
+            #     GITHUB_TOKEN: ${{ github.token }}
+
+
