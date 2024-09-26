@@ -10,6 +10,7 @@ on:
       paths:
           - '**'
 
+ #  Files=("./xero_accounting.yaml", "./xero_assets.yaml", "./xero_bankfeeds.yaml", "./xero_files.yaml", "./xero-app-store.yaml")
 
 jobs:
     Update-yaml-version:
@@ -25,8 +26,7 @@ jobs:
             - name: Update version of the yaml files
               run: |
                ls
-               Files=("./xero_accounting.yaml", "./xero_assets.yaml", "./xero_bankfeeds.yaml", "./xero_files.yaml", "./xero-app-store.yaml")
-               for file  in "${Files[@]}"; do
+               for file in xero_accounting.yaml xero_assets.yaml; do
                  yq eval ".info.version = \"10.1.0\"" -i "$file"
                 echo "updated version in $file"
                done
