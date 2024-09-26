@@ -10,8 +10,6 @@ on:
       paths:
           - '**'
 
- #  Files=("./xero_accounting.yaml", "./xero_assets.yaml", "./xero_bankfeeds.yaml", "./xero_files.yaml", "./xero-app-store.yaml")
-
 jobs:
     Update-yaml-version:
         runs-on: ubuntu-latest    
@@ -30,4 +28,5 @@ jobs:
                  yq eval ".info.version = \"10.1.0\"" -i "$file"
                 echo "updated version in $file"
                done
+               head -n 20 xero_assets.yaml
                
