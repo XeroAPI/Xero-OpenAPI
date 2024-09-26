@@ -29,4 +29,70 @@ jobs:
                 echo "updated version in $file"
                done
                head -n 20 xero_assets.yaml
-               
+
+            - name: Checking existing PR
+              shell: bash
+              id: check-pr
+              run: |
+                BRANCH_NAME='OAS-version-update-10.1.0'
+                TARGET_BRANCH='master'
+                PR_EXISTS=$(gh pr list --head "$BRANCH_NAME" --base "$TARGET_BRANCH" --json number --jq '. | length')
+          
+                if [ "$PR_EXISTS" -gt 0 ]; then
+                  echo "PR already exists"
+                  echo "pr_exists=true" >> $GITHUB_OUTPUT
+                else 
+                  echo "No PR exists"
+                  echo "pr_exists=false" >> $GITHUB_OUTPUT
+                fi
+              env:
+               GITHUB_TOKEN: ${{ github.token }}
+
+            - name: Staging & commiting
+              id: detect-changes
+              shell: bash
+              run: |
+                CHANGES_DETECTED=$(git diff)
+                if [ -z "$CHANGES_DETECTED" ]; then
+                  echo "no new changes, nothing to commit"
+                  echo "changes_detected=false" >> $GITHUB_OUTPUT
+                else
+                  echo "changes_detected=true" >> $GITHUB_OUTPUT
+                  echo "running the git commands......"
+                          
+                  echo 'staging the changes'
+                  git add --all
+                          
+                  echo 'git status'
+                  git diff
+                          
+                  echo "git config setup"
+                  git config --global user.name "Github Actions"
+                  git config --global user.email "actions@github.com"
+                          
+                  echo 'commiting changes....'
+                  git commit -m "chore: version update for all the yaml files" 
+                fi
+
+            - name: Pushing the Branch
+              shell: bash
+              run: |
+                if [ "${{steps.detect-changes.outputs.changes_detected}}" == "true" ]; then
+                  echo "pushing the code to OAS-version-update-10.1.0"
+                  git push origin OAS-version-update-10.1.0
+                fi
+
+            - name: Create PR
+              shell: bash
+              run: |
+                if [ "${{steps.check-pr.outputs.pr_exists}}" == "false" ] && [ "${{steps.detect-changes.outputs.changes_detected}}" == "true" ]; then
+                  echo "Creating PR in OAS-version-update-10.1.0"
+                  gh pr create \
+                    --title "OAS version update" \
+                    --base master \
+                    --head OAS-version-update-10.1.0 \
+                EOF
+                  )"
+                fi
+              env:
+                GITHUB_TOKEN: ${{ github.token }}
