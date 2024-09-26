@@ -33,7 +33,7 @@ jobs:
               run: |
                ls
                for file in xero_accounting.yaml xero_assets.yaml xero_bankfeeds.yaml xero_files.yaml xero-app-store.yaml xero-finance.yaml xero-identity.yaml xero-payroll-au.yaml xero-payroll-nz.yaml xero-payroll-uk.yaml xero-projects.yaml; do
-                 yq eval --no-colors ".info.version = \"10.1.0\"" -i "$file"
+                 yq eval --no-colors --wrap=wrap ".info.version = \"10.1.0\"" -i "$file"
                 echo "updated version in $file"
                done
                cat xero_assets.yaml
