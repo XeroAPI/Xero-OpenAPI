@@ -27,6 +27,8 @@ jobs:
                latest_version=$(gh release view --json tagName --jq '.tagName')
                echo "Latest release version is - $latest_version"
                echo "releaseVersion=$latest_version" >> $GITHUB_OUTPUT
+              env:
+               GH_TOKEN: ${{ github.token }}
                
 
             # - name: Update version of the yaml files
