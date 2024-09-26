@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: "6.3.0"
+  version: "10.1.0"
   title: Xero OAuth 2 Identity Service API
   description: These endpoints are related to managing authentication tokens and identity for Xero API
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
@@ -9,7 +9,7 @@ info:
     email: "api@xero.com"
     url: "https://developer.xero.com"
   license:
-    name: MIT 
+    name: MIT
     url: 'https://github.com/XeroAPI/Xero-OpenAPI/blob/master/LICENSE'
 servers:
   - description: Xero Identity service API
@@ -36,23 +36,14 @@ paths:
       x-basepath: 'https://api.xero.com'
       responses:
         '200':
-          description: Success - return response of type Connections array with 0 to n Connection  
+          description: Success - return response of type Connections array with 0 to n Connection
           content:
             application/json:
               schema:
                 type: array
                 items:
                   $ref: '#/components/schemas/Connection'
-              example: '[
-                          {
-                            "id": "7cb59f93-2964-421d-bb5e-a0f7a4572a44",
-                            "tenantId": "fe79f7dd-b6d4-4a92-ba7b-538af6289c58",
-                            "tenantName": "Demo Company (NZ)",
-                            "tenantType": "ORGANISATION",
-                            "createdDateUtc": "2019-12-07T18:46:19.5165400",
-                            "updatedDateUtc": "2019-12-07T18:46:19.5187840"
-                          }
-                        ]'
+              example: '[ { "id": "7cb59f93-2964-421d-bb5e-a0f7a4572a44", "tenantId": "fe79f7dd-b6d4-4a92-ba7b-538af6289c58", "tenantName": "Demo Company (NZ)", "tenantType": "ORGANISATION", "createdDateUtc": "2019-12-07T18:46:19.5165400", "updatedDateUtc": "2019-12-07T18:46:19.5187840" } ]'
   '/Connections/{id}':
     delete:
       security:
@@ -73,7 +64,7 @@ paths:
             format: uuid
       responses:
         '204':
-          description: Success - connection has been deleted no content returned 
+          description: Success - connection has been deleted no content returned
         '404':
           description: Resource not found
 components:
@@ -151,13 +142,13 @@ components:
           description: token used to refresh an expired access token
           type: string
   securitySchemes:
-    BasicAuth:    
+    BasicAuth:
       type: http
       scheme: basic
     OAuth2:
       type: oauth2
       description: For more information
-      flows: 
+      flows:
         authorizationCode:
           authorizationUrl: 'https://login.xero.com/identity/connect/authorize'
           tokenUrl: 'https://identity.xero.com/connect/token'

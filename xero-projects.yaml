@@ -1,15 +1,15 @@
 openapi: 3.0.0
 info:
-  version: "6.3.0"
+  version: "10.1.0"
   title: Xero Projects API
-  description: This is the Xero Projects API 
+  description: This is the Xero Projects API
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
   contact:
     name: "Xero Platform Team"
     email: "api@xero.com"
     url: "https://developer.xero.com"
   license:
-    name: MIT 
+    name: MIT
     url: 'https://github.com/XeroAPI/Xero-OpenAPI/blob/master/LICENSE'
 servers:
   - description: Xero API server for projects
@@ -32,7 +32,7 @@ paths:
           in: query
           required: false
           description: Search for all projects that match a comma separated list of projectIds
-          schema: 
+          schema:
             type: array
             items:
               type: string
@@ -42,20 +42,20 @@ paths:
           in: query
           required: false
           description: Filter for projects for a specific contact
-          schema: 
+          schema:
             type: string
             format: uuid
         - name: states
           in: query
           required: false
           description: Filter for projects in a particular state (INPROGRESS or CLOSED)
-          schema: 
+          schema:
             type: string
         - name: page
           in: query
           required: false
           description: set to 1 by default. The requested number of the page in paged response - Must be a number greater than 0.
-          schema: 
+          schema:
             type: integer
             example: 1
             default: 1
@@ -64,7 +64,7 @@ paths:
           in: query
           required: false
           description: Optional, it is set to 50 by default. The number of items to return per page in a paged response - Must be a number between 1 and 500.
-          schema: 
+          schema:
             type: integer
             minimum: 1
             maximum: 500
@@ -77,82 +77,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Projects'
-              example: {
-                          "pagination": {
-                            "page": 1,
-                            "pageSize": 50,
-                            "pageCount": 1,
-                            "itemCount": 9
-                          },
-                          "items": [
-                            {
-                              "projectId": "b021e7cb-1903-4292-b48b-5b27b4271e3e",
-                              "contactId": "216830cb-9a68-487e-928b-c1a7ccc4fc81",
-                              "name": "FooProject28916",
-                              "currencyCode": "AUD",
-                              "minutesLogged": 180,
-                              "totalTaskAmount": {
-                                "currency": "AUD",
-                                "value": 60.0
-                              },
-                              "totalExpenseAmount": {
-                                "currency": "AUD",
-                                "value": 499.0
-                              },
-                              "minutesToBeInvoiced": 180,
-                              "taskAmountToBeInvoiced": {
-                                "currency": "AUD",
-                                "value": 60.0
-                              },
-                              "taskAmountInvoiced": {
-                                "currency": "AUD",
-                                "value": 0.0
-                              },
-                              "expenseAmountToBeInvoiced": {
-                                "currency": "AUD",
-                                "value": 499.0
-                              },
-                              "expenseAmountInvoiced": {
-                                "currency": "AUD",
-                                "value": 0.0
-                              },
-                              "projectAmountInvoiced": {
-                                "currency": "AUD",
-                                "value": 0.0
-                              },
-                              "deposit": {
-                                "currency": "AUD",
-                                "value": 0.0
-                              },
-                              "depositApplied": {
-                                "currency": "AUD",
-                                "value": 0.0
-                              },
-                              "creditNoteAmount": {
-                                "currency": "AUD",
-                                "value": 0.0
-                              },
-                              "totalInvoiced": {
-                                "currency": "AUD",
-                                "value": 0.0
-                              },
-                              "totalToBeInvoiced": {
-                                "currency": "AUD",
-                                "value": 559.0
-                              },
-                              "deadlineUtc": "2020-03-03T15:00:00Z",
-                              "estimate": {
-                                "currency": "AUD",
-                                "value": 99.99
-                              },
-                              "status": "INPROGRESS"
-                            }
-                          ]
-                        }
+              example: {"pagination": {"page": 1, "pageSize": 50, "pageCount": 1, "itemCount": 9}, "items": [{"projectId": "b021e7cb-1903-4292-b48b-5b27b4271e3e", "contactId": "216830cb-9a68-487e-928b-c1a7ccc4fc81", "name": "FooProject28916", "currencyCode": "AUD", "minutesLogged": 180, "totalTaskAmount": {"currency": "AUD", "value": 60.0}, "totalExpenseAmount": {"currency": "AUD", "value": 499.0}, "minutesToBeInvoiced": 180, "taskAmountToBeInvoiced": {"currency": "AUD", "value": 60.0}, "taskAmountInvoiced": {"currency": "AUD", "value": 0.0}, "expenseAmountToBeInvoiced": {"currency": "AUD", "value": 499.0}, "expenseAmountInvoiced": {"currency": "AUD", "value": 0.0}, "projectAmountInvoiced": {"currency": "AUD", "value": 0.0}, "deposit": {"currency": "AUD", "value": 0.0}, "depositApplied": {"currency": "AUD", "value": 0.0}, "creditNoteAmount": {"currency": "AUD", "value": 0.0}, "totalInvoiced": {"currency": "AUD", "value": 0.0}, "totalToBeInvoiced": {"currency": "AUD", "value": 559.0}, "deadlineUtc": "2020-03-03T15:00:00Z", "estimate": {"currency": "AUD", "value": 99.99}, "status": "INPROGRESS"}]}
         '400':
-          $ref: '#/components/responses/400Error' 
+          $ref: '#/components/responses/400Error'
     post:
-      security: 
+      security:
         - OAuth2: [projects]
       tags:
         - Project
@@ -167,13 +96,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/ProjectCreateOrUpdate'
-            example:
-              '{
-                "contactId": "00000000-0000-0000-000-000000000000",
-                "name": "New Kitchen",
-                "deadlineUtc": "2019-12-10T12:59:59Z",
-                "estimateAmount": "99.99"
-               }'
+            example: '{ "contactId": "00000000-0000-0000-000-000000000000", "name": "New Kitchen", "deadlineUtc": "2019-12-10T12:59:59Z", "estimateAmount": "99.99" }'
       responses:
         '201':
           description: OK/success, returns the new project object
@@ -181,68 +104,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Project'
-              example: { 
-                          "projectId": "ed957eee-bc6f-4f52-a663-aa42e6af9620",
-                          "contactId": "216830cb-9a68-487e-928b-c1a7ccc4fc81",
-                          "name": "New Kitchen",
-                          "currencyCode": "AUD",
-                          "minutesLogged": 0,
-                          "totalTaskAmount": { 
-                            "currency": "AUD",
-                            "value": 0.0
-                          },
-                          "totalExpenseAmount": { 
-                            "currency": "AUD",
-                            "value": 0.0
-                          },
-                          "minutesToBeInvoiced": 0,
-                          "taskAmountToBeInvoiced": { 
-                            "currency": "AUD",
-                            "value": 0.0
-                          },
-                          "taskAmountInvoiced": { 
-                            "currency": "AUD",
-                            "value": 0.0
-                          },
-                          "expenseAmountToBeInvoiced": { 
-                            "currency": "AUD",
-                            "value": 0.0
-                          },
-                          "expenseAmountInvoiced": { 
-                            "currency": "AUD",
-                            "value": 0.0
-                          },
-                          "projectAmountInvoiced": { 
-                            "currency": "AUD",
-                            "value": 0.0
-                          },
-                          "deposit": { 
-                            "currency": "AUD",
-                            "value": 0.0
-                          },
-                          "depositApplied": { 
-                            "currency": "AUD",
-                            "value": 0.0
-                          },
-                          "creditNoteAmount": { 
-                            "currency": "AUD",
-                            "value": 0.0
-                          },
-                          "totalInvoiced": { 
-                            "currency": "AUD",
-                            "value": 0.0
-                          },
-                          "totalToBeInvoiced": { 
-                            "currency": "AUD",
-                            "value": 0.0
-                          },
-                          "deadlineUtc": "2020-03-03T15:00:00Z",
-                          "estimate": { 
-                            "currency": "AUD",
-                            "value": 99.99
-                          },
-                          "status": "INPROGRESS"
-                        }
+              example: {"projectId": "ed957eee-bc6f-4f52-a663-aa42e6af9620", "contactId": "216830cb-9a68-487e-928b-c1a7ccc4fc81", "name": "New Kitchen", "currencyCode": "AUD", "minutesLogged": 0, "totalTaskAmount": {"currency": "AUD", "value": 0.0}, "totalExpenseAmount": {"currency": "AUD", "value": 0.0}, "minutesToBeInvoiced": 0, "taskAmountToBeInvoiced": {"currency": "AUD", "value": 0.0}, "taskAmountInvoiced": {"currency": "AUD", "value": 0.0}, "expenseAmountToBeInvoiced": {"currency": "AUD", "value": 0.0}, "expenseAmountInvoiced": {"currency": "AUD", "value": 0.0}, "projectAmountInvoiced": {"currency": "AUD", "value": 0.0}, "deposit": {"currency": "AUD", "value": 0.0}, "depositApplied": {"currency": "AUD", "value": 0.0}, "creditNoteAmount": {"currency": "AUD", "value": 0.0}, "totalInvoiced": {"currency": "AUD", "value": 0.0}, "totalToBeInvoiced": {"currency": "AUD", "value": 0.0}, "deadlineUtc": "2020-03-03T15:00:00Z", "estimate": {"currency": "AUD", "value": 99.99}, "status": "INPROGRESS"}
         '400':
           $ref: '#/components/responses/400Error'
   '/Projects/{projectId}':
@@ -272,72 +134,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Project'
-              example: {
-                          "projectId": "b021e7cb-1903-4292-b48b-5b27b4271e3e",
-                          "contactId": "216830cb-9a68-487e-928b-c1a7ccc4fc81",
-                          "name": "Remodeling 2012",
-                          "currencyCode": "AUD",
-                          "minutesLogged": 180,
-                          "totalTaskAmount": {
-                            "currency": "AUD",
-                            "value": 60.0
-                          },
-                          "totalExpenseAmount": {
-                            "currency": "AUD",
-                            "value": 499.0
-                          },
-                          "minutesToBeInvoiced": 180,
-                          "taskAmountToBeInvoiced": {
-                            "currency": "AUD",
-                            "value": 60.0
-                          },
-                          "taskAmountInvoiced": {
-                            "currency": "AUD",
-                            "value": 0.0
-                          },
-                          "expenseAmountToBeInvoiced": {
-                            "currency": "AUD",
-                            "value": 499.0
-                          },
-                          "expenseAmountInvoiced": {
-                            "currency": "AUD",
-                            "value": 0.0
-                          },
-                          "projectAmountInvoiced": {
-                            "currency": "AUD",
-                            "value": 0.0
-                          },
-                          "deposit": {
-                            "currency": "AUD",
-                            "value": 0.0
-                          },
-                          "depositApplied": {
-                            "currency": "AUD",
-                            "value": 0.0
-                          },
-                          "creditNoteAmount": {
-                            "currency": "AUD",
-                            "value": 0.0
-                          },
-                          "totalInvoiced": {
-                            "currency": "AUD",
-                            "value": 0.0
-                          },
-                          "totalToBeInvoiced": {
-                            "currency": "AUD",
-                            "value": 559.0
-                          },
-                          "deadlineUtc": "2020-03-03T15:00:00Z",
-                          "estimate": {
-                            "currency": "AUD",
-                            "value": 99.99
-                          },
-                          "status": "INPROGRESS"
-                        }
+              example: {"projectId": "b021e7cb-1903-4292-b48b-5b27b4271e3e", "contactId": "216830cb-9a68-487e-928b-c1a7ccc4fc81", "name": "Remodeling 2012", "currencyCode": "AUD", "minutesLogged": 180, "totalTaskAmount": {"currency": "AUD", "value": 60.0}, "totalExpenseAmount": {"currency": "AUD", "value": 499.0}, "minutesToBeInvoiced": 180, "taskAmountToBeInvoiced": {"currency": "AUD", "value": 60.0}, "taskAmountInvoiced": {"currency": "AUD", "value": 0.0}, "expenseAmountToBeInvoiced": {"currency": "AUD", "value": 499.0}, "expenseAmountInvoiced": {"currency": "AUD", "value": 0.0}, "projectAmountInvoiced": {"currency": "AUD", "value": 0.0}, "deposit": {"currency": "AUD", "value": 0.0}, "depositApplied": {"currency": "AUD", "value": 0.0}, "creditNoteAmount": {"currency": "AUD", "value": 0.0}, "totalInvoiced": {"currency": "AUD", "value": 0.0}, "totalToBeInvoiced": {"currency": "AUD", "value": 559.0}, "deadlineUtc": "2020-03-03T15:00:00Z", "estimate": {"currency": "AUD", "value": 99.99}, "status": "INPROGRESS"}
         '400':
-          $ref: '#/components/responses/400Error' 
+          $ref: '#/components/responses/400Error'
     put:
-      security: 
+      security:
         - OAuth2: [projects]
       tags:
         - Project
@@ -361,12 +162,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/ProjectCreateOrUpdate'
-            example:
-              '{
-                "name": "New Kitchen",
-                "deadlineUtc": "2017-04-23T18:25:43.511Z",
-                "estimateAmount": 99.99
-              }'
+            example: '{ "name": "New Kitchen", "deadlineUtc": "2017-04-23T18:25:43.511Z", "estimateAmount": 99.99 }'
       responses:
         '204':
           description: Success - return response 204 no content
@@ -374,7 +170,7 @@ paths:
         '400':
           $ref: '#/components/responses/400Error'
     patch:
-      security: 
+      security:
         - OAuth2: [projects]
       tags:
         - Project
@@ -398,10 +194,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/ProjectPatch'
-            example:
-              '{
-                "status": "INPROGRESS"
-                }'
+            example: '{ "status": "INPROGRESS" }'
       responses:
         '204':
           description: Success - return response 204 no content
@@ -424,7 +217,7 @@ paths:
           in: query
           required: false
           description: set to 1 by default. The requested number of the page in paged response - Must be a number greater than 0.
-          schema: 
+          schema:
             type: integer
             example: 1
             default: 1
@@ -433,7 +226,7 @@ paths:
           in: query
           required: false
           description: Optional, it is set to 50 by default. The number of items to return per page in a paged response - Must be a number between 1 and 500.
-          schema: 
+          schema:
             type: integer
             minimum: 1
             maximum: 500
@@ -446,28 +239,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProjectUsers'
-              example: {
-                          "pagination": {
-                            "page": 1,
-                            "pageSize": 50,
-                            "pageCount": 1,
-                            "itemCount": 2
-                          },
-                          "items":[
-                            {
-                              "userId": "740add2a-a703-4b8a-a670-1093919c2040",
-                              "name": "Test User",
-                              "email": "test@xero.com"
-                            },
-                            {
-                              "userId": "00000000-0000-0000-0000-000000000000",
-                              "name": "API Team",
-                              "email": "api@xero.com"
-                            }
-                          ]
-                        }
+              example: {"pagination": {"page": 1, "pageSize": 50, "pageCount": 1, "itemCount": 2}, "items": [{"userId": "740add2a-a703-4b8a-a670-1093919c2040", "name": "Test User", "email": "test@xero.com"}, {"userId": "00000000-0000-0000-0000-000000000000", "name": "API Team", "email": "api@xero.com"}]}
         '400':
-          $ref: '#/components/responses/400Error' 
+          $ref: '#/components/responses/400Error'
   /Projects/{projectId}/Tasks:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -490,7 +264,7 @@ paths:
             format: uuid
         - name: page
           in: query
-          description: Set to 1 by default. The requested number of the page in paged response - Must be a number greater than 0.  
+          description: Set to 1 by default. The requested number of the page in paged response - Must be a number greater than 0.
           schema:
             type: integer
             example: 1
@@ -504,11 +278,11 @@ paths:
         - name: taskIds
           x-snake: task_ids
           in: query
-          description: "Search for all tasks that match a comma separated list of taskIds, i.e. GET https://.../tasks?taskIds={taskID},{taskID}"  
+          description: "Search for all tasks that match a comma separated list of taskIds, i.e. GET https://.../tasks?taskIds={taskID},{taskID}"
           schema:
             type: string
         - name: chargeType
-          $ref: '#/components/parameters/chargeType'  
+          $ref: '#/components/parameters/chargeType'
       responses:
         '200':
           description: OK/success, returns a list of task objects
@@ -516,45 +290,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Tasks'
-              example: {
-                          "pagination": {
-                            "page": 1,
-                            "pageSize": 50,
-                            "pageCount": 1,
-                            "itemCount": 1
-                          },
-                          "items": [
-                            {
-                              "name": "Demolition",
-                              "rate": {
-                                "currency": "AUD",
-                                "value": 20.0
-                              },
-                              "chargeType": "TIME",
-                              "status": "ACTIVE",
-                              "estimateMinutes": 12000,
-                              "taskId": "7be77337-feec-4458-bb1b-dbaa5a4aafce",
-                              "projectId": "b021e7cb-1903-4292-b48b-5b27b4271e3e",
-                              "totalMinutes": 180,
-                              "totalAmount": {
-                                "currency": "AUD",
-                                "value": 60.0
-                              },
-                              "minutesToBeInvoiced": 180,
-                              "minutesInvoiced": 0,
-                              "nonChargeableMinutes": 0,
-                              "fixedMinutes": 0,
-                              "amountToBeInvoiced": {
-                                "currency": "AUD",
-                                "value": 60.0
-                              },
-                              "amountInvoiced": {
-                                "currency": "AUD",
-                                "value": 0.0
-                              }
-                            }
-                          ]
-                        }
+              example: {"pagination": {"page": 1, "pageSize": 50, "pageCount": 1, "itemCount": 1}, "items": [{"name": "Demolition", "rate": {"currency": "AUD", "value": 20.0}, "chargeType": "TIME", "status": "ACTIVE", "estimateMinutes": 12000, "taskId": "7be77337-feec-4458-bb1b-dbaa5a4aafce", "projectId": "b021e7cb-1903-4292-b48b-5b27b4271e3e", "totalMinutes": 180, "totalAmount": {"currency": "AUD", "value": 60.0}, "minutesToBeInvoiced": 180, "minutesInvoiced": 0, "nonChargeableMinutes": 0, "fixedMinutes": 0, "amountToBeInvoiced": {"currency": "AUD", "value": 60.0}, "amountInvoiced": {"currency": "AUD", "value": 0.0}}]}
         '400':
           $ref: '#/components/responses/400Error'
     post:
@@ -582,10 +318,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/TaskCreateOrUpdate'
-            example:
-              '{
-                "status": "INPROGRESS"
-                }'
+            example: '{ "status": "INPROGRESS" }'
       responses:
         '201':
           description: OK/success, returns the new task object
@@ -593,35 +326,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Task'
-              example: {
-                          "name": "Demolition",
-                          "rate": {
-                            "currency": "AUD",
-                            "value": 20
-                          },
-                          "chargeType": "TIME",
-                          "status": "ACTIVE",
-                          "estimateMinutes": 12000,
-                          "taskId": "00000000-0000-0000-0000-000000000000",
-                          "projectId": "00000000-0000-0000-0000-000000000000",
-                          "totalMinutes": 300,
-                          "totalAmount": {
-                            "currency": "AUD",
-                            "value": 100
-                          },
-                          "minutesToBeInvoiced": 300,
-                          "minutesInvoiced": 0,
-                          "nonChargeableMinutes": 0,
-                          "fixedMinutes": 0,
-                          "amountToBeInvoiced": {
-                            "currency": "AUD",
-                            "value": 100
-                          },
-                          "amountInvoiced": {
-                            "currency": "AUD",
-                            "value": 0
-                          }
-                        }
+              example: {"name": "Demolition", "rate": {"currency": "AUD", "value": 20}, "chargeType": "TIME", "status": "ACTIVE", "estimateMinutes": 12000, "taskId": "00000000-0000-0000-0000-000000000000", "projectId": "00000000-0000-0000-0000-000000000000", "totalMinutes": 300, "totalAmount": {"currency": "AUD", "value": 100}, "minutesToBeInvoiced": 300, "minutesInvoiced": 0, "nonChargeableMinutes": 0, "fixedMinutes": 0, "amountToBeInvoiced": {"currency": "AUD", "value": 100}, "amountInvoiced": {"currency": "AUD", "value": 0}}
         '400':
           $ref: '#/components/responses/400Error'
   /Projects/{projectId}/Tasks/{taskId}:
@@ -648,7 +353,7 @@ paths:
           x-snake: task_id
           in: path
           required: true
-          description: "You can specify an individual task by appending the taskId to the endpoint, i.e. GET https://.../tasks/{taskID}" 
+          description: "You can specify an individual task by appending the taskId to the endpoint, i.e. GET https://.../tasks/{taskID}"
           schema:
             type: string
             format: uuid
@@ -659,35 +364,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Task'
-              example: {
-                          "name": "Demolition",
-                          "rate": {
-                            "currency": "AUD",
-                            "value": 20
-                          },
-                          "chargeType": "TIME",
-                          "status": "ACTIVE",
-                          "estimateMinutes": 12000,
-                          "taskId": "7be77337-feec-4458-bb1b-dbaa5a4aafce",
-                          "projectId": "b021e7cb-1903-4292-b48b-5b27b4271e3e",
-                          "totalMinutes": 300,
-                          "totalAmount": {
-                            "currency": "AUD",
-                            "value": 100
-                          },
-                          "minutesToBeInvoiced": 300,
-                          "minutesInvoiced": 0,
-                          "nonChargeableMinutes": 0,
-                          "fixedMinutes": 0,
-                          "amountToBeInvoiced": {
-                            "currency": "AUD",
-                            "value": 100
-                          },
-                          "amountInvoiced": {
-                            "currency": "AUD",
-                            "value": 0
-                          }
-                        }
+              example: {"name": "Demolition", "rate": {"currency": "AUD", "value": 20}, "chargeType": "TIME", "status": "ACTIVE", "estimateMinutes": 12000, "taskId": "7be77337-feec-4458-bb1b-dbaa5a4aafce", "projectId": "b021e7cb-1903-4292-b48b-5b27b4271e3e", "totalMinutes": 300, "totalAmount": {"currency": "AUD", "value": 100}, "minutesToBeInvoiced": 300, "minutesInvoiced": 0, "nonChargeableMinutes": 0, "fixedMinutes": 0, "amountToBeInvoiced": {"currency": "AUD", "value": 100}, "amountInvoiced": {"currency": "AUD", "value": 0}}
         '400':
           $ref: '#/components/responses/400Error'
     put:
@@ -811,7 +488,7 @@ paths:
             format: uuid
         - name: page
           in: query
-          description: Set to 1 by default. The requested number of the page in paged response - Must be a number greater than 0.  
+          description: Set to 1 by default. The requested number of the page in paged response - Must be a number greater than 0.
           schema:
             type: integer
             example: 1
@@ -824,8 +501,8 @@ paths:
             example: 10
         - name: states
           in: query
-          description: "Comma-separated list of states to find. Will find all time entries that are in the status of whatever is specified.	"  
-          schema: 
+          description: "Comma-separated list of states to find. Will find all time entries that are in the status of whatever is specified.\t"
+          schema:
             type: array
             items:
               type: string
@@ -856,38 +533,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TimeEntries'
-              example: {
-                          "pagination": {
-                              "page": 1,
-                              "pageSize": 50,
-                              "pageCount": 1,
-                              "itemCount": 9
-                          },
-                          "items":[
-                            {
-                              "timeEntryId": "3cd35eca-704f-4bca-b258-236028ae8ed1",
-                              "userId": "740add2a-a703-4b8a-a670-1093919c2040",
-                              "projectId": "b021e7cb-1903-4292-b48b-5b27b4271e3e",
-                              "taskId": "7be77337-feec-4458-bb1b-dbaa5a4aafce",
-                              "dateUtc": "2020-02-27T15:00:00Z",
-                              "dateEnteredUtc": "2020-02-28T03:24:29.2215641Z",
-                              "duration":45,
-                              "description": "My description",
-                              "status": "ACTIVE"
-                              },
-                              {
-                                "timeEntryId": "00000000-0000-0000-0000-000000000000",
-                                "userId": "00000000-0000-0000-0000-000000000000",
-                                "projectId": "00000000-0000-0000-0000-000000000000",
-                                "taskId": "00000000-0000-0000-0000-000000000000",
-                                "dateUtc": "2020-02-26T15:00:00Z",
-                                "dateEnteredUtc": "2020-02-28T03:24:29.2215641Z",
-                                "duration":30,
-                                "description": "My description",
-                                "status": "ACTIVE"
-                              }
-                          ]
-                        }
+              example: {"pagination": {"page": 1, "pageSize": 50, "pageCount": 1, "itemCount": 9}, "items": [{"timeEntryId": "3cd35eca-704f-4bca-b258-236028ae8ed1", "userId": "740add2a-a703-4b8a-a670-1093919c2040", "projectId": "b021e7cb-1903-4292-b48b-5b27b4271e3e", "taskId": "7be77337-feec-4458-bb1b-dbaa5a4aafce", "dateUtc": "2020-02-27T15:00:00Z", "dateEnteredUtc": "2020-02-28T03:24:29.2215641Z", "duration": 45, "description": "My description", "status": "ACTIVE"}, {"timeEntryId": "00000000-0000-0000-0000-000000000000", "userId": "00000000-0000-0000-0000-000000000000", "projectId": "00000000-0000-0000-0000-000000000000", "taskId": "00000000-0000-0000-0000-000000000000", "dateUtc": "2020-02-26T15:00:00Z", "dateEnteredUtc": "2020-02-28T03:24:29.2215641Z", "duration": 30, "description": "My description", "status": "ACTIVE"}]}
         '400':
           $ref: '#/components/responses/400Error'
     post:
@@ -915,13 +561,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/TimeEntryCreateOrUpdate'
-            example: {
-                        "userId": "00000000-0000-0000-0000-000000000000",
-                        "taskId": "00000000-0000-0000-0000-000000000000",
-                        "dateUtc": "2020-02-26T15:00:00Z",
-                        "duration":30,
-                        "description": "My description"
-                      }
+            example: {"userId": "00000000-0000-0000-0000-000000000000", "taskId": "00000000-0000-0000-0000-000000000000", "dateUtc": "2020-02-26T15:00:00Z", "duration": 30, "description": "My description"}
       responses:
         '200':
           description: OK/success, returns the newly created time entry
@@ -929,17 +569,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TimeEntry'
-              example: {
-                          "timeEntryId": "c6539534-f1d2-43a6-80df-3bd1f8aca24d",
-                          "userId": "c6539534-f1d2-43a6-80df-3bd1f8aca24d",
-                          "projectId": "b021e7cb-1903-4292-b48b-5b27b4271e3e",
-                          "taskId": "7be77337-feec-4458-bb1b-dbaa5a4aafce",
-                          "dateUtc": "2020-02-26T15:00:00Z",
-                          "dateEnteredUtc": "2020-02-28T20:37:42.8652832Z",
-                          "duration":30,
-                          "description": "My description",
-                          "status": "ACTIVE"
-                        }
+              example: {"timeEntryId": "c6539534-f1d2-43a6-80df-3bd1f8aca24d", "userId": "c6539534-f1d2-43a6-80df-3bd1f8aca24d", "projectId": "b021e7cb-1903-4292-b48b-5b27b4271e3e", "taskId": "7be77337-feec-4458-bb1b-dbaa5a4aafce", "dateUtc": "2020-02-26T15:00:00Z", "dateEnteredUtc": "2020-02-28T20:37:42.8652832Z", "duration": 30, "description": "My description", "status": "ACTIVE"}
         '400':
           $ref: '#/components/responses/400Error'
   /Projects/{projectId}/Time/{timeEntryId}:
@@ -972,22 +602,12 @@ paths:
             format: uuid
       responses:
         '200':
-          description: OK/success, returns the specified time entry 
+          description: OK/success, returns the specified time entry
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/TimeEntry'
-              example: {
-                          "timeEntryId": "3cd35eca-704f-4bca-b258-236028ae8ed1",
-                          "userId": "740add2a-a703-4b8a-a670-1093919c2040",
-                          "projectId": "b021e7cb-1903-4292-b48b-5b27b4271e3e",
-                          "taskId": "7be77337-feec-4458-bb1b-dbaa5a4aafce",
-                          "dateUtc": "2020-02-27T15:00:00Z",
-                          "dateEnteredUtc": "2020-02-21T21:41:22.2642727Z",
-                          "duration":45,
-                          "description": "My description",
-                          "status": "ACTIVE"
-                        }
+              example: {"timeEntryId": "3cd35eca-704f-4bca-b258-236028ae8ed1", "userId": "740add2a-a703-4b8a-a670-1093919c2040", "projectId": "b021e7cb-1903-4292-b48b-5b27b4271e3e", "taskId": "7be77337-feec-4458-bb1b-dbaa5a4aafce", "dateUtc": "2020-02-27T15:00:00Z", "dateEnteredUtc": "2020-02-21T21:41:22.2642727Z", "duration": 45, "description": "My description", "status": "ACTIVE"}
         '400':
           $ref: '#/components/responses/400Error'
     put:
@@ -1023,13 +643,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/TimeEntryCreateOrUpdate'
-            example: {
-                        "userId": "00000000-0000-0000-0000-000000000000",
-                        "taskId": "00000000-0000-0000-0000-000000000000",
-                        "dateUtc": "2020-02-27T15:00:00Z",
-                        "duration":45,
-                        "description": "My UPDATED description"
-                      }
+            example: {"userId": "00000000-0000-0000-0000-000000000000", "taskId": "00000000-0000-0000-0000-000000000000", "dateUtc": "2020-02-27T15:00:00Z", "duration": 45, "description": "My UPDATED description"}
       responses:
         '204':
           description: Success - return response 204 no content
@@ -1072,7 +686,7 @@ components:
     OAuth2:
       type: oauth2
       description: For more information
-      flows: 
+      flows:
         authorizationCode:
           authorizationUrl: 'https://login.xero.com/identity/connect/authorize'
           tokenUrl: 'https://identity.xero.com/connect/token'
@@ -1083,19 +697,19 @@ components:
             projects: Grant read-write access to projects
             projects.read: Grant read-only access to projects
   parameters:
-    requiredHeader: 
+    requiredHeader:
       in: header
       name: Xero-Tenant-Id
       x-snake: xero_tenant_id
       description: Xero identifier for Tenant
       schema:
         type: string
-      required: true 
+      required: true
     chargeType:
       in: query
       name: chargeType
       x-snake: charge_type
-      schema: 
+      schema:
         $ref: '#/components/schemas/ChargeType'
     idempotencyKey:
       in: header
@@ -1106,7 +720,7 @@ components:
       schema:
         type: string
   schemas:
-    Projects: 
+    Projects:
       externalDocs:
         url: 'https://developer.xero.com/documentation/projects/projects'
       type: object
@@ -1129,7 +743,7 @@ components:
           format: uuid
           example: '01234567-89ab-cdef-0123-456789abcdef'
           description: Identifier of the contact this project was created for.
-        name: 
+        name:
           type: string
           example: 'New Kitchen'
           description: Name of the project.
@@ -1149,7 +763,7 @@ components:
       externalDocs:
         url: 'https://developer.xero.com/documentation/projects/projects'
       type: object
-      properties:      
+      properties:
         status:
           $ref: '#/components/schemas/ProjectStatus'
           type: string
@@ -1172,7 +786,7 @@ components:
           format: uuid
           example: '01234567-89ab-cdef-0123-456789abcdef'
           description: Identifier of the contact this project was created for.
-        name: 
+        name:
           type: string
           example: 'New Kitchen'
           description: Name of the project.
@@ -1224,13 +838,13 @@ components:
           type: string
           $ref: '#/components/schemas/ProjectStatus'
       required:
-        - name    
+        - name
     Pagination:
       properties:
         page:
           type: integer
           example: 1
-          description: Set to 1 by default. The requested number of the page in paged response - Must be a number greater than 0.  
+          description: Set to 1 by default. The requested number of the page in paged response - Must be a number greater than 0.
         pageSize:
           type: integer
           example: 10
@@ -1243,7 +857,7 @@ components:
           type: integer
           example: 2
           description: Number of items returned
-    ProjectUsers: 
+    ProjectUsers:
       externalDocs:
         url: 'https://developer.xero.com/documentation/projects/users'
       type: object
@@ -1264,200 +878,200 @@ components:
           format: uuid
           example: '254553fa-2be8-4991-bd5e-70a97ea12ef8'
           description: Identifier of the user of the project.
-        name: 
+        name:
           type: string
           example: 'Sidney Allen'
           description: Full name of the user.
-        email: 
+        email:
           type: string
           example: 'sidneyallen@xero.com'
           description: Email address of the user.
     Amount:
       type: object
       properties:
-          currency:
-            $ref: '#/components/schemas/CurrencyCode'
-            type: string
-          value:
-            type: number
-            format: double
-            x-is-money: true
-            example: 1.00
+        currency:
+          $ref: '#/components/schemas/CurrencyCode'
+          type: string
+        value:
+          type: number
+          format: double
+          x-is-money: true
+          example: 1.00
     ProjectStatus:
       description: Status for project
       example: "INPROGRESS"
       type: string
-      enum:    
-      - INPROGRESS
-      - CLOSED
+      enum:
+        - INPROGRESS
+        - CLOSED
     CurrencyCode:
       description: 3 letter alpha code for the ISO-4217 currency code, e.g. USD, AUD.
       example: "AUD"
       type: string
       enum:
-      - AED 
-      - AFN
-      - ALL
-      - AMD
-      - ANG
-      - AOA
-      - ARS
-      - AUD
-      - AWG
-      - AZN
-      - BAM
-      - BBD
-      - BDT
-      - BGN
-      - BHD
-      - BIF
-      - BMD
-      - BND
-      - BOB
-      - BRL
-      - BSD
-      - BTN
-      - BWP
-      - BYN
-      - BZD
-      - CAD
-      - CDF
-      - CHF
-      - CLP
-      - CNY
-      - COP
-      - CRC
-      - CUC
-      - CUP
-      - CVE
-      - CZK
-      - DJF
-      - DKK
-      - DOP
-      - DZD
-      - EGP
-      - ERN
-      - ETB
-      - EUR
-      - FJD
-      - FKP
-      - GBP
-      - GEL
-      - GGP
-      - GHS
-      - GIP
-      - GMD
-      - GNF
-      - GTQ
-      - GYD
-      - HKD
-      - HNL
-      - HRK
-      - HTG
-      - HUF
-      - IDR
-      - ILS
-      - IMP
-      - INR
-      - IQD
-      - IRR
-      - ISK
-      - JEP
-      - JMD
-      - JOD
-      - JPY
-      - KES
-      - KGS
-      - KHR
-      - KMF
-      - KPW
-      - KRW
-      - KWD
-      - KYD
-      - KZT
-      - LAK
-      - LBP
-      - LKR
-      - LRD
-      - LSL
-      - LYD
-      - MAD
-      - MDL
-      - MGA
-      - MKD
-      - MMK
-      - MNT
-      - MOP
-      - MRU
-      - MUR
-      - MVR
-      - MWK
-      - MXN
-      - MYR
-      - MZN
-      - NAD
-      - NGN
-      - NIO
-      - NOK
-      - NPR
-      - NZD
-      - OMR
-      - PAB
-      - PEN
-      - PGK
-      - PHP
-      - PKR
-      - PLN
-      - PYG
-      - QAR
-      - RON
-      - RSD
-      - RUB
-      - RWF
-      - SAR
-      - SBD
-      - SCR
-      - SDG
-      - SEK
-      - SGD
-      - SHP
-      - SLL
-      - SOS
-      - SPL
-      - SRD
-      - STN
-      - SVC
-      - SYP
-      - SZL
-      - THB
-      - TJS
-      - TMT
-      - TND
-      - TOP
-      - TRY
-      - TTD
-      - TVD
-      - TWD
-      - TZS
-      - UAH
-      - UGX
-      - USD
-      - UYU
-      - UZS
-      - VEF
-      - VND
-      - VUV
-      - WST
-      - XAF
-      - XCD
-      - XDR
-      - XOF
-      - XPF
-      - YER
-      - ZAR
-      - ZMW
-      - ZMK
-      - ZWD
+        - AED
+        - AFN
+        - ALL
+        - AMD
+        - ANG
+        - AOA
+        - ARS
+        - AUD
+        - AWG
+        - AZN
+        - BAM
+        - BBD
+        - BDT
+        - BGN
+        - BHD
+        - BIF
+        - BMD
+        - BND
+        - BOB
+        - BRL
+        - BSD
+        - BTN
+        - BWP
+        - BYN
+        - BZD
+        - CAD
+        - CDF
+        - CHF
+        - CLP
+        - CNY
+        - COP
+        - CRC
+        - CUC
+        - CUP
+        - CVE
+        - CZK
+        - DJF
+        - DKK
+        - DOP
+        - DZD
+        - EGP
+        - ERN
+        - ETB
+        - EUR
+        - FJD
+        - FKP
+        - GBP
+        - GEL
+        - GGP
+        - GHS
+        - GIP
+        - GMD
+        - GNF
+        - GTQ
+        - GYD
+        - HKD
+        - HNL
+        - HRK
+        - HTG
+        - HUF
+        - IDR
+        - ILS
+        - IMP
+        - INR
+        - IQD
+        - IRR
+        - ISK
+        - JEP
+        - JMD
+        - JOD
+        - JPY
+        - KES
+        - KGS
+        - KHR
+        - KMF
+        - KPW
+        - KRW
+        - KWD
+        - KYD
+        - KZT
+        - LAK
+        - LBP
+        - LKR
+        - LRD
+        - LSL
+        - LYD
+        - MAD
+        - MDL
+        - MGA
+        - MKD
+        - MMK
+        - MNT
+        - MOP
+        - MRU
+        - MUR
+        - MVR
+        - MWK
+        - MXN
+        - MYR
+        - MZN
+        - NAD
+        - NGN
+        - NIO
+        - NOK
+        - NPR
+        - NZD
+        - OMR
+        - PAB
+        - PEN
+        - PGK
+        - PHP
+        - PKR
+        - PLN
+        - PYG
+        - QAR
+        - RON
+        - RSD
+        - RUB
+        - RWF
+        - SAR
+        - SBD
+        - SCR
+        - SDG
+        - SEK
+        - SGD
+        - SHP
+        - SLL
+        - SOS
+        - SPL
+        - SRD
+        - STN
+        - SVC
+        - SYP
+        - SZL
+        - THB
+        - TJS
+        - TMT
+        - TND
+        - TOP
+        - TRY
+        - TTD
+        - TVD
+        - TWD
+        - TZS
+        - UAH
+        - UGX
+        - USD
+        - UYU
+        - UZS
+        - VEF
+        - VND
+        - VUV
+        - WST
+        - XAF
+        - XCD
+        - XDR
+        - XOF
+        - XPF
+        - YER
+        - ZAR
+        - ZMW
+        - ZMK
+        - ZWD
     Error:
       externalDocs:
         url: 'https://developer.xero.com/documentation/projects/projects-response-codes'
@@ -1469,7 +1083,7 @@ components:
         modelState:
           type: object
           description: Array of Elements of validation Errors
-    Tasks: 
+    Tasks:
       externalDocs:
         url: 'https://developer.xero.com/documentation/projects/projects'
       type: object
@@ -1554,7 +1168,7 @@ components:
           type: string
           description: "Name of the task. Max length 100 characters."
           maximum: 100
-        rate: 
+        rate:
           $ref: '#/components/schemas/Amount'
           type: number
         chargeType:

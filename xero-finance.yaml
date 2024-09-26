@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: "6.3.0"
+  version: "10.1.0"
   title: Xero Finance API
   description: The Finance API is a collection of endpoints which customers can use in the course of a loan application, which may assist lenders to gain the confidence they need to provide capital.
   termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
@@ -9,7 +9,7 @@ info:
     email: "api@xero.com"
     url: "https://developer.xero.com"
   license:
-    name: MIT 
+    name: MIT
     url: 'https://github.com/XeroAPI/Xero-OpenAPI/blob/master/LICENSE'
 servers:
   - description: Xero API servers
@@ -26,50 +26,26 @@ paths:
       summary: Get cash validation
       operationId: getCashValidation
       description: Summarizes the total cash position for each account for an org
-      parameters: 
+      parameters:
         - name: balanceDate
           x-snake: balance_date
           in: query
-          description: "date, yyyy-MM-dd \r\n\r\nIf no parameter is provided, the current
-          date will be used.\r\n\r\nThe ‘balance date’ will return transactions based
-          on the accounting date entered by the user.  Transactions before the balanceDate
-          will be included.\r\nThe user has discretion as to which accounting period
-          the transaction relates to.\r\n\r\nThe ‘balance date’  will control the
-          latest maximum date of transactions included in the aggregate numbers.  Balance
-          date does not affect the CurrentStatement object, as this will always return
-          the most recent statement before asAtSystemDate (if specified)"
-          schema: 
+          description: "date, yyyy-MM-dd \r\n\r\nIf no parameter is provided, the current date will be used.\r\n\r\nThe ‘balance date’ will return transactions based on the accounting date entered by the user.  Transactions before the balanceDate will be included.\r\nThe user has discretion as to which accounting period the transaction relates to.\r\n\r\nThe ‘balance date’  will control the latest maximum date of transactions included in the aggregate numbers.  Balance date does not affect the CurrentStatement object, as this will always return the most recent statement before asAtSystemDate (if specified)"
+          schema:
             type: string
           example: "2021-09-15"
         - name: asAtSystemDate
           x-snake: as_at_system_date
           in: query
-          description: "date, yyyy-MM-dd \r\n\r\nIf no parameter is provided, the current
-          date will be used.\r\n\r\nThe ‘as at’ date will return transactions based
-          on the  creation date.  It reflects the date the transactions were entered
-          into Xero, not the accounting date.\r\nThe ‘as at’ date can not be overridden
-          by the user.  This can be used to estimate a ‘historical frequency of reconciliation’.\r\n\r\nThe
-          ‘as at’ date will affect the current statement in the response, as any candidate
-          statements created after this date will be filtered out.  Thus the current
-          statement returned will be the most recent statement prior to the specified
-          ‘as at’ date.  Be aware that neither the begin date, nor the balance date,
-          will affect the current statement.\r\n\r\nNote;  information is only presented
-          when system architecture allows, meaning historical cash validation information
-          will be an estimate. In addition, delete events are not aware of the ‘as
-          at’ functionality in this endpoint, meaning that transactions deleted at
-          the time the API is accessed will be considered to always have been deleted."
-          schema: 
+          description: "date, yyyy-MM-dd \r\n\r\nIf no parameter is provided, the current date will be used.\r\n\r\nThe ‘as at’ date will return transactions based on the  creation date.  It reflects the date the transactions were entered into Xero, not the accounting date.\r\nThe ‘as at’ date can not be overridden by the user.  This can be used to estimate a ‘historical frequency of reconciliation’.\r\n\r\nThe ‘as at’ date will affect the current statement in the response, as any candidate statements created after this date will be filtered out.  Thus the current statement returned will be the most recent statement prior to the specified ‘as at’ date.  Be aware that neither the begin date, nor the balance date, will affect the current statement.\r\n\r\nNote;  information is only presented when system architecture allows, meaning historical cash validation information will be an estimate. In addition, delete events are not aware of the ‘as at’ functionality in this endpoint, meaning that transactions deleted at the time the API is accessed will be considered to always have been deleted."
+          schema:
             type: string
           example: "2021-09-15"
         - name: beginDate
           x-snake: begin_date
           in: query
-          description: "date, yyyy-MM-dd \r\n\r\nIf no parameter is provided, the aggregate
-          results will be drawn from the user’s total history.\r\n\r\nThe ‘begin date’
-          will return transactions based on the accounting date entered by the user.
-          Transactions after the beginDate will be included.\r\nThe user has discretion
-          as to which accounting period the transaction relates to."
-          schema: 
+          description: "date, yyyy-MM-dd \r\n\r\nIf no parameter is provided, the aggregate results will be drawn from the user’s total history.\r\n\r\nThe ‘begin date’ will return transactions based on the accounting date entered by the user. Transactions after the beginDate will be included.\r\nThe user has discretion as to which accounting period the transaction relates to."
+          schema:
             type: string
           example: "2021-09-15"
       responses:
@@ -81,7 +57,7 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/CashValidationResponse"
-              example: 
+              example:
                 - accountId: 73151de8-3676-4887-a021-edec960dd537
                   statementBalance:
                     value: 100
@@ -150,31 +126,27 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-      - OAuth2: [finance.accountingactivity.read]
+        - OAuth2: [finance.accountingactivity.read]
       tags:
-      - Finance
+        - Finance
       summary: Get account usage
       operationId: getAccountingActivityAccountUsage
       description: 'A summary of how each account is being transacted on exposing the level of detail and amounts attributable to manual adjustments.'
       parameters:
-      - name: startMonth
-        x-snake: start_month
-        in: query
-        description: "date, yyyy-MM \r\n            \r\nIf no parameter is provided,
-          the month 12 months prior to the end month will be used.\r\n            \r\nAccount
-          usage for up to 12 months from this date will be returned."
-        schema:
-          type: string
-        example: "2020-09"
-      - name: endMonth
-        x-snake: end_month
-        in: query
-        description: "date, yyyy-MM \r\n            \r\nIf no parameter is provided,
-          the current month will be used.\r\n            \r\nAccount usage for up
-          to 12 months prior to this date will be returned."
-        schema:
-          type: string
-        example: "2021-09"
+        - name: startMonth
+          x-snake: start_month
+          in: query
+          description: "date, yyyy-MM \r\n            \r\nIf no parameter is provided, the month 12 months prior to the end month will be used.\r\n            \r\nAccount usage for up to 12 months from this date will be returned."
+          schema:
+            type: string
+          example: "2020-09"
+        - name: endMonth
+          x-snake: end_month
+          in: query
+          description: "date, yyyy-MM \r\n            \r\nIf no parameter is provided, the current month will be used.\r\n            \r\nAccount usage for up to 12 months prior to this date will be returned."
+          schema:
+            type: string
+          example: "2021-09"
       responses:
         '200':
           description: Success
@@ -187,30 +159,30 @@ paths:
                 startMonth: 2010-03
                 endMonth: 2010-03
                 accountUsage:
-                - month: 2010-03
-                  accountId: 12345678-876b-4eff-901d-e8f4d517453e
-                  currencyCode: CURR/NZD
-                  totalReceived: 0
-                  countReceived: 0
-                  totalPaid: 0
-                  countPaid: 0
-                  totalManualJournal: 0
-                  countManualJournal: 0
-                  accountName: ACME Drawings
-                  reportingCode: ABC
-                  reportingCodeName: ABC funds
-                - month: 2010-03
-                  accountId: 12345678-9d21-43bc-b20e-d96a370cf31e
-                  currencyCode: CURR/NZD
-                  totalReceived: 0
-                  countReceived: 0
-                  totalPaid: 0
-                  countPaid: 0
-                  totalManualJournal: 0
-                  countManualJournal: 0
-                  accountName: Electricity & Heating
-                  reportingCode: ELC
-                  reportingCodeName: Expense
+                  - month: 2010-03
+                    accountId: 12345678-876b-4eff-901d-e8f4d517453e
+                    currencyCode: CURR/NZD
+                    totalReceived: 0
+                    countReceived: 0
+                    totalPaid: 0
+                    countPaid: 0
+                    totalManualJournal: 0
+                    countManualJournal: 0
+                    accountName: ACME Drawings
+                    reportingCode: ABC
+                    reportingCodeName: ABC funds
+                  - month: 2010-03
+                    accountId: 12345678-9d21-43bc-b20e-d96a370cf31e
+                    currencyCode: CURR/NZD
+                    totalReceived: 0
+                    countReceived: 0
+                    totalPaid: 0
+                    countPaid: 0
+                    totalManualJournal: 0
+                    countManualJournal: 0
+                    accountName: Electricity & Heating
+                    reportingCode: ELC
+                    reportingCodeName: Expense
         '400':
           description: BadRequest
           content:
@@ -221,28 +193,26 @@ paths:
                 type: invalid-request
                 title: InvalidRequest
                 status: 400
-                detail: Organisation 73151de8-3676-4887-a021-edec960dd537 does not
-                  exist
+                detail: Organisation 73151de8-3676-4887-a021-edec960dd537 does not exist
   "/AccountingActivities/LockHistory":
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-      - OAuth2: [finance.accountingactivity.read]
+        - OAuth2: [finance.accountingactivity.read]
       tags:
-      - Finance
+        - Finance
       operationId: getAccountingActivityLockHistory
       description: 'Provides a history of locking of accounting books. Locking may be an indicator of good accounting practices that could reduce the risk of changes to accounting records in prior periods.'
       summary: Get lock history
       parameters:
-      - name: endDate
-        x-snake: end_date
-        in: query
-        description: "date, yyyy-MM-dd \r\n            \r\nIf no parameter is provided,
-          the current date will be used.\r\n            \r\nAny changes to hard or soft lock dates that were made within the period up to 12 months before this date will be returned.\r\n            \r\nPlease be aware that there may be a delay of up to 3 days before a change is visible from this API."
-        schema:
-          type: string
-        example: "2021-09-15"
+        - name: endDate
+          x-snake: end_date
+          in: query
+          description: "date, yyyy-MM-dd \r\n            \r\nIf no parameter is provided, the current date will be used.\r\n            \r\nAny changes to hard or soft lock dates that were made within the period up to 12 months before this date will be returned.\r\n            \r\nPlease be aware that there may be a delay of up to 3 days before a change is visible from this API."
+          schema:
+            type: string
+          example: "2021-09-15"
       responses:
         '200':
           description: Success
@@ -254,15 +224,15 @@ paths:
                 organisationId: 73151de8-3676-4887-a021-edec960dd537
                 endDate: '2019-06-20'
                 lockDates:
-                - hardLockDate: '2019-01-20'
-                  softLockDate: '2019-01-20'
-                  updatedDateUtc: '2019-01-20T10:50:03Z'
-                - hardLockDate: '2019-01-21'
-                  softLockDate: '2019-01-21'
-                  updatedDateUtc: '2019-01-21T10:59:33Z'
-                - hardLockDate: '2019-01-22'
-                  softLockDate: '2019-01-22'
-                  updatedDateUtc: '2019-01-22T10:24:12Z'
+                  - hardLockDate: '2019-01-20'
+                    softLockDate: '2019-01-20'
+                    updatedDateUtc: '2019-01-20T10:50:03Z'
+                  - hardLockDate: '2019-01-21'
+                    softLockDate: '2019-01-21'
+                    updatedDateUtc: '2019-01-21T10:59:33Z'
+                  - hardLockDate: '2019-01-22'
+                    softLockDate: '2019-01-22'
+                    updatedDateUtc: '2019-01-22T10:24:12Z'
         '400':
           description: BadRequest
           content:
@@ -273,28 +243,26 @@ paths:
                 type: invalid-request
                 title: InvalidRequest
                 status: 400
-                detail: Organisation 73151de8-3676-4887-a021-edec960dd537 does not
-                  exist
+                detail: Organisation 73151de8-3676-4887-a021-edec960dd537 does not exist
   "/AccountingActivities/ReportHistory":
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-      - OAuth2: [finance.accountingactivity.read]
+        - OAuth2: [finance.accountingactivity.read]
       tags:
-      - Finance
+        - Finance
       operationId: getAccountingActivityReportHistory
       description: 'For a specified organisation, provides a summary of all the reports published within a given period, which may be an indicator for good business management and oversight.'
       summary: Get report history
       parameters:
-      - name: endDate
-        x-snake: end_date
-        in: query
-        description: "date, yyyy-MM-dd \r\n            \r\nIf no parameter is provided,
-          the current date will be used.\r\n            \r\nAny reports that were published within the period up to 12 months before this date will be returned.\r\n            \r\nPlease be aware that there may be a delay of up to 3 days before a published report is visible from this API."
-        schema:
-          type: string
-        example: "2021-09-15"
+        - name: endDate
+          x-snake: end_date
+          in: query
+          description: "date, yyyy-MM-dd \r\n            \r\nIf no parameter is provided, the current date will be used.\r\n            \r\nAny reports that were published within the period up to 12 months before this date will be returned.\r\n            \r\nPlease be aware that there may be a delay of up to 3 days before a published report is visible from this API."
+          schema:
+            type: string
+          example: "2021-09-15"
       responses:
         '200':
           description: Success
@@ -306,9 +274,9 @@ paths:
                 organisationId: 73151de8-3676-4887-a021-edec960dd537
                 endDate: '2019-10-20'
                 reports:
-                - reportName: VATReturn
-                  reportDateText: April 2019 to June 2019
-                  publishedDateUtc: '2019-09-23T00:30:17.407+00:00'
+                  - reportName: VATReturn
+                    reportDateText: April 2019 to June 2019
+                    publishedDateUtc: '2019-09-23T00:30:17.407+00:00'
         '400':
           description: BadRequest
           content:
@@ -319,28 +287,26 @@ paths:
                 type: invalid-request
                 title: InvalidRequest
                 status: 400
-                detail: Organisation 73151de8-3676-4887-a021-edec960dd537 does not
-                  exist
+                detail: Organisation 73151de8-3676-4887-a021-edec960dd537 does not exist
   "/AccountingActivities/UserActivities":
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-      - OAuth2: [finance.accountingactivity.read]
+        - OAuth2: [finance.accountingactivity.read]
       tags:
-      - Finance
+        - Finance
       operationId: getAccountingActivityUserActivities
       description: 'For a specified organisation, provides a list of all the users registered, and a history of their accounting transactions. Also identifies the existence of an external accounting advisor and the level of interaction.'
       summary: Get user activities
       parameters:
-      - name: dataMonth
-        x-snake: data_month
-        in: query
-        description: "date, yyyy-MM \r\n            \r\nThe specified month must be complete (in the past); The current month cannot be specified since it is not complete.\r\n            \r\nIf no parameter is provided,
-          the month immediately previous to the current month will be used.\r\n            \r\nAny user activities occurring within the specified month will be returned.\r\n            \r\nPlease be aware that there may be a delay of up to 3 days before a user activity is visible from this API."
-        schema:
-          type: string
-        example: "2021-09"
+        - name: dataMonth
+          x-snake: data_month
+          in: query
+          description: "date, yyyy-MM \r\n            \r\nThe specified month must be complete (in the past); The current month cannot be specified since it is not complete.\r\n            \r\nIf no parameter is provided, the month immediately previous to the current month will be used.\r\n            \r\nAny user activities occurring within the specified month will be returned.\r\n            \r\nPlease be aware that there may be a delay of up to 3 days before a user activity is visible from this API."
+          schema:
+            type: string
+          example: "2021-09"
       responses:
         '200':
           description: Success
@@ -352,44 +318,43 @@ paths:
                 organisationId: 73151de8-3676-4887-a021-edec960dd537
                 dataMonth: 2020-01
                 users:
-                - userId: bf3108f9-7449-4b2d-a1d1-41342dc1c991
-                  userCreatedDateUtc: '2016-04-15T04:01:42.8Z'
-                  lastLoginDateUtc: '2020-02-12T23:59:06.42Z'
-                  isExternalPartner: true
-                  hasAccountantRole: true
-                  monthPeriod: 2020-01
-                  numberOfLogins: 0
-                  numberOfDocumentsCreated: 10
-                  netValueDocumentsCreated: -100.99
-                  absoluteValueDocumentsCreated: 100.99
-                  attachedPractices:
-                  - xeroPartnerSince: 2017
-                    tier: Silver
-                    location: New Zealand
-                    organisationCount: 40
-                    staffCertified: true
-                  historyRecords:
-                  - changes: Approved
-                    dateUTCString: '2008-12-19T01:37:59'
-                    dateUTC: '2008-12-18T14:37:59.057+00:00'
-                    user: John Doe
-                    details: ''
-                  - changes: Created
-                    dateUTCString: '2008-12-19T01:37:58'
-                    dateUTC: '2008-12-18T14:37:58.057+00:00'
-                    user: John Doe
-                    details: ''
-                  - changes: Reconciled
-                    dateUTCString: '2008-12-20T22:50:55'
-                    dateUTC: '2008-12-20T11:50:55.09+00:00'
-                    user: John Doe
-                    details: Debit payment to ACME Banking Corporation on 10 October
-                      2008 for -10.00
-                  - changes: Created
-                    dateUTCString: '2008-12-20T16:44:19'
-                    dateUTC: '2008-12-20T05:44:19.467+00:00'
-                    user: John Doe
-                    details: ''
+                  - userId: bf3108f9-7449-4b2d-a1d1-41342dc1c991
+                    userCreatedDateUtc: '2016-04-15T04:01:42.8Z'
+                    lastLoginDateUtc: '2020-02-12T23:59:06.42Z'
+                    isExternalPartner: true
+                    hasAccountantRole: true
+                    monthPeriod: 2020-01
+                    numberOfLogins: 0
+                    numberOfDocumentsCreated: 10
+                    netValueDocumentsCreated: -100.99
+                    absoluteValueDocumentsCreated: 100.99
+                    attachedPractices:
+                      - xeroPartnerSince: 2017
+                        tier: Silver
+                        location: New Zealand
+                        organisationCount: 40
+                        staffCertified: true
+                    historyRecords:
+                      - changes: Approved
+                        dateUTCString: '2008-12-19T01:37:59'
+                        dateUTC: '2008-12-18T14:37:59.057+00:00'
+                        user: John Doe
+                        details: ''
+                      - changes: Created
+                        dateUTCString: '2008-12-19T01:37:58'
+                        dateUTC: '2008-12-18T14:37:58.057+00:00'
+                        user: John Doe
+                        details: ''
+                      - changes: Reconciled
+                        dateUTCString: '2008-12-20T22:50:55'
+                        dateUTC: '2008-12-20T11:50:55.09+00:00'
+                        user: John Doe
+                        details: Debit payment to ACME Banking Corporation on 10 October 2008 for -10.00
+                      - changes: Created
+                        dateUTCString: '2008-12-20T16:44:19'
+                        dateUTC: '2008-12-20T05:44:19.467+00:00'
+                        user: John Doe
+                        details: ''
         '400':
           description: BadRequest
           content:
@@ -400,8 +365,7 @@ paths:
                 type: invalid-request
                 title: InvalidRequest
                 status: 400
-                detail: Organisation 73151de8-3676-4887-a021-edec960dd537 does not
-                  exist
+                detail: Organisation 73151de8-3676-4887-a021-edec960dd537 does not exist
   "/FinancialStatements/BalanceSheet":
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -755,8 +719,8 @@ paths:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
-      security: 
-       - OAuth2: [finance.statements.read]
+      security:
+        - OAuth2: [finance.statements.read]
       tags:
         - Finance
       operationId: getFinancialStatementTrialBalance
@@ -821,9 +785,7 @@ paths:
       operationId: getFinancialStatementContactsRevenue
       summary: Get revenue by contacts report
       description: >-
-        The revenue by contact report provides a year to date profit and loss
-        for customers and suppliers for a given organisation, including detailed
-        contact information.
+        The revenue by contact report provides a year to date profit and loss for customers and suppliers for a given organisation, including detailed contact information.
       parameters:
         - name: contactIds
           x-snake: contact_ids
@@ -931,9 +893,7 @@ paths:
       operationId: getFinancialStatementContactsExpense
       summary: Get expense by contacts report
       description: >-
-        The expense by contact report provides a year to date profit and loss
-        for customers and suppliers for a given organisation, including detailed
-        contact information.
+        The expense by contact report provides a year to date profit and loss for customers and suppliers for a given organisation, including detailed contact information.
       parameters:
         - name: contactIds
           x-snake: contact_ids
@@ -1040,13 +1000,7 @@ paths:
         - Finance
       operationId: getBankStatementAccounting
       summary: Get Bank Statement Accounting
-      description: >-
-        For lenders that prefer using bank statement data as the source of
-        truth.  We provide a data point that will allow access to customer
-        bank statements, plus for reconciled bank transactions the matching
-        accounting, invoice and billing data as well.  As customers reconcile
-        bank statements to invoices and bills, this transaction detail will
-        provide valuable insight for lender's assessment measures. 
+      description: "For lenders that prefer using bank statement data as the source of truth.  We provide a data point that will allow access to customer bank statements, plus for reconciled bank transactions the matching accounting, invoice and billing data as well.  As customers reconcile bank statements to invoices and bills, this transaction detail will provide valuable insight for lender's assessment measures. "
       parameters:
         - name: BankAccountID
           x-snake: bank_account_id
@@ -1089,20 +1043,20 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/BankStatementAccountingResponse'
-              example: {"bankAccountId":"1234eee9-47f0-4179-bd46-9adb4f21cc7f","bankAccountName":"ANZ BANK","bankAccountCurrencyCode":"NZD","statements":[{"statementId":"7c29eee9-47f0-4179-bd46-9adb4f21cc7f","startDate":"2021-01-01","endDate":"2021-01-02","importedDateTimeUtc":"2021-01-02T12:00:00Z","importSource":"STMTIMPORTSRC/MANUAL", "startBalance":10.0,"endBalance":200.0, "indicativeStartBalance":10.0, "indicativeEndBalance":200.0, "statementLines":[{"statementLineId":"1234eee9-47f0-4179-bd46-9adb4f21cc7f","postedDate":"2021-01-01", "payee":"ACME Thneeds ABC1234567890 SYDNEY", "reference":"Eft","notes":"payment to bank","chequeNo":"123","amount":100.0,"transactionDate":"2021-01-01","type":"Debit","isReconciled":true,"isDuplicate":false,"isDeleted":false,"payments":[{"paymentId":"47ec8431-23c2-4ef9-90e5-b440fe55d086","batchPaymentId":"ecc83387-ffaa-4023-b111-b3fd9e3e4a8e","date":"2021-01-01","amount":80.0,"bankAmount":80.0,"currencyRate":1.0,"invoice":{"invoiceId":"c01dd6ac-8835-4bf2-af8b-841db9534d7f","contact":{"contactId":"1234eee9-47f0-4179-bd46-9adb4f21cc7f","contactName":"Bob"},"total":80.0,"lineItems":[{"accountId":"f7fe1049-d1cf-4d10-9df1-67a6e363015f","reportingCode":"REV.OTH","lineAmount":80.0,"accountType":"REVENUE"}]}},{"paymentId":"54e8eee0-91a7-4a4d-bb9b-957302a2760a","batchPaymentId":"ecc83387-ffaa-4023-b111-b3fd9e3e4a8e","date":"2021-01-01","amount":15.0,"bankAmount":15.0,"currencyRate":1.0,"creditNote":{"creditNoteId":"c346d6a5-f013-4207-bc70-f2dd80a5f37f","contact":{"contactId":"1234eee9-47f0-4179-bd46-9adb4f21cc7f","contactName":"Bob"},"total":15.0,"lineItems":[{"accountId":"f7fe1049-d1cf-4d10-9df1-67a6e363015f","reportingCode":"REV.OTH","lineAmount":15.0,"accountType":"REVENUE"}]}},{"paymentId":"f94dad64-658c-491f-b901-05d38e9e8702","date":"2021-01-01","amount":5.0,"bankAmount":5.0,"currencyRate":1.0,"prepayment":{"prepaymentId":"995f81ae-0afd-4c84-bbe1-90bc7dfa4372","contact":{"contactId":"1234eee9-47f0-4179-bd46-9adb4f21cc7f","contactName":"Bob"},"total":5.0,"lineItems":[{"accountId":"f7fe1049-d1cf-4d10-9df1-67a6e363015f","reportingCode":"REV.OTH","lineAmount":5.0,"accountType":"REVENUE"}]}},{"paymentId":"6ffbe999-04c8-42d2-bf16-13947c5f1036","date":"2021-01-01","amount":5.0,"bankAmount":5.0,"currencyRate":1.0,"overpayment":{"overpaymentId":"06575718-5100-4e02-8fbf-c2731a112836","contact":{"contactId":"1234eee9-47f0-4179-bd46-9adb4f21cc7f","contactName":"Bob"},"total":5.0,"lineItems":[{"accountId":"f7fe1049-d1cf-4d10-9df1-67a6e363015f","reportingCode":"REV.OTH","lineAmount":5.0,"accountType":"REVENUE"}]}}],"bankTransactions":[{"bankTransactionId":"55edf88c-6bf6-459a-bd9b-7f250df62eb2","batchPaymentId":"2dce9b39-0427-41af-9739-9510e3b68211","contact":{"contactId":"1234eee9-47f0-4179-bd46-9adb4f21cc7f","contactName":"Bob"},"date":"2021-01-01","amount":20.0,"lineItems":[{"accountId":"f7fe1049-d1cf-4d10-9df1-67a6e363015f","reportingCode":"REV.OTH","lineAmount":20.0,"accountType":"REVENUE"}]}]}]}]}
+              example: {"bankAccountId": "1234eee9-47f0-4179-bd46-9adb4f21cc7f", "bankAccountName": "ANZ BANK", "bankAccountCurrencyCode": "NZD", "statements": [{"statementId": "7c29eee9-47f0-4179-bd46-9adb4f21cc7f", "startDate": "2021-01-01", "endDate": "2021-01-02", "importedDateTimeUtc": "2021-01-02T12:00:00Z", "importSource": "STMTIMPORTSRC/MANUAL", "startBalance": 10.0, "endBalance": 200.0, "indicativeStartBalance": 10.0, "indicativeEndBalance": 200.0, "statementLines": [{"statementLineId": "1234eee9-47f0-4179-bd46-9adb4f21cc7f", "postedDate": "2021-01-01", "payee": "ACME Thneeds ABC1234567890 SYDNEY", "reference": "Eft", "notes": "payment to bank", "chequeNo": "123", "amount": 100.0, "transactionDate": "2021-01-01", "type": "Debit", "isReconciled": true, "isDuplicate": false, "isDeleted": false, "payments": [{"paymentId": "47ec8431-23c2-4ef9-90e5-b440fe55d086", "batchPaymentId": "ecc83387-ffaa-4023-b111-b3fd9e3e4a8e", "date": "2021-01-01", "amount": 80.0, "bankAmount": 80.0, "currencyRate": 1.0, "invoice": {"invoiceId": "c01dd6ac-8835-4bf2-af8b-841db9534d7f", "contact": {"contactId": "1234eee9-47f0-4179-bd46-9adb4f21cc7f", "contactName": "Bob"}, "total": 80.0, "lineItems": [{"accountId": "f7fe1049-d1cf-4d10-9df1-67a6e363015f", "reportingCode": "REV.OTH", "lineAmount": 80.0, "accountType": "REVENUE"}]}}, {"paymentId": "54e8eee0-91a7-4a4d-bb9b-957302a2760a", "batchPaymentId": "ecc83387-ffaa-4023-b111-b3fd9e3e4a8e", "date": "2021-01-01", "amount": 15.0, "bankAmount": 15.0, "currencyRate": 1.0, "creditNote": {"creditNoteId": "c346d6a5-f013-4207-bc70-f2dd80a5f37f", "contact": {"contactId": "1234eee9-47f0-4179-bd46-9adb4f21cc7f", "contactName": "Bob"}, "total": 15.0, "lineItems": [{"accountId": "f7fe1049-d1cf-4d10-9df1-67a6e363015f", "reportingCode": "REV.OTH", "lineAmount": 15.0, "accountType": "REVENUE"}]}}, {"paymentId": "f94dad64-658c-491f-b901-05d38e9e8702", "date": "2021-01-01", "amount": 5.0, "bankAmount": 5.0, "currencyRate": 1.0, "prepayment": {"prepaymentId": "995f81ae-0afd-4c84-bbe1-90bc7dfa4372", "contact": {"contactId": "1234eee9-47f0-4179-bd46-9adb4f21cc7f", "contactName": "Bob"}, "total": 5.0, "lineItems": [{"accountId": "f7fe1049-d1cf-4d10-9df1-67a6e363015f", "reportingCode": "REV.OTH", "lineAmount": 5.0, "accountType": "REVENUE"}]}}, {"paymentId": "6ffbe999-04c8-42d2-bf16-13947c5f1036", "date": "2021-01-01", "amount": 5.0, "bankAmount": 5.0, "currencyRate": 1.0, "overpayment": {"overpaymentId": "06575718-5100-4e02-8fbf-c2731a112836", "contact": {"contactId": "1234eee9-47f0-4179-bd46-9adb4f21cc7f", "contactName": "Bob"}, "total": 5.0, "lineItems": [{"accountId": "f7fe1049-d1cf-4d10-9df1-67a6e363015f", "reportingCode": "REV.OTH", "lineAmount": 5.0, "accountType": "REVENUE"}]}}], "bankTransactions": [{"bankTransactionId": "55edf88c-6bf6-459a-bd9b-7f250df62eb2", "batchPaymentId": "2dce9b39-0427-41af-9739-9510e3b68211", "contact": {"contactId": "1234eee9-47f0-4179-bd46-9adb4f21cc7f", "contactName": "Bob"}, "date": "2021-01-01", "amount": 20.0, "lineItems": [{"accountId": "f7fe1049-d1cf-4d10-9df1-67a6e363015f", "reportingCode": "REV.OTH", "lineAmount": 20.0, "accountType": "REVENUE"}]}]}]}]}
         '400':
           description: BadRequest
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Problem'
-              example: {"type":"invalid-request","title":"InvalidRequest","status":400,"detail":"AccountId was not supplied"}
+              example: {"type": "invalid-request", "title": "InvalidRequest", "status": 400, "detail": "AccountId was not supplied"}
 components:
   securitySchemes:
     OAuth2:
       type: oauth2
       description: For more information
-      flows: 
+      flows:
         authorizationCode:
           authorizationUrl: 'https://login.xero.com/identity/connect/authorize'
           tokenUrl: 'https://identity.xero.com/connect/token'
@@ -1115,7 +1069,7 @@ components:
             finance.cashvalidation.read: Grant read-only access to bank statement and reconcilation data
             finance.bankstatementsplus.read: Grant read-only access to bank statements accounting data
   parameters:
-    requiredHeader: 
+    requiredHeader:
       in: header
       name: xero-tenant-id
       x-snake: xero_tenant_id
@@ -1285,17 +1239,17 @@ components:
       additionalProperties: false
     ProblemType:
       enum:
-      - NotSet
-      - bank-account-not-found
-      - internal-error
-      - invalid-application
-      - invalid-request
-      - organisation-not-found
-      - organisation-offline
-      - request-timeout
-      - service-unavailable
-      - unauthorized
-      - rate-limit-error
+        - NotSet
+        - bank-account-not-found
+        - internal-error
+        - invalid-application
+        - invalid-request
+        - organisation-not-found
+        - organisation-offline
+        - request-timeout
+        - service-unavailable
+        - unauthorized
+        - rate-limit-error
       type: string
     ReportHistoryModel:
       type: object
@@ -1406,20 +1360,17 @@ components:
       properties:
         unreconciledAmountPos:
           type: number
-          description: Total value of transactions in the journals which are not reconciled
-            to bank statement lines, and have a positive (debit) value.
+          description: Total value of transactions in the journals which are not reconciled to bank statement lines, and have a positive (debit) value.
           format: double
           x-is-money: true
         unreconciledAmountNeg:
           type: number
-          description: Total value of transactions in the journals which are not reconciled
-            to bank statement lines, and have a negative (credit) value.
+          description: Total value of transactions in the journals which are not reconciled to bank statement lines, and have a negative (credit) value.
           format: double
           x-is-money: true
         startingBalance:
           type: number
-          description: Starting (or historic) balance from the journals (manually
-            keyed in by users on account creation - unverified).
+          description: Starting (or historic) balance from the journals (manually keyed in by users on account creation - unverified).
           format: double
           x-is-money: true
         accountBalance:
@@ -1442,8 +1393,7 @@ components:
           $ref: "#/components/schemas/StatementBalanceResponse"
         statementBalanceDate:
           type: string
-          description: UTC Date when the last bank statement item was entered into
-            Xero. This date is represented in ISO 8601 format.
+          description: UTC Date when the last bank statement item was entered into Xero. This date is represented in ISO 8601 format.
           format: date
         bankStatement:
           $ref: "#/components/schemas/BankStatementResponse"
@@ -1455,41 +1405,29 @@ components:
       properties:
         startDate:
           type: string
-          description: Looking at the most recent bank statement, this field indicates
-            the first date which transactions on this statement pertain to. This date
-            is represented in ISO 8601 format.
+          description: Looking at the most recent bank statement, this field indicates the first date which transactions on this statement pertain to. This date is represented in ISO 8601 format.
           format: date
         endDate:
           type: string
-          description: Looking at the most recent bank statement, this field indicates
-            the last date which transactions on this statement pertain to. This date
-            is represented in ISO 8601 format.
+          description: Looking at the most recent bank statement, this field indicates the last date which transactions on this statement pertain to. This date is represented in ISO 8601 format.
           format: date
         startBalance:
           type: number
-          description: Looking at the most recent bank statement, this field indicates
-            the balance before the transactions on the statement are applied (note,
-            this is not always populated by the bank in every single instance (~10%)).
+          description: Looking at the most recent bank statement, this field indicates the balance before the transactions on the statement are applied (note, this is not always populated by the bank in every single instance (~10%)).
           format: double
           x-is-money: true
         endBalance:
           type: number
-          description: Looking at the most recent bank statement, this field indicates
-            the balance after the transactions on the statement are applied (note,
-            this is not always populated by the bank in every single instance (~10%)).
+          description: Looking at the most recent bank statement, this field indicates the balance after the transactions on the statement are applied (note, this is not always populated by the bank in every single instance (~10%)).
           format: double
           x-is-money: true
         importedDateTimeUtc:
           type: string
-          description: Looking at the most recent bank statement, this field indicates
-            when the document was imported into Xero.  This date is represented in
-            ISO 8601 format.
+          description: Looking at the most recent bank statement, this field indicates when the document was imported into Xero.  This date is represented in ISO 8601 format.
           format: date-time
         importSourceType:
           type: string
-          description: Looking at the most recent bank statement, this field indicates
-            the source of the data (direct bank feed, indirect bank feed, file upload,
-            or manual keying).
+          description: Looking at the most recent bank statement, this field indicates the source of the data (direct bank feed, indirect bank feed, file upload, or manual keying).
       additionalProperties: false
     DataSourceResponse:
       type: object
@@ -1578,120 +1516,90 @@ components:
       properties:
         value:
           type: number
-          description: Total closing balance of the account. This includes both reconciled
-            and unreconciled bank statement lines. The closing balance will always
-            be represented as a positive number, with it’s debit/credit status defined
-            in the statementBalanceDebitCredit field.
+          description: Total closing balance of the account. This includes both reconciled and unreconciled bank statement lines. The closing balance will always be represented as a positive number, with it’s debit/credit status defined in the statementBalanceDebitCredit field.
           format: double
           x-is-money: true
         type:
           type: string
-          description: The DEBIT or CREDIT status of the account. Cash accounts in
-            credit have a negative balance.
+          description: The DEBIT or CREDIT status of the account. Cash accounts in credit have a negative balance.
       additionalProperties: false
     StatementLinesResponse:
       type: object
       properties:
         unreconciledAmountPos:
           type: number
-          description: Sum of the amounts of all statement lines where both the reconciled
-            flag is set to FALSE, and the amount is positive.
+          description: Sum of the amounts of all statement lines where both the reconciled flag is set to FALSE, and the amount is positive.
           format: double
           x-is-money: true
         unreconciledAmountNeg:
           type: number
-          description: Sum of the amounts of all statement lines where both the reconciled
-            flag is set to FALSE, and the amount is negative.
+          description: Sum of the amounts of all statement lines where both the reconciled flag is set to FALSE, and the amount is negative.
           format: double
           x-is-money: true
         unreconciledLines:
           type: integer
-          description: Count of all statement lines where the reconciled flag is set
-            to FALSE.
+          description: Count of all statement lines where the reconciled flag is set to FALSE.
           format: int32
         avgDaysUnreconciledPos:
           type: number
-          description: Sum-product of age of statement line in days multiplied by
-            transaction amount, divided by the sum of transaction amount - in for
-            those statement lines in which the reconciled flag is set to FALSE, and
-            the amount is positive. Provides an indication of the age of unreconciled
-            transactions.
+          description: Sum-product of age of statement line in days multiplied by transaction amount, divided by the sum of transaction amount - in for those statement lines in which the reconciled flag is set to FALSE, and the amount is positive. Provides an indication of the age of unreconciled transactions.
           format: double
           x-is-money: true
         avgDaysUnreconciledNeg:
           type: number
-          description: Sum-product of age of statement line in days multiplied by
-            transaction amount, divided by the sum of transaction amount - in for
-            those statement lines in which the reconciled flag is set to FALSE, and
-            the amount is negative. Provides an indication of the age of unreconciled
-            transactions.
+          description: Sum-product of age of statement line in days multiplied by transaction amount, divided by the sum of transaction amount - in for those statement lines in which the reconciled flag is set to FALSE, and the amount is negative. Provides an indication of the age of unreconciled transactions.
           format: double
           x-is-money: true
         earliestUnreconciledTransaction:
           type: string
-          description: UTC Date which is the earliest transaction date of a statement
-            line for which the reconciled flag is set to FALSE.  This date is represented
-            in ISO 8601 format.
+          description: UTC Date which is the earliest transaction date of a statement line for which the reconciled flag is set to FALSE.  This date is represented in ISO 8601 format.
           format: date
         latestUnreconciledTransaction:
           type: string
-          description: UTC Date which is the latest transaction date of a statement
-            line for which the reconciled flag is set to FALSE.  This date is represented
-            in ISO 8601 format.
+          description: UTC Date which is the latest transaction date of a statement line for which the reconciled flag is set to FALSE.  This date is represented in ISO 8601 format.
           format: date
         deletedAmount:
           type: number
-          description: Sum of the amounts of all deleted statement lines.  Transactions
-            may be deleted due to duplication or otherwise.
+          description: Sum of the amounts of all deleted statement lines.  Transactions may be deleted due to duplication or otherwise.
           format: double
           x-is-money: true
         totalAmount:
           type: number
-          description: Sum of the amounts of all statement lines.  This is used as
-            a metric of comparison to the unreconciled figures above.
+          description: Sum of the amounts of all statement lines.  This is used as a metric of comparison to the unreconciled figures above.
           format: double
           x-is-money: true
         dataSource:
           $ref: "#/components/schemas/DataSourceResponse"
         earliestReconciledTransaction:
           type: string
-          description: UTC Date which is the earliest transaction date of a statement
-            line for which the reconciled flag is set to TRUE.  This date is represented
-            in ISO 8601 format.
+          description: UTC Date which is the earliest transaction date of a statement line for which the reconciled flag is set to TRUE.  This date is represented in ISO 8601 format.
           format: date
         latestReconciledTransaction:
           type: string
-          description: UTC Date which is the latest transaction date of a statement
-            line for which the reconciled flag is set to TRUE.  This date is represented
-            in ISO 8601 format.
+          description: UTC Date which is the latest transaction date of a statement line for which the reconciled flag is set to TRUE.  This date is represented in ISO 8601 format.
           format: date
         reconciledAmountPos:
           type: number
-          description: Sum of the amounts of all statement lines where both the reconciled
-            flag is set to TRUE, and the amount is positive.
+          description: Sum of the amounts of all statement lines where both the reconciled flag is set to TRUE, and the amount is positive.
           format: double
           x-is-money: true
         reconciledAmountNeg:
           type: number
-          description: Sum of the amounts of all statement lines where both the reconciled
-            flag is set to TRUE, and the amount is negative.
+          description: Sum of the amounts of all statement lines where both the reconciled flag is set to TRUE, and the amount is negative.
           format: double
           x-is-money: true
         reconciledLines:
           type: integer
-          description: Count of all statement lines where the reconciled flag is set
-            to TRUE
+          description: Count of all statement lines where the reconciled flag is set to TRUE
           format: int32
         totalAmountPos:
           type: number
-          description: Sum of the amounts of all statement lines where the amount
-            is positive
+          description: Sum of the amounts of all statement lines where the amount is positive
           format: double
           x-is-money: true
         totalAmountNeg:
           type: number
-          description: Sum of the amounts of all statement lines where the amount
-            is negative.
+          description: Sum of the amounts of all statement lines where the amount is negative.
           format: double
           x-is-money: true
       additionalProperties: false
@@ -2084,8 +1992,7 @@ components:
         totalOutstandingAged:
           type: number
           description: >-
-            Total outstanding invoice value within the period where the invoices
-            are more than 90 days old
+            Total outstanding invoice value within the period where the invoices are more than 90 days old
           format: double
           x-is-money: true
         totalVoided:
@@ -2149,8 +2056,7 @@ components:
         totalOutstandingAged:
           type: number
           description: >-
-            Total outstanding invoice value for the contact within the period
-            where the invoices are more than 90 days old
+            Total outstanding invoice value for the contact within the period where the invoices are more than 90 days old
           format: double
           x-is-money: true
         totalVoided:
@@ -2446,10 +2352,10 @@ components:
           format: double
           x-is-money: true
         endBalance:
-            type: number
-            description: Closing balance sourced from imported bank statements (if supplied). Note, for manually uploaded statements, this balance is also manual and usually not supplied. Where not supplied, the value will be 0.
-            format: double
-            x-is-money: true
+          type: number
+          description: Closing balance sourced from imported bank statements (if supplied). Note, for manually uploaded statements, this balance is also manual and usually not supplied. Where not supplied, the value will be 0.
+          format: double
+          x-is-money: true
         indicativeStartBalance:
           type: number
           description: |
@@ -2458,8 +2364,7 @@ components:
           x-is-money: true
         indicativeEndBalance:
           type: number
-          description: |
-            Closing statement balance calculated in Xero (= bank account conversion balance plus sum of imported bank statement lines). Note: If indicative statement balance doesn't match imported statement balance for the same date, either the conversion (opening at inception) balance in Xero is wrong or there's an error in the bank statement lines in Xero. Ref: https://central.xero.com/s/article/Compare-the-statement-balance-in-Xero-to-your-actual-bank-balance?userregion=true 
+          description: "Closing statement balance calculated in Xero (= bank account conversion balance plus sum of imported bank statement lines). Note: If indicative statement balance doesn't match imported statement balance for the same date, either the conversion (opening at inception) balance in Xero is wrong or there's an error in the bank statement lines in Xero. Ref: https://central.xero.com/s/article/Compare-the-statement-balance-in-Xero-to-your-actual-bank-balance?userregion=true \n"
           format: double
           x-is-money: true
         statementLines:
