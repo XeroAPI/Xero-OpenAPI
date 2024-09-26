@@ -39,7 +39,6 @@ jobs:
 
             - name: Checkout branch
               run: |
-                if [ "${{github.event_name}}" == "push" ]; then
                   if git ls-remote --heads origin ${{steps.identify_branch_name.outputs.branchName}} | grep -q "refs/heads/${{steps.identify_branch_name.outputs.branchName}}"; then
                     echo "checking out existing branch"
                     git fetch origin > /dev/null 2>&1
@@ -49,7 +48,6 @@ jobs:
                     echo "branchName *****>> ${{steps.identify_branch_name.outputs.branchName}}"
                     git checkout -b ${{steps.identify_branch_name.outputs.branchName}}
                   fi
-                fi
 
             - name: Staging & commiting
               id: detect-changes
