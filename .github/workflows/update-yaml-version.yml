@@ -80,7 +80,8 @@ jobs:
               shell: bash
               run: |
                 if [ "${{steps.detect-changes.outputs.changes_detected}}" == "true" ]; then
-                  echo "pushing the code to ${{steps.identify_branch_name.outputs.branchName}} "
+                  echo "pushing the code to ${{steps.identify_branch_name.outputs.branchName}}"
+                  git branch
                   git push origin ${{steps.identify_branch_name.outputs.branchName}} 
                 fi
 
