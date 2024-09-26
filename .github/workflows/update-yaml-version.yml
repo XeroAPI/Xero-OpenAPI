@@ -46,13 +46,13 @@ jobs:
                     git checkout ${{steps.identify_branch_name.outputs.branchName}} 
                   else
                     echo "branch does not exists, creating new branch"
-                    git checkout -b ${{steps.identify_branch_name.outputs.branchName}} 
+                    echo "branchName *****>> ${{steps.identify_branch_name.outputs.branchName}}"
+                    git checkout -b ${{steps.identify_branch_name.outputs.branchName}}
                   fi
                 fi
 
             - name: Staging & commiting
               id: detect-changes
-              shell: bash
               run: |
                 CHANGES_DETECTED=$(git diff)
                 if [ -z "$CHANGES_DETECTED" ]; then
@@ -61,6 +61,8 @@ jobs:
                 else
                   echo "changes_detected=true" >> $GITHUB_OUTPUT
                   echo "running the git commands......"
+
+                  git branch
                           
                   echo 'staging the changes'
                   git add --all
@@ -77,7 +79,6 @@ jobs:
                 fi
 
             - name: Pushing the Branch
-              shell: bash
               run: |
                 if [ "${{steps.detect-changes.outputs.changes_detected}}" == "true" ]; then
                   echo "pushing the code to ${{steps.identify_branch_name.outputs.branchName}}"
@@ -86,14 +87,13 @@ jobs:
                 fi
 
             - name: Create PR
-              shell: bash
               run: |
                 if [ "${{steps.check-pr.outputs.pr_exists}}" == "false" ] && [ "${{steps.detect-changes.outputs.changes_detected}}" == "true" ]; then
                   echo "Creating PR in OAS-version-update-10.1.0"
                   gh pr create \
                     --title "OAS version update" \
                     --base master \
-                    --head OAS-version-update-10.1.0 \
+                    --head ${{steps.identify_branch_name.outputs.branchName}}  \
                 EOF
                   )"
                 fi
