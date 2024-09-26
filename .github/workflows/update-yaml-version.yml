@@ -87,13 +87,11 @@ jobs:
             - name: Create PR
               run: |
                 if [ "${{steps.check-pr.outputs.pr_exists}}" == "false" ] && [ "${{steps.detect-changes.outputs.changes_detected}}" == "true" ]; then
-                  echo "Creating PR in OAS-version-update-10.1.0"
+                  echo "Creating PR in ${{steps.identify_branch_name.outputs.branchName}}"
                   gh pr create \
                     --title "OAS version update" \
                     --base master \
                     --head ${{steps.identify_branch_name.outputs.branchName}}  \
-                EOF
-                  )"
                 fi
               env:
                 GITHUB_TOKEN: ${{ github.token }}
