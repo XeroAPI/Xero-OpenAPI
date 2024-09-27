@@ -15,6 +15,22 @@ jobs:
 
        - name: Checkout Repository
          uses: actions/checkout@v4
+         with:
+          fetch-depth: 0
 
-       - name: Release steps
-         run: echo "this is manually triggered release....."
+       - name: Set up Node environment
+         uses: actions/setup-node@v4
+         with:
+          node-version: 20
+
+       - name: install node package
+         run: npm i
+         working-directory: ${{ github.workspace }}/.github/semantic-release
+
+       - name: Perform release
+         run: |
+          git fetch origin master:master
+          npx semantic-release --dry-run --branch master
+         env:
+           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+         working-directory: ${{ github.workspace }}/.github/semantic-release
