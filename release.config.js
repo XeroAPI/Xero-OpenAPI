@@ -11,7 +11,10 @@ const config = {
                 "assests": ["CHANGELOG.md"],
                 "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
             }
-        ]
+        ],
+        ["@semantic-release/npm", {
+            "npmPublish": false,
+        }]
     ]
 }
 
