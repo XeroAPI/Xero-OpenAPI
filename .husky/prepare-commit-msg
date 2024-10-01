@@ -1,3 +1,8 @@
+if [ ! -d "node_modules" ]; then
+ echo "It looks like you have not run 'npm install', please run 'npm install' before commiting..."
+ exit 1
+fi
+
 exec < /dev/tty && npx cz --hook || {
  echo "aborting commit"
  exit 1    
