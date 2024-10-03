@@ -27,6 +27,23 @@ jobs:
                echo "releaseVersion=$latest_version" >> $GITHUB_OUTPUT
               env:
                GH_TOKEN: ${{ github.token }}
+
+            - name: Install octokit dependencies
+              run: npm i
+              working-directory: ${{ github.workspace }}/.github/octokit
+       
+            - name: Get github app access token
+              id: get_access_token
+              env:
+                 GITHUB_APP_ID: ${{ secrets.XERO_GITHUB_APP_ID }}
+                 GITHUB_APP_PRIVATE_KEY: ${{ secrets.XERO_GITHUB_APPLICATION_KEY }}
+              uses: actions/github-script@v7
+              with:
+                result-encoding: string
+                script: |
+                   const { getAccessToken } = await import('${{ github.workspace }}/.github/octokit/index.js')
+                   const token = await getAccessToken()
+                   return token
                
 
             - name: Update version of the yaml files
@@ -103,7 +120,7 @@ jobs:
                     --body "chore: version update for all the yaml files"
                 fi
               env:
-                GITHUB_TOKEN: ${{ github.token }}
+                GH_TOKEN: ${{steps.get_access_token.outputs.result}}
 
             # - name: Auto Merge PR & deletes branch
             #   run: |

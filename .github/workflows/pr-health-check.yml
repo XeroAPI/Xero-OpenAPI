@@ -44,22 +44,22 @@ jobs:
               run: |
                vacuum lint -d -e xero_accounting.yaml xero_assets.yaml xero_bankfeeds.yaml xero_files.yaml xero-app-store.yaml xero-finance.yaml xero-identity.yaml xero-payroll-au.yaml xero-payroll-nz.yaml xero-payroll-uk.yaml xero-projects.yaml
             
-            # - name: Install octokit dependencies
-            #   run: npm i
-            #   working-directory: ${{ github.workspace }}/.github/octokit
+            - name: Install octokit dependencies
+              run: npm i
+              working-directory: ${{ github.workspace }}/.github/octokit
       
-            # - name: Get github app access token
-            #   id: get_access_token
-            #   env:
-            #     GITHUB_APP_ID: ${{ secrets.XERO_GITHUB_APP_ID }}
-            #     GITHUB_APP_PRIVATE_KEY: ${{ secrets.XERO_GITHUB_APPLICATION_KEY }}
-            #   uses: actions/github-script@v7
-            #   with:
-            #     result-encoding: string
-            #     script: |
-            #       const { getAccessToken } = await import('${{ github.workspace }}/.github/octokit/index.js')
-            #       const token = await getAccessToken()
-            #       return token
+            - name: Get github app access token
+              id: get_access_token
+              env:
+                GITHUB_APP_ID: ${{ secrets.XERO_GITHUB_APP_ID }}
+                GITHUB_APP_PRIVATE_KEY: ${{ secrets.XERO_GITHUB_APPLICATION_KEY }}
+              uses: actions/github-script@v7
+              with:
+                result-encoding: string
+                script: |
+                  const { getAccessToken } = await import('${{ github.workspace }}/.github/octokit/index.js')
+                  const token = await getAccessToken()
+                  return token
 
             # - name: Trigger all SDK workflow
             #   uses: codex-/return-dispatch@v1
