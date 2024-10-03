@@ -17,15 +17,15 @@ jobs:
             - name: Checkout Repository
               uses: actions/checkout@v4
 
-            - name: Set up Python
-              uses: actions/setup-python@v4
+            - name: Set up Node environment
+              uses: actions/setup-node@v4
               with:
-                python-version: '3.x'
+               node-version: 20
 
-            - name: Install yaml lint
-              run: pip install yamllint
+            - name: Install Open API yaml linter
+              run: npm i -g @quobix/vacuum
 
-            - name: Run yamllint
+            - name: Run Linter
               run: |
                git fetch > /dev/null 2>&1
                git checkout ${{github.head_ref}}
@@ -34,7 +34,7 @@ jobs:
                if [ -s yaml_files.txt ]; then
                 echo "linting the following yaml files:"
                 cat yaml_files.txt
-                xargs yamllint --disable line-length < yaml_files.txt
+                vacuum lint < yaml_files.txt
                fi
             
             # - name: Install octokit dependencies
