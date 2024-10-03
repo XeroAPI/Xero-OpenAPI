@@ -107,6 +107,8 @@ jobs:
                   echo "pushing the code to ${{steps.identify_branch_name.outputs.branchName}}"
                   git branch
                   git push origin ${{steps.identify_branch_name.outputs.branchName}} 
+                else 
+                  echo "branch is already up to date"
                 fi
 
             - name: Create PR
@@ -118,6 +120,8 @@ jobs:
                     --base test-auto-merge \
                     --head ${{steps.identify_branch_name.outputs.branchName}} \
                     --body "chore: version update for all the yaml files"
+                else
+                  echo "PR is already up to date"
                 fi
               env:
                 GITHUB_TOKEN: ${{ github.token }}
