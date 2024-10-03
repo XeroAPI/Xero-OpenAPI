@@ -19,6 +19,15 @@ In Release (used for one or more SDKs)
 ## Code Generators
 We are using [OpenAPI generator](https://github.com/OpenAPITools/openapi-generator) along with these OAS yaml files to generate our new SDKs.
 
+## Contribution guide
+* Please run ` npm install ` in root directory before working in this repo.
+* It will enable commit linting in your local
+* run ``` git commit ``` before making any commit
+* You will be prompted with a interactive commit cli before each commit to keep the commit messages structured to maintain repo's release management process.
+![alt text](images/cz-cli.png)
+* You will only be able to commit through your integrated or local terminal and no other GUI.
+* We are using [commitizen cz-cli](https://github.com/commitizen/cz-cli) for our commit ruling set up.
+
 ## Preview
 There are lots of tools available for viewing and editing OpenAPI descriptions in a nicely formatted way. A popular tool is SwaggerHub - a version of which is [hosted here](https://app.swaggerhub.com/home). 
 
