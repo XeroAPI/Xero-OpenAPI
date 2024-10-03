@@ -25,17 +25,21 @@ jobs:
             - name: Install Open API yaml linter
               run: npm i -g @quobix/vacuum
 
-            - name: Run Linter
+            - name: Run linting
               run: |
-               git fetch > /dev/null 2>&1
-               git checkout ${{github.head_ref}}
-               find . -type f \( -name "*.yaml" \) > yaml_files.txt
+               vacuum lint -d xero_accounting.yaml xero_assets.yaml xero_bankfeeds.yaml xero_files.yaml xero-app-store.yaml xero-finance.yaml xero-identity.yaml xero-payroll-au.yaml xero-payroll-nz.yaml xero-payroll-uk.yaml xero-projects.yaml
 
-               if [ -s yaml_files.txt ]; then
-                echo "linting the following yaml files:"
-                cat yaml_files.txt
-                vacuum lint < yaml_files.txt
-               fi
+            # - name: Run Linter
+            #   run: |
+            #    git fetch > /dev/null 2>&1
+            #    git checkout ${{github.head_ref}}
+            #    find . -type f \( -name "*.yaml" \) > yaml_files.txt
+
+            #    if [ -s yaml_files.txt ]; then
+            #     echo "linting the following yaml files:"
+            #     cat yaml_files.txt
+            #     vacuum lint < yaml_files.txt
+            #    fi
             
             # - name: Install octokit dependencies
             #   run: npm i
