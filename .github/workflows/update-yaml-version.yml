@@ -20,6 +20,23 @@ jobs:
               uses: actions/checkout@v4
               with:
                 ref: 'master'
+            
+            - name: Install octokit dependencies
+              run: npm i
+              working-directory: ${{ github.workspace }}/.github/octokit
+         
+            - name: Get github app access token
+              id: get_access_token
+              env:
+                GITHUB_APP_ID: ${{ secrets.XERO_PUBLIC_BOT_APP_ID }}
+                GITHUB_APP_PRIVATE_KEY: ${{ secrets.XERO_PUBLIC_BOT_KEY }}
+              uses: actions/github-script@v7
+              with:
+                result-encoding: string
+                script: |
+                  const { getAccessToken } = await import('${{ github.workspace }}/.github/octokit/index.js')
+                  const token = await getAccessToken()
+                  return token
 
             - name: Fetch Latest release number
               id: get_latest_release_number
@@ -28,24 +45,7 @@ jobs:
                echo "Latest release version is - $latest_version"
                echo "releaseVersion=$latest_version" >> $GITHUB_OUTPUT
               env:
-               GH_TOKEN: ${{ github.token }}
-
-            # - name: Install octokit dependencies
-            #   run: npm i
-            #   working-directory: ${{ github.workspace }}/.github/octokit
-       
-            # - name: Get github app access token
-            #   id: get_access_token
-            #   env:
-            #      GITHUB_APP_ID: ${{ secrets.XERO_GITHUB_APP_ID }}
-            #      GITHUB_APP_PRIVATE_KEY: ${{ secrets.XERO_GITHUB_APPLICATION_KEY }}
-            #   uses: actions/github-script@v7
-            #   with:
-            #     result-encoding: string
-            #     script: |
-            #        const { getAccessToken } = await import('${{ github.workspace }}/.github/octokit/index.js')
-            #        const token = await getAccessToken()
-            #        return token
+               GH_TOKEN: ${{steps.get_access_token.outputs.result}}
 
 
             - name: Set up branch name
@@ -126,7 +126,7 @@ jobs:
                   echo "PR is already up to date"
                 fi
               env:
-                GITHUB_TOKEN: ${{ github.token }}
+                GH_TOKEN: ${{steps.get_access_token.outputs.result}}
 
             - name: Auto Merge PR & deletes branch
               run: |
@@ -144,5 +144,5 @@ jobs:
 
                 echo "PR #$PR_NUMBER has been merged & branch: $BRANCH_NAME has been deleted"
               env:
-                GITHUB_TOKEN: ${{ github.token }}
+                GH_TOKEN: ${{steps.get_access_token.outputs.result}}
 
