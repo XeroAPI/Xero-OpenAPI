@@ -150,13 +150,6 @@ jobs:
                 GH_TOKEN: ${{steps.get_access_token.outputs.result}}
 
 
-            # - name: Wait for PR status checks to pass
-            #   run: |
-            #    gh pr checks ${{steps.identify_PR_number.outputs.PR_NUMBER}} --watch
-            #   env:
-            #     GH_TOKEN: ${{steps.get_access_token.outputs.result}}
-               
-
             - name: Auto Merge PR & deletes branch
               run: |
 
@@ -175,10 +168,8 @@ jobs:
             - name: Verify PR is merged
               run: |
 
-               prNumber=${{steps.identify_PR_number.outputs.PR_NUMBER}}
-
-               if gh pr view $prNumber --json merged --jq '.merged' | grep true; then
-                echo "PR: $prNumber has been merged & branch: ${{steps.identify_branch_name.outputs.branchName}} has been deleted"
+               if gh pr view ${{steps.identify_PR_number.outputs.PR_NUMBER}} --json merged --jq '.merged' | grep true; then
+                echo "PR - ${{steps.identify_PR_number.outputs.PR_NUMBER}} has been merged & branch - ${{steps.identify_branch_name.outputs.branchName}} has been deleted"
                else 
                 echo "PR is not merged"
                 exit 1
