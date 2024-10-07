@@ -150,11 +150,11 @@ jobs:
                 GH_TOKEN: ${{steps.get_access_token.outputs.result}}
 
 
-            - name: Wait for PR status checks to pass
-              run: |
-               gh pr checks ${{steps.identify_PR_number.outputs.PR_NUMBER}} --watch
-              env:
-                GH_TOKEN: ${{steps.get_access_token.outputs.result}}
+            # - name: Wait for PR status checks to pass
+            #   run: |
+            #    gh pr checks ${{steps.identify_PR_number.outputs.PR_NUMBER}} --watch
+            #   env:
+            #     GH_TOKEN: ${{steps.get_access_token.outputs.result}}
                
 
             - name: Auto Merge PR & deletes branch
@@ -167,7 +167,7 @@ jobs:
 
                 echo "Merging the PR: ${{steps.identify_PR_number.outputs.PR_NUMBER}}....."
                 
-                gh pr merge $${{steps.identify_PR_number.outputs.PR_NUMBER}} --merge --auto --delete-branch --repo ${{github.repository}}
+                gh pr merge $${{steps.identify_PR_number.outputs.PR_NUMBER}} --merge --admin --delete-branch --repo ${{github.repository}}
 
                 echo "PR has been merged & branch: $BRANCH_NAME has been deleted"
               env:
