@@ -1,16 +1,16 @@
 openapi: 3.0.0
 info:
-  version: "6.3.0"
+  version: 10.1.0
   title: Xero Assets API
   description: The Assets API exposes fixed asset related functions of the Xero Accounting application and can be used for a variety of purposes such as creating assets, retrieving asset valuations etc.
-  termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
+  termsOfService: https://developer.xero.com/xero-developer-platform-terms-conditions/
   contact:
-    name: "Xero Platform Team"
-    email: "api@xero.com"
-    url: "https://developer.xero.com"
+    name: Xero Platform Team
+    email: api@xero.com
+    url: https://developer.xero.com
   license:
-    name: MIT 
-    url: 'https://github.com/XeroAPI/Xero-OpenAPI/blob/master/LICENSE'
+    name: MIT
+    url: https://github.com/XeroAPI/Xero-OpenAPI/blob/master/LICENSE
 servers:
   - description: Xero API servers
     url: https://api.xero.com/assets.xro/1.0
@@ -20,172 +20,149 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [assets, assets.read]
+        - OAuth2:
+            - assets
+            - assets.read
       tags:
         - Asset
-      summary: searches fixed asset 
+      summary: searches fixed asset
       operationId: getAssets
-      description: By passing in the appropriate options, you can search for
-        available fixed asset in the system
-      parameters: 
+      description: By passing in the appropriate options, you can search for available fixed asset in the system
+      parameters:
         - name: status
           in: query
           description: Required when retrieving a collection of assets. See Asset Status Codes
-          schema: 
+          schema:
             $ref: '#/components/schemas/AssetStatusQueryParam'
           required: true
         - name: page
           in: query
           description: Results are paged. This specifies which page of the results to return. The default page is 1.
-          schema: 
+          schema:
             type: integer
             example: 1
         - name: pageSize
           x-snake: page_size
           in: query
           description: The number of records returned per page. By default the number of records returned is 10.
-          schema: 
+          schema:
             type: integer
             example: 5
         - name: orderBy
           x-snake: order_by
           in: query
           description: Requests can be ordered by AssetType, AssetName, AssetNumber, PurchaseDate and PurchasePrice. If the asset status is DISPOSED it also allows DisposalDate and DisposalPrice.
-          schema: 
+          schema:
             type: string
-            enum: 
-            - AssetType
-            - AssetName
-            - AssetNumber
-            - PurchaseDate
-            - PurchasePrice
-            - DisposalDate
-            - DisposalPrice
+            enum:
+              - AssetType
+              - AssetName
+              - AssetNumber
+              - PurchaseDate
+              - PurchasePrice
+              - DisposalDate
+              - DisposalPrice
             example: AssetName
         - name: sortDirection
           x-snake: sort_direction
           in: query
           description: ASC or DESC
-          schema: 
+          schema:
             type: string
-            enum: 
-            - asc
-            - desc
+            enum:
+              - asc
+              - desc
             example: ASC
         - name: filterBy
           x-snake: filter_by
           in: query
           description: A string that can be used to filter the list to only return assets containing the text. Checks it against the AssetName, AssetNumber, Description and AssetTypeName fields.
-          schema: 
+          schema:
             type: string
-            example: "Company Car"
+            example: Company Car
       responses:
-        '200':
+        "200":
           description: search results matching criteria
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Assets'
-              example: { 
-                          "pagination":{ 
-                            "page":1,
-                            "pageSize":10,
-                            "pageCount":2,
-                            "itemCount":11,
-                            "links":{ 
-                              "first":{ 
-                                "href":"http://asset.favorit.xero.com/v1/assets?status=DRAFT&page=1"
-                              },
-                              "next":{ 
-                                "href":"http://asset.favorit.xero.com/v1/assets?status=DRAFT&page=2"
-                              },
-                              "last":{ 
-                                "href":"http://asset.favorit.xero.com/v1/assets?status=DRAFT&page=2"
-                              }
-                            }
-                          },
-                          "items":[ 
-                            { 
-                              "assetId":"68f17094-af97-4f1b-b36b-013b45b6ad3c",
-                              "assetName":"Computer47822",
-                              "assetNumber":"123478074",
-                              "purchaseDate":"2020-01-01T00:00:00",
-                              "purchasePrice":100.0000,
-                              "disposalPrice":0.0,
-                              "assetStatus":"Draft",
-                              "trackingItems":[ 
-                            ],
-                            "bookDepreciationSetting":{ 
-                              "depreciableObjectId":"68f17094-af97-4f1b-b36b-013b45b6ad3c",
-                              "depreciableObjectType":"Asset",
-                              "bookEffectiveDateOfChangeId":"5da77739-7f22-4109-b0a0-67480fb89af0",
-                              "depreciationMethod":"StraightLine",
-                              "averagingMethod":"ActualDays",
-                              "depreciationRate":0.50,
-                              "depreciationCalculationMethod":"None"
-                            },
-                            "bookDepreciationDetail":{ 
-                              "depreciationStartDate":"2020-01-02T00:00:00",
-                              "priorAccumDepreciationAmount":0.000000,
-                              "currentAccumDepreciationAmount":0.000000,
-                              "currentCapitalGain":0.000000,
-                              "currentGainLoss":0.000000
-                            },
-                            "taxDepreciationSettings":[ 
-                            ],
-                            "taxDepreciationDetails":[ 
-                            ],
-                            "canRollback":true,
-                            "accountingBookValue":100.000000,
-                            "taxValues":[ 
-                            ],
-                            "isDeleteEnabledForDate":false
-                          },
-                          { 
-                            "assetId":"52ea3adf-f04a-4577-8fd2-43c52a256bd5",
-                            "assetName":"Computer4148",
-                            "assetNumber":"123466620",
-                            "purchaseDate":"2020-01-01T00:00:00",
-                            "purchasePrice":100.0000,
-                            "disposalPrice":0.0,
-                            "assetStatus":"Draft",
-                            "trackingItems":[ 
-
-                            ],
-                            "bookDepreciationSetting":{ 
-                              "depreciableObjectId":"52ea3adf-f04a-4577-8fd2-43c52a256bd5",
-                              "depreciableObjectType":"Asset",
-                              "bookEffectiveDateOfChangeId":"c0d5280f-28b6-4329-b5b7-36e08c662010",
-                              "depreciationMethod":"StraightLine",
-                              "averagingMethod":"ActualDays",
-                              "depreciationRate":0.50,
-                              "depreciationCalculationMethod":"None"
-                            },
-                            "bookDepreciationDetail":{ 
-                              "depreciationStartDate":"2020-01-02T00:00:00",
-                              "priorAccumDepreciationAmount":0.000000,
-                              "currentAccumDepreciationAmount":0.000000,
-                              "currentCapitalGain":0.000000,
-                              "currentGainLoss":0.000000
-                            },
-                            "taxDepreciationSettings":[ 
-                            ],
-                            "taxDepreciationDetails":[ 
-                            ],
-                            "canRollback":true,
-                            "accountingBookValue":100.000000,
-                            "taxValues":[ 
-
-                            ],
-                            "isDeleteEnabledForDate":false
-                          }
-                        ]
-                      }
-        '400':
+              example:
+                pagination:
+                  page: 1
+                  pageSize: 10
+                  pageCount: 2
+                  itemCount: 11
+                  links:
+                    first:
+                      href: http://asset.favorit.xero.com/v1/assets?status=DRAFT&page=1
+                    next:
+                      href: http://asset.favorit.xero.com/v1/assets?status=DRAFT&page=2
+                    last:
+                      href: http://asset.favorit.xero.com/v1/assets?status=DRAFT&page=2
+                items:
+                  - assetId: 68f17094-af97-4f1b-b36b-013b45b6ad3c
+                    assetName: Computer47822
+                    assetNumber: "123478074"
+                    purchaseDate: 2020-01-01T00:00:00
+                    purchasePrice: 100.0000
+                    disposalPrice: 0.0
+                    assetStatus: Draft
+                    trackingItems: []
+                    bookDepreciationSetting:
+                      depreciableObjectId: 68f17094-af97-4f1b-b36b-013b45b6ad3c
+                      depreciableObjectType: Asset
+                      bookEffectiveDateOfChangeId: 5da77739-7f22-4109-b0a0-67480fb89af0
+                      depreciationMethod: StraightLine
+                      averagingMethod: ActualDays
+                      depreciationRate: 0.50
+                      depreciationCalculationMethod: None
+                    bookDepreciationDetail:
+                      depreciationStartDate: 2020-01-02T00:00:00
+                      priorAccumDepreciationAmount: 0.000000
+                      currentAccumDepreciationAmount: 0.000000
+                      currentCapitalGain: 0.000000
+                      currentGainLoss: 0.000000
+                    taxDepreciationSettings: []
+                    taxDepreciationDetails: []
+                    canRollback: true
+                    accountingBookValue: 100.000000
+                    taxValues: []
+                    isDeleteEnabledForDate: false
+                  - assetId: 52ea3adf-f04a-4577-8fd2-43c52a256bd5
+                    assetName: Computer4148
+                    assetNumber: "123466620"
+                    purchaseDate: 2020-01-01T00:00:00
+                    purchasePrice: 100.0000
+                    disposalPrice: 0.0
+                    assetStatus: Draft
+                    trackingItems: []
+                    bookDepreciationSetting:
+                      depreciableObjectId: 52ea3adf-f04a-4577-8fd2-43c52a256bd5
+                      depreciableObjectType: Asset
+                      bookEffectiveDateOfChangeId: c0d5280f-28b6-4329-b5b7-36e08c662010
+                      depreciationMethod: StraightLine
+                      averagingMethod: ActualDays
+                      depreciationRate: 0.50
+                      depreciationCalculationMethod: None
+                    bookDepreciationDetail:
+                      depreciationStartDate: 2020-01-02T00:00:00
+                      priorAccumDepreciationAmount: 0.000000
+                      currentAccumDepreciationAmount: 0.000000
+                      currentCapitalGain: 0.000000
+                      currentGainLoss: 0.000000
+                    taxDepreciationSettings: []
+                    taxDepreciationDetails: []
+                    canRollback: true
+                    accountingBookValue: 100.000000
+                    taxValues: []
+                    isDeleteEnabledForDate: false
+        "400":
           description: bad input parameter
     post:
       security:
-        - OAuth2: [assets]
+        - OAuth2:
+            - assets
       tags:
         - Asset
       summary: adds a fixed asset
@@ -195,7 +172,7 @@ paths:
       x-hasAssetsValidationError: true
       x-example:
         - asset:
-          is_object: true 
+          is_object: true
           key: asset
           keyPascal: Asset
         - assetName:
@@ -203,7 +180,7 @@ paths:
           keyPascal: assetName
           keySnake: asset_name
           csharp: AssetName
-          default: "Other Computer"
+          default: Other Computer
           object: asset
         - assetNumber:
           key: assetnumber
@@ -227,180 +204,163 @@ paths:
           object: asset
       description: Adds an asset to the system
       responses:
-        '200':
+        "200":
           description: return single object - create new asset
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Asset'
-              example: { 
-                          "assetId":"2257c64a-77ca-444c-a5ea-fa9a588c7039",
-                          "assetName":"Computer74863",
-                          "assetNumber":"123477544",
-                          "purchaseDate":"2020-01-01T00:00:00",
-                          "purchasePrice":100.0000,
-                          "disposalPrice":23.2300,
-                          "assetStatus":"Draft",
-                          "trackingItems":[],
-                          "bookDepreciationSetting":{ 
-                            "depreciableObjectId":"2257c64a-77ca-444c-a5ea-fa9a588c7039",
-                            "depreciableObjectType":"Asset",
-                            "bookEffectiveDateOfChangeId":"b58a2ace-1213-4681-9f11-2e30f57b5b8c",
-                            "depreciationMethod":"StraightLine",
-                            "averagingMethod":"ActualDays",
-                            "depreciationRate":0.50,
-                            "depreciationCalculationMethod":"None"
-                          },
-                          "bookDepreciationDetail":{ 
-                            "depreciationStartDate":"2020-01-02T00:00:00",
-                            "priorAccumDepreciationAmount":0.000000,
-                            "currentAccumDepreciationAmount":0.000000,
-                            "currentCapitalGain":0.000000,
-                            "currentGainLoss":0.000000
-                          },
-                          "taxDepreciationSettings":[ 
-                          ],
-                          "taxDepreciationDetails":[],
-                          "canRollback":true,
-                          "accountingBookValue":76.770000,
-                          "taxValues":[],
-                          "isDeleteEnabledForDate":true
-                        }
-        '400':
-          description: 'invalid input, object invalid'
+              example:
+                assetId: 2257c64a-77ca-444c-a5ea-fa9a588c7039
+                assetName: Computer74863
+                assetNumber: "123477544"
+                purchaseDate: 2020-01-01T00:00:00
+                purchasePrice: 100.0000
+                disposalPrice: 23.2300
+                assetStatus: Draft
+                trackingItems: []
+                bookDepreciationSetting:
+                  depreciableObjectId: 2257c64a-77ca-444c-a5ea-fa9a588c7039
+                  depreciableObjectType: Asset
+                  bookEffectiveDateOfChangeId: b58a2ace-1213-4681-9f11-2e30f57b5b8c
+                  depreciationMethod: StraightLine
+                  averagingMethod: ActualDays
+                  depreciationRate: 0.50
+                  depreciationCalculationMethod: None
+                bookDepreciationDetail:
+                  depreciationStartDate: 2020-01-02T00:00:00
+                  priorAccumDepreciationAmount: 0.000000
+                  currentAccumDepreciationAmount: 0.000000
+                  currentCapitalGain: 0.000000
+                  currentGainLoss: 0.000000
+                taxDepreciationSettings: []
+                taxDepreciationDetails: []
+                canRollback: true
+                accountingBookValue: 76.770000
+                taxValues: []
+                isDeleteEnabledForDate: true
+        "400":
+          description: invalid input, object invalid
           content:
             application/json:
-              example: { 
-                          "resourceValidationErrors":[ ],
-                          "fieldValidationErrors":[ 
-                            { 
-                              "fieldName":"BookDepreciationSetting.DepreciationRate",
-                              "valueProvided":"",
-                              "localisedMessage":"Can''t have both Depreciation Rate and Effective Life",
-                              "type":"http://common.service.xero.com/errors/validation/field",
-                              "title":"Validation Error",
-                              "detail":"Can''t have both Depreciation Rate and Effective Life"
-                            }
-                          ],
-                          "type":"http://common.service.xero.com/errors/validation",
-                          "title":"The resource update failed validation.",
-                          "detail":"Validation Errors"
-                        }
+              example:
+                resourceValidationErrors: []
+                fieldValidationErrors:
+                  - fieldName: BookDepreciationSetting.DepreciationRate
+                    valueProvided: ""
+                    localisedMessage: Can''t have both Depreciation Rate and Effective Life
+                    type: http://common.service.xero.com/errors/validation/field
+                    title: Validation Error
+                    detail: Can''t have both Depreciation Rate and Effective Life
+                type: http://common.service.xero.com/errors/validation
+                title: The resource update failed validation.
+                detail: Validation Errors
       requestBody:
         required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/Asset'
-            example: { 
-                        "assetName":"Computer74863",
-                        "assetNumber":"123477544",
-                        "purchaseDate":"2020-01-01",
-                        "purchasePrice":100.0,
-                        "disposalPrice":23.23,
-                        "assetStatus":"Draft",
-                        "bookDepreciationSetting":{ 
-                          "depreciationMethod":"StraightLine",
-                          "averagingMethod":"ActualDays",
-                          "depreciationRate":0.5,
-                          "depreciationCalculationMethod":"None"
-                        },
-                        "bookDepreciationDetail":{ 
-                          "currentCapitalGain":5.32,
-                          "currentGainLoss":3.88,
-                          "depreciationStartDate":"2020-01-02",
-                          "costLimit":100.0,
-                          "currentAccumDepreciationAmount":2.25
-                        },
-                        "AccountingBookValue":99.5
-                      }
+            example:
+              assetName: Computer74863
+              assetNumber: "123477544"
+              purchaseDate: "2020-01-01"
+              purchasePrice: 100.0
+              disposalPrice: 23.23
+              assetStatus: Draft
+              bookDepreciationSetting:
+                depreciationMethod: StraightLine
+                averagingMethod: ActualDays
+                depreciationRate: 0.5
+                depreciationCalculationMethod: None
+              bookDepreciationDetail:
+                currentCapitalGain: 5.32
+                currentGainLoss: 3.88
+                depreciationStartDate: "2020-01-02"
+                costLimit: 100.0
+                currentAccumDepreciationAmount: 2.25
+              AccountingBookValue: 99.5
         description: Fixed asset you are creating
   /Assets/{id}:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [assets, assets.read]
+        - OAuth2:
+            - assets
+            - assets.read
       tags:
         - Asset
-      summary: Retrieves fixed asset by id 
+      summary: Retrieves fixed asset by id
       operationId: getAssetById
       description: |
         By passing in the appropriate asset id, you can search for
         a specific fixed asset in the system
-      parameters: 
+      parameters:
         - name: id
           in: path
           required: true
           description: fixed asset id for single object
-          schema: 
+          schema:
             type: string
             format: uuid
-            example: "00000000-0000-0000-0000-000000000000"
+            example: 00000000-0000-0000-0000-000000000000
       responses:
-        '200':
+        "200":
           description: search results matching criteria
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Asset'
-              example: { 
-                          "assetId":"68f17094-af97-4f1b-b36b-013b45b6ad3c",
-                          "assetName":"Computer47822",
-                          "assetNumber":"123478074",
-                          "purchaseDate":"2020-01-01T00:00:00",
-                          "purchasePrice":100.0000,
-                          "disposalPrice":23.0000,
-                          "assetStatus":"Draft",
-                          "trackingItems":[ 
-
-                          ],
-                          "bookDepreciationSetting":{ 
-                            "depreciableObjectId":"68f17094-af97-4f1b-b36b-013b45b6ad3c",
-                            "depreciableObjectType":"Asset",
-                            "bookEffectiveDateOfChangeId":"5da77739-7f22-4109-b0a0-67480fb89af0",
-                            "depreciationMethod":"StraightLine",
-                            "averagingMethod":"ActualDays",
-                            "depreciationRate":0.50,
-                            "depreciationCalculationMethod":"None"
-                          },
-                          "bookDepreciationDetail":{ 
-                            "depreciationStartDate":"2020-01-02T00:00:00",
-                            "priorAccumDepreciationAmount":0.000000,
-                            "currentAccumDepreciationAmount":0.000000,
-                            "currentCapitalGain":0.000000,
-                            "currentGainLoss":0.000000
-                          },
-                          "taxDepreciationSettings":[ 
-                          ],
-                          "taxDepreciationDetails":[ 
-                          ],
-                          "canRollback":true,
-                          "metaData":{ 
-                          "bookDepreciationDetailsCanChange":true,
-                          "taxDepreciationDetailsCanChange":true
-                          },
-                          "accountingBookValue":77.000000,
-                          "taxValues":[ 
-                          ],
-                          "isDeleteEnabledForDate":true
-                        }
-        '400':
+              example:
+                assetId: 68f17094-af97-4f1b-b36b-013b45b6ad3c
+                assetName: Computer47822
+                assetNumber: "123478074"
+                purchaseDate: 2020-01-01T00:00:00
+                purchasePrice: 100.0000
+                disposalPrice: 23.0000
+                assetStatus: Draft
+                trackingItems: []
+                bookDepreciationSetting:
+                  depreciableObjectId: 68f17094-af97-4f1b-b36b-013b45b6ad3c
+                  depreciableObjectType: Asset
+                  bookEffectiveDateOfChangeId: 5da77739-7f22-4109-b0a0-67480fb89af0
+                  depreciationMethod: StraightLine
+                  averagingMethod: ActualDays
+                  depreciationRate: 0.50
+                  depreciationCalculationMethod: None
+                bookDepreciationDetail:
+                  depreciationStartDate: 2020-01-02T00:00:00
+                  priorAccumDepreciationAmount: 0.000000
+                  currentAccumDepreciationAmount: 0.000000
+                  currentCapitalGain: 0.000000
+                  currentGainLoss: 0.000000
+                taxDepreciationSettings: []
+                taxDepreciationDetails: []
+                canRollback: true
+                metaData:
+                  bookDepreciationDetailsCanChange: true
+                  taxDepreciationDetailsCanChange: true
+                accountingBookValue: 77.000000
+                taxValues: []
+                isDeleteEnabledForDate: true
+        "400":
           description: bad input parameter
   /AssetTypes:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [assets, assets.read]
+        - OAuth2:
+            - assets
+            - assets.read
       tags:
         - Asset
       summary: searches fixed asset types
       operationId: getAssetTypes
-      description: By passing in the appropriate options, you can search for
-        available fixed asset types in the system
+      description: By passing in the appropriate options, you can search for available fixed asset types in the system
       responses:
-        '200':
+        "200":
           description: search results matching criteria
           content:
             application/json:
@@ -408,53 +368,45 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/AssetType'
-              example: [ 
-                          { 
-                            "assetTypeId":"710255c6-d2ed-4463-b992-06c8685add5e",
-                            "assetTypeName":"Computer Equipment",
-                            "fixedAssetAccountId":"37c35de7-8df0-44bf-8e7c-f1f67cf6a278",
-                            "depreciationExpenseAccountId":"0fbd1820-9dd0-454a-9515-6ec076a84cf7",
-                            "accumulatedDepreciationAccountId":"512eac06-6894-47cd-b421-673b4ca2693a",
-                            "bookDepreciationSetting":{ 
-                              "depreciableObjectId":"710255c6-d2ed-4463-b992-06c8685add5e",
-                              "depreciableObjectType":"AssetType",
-                              "bookEffectiveDateOfChangeId":"39b9c2e9-62b1-4efc-ab75-fa9152ffaa5f",
-                              "depreciationMethod":"StraightLine",
-                              "averagingMethod":"FullMonth",
-                              "depreciationRate":25.00,
-                              "depreciationCalculationMethod":"None"
-                            },
-                            "taxDepreciationSettings":[ 
-                            ],
-                            "locks":0,
-                            "lockPrivateUseAccount":false
-                            },
-                            { 
-                            "assetTypeId":"1a398a67-9d9d-4783-8689-14a8efce89d9",
-                            "assetTypeName":"Machinery97704",
-                            "fixedAssetAccountId":"5c93f577-c48f-44cd-8593-01489e319c2b",
-                            "depreciationExpenseAccountId":"adc14376-c960-43f0-b7f3-4063e5098039",
-                            "accumulatedDepreciationAccountId":"9195cadd-8645-41e6-9f67-7bcd421defe8",
-                            "bookDepreciationSetting":{ 
-                              "depreciableObjectId":"1a398a67-9d9d-4783-8689-14a8efce89d9",
-                              "depreciableObjectType":"AssetType",
-                              "bookEffectiveDateOfChangeId":"6d09a96d-7768-4f28-95e8-c9ac870fe36e",
-                              "depreciationMethod":"DiminishingValue100",
-                              "averagingMethod":"ActualDays",
-                              "depreciationRate":40.00,
-                              "depreciationCalculationMethod":"None"
-                            },
-                            "taxDepreciationSettings":[ 
-                            ],
-                            "locks":0,
-                            "lockPrivateUseAccount":false
-                          }
-                        ]
-        '400':
+              example:
+                - assetTypeId: 710255c6-d2ed-4463-b992-06c8685add5e
+                  assetTypeName: Computer Equipment
+                  fixedAssetAccountId: 37c35de7-8df0-44bf-8e7c-f1f67cf6a278
+                  depreciationExpenseAccountId: 0fbd1820-9dd0-454a-9515-6ec076a84cf7
+                  accumulatedDepreciationAccountId: 512eac06-6894-47cd-b421-673b4ca2693a
+                  bookDepreciationSetting:
+                    depreciableObjectId: 710255c6-d2ed-4463-b992-06c8685add5e
+                    depreciableObjectType: AssetType
+                    bookEffectiveDateOfChangeId: 39b9c2e9-62b1-4efc-ab75-fa9152ffaa5f
+                    depreciationMethod: StraightLine
+                    averagingMethod: FullMonth
+                    depreciationRate: 25.00
+                    depreciationCalculationMethod: None
+                  taxDepreciationSettings: []
+                  locks: 0
+                  lockPrivateUseAccount: false
+                - assetTypeId: 1a398a67-9d9d-4783-8689-14a8efce89d9
+                  assetTypeName: Machinery97704
+                  fixedAssetAccountId: 5c93f577-c48f-44cd-8593-01489e319c2b
+                  depreciationExpenseAccountId: adc14376-c960-43f0-b7f3-4063e5098039
+                  accumulatedDepreciationAccountId: 9195cadd-8645-41e6-9f67-7bcd421defe8
+                  bookDepreciationSetting:
+                    depreciableObjectId: 1a398a67-9d9d-4783-8689-14a8efce89d9
+                    depreciableObjectType: AssetType
+                    bookEffectiveDateOfChangeId: 6d09a96d-7768-4f28-95e8-c9ac870fe36e
+                    depreciationMethod: DiminishingValue100
+                    averagingMethod: ActualDays
+                    depreciationRate: 40.00
+                    depreciationCalculationMethod: None
+                  taxDepreciationSettings: []
+                  locks: 0
+                  lockPrivateUseAccount: false
+        "400":
           description: bad input parameter
     post:
       security:
-        - OAuth2: [assets]
+        - OAuth2:
+            - assets
       tags:
         - Asset
       summary: adds a fixed asset type
@@ -491,14 +443,14 @@ paths:
           keyPascal: DepreciationCalculationMethod
           keySnake: depreciation_calculation_method
           object: bookDepreciationSetting
-          default: None 
-          is_last: true 
+          default: None
+          is_last: true
         - assetType:
           key: assetType
           keyPascal: AssetType
           keySnake: asset_type
           x-snake: asset_type
-          is_object: true 
+          is_object: true
         - assetTypeName:
           key: assetTypeName
           keyPascal: AssetTypeName
@@ -536,63 +488,54 @@ paths:
           default: bookDepreciationSetting
           python: book_depreciation_setting
           ruby: book_depreciation_setting
-          object: assetType  
+          object: assetType
       x-hasAssetsValidationError: true
       description: Adds an fixed asset type to the system
       responses:
-        '200':
+        "200":
           description: results single object -  created fixed type
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/AssetType'
-              example: { 
-                          "assetTypeId":"85509b5d-308e-420d-9532-b85105058916",
-                          "assetTypeName":"Machinery11004",
-                          "fixedAssetAccountId":"3d8d063a-c148-4bb8-8b3c-a5e2ad3b1e82",
-                          "depreciationExpenseAccountId":"d1602f69-f900-4616-8d34-90af393fa368",
-                          "accumulatedDepreciationAccountId":"9195cadd-8645-41e6-9f67-7bcd421defe8",
-                          "bookDepreciationSetting":{ 
-                            "depreciableObjectId":"00000000-0000-0000-0000-000000000000",
-                            "depreciableObjectType":"None",
-                            "depreciationMethod":"DiminishingValue100",
-                            "averagingMethod":"ActualDays",
-                            "depreciationRate":0.05,
-                            "depreciationCalculationMethod":"None"
-                          },
-                          "locks":0,
-                          "lockPrivateUseAccount":false
-                        }
-        '400':
-          description: 'invalid input, object invalid'
+              example:
+                assetTypeId: 85509b5d-308e-420d-9532-b85105058916
+                assetTypeName: Machinery11004
+                fixedAssetAccountId: 3d8d063a-c148-4bb8-8b3c-a5e2ad3b1e82
+                depreciationExpenseAccountId: d1602f69-f900-4616-8d34-90af393fa368
+                accumulatedDepreciationAccountId: 9195cadd-8645-41e6-9f67-7bcd421defe8
+                bookDepreciationSetting:
+                  depreciableObjectId: 00000000-0000-0000-0000-000000000000
+                  depreciableObjectType: None
+                  depreciationMethod: DiminishingValue100
+                  averagingMethod: ActualDays
+                  depreciationRate: 0.05
+                  depreciationCalculationMethod: None
+                locks: 0
+                lockPrivateUseAccount: false
+        "400":
+          description: invalid input, object invalid
           content:
             application/json:
-              example: { 
-                          "resourceValidationErrors":[ 
-                          ],
-                          "fieldValidationErrors":[ 
-                            { 
-                              "fieldName":"FixedAssetAccountId",
-                              "valueProvided":"",
-                              "localisedMessage":"Fixed Asset Account Id is invalid",
-                              "type":"http://common.service.xero.com/errors/validation/field",
-                              "title":"Validation Error",
-                              "detail":"Fixed Asset Account Id is invalid"
-                            },
-                            { 
-                              "fieldName":"DepreciationExpenseAccountId",
-                              "valueProvided":"",
-                              "localisedMessage":"Depreciation Expense Account Id is invalid",
-                              "type":"http://common.service.xero.com/errors/validation/field",
-                              "title":"Validation Error",
-                              "detail":"Depreciation Expense Account Id is invalid"
-                            }
-                          ],
-                          "type":"http://common.service.xero.com/errors/validation",
-                          "title":"The resource update failed validation.",
-                          "detail":"Validation Errors"
-                        }
-        '409':
+              example:
+                resourceValidationErrors: []
+                fieldValidationErrors:
+                  - fieldName: FixedAssetAccountId
+                    valueProvided: ""
+                    localisedMessage: Fixed Asset Account Id is invalid
+                    type: http://common.service.xero.com/errors/validation/field
+                    title: Validation Error
+                    detail: Fixed Asset Account Id is invalid
+                  - fieldName: DepreciationExpenseAccountId
+                    valueProvided: ""
+                    localisedMessage: Depreciation Expense Account Id is invalid
+                    type: http://common.service.xero.com/errors/validation/field
+                    title: Validation Error
+                    detail: Depreciation Expense Account Id is invalid
+                type: http://common.service.xero.com/errors/validation
+                title: The resource update failed validation.
+                detail: Validation Errors
+        "409":
           description: a type already exists
       requestBody:
         required: true
@@ -600,55 +543,53 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/AssetType'
-            example: { 
-                        "assetTypeName":"Machinery11004",
-                        "fixedAssetAccountId":"3d8d063a-c148-4bb8-8b3c-a5e2ad3b1e82",
-                        "depreciationExpenseAccountId":"d1602f69-f900-4616-8d34-90af393fa368",
-                        "accumulatedDepreciationAccountId":"9195cadd-8645-41e6-9f67-7bcd421defe8",
-                        "bookDepreciationSetting":{ 
-                          "depreciationMethod":"DiminishingValue100",
-                          "averagingMethod":"ActualDays",
-                          "depreciationRate":0.05,
-                          "depreciationCalculationMethod":"None"
-                        }
-                      }
+            example:
+              assetTypeName: Machinery11004
+              fixedAssetAccountId: 3d8d063a-c148-4bb8-8b3c-a5e2ad3b1e82
+              depreciationExpenseAccountId: d1602f69-f900-4616-8d34-90af393fa368
+              accumulatedDepreciationAccountId: 9195cadd-8645-41e6-9f67-7bcd421defe8
+              bookDepreciationSetting:
+                depreciationMethod: DiminishingValue100
+                averagingMethod: ActualDays
+                depreciationRate: 0.05
+                depreciationCalculationMethod: None
         description: Asset type to add
   /Settings:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [assets, assets.read]
+        - OAuth2:
+            - assets
+            - assets.read
       tags:
         - Asset
       summary: searches fixed asset settings
       operationId: getAssetSettings
-      description: By passing in the appropriate options, you can search for
-        available fixed asset types in the system
+      description: By passing in the appropriate options, you can search for available fixed asset types in the system
       responses:
-        '200':
+        "200":
           description: search results matching criteria
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Setting'
-              example: { 
-                          "assetNumberPrefix":"FA-",
-                          "assetNumberSequence":"0007",
-                          "assetStartDate":"2016-01-01T00:00:00",
-                          "optInForTax":false
-                        }
-        '400':
+              example:
+                assetNumberPrefix: FA-
+                assetNumberSequence: "0007"
+                assetStartDate: 2016-01-01T00:00:00
+                optInForTax: false
+        "400":
           description: bad input parameter
 components:
   securitySchemes:
     OAuth2:
       type: oauth2
       description: For more information
-      flows: 
+      flows:
         authorizationCode:
-          authorizationUrl: 'https://login.xero.com/identity/connect/authorize'
-          tokenUrl: 'https://identity.xero.com/connect/token'
+          authorizationUrl: https://login.xero.com/identity/connect/authorize
+          tokenUrl: https://identity.xero.com/connect/token
           scopes:
             email: Grant read-only access to your email
             openid: Grant read-only access to your open id
@@ -656,7 +597,7 @@ components:
             assets: Grant read-write access to fixed assets
             assets.read: Grant read-only access to fixed assets
   parameters:
-    requiredHeader: 
+    requiredHeader:
       in: header
       name: xero-tenant-id
       x-snake: xero_tenant_id
@@ -670,7 +611,7 @@ components:
       name: Idempotency-Key
       x-snake: idempotency_key
       description: This allows you to safely retry requests without the risk of duplicate processing. 128 character max.
-      example: "KEY_VALUE"
+      example: KEY_VALUE
       schema:
         type: string
   schemas:
@@ -705,83 +646,83 @@ components:
         assetId:
           type: string
           format: uuid
-          description: "The Xero-generated Id for the asset"
-          example: "3b5b3a38-5649-495f-87a1-14a4e5918634"
+          description: The Xero-generated Id for the asset
+          example: 3b5b3a38-5649-495f-87a1-14a4e5918634
         assetName:
           type: string
-          description: "The name of the asset"
-          example: "Awesome Truck 3"
+          description: The name of the asset
+          example: Awesome Truck 3
         assetTypeId:
           type: string
           format: uuid
-          description: "The Xero-generated Id for the asset type"
-          example: "3b5b3a38-5649-495f-87a1-14a4e5918634"
+          description: The Xero-generated Id for the asset type
+          example: 3b5b3a38-5649-495f-87a1-14a4e5918634
         assetNumber:
           type: string
-          description: "Must be unique."
-          example: "FA-0013"
+          description: Must be unique.
+          example: FA-0013
         purchaseDate:
           type: string
           format: date
-          description: "The date the asset was purchased YYYY-MM-DD"
-          example: "2015-07-01T00:00:00"
+          description: The date the asset was purchased YYYY-MM-DD
+          example: 2015-07-01T00:00:00
         purchasePrice:
           type: number
           format: double
           x-is-money: true
-          description: "The purchase price of the asset"
+          description: The purchase price of the asset
           example: "1000.0000"
         disposalDate:
           type: string
           format: date
-          description: "The date the asset was disposed"
-          example: "2020-07-01T00:00:00"          
+          description: The date the asset was disposed
+          example: 2020-07-01T00:00:00
         disposalPrice:
           type: number
           format: double
           x-is-money: true
-          description: "The price the asset was disposed at"
+          description: The price the asset was disposed at
           example: "1.0000"
         assetStatus:
           $ref: '#/components/schemas/AssetStatus'
         warrantyExpiryDate:
           type: string
-          description: "The date the asset’s warranty expires (if needed) YYYY-MM-DD"
-          example: "ca4c6b39-4f4f-43e8-98da-5e1f350a6694"
+          description: The date the asset’s warranty expires (if needed) YYYY-MM-DD
+          example: ca4c6b39-4f4f-43e8-98da-5e1f350a6694
         serialNumber:
           type: string
-          description: "The asset's serial number"
-          example: "ca4c6b39-4f4f-43e8-98da-5e1f350a6694"
+          description: The asset's serial number
+          example: ca4c6b39-4f4f-43e8-98da-5e1f350a6694
         bookDepreciationSetting:
           $ref: '#/components/schemas/BookDepreciationSetting'
         bookDepreciationDetail:
           $ref: '#/components/schemas/BookDepreciationDetail'
         canRollback:
           type: boolean
-          description: "Boolean to indicate whether depreciation can be rolled back for this asset individually. This is true if it doesn't have 'legacy' journal entries and if there is no lock period that would prevent this asset from rolling back."
+          description: Boolean to indicate whether depreciation can be rolled back for this asset individually. This is true if it doesn't have 'legacy' journal entries and if there is no lock period that would prevent this asset from rolling back.
           example: true
         accountingBookValue:
           type: number
           format: double
           x-is-money: true
-          description: "The accounting value of the asset"
+          description: The accounting value of the asset
           example: 0
         isDeleteEnabledForDate:
           type: boolean
-          description: "Boolean to indicate whether delete is enabled"
+          description: Boolean to indicate whether delete is enabled
           example: true
     AssetStatus:
       type: string
-      description: "See Asset Status Codes."
-      example: "Draft"
+      description: See Asset Status Codes.
+      example: Draft
       enum:
         - Draft
         - Registered
         - Disposed
     AssetStatusQueryParam:
       type: string
-      description: "See Asset Status Codes."
-      example: "DRAFT"
+      description: See Asset Status Codes.
+      example: DRAFT
       enum:
         - DRAFT
         - REGISTERED
@@ -796,85 +737,85 @@ components:
         assetTypeId:
           type: string
           format: uuid
-          example: "5da209c5-5e19-4a43-b925-71b776c49ced"
-          description: "Xero generated unique identifier for asset types"
+          example: 5da209c5-5e19-4a43-b925-71b776c49ced
+          description: Xero generated unique identifier for asset types
         assetTypeName:
           type: string
-          example: "Computer Equipment"
-          description: "The name of the asset type"
+          example: Computer Equipment
+          description: The name of the asset type
         fixedAssetAccountId:
           type: string
           format: uuid
-          example: "24e260f1-bfc4-4766-ad7f-8a8ce01de879"
-          description: "The asset account for fixed assets of this type"
+          example: 24e260f1-bfc4-4766-ad7f-8a8ce01de879
+          description: The asset account for fixed assets of this type
         depreciationExpenseAccountId:
           type: string
           format: uuid
-          example: "b23fc79b-d66b-44b0-a240-e138e086fcbc"
-          description: "The expense account for the depreciation of fixed assets of this type"
+          example: b23fc79b-d66b-44b0-a240-e138e086fcbc
+          description: The expense account for the depreciation of fixed assets of this type
         accumulatedDepreciationAccountId:
           type: string
           format: uuid
-          example: "ca4c6b39-4f4f-43e8-98da-5e1f350a6694"
-          description: "The account for accumulated depreciation of fixed assets of this type"
+          example: ca4c6b39-4f4f-43e8-98da-5e1f350a6694
+          description: The account for accumulated depreciation of fixed assets of this type
         bookDepreciationSetting:
           $ref: '#/components/schemas/BookDepreciationSetting'
         locks:
           type: integer
           example: 33
-          description: "All asset types that have accumulated depreciation for any assets that use them are deemed ‘locked’ and cannot be removed."
+          description: All asset types that have accumulated depreciation for any assets that use them are deemed ‘locked’ and cannot be removed.
     BookDepreciationSetting:
       properties:
         depreciationMethod:
           type: string
-          enum: 
-          - NoDepreciation
-          - StraightLine
-          - DiminishingValue100
-          - DiminishingValue150
-          - DiminishingValue200
-          - FullDepreciation
-          example: "StraightLine"
-          description: "The method of depreciation applied to this asset. See Depreciation Methods"
+          enum:
+            - NoDepreciation
+            - StraightLine
+            - DiminishingValue100
+            - DiminishingValue150
+            - DiminishingValue200
+            - FullDepreciation
+          example: StraightLine
+          description: The method of depreciation applied to this asset. See Depreciation Methods
         averagingMethod:
           type: string
-          enum: 
-          - FullMonth
-          - ActualDays
-          example: "ActualDays"
-          description: "The method of averaging applied to this asset. See Averaging Methods"
+          enum:
+            - FullMonth
+            - ActualDays
+          example: ActualDays
+          description: The method of averaging applied to this asset. See Averaging Methods
         depreciationRate:
           type: number
           format: double
           x-is-money: true
           example: 0.05
-          description: "The rate of depreciation (e.g. 0.05)"
+          description: The rate of depreciation (e.g. 0.05)
         effectiveLifeYears:
           type: integer
           example: 5
-          description: "Effective life of the asset in years (e.g. 5)"
+          description: Effective life of the asset in years (e.g. 5)
         depreciationCalculationMethod:
           type: string
-          enum: 
-          - Rate
-          - Life
-          - None
-          example: "None"
-          description: "See Depreciation Calculation Methods"
+          enum:
+            - Rate
+            - Life
+            - None
+          example: None
+          description: See Depreciation Calculation Methods
         depreciableObjectId:
           type: string
           format: uuid
-          example: "68f17094-af97-4f1b-b36b-013b45b6ad3c"
-          description: "Unique Xero identifier for the depreciable object"
+          example: 68f17094-af97-4f1b-b36b-013b45b6ad3c
+          description: Unique Xero identifier for the depreciable object
         depreciableObjectType:
           type: string
-          example: "Asset"
-          description: "The type of asset object"
+          example: Asset
+          description: The type of asset object
         bookEffectiveDateOfChangeId:
           type: string
           format: uuid
-          example: "68f17094-af97-4f1b-b36b-013b45b6ad3c"
-          description: "Unique Xero identifier for the effective date change"
+          example: 68f17094-af97-4f1b-b36b-013b45b6ad3c
+          description: Unique Xero identifier for the effective date change
     BookDepreciationDetail:
       properties:
         currentCapitalGain:
@@ -882,98 +823,98 @@ components:
           format: double
           x-is-money: true
           example: 5.25
-          description: "When an asset is disposed, this will be the sell price minus the purchase price if a profit was made."
+          description: When an asset is disposed, this will be the sell price minus the purchase price if a profit was made.
         currentGainLoss:
           type: number
           format: double
           x-is-money: true
           example: 10.50
-          description: "When an asset is disposed, this will be the lowest one of sell price or purchase price, minus the current book value."
+          description: When an asset is disposed, this will be the lowest one of sell price or purchase price, minus the current book value.
         depreciationStartDate:
           type: string
           format: date
-          example: "2015-07-01T00:00:00"
-          description: "YYYY-MM-DD"
+          example: 2015-07-01T00:00:00
+          description: YYYY-MM-DD
         costLimit:
           type: number
           format: double
           x-is-money: true
           example: 9000.0000
-          description: "The value of the asset you want to depreciate, if this is less than the cost of the asset."
+          description: The value of the asset you want to depreciate, if this is less than the cost of the asset.
         residualValue:
           type: number
           format: double
           x-is-money: true
           example: 10000.0000
-          description: "The value of the asset remaining when you've fully depreciated it."
+          description: The value of the asset remaining when you've fully depreciated it.
         priorAccumDepreciationAmount:
           type: number
           format: double
           x-is-money: true
           example: 0.45
-          description: "All depreciation prior to the current financial year."
+          description: All depreciation prior to the current financial year.
         currentAccumDepreciationAmount:
           type: number
           format: double
           x-is-money: true
           example: 5.0000
-          description: "All depreciation occurring in the current financial year."
+          description: All depreciation occurring in the current financial year.
     Setting:
       required:
-       - name
+        - name
       properties:
         assetNumberPrefix:
           type: string
-          example: "FA-"
-          description: "The prefix used for fixed asset numbers (“FA-” by default)"
+          example: FA-
+          description: The prefix used for fixed asset numbers (“FA-” by default)
         assetNumberSequence:
           type: string
           example: "0022"
-          description: "The next available sequence number"
+          description: The next available sequence number
         assetStartDate:
           type: string
           format: date
-          example: "2015-07-31T00:00:00"
-          description: "The date depreciation calculations started on registered fixed assets in Xero"
+          example: 2015-07-31T00:00:00
+          description: The date depreciation calculations started on registered fixed assets in Xero
         lastDepreciationDate:
           type: string
           format: date
-          example: "2015-07-01T00:00:00"
-          description: "The last depreciation date"
+          example: 2015-07-01T00:00:00
+          description: The last depreciation date
         defaultGainOnDisposalAccountId:
           type: string
           format: uuid
-          example: "346ddb97-739a-4274-b43b-66aa3218d17c"
-          description: "Default account that gains are posted to"
+          example: 346ddb97-739a-4274-b43b-66aa3218d17c
+          description: Default account that gains are posted to
         defaultLossOnDisposalAccountId:
           type: string
           format: uuid
-          example: "1b798541-24e2-4855-9309-c023a0b576f3"
-          description: "Default account that losses are posted to"
+          example: 1b798541-24e2-4855-9309-c023a0b576f3
+          description: Default account that losses are posted to
         defaultCapitalGainOnDisposalAccountId:
           type: string
           format: uuid
-          example: "6d6a0bdb-e118-45d8-a023-2ad617ec1cb7"
-          description: "Default account that capital gains are posted to"
+          example: 6d6a0bdb-e118-45d8-a023-2ad617ec1cb7
+          description: Default account that capital gains are posted to
         optInForTax:
           type: boolean
-          description: "opt in for tax calculation"
+          description: opt in for tax calculation
           example: false
       type: object
     Error:
       externalDocs:
-        url: "https://developer.xero.com/documentation/api/http-response-codes"
+        url: https://developer.xero.com/documentation/api/http-response-codes
       properties:
         resourceValidationErrors:
           description: Array of elements of resource validation errors
           type: array
           items:
-            $ref: "#/components/schemas/ResourceValidationErrorsElement"
+            $ref: '#/components/schemas/ResourceValidationErrorsElement'
         fieldValidationErrors:
           description: Array of elements of field validation errors
           type: array
           items:
-            $ref: "#/components/schemas/FieldValidationErrorsElement"
+            $ref: '#/components/schemas/FieldValidationErrorsElement'
         type:
           description: The internal type of error, not accessible externally
           type: string
@@ -986,7 +927,7 @@ components:
       type: object
     ResourceValidationErrorsElement:
       externalDocs:
-        url: "https://developer.xero.com/documentation/api/http-response-codes"
+        url: https://developer.xero.com/documentation/api/http-response-codes
       properties:
         resourceName:
           description: The field name of the erroneous field
@@ -1006,7 +947,7 @@ components:
       type: object
     FieldValidationErrorsElement:
       externalDocs:
-        url: "https://developer.xero.com/documentation/api/http-response-codes"
+        url: https://developer.xero.com/documentation/api/http-response-codes
       properties:
         fieldName:
           description: The field name of the erroneous field
