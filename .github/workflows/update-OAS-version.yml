@@ -3,9 +3,6 @@ name: Update OAS version and raise PR
 on:
    release:
      types: [published]
-   pull_request:
-      paths:
-          - '**'
 
 jobs:
     Update-yaml-version:
@@ -139,33 +136,33 @@ jobs:
                 GH_TOKEN: ${{steps.get_access_token.outputs.result}}
 
 
-            # - name: Auto Merge PR & delete branch
-            #   run: |
+            - name: Auto Merge PR & delete branch
+              run: |
 
-            #     if [ -z "${{steps.identify_PR_number.outputs.PR_NUMBER}}" ]; then
-            #      echo "No PR found for branch: ${{steps.identify_branch_name.outputs.branchName}}"
-            #      exit 1
-            #     fi
+                if [ -z "${{steps.identify_PR_number.outputs.PR_NUMBER}}" ]; then
+                 echo "No PR found for branch: ${{steps.identify_branch_name.outputs.branchName}}"
+                 exit 1
+                fi
 
-            #     echo "Merging the PR: ${{steps.identify_PR_number.outputs.PR_NUMBER}}....."
+                echo "Merging the PR: ${{steps.identify_PR_number.outputs.PR_NUMBER}}....."
                 
-            #     gh pr merge ${{steps.identify_PR_number.outputs.PR_NUMBER}} --merge --admin --delete-branch --repo ${{github.repository}}
+                gh pr merge ${{steps.identify_PR_number.outputs.PR_NUMBER}} --merge --admin --delete-branch --repo ${{github.repository}}
 
-            #   env:
-            #     GH_TOKEN: ${{steps.get_access_token.outputs.result}}
+              env:
+                GH_TOKEN: ${{steps.get_access_token.outputs.result}}
 
-            # - name: Verify PR is merged
-            #   run: |
-            #    pr_state=$(gh pr view ${{steps.identify_PR_number.outputs.PR_NUMBER}} --json state --jq '.state')
+            - name: Verify PR is merged
+              run: |
+               pr_state=$(gh pr view ${{steps.identify_PR_number.outputs.PR_NUMBER}} --json state --jq '.state')
 
-            #    echo "pr state: $pr_state"
+               echo "pr state: $pr_state"
 
-            #    if [ $pr_state == "MERGED" ]; then
-            #     echo "PR ${{steps.identify_PR_number.outputs.PR_NUMBER}} has been merged"
-            #    else 
-            #     echo "PR ${{steps.identify_PR_number.outputs.PR_NUMBER}} is not merged"
-            #     exit 1
-            #    fi
-            #   env:
-            #     GH_TOKEN: ${{steps.get_access_token.outputs.result}}
+               if [ $pr_state == "MERGED" ]; then
+                echo "PR ${{steps.identify_PR_number.outputs.PR_NUMBER}} has been merged"
+               else 
+                echo "PR ${{steps.identify_PR_number.outputs.PR_NUMBER}} is not merged"
+                exit 1
+               fi
+              env:
+                GH_TOKEN: ${{steps.get_access_token.outputs.result}}
 
