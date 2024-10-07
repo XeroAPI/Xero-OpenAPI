@@ -139,21 +139,35 @@ jobs:
               env:
                 GH_TOKEN: ${{steps.get_access_token.outputs.result}}
 
+            - name: Find PR number to merge
+              id: identify_PR_number
+              run: |
+               BRANCH_NAME=${{steps.identify_branch_name.outputs.branchName}} 
+               PR_NUMBER=$(gh pr list --head "$BRANCH_NAME" --json number --jq '. [0].number')
+               echo "PR number: $PR_NUMBER"
+               echo "PR_NUMBER=$PR_NUMBER" >> $GITHUB_OUTPUT
+
+
+            - name: Wait for PR status checks to pass
+              run: |
+               gh pr checks ${{steps.identify_PR_number.outputs.PR_NUMBER}} --watch
+              env:
+                GH_TOKEN: ${{steps.get_access_token.outputs.result}}
+               
+
             - name: Auto Merge PR & deletes branch
               run: |
-                BRANCH_NAME=${{steps.identify_branch_name.outputs.branchName}} 
-                PR_NUMBER=$(gh pr list --head "$BRANCH_NAME" --json number --jq '. [0].number')
 
-                if [ -z "$PR_NUMBER" ]; then
+                if [ -z "${{steps.identify_PR_number.outputs.PR_NUMBER}}" ]; then
                  echo "No PR found for branch: $BRANCH_NAME"
                  exit 1
                 fi
 
-                echo "Merging the PR: $PR_NUMBER....."
+                echo "Merging the PR: ${{steps.identify_PR_number.outputs.PR_NUMBER}}....."
                 
-                gh pr merge $PR_NUMBER --merge --auto --delete-branch --repo ${{github.repository}}
+                gh pr merge $${{steps.identify_PR_number.outputs.PR_NUMBER}} --merge --auto --delete-branch --repo ${{github.repository}}
 
-                echo "PR #$PR_NUMBER has been merged & branch: $BRANCH_NAME has been deleted"
+                echo "PR has been merged & branch: $BRANCH_NAME has been deleted"
               env:
                 GH_TOKEN: ${{steps.get_access_token.outputs.result}}
 
