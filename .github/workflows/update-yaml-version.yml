@@ -168,12 +168,16 @@ jobs:
             - name: Verify PR is merged
               run: |
 
-               if gh pr view ${{steps.identify_PR_number.outputs.PR_NUMBER}} --json merged --jq '.merged' | grep true; then
-                echo "PR - ${{steps.identify_PR_number.outputs.PR_NUMBER}} has been merged & branch - ${{steps.identify_branch_name.outputs.branchName}} has been deleted"
-               else 
-                echo "PR is not merged"
-                exit 1
-               fi
+               response=$(gh api \
+                repos/xero-internal/Xero-OpenAPI/pulls/${{steps.identify_PR_number.outputs.PR_NUMBER}}/merge \
+                --silent --exit-status || echo "404")
+               
+                if ["response" == "404"]; then
+                 echo "PR: ${{steps.identify_PR_number.outputs.PR_NUMBER}} has not been merged"
+                 exit 1
+                else
+                 echo "PR ${{steps.identify_PR_number.outputs.PR_NUMBER}} has been merged"
+                fi
               env:
                 GH_TOKEN: ${{steps.get_access_token.outputs.result}}
 
