@@ -4,13 +4,8 @@ on:
    release:
      types: [published]
 
-   pull_request:
-      paths:
-          - '**'
-
 jobs:
     Update-yaml-version:
-        if: contains(github.head_ref, 'PETOSS-588-auto-PR-logic')
         runs-on: ubuntu-latest    
         permissions:
           contents: write
@@ -20,7 +15,7 @@ jobs:
             - name: Checkout Repository
               uses: actions/checkout@v4
               with:
-                ref: 'PETOSS-588-auto-PR-logic'
+                ref: 'master'
             
             - name: Install octokit dependencies
               run: npm i
@@ -121,7 +116,7 @@ jobs:
                   echo "Creating PR in ${{steps.identify_branch_name.outputs.branchName}}"
                   gh pr create \
                     --title "OAS version update - ${{steps.get_latest_release_number.outputs.releaseVersion}}" \
-                    --base test-auto-merge \
+                    --base master \
                     --head ${{steps.identify_branch_name.outputs.branchName}} \
                     --body "chore: version update for all the yaml files"
                 else
@@ -141,33 +136,33 @@ jobs:
                 GH_TOKEN: ${{steps.get_access_token.outputs.result}}
 
 
-            # - name: Auto Merge PR & deletes branch
-            #   run: |
+            - name: Auto Merge PR & deletes branch
+              run: |
 
-            #     if [ -z "${{steps.identify_PR_number.outputs.PR_NUMBER}}" ]; then
-            #      echo "No PR found for branch: ${{steps.identify_branch_name.outputs.branchName}}"
-            #      exit 1
-            #     fi
+                if [ -z "${{steps.identify_PR_number.outputs.PR_NUMBER}}" ]; then
+                 echo "No PR found for branch: ${{steps.identify_branch_name.outputs.branchName}}"
+                 exit 1
+                fi
 
-            #     echo "Merging the PR: ${{steps.identify_PR_number.outputs.PR_NUMBER}}....."
+                echo "Merging the PR: ${{steps.identify_PR_number.outputs.PR_NUMBER}}....."
                 
-            #     gh pr merge ${{steps.identify_PR_number.outputs.PR_NUMBER}} --merge --admin --delete-branch --repo ${{github.repository}}
+                gh pr merge ${{steps.identify_PR_number.outputs.PR_NUMBER}} --merge --admin --delete-branch --repo ${{github.repository}}
 
-            #   env:
-            #     GH_TOKEN: ${{steps.get_access_token.outputs.result}}
+              env:
+                GH_TOKEN: ${{steps.get_access_token.outputs.result}}
 
-            # - name: Verify PR is merged
-            #   run: |
-            #    pr_state=$(gh pr view ${{steps.identify_PR_number.outputs.PR_NUMBER}} --json state --jq '.state')
+            - name: Verify PR is merged
+              run: |
+               pr_state=$(gh pr view ${{steps.identify_PR_number.outputs.PR_NUMBER}} --json state --jq '.state')
 
-            #    echo "pr state: $pr_state"
+               echo "pr state: $pr_state"
 
-            #    if [ $pr_state == "MERGED" ]; then
-            #     echo "PR ${{steps.identify_PR_number.outputs.PR_NUMBER}} has been merged"
-            #    else 
-            #     echo "PR ${{steps.identify_PR_number.outputs.PR_NUMBER}} is not merged"
-            #     exit 1
-            #    fi
-            #   env:
-            #     GH_TOKEN: ${{steps.get_access_token.outputs.result}}
+               if [ $pr_state == "MERGED" ]; then
+                echo "PR ${{steps.identify_PR_number.outputs.PR_NUMBER}} has been merged"
+               else 
+                echo "PR ${{steps.identify_PR_number.outputs.PR_NUMBER}} is not merged"
+                exit 1
+               fi
+              env:
+                GH_TOKEN: ${{steps.get_access_token.outputs.result}}
 
