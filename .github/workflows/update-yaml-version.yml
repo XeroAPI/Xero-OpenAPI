@@ -146,6 +146,8 @@ jobs:
                PR_NUMBER=$(gh pr list --head "$BRANCH_NAME" --json number --jq '. [0].number')
                echo "PR number: $PR_NUMBER"
                echo "PR_NUMBER=$PR_NUMBER" >> $GITHUB_OUTPUT
+              env:
+                GH_TOKEN: ${{steps.get_access_token.outputs.result}}
 
 
             - name: Wait for PR status checks to pass
