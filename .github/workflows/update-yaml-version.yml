@@ -161,7 +161,7 @@ jobs:
               run: |
 
                 if [ -z "${{steps.identify_PR_number.outputs.PR_NUMBER}}" ]; then
-                 echo "No PR found for branch: $BRANCH_NAME"
+                 echo "No PR found for branch: ${{steps.identify_branch_name.outputs.branchName}}"
                  exit 1
                 fi
 
@@ -169,7 +169,20 @@ jobs:
                 
                 gh pr merge $${{steps.identify_PR_number.outputs.PR_NUMBER}} --merge --admin --delete-branch --repo ${{github.repository}}
 
-                echo "PR has been merged & branch: $BRANCH_NAME has been deleted"
+              env:
+                GH_TOKEN: ${{steps.get_access_token.outputs.result}}
+
+            - name: Verify PR is merged
+              run: |
+
+               prNumber=${{steps.identify_PR_number.outputs.PR_NUMBER}}
+
+               if gh pr view $prNumber --json merged --jq '.merged' | grep true; then
+                echo "PR: $prNumber has been merged & branch: ${{steps.identify_branch_name.outputs.branchName}} has been deleted"
+               else 
+                echo "PR is not merged"
+                exit 1
+               fi
               env:
                 GH_TOKEN: ${{steps.get_access_token.outputs.result}}
 
