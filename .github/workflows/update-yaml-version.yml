@@ -157,12 +157,13 @@ jobs:
 
             - name: Verify PR is merged
               run: |
-               prState = $(gh pr view 674 --json state --jq '.state')
+               pr_state=$(gh pr view 674 --json state --jq '.state')
 
-               if ["$prState" == "MERGED"]
+               if ["$pr_state" = "MERGED"] then
                 echo "PR 674 is merged"
                else 
                 echo "PR 674 is not merged"
+                exit 1
                fi
               env:
                 GH_TOKEN: ${{steps.get_access_token.outputs.result}}
