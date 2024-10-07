@@ -1,0 +1,103 @@
+name: OAS PR health check
+
+on:
+    pull_request:
+        paths:
+            - '**'
+
+jobs:
+    pr-health-check:
+        runs-on: ubuntu-latest    
+        permissions:
+          contents: write
+          pull-requests: write
+          actions: read
+        
+        steps:
+            - name: Checkout Repository
+              uses: actions/checkout@v4
+
+            - name: Set up Node environment
+              uses: actions/setup-node@v4
+              with:
+               node-version: 20
+
+            - name: Install Open API yaml linter
+              run: npm i -g @quobix/vacuum
+
+            # **** Linting steps are disabled for now ****
+
+            # - name: Run open API validation for yamls
+            #   run: |
+            #    docker run --rm -v ${PWD}:/local openapitools/openapi-generator-cli:v4.3.1 validate -i /local/xero_accounting.yaml
+            #    docker run --rm -v ${PWD}:/local openapitools/openapi-generator-cli:v4.3.1 validate -i /local/xero_assets.yaml
+            #    docker run --rm -v ${PWD}:/local openapitools/openapi-generator-cli:v4.3.1 validate -i /local/xero_bankfeeds.yaml
+            #    docker run --rm -v ${PWD}:/local openapitools/openapi-generator-cli:v4.3.1 validate -i /local/xero_files.yaml
+            #    docker run --rm -v ${PWD}:/local openapitools/openapi-generator-cli:v4.3.1 validate -i /local/xero-app-store.yaml
+            #    docker run --rm -v ${PWD}:/local openapitools/openapi-generator-cli:v4.3.1 validate -i /local/xero-finance.yaml
+            #    docker run --rm -v ${PWD}:/local openapitools/openapi-generator-cli:v4.3.1 validate -i /local/xero-identity.yaml
+            #    docker run --rm -v ${PWD}:/local openapitools/openapi-generator-cli:v4.3.1 validate -i /local/xero-payroll-au.yaml
+            #    docker run --rm -v ${PWD}:/local openapitools/openapi-generator-cli:v4.3.1 validate -i /local/xero-payroll-nz.yaml
+            #    docker run --rm -v ${PWD}:/local openapitools/openapi-generator-cli:v4.3.1 validate -i /local/xero-payroll-uk.yaml
+            #    docker run --rm -v ${PWD}:/local openapitools/openapi-generator-cli:v4.3.1 validate -i /local/xero-projects.yaml
+            #   working-directory: ${{ github.workspace }}
+
+            # - name: Run linting
+            #   run: |
+            #    vacuum lint -d -e xero_accounting.yaml xero_assets.yaml xero_bankfeeds.yaml xero_files.yaml xero-app-store.yaml xero-finance.yaml xero-identity.yaml xero-payroll-au.yaml xero-payroll-nz.yaml xero-payroll-uk.yaml xero-projects.yaml
+            
+            - name: Install octokit dependencies
+              run: npm i
+              working-directory: ${{ github.workspace }}/.github/octokit
+      
+            - name: Get github app access token
+              id: get_access_token
+              env:
+                GITHUB_APP_ID: ${{ secrets.XERO_GITHUB_APP_ID }}
+                GITHUB_APP_PRIVATE_KEY: ${{ secrets.XERO_GITHUB_APPLICATION_KEY }}
+              uses: actions/github-script@v7
+              with:
+                result-encoding: string
+                script: |
+                  const { getAccessToken } = await import('${{ github.workspace }}/.github/octokit/index.js')
+                  const token = await getAccessToken()
+                  return token
+
+            - name: Trigger all SDK workflow
+              uses: codex-/return-dispatch@v2
+              id: return_dispatch
+              with:
+                token: ${{ steps.get_access_token.outputs.result }}
+                repo: xeroapi-sdk-codegen
+                owner: xero-internal
+                workflow: pr.yml
+                ref: refs/heads/master
+                workflow_inputs: '{"branch_name": "${{github.head_ref}}"}'
+                workflow_timeout_seconds: 350
+              env:
+                ACTIONS_STEP_DEBUG: true
+            
+            # - name: Await Run ID ${{ steps.return_dispatch.outputs.run_id }}
+            #   uses: Codex-/await-remote-run@v1.12.2
+            #   with:
+            #     token: ${{ steps.get_access_token.outputs.result }}
+            #     repo: xeroapi-sdk-codegen
+            #     owner: xero-internal
+            #     run_id: ${{ steps.return_dispatch.outputs.run_id }}
+            #     run_timeout_seconds: 700
+            #     poll_interval_ms: 5000 
+
+            # - name: Trigger All SDK workflow
+            #   uses: convictional/trigger-workflow-and-wait@v1.6.1
+            #   with: 
+            #     owner: xero-internal
+            #     repo: xeroapi-sdk-codegen
+            #     github_token: ${{ steps.get_access_token.outputs.result }}
+            #     workflow_file_name: pr.yml
+            #     ref: master
+            #     wait_interval: 50
+            #     client_payload: '{"branch_name": "${{github.head_ref}}"}'
+            #     propagate_failure: true
+            #     trigger_workflow: true
+            #     wait_workflow: true
+              
