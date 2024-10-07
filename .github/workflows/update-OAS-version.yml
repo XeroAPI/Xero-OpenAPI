@@ -1,4 +1,4 @@
-name: Update YAML version and raise PR
+name: Update OAS version and raise PR
 
 on:
    release:
@@ -62,7 +62,7 @@ jobs:
                     git checkout -b ${{steps.identify_branch_name.outputs.branchName}}
                   fi
 
-            - name: Update version of the yaml files
+            - name: Update OAS version of the spec yaml files
               run: |
                for file in xero_accounting.yaml xero_assets.yaml xero_bankfeeds.yaml xero_files.yaml xero-app-store.yaml xero-finance.yaml xero-identity.yaml xero-payroll-au.yaml xero-payroll-nz.yaml xero-payroll-uk.yaml xero-projects.yaml; do
                  yq eval --no-colors --prettyPrint ".info.version = \"${{steps.get_latest_release_number.outputs.releaseVersion}}\"" -i "$file"
@@ -136,7 +136,7 @@ jobs:
                 GH_TOKEN: ${{steps.get_access_token.outputs.result}}
 
 
-            - name: Auto Merge PR & deletes branch
+            - name: Auto Merge PR & delete branch
               run: |
 
                 if [ -z "${{steps.identify_PR_number.outputs.PR_NUMBER}}" ]; then
