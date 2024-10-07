@@ -70,74 +70,75 @@ jobs:
             - name: Update version of the yaml files
               run: |
                for file in xero_accounting.yaml xero_assets.yaml xero_bankfeeds.yaml xero_files.yaml xero-app-store.yaml xero-finance.yaml xero-identity.yaml xero-payroll-au.yaml xero-payroll-nz.yaml xero-payroll-uk.yaml xero-projects.yaml; do
-                 yq eval --no-colors --prettyPrint ".info.version = \"${{steps.get_latest_release_number.outputs.releaseVersion}}\" -i "$file"
+                 yq eval --no-colors --prettyPrint ".info.version = \"${{steps.get_latest_release_number.outputs.releaseVersion}}\"" -i "$file"
                 echo "updated version in $file"
                done
+               cat xero_assets.yaml
 
-            - name: Staging & commiting
-              id: detect-changes
-              run: |
-                CHANGES_DETECTED=$(git diff)
-                if [ -z "$CHANGES_DETECTED" ]; then
-                  echo "no new changes, nothing to commit"
-                  echo "changes_detected=false" >> $GITHUB_OUTPUT
-                else
-                  echo "changes_detected=true" >> $GITHUB_OUTPUT
-                  echo "running the git commands......"
+            # - name: Staging & commiting
+            #   id: detect-changes
+            #   run: |
+            #     CHANGES_DETECTED=$(git diff)
+            #     if [ -z "$CHANGES_DETECTED" ]; then
+            #       echo "no new changes, nothing to commit"
+            #       echo "changes_detected=false" >> $GITHUB_OUTPUT
+            #     else
+            #       echo "changes_detected=true" >> $GITHUB_OUTPUT
+            #       echo "running the git commands......"
 
-                  git branch
+            #       git branch
 
-                  echo "git status 1"
-                  git status
+            #       echo "git status 1"
+            #       git status
                           
-                  echo 'staging the changes'
-                  git add --all
+            #       echo 'staging the changes'
+            #       git add --all
                           
-                  echo 'git status'
-                  git diff
+            #       echo 'git status'
+            #       git diff
                           
-                  echo "git config setup"
-                  git config --global user.name "Github Actions"
-                  git config --global user.email "actions@github.com"
+            #       echo "git config setup"
+            #       git config --global user.name "Github Actions"
+            #       git config --global user.email "actions@github.com"
                           
-                  echo 'commiting changes....'
-                  git commit -m "chore: version update for all the yaml files" 
-                fi
+            #       echo 'commiting changes....'
+            #       git commit -m "chore: version update for all the yaml files" 
+            #     fi
 
-            - name: Pushing the Branch
-              run: |
-                if [ "${{steps.detect-changes.outputs.changes_detected}}" == "true" ]; then
-                  echo "pushing the code to ${{steps.identify_branch_name.outputs.branchName}}"
-                  git branch
-                  git push origin ${{steps.identify_branch_name.outputs.branchName}} 
-                else 
-                  echo "branch is already up to date"
-                fi
+            # - name: Pushing the Branch
+            #   run: |
+            #     if [ "${{steps.detect-changes.outputs.changes_detected}}" == "true" ]; then
+            #       echo "pushing the code to ${{steps.identify_branch_name.outputs.branchName}}"
+            #       git branch
+            #       git push origin ${{steps.identify_branch_name.outputs.branchName}} 
+            #     else 
+            #       echo "branch is already up to date"
+            #     fi
 
-            - name: Create PR
-              run: |
-                if [ "${{steps.detect-changes.outputs.changes_detected}}" == "true" ]; then
-                  echo "Creating PR in ${{steps.identify_branch_name.outputs.branchName}}"
-                  gh pr create \
-                    --title "OAS version update - ${{steps.get_latest_release_number.outputs.releaseVersion}}" \
-                    --base test-auto-merge \
-                    --head ${{steps.identify_branch_name.outputs.branchName}} \
-                    --body "chore: version update for all the yaml files"
-                else
-                  echo "PR is already up to date"
-                fi
-              env:
-                GH_TOKEN: ${{steps.get_access_token.outputs.result}}
+            # - name: Create PR
+            #   run: |
+            #     if [ "${{steps.detect-changes.outputs.changes_detected}}" == "true" ]; then
+            #       echo "Creating PR in ${{steps.identify_branch_name.outputs.branchName}}"
+            #       gh pr create \
+            #         --title "OAS version update - ${{steps.get_latest_release_number.outputs.releaseVersion}}" \
+            #         --base test-auto-merge \
+            #         --head ${{steps.identify_branch_name.outputs.branchName}} \
+            #         --body "chore: version update for all the yaml files"
+            #     else
+            #       echo "PR is already up to date"
+            #     fi
+            #   env:
+            #     GH_TOKEN: ${{steps.get_access_token.outputs.result}}
 
-            - name: Find PR number to merge
-              id: identify_PR_number
-              run: |
-               BRANCH_NAME=${{steps.identify_branch_name.outputs.branchName}} 
-               PR_NUMBER=$(gh pr list --head "$BRANCH_NAME" --json number --jq '. [0].number')
-               echo "PR number: $PR_NUMBER"
-               echo "PR_NUMBER=$PR_NUMBER" >> $GITHUB_OUTPUT
-              env:
-                GH_TOKEN: ${{steps.get_access_token.outputs.result}}
+            # - name: Find PR number to merge
+            #   id: identify_PR_number
+            #   run: |
+            #    BRANCH_NAME=${{steps.identify_branch_name.outputs.branchName}} 
+            #    PR_NUMBER=$(gh pr list --head "$BRANCH_NAME" --json number --jq '. [0].number')
+            #    echo "PR number: $PR_NUMBER"
+            #    echo "PR_NUMBER=$PR_NUMBER" >> $GITHUB_OUTPUT
+            #   env:
+            #     GH_TOKEN: ${{steps.get_access_token.outputs.result}}
 
 
             # - name: Auto Merge PR & deletes branch
