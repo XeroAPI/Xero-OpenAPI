@@ -21,16 +21,6 @@ jobs:
               uses: actions/checkout@v4
               with:
                 ref: 'PETOSS-588-auto-PR-logic'
-
-            - name: whats inside github workspace
-              run: |
-               ls -la
-              working-directory: ${{ github.workspace }}
-
-            - name: whats inside .github folder
-              run: |
-               ls -la
-              working-directory: ${{ github.workspace }}/.github
             
             - name: Install octokit dependencies
               run: npm i
@@ -167,17 +157,16 @@ jobs:
 
             - name: Verify PR is merged
               run: |
+               pr_state=$(gh pr view ${{steps.identify_PR_number.outputs.PR_NUMBER}} --json state --jq '.state')
 
-               response=$(gh api \
-                repos/xero-internal/Xero-OpenAPI/pulls/${{steps.identify_PR_number.outputs.PR_NUMBER}}/merge \
-                --silent --exit-status || echo "404")
-               
-                if ["response" == "404"]; then
-                 echo "PR: ${{steps.identify_PR_number.outputs.PR_NUMBER}} has not been merged"
-                 exit 1
-                else
-                 echo "PR ${{steps.identify_PR_number.outputs.PR_NUMBER}} has been merged"
-                fi
+               echo "pr state: $pr_state"
+
+               if [ $pr_state == "MERGED" ]; then
+                echo "PR ${{steps.identify_PR_number.outputs.PR_NUMBER}} has been merged"
+               else 
+                echo "PR ${{steps.identify_PR_number.outputs.PR_NUMBER}} is not merged"
+                exit 1
+               fi
               env:
                 GH_TOKEN: ${{steps.get_access_token.outputs.result}}
 
