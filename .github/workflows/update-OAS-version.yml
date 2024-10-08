@@ -1,0 +1,166 @@
+name: Update OAS version and raise PR
+
+on:
+   release:
+     types: [published]
+
+jobs:
+    Update-yaml-version:
+        runs-on: ubuntu-latest    
+        permissions:
+          contents: write
+          pull-requests: write
+        
+        steps:
+            - name: Checkout Repository
+              uses: actions/checkout@v4
+              with:
+                ref: 'master'
+            
+            - name: Install octokit dependencies
+              run: npm i
+              working-directory: ${{ github.workspace }}/.github/octokit
+         
+            - name: Get github app access token
+              id: get_access_token
+              env:
+                GITHUB_APP_ID: ${{ secrets.XERO_PUBLIC_BOT_APP_ID }}
+                GITHUB_APP_PRIVATE_KEY: ${{ secrets.XERO_PUBLIC_BOT_KEY }}
+              uses: actions/github-script@v7
+              with:
+                result-encoding: string
+                script: |
+                  const { getAccessToken } = await import('${{ github.workspace }}/.github/octokit/index.js')
+                  const token = await getAccessToken()
+                  return token
+
+            - name: Fetch Latest release number
+              id: get_latest_release_number
+              run: |
+               latest_version=$(gh release view --json tagName --jq '.tagName')
+               echo "Latest release version is - $latest_version"
+               echo "releaseVersion=$latest_version" >> $GITHUB_OUTPUT
+              env:
+               GH_TOKEN: ${{steps.get_access_token.outputs.result}}
+
+
+            - name: Set up branch name
+              id: identify_branch_name
+              run: |
+                  branch_name='OAS-version-update-${{steps.get_latest_release_number.outputs.releaseVersion}}'
+                  echo "branchName=$branch_name" >> $GITHUB_OUTPUT
+
+            - name: Checkout branch
+              run: |
+                  if git ls-remote --heads origin ${{steps.identify_branch_name.outputs.branchName}} | grep -q "refs/heads/${{steps.identify_branch_name.outputs.branchName}}"; then
+                    echo "checking out existing branch"
+                    git fetch origin > /dev/null 2>&1
+                    git checkout ${{steps.identify_branch_name.outputs.branchName}} 
+                  else
+                    echo "branch does not exists, creating new branch"
+                    echo "branchName *****>> ${{steps.identify_branch_name.outputs.branchName}}"
+                    git checkout -b ${{steps.identify_branch_name.outputs.branchName}}
+                  fi
+
+            - name: Update OAS version of the spec yaml files
+              run: |
+               for file in xero_accounting.yaml xero_assets.yaml xero_bankfeeds.yaml xero_files.yaml xero-app-store.yaml xero-finance.yaml xero-identity.yaml xero-payroll-au.yaml xero-payroll-nz.yaml xero-payroll-uk.yaml xero-projects.yaml; do
+                 yq eval --no-colors --prettyPrint ".info.version = \"${{steps.get_latest_release_number.outputs.releaseVersion}}\"" -i "$file"
+                echo "updated version in $file"
+               done
+
+            - name: Staging & commiting
+              id: detect-changes
+              run: |
+                CHANGES_DETECTED=$(git diff)
+                if [ -z "$CHANGES_DETECTED" ]; then
+                  echo "no new changes, nothing to commit"
+                  echo "changes_detected=false" >> $GITHUB_OUTPUT
+                else
+                  echo "changes_detected=true" >> $GITHUB_OUTPUT
+                  echo "running the git commands......"
+
+                  git branch
+
+                  echo "git status 1"
+                  git status
+                          
+                  echo 'staging the changes'
+                  git add --all
+                          
+                  echo 'git status'
+                  git diff
+                          
+                  echo "git config setup"
+                  git config --global user.name "Github Actions"
+                  git config --global user.email "actions@github.com"
+                          
+                  echo 'commiting changes....'
+                  git commit -m "chore: version update for all the yaml files" 
+                fi
+
+            - name: Pushing the Branch
+              run: |
+                if [ "${{steps.detect-changes.outputs.changes_detected}}" == "true" ]; then
+                  echo "pushing the code to ${{steps.identify_branch_name.outputs.branchName}}"
+                  git branch
+                  git push origin ${{steps.identify_branch_name.outputs.branchName}} 
+                else 
+                  echo "branch is already up to date"
+                fi
+
+            - name: Create PR
+              run: |
+                if [ "${{steps.detect-changes.outputs.changes_detected}}" == "true" ]; then
+                  echo "Creating PR in ${{steps.identify_branch_name.outputs.branchName}}"
+                  gh pr create \
+                    --title "OAS version update - ${{steps.get_latest_release_number.outputs.releaseVersion}}" \
+                    --base master \
+                    --head ${{steps.identify_branch_name.outputs.branchName}} \
+                    --body "chore: version update for all the yaml files"
+                else
+                  echo "PR is already up to date"
+                fi
+              env:
+                GH_TOKEN: ${{steps.get_access_token.outputs.result}}
+
+            - name: Find PR number to merge
+              id: identify_PR_number
+              run: |
+               BRANCH_NAME=${{steps.identify_branch_name.outputs.branchName}} 
+               PR_NUMBER=$(gh pr list --head "$BRANCH_NAME" --json number --jq '. [0].number')
+               echo "PR number: $PR_NUMBER"
+               echo "PR_NUMBER=$PR_NUMBER" >> $GITHUB_OUTPUT
+              env:
+                GH_TOKEN: ${{steps.get_access_token.outputs.result}}
+
+
+            - name: Auto Merge PR & delete branch
+              run: |
+
+                if [ -z "${{steps.identify_PR_number.outputs.PR_NUMBER}}" ]; then
+                 echo "No PR found for branch: ${{steps.identify_branch_name.outputs.branchName}}"
+                 exit 1
+                fi
+
+                echo "Merging the PR: ${{steps.identify_PR_number.outputs.PR_NUMBER}}....."
+                
+                gh pr merge ${{steps.identify_PR_number.outputs.PR_NUMBER}} --merge --admin --delete-branch --repo ${{github.repository}}
+
+              env:
+                GH_TOKEN: ${{steps.get_access_token.outputs.result}}
+
+            - name: Verify PR is merged
+              run: |
+               pr_state=$(gh pr view ${{steps.identify_PR_number.outputs.PR_NUMBER}} --json state --jq '.state')
+
+               echo "pr state: $pr_state"
+
+               if [ $pr_state == "MERGED" ]; then
+                echo "PR ${{steps.identify_PR_number.outputs.PR_NUMBER}} has been merged"
+               else 
+                echo "PR ${{steps.identify_PR_number.outputs.PR_NUMBER}} is not merged"
+                exit 1
+               fi
+              env:
+                GH_TOKEN: ${{steps.get_access_token.outputs.result}}
