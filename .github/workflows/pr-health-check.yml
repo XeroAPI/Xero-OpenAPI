@@ -28,7 +28,7 @@ jobs:
             - name: Run commitlint on PR commits
               run: |
                git fetch --depth=2 origin ${{github.event.pull_request.head.ref}}
-               npx commitlint --from=${{github.event.pull_request.base.sha}} --to=${{github.event.pull_request.head.sha}}
+               npx commitlint --from ${{github.event.pull_request.base.sha}} --to ${{github.event.pull_request.head.sha}}
 
             - name: Install Open API yaml linter
               run: npm i -g @quobix/vacuum
