@@ -22,6 +22,14 @@ jobs:
               with:
                node-version: 20
 
+            - name: Install dependencies
+              run: npm ci
+
+            - name: Run commitlint on PR commits
+              run: |
+               git fetch --depth=2 origin ${{github.event.pull_request.head.ref}}
+               npx commitlint --from=${{github.event.pull_request.base.sha}} --to=${{github.event.pull_request.head.sha}}
+
             - name: Install Open API yaml linter
               run: npm i -g @quobix/vacuum
 
@@ -46,36 +54,36 @@ jobs:
             #   run: |
             #    vacuum lint -d -e xero_accounting.yaml xero_assets.yaml xero_bankfeeds.yaml xero_files.yaml xero-app-store.yaml xero-finance.yaml xero-identity.yaml xero-payroll-au.yaml xero-payroll-nz.yaml xero-payroll-uk.yaml xero-projects.yaml
             
-            - name: Install octokit dependencies
-              run: npm i
-              working-directory: ${{ github.workspace }}/.github/octokit
+            # - name: Install octokit dependencies
+            #   run: npm i
+            #   working-directory: ${{ github.workspace }}/.github/octokit
       
-            - name: Get github app access token
-              id: get_access_token
-              env:
-                GITHUB_APP_ID: ${{ secrets.XERO_GITHUB_APP_ID }}
-                GITHUB_APP_PRIVATE_KEY: ${{ secrets.XERO_GITHUB_APPLICATION_KEY }}
-              uses: actions/github-script@v7
-              with:
-                result-encoding: string
-                script: |
-                  const { getAccessToken } = await import('${{ github.workspace }}/.github/octokit/index.js')
-                  const token = await getAccessToken()
-                  return token
+            # - name: Get github app access token
+            #   id: get_access_token
+            #   env:
+            #     GITHUB_APP_ID: ${{ secrets.XERO_GITHUB_APP_ID }}
+            #     GITHUB_APP_PRIVATE_KEY: ${{ secrets.XERO_GITHUB_APPLICATION_KEY }}
+            #   uses: actions/github-script@v7
+            #   with:
+            #     result-encoding: string
+            #     script: |
+            #       const { getAccessToken } = await import('${{ github.workspace }}/.github/octokit/index.js')
+            #       const token = await getAccessToken()
+            #       return token
 
-            - name: Trigger all SDK workflow
-              uses: codex-/return-dispatch@v2
-              id: return_dispatch
-              with:
-                token: ${{ steps.get_access_token.outputs.result }}
-                repo: xeroapi-sdk-codegen
-                owner: xero-internal
-                workflow: pr.yml
-                ref: refs/heads/master
-                workflow_inputs: '{"branch_name": "${{github.head_ref}}"}'
-                workflow_timeout_seconds: 350
-              env:
-                ACTIONS_STEP_DEBUG: true
+            # - name: Trigger all SDK workflow
+            #   uses: codex-/return-dispatch@v2
+            #   id: return_dispatch
+            #   with:
+            #     token: ${{ steps.get_access_token.outputs.result }}
+            #     repo: xeroapi-sdk-codegen
+            #     owner: xero-internal
+            #     workflow: pr.yml
+            #     ref: refs/heads/master
+            #     workflow_inputs: '{"branch_name": "${{github.head_ref}}"}'
+            #     workflow_timeout_seconds: 350
+            #   env:
+            #     ACTIONS_STEP_DEBUG: true
             
             # - name: Await Run ID ${{ steps.return_dispatch.outputs.run_id }}
             #   uses: Codex-/await-remote-run@v1.12.2
