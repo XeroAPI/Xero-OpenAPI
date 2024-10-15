@@ -16,6 +16,8 @@ jobs:
         steps:
             - name: Checkout Repository
               uses: actions/checkout@v4
+              with:
+                fetch-depth: 0
 
             - name: Set up Node environment
               uses: actions/setup-node@v4
@@ -27,8 +29,7 @@ jobs:
 
             - name: Run commitlint on PR commits
               run: |
-               git fetch --depth=2 origin ${{github.event.pull_request.head.ref}}
-               npx commitlint --from ${{github.event.pull_request.base.sha}} --to ${{github.event.pull_request.head.sha}}
+               npx commitlint --from HEAD~${{ github.event.pull_request.commits }} --to HEAD
 
             - name: Install Open API yaml linter
               run: npm i -g @quobix/vacuum
