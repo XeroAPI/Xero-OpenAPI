@@ -1,21 +1,20 @@
 const config = {
     branches: ['master'],
-    Plugins: [
-        '@semantic-release/commit-analyzer',
-        '@semantic-release/release-notes-generator',
-        '@semantic-release/changelog',
-        '@semantic-release/github',
-        [
-            '@semantic-release/git',
+    tagFormat: "${version}",
+    plugins: [
+        ['@semantic-release/release-notes-generator',
             {
-                "assests": ["CHANGELOG.md"],
-                "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+                preset: 'angular',
+                writerOpts: {
+                  headerPartial: '## What\'s changed',
+                  footerPartial: '\n**Full Changelog**:https://github.com/XeroAPI/Xero-OpenAPI/compare/{{previousTag}}...{{version}}'
+                }
             }
-        ],
-        ["@semantic-release/npm", {
-            "npmPublish": false,
-        }]
+         ],
+         '@semantic-release/commit-analyzer',
+         '@semantic-release/github',
+         '@semantic-release/git',
+
     ]
 }
-
-module.exports = config
+module.exports = config;
