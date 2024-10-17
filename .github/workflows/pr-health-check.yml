@@ -3,7 +3,7 @@ name: OAS PR health check
 on:
     pull_request:
         paths:
-            - '**'
+            - 'master'
 
 jobs:
     pr-health-check:
@@ -77,10 +77,8 @@ jobs:
                 ref: refs/heads/master
                 workflow_inputs: '{"branch_name": "${{github.head_ref}}"}'
                 workflow_timeout_seconds: 350
-              env:
-                ACTIONS_STEP_DEBUG: true
             
-            - name: Await Run ID ${{ steps.return_dispatch.outputs.run_id }}
+            - name: Checking SDK health status
               uses: Codex-/await-remote-run@v1.12.2
               with:
                 token: ${{ steps.get_access_token.outputs.result }}
