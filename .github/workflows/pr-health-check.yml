@@ -4,6 +4,9 @@ on:
     pull_request:
         branches:
             - master
+    push:
+       branches:
+           - master
 
 jobs:
     pr-health-check:
@@ -75,7 +78,7 @@ jobs:
                 owner: xero-internal
                 workflow: pr.yml
                 ref: refs/heads/master
-                workflow_inputs: '{"branch_name": "${{github.head_ref}}"}'
+                workflow_inputs: '{"branch_name": "" }'
                 workflow_timeout_seconds: 350
             
             - name: Checking SDK health status
