@@ -79,7 +79,6 @@ jobs:
                 workflow: pr.yml
                 ref: refs/heads/master
                 workflow_inputs: '{"branch_name": "${{github.head_ref}}" }'
-                workflow_timeout_seconds: 350
             
             - name: Checking SDK health status
               uses: Codex-/await-remote-run@v1.12.2
@@ -88,6 +87,4 @@ jobs:
                 repo: xeroapi-sdk-codegen
                 owner: xero-internal
                 run_id: ${{ steps.return_dispatch.outputs.run_id }}
-                run_timeout_seconds: 700
-                poll_interval_ms: 5000 
               
