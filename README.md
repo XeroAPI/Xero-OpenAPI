@@ -32,7 +32,7 @@ We have automated the release process in xero-OpenAPI using [semantic-release pa
 
 **Example:**
 
-If your commit message is - ``feat: Added a new parameter in the get_account method`` - It will do a **minor version update**. 
+If your commit message is - ``feat: added a new parameter in the get_account method`` - It will do a **minor version update**. 
 
 Following release notes will be generated -
 
