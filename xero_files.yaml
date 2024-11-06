@@ -4,13 +4,13 @@ servers:
     url: https://api.xero.com/files.xro/1.0/
 info:
   title: Xero Files API
-  version: "6.3.0"
-  description: "These endpoints are specific to Xero Files API"
-  termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
+  version: 6.3.0
+  description: These endpoints are specific to Xero Files API
+  termsOfService: https://developer.xero.com/xero-developer-platform-terms-conditions/
   contact:
-    name: "Xero Platform Team"
-    email: "api@xero.com"
-    url: "https://developer.xero.com"
+    name: Xero Platform Team
+    email: api@xero.com
+    url: https://developer.xero.com
 tags:
   - name: Files
     description: Operations available to regular developers
@@ -20,7 +20,9 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [files, files.read]
+        - OAuth2:
+            - files
+            - files.read
       tags:
         - Files
       operationId: getFiles
@@ -49,9 +51,9 @@ paths:
               - Name
               - Size
               - CreatedDateUTC
-            example: "CreatedDateUTC DESC"
+            example: CreatedDateUTC DESC
       responses:
-        '200':
+        "200":
           description: search results matching criteria
           content:
             application/json:
@@ -60,7 +62,8 @@ paths:
               example: '{ "TotalCount": 100, "Page": 1, "PerPage": 2, "Items": [ { "Name": "helo-heros.jpg", "MimeType": "application/jpg", "Size": 2878711, "CreatedDateUtc": "2021-02-10T16:02:54.9930000", "UpdatedDateUtc": "2021-02-10T16:02:54.9930000", "User": { "Name": "sid.maestre@xero.com", "FirstName": "Sidney", "LastName": "Maestre", "FullName": "Sidney Maestre", "Id": "740add2a-a703-4b8a-a670-1093919c2040" }, "FolderId": "bf924975-7097-46f2-a143-1ecfbab3c8c3", "Id": "3d413bfe-f40f-4807-b953-9a42f834ff15" }, { "Name": "helo-heros.jpg", "MimeType": "application/jpg", "Size": 2878711, "CreatedDateUtc": "2021-02-09T21:16:00.6130000", "UpdatedDateUtc": "2021-02-09T21:16:00.6130000", "User": { "Name": "sid.maestre@xero.com", "FirstName": "Sidney", "LastName": "Maestre", "FullName": "Sidney Maestre", "Id": "740add2a-a703-4b8a-a670-1093919c2040" }, "FolderId": "bf924975-7097-46f2-a143-1ecfbab3c8c3", "Id": "22f87409-cdfd-4813-a868-559481bcb052" } ] }'
     post:
       security:
-        - OAuth2: [files]
+        - OAuth2:
+            - files
       tags:
         - Files
       summary: Uploads a File to the inbox
@@ -68,14 +71,14 @@ paths:
         - $ref: '#/components/parameters/idempotencyKey'
       operationId: uploadFile
       responses:
-        '201':
+        "201":
           description: A successful request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FileObject'
               example: '{ "Name": "helo-heros.jpg", "MimeType": "application/jpg", "Size": 2878711, "CreatedDateUtc": "2021-02-10T23:17:50.1930000", "UpdatedDateUtc": "2021-02-10T23:17:50.1930000", "User": { "Name": "sid.maestre@xero.com", "FirstName": "Sidney", "LastName": "Maestre", "FullName": "Sidney Maestre", "Id": "740add2a-a703-4b8a-a670-1093919c2040" }, "FolderId": "bf924975-7097-46f2-a143-1ecfbab3c8c3", "Id": "22f87409-cdfd-4813-a868-559481bcb052" }'
-        '400':
+        "400":
           description: invalid input, object invalid
           content:
             application/json:
@@ -91,7 +94,9 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [files, files.read]
+        - OAuth2:
+            - files
+            - files.read
       tags:
         - Files
       summary: Retrieves a file by a unique file ID
@@ -107,7 +112,7 @@ paths:
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
       responses:
-        '200':
+        "200":
           description: search results matching criteria
           content:
             application/json:
@@ -116,7 +121,8 @@ paths:
               example: '{ "Name": "helo-heros.jpg", "MimeType": "application/jpg", "Size": 2878711, "CreatedDateUtc": "2021-02-10T23:17:50.1930000", "UpdatedDateUtc": "2021-02-10T23:17:50.1930000", "User": { "Name": "sid.maestre@xero.com", "FirstName": "Sidney", "LastName": "Maestre", "FullName": "Sidney Maestre", "Id": "740add2a-a703-4b8a-a670-1093919c2040" }, "FolderId": "bf924975-7097-46f2-a143-1ecfbab3c8c3", "Id": "efd77bfc-7018-4da1-b251-7aa2d438382c" }'
     put:
       security:
-        - OAuth2: [files]
+        - OAuth2:
+            - files
       tags:
         - Files
       summary: Update a file
@@ -134,14 +140,14 @@ paths:
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
       responses:
-        '200':
+        "200":
           description: A successful request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FileObject'
               example: '{ "Name": "helo-heros.jpg", "MimeType": "application/jpg", "Size": 2878711, "CreatedDateUtc": "2021-02-10T23:17:50.1930000", "UpdatedDateUtc": "2021-02-10T23:58:54.1000000", "User": { "Name": "sid.maestre@xero.com", "FirstName": "Sidney", "LastName": "Maestre", "FullName": "Sidney Maestre", "Id": "740add2a-a703-4b8a-a670-1093919c2040" }, "FolderId": "bf924975-7097-46f2-a143-1ecfbab3c8c3", "Id": "efd77bfc-7018-4da1-b251-7aa2d438382c" }'
-        '400':
+        "400":
           description: invalid input, object invalid
           content:
             application/json:
@@ -155,7 +161,8 @@ paths:
             example: '{ "FolderId": "bf924975-7097-46f2-a143-1ecfbab3c8c3" }'
     delete:
       security:
-        - OAuth2: [files]
+        - OAuth2:
+            - files
       tags:
         - Files
       summary: Deletes a specific file
@@ -172,7 +179,7 @@ paths:
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
       responses:
-        '204':
+        "204":
           description: Successful deletion - return response 204 no content
           x-isEmpty: true
   /Files/{FolderId}:
@@ -180,7 +187,8 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     post:
       security:
-        - OAuth2: [files]
+        - OAuth2:
+            - files
       tags:
         - Files
       summary: Uploads a File to a specific folder
@@ -197,14 +205,14 @@ paths:
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
       responses:
-        '201':
+        "201":
           description: A successful request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/FileObject'
               example: '{ "Name": "helo-heros.jpg", "MimeType": "application/jpg", "Size": 2878711, "CreatedDateUtc": "2021-02-10T23:17:50.1930000", "UpdatedDateUtc": "2021-02-10T23:17:50.1930000", "User": { "Name": "sid.maestre@xero.com", "FirstName": "Sidney", "LastName": "Maestre", "FullName": "Sidney Maestre", "Id": "740add2a-a703-4b8a-a670-1093919c2040" }, "FolderId": "bf924975-7097-46f2-a143-1ecfbab3c8c3", "Id": "22f87409-cdfd-4813-a868-559481bcb052" }'
-        '400':
+        "400":
           description: invalid input, object invalid
           content:
             application/json:
@@ -220,7 +228,9 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [files, files.read]
+        - OAuth2:
+            - files
+            - files.read
       tags:
         - Files
       summary: Retrieves the content of a specific file
@@ -237,7 +247,7 @@ paths:
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
       responses:
-        '200':
+        "200":
           description: returns the byte array of the specific file based on id
           content:
             application/octet-stream:
@@ -249,7 +259,9 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [files, files.read]
+        - OAuth2:
+            - files
+            - files.read
       tags:
         - Files
       summary: Retrieves a specific file associations
@@ -266,7 +278,7 @@ paths:
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
       responses:
-        '200':
+        "200":
           description: search results matching criteria
           content:
             application/json:
@@ -277,7 +289,8 @@ paths:
               example: '[ { "FileId":"6beccb4a-0d7d-4518-93f3-e0cd1dccb254", "ObjectId":"1270bf7c-5d18-473a-9231-1e36c4bd33ed", "ObjectType":"Business", "ObjectGroup":"Contact" } ]'
     post:
       security:
-        - OAuth2: [files]
+        - OAuth2:
+            - files
       tags:
         - Files
       summary: Creates a new file association
@@ -295,14 +308,14 @@ paths:
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
       responses:
-        '201':
+        "201":
           description: A successful request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Association'
               example: '{ "FileId": "6beccb4a-0d7d-4518-93f3-e0cd1dccb254", "ObjectId": "1270bf7c-5d18-473a-9231-1e36c4bd33ed", "ObjectType": "Business", "ObjectGroup": "Contact" }'
-        '400':
+        "400":
           description: invalid input, object invalid
           content:
             application/json:
@@ -319,7 +332,8 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     delete:
       security:
-        - OAuth2: [files]
+        - OAuth2:
+            - files
       tags:
         - Files
       summary: Deletes an existing file association
@@ -345,7 +359,7 @@ paths:
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
       responses:
-        '204':
+        "204":
           description: Successful deletion - return response 204 no content
           x-isEmpty: true
   /Associations/{ObjectId}:
@@ -353,7 +367,9 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [files, files.read]
+        - OAuth2:
+            - files
+            - files.read
       tags:
         - Files
       summary: Retrieves an association object using a unique object ID
@@ -391,7 +407,7 @@ paths:
             enum:
               - Name
               - CreatedDateUTC
-            example: "Associations/{ObjectId}?sort=CreatedDateUtc"
+            example: Associations/{ObjectId}?sort=CreatedDateUtc
         - in: query
           name: direction
           description: direction to sort by
@@ -400,9 +416,9 @@ paths:
             enum:
               - ASC
               - DESC
-            example: "Associations/{ObjectId}?sort=CreatedDateUtc&direction=DESC"
+            example: Associations/{ObjectId}?sort=CreatedDateUtc&direction=DESC
       responses:
-        '200':
+        "200":
           description: search results matching criteria
           content:
             application/json:
@@ -416,7 +432,9 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [files, files.read]
+        - OAuth2:
+            - files
+            - files.read
       tags:
         - Files
       summary: Retrieves a count of associations for a list of objects.
@@ -434,7 +452,7 @@ paths:
               format: uuid
               example: 1270bf7c-5d18-473a-9231-1e36c4bd33ed
       responses:
-        '200':
+        "200":
           description: A dictionary of the object Ids and associations count
           content:
             application/json:
@@ -446,7 +464,9 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [files, files.read]
+        - OAuth2:
+            - files
+            - files.read
       tags:
         - Files
       summary: Retrieves folders
@@ -462,9 +482,9 @@ paths:
               - Name
               - Size
               - CreatedDateUTC
-            example: "CreatedDateUTC DESC"
+            example: CreatedDateUTC DESC
       responses:
-        '200':
+        "200":
           description: search results matching criteria
           content:
             application/json:
@@ -475,7 +495,8 @@ paths:
               example: '[ { "Name":"Inbox", "FileCount":14, "Email":"xero.inbox.jpf4.6oo29retajkhtfus@xerofiles.com", "IsInbox":true, "Id":"bf924975-7097-46f2-a143-1ecfbab3c8c3" }, { "Name":"Contracts", "FileCount":7, "IsInbox":false, "Id":"554ff1ad-4b94-4266-9b45-e29bcb75e6bf" } ]'
     post:
       security:
-        - OAuth2: [files]
+        - OAuth2:
+            - files
       tags:
         - Files
       summary: Creates a new folder
@@ -484,14 +505,14 @@ paths:
       operationId: createFolder
       description: By passing in the appropriate properties, you can create a new folder
       responses:
-        '200':
+        "200":
           description: search results matching criteria
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Folder'
               example: '{ "Name": "My Docs", "FileCount": 0, "IsInbox": false, "Id": "913970ad-8c8e-4666-8294-35b9cac23206" }'
-        '400':
+        "400":
           description: invalid input, object invalid
           content:
             application/json:
@@ -508,7 +529,9 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [files, files.read]
+        - OAuth2:
+            - files
+            - files.read
       tags:
         - Files
       summary: Retrieves specific folder by using a unique folder ID
@@ -525,7 +548,7 @@ paths:
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
       responses:
-        '200':
+        "200":
           description: search results matching criteria
           content:
             application/json:
@@ -534,7 +557,8 @@ paths:
               example: '{ "Name": "My Docs", "FileCount": 0, "IsInbox": false, "Id": "4c5f3fe4-2516-4863-ac88-3029351773bf" }'
     put:
       security:
-        - OAuth2: [files]
+        - OAuth2:
+            - files
       tags:
         - Files
       summary: Updates an existing folder
@@ -552,14 +576,14 @@ paths:
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
       responses:
-        '200':
+        "200":
           description: return the updated object
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Folder'
               example: '{ "Name": "Your Docs", "FileCount": 0, "IsInbox": false, "Id": "4c5f3fe4-2516-4863-ac88-3029351773bf" }'
-        '400':
+        "400":
           description: invalid input, object invalid
           content:
             application/json:
@@ -573,7 +597,8 @@ paths:
             example: '{ "Name": "Your Docs" }'
     delete:
       security:
-        - OAuth2: [files]
+        - OAuth2:
+            - files
       tags:
         - Files
       summary: Deletes a folder
@@ -590,7 +615,7 @@ paths:
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
       responses:
-        '204':
+        "204":
           description: Successful deletion - return response 204 no content
           x-isEmpty: true
   /Inbox:
@@ -598,14 +623,16 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [files, files.read]
+        - OAuth2:
+            - files
+            - files.read
       tags:
         - Files
       summary: Retrieves inbox folder
       operationId: getInbox
       description: Search for the user inbox
       responses:
-        '200':
+        "200":
           description: search results matching criteria
           content:
             application/json:
@@ -619,8 +646,8 @@ components:
       description: For more information
       flows:
         authorizationCode:
-          authorizationUrl: 'https://login.xero.com/identity/connect/authorize'
-          tokenUrl: 'https://identity.xero.com/connect/token'
+          authorizationUrl: https://login.xero.com/identity/connect/authorize
+          tokenUrl: https://identity.xero.com/connect/token
           scopes:
             email: Grant read-only access to your email
             openid: Grant read-only access to your open id
@@ -642,7 +669,7 @@ components:
       name: Idempotency-Key
       x-snake: idempotency_key
       description: This allows you to safely retry requests without the risk of duplicate processing. 128 character max.
-      example: "KEY_VALUE"
+      example: KEY_VALUE
       schema:
         type: string
   schemas:
@@ -685,11 +712,11 @@ components:
         CreatedDateUtc:
           description: Created date in UTC
           type: string
-          example: '2020-12-03T19:04:58.6970000'
+          example: 2020-12-03T19:04:58.6970000
         UpdatedDateUtc:
           description: Updated date in UTC
           type: string
-          example: '2020-12-03T19:04:58.6970000'
+          example: 2020-12-03T19:04:58.6970000
         User:
           $ref: '#/components/schemas/User'
         Id:

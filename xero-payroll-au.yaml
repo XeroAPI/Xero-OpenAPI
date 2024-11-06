@@ -1,16 +1,16 @@
 openapi: 3.0.0
 info:
-  version: "6.3.0"
-  title: 'Xero Payroll AU API'
-  description: 'This is the Xero Payroll API for orgs in Australia region.'
-  termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
+  version: 6.3.0
+  title: Xero Payroll AU API
+  description: This is the Xero Payroll API for orgs in Australia region.
+  termsOfService: https://developer.xero.com/xero-developer-platform-terms-conditions/
   contact:
-    name: "Xero Platform Team"
-    email: "api@xero.com"
-    url: "https://developer.xero.com"
+    name: Xero Platform Team
+    email: api@xero.com
+    url: https://developer.xero.com
   license:
     name: MIT
-    url: 'https://github.com/XeroAPI/Xero-OpenAPI/blob/master/LICENSE'
+    url: https://github.com/XeroAPI/Xero-OpenAPI/blob/master/LICENSE
 servers:
   - description: Xero Payroll AU API
     url: https://api.xero.com/payroll.xro/1.0
@@ -23,7 +23,9 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [payroll.employees, payroll.employees.read]
+        - OAuth2:
+            - payroll.employees
+            - payroll.employees.read
       tags:
         - PayrollAu
       operationId: getEmployees
@@ -55,14 +57,46 @@ paths:
           schema:
             type: integer
       responses:
-        '200':
+        "200":
           description: search results matching criteria
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Employees'
-              example: {"Id": "00000000-0000-0000-0000-000000000000", "Status": "OK", "ProviderName": "provider-name", "DateTimeUTC": "/Date(1573621523465)/", "Employees": [{"EmployeeID": "b34e89ff-770d-4099-b7e5-f968767118bc", "FirstName": "Jack", "MiddleNames": "Johnson", "LastName": "Sparrow", "Status": "ACTIVE", "Email": "jack.sparrow@xero.com", "DateOfBirth": "/Date(572313600000+0000)/", "Gender": "M", "Phone": "4153332323", "Mobile": "415-1234567", "StartDate": "/Date(1547164800000+0000)/", "OrdinaryEarningsRateID": "ab874dfb-ab09-4c91-954e-43acf6fc23b4", "PayrollCalendarID": "22a05fc5-386d-4950-9842-3e7a6c812135", "UpdatedDateUTC": "/Date(1572915814000+0000)/", "IsSTP2Qualified": false}, {"EmployeeID": "7aa04979-ded5-44d9-b09a-793749425844", "FirstName": "John", "LastName": "Smith", "Status": "ACTIVE", "Email": "john.smith@xero.com", "DateOfBirth": "/Date(315619200000+0000)/", "Gender": "M", "StartDate": "/Date(1572566400000+0000)/", "OrdinaryEarningsRateID": "ab874dfb-ab09-4c91-954e-43acf6fc23b4", "PayrollCalendarID": "78bb86b9-e1ea-47ac-b75d-f087a81931de", "UpdatedDateUTC": "/Date(1572916028000+0000)/", "IsSTP2Qualified": false}]}
-        '400':
+              example:
+                Id: 00000000-0000-0000-0000-000000000000
+                Status: OK
+                ProviderName: provider-name
+                DateTimeUTC: /Date(1573621523465)/
+                Employees:
+                  - EmployeeID: b34e89ff-770d-4099-b7e5-f968767118bc
+                    FirstName: Jack
+                    MiddleNames: Johnson
+                    LastName: Sparrow
+                    Status: ACTIVE
+                    Email: jack.sparrow@xero.com
+                    DateOfBirth: /Date(572313600000+0000)/
+                    Gender: M
+                    Phone: "4153332323"
+                    Mobile: 415-1234567
+                    StartDate: /Date(1547164800000+0000)/
+                    OrdinaryEarningsRateID: ab874dfb-ab09-4c91-954e-43acf6fc23b4
+                    PayrollCalendarID: 22a05fc5-386d-4950-9842-3e7a6c812135
+                    UpdatedDateUTC: /Date(1572915814000+0000)/
+                    IsSTP2Qualified: false
+                  - EmployeeID: 7aa04979-ded5-44d9-b09a-793749425844
+                    FirstName: John
+                    LastName: Smith
+                    Status: ACTIVE
+                    Email: john.smith@xero.com
+                    DateOfBirth: /Date(315619200000+0000)/
+                    Gender: M
+                    StartDate: /Date(1572566400000+0000)/
+                    OrdinaryEarningsRateID: ab874dfb-ab09-4c91-954e-43acf6fc23b4
+                    PayrollCalendarID: 78bb86b9-e1ea-47ac-b75d-f087a81931de
+                    UpdatedDateUTC: /Date(1572916028000+0000)/
+                    IsSTP2Qualified: false
+        "400":
           description: validation error for a bad request
           content:
             application/json:
@@ -70,7 +104,8 @@ paths:
                 $ref: '#/components/schemas/APIException'
     post:
       security:
-        - OAuth2: [payroll.employees]
+        - OAuth2:
+            - payroll.employees
       tags:
         - PayrollAu
       summary: Creates a payroll employee
@@ -87,13 +122,13 @@ paths:
           object: employee
           java_datatype: LocalDate
           csharp_datatype: DateTime
-          default: "LocalDate.of(2000, Month.OCTOBER, 28)"
-          java: "LocalDate.of(2000, Month.OCTOBER, 28)"
-          csharp: "new DateTime(2000, 10, 10)"
-          php: "new DateTime('2000-10-28')"
-          node: "'2000-10-28'"
-          python: "dateutil.parser.parse('2000-10-28T00:00:00Z')"
-          ruby: "'YYYY-MM-DD'"
+          default: LocalDate.of(2000, Month.OCTOBER, 28)
+          java: LocalDate.of(2000, Month.OCTOBER, 28)
+          csharp: new DateTime(2000, 10, 10)
+          php: new DateTime('2000-10-28')
+          node: '''2000-10-28'''
+          python: dateutil.parser.parse('2000-10-28T00:00:00Z')
+          ruby: '''YYYY-MM-DD'''
         - homeAddress:
           key: homeAddress
           keyPascal: HomeAddress
@@ -133,13 +168,13 @@ paths:
           key: firstName
           keyPascal: FirstName
           keySnake: first_name
-          default: "Adam"
+          default: Adam
           object: employee
         - lastName:
           key: lastName
           keyPascal: LastName
           keySnake: last_name
-          default: "Adamson"
+          default: Adamson
           object: employee
         - dateOfBirth:
           is_variable: true
@@ -162,14 +197,42 @@ paths:
           ruby: home_address
           object: employee
       responses:
-        '200':
+        "200":
           description: A successful request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Employees'
-              example: {"Id": "00000000-0000-0000-0000-000000000000", "Status": "OK", "ProviderName": "provider-name", "DateTimeUTC": "/Date(1573621524489)/", "Employees": [{"EmployeeID": "cdfb8371-0b21-4b8a-8903-1024df6c391e", "FirstName": "Albus", "MiddleNames": "Percival", "LastName": "Dumbledore", "Status": "ACTIVE", "Email": "albus39608@hogwarts.edu", "DateOfBirth": "/Date(321523200000+0000)/", "JobTitle": "Regional Manager", "Gender": "M", "HomeAddress": {"AddressLine1": "101 Green St", "City": "Island Bay", "Region": "NSW", "PostalCode": "6023", "Country": "AUSTRALIA"}, "Phone": "444-2323", "Mobile": "555-1212", "StartDate": "/Date(321523200000+0000)/", "Classification": "corporate", "OrdinaryEarningsRateID": "ab874dfb-ab09-4c91-954e-43acf6fc23b4", "UpdatedDateUTC": "/Date(1573621524458+0000)/", "IsAuthorisedToApproveLeave": true, "IsAuthorisedToApproveTimesheets": true}]}
-        '400':
+              example:
+                Id: 00000000-0000-0000-0000-000000000000
+                Status: OK
+                ProviderName: provider-name
+                DateTimeUTC: /Date(1573621524489)/
+                Employees:
+                  - EmployeeID: cdfb8371-0b21-4b8a-8903-1024df6c391e
+                    FirstName: Albus
+                    MiddleNames: Percival
+                    LastName: Dumbledore
+                    Status: ACTIVE
+                    Email: albus39608@hogwarts.edu
+                    DateOfBirth: /Date(321523200000+0000)/
+                    JobTitle: Regional Manager
+                    Gender: M
+                    HomeAddress:
+                      AddressLine1: 101 Green St
+                      City: Island Bay
+                      Region: NSW
+                      PostalCode: "6023"
+                      Country: AUSTRALIA
+                    Phone: 444-2323
+                    Mobile: 555-1212
+                    StartDate: /Date(321523200000+0000)/
+                    Classification: corporate
+                    OrdinaryEarningsRateID: ab874dfb-ab09-4c91-954e-43acf6fc23b4
+                    UpdatedDateUTC: /Date(1573621524458+0000)/
+                    IsAuthorisedToApproveLeave: true
+                    IsAuthorisedToApproveTimesheets: true
+        "400":
           description: invalid input, object invalid - TODO
       requestBody:
         required: true
@@ -185,7 +248,9 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [payroll.employees, payroll.employees.read]
+        - OAuth2:
+            - payroll.employees
+            - payroll.employees.read
       tags:
         - PayrollAu
       summary: Retrieves an employee's detail by unique employee id
@@ -201,16 +266,98 @@ paths:
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
       responses:
-        '200':
+        "200":
           description: search results matching criteria
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Employees'
-              example: {"Id": "00000000-0000-0000-0000-000000000000", "Status": "OK", "ProviderName": "provider-name", "DateTimeUTC": "/Date(1573623316150)/", "Employees": [{"EmployeeID": "cdfb8371-0b21-4b8a-8903-1024df6c391e", "Title": "Mr.", "FirstName": "Albus", "MiddleNames": "Frank", "LastName": "Dumbledore", "Status": "ACTIVE", "Email": "albus39608@hogwarts.edu", "DateOfBirth": "/Date(321494400000+0000)/", "JobTitle": "Regional Manager", "Gender": "M", "HomeAddress": {"AddressLine1": "101 Green St", "City": "Island Bay", "Region": "NSW", "PostalCode": "6023", "Country": "AUSTRALIA"}, "Phone": "444-2323", "Mobile": "555-1212", "StartDate": "/Date(321494400000+0000)/", "Classification": "corporate", "OrdinaryEarningsRateID": "ab874dfb-ab09-4c91-954e-43acf6fc23b4", "PayrollCalendarID": "78bb86b9-e1ea-47ac-b75d-f087a81931de", "UpdatedDateUTC": "/Date(1573623306000+0000)/", "EmployeeGroupName": "foo", "IsAuthorisedToApproveLeave": true, "IsAuthorisedToApproveTimesheets": true, "TaxDeclaration": {"AustralianResidentForTaxPurposes": true, "TaxFreeThresholdClaimed": true, "HasHELPDebt": false, "HasSFSSDebt": false, "EligibleToReceiveLeaveLoading": false, "UpdatedDateUTC": "/Date(1573623306000+0000)/", "HasStudentStartupLoan": false, "ResidencyStatus": "AUSTRALIANRESIDENT"}, "BankAccounts": [], "OpeningBalances": {"OpeningBalanceDate": "/Date(1573603200000+0000)/", "EarningsLines": [], "DeductionLines": [], "SuperLines": [], "ReimbursementLines": [], "LeaveLines": [{"LeaveTypeID": "184ea8f7-d143-46dd-bef3-0c60e1aa6fca", "NumberOfUnits": 10}], "PaidLeaveEarningsLines": []}, "PayTemplate": {"EarningsLines": [{"EarningsRateID": "ab874dfb-ab09-4c91-954e-43acf6fc23b4", "CalculationType": "USEEARNINGSRATE", "NormalNumberOfUnits": 3}], "DeductionLines": [{"DeductionTypeID": "ed05ea82-e40a-4eb6-9c2e-4b3c03e7e938", "CalculationType": "FIXEDAMOUNT", "Amount": 4}], "SuperLines": [{"ContributionType": "SGC", "CalculationType": "STATUTORY", "MinimumMonthlyEarnings": 450, "ExpenseAccountCode": "478", "LiabilityAccountCode": "826"}], "ReimbursementLines": [{"ReimbursementTypeID": "aa8cfa40-d872-4be0-8a94-bb7f00962f74", "Description": "boo", "Amount": 55}], "LeaveLines": [{"LeaveTypeID": "184ea8f7-d143-46dd-bef3-0c60e1aa6fca", "CalculationType": "FIXEDAMOUNTEACHPERIOD", "AnnualNumberOfUnits": 4, "EntitlementFinalPayPayoutType": "NOTPAIDOUT"}]}, "SuperMemberships": [], "LeaveBalances": [{"LeaveName": "Carer Leave (unpaid)", "LeaveTypeID": "184ea8f7-d143-46dd-bef3-0c60e1aa6fca", "NumberOfUnits": 10, "TypeOfUnits": "Hours"}]}]}
+              example:
+                Id: 00000000-0000-0000-0000-000000000000
+                Status: OK
+                ProviderName: provider-name
+                DateTimeUTC: /Date(1573623316150)/
+                Employees:
+                  - EmployeeID: cdfb8371-0b21-4b8a-8903-1024df6c391e
+                    Title: Mr.
+                    FirstName: Albus
+                    MiddleNames: Frank
+                    LastName: Dumbledore
+                    Status: ACTIVE
+                    Email: albus39608@hogwarts.edu
+                    DateOfBirth: /Date(321494400000+0000)/
+                    JobTitle: Regional Manager
+                    Gender: M
+                    HomeAddress:
+                      AddressLine1: 101 Green St
+                      City: Island Bay
+                      Region: NSW
+                      PostalCode: "6023"
+                      Country: AUSTRALIA
+                    Phone: 444-2323
+                    Mobile: 555-1212
+                    StartDate: /Date(321494400000+0000)/
+                    Classification: corporate
+                    OrdinaryEarningsRateID: ab874dfb-ab09-4c91-954e-43acf6fc23b4
+                    PayrollCalendarID: 78bb86b9-e1ea-47ac-b75d-f087a81931de
+                    UpdatedDateUTC: /Date(1573623306000+0000)/
+                    EmployeeGroupName: foo
+                    IsAuthorisedToApproveLeave: true
+                    IsAuthorisedToApproveTimesheets: true
+                    TaxDeclaration:
+                      AustralianResidentForTaxPurposes: true
+                      TaxFreeThresholdClaimed: true
+                      HasHELPDebt: false
+                      HasSFSSDebt: false
+                      EligibleToReceiveLeaveLoading: false
+                      UpdatedDateUTC: /Date(1573623306000+0000)/
+                      HasStudentStartupLoan: false
+                      ResidencyStatus: AUSTRALIANRESIDENT
+                    BankAccounts: []
+                    OpeningBalances:
+                      OpeningBalanceDate: /Date(1573603200000+0000)/
+                      EarningsLines: []
+                      DeductionLines: []
+                      SuperLines: []
+                      ReimbursementLines: []
+                      LeaveLines:
+                        - LeaveTypeID: 184ea8f7-d143-46dd-bef3-0c60e1aa6fca
+                          NumberOfUnits: 10
+                      PaidLeaveEarningsLines: []
+                    PayTemplate:
+                      EarningsLines:
+                        - EarningsRateID: ab874dfb-ab09-4c91-954e-43acf6fc23b4
+                          CalculationType: USEEARNINGSRATE
+                          NormalNumberOfUnits: 3
+                      DeductionLines:
+                        - DeductionTypeID: ed05ea82-e40a-4eb6-9c2e-4b3c03e7e938
+                          CalculationType: FIXEDAMOUNT
+                          Amount: 4
+                      SuperLines:
+                        - ContributionType: SGC
+                          CalculationType: STATUTORY
+                          MinimumMonthlyEarnings: 450
+                          ExpenseAccountCode: "478"
+                          LiabilityAccountCode: "826"
+                      ReimbursementLines:
+                        - ReimbursementTypeID: aa8cfa40-d872-4be0-8a94-bb7f00962f74
+                          Description: boo
+                          Amount: 55
+                      LeaveLines:
+                        - LeaveTypeID: 184ea8f7-d143-46dd-bef3-0c60e1aa6fca
+                          CalculationType: FIXEDAMOUNTEACHPERIOD
+                          AnnualNumberOfUnits: 4
+                          EntitlementFinalPayPayoutType: NOTPAIDOUT
+                    SuperMemberships: []
+                    LeaveBalances:
+                      - LeaveName: Carer Leave (unpaid)
+                        LeaveTypeID: 184ea8f7-d143-46dd-bef3-0c60e1aa6fca
+                        NumberOfUnits: 10
+                        TypeOfUnits: Hours
     post:
       security:
-        - OAuth2: [payroll.employees]
+        - OAuth2:
+            - payroll.employees
       tags:
         - PayrollAu
       summary: Updates an employee's detail
@@ -225,13 +372,13 @@ paths:
           object: employee
           java_datatype: LocalDate
           csharp_datatype: DateTime
-          default: "LocalDate.of(2000, Month.OCTOBER, 28)"
-          java: "LocalDate.of(2000, Month.OCTOBER, 28)"
-          csharp: "new DateTime(2000, 10, 10)"
-          php: "new DateTime('2000-10-28')"
-          node: "'2000-10-28'"
-          python: "dateutil.parser.parse('2000-10-28T00:00:00Z')"
-          ruby: "'YYYY-MM-DD'"
+          default: LocalDate.of(2000, Month.OCTOBER, 28)
+          java: LocalDate.of(2000, Month.OCTOBER, 28)
+          csharp: new DateTime(2000, 10, 10)
+          php: new DateTime('2000-10-28')
+          node: '''2000-10-28'''
+          python: dateutil.parser.parse('2000-10-28T00:00:00Z')
+          ruby: '''YYYY-MM-DD'''
         - homeAddress:
           key: homeAddress
           keyPascal: HomeAddress
@@ -271,13 +418,13 @@ paths:
           key: firstName
           keyPascal: FirstName
           keySnake: first_name
-          default: "Adam"
+          default: Adam
           object: employee
         - lastName:
           key: lastName
           keyPascal: LastName
           keySnake: last_name
-          default: "Adamson"
+          default: Adamson
           object: employee
         - dateOfBirth:
           is_variable: true
@@ -311,13 +458,41 @@ paths:
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
       responses:
-        '200':
+        "200":
           description: A successful request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Employees'
-              example: {"Id": "00000000-0000-0000-0000-000000000000", "Status": "OK", "ProviderName": "3f93110a-df13-49c7-b82f-a069813df188", "DateTimeUTC": "/Date(1573621524786)/", "Employees": [{"EmployeeID": "cdfb8371-0b21-4b8a-8903-1024df6c391e", "FirstName": "Albus", "MiddleNames": "Frank", "LastName": "Dumbledore", "Status": "ACTIVE", "Email": "albus39608@hogwarts.edu", "DateOfBirth": "/Date(321523200000+0000)/", "JobTitle": "Regional Manager", "Gender": "M", "HomeAddress": {"AddressLine1": "101 Green St", "City": "Island Bay", "Region": "NSW", "PostalCode": "6023", "Country": "AUSTRALIA"}, "Phone": "444-2323", "Mobile": "555-1212", "StartDate": "/Date(321523200000+0000)/", "Classification": "corporate", "OrdinaryEarningsRateID": "ab874dfb-ab09-4c91-954e-43acf6fc23b4", "UpdatedDateUTC": "/Date(1573621524755+0000)/", "IsAuthorisedToApproveLeave": true, "IsAuthorisedToApproveTimesheets": true}]}
+              example:
+                Id: 00000000-0000-0000-0000-000000000000
+                Status: OK
+                ProviderName: 3f93110a-df13-49c7-b82f-a069813df188
+                DateTimeUTC: /Date(1573621524786)/
+                Employees:
+                  - EmployeeID: cdfb8371-0b21-4b8a-8903-1024df6c391e
+                    FirstName: Albus
+                    MiddleNames: Frank
+                    LastName: Dumbledore
+                    Status: ACTIVE
+                    Email: albus39608@hogwarts.edu
+                    DateOfBirth: /Date(321523200000+0000)/
+                    JobTitle: Regional Manager
+                    Gender: M
+                    HomeAddress:
+                      AddressLine1: 101 Green St
+                      City: Island Bay
+                      Region: NSW
+                      PostalCode: "6023"
+                      Country: AUSTRALIA
+                    Phone: 444-2323
+                    Mobile: 555-1212
+                    StartDate: /Date(321523200000+0000)/
+                    Classification: corporate
+                    OrdinaryEarningsRateID: ab874dfb-ab09-4c91-954e-43acf6fc23b4
+                    UpdatedDateUTC: /Date(1573621524755+0000)/
+                    IsAuthorisedToApproveLeave: true
+                    IsAuthorisedToApproveTimesheets: true
       requestBody:
         required: true
         content:
@@ -332,7 +507,9 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [payroll.employees, payroll.employees.read]
+        - OAuth2:
+            - payroll.employees
+            - payroll.employees.read
       tags:
         - PayrollAu
       operationId: getLeaveApplications
@@ -364,14 +541,80 @@ paths:
           schema:
             type: integer
       responses:
-        '200':
+        "200":
           description: search results matching criteria
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/LeaveApplications'
-              example: {"Id": "00000000-0000-0000-0000-000000000000", "Status": "OK", "ProviderName": "provider-name", "DateTimeUTC": "/Date(1573679791199)/", "LeaveApplications": [{"LeaveApplicationID": "1d4cd583-0107-4386-936b-672eb3d1f624", "EmployeeID": "cdfb8371-0b21-4b8a-8903-1024df6c391e", "LeaveTypeID": "184ea8f7-d143-46dd-bef3-0c60e1aa6fca", "LeavePeriods": [{"PayPeriodStartDate": "/Date(1573171200000+0000)/", "PayPeriodEndDate": "/Date(1573689600000+0000)/", "LeavePeriodStatus": "SCHEDULED", "NumberOfUnits": 0}], "Title": "vacation", "StartDate": "/Date(1573516800000+0000)/", "EndDate": "/Date(1573516800000+0000)/", "UpdatedDateUTC": "/Date(1573623008000+0000)/", "PayOutType": "DEFAULT"}, {"LeaveApplicationID": "3b934902-1e16-4c02-a3d3-68fa7d63e01d", "EmployeeID": "cdfb8371-0b21-4b8a-8903-1024df6c391e", "LeaveTypeID": "184ea8f7-d143-46dd-bef3-0c60e1aa6fca", "LeavePeriods": [{"PayPeriodStartDate": "/Date(1573171200000+0000)/", "PayPeriodEndDate": "/Date(1573689600000+0000)/", "LeavePeriodStatus": "SCHEDULED", "NumberOfUnits": 8}], "Title": "Cashed Out", "StartDate": "/Date(1573516800000+0000)/", "EndDate": "/Date(1573516800000+0000)/", "UpdatedDateUTC": "/Date(1573623008000+0000)/", "PayOutType": "CASHED_OUT"}, {"LeaveApplicationID": "62b90465-66e9-4c3a-8151-de1e6335554d", "EmployeeID": "b34e89ff-770d-4099-b7e5-f968767118bc", "LeaveTypeID": "184ea8f7-d143-46dd-bef3-0c60e1aa6fca", "LeavePeriods": [{"PayPeriodStartDate": "/Date(1571961600000+0000)/", "PayPeriodEndDate": "/Date(1572480000000+0000)/", "LeavePeriodStatus": "SCHEDULED", "NumberOfUnits": 0}, {"PayPeriodStartDate": "/Date(1572566400000+0000)/", "PayPeriodEndDate": "/Date(1573084800000+0000)/", "LeavePeriodStatus": "SCHEDULED", "NumberOfUnits": 0}], "Title": "Yep Carer Leave", "Description": "My updated Description", "StartDate": "/Date(1572559200000+0000)/", "EndDate": "/Date(1572645600000+0000)/", "UpdatedDateUTC": "/Date(1573447344000+0000)/", "PayOutType": "DEFAULT"}, {"LeaveApplicationID": "e8bd9eeb-18c9-4475-9c81-b298f9aa26c0", "EmployeeID": "b34e89ff-770d-4099-b7e5-f968767118bc", "LeaveTypeID": "184ea8f7-d143-46dd-bef3-0c60e1aa6fca", "LeavePeriods": [{"PayPeriodStartDate": "/Date(1571961600000+0000)/", "PayPeriodEndDate": "/Date(1572480000000+0000)/", "LeavePeriodStatus": "SCHEDULED", "NumberOfUnits": 0}, {"PayPeriodStartDate": "/Date(1572566400000+0000)/", "PayPeriodEndDate": "/Date(1573084800000+0000)/", "LeavePeriodStatus": "SCHEDULED", "NumberOfUnits": 0}], "Title": "Hello World", "StartDate": "/Date(1572559200000+0000)/", "EndDate": "/Date(1572645600000+0000)/", "UpdatedDateUTC": "/Date(1573447343000+0000)/", "PayOutType": "DEFAULT"}]}
-        '400':
+              example:
+                Id: 00000000-0000-0000-0000-000000000000
+                Status: OK
+                ProviderName: provider-name
+                DateTimeUTC: /Date(1573679791199)/
+                LeaveApplications:
+                  - LeaveApplicationID: 1d4cd583-0107-4386-936b-672eb3d1f624
+                    EmployeeID: cdfb8371-0b21-4b8a-8903-1024df6c391e
+                    LeaveTypeID: 184ea8f7-d143-46dd-bef3-0c60e1aa6fca
+                    LeavePeriods:
+                      - PayPeriodStartDate: /Date(1573171200000+0000)/
+                        PayPeriodEndDate: /Date(1573689600000+0000)/
+                        LeavePeriodStatus: SCHEDULED
+                        NumberOfUnits: 0
+                    Title: vacation
+                    StartDate: /Date(1573516800000+0000)/
+                    EndDate: /Date(1573516800000+0000)/
+                    UpdatedDateUTC: /Date(1573623008000+0000)/
+                    PayOutType: DEFAULT
+                  - LeaveApplicationID: 3b934902-1e16-4c02-a3d3-68fa7d63e01d
+                    EmployeeID: cdfb8371-0b21-4b8a-8903-1024df6c391e
+                    LeaveTypeID: 184ea8f7-d143-46dd-bef3-0c60e1aa6fca
+                    LeavePeriods:
+                      - PayPeriodStartDate: /Date(1573171200000+0000)/
+                        PayPeriodEndDate: /Date(1573689600000+0000)/
+                        LeavePeriodStatus: SCHEDULED
+                        NumberOfUnits: 8
+                    Title: Cashed Out
+                    StartDate: /Date(1573516800000+0000)/
+                    EndDate: /Date(1573516800000+0000)/
+                    UpdatedDateUTC: /Date(1573623008000+0000)/
+                    PayOutType: CASHED_OUT
+                  - LeaveApplicationID: 62b90465-66e9-4c3a-8151-de1e6335554d
+                    EmployeeID: b34e89ff-770d-4099-b7e5-f968767118bc
+                    LeaveTypeID: 184ea8f7-d143-46dd-bef3-0c60e1aa6fca
+                    LeavePeriods:
+                      - PayPeriodStartDate: /Date(1571961600000+0000)/
+                        PayPeriodEndDate: /Date(1572480000000+0000)/
+                        LeavePeriodStatus: SCHEDULED
+                        NumberOfUnits: 0
+                      - PayPeriodStartDate: /Date(1572566400000+0000)/
+                        PayPeriodEndDate: /Date(1573084800000+0000)/
+                        LeavePeriodStatus: SCHEDULED
+                        NumberOfUnits: 0
+                    Title: Yep Carer Leave
+                    Description: My updated Description
+                    StartDate: /Date(1572559200000+0000)/
+                    EndDate: /Date(1572645600000+0000)/
+                    UpdatedDateUTC: /Date(1573447344000+0000)/
+                    PayOutType: DEFAULT
+                  - LeaveApplicationID: e8bd9eeb-18c9-4475-9c81-b298f9aa26c0
+                    EmployeeID: b34e89ff-770d-4099-b7e5-f968767118bc
+                    LeaveTypeID: 184ea8f7-d143-46dd-bef3-0c60e1aa6fca
+                    LeavePeriods:
+                      - PayPeriodStartDate: /Date(1571961600000+0000)/
+                        PayPeriodEndDate: /Date(1572480000000+0000)/
+                        LeavePeriodStatus: SCHEDULED
+                        NumberOfUnits: 0
+                      - PayPeriodStartDate: /Date(1572566400000+0000)/
+                        PayPeriodEndDate: /Date(1573084800000+0000)/
+                        LeavePeriodStatus: SCHEDULED
+                        NumberOfUnits: 0
+                    Title: Hello World
+                    StartDate: /Date(1572559200000+0000)/
+                    EndDate: /Date(1572645600000+0000)/
+                    UpdatedDateUTC: /Date(1573447343000+0000)/
+                    PayOutType: DEFAULT
+        "400":
           description: validation error for a bad request
           content:
             application/json:
@@ -379,7 +622,8 @@ paths:
                 $ref: '#/components/schemas/APIException'
     post:
       security:
-        - OAuth2: [payroll.employees]
+        - OAuth2:
+            - payroll.employees
       tags:
         - PayrollAu
       summary: Creates a leave application
@@ -395,13 +639,13 @@ paths:
           is_date: true
           java_datatype: LocalDate
           csharp_datatype: DateTime
-          default: "LocalDate.of(2020, Month.OCTOBER, 28)"
-          java: "LocalDate.of(2020, Month.OCTOBER, 28)"
-          csharp: "new DateTime(2020, 10, 10)"
-          php: "new DateTime('2020-10-28')"
-          node: "'2020-10-28'"
-          python: "dateutil.parser.parse('2020-10-28T00:00:00Z')"
-          ruby: "'YYYY-MM-DD'"
+          default: LocalDate.of(2020, Month.OCTOBER, 28)
+          java: LocalDate.of(2020, Month.OCTOBER, 28)
+          csharp: new DateTime(2020, 10, 10)
+          php: new DateTime('2020-10-28')
+          node: '''2020-10-28'''
+          python: dateutil.parser.parse('2020-10-28T00:00:00Z')
+          ruby: '''YYYY-MM-DD'''
         - endDateValue:
           key: endDate
           keyPascal: EndDate
@@ -409,13 +653,13 @@ paths:
           is_date: true
           java_datatype: LocalDate
           csharp_datatype: DateTime
-          default: "LocalDate.of(2020, Month.OCTOBER, 30)"
-          java: "LocalDate.of(2020, Month.OCTOBER, 30)"
-          csharp: "new DateTime(2020, 10, 12)"
-          php: "new DateTime('2020-10-30')"
-          node: "'2020-10-30'"
-          python: "dateutil.parser.parse('2020-10-30T00:00:00Z')"
-          ruby: "'YYYY-MM-DD'"
+          default: LocalDate.of(2020, Month.OCTOBER, 30)
+          java: LocalDate.of(2020, Month.OCTOBER, 30)
+          csharp: new DateTime(2020, 10, 12)
+          php: new DateTime('2020-10-30')
+          node: '''2020-10-30'''
+          python: dateutil.parser.parse('2020-10-30T00:00:00Z')
+          ruby: '''YYYY-MM-DD'''
         - leaveApplication:
           key: leaveApplication
           keyPascal: LeaveApplication
@@ -462,14 +706,32 @@ paths:
           ruby: end_date
           object: leaveApplication
       responses:
-        '200':
+        "200":
           description: A successful request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/LeaveApplications'
-              example: {"Id": "00000000-0000-0000-0000-000000000000", "Status": "OK", "ProviderName": "provider-name", "DateTimeUTC": "/Date(1573679791917)/", "LeaveApplications": [{"LeaveApplicationID": "5f7097e4-51f2-46cc-921b-45bc73ea7831", "EmployeeID": "cdfb8371-0b21-4b8a-8903-1024df6c391e", "LeaveTypeID": "184ea8f7-d143-46dd-bef3-0c60e1aa6fca", "LeavePeriods": [{"PayPeriodStartDate": "/Date(1572566400000+0000)/", "PayPeriodEndDate": "/Date(1573084800000+0000)/", "LeavePeriodStatus": "SCHEDULED", "NumberOfUnits": 7.6}], "Title": "Hello World", "StartDate": "/Date(1572559200000+0000)/", "EndDate": "/Date(1572645600000+0000)/", "UpdatedDateUTC": "/Date(1573679791897+0000)/", "PayOutType": "DEFAULT"}]}
-        '400':
+              example:
+                Id: 00000000-0000-0000-0000-000000000000
+                Status: OK
+                ProviderName: provider-name
+                DateTimeUTC: /Date(1573679791917)/
+                LeaveApplications:
+                  - LeaveApplicationID: 5f7097e4-51f2-46cc-921b-45bc73ea7831
+                    EmployeeID: cdfb8371-0b21-4b8a-8903-1024df6c391e
+                    LeaveTypeID: 184ea8f7-d143-46dd-bef3-0c60e1aa6fca
+                    LeavePeriods:
+                      - PayPeriodStartDate: /Date(1572566400000+0000)/
+                        PayPeriodEndDate: /Date(1573084800000+0000)/
+                        LeavePeriodStatus: SCHEDULED
+                        NumberOfUnits: 7.6
+                    Title: Hello World
+                    StartDate: /Date(1572559200000+0000)/
+                    EndDate: /Date(1572645600000+0000)/
+                    UpdatedDateUTC: /Date(1573679791897+0000)/
+                    PayOutType: DEFAULT
+        "400":
           description: invalid input, object invalid - TODO
       requestBody:
         required: true
@@ -485,7 +747,9 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [payroll.employees, payroll.employees.read]
+        - OAuth2:
+            - payroll.employees
+            - payroll.employees.read
       tags:
         - PayrollAu
       operationId: getLeaveApplicationsV2
@@ -517,14 +781,93 @@ paths:
           schema:
             type: integer
       responses:
-        '200':
+        "200":
           description: search results matching criteria
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/LeaveApplications'
-              example: {"Id": "00000000-0000-0000-0000-000000000000", "Status": "OK", "ProviderName": "provider-name", "DateTimeUTC": "/Date(1573679791199)/", "LeaveApplications": [{"LeaveApplicationID": "1d4cd583-0107-4386-936b-672eb3d1f624", "EmployeeID": "cdfb8371-0b21-4b8a-8903-1024df6c391e", "LeaveTypeID": "184ea8f7-d143-46dd-bef3-0c60e1aa6fca", "LeavePeriods": [{"PayPeriodStartDate": "/Date(1573171200000+0000)/", "PayPeriodEndDate": "/Date(1573689600000+0000)/", "LeavePeriodStatus": "REQUESTED", "NumberOfUnits": 4}], "Title": "vacation", "StartDate": "/Date(1573516800000+0000)/", "EndDate": "/Date(1573516800000+0000)/", "UpdatedDateUTC": "/Date(1573623008000+0000)/", "PayOutType": "DEFAULT"}, {"LeaveApplicationID": "3b934902-1e16-4c02-a3d3-68fa7d63e01d", "EmployeeID": "cdfb8371-0b21-4b8a-8903-1024df6c391e", "LeaveTypeID": "184ea8f7-d143-46dd-bef3-0c60e1aa6fca", "LeavePeriods": [{"PayPeriodStartDate": "/Date(1573171200000+0000)/", "PayPeriodEndDate": "/Date(1573689600000+0000)/", "LeavePeriodStatus": "SCHEDULED", "NumberOfUnits": 8}], "Title": "Cashed Out", "StartDate": "/Date(1573516800000+0000)/", "EndDate": "/Date(1573516800000+0000)/", "UpdatedDateUTC": "/Date(1573623008000+0000)/", "PayOutType": "CASHED_OUT"}, {"LeaveApplicationID": "62b90465-66e9-4c3a-8151-de1e6335554d", "EmployeeID": "b34e89ff-770d-4099-b7e5-f968767118bc", "LeaveTypeID": "184ea8f7-d143-46dd-bef3-0c60e1aa6fca", "LeavePeriods": [{"PayPeriodStartDate": "/Date(1571961600000+0000)/", "PayPeriodEndDate": "/Date(1572480000000+0000)/", "LeavePeriodStatus": "SCHEDULED", "NumberOfUnits": 8}, {"PayPeriodStartDate": "/Date(1572566400000+0000)/", "PayPeriodEndDate": "/Date(1573084800000+0000)/", "LeavePeriodStatus": "SCHEDULED", "NumberOfUnits": 8}], "Title": "Yep Carer Leave", "Description": "My updated Description", "StartDate": "/Date(1572559200000+0000)/", "EndDate": "/Date(1572645600000+0000)/", "UpdatedDateUTC": "/Date(1573447344000+0000)/", "PayOutType": "DEFAULT"}, {"LeaveApplicationID": "e8bd9eeb-18c9-4475-9c81-b298f9aa26c0", "EmployeeID": "b34e89ff-770d-4099-b7e5-f968767118bc", "LeaveTypeID": "184ea8f7-d143-46dd-bef3-0c60e1aa6fca", "LeavePeriods": [{"PayPeriodStartDate": "/Date(1571961600000+0000)/", "PayPeriodEndDate": "/Date(1572480000000+0000)/", "LeavePeriodStatus": "PROCESSED", "NumberOfUnits": 8}, {"PayPeriodStartDate": "/Date(1572566400000+0000)/", "PayPeriodEndDate": "/Date(1573084800000+0000)/", "LeavePeriodStatus": "SCHEDULED", "NumberOfUnits": 8}], "Title": "Hello World", "StartDate": "/Date(1572559200000+0000)/", "EndDate": "/Date(1572645600000+0000)/", "UpdatedDateUTC": "/Date(1573447343000+0000)/", "PayOutType": "DEFAULT"}, {"LeaveApplicationID": "3f93110a-df13-49c7-b82f-a069813df188", "EmployeeID": "cdfb8371-0b21-4b8a-8903-1024df6c391e", "LeaveTypeID": "184ea8f7-d143-46dd-bef3-0c60e1aa6fca", "LeavePeriods": [{"PayPeriodStartDate": "/Date(1573171200000+0000)/", "PayPeriodEndDate": "/Date(1573689600000+0000)/", "LeavePeriodStatus": "REJECTED", "NumberOfUnits": 8}], "Title": "vacation", "StartDate": "/Date(1573516800000+0000)/", "EndDate": "/Date(1573516800000+0000)/", "UpdatedDateUTC": "/Date(1573623008000+0000)/", "PayOutType": "DEFAULT"}]}
-        '400':
+              example:
+                Id: 00000000-0000-0000-0000-000000000000
+                Status: OK
+                ProviderName: provider-name
+                DateTimeUTC: /Date(1573679791199)/
+                LeaveApplications:
+                  - LeaveApplicationID: 1d4cd583-0107-4386-936b-672eb3d1f624
+                    EmployeeID: cdfb8371-0b21-4b8a-8903-1024df6c391e
+                    LeaveTypeID: 184ea8f7-d143-46dd-bef3-0c60e1aa6fca
+                    LeavePeriods:
+                      - PayPeriodStartDate: /Date(1573171200000+0000)/
+                        PayPeriodEndDate: /Date(1573689600000+0000)/
+                        LeavePeriodStatus: REQUESTED
+                        NumberOfUnits: 4
+                    Title: vacation
+                    StartDate: /Date(1573516800000+0000)/
+                    EndDate: /Date(1573516800000+0000)/
+                    UpdatedDateUTC: /Date(1573623008000+0000)/
+                    PayOutType: DEFAULT
+                  - LeaveApplicationID: 3b934902-1e16-4c02-a3d3-68fa7d63e01d
+                    EmployeeID: cdfb8371-0b21-4b8a-8903-1024df6c391e
+                    LeaveTypeID: 184ea8f7-d143-46dd-bef3-0c60e1aa6fca
+                    LeavePeriods:
+                      - PayPeriodStartDate: /Date(1573171200000+0000)/
+                        PayPeriodEndDate: /Date(1573689600000+0000)/
+                        LeavePeriodStatus: SCHEDULED
+                        NumberOfUnits: 8
+                    Title: Cashed Out
+                    StartDate: /Date(1573516800000+0000)/
+                    EndDate: /Date(1573516800000+0000)/
+                    UpdatedDateUTC: /Date(1573623008000+0000)/
+                    PayOutType: CASHED_OUT
+                  - LeaveApplicationID: 62b90465-66e9-4c3a-8151-de1e6335554d
+                    EmployeeID: b34e89ff-770d-4099-b7e5-f968767118bc
+                    LeaveTypeID: 184ea8f7-d143-46dd-bef3-0c60e1aa6fca
+                    LeavePeriods:
+                      - PayPeriodStartDate: /Date(1571961600000+0000)/
+                        PayPeriodEndDate: /Date(1572480000000+0000)/
+                        LeavePeriodStatus: SCHEDULED
+                        NumberOfUnits: 8
+                      - PayPeriodStartDate: /Date(1572566400000+0000)/
+                        PayPeriodEndDate: /Date(1573084800000+0000)/
+                        LeavePeriodStatus: SCHEDULED
+                        NumberOfUnits: 8
+                    Title: Yep Carer Leave
+                    Description: My updated Description
+                    StartDate: /Date(1572559200000+0000)/
+                    EndDate: /Date(1572645600000+0000)/
+                    UpdatedDateUTC: /Date(1573447344000+0000)/
+                    PayOutType: DEFAULT
+                  - LeaveApplicationID: e8bd9eeb-18c9-4475-9c81-b298f9aa26c0
+                    EmployeeID: b34e89ff-770d-4099-b7e5-f968767118bc
+                    LeaveTypeID: 184ea8f7-d143-46dd-bef3-0c60e1aa6fca
+                    LeavePeriods:
+                      - PayPeriodStartDate: /Date(1571961600000+0000)/
+                        PayPeriodEndDate: /Date(1572480000000+0000)/
+                        LeavePeriodStatus: PROCESSED
+                        NumberOfUnits: 8
+                      - PayPeriodStartDate: /Date(1572566400000+0000)/
+                        PayPeriodEndDate: /Date(1573084800000+0000)/
+                        LeavePeriodStatus: SCHEDULED
+                        NumberOfUnits: 8
+                    Title: Hello World
+                    StartDate: /Date(1572559200000+0000)/
+                    EndDate: /Date(1572645600000+0000)/
+                    UpdatedDateUTC: /Date(1573447343000+0000)/
+                    PayOutType: DEFAULT
+                  - LeaveApplicationID: 3f93110a-df13-49c7-b82f-a069813df188
+                    EmployeeID: cdfb8371-0b21-4b8a-8903-1024df6c391e
+                    LeaveTypeID: 184ea8f7-d143-46dd-bef3-0c60e1aa6fca
+                    LeavePeriods:
+                      - PayPeriodStartDate: /Date(1573171200000+0000)/
+                        PayPeriodEndDate: /Date(1573689600000+0000)/
+                        LeavePeriodStatus: REJECTED
+                        NumberOfUnits: 8
+                    Title: vacation
+                    StartDate: /Date(1573516800000+0000)/
+                    EndDate: /Date(1573516800000+0000)/
+                    UpdatedDateUTC: /Date(1573623008000+0000)/
+                    PayOutType: DEFAULT
+        "400":
           description: validation error for a bad request
           content:
             application/json:
@@ -535,7 +878,9 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [payroll.employees, payroll.employees.read]
+        - OAuth2:
+            - payroll.employees
+            - payroll.employees.read
       tags:
         - PayrollAu
       summary: Retrieves a leave application by a unique leave application id
@@ -551,16 +896,35 @@ paths:
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
       responses:
-        '200':
+        "200":
           description: search results matching criteria
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/LeaveApplications'
-              example: {"Id": "00000000-0000-0000-0000-000000000000", "Status": "OK", "ProviderName": "provider-name", "DateTimeUTC": "/Date(1573679791457)/", "LeaveApplications": [{"LeaveApplicationID": "1d4cd583-0107-4386-936b-672eb3d1f624", "EmployeeID": "cdfb8371-0b21-4b8a-8903-1024df6c391e", "LeaveTypeID": "184ea8f7-d143-46dd-bef3-0c60e1aa6fca", "LeavePeriods": [{"PayPeriodStartDate": "/Date(1573171200000+0000)/", "PayPeriodEndDate": "/Date(1573689600000+0000)/", "LeavePeriodStatus": "SCHEDULED", "NumberOfUnits": 7.6}], "Title": "vacation", "StartDate": "/Date(1573516800000+0000)/", "EndDate": "/Date(1573516800000+0000)/", "UpdatedDateUTC": "/Date(1573623008000+0000)/", "PayOutType": "DEFAULT"}]}
+              example:
+                Id: 00000000-0000-0000-0000-000000000000
+                Status: OK
+                ProviderName: provider-name
+                DateTimeUTC: /Date(1573679791457)/
+                LeaveApplications:
+                  - LeaveApplicationID: 1d4cd583-0107-4386-936b-672eb3d1f624
+                    EmployeeID: cdfb8371-0b21-4b8a-8903-1024df6c391e
+                    LeaveTypeID: 184ea8f7-d143-46dd-bef3-0c60e1aa6fca
+                    LeavePeriods:
+                      - PayPeriodStartDate: /Date(1573171200000+0000)/
+                        PayPeriodEndDate: /Date(1573689600000+0000)/
+                        LeavePeriodStatus: SCHEDULED
+                        NumberOfUnits: 7.6
+                    Title: vacation
+                    StartDate: /Date(1573516800000+0000)/
+                    EndDate: /Date(1573516800000+0000)/
+                    UpdatedDateUTC: /Date(1573623008000+0000)/
+                    PayOutType: DEFAULT
     post:
       security:
-        - OAuth2: [payroll.employees]
+        - OAuth2:
+            - payroll.employees
       tags:
         - PayrollAu
       summary: Updates a specific leave application
@@ -573,13 +937,13 @@ paths:
           is_date: true
           java_datatype: LocalDate
           csharp_datatype: DateTime
-          default: "LocalDate.of(2020, Month.OCTOBER, 28)"
-          java: "LocalDate.of(2020, Month.OCTOBER, 28)"
-          csharp: "new DateTime(2020, 10, 10)"
-          php: "new DateTime('2020-10-28')"
-          node: "'2020-10-28'"
-          python: "dateutil.parser.parse('2020-10-28T00:00:00Z')"
-          ruby: "'YYYY-MM-DD'"
+          default: LocalDate.of(2020, Month.OCTOBER, 28)
+          java: LocalDate.of(2020, Month.OCTOBER, 28)
+          csharp: new DateTime(2020, 10, 10)
+          php: new DateTime('2020-10-28')
+          node: '''2020-10-28'''
+          python: dateutil.parser.parse('2020-10-28T00:00:00Z')
+          ruby: '''YYYY-MM-DD'''
         - endDateValue:
           key: endDate
           keyPascal: EndDate
@@ -587,13 +951,13 @@ paths:
           is_date: true
           java_datatype: LocalDate
           csharp_datatype: DateTime
-          default: "LocalDate.of(2020, Month.OCTOBER, 30)"
-          java: "LocalDate.of(2020, Month.OCTOBER, 30)"
-          csharp: "new DateTime(2020, 10, 12)"
-          php: "new DateTime('2020-10-30')"
-          node: "'2020-10-30'"
-          python: "dateutil.parser.parse('2020-10-30T00:00:00Z')"
-          ruby: "'YYYY-MM-DD'"
+          default: LocalDate.of(2020, Month.OCTOBER, 30)
+          java: LocalDate.of(2020, Month.OCTOBER, 30)
+          csharp: new DateTime(2020, 10, 12)
+          php: new DateTime('2020-10-30')
+          node: '''2020-10-30'''
+          python: dateutil.parser.parse('2020-10-30T00:00:00Z')
+          ruby: '''YYYY-MM-DD'''
         - leaveApplication:
           key: leaveApplication
           keyPascal: LeaveApplication
@@ -651,14 +1015,33 @@ paths:
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
       responses:
-        '200':
+        "200":
           description: A successful request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/LeaveApplications'
-              example: {"Id": "00000000-0000-0000-0000-000000000000", "Status": "OK", "ProviderName": "3f93110a-df13-49c7-b82f-a069813df188", "DateTimeUTC": "/Date(1573679792293)/", "LeaveApplications": [{"LeaveApplicationID": "1d4cd583-0107-4386-936b-672eb3d1f624", "EmployeeID": "cdfb8371-0b21-4b8a-8903-1024df6c391e", "LeaveTypeID": "184ea8f7-d143-46dd-bef3-0c60e1aa6fca", "LeavePeriods": [{"PayPeriodStartDate": "/Date(1572566400000+0000)/", "PayPeriodEndDate": "/Date(1573084800000+0000)/", "LeavePeriodStatus": "SCHEDULED", "NumberOfUnits": 7.6}], "Title": "vacation", "Description": "My updated Description", "StartDate": "/Date(1572559200000+0000)/", "EndDate": "/Date(1572645600000+0000)/", "UpdatedDateUTC": "/Date(1573679792293+0000)/", "PayOutType": "DEFAULT"}]}
-        '400':
+              example:
+                Id: 00000000-0000-0000-0000-000000000000
+                Status: OK
+                ProviderName: 3f93110a-df13-49c7-b82f-a069813df188
+                DateTimeUTC: /Date(1573679792293)/
+                LeaveApplications:
+                  - LeaveApplicationID: 1d4cd583-0107-4386-936b-672eb3d1f624
+                    EmployeeID: cdfb8371-0b21-4b8a-8903-1024df6c391e
+                    LeaveTypeID: 184ea8f7-d143-46dd-bef3-0c60e1aa6fca
+                    LeavePeriods:
+                      - PayPeriodStartDate: /Date(1572566400000+0000)/
+                        PayPeriodEndDate: /Date(1573084800000+0000)/
+                        LeavePeriodStatus: SCHEDULED
+                        NumberOfUnits: 7.6
+                    Title: vacation
+                    Description: My updated Description
+                    StartDate: /Date(1572559200000+0000)/
+                    EndDate: /Date(1572645600000+0000)/
+                    UpdatedDateUTC: /Date(1573679792293+0000)/
+                    PayOutType: DEFAULT
+        "400":
           description: invalid input, object invalid - TODO
       requestBody:
         required: true
@@ -674,7 +1057,8 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     post:
       security:
-        - OAuth2: [payroll.employees]
+        - OAuth2:
+            - payroll.employees
       tags:
         - PayrollAu
       summary: Approve a requested leave application by a unique leave application id
@@ -691,14 +1075,32 @@ paths:
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
       responses:
-        '200':
+        "200":
           description: Application successfully approved
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/LeaveApplications'
-              example: {"Id": "00000000-0000-0000-0000-000000000000", "Status": "OK", "ProviderName": "provider-name", "DateTimeUTC": "/Date(1573679791457)/", "LeaveApplications": [{"LeaveApplicationID": "1d4cd583-0107-4386-936b-672eb3d1f624", "EmployeeID": "cdfb8371-0b21-4b8a-8903-1024df6c391e", "LeaveTypeID": "184ea8f7-d143-46dd-bef3-0c60e1aa6fca", "LeavePeriods": [{"PayPeriodStartDate": "/Date(1573171200000+0000)/", "PayPeriodEndDate": "/Date(1573689600000+0000)/", "LeavePeriodStatus": "SCHEDULED", "NumberOfUnits": 7.6}], "Title": "Requested Leave", "StartDate": "/Date(1573516800000+0000)/", "EndDate": "/Date(1573516800000+0000)/", "UpdatedDateUTC": "/Date(1573623008000+0000)/", "PayOutType": "DEFAULT"}]}
-        '400':
+              example:
+                Id: 00000000-0000-0000-0000-000000000000
+                Status: OK
+                ProviderName: provider-name
+                DateTimeUTC: /Date(1573679791457)/
+                LeaveApplications:
+                  - LeaveApplicationID: 1d4cd583-0107-4386-936b-672eb3d1f624
+                    EmployeeID: cdfb8371-0b21-4b8a-8903-1024df6c391e
+                    LeaveTypeID: 184ea8f7-d143-46dd-bef3-0c60e1aa6fca
+                    LeavePeriods:
+                      - PayPeriodStartDate: /Date(1573171200000+0000)/
+                        PayPeriodEndDate: /Date(1573689600000+0000)/
+                        LeavePeriodStatus: SCHEDULED
+                        NumberOfUnits: 7.6
+                    Title: Requested Leave
+                    StartDate: /Date(1573516800000+0000)/
+                    EndDate: /Date(1573516800000+0000)/
+                    UpdatedDateUTC: /Date(1573623008000+0000)/
+                    PayOutType: DEFAULT
+        "400":
           description: validation error for a bad request
           content:
             application/json:
@@ -709,7 +1111,8 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     post:
       security:
-        - OAuth2: [payroll.employees]
+        - OAuth2:
+            - payroll.employees
       tags:
         - PayrollAu
       summary: Reject a leave application by a unique leave application id
@@ -726,14 +1129,32 @@ paths:
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
       responses:
-        '200':
+        "200":
           description: Application successfully rejected
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/LeaveApplications'
-              example: {"Id": "00000000-0000-0000-0000-000000000000", "Status": "OK", "ProviderName": "provider-name", "DateTimeUTC": "/Date(1573679791457)/", "LeaveApplications": [{"LeaveApplicationID": "1d4cd583-0107-4386-936b-672eb3d1f624", "EmployeeID": "cdfb8371-0b21-4b8a-8903-1024df6c391e", "LeaveTypeID": "184ea8f7-d143-46dd-bef3-0c60e1aa6fca", "LeavePeriods": [{"PayPeriodStartDate": "/Date(1573171200000+0000)/", "PayPeriodEndDate": "/Date(1573689600000+0000)/", "LeavePeriodStatus": "REJECTED", "NumberOfUnits": 7.6}], "Title": "Requested Leave", "StartDate": "/Date(1573516800000+0000)/", "EndDate": "/Date(1573516800000+0000)/", "UpdatedDateUTC": "/Date(1573623008000+0000)/", "PayOutType": "DEFAULT"}]}
-        '400':
+              example:
+                Id: 00000000-0000-0000-0000-000000000000
+                Status: OK
+                ProviderName: provider-name
+                DateTimeUTC: /Date(1573679791457)/
+                LeaveApplications:
+                  - LeaveApplicationID: 1d4cd583-0107-4386-936b-672eb3d1f624
+                    EmployeeID: cdfb8371-0b21-4b8a-8903-1024df6c391e
+                    LeaveTypeID: 184ea8f7-d143-46dd-bef3-0c60e1aa6fca
+                    LeavePeriods:
+                      - PayPeriodStartDate: /Date(1573171200000+0000)/
+                        PayPeriodEndDate: /Date(1573689600000+0000)/
+                        LeavePeriodStatus: REJECTED
+                        NumberOfUnits: 7.6
+                    Title: Requested Leave
+                    StartDate: /Date(1573516800000+0000)/
+                    EndDate: /Date(1573516800000+0000)/
+                    UpdatedDateUTC: /Date(1573623008000+0000)/
+                    PayOutType: DEFAULT
+        "400":
           description: validation error for a bad request
           content:
             application/json:
@@ -744,7 +1165,9 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [payroll.settings, payroll.settings.read]
+        - OAuth2:
+            - payroll.settings
+            - payroll.settings.read
       tags:
         - PayrollAu
       operationId: getPayItems
@@ -776,14 +1199,127 @@ paths:
           schema:
             type: integer
       responses:
-        '200':
+        "200":
           description: search results matching criteria
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/PayItems'
-              example: {"Id": "00000000-0000-0000-0000-000000000000", "Status": "OK", "ProviderName": "provider-name", "DateTimeUTC": "/Date(1573620869531)/", "PayItems": {"EarningsRates": [{"EarningsRateID": "ab874dfb-ab09-4c91-954e-43acf6fc23b4", "Name": "Ordinary Hours", "EarningsType": "ORDINARYTIMEEARNINGS", "RateType": "RATEPERUNIT", "AccountCode": "477", "TypeOfUnits": "Hours", "RatePerUnit": 3, "IsExemptFromTax": true, "IsExemptFromSuper": true, "IsReportableAsW1": true, "AllowanceContributesToAnnualLeaveRate": false, "AllowanceContributesToOvertimeRate": false, "UpdatedDateUTC": "/Date(1573620821000+0000)/", "CurrentRecord": true}, {"EarningsRateID": "dc3ff92e-0e49-4967-aa4b-0bb21c0594ce", "Name": "Overtime Hours (exempt from super)", "EarningsType": "OVERTIMEEARNINGS", "RateType": "RATEPERUNIT", "AccountCode": "477", "TypeOfUnits": "Hours", "IsExemptFromTax": false, "IsExemptFromSuper": true, "IsReportableAsW1": false, "AllowanceContributesToAnnualLeaveRate": false, "AllowanceContributesToOvertimeRate": false, "UpdatedDateUTC": "/Date(1547500330000+0000)/", "CurrentRecord": true}, {"EarningsRateID": "f59999ca-cd5c-4a54-a381-2d0c817f0c3e", "Name": "Redundancy", "EarningsType": "LUMPSUMD", "RateType": "FIXEDAMOUNT", "AccountCode": "477", "IsExemptFromTax": true, "IsExemptFromSuper": true, "IsReportableAsW1": true, "AllowanceContributesToAnnualLeaveRate": false, "AllowanceContributesToOvertimeRate": false, "UpdatedDateUTC": "/Date(1547500330000+0000)/", "CurrentRecord": true}, {"EarningsRateID": "c97dafac-9d99-406f-9f6c-abfaf81c527d", "Name": "ETP Leave Earning", "EarningsType": "EMPLOYMENTTERMINATIONPAYMENT", "RateType": "RATEPERUNIT", "AccountCode": "477", "TypeOfUnits": "Hours", "IsExemptFromTax": false, "IsExemptFromSuper": true, "IsReportableAsW1": true, "AllowanceContributesToAnnualLeaveRate": false, "AllowanceContributesToOvertimeRate": false, "UpdatedDateUTC": "/Date(1573620791000+0000)/", "EmploymentTerminationPaymentType": "O", "CurrentRecord": true}], "DeductionTypes": [{"DeductionTypeID": "727af5e8-b347-4ae7-85fc-9b82266d0aec", "DeductionCategory": "UNIONFEES", "Name": "Union Fees/Subscriptions", "AccountCode": "850", "ReducesTax": false, "ReducesSuper": false, "IsExemptFromW1": false, "UpdatedDateUTC": "/Date(1547500330000+0000)/", "CurrentRecord": true}, {"DeductionTypeID": "04191cd3-7952-4a87-9911-9d8575280f6a", "DeductionCategory": "NONE", "Name": "Lease Payments", "AccountCode": "850", "ReducesTax": true, "ReducesSuper": true, "IsExemptFromW1": false, "UpdatedDateUTC": "/Date(1547500330000+0000)/", "CurrentRecord": true}], "ReimbursementTypes": [{"ReimbursementTypeID": "98ba33b2-db5b-4204-bcac-5ddd98d63524", "Name": "Travel Costs", "AccountCode": "850", "UpdatedDateUTC": "/Date(1547500330000+0000)/", "CurrentRecord": true}, {"ReimbursementTypeID": "aa8cfa40-d872-4be0-8a94-bb7f00962f74", "Name": "Other Reimbursable Costs", "AccountCode": "850", "UpdatedDateUTC": "/Date(1547500330000+0000)/", "CurrentRecord": true}], "LeaveTypes": [{"LeaveTypeID": "fbcc9dab-6238-43d9-a3f4-d768423fdcfa", "Name": "Annual Leave", "TypeOfUnits": "Hours", "NormalEntitlement": 152, "LeaveLoadingRate": 1.0, "IsPaidLeave": true, "ShowOnPayslip": true, "UpdatedDateUTC": "/Date(1573620853000+0000)/", "CurrentRecord": true}, {"LeaveTypeID": "74195ab2-1f2b-4136-8ddc-20387a0b1027", "Name": "Long Service Leave", "TypeOfUnits": "Hours", "IsPaidLeave": true, "ShowOnPayslip": false, "UpdatedDateUTC": "/Date(1547500330000+0000)/", "CurrentRecord": true}, {"LeaveTypeID": "ff4d16da-ae8a-4f57-acb3-9ee593996bce", "Name": "Parental Leave (unpaid)", "TypeOfUnits": "Hours", "IsPaidLeave": false, "ShowOnPayslip": false, "UpdatedDateUTC": "/Date(1547500330000+0000)/", "CurrentRecord": true}]}}
-        '400':
+              example:
+                Id: 00000000-0000-0000-0000-000000000000
+                Status: OK
+                ProviderName: provider-name
+                DateTimeUTC: /Date(1573620869531)/
+                PayItems:
+                  EarningsRates:
+                    - EarningsRateID: ab874dfb-ab09-4c91-954e-43acf6fc23b4
+                      Name: Ordinary Hours
+                      EarningsType: ORDINARYTIMEEARNINGS
+                      RateType: RATEPERUNIT
+                      AccountCode: "477"
+                      TypeOfUnits: Hours
+                      RatePerUnit: 3
+                      IsExemptFromTax: true
+                      IsExemptFromSuper: true
+                      IsReportableAsW1: true
+                      AllowanceContributesToAnnualLeaveRate: false
+                      AllowanceContributesToOvertimeRate: false
+                      UpdatedDateUTC: /Date(1573620821000+0000)/
+                      CurrentRecord: true
+                    - EarningsRateID: dc3ff92e-0e49-4967-aa4b-0bb21c0594ce
+                      Name: Overtime Hours (exempt from super)
+                      EarningsType: OVERTIMEEARNINGS
+                      RateType: RATEPERUNIT
+                      AccountCode: "477"
+                      TypeOfUnits: Hours
+                      IsExemptFromTax: false
+                      IsExemptFromSuper: true
+                      IsReportableAsW1: false
+                      AllowanceContributesToAnnualLeaveRate: false
+                      AllowanceContributesToOvertimeRate: false
+                      UpdatedDateUTC: /Date(1547500330000+0000)/
+                      CurrentRecord: true
+                    - EarningsRateID: f59999ca-cd5c-4a54-a381-2d0c817f0c3e
+                      Name: Redundancy
+                      EarningsType: LUMPSUMD
+                      RateType: FIXEDAMOUNT
+                      AccountCode: "477"
+                      IsExemptFromTax: true
+                      IsExemptFromSuper: true
+                      IsReportableAsW1: true
+                      AllowanceContributesToAnnualLeaveRate: false
+                      AllowanceContributesToOvertimeRate: false
+                      UpdatedDateUTC: /Date(1547500330000+0000)/
+                      CurrentRecord: true
+                    - EarningsRateID: c97dafac-9d99-406f-9f6c-abfaf81c527d
+                      Name: ETP Leave Earning
+                      EarningsType: EMPLOYMENTTERMINATIONPAYMENT
+                      RateType: RATEPERUNIT
+                      AccountCode: "477"
+                      TypeOfUnits: Hours
+                      IsExemptFromTax: false
+                      IsExemptFromSuper: true
+                      IsReportableAsW1: true
+                      AllowanceContributesToAnnualLeaveRate: false
+                      AllowanceContributesToOvertimeRate: false
+                      UpdatedDateUTC: /Date(1573620791000+0000)/
+                      EmploymentTerminationPaymentType: O
+                      CurrentRecord: true
+                  DeductionTypes:
+                    - DeductionTypeID: 727af5e8-b347-4ae7-85fc-9b82266d0aec
+                      DeductionCategory: UNIONFEES
+                      Name: Union Fees/Subscriptions
+                      AccountCode: "850"
+                      ReducesTax: false
+                      ReducesSuper: false
+                      IsExemptFromW1: false
+                      UpdatedDateUTC: /Date(1547500330000+0000)/
+                      CurrentRecord: true
+                    - DeductionTypeID: 04191cd3-7952-4a87-9911-9d8575280f6a
+                      DeductionCategory: NONE
+                      Name: Lease Payments
+                      AccountCode: "850"
+                      ReducesTax: true
+                      ReducesSuper: true
+                      IsExemptFromW1: false
+                      UpdatedDateUTC: /Date(1547500330000+0000)/
+                      CurrentRecord: true
+                  ReimbursementTypes:
+                    - ReimbursementTypeID: 98ba33b2-db5b-4204-bcac-5ddd98d63524
+                      Name: Travel Costs
+                      AccountCode: "850"
+                      UpdatedDateUTC: /Date(1547500330000+0000)/
+                      CurrentRecord: true
+                    - ReimbursementTypeID: aa8cfa40-d872-4be0-8a94-bb7f00962f74
+                      Name: Other Reimbursable Costs
+                      AccountCode: "850"
+                      UpdatedDateUTC: /Date(1547500330000+0000)/
+                      CurrentRecord: true
+                  LeaveTypes:
+                    - LeaveTypeID: fbcc9dab-6238-43d9-a3f4-d768423fdcfa
+                      Name: Annual Leave
+                      TypeOfUnits: Hours
+                      NormalEntitlement: 152
+                      LeaveLoadingRate: 1.0
+                      IsPaidLeave: true
+                      ShowOnPayslip: true
+                      UpdatedDateUTC: /Date(1573620853000+0000)/
+                      CurrentRecord: true
+                    - LeaveTypeID: 74195ab2-1f2b-4136-8ddc-20387a0b1027
+                      Name: Long Service Leave
+                      TypeOfUnits: Hours
+                      IsPaidLeave: true
+                      ShowOnPayslip: false
+                      UpdatedDateUTC: /Date(1547500330000+0000)/
+                      CurrentRecord: true
+                    - LeaveTypeID: ff4d16da-ae8a-4f57-acb3-9ee593996bce
+                      Name: Parental Leave (unpaid)
+                      TypeOfUnits: Hours
+                      IsPaidLeave: false
+                      ShowOnPayslip: false
+                      UpdatedDateUTC: /Date(1547500330000+0000)/
+                      CurrentRecord: true
+        "400":
           description: validation error for a bad request
           content:
             application/json:
@@ -791,7 +1327,8 @@ paths:
                 $ref: '#/components/schemas/APIException'
     post:
       security:
-        - OAuth2: [payroll.settings]
+        - OAuth2:
+            - payroll.settings
       tags:
         - PayrollAu
       summary: Creates a pay item
@@ -1034,14 +1571,60 @@ paths:
           object: payItem
           is_last: true
       responses:
-        '200':
+        "200":
           description: A successful request - currently returns empty array for JSON
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/PayItems'
-              example: {"Id": "00000000-0000-0000-0000-000000000000", "Status": "OK", "ProviderName": "provider-name", "DateTimeUTC": "/Date(1593448963288)/", "PayItems": {"EarningsRates": [{"EarningsRateID": "1fa4e226-b711-46ba-a8a7-4344c9c5fb87", "Name": "MyRate", "EarningsType": "ORDINARYTIMEEARNINGS", "RateType": "MULTIPLE", "AccountCode": "400", "Multiplier": 1.5, "IsExemptFromTax": true, "IsExemptFromSuper": true, "AccrueLeave": false, "IsReportableAsW1": false, "AllowanceContributesToAnnualLeaveRate": false, "AllowanceContributesToOvertimeRate": false, "UpdatedDateUTC": "/Date(1593448963210+0000)/", "CurrentRecord": true}, {"EarningsRateID": "c6905c26-0716-4746-9098-608545e04dd2", "Name": "Redundancy", "EarningsType": "LUMPSUMD", "RateType": "FIXEDAMOUNT", "AccountCode": "477", "IsExemptFromTax": true, "IsExemptFromSuper": true, "IsReportableAsW1": true, "AllowanceContributesToAnnualLeaveRate": false, "AllowanceContributesToOvertimeRate": false, "UpdatedDateUTC": "/Date(1476729649000+0000)/", "CurrentRecord": true}, {"EarningsRateID": "33820094-656e-4db3-b04b-8bd3e2db0a9b", "Name": "ETP Leave Earning", "EarningsType": "EMPLOYMENTTERMINATIONPAYMENT", "RateType": "RATEPERUNIT", "AccountCode": "477", "TypeOfUnits": "Hours", "IsExemptFromTax": false, "IsExemptFromSuper": true, "IsReportableAsW1": true, "AllowanceContributesToAnnualLeaveRate": false, "AllowanceContributesToOvertimeRate": false, "UpdatedDateUTC": "/Date(1520900705000+0000)/", "EmploymentTerminationPaymentType": "O", "CurrentRecord": true}]}}
-        '400':
+              example:
+                Id: 00000000-0000-0000-0000-000000000000
+                Status: OK
+                ProviderName: provider-name
+                DateTimeUTC: /Date(1593448963288)/
+                PayItems:
+                  EarningsRates:
+                    - EarningsRateID: 1fa4e226-b711-46ba-a8a7-4344c9c5fb87
+                      Name: MyRate
+                      EarningsType: ORDINARYTIMEEARNINGS
+                      RateType: MULTIPLE
+                      AccountCode: "400"
+                      Multiplier: 1.5
+                      IsExemptFromTax: true
+                      IsExemptFromSuper: true
+                      AccrueLeave: false
+                      IsReportableAsW1: false
+                      AllowanceContributesToAnnualLeaveRate: false
+                      AllowanceContributesToOvertimeRate: false
+                      UpdatedDateUTC: /Date(1593448963210+0000)/
+                      CurrentRecord: true
+                    - EarningsRateID: c6905c26-0716-4746-9098-608545e04dd2
+                      Name: Redundancy
+                      EarningsType: LUMPSUMD
+                      RateType: FIXEDAMOUNT
+                      AccountCode: "477"
+                      IsExemptFromTax: true
+                      IsExemptFromSuper: true
+                      IsReportableAsW1: true
+                      AllowanceContributesToAnnualLeaveRate: false
+                      AllowanceContributesToOvertimeRate: false
+                      UpdatedDateUTC: /Date(1476729649000+0000)/
+                      CurrentRecord: true
+                    - EarningsRateID: 33820094-656e-4db3-b04b-8bd3e2db0a9b
+                      Name: ETP Leave Earning
+                      EarningsType: EMPLOYMENTTERMINATIONPAYMENT
+                      RateType: RATEPERUNIT
+                      AccountCode: "477"
+                      TypeOfUnits: Hours
+                      IsExemptFromTax: false
+                      IsExemptFromSuper: true
+                      IsReportableAsW1: true
+                      AllowanceContributesToAnnualLeaveRate: false
+                      AllowanceContributesToOvertimeRate: false
+                      UpdatedDateUTC: /Date(1520900705000+0000)/
+                      EmploymentTerminationPaymentType: O
+                      CurrentRecord: true
+        "400":
           description: invalid input, object invalid - TODO
       requestBody:
         required: true
@@ -1049,13 +1632,31 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/PayItem'
-            example: {"EarningsRates": [{"Name": "MyRate", "AccountCode": "400", "TypeOfUnits": "4.00", "IsExemptFromTax": true, "IsExemptFromSuper": true, "IsReportableAsW1": false, "AllowanceContributesToAnnualLeaveRate": false, "AllowanceContributesToOvertimeRate": false, "EarningsType": "ORDINARYTIMEEARNINGS", "EarningsRateID": "1fa4e226-b711-46ba-a8a7-4344c9c5fb87", "RateType": "MULTIPLE", "RatePerUnit": "10.0", "Multiplier": 1.5, "Amount": 5, "EmploymentTerminationPaymentType": "O"}]}
+            example:
+              EarningsRates:
+                - Name: MyRate
+                  AccountCode: "400"
+                  TypeOfUnits: "4.00"
+                  IsExemptFromTax: true
+                  IsExemptFromSuper: true
+                  IsReportableAsW1: false
+                  AllowanceContributesToAnnualLeaveRate: false
+                  AllowanceContributesToOvertimeRate: false
+                  EarningsType: ORDINARYTIMEEARNINGS
+                  EarningsRateID: 1fa4e226-b711-46ba-a8a7-4344c9c5fb87
+                  RateType: MULTIPLE
+                  RatePerUnit: "10.0"
+                  Multiplier: 1.5
+                  Amount: 5
+                  EmploymentTerminationPaymentType: O
   /PayrollCalendars:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [payroll.settings, payroll.settings.read]
+        - OAuth2:
+            - payroll.settings
+            - payroll.settings.read
       tags:
         - PayrollAu
       operationId: getPayrollCalendars
@@ -1087,14 +1688,33 @@ paths:
           schema:
             type: integer
       responses:
-        '200':
+        "200":
           description: search results matching criteria
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/PayrollCalendars'
-              example: {"Id": "00000000-0000-0000-0000-000000000000", "Status": "OK", "ProviderName": "provider-name", "DateTimeUTC": "/Date(1573611063408)/", "PayrollCalendars": [{"PayrollCalendarID": "78bb86b9-e1ea-47ac-b75d-f087a81931de", "Name": "Sid Weekly", "CalendarType": "WEEKLY", "StartDate": "/Date(1573171200000+0000)/", "PaymentDate": "/Date(1573776000000+0000)/", "UpdatedDateUTC": "/Date(1573077687000+0000)/", "ReferenceDate": "/Date(1573171200000+0000)/"}, {"PayrollCalendarID": "22a05fc5-386d-4950-9842-3e7a6c812135", "Name": "Weekly", "CalendarType": "WEEKLY", "StartDate": "/Date(1546560000000+0000)/", "PaymentDate": "/Date(1547164800000+0000)/", "UpdatedDateUTC": "/Date(1572916157000+0000)/", "ReferenceDate": "/Date(1573171200000+0000)/"}]}
-        '400':
+              example:
+                Id: 00000000-0000-0000-0000-000000000000
+                Status: OK
+                ProviderName: provider-name
+                DateTimeUTC: /Date(1573611063408)/
+                PayrollCalendars:
+                  - PayrollCalendarID: 78bb86b9-e1ea-47ac-b75d-f087a81931de
+                    Name: Sid Weekly
+                    CalendarType: WEEKLY
+                    StartDate: /Date(1573171200000+0000)/
+                    PaymentDate: /Date(1573776000000+0000)/
+                    UpdatedDateUTC: /Date(1573077687000+0000)/
+                    ReferenceDate: /Date(1573171200000+0000)/
+                  - PayrollCalendarID: 22a05fc5-386d-4950-9842-3e7a6c812135
+                    Name: Weekly
+                    CalendarType: WEEKLY
+                    StartDate: /Date(1546560000000+0000)/
+                    PaymentDate: /Date(1547164800000+0000)/
+                    UpdatedDateUTC: /Date(1572916157000+0000)/
+                    ReferenceDate: /Date(1573171200000+0000)/
+        "400":
           description: validation error for a bad request
           content:
             application/json:
@@ -1102,7 +1722,8 @@ paths:
                 $ref: '#/components/schemas/APIException'
     post:
       security:
-        - OAuth2: [payroll.settings]
+        - OAuth2:
+            - payroll.settings
       tags:
         - PayrollAu
       summary: Creates a Payroll Calendar
@@ -1118,13 +1739,13 @@ paths:
           is_date: true
           java_datatype: LocalDate
           csharp_datatype: DateTime
-          default: "LocalDate.of(2020, Month.OCTOBER, 28)"
-          java: "LocalDate.of(2020, Month.OCTOBER, 28)"
-          csharp: "new DateTime(2020, 10, 10)"
-          php: "new DateTime('2020-10-28')"
-          node: "'2000-10-28'"
-          python: "dateutil.parser.parse('2020-10-28T00:00:00Z')"
-          ruby: "'YYYY-MM-DD'"
+          default: LocalDate.of(2020, Month.OCTOBER, 28)
+          java: LocalDate.of(2020, Month.OCTOBER, 28)
+          csharp: new DateTime(2020, 10, 10)
+          php: new DateTime('2020-10-28')
+          node: '''2000-10-28'''
+          python: dateutil.parser.parse('2020-10-28T00:00:00Z')
+          ruby: '''YYYY-MM-DD'''
         - paymentDateValue:
           key: paymentDate
           keyPascal: PaymentDate
@@ -1132,13 +1753,13 @@ paths:
           is_date: true
           java_datatype: LocalDate
           csharp_datatype: DateTime
-          default: "LocalDate.of(2020, Month.OCTOBER, 30)"
-          java: "LocalDate.of(2020, Month.OCTOBER, 30)"
-          csharp: "new DateTime(2020, 10, 30)"
-          php: "new DateTime('2020-10-30')"
-          node: "'2000-10-30'"
-          python: "dateutil.parser.parse('2000-10-30T00:00:00Z')"
-          ruby: "'YYYY-MM-DD'"
+          default: LocalDate.of(2020, Month.OCTOBER, 30)
+          java: LocalDate.of(2020, Month.OCTOBER, 30)
+          csharp: new DateTime(2020, 10, 30)
+          php: new DateTime('2020-10-30')
+          node: '''2000-10-30'''
+          python: dateutil.parser.parse('2000-10-30T00:00:00Z')
+          ruby: '''YYYY-MM-DD'''
         - payrollCalendar:
           is_object: true
           key: payrollCalendar
@@ -1203,14 +1824,25 @@ paths:
           csharp: PayrollCalendar
           object: payrollCalendar
       responses:
-        '200':
+        "200":
           description: A successful request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/PayrollCalendars'
-              example: {"Id": "00000000-0000-0000-0000-000000000000", "Status": "OK", "ProviderName": "provider-name", "DateTimeUTC": "/Date(1584125518649)/", "PayrollCalendars": [{"PayrollCalendarID": "57accbfe-f729-4be3-b3cb-8c3445c61d3a", "Name": "MyCal37127", "CalendarType": "WEEKLY", "StartDate": "/Date(1572998400000+0000)/", "PaymentDate": "/Date(1573516800000+0000)/", "UpdatedDateUTC": "/Date(1584125518633+0000)/"}]}
-        '400':
+              example:
+                Id: 00000000-0000-0000-0000-000000000000
+                Status: OK
+                ProviderName: provider-name
+                DateTimeUTC: /Date(1584125518649)/
+                PayrollCalendars:
+                  - PayrollCalendarID: 57accbfe-f729-4be3-b3cb-8c3445c61d3a
+                    Name: MyCal37127
+                    CalendarType: WEEKLY
+                    StartDate: /Date(1572998400000+0000)/
+                    PaymentDate: /Date(1573516800000+0000)/
+                    UpdatedDateUTC: /Date(1584125518633+0000)/
+        "400":
           description: invalid input, object invalid - TODO
       requestBody:
         required: true
@@ -1226,7 +1858,9 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [payroll.settings, payroll.settings.read]
+        - OAuth2:
+            - payroll.settings
+            - payroll.settings.read
       tags:
         - PayrollAu
       operationId: getPayrollCalendar
@@ -1242,14 +1876,26 @@ paths:
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
       responses:
-        '200':
+        "200":
           description: search results matching criteria
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/PayrollCalendars'
-              example: {"Id": "00000000-0000-0000-0000-000000000000", "Status": "OK", "ProviderName": "provider-name", "DateTimeUTC": "/Date(1573611453008)/", "PayrollCalendars": [{"PayrollCalendarID": "78bb86b9-e1ea-47ac-b75d-f087a81931de", "Name": "Sid Weekly", "CalendarType": "WEEKLY", "StartDate": "/Date(1573171200000+0000)/", "PaymentDate": "/Date(1573776000000+0000)/", "UpdatedDateUTC": "/Date(1573077687000+0000)/", "ReferenceDate": "/Date(1573171200000+0000)/"}]}
-        '400':
+              example:
+                Id: 00000000-0000-0000-0000-000000000000
+                Status: OK
+                ProviderName: provider-name
+                DateTimeUTC: /Date(1573611453008)/
+                PayrollCalendars:
+                  - PayrollCalendarID: 78bb86b9-e1ea-47ac-b75d-f087a81931de
+                    Name: Sid Weekly
+                    CalendarType: WEEKLY
+                    StartDate: /Date(1573171200000+0000)/
+                    PaymentDate: /Date(1573776000000+0000)/
+                    UpdatedDateUTC: /Date(1573077687000+0000)/
+                    ReferenceDate: /Date(1573171200000+0000)/
+        "400":
           description: validation error for a bad request
           content:
             application/json:
@@ -1260,7 +1906,9 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [payroll.payruns, payroll.payruns.read]
+        - OAuth2:
+            - payroll.payruns
+            - payroll.payruns.read
       tags:
         - PayrollAu
       operationId: getPayRuns
@@ -1292,14 +1940,32 @@ paths:
           schema:
             type: integer
       responses:
-        '200':
+        "200":
           description: search results matching criteria
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/PayRuns'
-              example: {"Id": "00000000-0000-0000-0000-000000000000", "Status": "OK", "ProviderName": "provider-name", "DateTimeUTC": "/Date(1573611063074)/", "PayRuns": [{"PayRunID": "5de420bb-4ad2-405c-beb1-2610bcc2144e", "PayrollCalendarID": "78bb86b9-e1ea-47ac-b75d-f087a81931de", "PayRunPeriodStartDate": "/Date(1572566400000+0000)/", "PayRunPeriodEndDate": "/Date(1573084800000+0000)/", "PaymentDate": "/Date(1573171200000+0000)/", "Wages": 200.00, "Deductions": 33.00, "Tax": 78.00, "Super": 0.00, "Reimbursement": 22.00, "NetPay": 89.00, "PayRunStatus": "POSTED", "UpdatedDateUTC": "/Date(1573610970000+0000)/"}]}
-        '400':
+              example:
+                Id: 00000000-0000-0000-0000-000000000000
+                Status: OK
+                ProviderName: provider-name
+                DateTimeUTC: /Date(1573611063074)/
+                PayRuns:
+                  - PayRunID: 5de420bb-4ad2-405c-beb1-2610bcc2144e
+                    PayrollCalendarID: 78bb86b9-e1ea-47ac-b75d-f087a81931de
+                    PayRunPeriodStartDate: /Date(1572566400000+0000)/
+                    PayRunPeriodEndDate: /Date(1573084800000+0000)/
+                    PaymentDate: /Date(1573171200000+0000)/
+                    Wages: 200.00
+                    Deductions: 33.00
+                    Tax: 78.00
+                    Super: 0.00
+                    Reimbursement: 22.00
+                    NetPay: 89.00
+                    PayRunStatus: POSTED
+                    UpdatedDateUTC: /Date(1573610970000+0000)/
+        "400":
           description: validation error for a bad request
           content:
             application/json:
@@ -1307,7 +1973,8 @@ paths:
                 $ref: '#/components/schemas/APIException'
     post:
       security:
-        - OAuth2: [payroll.payruns]
+        - OAuth2:
+            - payroll.payruns
       tags:
         - PayrollAu
       summary: Creates a pay run
@@ -1330,14 +1997,26 @@ paths:
           object: payRun
           is_last: true
       responses:
-        '200':
+        "200":
           description: A successful request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/PayRuns'
-              example: {"Id": "00000000-0000-0000-0000-000000000000", "Status": "OK", "ProviderName": "provider-name", "DateTimeUTC": "/Date(1573685818311)/", "PayRuns": [{"PayRunID": "d1348fab-f47a-4697-beea-922ee262407a", "PayrollCalendarID": "78bb86b9-e1ea-47ac-b75d-f087a81931de", "PayRunPeriodStartDate": "/Date(1572566400000+0000)/", "PayRunPeriodEndDate": "/Date(1573084800000+0000)/", "PaymentDate": "/Date(1573171200000+0000)/", "PayRunStatus": "DRAFT", "UpdatedDateUTC": "/Date(1573685818311+0000)/"}]}
-        '400':
+              example:
+                Id: 00000000-0000-0000-0000-000000000000
+                Status: OK
+                ProviderName: provider-name
+                DateTimeUTC: /Date(1573685818311)/
+                PayRuns:
+                  - PayRunID: d1348fab-f47a-4697-beea-922ee262407a
+                    PayrollCalendarID: 78bb86b9-e1ea-47ac-b75d-f087a81931de
+                    PayRunPeriodStartDate: /Date(1572566400000+0000)/
+                    PayRunPeriodEndDate: /Date(1573084800000+0000)/
+                    PaymentDate: /Date(1573171200000+0000)/
+                    PayRunStatus: DRAFT
+                    UpdatedDateUTC: /Date(1573685818311+0000)/
+        "400":
           description: invalid input, object invalid - TODO
       requestBody:
         required: true
@@ -1353,7 +2032,9 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [payroll.payruns, payroll.payruns.read]
+        - OAuth2:
+            - payroll.payruns
+            - payroll.payruns.read
       tags:
         - PayrollAu
       summary: Retrieves a pay run by using a unique pay run id
@@ -1369,16 +2050,59 @@ paths:
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
       responses:
-        '200':
+        "200":
           description: search results matching criteria
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/PayRuns'
-              example: {"Id": "00000000-0000-0000-0000-000000000000", "Status": "OK", "ProviderName": "provider-name", "DateTimeUTC": "/Date(1573692531699)/", "PayRuns": [{"PayRunID": "21d6317b-5319-4b3d-8d78-48904db6b665", "PayrollCalendarID": "78bb86b9-e1ea-47ac-b75d-f087a81931de", "PayRunPeriodStartDate": "/Date(1572566400000+0000)/", "PayRunPeriodEndDate": "/Date(1573084800000+0000)/", "PaymentDate": "/Date(1573171200000+0000)/", "Wages": 205.4, "Deductions": 37, "Tax": 0, "Super": 0, "Reimbursement": 77, "NetPay": 168.4, "PayRunStatus": "POSTED", "UpdatedDateUTC": "/Date(1573692155000+0000)/", "Payslips": [{"EmployeeID": "cdfb8371-0b21-4b8a-8903-1024df6c391e", "PayslipID": "c81e8bcc-56b0-4740-b46b-767753a6ee45", "FirstName": "Albus", "LastName": "Dumbledore", "EmployeeGroup": "foo", "Wages": 5.4, "Deductions": 4, "Tax": 0, "Super": 0, "Reimbursements": 55, "NetPay": 1.4, "UpdatedDateUTC": "/Date(1573692155000+0000)/"}, {"EmployeeID": "7aa04979-ded5-44d9-b09a-793749425844", "PayslipID": "76b9cb4e-d024-47cf-b09a-4c9cea2870f1", "FirstName": "John", "LastName": "Smith", "Wages": 200, "Deductions": 33, "Tax": 0, "Super": 0, "Reimbursements": 22, "NetPay": 167, "UpdatedDateUTC": "/Date(1573692155000+0000)/"}]}]}
+              example:
+                Id: 00000000-0000-0000-0000-000000000000
+                Status: OK
+                ProviderName: provider-name
+                DateTimeUTC: /Date(1573692531699)/
+                PayRuns:
+                  - PayRunID: 21d6317b-5319-4b3d-8d78-48904db6b665
+                    PayrollCalendarID: 78bb86b9-e1ea-47ac-b75d-f087a81931de
+                    PayRunPeriodStartDate: /Date(1572566400000+0000)/
+                    PayRunPeriodEndDate: /Date(1573084800000+0000)/
+                    PaymentDate: /Date(1573171200000+0000)/
+                    Wages: 205.4
+                    Deductions: 37
+                    Tax: 0
+                    Super: 0
+                    Reimbursement: 77
+                    NetPay: 168.4
+                    PayRunStatus: POSTED
+                    UpdatedDateUTC: /Date(1573692155000+0000)/
+                    Payslips:
+                      - EmployeeID: cdfb8371-0b21-4b8a-8903-1024df6c391e
+                        PayslipID: c81e8bcc-56b0-4740-b46b-767753a6ee45
+                        FirstName: Albus
+                        LastName: Dumbledore
+                        EmployeeGroup: foo
+                        Wages: 5.4
+                        Deductions: 4
+                        Tax: 0
+                        Super: 0
+                        Reimbursements: 55
+                        NetPay: 1.4
+                        UpdatedDateUTC: /Date(1573692155000+0000)/
+                      - EmployeeID: 7aa04979-ded5-44d9-b09a-793749425844
+                        PayslipID: 76b9cb4e-d024-47cf-b09a-4c9cea2870f1
+                        FirstName: John
+                        LastName: Smith
+                        Wages: 200
+                        Deductions: 33
+                        Tax: 0
+                        Super: 0
+                        Reimbursements: 22
+                        NetPay: 167
+                        UpdatedDateUTC: /Date(1573692155000+0000)/
     post:
       security:
-        - OAuth2: [payroll.payruns]
+        - OAuth2:
+            - payroll.payruns
       tags:
         - PayrollAu
       summary: Updates a pay run
@@ -1410,13 +2134,25 @@ paths:
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
       responses:
-        '200':
+        "200":
           description: A successful request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/PayRuns'
-              example: {"Id": "00000000-0000-0000-0000-000000000000", "Status": "OK", "ProviderName": "provider-name", "DateTimeUTC": "/Date(1573693093680)/", "PayRuns": [{"PayRunID": "f8fcda54-643f-4406-902a-d7b020d0a036", "PayrollCalendarID": "78bb86b9-e1ea-47ac-b75d-f087a81931de", "PayRunPeriodStartDate": "/Date(1572566400000+0000)/", "PayRunPeriodEndDate": "/Date(1573084800000+0000)/", "PaymentDate": "/Date(1573171200000+0000)/", "PayRunStatus": "POSTED", "UpdatedDateUTC": "/Date(1573693093000+0000)/"}]}
+              example:
+                Id: 00000000-0000-0000-0000-000000000000
+                Status: OK
+                ProviderName: provider-name
+                DateTimeUTC: /Date(1573693093680)/
+                PayRuns:
+                  - PayRunID: f8fcda54-643f-4406-902a-d7b020d0a036
+                    PayrollCalendarID: 78bb86b9-e1ea-47ac-b75d-f087a81931de
+                    PayRunPeriodStartDate: /Date(1572566400000+0000)/
+                    PayRunPeriodEndDate: /Date(1573084800000+0000)/
+                    PaymentDate: /Date(1573171200000+0000)/
+                    PayRunStatus: POSTED
+                    UpdatedDateUTC: /Date(1573693093000+0000)/
       requestBody:
         required: true
         content:
@@ -1431,7 +2167,9 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [payroll.payslip, payroll.payslip.read]
+        - OAuth2:
+            - payroll.payslip
+            - payroll.payslip.read
       tags:
         - PayrollAu
       summary: Retrieves for a payslip by a unique payslip id
@@ -1447,16 +2185,70 @@ paths:
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
       responses:
-        '200':
+        "200":
           description: search results matching criteria
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/PayslipObject'
-              example: {"Id": "00000000-0000-0000-0000-000000000000", "Status": "OK", "ProviderName": "provider-name", "DateTimeUTC": "/Date(1573692677622)/", "Payslip": {"EmployeeID": "cdfb8371-0b21-4b8a-8903-1024df6c391e", "PayslipID": "c81e8bcc-56b0-4740-b46b-767753a6ee45", "FirstName": "Albus", "LastName": "Dumbledore", "Tax": 0, "NetPay": 1.4, "UpdatedDateUTC": "/Date(1573692155000+0000)/", "EarningsLines": [{"EarningsRateID": "ab874dfb-ab09-4c91-954e-43acf6fc23b4", "RatePerUnit": 3, "NumberOfUnits": 1.8}], "LeaveEarningsLines": [{"EarningsRateID": "ab874dfb-ab09-4c91-954e-43acf6fc23b4", "RatePerUnit": 0, "NumberOfUnits": 0.6, "PayOutType": "DEFAULT"}, {"EarningsRateID": "ab874dfb-ab09-4c91-954e-43acf6fc23b4", "RatePerUnit": 3, "NumberOfUnits": 0.6, "PayOutType": "CASHED_OUT"}], "TimesheetEarningsLines": [], "DeductionLines": [{"Amount": 4, "CalculationType": "FIXEDAMOUNT", "DeductionTypeID": "ed05ea82-e40a-4eb6-9c2e-4b3c03e7e938"}], "LeaveAccrualLines": [{"LeaveTypeID": "184ea8f7-d143-46dd-bef3-0c60e1aa6fca", "NumberOfUnits": 0.0769, "AutoCalculate": true}], "ReimbursementLines": [{"ReimbursementTypeID": "aa8cfa40-d872-4be0-8a94-bb7f00962f74", "Description": "boo", "ExpenseAccount": "850", "Amount": 55}], "SuperannuationLines": [{"ContributionType": "SGC", "CalculationType": "STATUTORY", "MinimumMonthlyEarnings": 450, "ExpenseAccountCode": "478", "LiabilityAccountCode": "826", "PaymentDateForThisPeriod": "/Date(1580169600000+0000)/", "Amount": 0}], "TaxLines": [{"PayslipTaxLineID": "c129696e-36ef-4677-a54c-96095787ca20", "TaxTypeName": "PAYG Tax", "Description": "No tax file number (Australian resident)", "Amount": 0, "LiabilityAccount": "825"}]}}
+              example:
+                Id: 00000000-0000-0000-0000-000000000000
+                Status: OK
+                ProviderName: provider-name
+                DateTimeUTC: /Date(1573692677622)/
+                Payslip:
+                  EmployeeID: cdfb8371-0b21-4b8a-8903-1024df6c391e
+                  PayslipID: c81e8bcc-56b0-4740-b46b-767753a6ee45
+                  FirstName: Albus
+                  LastName: Dumbledore
+                  Tax: 0
+                  NetPay: 1.4
+                  UpdatedDateUTC: /Date(1573692155000+0000)/
+                  EarningsLines:
+                    - EarningsRateID: ab874dfb-ab09-4c91-954e-43acf6fc23b4
+                      RatePerUnit: 3
+                      NumberOfUnits: 1.8
+                  LeaveEarningsLines:
+                    - EarningsRateID: ab874dfb-ab09-4c91-954e-43acf6fc23b4
+                      RatePerUnit: 0
+                      NumberOfUnits: 0.6
+                      PayOutType: DEFAULT
+                    - EarningsRateID: ab874dfb-ab09-4c91-954e-43acf6fc23b4
+                      RatePerUnit: 3
+                      NumberOfUnits: 0.6
+                      PayOutType: CASHED_OUT
+                  TimesheetEarningsLines: []
+                  DeductionLines:
+                    - Amount: 4
+                      CalculationType: FIXEDAMOUNT
+                      DeductionTypeID: ed05ea82-e40a-4eb6-9c2e-4b3c03e7e938
+                  LeaveAccrualLines:
+                    - LeaveTypeID: 184ea8f7-d143-46dd-bef3-0c60e1aa6fca
+                      NumberOfUnits: 0.0769
+                      AutoCalculate: true
+                  ReimbursementLines:
+                    - ReimbursementTypeID: aa8cfa40-d872-4be0-8a94-bb7f00962f74
+                      Description: boo
+                      ExpenseAccount: "850"
+                      Amount: 55
+                  SuperannuationLines:
+                    - ContributionType: SGC
+                      CalculationType: STATUTORY
+                      MinimumMonthlyEarnings: 450
+                      ExpenseAccountCode: "478"
+                      LiabilityAccountCode: "826"
+                      PaymentDateForThisPeriod: /Date(1580169600000+0000)/
+                      Amount: 0
+                  TaxLines:
+                    - PayslipTaxLineID: c129696e-36ef-4677-a54c-96095787ca20
+                      TaxTypeName: PAYG Tax
+                      Description: No tax file number (Australian resident)
+                      Amount: 0
+                      LiabilityAccount: "825"
     post:
       security:
-        - OAuth2: [payroll.payslip]
+        - OAuth2:
+            - payroll.payslip
       tags:
         - PayrollAu
       summary: Updates a payslip
@@ -1555,13 +2347,30 @@ paths:
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
       responses:
-        '200':
+        "200":
           description: A successful request - currently returns empty array for JSON
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Payslips'
-              example: {"Id": "00000000-0000-0000-0000-000000000000", "Status": "OK", "ProviderName": "provider-name", "DateTimeUTC": "/Date(1589568253813)/", "Payslips": [{"EmployeeID": "cdfb8371-0b21-4b8a-8903-1024df6c391e", "PayslipID": "c81e8bcc-56b0-4740-b46b-767753a6ee45", "FirstName": "Albus", "LastName": "Dumbledore", "LastEdited": "/Date(1589568253735+0000)/", "Tax": 0, "NetPay": 1.4, "UpdatedDateUTC": "/Date(1589568253735+0000)/", "DeductionLines": [{"Amount": 4, "CalculationType": "FIXEDAMOUNT", "DeductionTypeID": "ed05ea82-e40a-4eb6-9c2e-4b3c03e7e938"}]}]}
+              example:
+                Id: 00000000-0000-0000-0000-000000000000
+                Status: OK
+                ProviderName: provider-name
+                DateTimeUTC: /Date(1589568253813)/
+                Payslips:
+                  - EmployeeID: cdfb8371-0b21-4b8a-8903-1024df6c391e
+                    PayslipID: c81e8bcc-56b0-4740-b46b-767753a6ee45
+                    FirstName: Albus
+                    LastName: Dumbledore
+                    LastEdited: /Date(1589568253735+0000)/
+                    Tax: 0
+                    NetPay: 1.4
+                    UpdatedDateUTC: /Date(1589568253735+0000)/
+                    DeductionLines:
+                      - Amount: 4
+                        CalculationType: FIXEDAMOUNT
+                        DeductionTypeID: ed05ea82-e40a-4eb6-9c2e-4b3c03e7e938
       requestBody:
         required: true
         content:
@@ -1570,31 +2379,80 @@ paths:
               type: array
               items:
                 $ref: '#/components/schemas/PayslipLines'
-            example: {"Payslip": {"EmployeeID": "cdfb8371-0b21-4b8a-8903-1024df6c391e", "DeductionLines": [{"DeductionTypeID": "727af5e8-b347-4ae7-85fc-9b82266d0aec", "CalculationType": "FIXEDAMOUNT", "NumberOfUnits": 10}]}}
+            example:
+              Payslip:
+                EmployeeID: cdfb8371-0b21-4b8a-8903-1024df6c391e
+                DeductionLines:
+                  - DeductionTypeID: 727af5e8-b347-4ae7-85fc-9b82266d0aec
+                    CalculationType: FIXEDAMOUNT
+                    NumberOfUnits: 10
   /Settings:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [payroll.settings, payroll.settings.read]
+        - OAuth2:
+            - payroll.settings
+            - payroll.settings.read
       tags:
         - PayrollAu
       operationId: getSettings
       summary: Retrieves payroll settings
       responses:
-        '200':
+        "200":
           description: payroll settings
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/SettingsObject'
-              example: {"Id": "00000000-0000-0000-0000-000000000000", "Status": "OK", "ProviderName": "provider-name", "DateTimeUTC": "/Date(1573585252781)/", "Settings": {"Accounts": [{"AccountID": "85bd2954-7ef5-4fbe-9e40-a1990d0fd63f", "Type": "BANK", "Code": "094", "Name": "Bank of A"}, {"AccountID": "7e65fa75-1c64-43d7-b0b4-c05f196e2190", "Type": "WAGESPAYABLELIABILITY", "Code": "804", "Name": "Wages Payable - Payroll"}, {"AccountID": "dbc164fa-0cdf-4848-92d3-0d1dc864c53f", "Type": "PAYGLIABILITY", "Code": "825", "Name": "PAYG Withholdings Payable"}, {"AccountID": "7dad84d4-bc7a-482e-99b1-d879e4856578", "Type": "SUPERANNUATIONEXPENSE", "Code": "478", "Name": "Superannuation"}, {"AccountID": "df3679fe-5ebc-42ce-a7ac-b4d36b520795", "Type": "SUPERANNUATIONLIABILITY", "Code": "826", "Name": "Superannuation Payable"}, {"AccountID": "7e130864-5864-4c60-94eb-3c53c95da138", "Type": "WAGESEXPENSE", "Code": "477", "Name": "Wages and Salaries"}], "TrackingCategories": {"EmployeeGroups": {"TrackingCategoryID": "a28f419f-6ec3-4dcf-9be0-7959ea983630", "TrackingCategoryName": "Foo70317"}, "TimesheetCategories": {"TrackingCategoryID": "89375aed-ed51-4624-9e5d-92db6bfa8974", "TrackingCategoryName": "Foo32551"}}, "DaysInPayrollYear": "364", "EmployeesAreSTP2": false}}
+              example:
+                Id: 00000000-0000-0000-0000-000000000000
+                Status: OK
+                ProviderName: provider-name
+                DateTimeUTC: /Date(1573585252781)/
+                Settings:
+                  Accounts:
+                    - AccountID: 85bd2954-7ef5-4fbe-9e40-a1990d0fd63f
+                      Type: BANK
+                      Code: "094"
+                      Name: Bank of A
+                    - AccountID: 7e65fa75-1c64-43d7-b0b4-c05f196e2190
+                      Type: WAGESPAYABLELIABILITY
+                      Code: "804"
+                      Name: Wages Payable - Payroll
+                    - AccountID: dbc164fa-0cdf-4848-92d3-0d1dc864c53f
+                      Type: PAYGLIABILITY
+                      Code: "825"
+                      Name: PAYG Withholdings Payable
+                    - AccountID: 7dad84d4-bc7a-482e-99b1-d879e4856578
+                      Type: SUPERANNUATIONEXPENSE
+                      Code: "478"
+                      Name: Superannuation
+                    - AccountID: df3679fe-5ebc-42ce-a7ac-b4d36b520795
+                      Type: SUPERANNUATIONLIABILITY
+                      Code: "826"
+                      Name: Superannuation Payable
+                    - AccountID: 7e130864-5864-4c60-94eb-3c53c95da138
+                      Type: WAGESEXPENSE
+                      Code: "477"
+                      Name: Wages and Salaries
+                  TrackingCategories:
+                    EmployeeGroups:
+                      TrackingCategoryID: a28f419f-6ec3-4dcf-9be0-7959ea983630
+                      TrackingCategoryName: Foo70317
+                    TimesheetCategories:
+                      TrackingCategoryID: 89375aed-ed51-4624-9e5d-92db6bfa8974
+                      TrackingCategoryName: Foo32551
+                  DaysInPayrollYear: "364"
+                  EmployeesAreSTP2: false
   /Superfunds:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [payroll.settings, payroll.settings.read]
+        - OAuth2:
+            - payroll.settings
+            - payroll.settings.read
       tags:
         - PayrollAu
       operationId: getSuperfunds
@@ -1626,14 +2484,29 @@ paths:
           schema:
             type: integer
       responses:
-        '200':
+        "200":
           description: search results matching criteria
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuperFunds'
-              example: {"Id": "00000000-0000-0000-0000-000000000000", "Status": "OK", "ProviderName": "provider-name", "DateTimeUTC": "/Date(1573570941142)/", "SuperFunds": [{"SuperFundID": "fde8e070-bf59-4e56-b1d7-c75a09474b8d", "Name": "Accumulate Plus (Commonwealth Bank Group Super)", "Type": "REGULATED", "USI": "OSF0001AU", "UpdatedDateUTC": "/Date(1573510468000+0000)/"}, {"SuperFundID": "69079de5-67ef-43bb-b5a5-3e7c2ccad7f0", "Name": "AMG Super", "Type": "REGULATED", "USI": "PTC0133AU", "UpdatedDateUTC": "/Date(1573490487000+0000)/"}]}
-        '400':
+              example:
+                Id: 00000000-0000-0000-0000-000000000000
+                Status: OK
+                ProviderName: provider-name
+                DateTimeUTC: /Date(1573570941142)/
+                SuperFunds:
+                  - SuperFundID: fde8e070-bf59-4e56-b1d7-c75a09474b8d
+                    Name: Accumulate Plus (Commonwealth Bank Group Super)
+                    Type: REGULATED
+                    USI: OSF0001AU
+                    UpdatedDateUTC: /Date(1573510468000+0000)/
+                  - SuperFundID: 69079de5-67ef-43bb-b5a5-3e7c2ccad7f0
+                    Name: AMG Super
+                    Type: REGULATED
+                    USI: PTC0133AU
+                    UpdatedDateUTC: /Date(1573490487000+0000)/
+        "400":
           description: validation error for a bad request
           content:
             application/json:
@@ -1641,7 +2514,8 @@ paths:
                 $ref: '#/components/schemas/APIException'
     post:
       security:
-        - OAuth2: [payroll.settings]
+        - OAuth2:
+            - payroll.settings
       tags:
         - PayrollAu
       summary: Creates a superfund
@@ -1676,14 +2550,27 @@ paths:
           is_last: true
       x-hasPayrollAuProblem: true
       responses:
-        '200':
+        "200":
           description: A successful request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuperFunds'
-              example: {"Id": "00000000-0000-0000-0000-000000000000", "Status": "OK", "ProviderName": "provider-name", "DateTimeUTC": "/Date(1573583393024)/", "SuperFunds": [{"SuperFundID": "e02e44eb-2dba-4d5e-84da-8a0c3a4a4fef", "Name": "AMG Super", "Type": "REGULATED", "ABN": "30099320583", "USI": "PTC0133AU", "AccountNumber": "FB36350", "AccountName": "Foo38428", "UpdatedDateUTC": "/Date(1573583393009+0000)/"}]}
-        '400':
+              example:
+                Id: 00000000-0000-0000-0000-000000000000
+                Status: OK
+                ProviderName: provider-name
+                DateTimeUTC: /Date(1573583393024)/
+                SuperFunds:
+                  - SuperFundID: e02e44eb-2dba-4d5e-84da-8a0c3a4a4fef
+                    Name: AMG Super
+                    Type: REGULATED
+                    ABN: "30099320583"
+                    USI: PTC0133AU
+                    AccountNumber: FB36350
+                    AccountName: Foo38428
+                    UpdatedDateUTC: /Date(1573583393009+0000)/
+        "400":
           description: invalid input, object invalid - TODO
       requestBody:
         required: true
@@ -1699,7 +2586,9 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [payroll.settings, payroll.settings.read]
+        - OAuth2:
+            - payroll.settings
+            - payroll.settings.read
       tags:
         - PayrollAu
       summary: Retrieves a superfund by using a unique superfund ID
@@ -1715,16 +2604,32 @@ paths:
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
       responses:
-        '200':
+        "200":
           description: search results matching criteria
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuperFunds'
-              example: {"Id": "00000000-0000-0000-0000-000000000000", "Status": "OK", "ProviderName": "provider-name", "DateTimeUTC": "/Date(1573571518603)/", "SuperFunds": [{"SuperFundID": "540f4327-dda2-4b36-9c2f-2fe1c93a72b5", "Name": "My Self Managed one", "Type": "SMSF", "ABN": "53004085616", "EmployerNumber": "9876543", "BSB": "324324", "AccountNumber": "234234234", "AccountName": "My Checking", "UpdatedDateUTC": "/Date(1573571429000+0000)/", "ElectronicServiceAddress": "FG48739"}]}
+              example:
+                Id: 00000000-0000-0000-0000-000000000000
+                Status: OK
+                ProviderName: provider-name
+                DateTimeUTC: /Date(1573571518603)/
+                SuperFunds:
+                  - SuperFundID: 540f4327-dda2-4b36-9c2f-2fe1c93a72b5
+                    Name: My Self Managed one
+                    Type: SMSF
+                    ABN: "53004085616"
+                    EmployerNumber: "9876543"
+                    BSB: "324324"
+                    AccountNumber: "234234234"
+                    AccountName: My Checking
+                    UpdatedDateUTC: /Date(1573571429000+0000)/
+                    ElectronicServiceAddress: FG48739
     post:
       security:
-        - OAuth2: [payroll.settings]
+        - OAuth2:
+            - payroll.settings
       tags:
         - PayrollAu
       summary: Updates a superfund
@@ -1768,13 +2673,24 @@ paths:
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
       responses:
-        '200':
+        "200":
           description: A successful request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuperFunds'
-              example: {"Id": "00000000-0000-0000-0000-000000000000", "Status": "OK", "ProviderName": "provider-name", "DateTimeUTC": "/Date(1573570941547)/", "SuperFunds": [{"SuperFundID": "fde8e070-bf59-4e56-b1d7-c75a09474b8d", "Name": "Accumulate Plus (Commonwealth Bank Group Super)", "Type": "REGULATED", "ABN": "24248426878", "USI": "OSF0001AU", "UpdatedDateUTC": "/Date(1573510468000+0000)/"}]}
+              example:
+                Id: 00000000-0000-0000-0000-000000000000
+                Status: OK
+                ProviderName: provider-name
+                DateTimeUTC: /Date(1573570941547)/
+                SuperFunds:
+                  - SuperFundID: fde8e070-bf59-4e56-b1d7-c75a09474b8d
+                    Name: Accumulate Plus (Commonwealth Bank Group Super)
+                    Type: REGULATED
+                    ABN: "24248426878"
+                    USI: OSF0001AU
+                    UpdatedDateUTC: /Date(1573510468000+0000)/
       requestBody:
         required: true
         content:
@@ -1789,7 +2705,9 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [payroll.settings, payroll.settings.read]
+        - OAuth2:
+            - payroll.settings
+            - payroll.settings.read
       tags:
         - PayrollAu
       operationId: getSuperfundProducts
@@ -1808,14 +2726,22 @@ paths:
             type: string
           example: OSF0001AU
       responses:
-        '200':
+        "200":
           description: search results matching criteria
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/SuperFundProducts'
-              example: {"Id": "00000000-0000-0000-0000-000000000000", "Status": "OK", "ProviderName": "provider-name", "DateTimeUTC": "/Date(1573570720295)/", "SuperFundProducts": [{"USI": "OSF0001AU", "ABN": "24248426878", "ProductName": "Accumulate Plus (Commonwealth Bank Group Super)"}]}
-        '400':
+              example:
+                Id: 00000000-0000-0000-0000-000000000000
+                Status: OK
+                ProviderName: provider-name
+                DateTimeUTC: /Date(1573570720295)/
+                SuperFundProducts:
+                  - USI: OSF0001AU
+                    ABN: "24248426878"
+                    ProductName: Accumulate Plus (Commonwealth Bank Group Super)
+        "400":
           description: validation error for a bad request
           content:
             application/json:
@@ -1826,7 +2752,9 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [payroll.timesheets, payroll.timesheets.read]
+        - OAuth2:
+            - payroll.timesheets
+            - payroll.timesheets.read
       tags:
         - PayrollAu
       operationId: getTimesheets
@@ -1858,14 +2786,55 @@ paths:
           schema:
             type: integer
       responses:
-        '200':
+        "200":
           description: search results matching criteria
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Timesheets'
-              example: {"Id": "00000000-0000-0000-0000-000000000000", "Status": "OK", "ProviderName": "provider-name", "DateTimeUTC": "/Date(1573516183708)/", "Timesheets": [{"TimesheetID": "863bbd31-0447-4419-80d5-d733d5e723ba", "EmployeeID": "b34e89ff-770d-4099-b7e5-f968767118bc", "StartDate": "/Date(1547769600000)/", "EndDate": "/Date(1548288000000)/", "Status": "APPROVED", "Hours": 24.0000, "TimesheetLines": [{"EarningsRateID": "ab874dfb-ab09-4c91-954e-43acf6fc23b4", "NumberOfUnits": [4.00, 4.00, 4.00, 4.00, 4.00, 4.00, 0.00], "UpdatedDateUTC": "/Date(1572915827000+0000)/"}], "UpdatedDateUTC": "/Date(1572915827000+0000)/"}, {"TimesheetID": "544eb3a7-0d63-495b-90ae-f6aa3c26c2c8", "EmployeeID": "7aa04979-ded5-44d9-b09a-793749425844", "StartDate": "/Date(1572566400000)/", "EndDate": "/Date(1573084800000)/", "Status": "APPROVED", "Hours": 10.0000, "TimesheetLines": [{"EarningsRateID": "ab874dfb-ab09-4c91-954e-43acf6fc23b4", "NumberOfUnits": [2.00, 2.00, 2.00, 2.00, 2.00, 0.00, 0.00], "UpdatedDateUTC": "/Date(1572916045000+0000)/"}], "UpdatedDateUTC": "/Date(1572916045000+0000)/"}]}
-        '400':
+              example:
+                Id: 00000000-0000-0000-0000-000000000000
+                Status: OK
+                ProviderName: provider-name
+                DateTimeUTC: /Date(1573516183708)/
+                Timesheets:
+                  - TimesheetID: 863bbd31-0447-4419-80d5-d733d5e723ba
+                    EmployeeID: b34e89ff-770d-4099-b7e5-f968767118bc
+                    StartDate: /Date(1547769600000)/
+                    EndDate: /Date(1548288000000)/
+                    Status: APPROVED
+                    Hours: 24.0000
+                    TimesheetLines:
+                      - EarningsRateID: ab874dfb-ab09-4c91-954e-43acf6fc23b4
+                        NumberOfUnits:
+                          - 4.00
+                          - 4.00
+                          - 4.00
+                          - 4.00
+                          - 4.00
+                          - 4.00
+                          - 0.00
+                        UpdatedDateUTC: /Date(1572915827000+0000)/
+                    UpdatedDateUTC: /Date(1572915827000+0000)/
+                  - TimesheetID: 544eb3a7-0d63-495b-90ae-f6aa3c26c2c8
+                    EmployeeID: 7aa04979-ded5-44d9-b09a-793749425844
+                    StartDate: /Date(1572566400000)/
+                    EndDate: /Date(1573084800000)/
+                    Status: APPROVED
+                    Hours: 10.0000
+                    TimesheetLines:
+                      - EarningsRateID: ab874dfb-ab09-4c91-954e-43acf6fc23b4
+                        NumberOfUnits:
+                          - 2.00
+                          - 2.00
+                          - 2.00
+                          - 2.00
+                          - 2.00
+                          - 0.00
+                          - 0.00
+                        UpdatedDateUTC: /Date(1572916045000+0000)/
+                    UpdatedDateUTC: /Date(1572916045000+0000)/
+        "400":
           description: validation error for a bad request
           content:
             application/json:
@@ -1873,7 +2842,8 @@ paths:
                 $ref: '#/components/schemas/APIException'
     post:
       security:
-        - OAuth2: [payroll.timesheets]
+        - OAuth2:
+            - payroll.timesheets
       tags:
         - PayrollAu
       summary: Creates a timesheet
@@ -1889,13 +2859,13 @@ paths:
           is_date: true
           java_datatype: LocalDate
           csharp_datatype: DateTime
-          default: "LocalDate.of(2020, Month.OCTOBER, 23)"
-          java: "LocalDate.of(2020, Month.OCTOBER, 23)"
-          csharp: "new DateTime(2020, 10, 23)"
-          php: "new DateTime('2020-10-23')"
-          node: "'2020-10-23'"
-          python: "dateutil.parser.parse('2020-10-23T00:00:00Z')"
-          ruby: "'YYYY-MM-DD'"
+          default: LocalDate.of(2020, Month.OCTOBER, 23)
+          java: LocalDate.of(2020, Month.OCTOBER, 23)
+          csharp: new DateTime(2020, 10, 23)
+          php: new DateTime('2020-10-23')
+          node: '''2020-10-23'''
+          python: dateutil.parser.parse('2020-10-23T00:00:00Z')
+          ruby: '''YYYY-MM-DD'''
         - endDateValue:
           key: endDate
           keyPascal: EndDate
@@ -1903,13 +2873,13 @@ paths:
           is_date: true
           java_datatype: LocalDate
           csharp_datatype: DateTime
-          default: "LocalDate.of(2020, Month.OCTOBER, 30)"
-          java: "LocalDate.of(2020, Month.OCTOBER, 30)"
-          csharp: "new DateTime(2020, 10, 30)"
-          php: "new DateTime('2020-10-30')"
-          node: "'2020-10-30'"
-          python: "dateutil.parser.parse('2020-10-30T00:00:00Z')"
-          ruby: "'YYYY-MM-DD'"
+          default: LocalDate.of(2020, Month.OCTOBER, 30)
+          java: LocalDate.of(2020, Month.OCTOBER, 30)
+          csharp: new DateTime(2020, 10, 30)
+          php: new DateTime('2020-10-30')
+          node: '''2020-10-30'''
+          python: dateutil.parser.parse('2020-10-30T00:00:00Z')
+          ruby: '''YYYY-MM-DD'''
         - timesheet:
           key: timesheet
           keyPascal: Timesheet
@@ -1957,14 +2927,38 @@ paths:
           csharp: TimesheetStatus.DRAFT
           object: timesheet
       responses:
-        '200':
+        "200":
           description: A successful request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Timesheets'
-              example: {"Id": "00000000-0000-0000-0000-000000000000", "Status": "OK", "ProviderName": "provider-name", "DateTimeUTC": "/Date(1573516185143)/", "Timesheets": [{"TimesheetID": "a7eb0a79-8511-4ee7-b473-3a25f28abcb9", "EmployeeID": "b34e89ff-770d-4099-b7e5-f968767118bc", "StartDate": "/Date(1573171200000+0000)/", "EndDate": "/Date(1573689600000+0000)/", "Status": "DRAFT", "Hours": 22.0, "TimesheetLines": [{"EarningsRateID": "ab874dfb-ab09-4c91-954e-43acf6fc23b4", "TrackingItemID": "af5e9ce2-2349-4136-be99-3561b189f473", "NumberOfUnits": [2.0, 10.0, 0.0, 0.0, 5.0, 0.0, 5.0], "UpdatedDateUTC": "/Date(1573516185127+0000)/"}], "UpdatedDateUTC": "/Date(1573516185127+0000)/"}]}
-        '400':
+              example:
+                Id: 00000000-0000-0000-0000-000000000000
+                Status: OK
+                ProviderName: provider-name
+                DateTimeUTC: /Date(1573516185143)/
+                Timesheets:
+                  - TimesheetID: a7eb0a79-8511-4ee7-b473-3a25f28abcb9
+                    EmployeeID: b34e89ff-770d-4099-b7e5-f968767118bc
+                    StartDate: /Date(1573171200000+0000)/
+                    EndDate: /Date(1573689600000+0000)/
+                    Status: DRAFT
+                    Hours: 22.0
+                    TimesheetLines:
+                      - EarningsRateID: ab874dfb-ab09-4c91-954e-43acf6fc23b4
+                        TrackingItemID: af5e9ce2-2349-4136-be99-3561b189f473
+                        NumberOfUnits:
+                          - 2.0
+                          - 10.0
+                          - 0.0
+                          - 0.0
+                          - 5.0
+                          - 0.0
+                          - 5.0
+                        UpdatedDateUTC: /Date(1573516185127+0000)/
+                    UpdatedDateUTC: /Date(1573516185127+0000)/
+        "400":
           description: invalid input, object invalid - TODO
       requestBody:
         required: true
@@ -1980,7 +2974,9 @@ paths:
       - $ref: '#/components/parameters/requiredHeader'
     get:
       security:
-        - OAuth2: [payroll.timesheets, payroll.timesheets.read]
+        - OAuth2:
+            - payroll.timesheets
+            - payroll.timesheets.read
       tags:
         - PayrollAu
       summary: Retrieves a timesheet by using a unique timesheet id
@@ -1996,16 +2992,40 @@ paths:
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
       responses:
-        '200':
+        "200":
           description: search results matching criteria
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/TimesheetObject'
-              example: {"Id": "00000000-0000-0000-0000-000000000000", "Status": "OK", "ProviderName": "provider-name", "DateTimeUTC": "/Date(1573516184161)/", "Timesheet": {"TimesheetID": "df954ca3-3a70-47e9-9a3e-80711e7c5f90", "EmployeeID": "b34e89ff-770d-4099-b7e5-f968767118bc", "StartDate": "/Date(1547164800000+0000)/", "EndDate": "/Date(1547683200000+0000)/", "Status": "APPROVED", "Hours": 15.0000, "TimesheetLines": [{"EarningsRateID": "ab874dfb-ab09-4c91-954e-43acf6fc23b4", "NumberOfUnits": [3.00, 3.00, 3.00, 3.00, 0.00, 3.00, 0.00], "UpdatedDateUTC": "/Date(1572915797000+0000)/"}], "UpdatedDateUTC": "/Date(1572915797000+0000)/"}}
+              example:
+                Id: 00000000-0000-0000-0000-000000000000
+                Status: OK
+                ProviderName: provider-name
+                DateTimeUTC: /Date(1573516184161)/
+                Timesheet:
+                  TimesheetID: df954ca3-3a70-47e9-9a3e-80711e7c5f90
+                  EmployeeID: b34e89ff-770d-4099-b7e5-f968767118bc
+                  StartDate: /Date(1547164800000+0000)/
+                  EndDate: /Date(1547683200000+0000)/
+                  Status: APPROVED
+                  Hours: 15.0000
+                  TimesheetLines:
+                    - EarningsRateID: ab874dfb-ab09-4c91-954e-43acf6fc23b4
+                      NumberOfUnits:
+                        - 3.00
+                        - 3.00
+                        - 3.00
+                        - 3.00
+                        - 0.00
+                        - 3.00
+                        - 0.00
+                      UpdatedDateUTC: /Date(1572915797000+0000)/
+                  UpdatedDateUTC: /Date(1572915797000+0000)/
     post:
       security:
-        - OAuth2: [payroll.timesheets]
+        - OAuth2:
+            - payroll.timesheets
       tags:
         - PayrollAu
       summary: Updates a timesheet
@@ -2019,13 +3039,13 @@ paths:
           is_date: true
           java_datatype: LocalDate
           csharp_datatype: DateTime
-          default: "LocalDate.of(2020, Month.OCTOBER, 23)"
-          java: "LocalDate.of(2020, Month.OCTOBER, 23)"
-          csharp: "new DateTime(2020, 10, 23)"
-          php: "new DateTime('2020-10-23')"
-          node: "'2020-10-23'"
-          python: "dateutil.parser.parse('2020-10-23T00:00:00Z')"
-          ruby: "'YYYY-MM-DD'"
+          default: LocalDate.of(2020, Month.OCTOBER, 23)
+          java: LocalDate.of(2020, Month.OCTOBER, 23)
+          csharp: new DateTime(2020, 10, 23)
+          php: new DateTime('2020-10-23')
+          node: '''2020-10-23'''
+          python: dateutil.parser.parse('2020-10-23T00:00:00Z')
+          ruby: '''YYYY-MM-DD'''
         - endDateValue:
           key: endDate
           keyPascal: EndDate
@@ -2033,13 +3053,13 @@ paths:
           is_date: true
           java_datatype: LocalDate
           csharp_datatype: DateTime
-          default: "LocalDate.of(2020, Month.OCTOBER, 30)"
-          java: "LocalDate.of(2020, Month.OCTOBER, 30)"
-          csharp: "new DateTime(2020, 10, 30)"
-          php: "new DateTime('2020-10-30')"
-          node: "'2020-10-30'"
-          python: "dateutil.parser.parse('2020-10-30T00:00:00Z')"
-          ruby: "'YYYY-MM-DD'"
+          default: LocalDate.of(2020, Month.OCTOBER, 30)
+          java: LocalDate.of(2020, Month.OCTOBER, 30)
+          csharp: new DateTime(2020, 10, 30)
+          php: new DateTime('2020-10-30')
+          node: '''2020-10-30'''
+          python: dateutil.parser.parse('2020-10-30T00:00:00Z')
+          ruby: '''YYYY-MM-DD'''
         - timesheet:
           key: timesheet
           keyPascal: Timesheet
@@ -2098,13 +3118,37 @@ paths:
             format: uuid
             example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
       responses:
-        '200':
+        "200":
           description: A successful request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Timesheets'
-              example: {"Id": "00000000-0000-0000-0000-000000000000", "Status": "OK", "ProviderName": "3f93110a-df13-49c7-b82f-a069813df188", "DateTimeUTC": "/Date(1573516185258)/", "Timesheets": [{"TimesheetID": "a7eb0a79-8511-4ee7-b473-3a25f28abcb9", "EmployeeID": "b34e89ff-770d-4099-b7e5-f968767118bc", "StartDate": "/Date(1573171200000+0000)/", "EndDate": "/Date(1573689600000+0000)/", "Status": "APPROVED", "Hours": 22.0, "TimesheetLines": [{"EarningsRateID": "ab874dfb-ab09-4c91-954e-43acf6fc23b4", "TrackingItemID": "af5e9ce2-2349-4136-be99-3561b189f473", "NumberOfUnits": [2.0, 10.0, 0.0, 0.0, 5.0, 0.0, 5.0], "UpdatedDateUTC": "/Date(1573516185227+0000)/"}], "UpdatedDateUTC": "/Date(1573516185227+0000)/"}]}
+              example:
+                Id: 00000000-0000-0000-0000-000000000000
+                Status: OK
+                ProviderName: 3f93110a-df13-49c7-b82f-a069813df188
+                DateTimeUTC: /Date(1573516185258)/
+                Timesheets:
+                  - TimesheetID: a7eb0a79-8511-4ee7-b473-3a25f28abcb9
+                    EmployeeID: b34e89ff-770d-4099-b7e5-f968767118bc
+                    StartDate: /Date(1573171200000+0000)/
+                    EndDate: /Date(1573689600000+0000)/
+                    Status: APPROVED
+                    Hours: 22.0
+                    TimesheetLines:
+                      - EarningsRateID: ab874dfb-ab09-4c91-954e-43acf6fc23b4
+                        TrackingItemID: af5e9ce2-2349-4136-be99-3561b189f473
+                        NumberOfUnits:
+                          - 2.0
+                          - 10.0
+                          - 0.0
+                          - 0.0
+                          - 5.0
+                          - 0.0
+                          - 5.0
+                        UpdatedDateUTC: /Date(1573516185227+0000)/
+                    UpdatedDateUTC: /Date(1573516185227+0000)/
       requestBody:
         required: true
         content:
@@ -2121,8 +3165,8 @@ components:
       description: For more information visit https://developer.xero.com/documentation/oauth2/overview
       flows:
         authorizationCode:
-          authorizationUrl: 'https://login.xero.com/identity/connect/authorize'
-          tokenUrl: 'https://identity.xero.com/connect/token'
+          authorizationUrl: https://login.xero.com/identity/connect/authorize
+          tokenUrl: https://identity.xero.com/connect/token
           scopes:
             email: Grant read-only access to your email
             openid: Grant read-only access to your open id
@@ -2151,7 +3195,7 @@ components:
       name: Idempotency-Key
       x-snake: idempotency_key
       description: This allows you to safely retry requests without the risk of duplicate processing. 128 character max.
-      example: "KEY_VALUE"
+      example: KEY_VALUE
       schema:
         type: string
   schemas:
@@ -2182,14 +3226,14 @@ components:
           description: Date of birth of the employee (YYYY-MM-DD)
           type: string
           x-is-msdate: true
-          example: '/Date(322560000000+0000)/'
+          example: /Date(322560000000+0000)/
         HomeAddress:
           $ref: '#/components/schemas/HomeAddress'
         StartDate:
           description: Start date for an employee (YYYY-MM-DD)
           type: string
           x-is-msdate: true
-          example: '/Date(320284900000+0000)/'
+          example: /Date(320284900000+0000)/
         Title:
           description: Title of the employee
           type: string
@@ -2262,7 +3306,7 @@ components:
           description: Employee Termination Date (YYYY-MM-DD)
           type: string
           x-is-msdate: true
-          example: '/Date(1584662400000+0000)/'
+          example: /Date(1584662400000+0000)/
         TerminationReason:
           description: |
             * `V` Voluntary cessation - An employee resignation, retirement, domestic or pressing necessity or abandonment of employment
@@ -2321,7 +3365,7 @@ components:
           type: string
           readOnly: true
           x-is-msdate-time: true
-          example: '/Date(1583967733054+0000)/'
+          example: /Date(1583967733054+0000)/
         ValidationErrors:
           description: Displays array of validation error messages from the API
           type: array
@@ -2361,12 +3405,12 @@ components:
           description: Start date of the leave (YYYY-MM-DD)
           type: string
           x-is-msdate: true
-          example: '/Date(322560000000+0000)/'
+          example: /Date(322560000000+0000)/
         EndDate:
           description: End date of the leave (YYYY-MM-DD)
           type: string
           x-is-msdate: true
-          example: '/Date(322560000000+0000)/'
+          example: /Date(322560000000+0000)/
         Description:
           description: The Description of the Leave
           type: string
@@ -2382,7 +3426,7 @@ components:
           type: string
           readOnly: true
           x-is-msdate-time: true
-          example: '/Date(1583967733054+0000)/'
+          example: /Date(1583967733054+0000)/
         ValidationErrors:
           description: Displays array of validation error messages from the API
           type: array
@@ -2407,12 +3451,12 @@ components:
           description: The Pay Period End Date (YYYY-MM-DD)
           type: string
           x-is-msdate: true
-          example: '/Date(322560000000+0000)/'
+          example: /Date(322560000000+0000)/
         PayPeriodStartDate:
           description: The Pay Period Start Date (YYYY-MM-DD)
           type: string
           x-is-msdate: true
-          example: '/Date(322560000000+0000)/'
+          example: /Date(322560000000+0000)/
         LeavePeriodStatus:
           $ref: '#/components/schemas/LeavePeriodStatus'
     LeavePeriodStatus:
@@ -2468,12 +3512,12 @@ components:
           description: The start date of the upcoming pay period. The end date will be calculated based upon this date, and the calendar type selected (YYYY-MM-DD)
           type: string
           x-is-msdate: true
-          example: '/Date(322560000000+0000)/'
+          example: /Date(322560000000+0000)/
         PaymentDate:
           description: The date on which employees will be paid for the upcoming pay period (YYYY-MM-DD)
           type: string
           x-is-msdate: true
-          example: '/Date(322560000000+0000)/'
+          example: /Date(322560000000+0000)/
         PayrollCalendarID:
           description: Xero identifier
           type: string
@@ -2484,12 +3528,12 @@ components:
           type: string
           readOnly: true
           x-is-msdate-time: true
-          example: '/Date(1583967733054+0000)/'
+          example: /Date(1583967733054+0000)/
         ReferenceDate:
           description: Reference Date (YYYY-MM-DD)
           type: string
           x-is-msdate: true
-          example: '/Date(322560000000+0000)/'
+          example: /Date(322560000000+0000)/
         ValidationErrors:
           description: Displays array of validation error messages from the API
           type: array
@@ -2524,12 +3568,12 @@ components:
           description: Period start date (YYYY-MM-DD)
           type: string
           x-is-msdate: true
-          example: '/Date(322560000000+0000)/'
+          example: /Date(322560000000+0000)/
         EndDate:
           description: Period end date (YYYY-MM-DD)
           type: string
           x-is-msdate: true
-          example: '/Date(322560000000+0000)/'
+          example: /Date(322560000000+0000)/
         Status:
           $ref: '#/components/schemas/TimesheetStatus'
         Hours:
@@ -2550,7 +3594,7 @@ components:
           type: string
           readOnly: true
           x-is-msdate-time: true
-          example: '/Date(1583967733054+0000)/'
+          example: /Date(1583967733054+0000)/
         ValidationErrors:
           description: Displays array of validation error messages from the API
           type: array
@@ -2586,7 +3630,7 @@ components:
           type: string
           readOnly: true
           x-is-msdate-time: true
-          example: '/Date(1583967733054+0000)/'
+          example: /Date(1583967733054+0000)/
     PayRuns:
       type: object
       x-objectArrayKey: pay_runs
@@ -2614,19 +3658,19 @@ components:
           description: Period Start Date for the PayRun (YYYY-MM-DD)
           type: string
           x-is-msdate: true
-          example: '/Date(322560000000+0000)/'
+          example: /Date(322560000000+0000)/
         PayRunPeriodEndDate:
           description: Period End Date for the PayRun (YYYY-MM-DD)
           type: string
           x-is-msdate: true
-          example: '/Date(322560000000+0000)/'
+          example: /Date(322560000000+0000)/
         PayRunStatus:
           $ref: '#/components/schemas/PayRunStatus'
         PaymentDate:
           description: Payment Date for the PayRun (YYYY-MM-DD)
           type: string
           x-is-msdate: true
-          example: '/Date(322560000000+0000)/'
+          example: /Date(322560000000+0000)/
         PayslipMessage:
           description: Payslip message for the PayRun
           type: string
@@ -2636,7 +3680,7 @@ components:
           type: string
           readOnly: true
           x-is-msdate-time: true
-          example: '/Date(1583967733054+0000)/'
+          example: /Date(1583967733054+0000)/
         Payslips:
           description: The payslips in the payrun
           type: array
@@ -2749,7 +3793,7 @@ components:
           type: string
           readOnly: true
           x-is-msdate-time: true
-          example: '/Date(1583967733054+0000)/'
+          example: /Date(1583967733054+0000)/
     PayslipLines:
       type: object
       properties:
@@ -2892,7 +3936,7 @@ components:
           type: string
           readOnly: true
           x-is-msdate-time: true
-          example: '/Date(1583967733054+0000)/'
+          example: /Date(1583967733054+0000)/
     LeaveAccrualLine:
       type: object
       properties:
@@ -2941,7 +3985,7 @@ components:
           description: Superannuation payment date for the current period (YYYY-MM-DD)
           type: string
           x-is-msdate: true
-          example: '/Date(322560000000+0000)/'
+          example: /Date(322560000000+0000)/
         Percentage:
           description: Superannuation percentage
           type: number
@@ -3114,7 +4158,7 @@ components:
           type: string
           readOnly: true
           x-is-msdate-time: true
-          example: '/Date(1583967733054+0000)/'
+          example: /Date(1583967733054+0000)/
         ValidationErrors:
           description: Displays array of validation error messages from the API
           type: array
@@ -3238,7 +4282,7 @@ components:
           type: string
           readOnly: true
           x-is-msdate-time: true
-          example: '/Date(1583967733054+0000)/'
+          example: /Date(1583967733054+0000)/
         CurrentRecord:
           description: Is the current record
           type: boolean
@@ -3281,7 +4325,7 @@ components:
           type: string
           readOnly: true
           x-is-msdate-time: true
-          example: '/Date(1583967733054+0000)/'
+          example: /Date(1583967733054+0000)/
         DeductionCategory:
           type: string
           enum:
@@ -3324,7 +4368,7 @@ components:
           type: string
           readOnly: true
           x-is-msdate-time: true
-          example: '/Date(1583967733054+0000)/'
+          example: /Date(1583967733054+0000)/
         IsPaidLeave:
           description: Set this to indicate that an employee will be paid when taking this type of leave
           type: boolean
@@ -3365,7 +4409,7 @@ components:
           type: string
           readOnly: true
           x-is-msdate-time: true
-          example: '/Date(1583967733054+0000)/'
+          example: /Date(1583967733054+0000)/
         CurrentRecord:
           description: Is the current record
           type: boolean
@@ -3468,7 +4512,7 @@ components:
           type: boolean
           example: true
         HasLoanOrStudentDebt:
-          description: "If the employee has any of the following loans or debts: Higher Education Loan Program (HELP/HECS), VET Student Loan (VSL), Financial Supplement (FS), Student Start-up Loan (SSL), or Trade Support Loan (TSL)"
+          description: 'If the employee has any of the following loans or debts: Higher Education Loan Program (HELP/HECS), VET Student Loan (VSL), Financial Supplement (FS), Student Start-up Loan (SSL), or Trade Support Loan (TSL)'
           type: boolean
           example: true
         UpdatedDateUTC:
@@ -3476,7 +4520,7 @@ components:
           type: string
           readOnly: true
           x-is-msdate-time: true
-          example: '/Date(1583967733054+0000)/'
+          example: /Date(1583967733054+0000)/
       type: object
     BankAccount:
       type: object
@@ -3769,7 +4813,7 @@ components:
           description: Opening Balance Date. (YYYY-MM-DD)
           type: string
           x-is-msdate: true
-          example: '/Date(322560000000+0000)/'
+          example: /Date(322560000000+0000)/
         Tax:
           description: Opening Balance tax
           type: string
@@ -3977,7 +5021,7 @@ components:
     CountryOfResidence:
       description: Country of residence as a valid ISO 3166-1 alpha-2 country code e.g. "AU", "NZ", "CA". Only applicable, and mandatory if income type is WORKINGHOLIDAYMAKER.
       type: string
-      example: "AU"
+      example: AU
       enum:
         - AF
         - AX
@@ -4373,7 +5417,7 @@ components:
           example: No property or field 'hi' exists in type 'Employee' (at index 0)
     ValidationError:
       externalDocs:
-        url: 'https://developer.xero.com/documentation/api/http-response-codes'
+        url: https://developer.xero.com/documentation/api/http-response-codes
       properties:
         Message:
           description: Validation error message

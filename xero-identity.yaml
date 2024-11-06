@@ -1,19 +1,19 @@
 openapi: 3.0.0
 info:
-  version: "6.3.0"
+  version: 6.3.0
   title: Xero OAuth 2 Identity Service API
   description: These endpoints are related to managing authentication tokens and identity for Xero API
-  termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
+  termsOfService: https://developer.xero.com/xero-developer-platform-terms-conditions/
   contact:
-    name: "Xero Platform Team"
-    email: "api@xero.com"
-    url: "https://developer.xero.com"
+    name: Xero Platform Team
+    email: api@xero.com
+    url: https://developer.xero.com
   license:
     name: MIT
-    url: 'https://github.com/XeroAPI/Xero-OpenAPI/blob/master/LICENSE'
+    url: https://github.com/XeroAPI/Xero-OpenAPI/blob/master/LICENSE
 servers:
   - description: Xero Identity service API
-    url: 'https://api.xero.com'
+    url: https://api.xero.com
 paths:
   /Connections:
     get:
@@ -29,13 +29,13 @@ paths:
           required: false
           name: authEventId
           description: Filter by authEventId
-          example: "00000000-0000-0000-0000-000000000000"
+          example: 00000000-0000-0000-0000-000000000000
           schema:
             type: string
             format: uuid
-      x-basepath: 'https://api.xero.com'
+      x-basepath: https://api.xero.com
       responses:
-        '200':
+        "200":
           description: Success - return response of type Connections array with 0 to n Connection
           content:
             application/json:
@@ -44,7 +44,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/Connection'
               example: '[ { "id": "7cb59f93-2964-421d-bb5e-a0f7a4572a44", "tenantId": "fe79f7dd-b6d4-4a92-ba7b-538af6289c58", "tenantName": "Demo Company (NZ)", "tenantType": "ORGANISATION", "createdDateUtc": "2019-12-07T18:46:19.5165400", "updatedDateUtc": "2019-12-07T18:46:19.5187840" } ]'
-  '/Connections/{id}':
+  /Connections/{id}:
     delete:
       security:
         - OAuth2: []
@@ -53,7 +53,7 @@ paths:
       description: Override the base server url that include version
       operationId: deleteConnection
       summary: Deletes a connection for this user (i.e. disconnect a tenant)
-      x-basepath: 'https://api.xero.com'
+      x-basepath: https://api.xero.com
       parameters:
         - required: true
           in: path
@@ -63,15 +63,15 @@ paths:
             type: string
             format: uuid
       responses:
-        '204':
+        "204":
           description: Success - connection has been deleted no content returned
-        '404':
+        "404":
           description: Resource not found
 components:
   schemas:
     Connection:
       externalDocs:
-        url: 'http://developer.xero.com'
+        url: http://developer.xero.com
       properties:
         id:
           description: Xero identifier
@@ -96,16 +96,16 @@ components:
           type: string
           format: date-time
           x-is-datetime: true
-          x-php-format: '\DateTime'
+          x-php-format: \DateTime
         updatedDateUtc:
           description: The date when the user most recently connected this tenant to your app. May differ to the created date if the user has disconnected and subsequently reconnected this tenant to your app.
           type: string
           format: date-time
           x-is-datetime: true
-          x-php-format: '\DateTime'
+          x-php-format: \DateTime
     RefreshToken:
       externalDocs:
-        url: 'http://developer.xero.com'
+        url: http://developer.xero.com
       type: object
       properties:
         grant_type:
@@ -122,7 +122,7 @@ components:
           type: string
     AccessToken:
       externalDocs:
-        url: 'http://developer.xero.com'
+        url: http://developer.xero.com
       type: object
       properties:
         id_token:
@@ -150,8 +150,8 @@ components:
       description: For more information
       flows:
         authorizationCode:
-          authorizationUrl: 'https://login.xero.com/identity/connect/authorize'
-          tokenUrl: 'https://identity.xero.com/connect/token'
+          authorizationUrl: https://login.xero.com/identity/connect/authorize
+          tokenUrl: https://identity.xero.com/connect/token
           scopes:
             email: Grant read-only access to your email
             openid: Grant read-only access to your open id
