@@ -77,15 +77,12 @@ paths:
                       totalAmount: 189
                       dataSource:
                         directBankFeed: 0
-                        indirectBankFeed: 0
                         fileUpload: 300
                         manual: -188
                         directBankFeedPos: 0
-                        indirectBankFeedPos: 0
                         fileUploadPos: 2223
                         manualPos: 0
                         directBankFeedNeg: 0
-                        indirectBankFeedNeg: 0
                         fileUploadNeg: -1890
                         manualNeg: -500
                         otherPos: 0
@@ -1551,7 +1548,7 @@ components:
           format: date-time
         importSourceType:
           type: string
-          description: Looking at the most recent bank statement, this field indicates the source of the data (direct bank feed, indirect bank feed, file upload, or manual keying).
+          description: Looking at the most recent bank statement, this field indicates the source of the data (direct bank feed, file upload, or manual keying).
       additionalProperties: false
     DataSourceResponse:
       type: object
@@ -1559,12 +1556,6 @@ components:
         directBankFeed:
           type: number
           description: Sum of the amounts of all statement lines where the source of the data was a direct bank feed in to Xero via an API integration.   This could be from a bank or aggregator.   This gives an indication on the certainty of correctness of the data.
-          format: double
-          x-is-money: true
-        indirectBankFeed:
-          type: number
-          deprecated: true
-          description: No longer in use.
           format: double
           x-is-money: true
         fileUpload:
@@ -1582,12 +1573,6 @@ components:
           description: Sum of the amounts of all statement lines where the source of the data was a direct bank feed in to Xero via an API integration.   This could be from a bank or aggregator.  This gives an indication on the certainty of correctness of the data.  Only positive transactions are included.
           format: double
           x-is-money: true
-        indirectBankFeedPos:
-          type: number
-          deprecated: true
-          description: No longer in use.
-          format: double
-          x-is-money: true
         fileUploadPos:
           type: number
           description: Sum of the amounts of all statement lines where the source of the data was a file manually uploaded in to Xero.   This gives an indication on the certainty of correctness of the data. Only positive transactions are included.
@@ -1601,12 +1586,6 @@ components:
         directBankFeedNeg:
           type: number
           description: Sum of the amounts of all statement lines where the source of the data was a direct bank feed in to Xero via an API integration.   This could be from a bank or aggregator.   This gives an indication on the certainty of correctness of the data.  Only negative transactions are included.
-          format: double
-          x-is-money: true
-        indirectBankFeedNeg:
-          type: number
-          deprecated: true
-          description: No longer in use.
           format: double
           x-is-money: true
         fileUploadNeg:
