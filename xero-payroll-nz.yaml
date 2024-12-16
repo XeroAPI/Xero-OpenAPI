@@ -7147,12 +7147,23 @@ components:
           type: number
           format: double
           x-is-money: true
+        numberOfUnitsTaken:
+          description: The number of units taken for the leave
+          type: number
+          format: double
+        typeOfUnits:
+          description: The type of units paid for the leave
+          type: string
+        typeOfUnitsTaken:
+          description: The type of units taken for the leave
+          type: string
         periodStatus:
-          description: Period Status
+          description: Status of leave
           type: string
           enum:
-          - Approved
-          - Completed
+            - Approved
+            - Completed
+            - Estimated
     EmployeeLeaveBalances:
       type: object
       properties:
@@ -7417,13 +7428,25 @@ components:
           x-is-money: true
           example: 10.0
         sickLeaveHoursToAccrueAnnually:
-          description: Number of hours accrued annually for sick leave. Multiply the number of days they're entitled to by the hours worked per day
+          description: Deprecated use SickLeaveToAccrueAnnually
           type: number
           format: double
           x-is-money: true
           example: 100.5
         sickLeaveMaximumHoursToAccrue:
-          description: Maximum number of hours accrued annually for sick leave. Multiply the maximum days they can accrue by the hours worked per day
+          description: Deprecated use SickLeaveMaximumToAccrue
+          type: number
+          format: double
+          x-is-money: true
+          example: 200.5
+        SickLeaveToAccrueAnnually:
+          description: Number of units accrued annually for sick leave. The type of units is determined by the property "TypeOfUnitsToAccrue" on the "Sick Leave" leave type
+          type: number
+          format: double
+          x-is-money: true
+          example: 100.5
+        SickLeaveMaximumToAccrue:
+          description: Maximum number of units accrued annually for sick leave. The type of units is determined by the property "TypeOfUnitsToAccrue" on the "Sick Leave" leave type
           type: number
           format: double
           x-is-money: true
@@ -7439,7 +7462,13 @@ components:
           type: string
           example: OnAnniversaryDate
         SickLeaveAnniversaryDate:
-          description: If Sick Leave Schedule of Accrual is "OnAnniversaryDate", this is the date when entitled to Sick Leave
+          description: If Sick Leave Schedule of Accrual is "OnAnniversaryDate", this is the date when entitled to Sick Leave. When null the Employee's start date is used as the anniversary date
+          type: string
+          format: date
+          example: 2020-01-19
+          x-is-date: true
+        AnnualLeaveAnniversaryDate:
+          description: The first date the employee will accrue Annual Leave. When null the Employee's start date is used as the anniversary date
           type: string
           format: date
           example: 2020-01-19
@@ -7469,20 +7498,31 @@ components:
             - PercentageOfGrossEarnings  
             - NoAccruals
         hoursAccruedAnnually:
-          description: The number of hours accrued for the leave annually. This is 0 when the scheduleOfAccrual chosen is "OnHourWorked"
+          description: Deprecated use UnitsAccruedAnnually
           type: number
           format: double
           x-is-money: true
+        UnitsAccruedAnnually:
+          description: The number of units accrued for the leave annually. This is 0 when the ScheduleOfAccrual chosen is "NoAccruals"
+          type: number
+          format: double
+          x-is-money: true
+        typeOfUnitsToAccrue:
+          description: The type of units accrued for the leave annually
+          type: string
         maximumToAccrue:
-          description: The maximum number of hours that can be accrued for the leave  
+          description: The maximum number of units that can be accrued for the leave
           type: number
           format: double
           x-is-money: true
         openingBalance:
-          description: The initial number of hours assigned when the leave was added to the employee  
+          description: The initial number of units assigned when the leave was added to the employee
           type: number
           format: double
           x-is-money: true
+        openingBalanceTypeOfUnits:
+          description: The type of units for the opening balance
+          type: string
         rateAccruedHourly:
           description: The number of hours added to the leave balance for every hour worked by the employee. This is normally 0, unless the scheduleOfAccrual chosen is "OnHourWorked"
           type: number
@@ -7952,6 +7992,12 @@ components:
         isActive:
           description: Shows whether the leave type is active or not
           type: boolean
+        typeOfUnits:
+          description: The type of units to be paid for the leave type
+          type: string
+        typeOfUnitsToAccrue:
+          description: The type of units to be accrued for the leave type
+          type: string
     Reimbursements:
       type: object
       properties:
