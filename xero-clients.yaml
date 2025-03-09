@@ -1,0 +1,311 @@
+openapi: 3.0.0
+info:
+  version: "3.1.0"
+  title: Xero Practice Manager Client List Paginated API
+  description: >
+    Retrieves a paginated list of client summaries from the Xero Practice Manager API.
+    This endpoint supports pagination via the `pageSize` and `pageToken` query parameters.
+    For detailed client information, please refer to the client details endpoint.
+  termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
+  contact:
+    name: "Xero Platform Team"
+    email: "api@xero.com"
+    url: "https://developer.xero.com"
+  license:
+    name: MIT
+    url: "https://github.com/XeroAPI/Xero-OpenAPI/blob/master/LICENSE"
+servers:
+  - description: Xero Practice Manager API Server
+    url: "https://api.xero.com"
+paths:
+  /practicemanager/3.1/client.api/paged-list:
+    get:
+      summary: Retrieves a paginated list of clients.
+      description: >
+        Returns a paginated list of clients.
+      operationId: getPagedClientList
+      tags:
+        - client
+      security:
+        - OAuth2: []
+      parameters:
+        - name: pageSize
+          in: query
+          description: Specifies the number of clients per page. Must be between 1 and 500. Defaults to 50.
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 500
+            default: 50
+        - name: pageToken
+          in: query
+          description: Auto-generated continuation token for navigating paginated results.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/xml:
+              schema:
+                type: object
+                xml:
+                  name: Response
+                properties:
+                  Status:
+                    type: string
+                    description: The response status.
+                    example: OK
+                  Clients:
+                    type: array
+                    description: Array of clients.
+                    xml:
+                      name: Client
+                      wrapped: true
+                    items:
+                      $ref: '#/components/schemas/Clients'
+                  Pagination:
+                    type: object
+                    description: Pagination data.
+                    properties:
+                      Links:
+                        type: object
+                        description: Pagination links.
+                        properties:
+                          First:
+                            type: string
+                            format: uri
+                            description: Link to the first page.
+                          Next:
+                            type: string
+                            format: uri
+                            description: Link to the next page.
+                      Tokens:
+                        type: object
+                        description: Pagination tokens.
+                        properties:
+                          NextToken:
+                            type: string
+                            description: Auto-generated token for the next page.
+              example: |
+                <Response>
+                  <Status>OK</Status>           
+                  <Clients>
+                      <UUID>345fffa3-db32-4417-a1f6-7dcf8ffd3b21</UUID>
+                      <Name>Test Billing Client</Name>
+                      <Title />
+                      <Gender />
+                      <FirstName />
+                      <LastName />
+                      <OtherName />
+                      <Email />
+                      <DateOfBirth />
+                      <Phone></Phone>
+                      <Fax></Fax>
+                      <Website></Website>
+                      <Address></Address>
+                      <City></City>
+                      <Region></Region>
+                      <PostCode></PostCode>
+                      <Country></Country>
+                      <PostalAddress></PostalAddress>
+                      <PostalCity></PostalCity>
+                      <PostalRegion></PostalRegion>
+                      <PostalPostCode></PostalPostCode>
+                      <PostalCountry></PostalCountry>
+                      <ReferralSource></ReferralSource>
+                      <ExportCode></ExportCode>
+                      <IsArchivedString />
+                      <IsArchived>No</IsArchived>
+                      <IsDeletedString />
+                      <IsDeleted>No</IsDeleted>
+                      <AccountManager />
+                      <ClientReferenceCode />
+                      <Type />
+                      <BillingClient />
+                  </Clients>
+                  <Pagination>
+                    <Links>
+                      <First>https://api.xero.com/practicemanager/3.1/client.api/paged-list?pageSize=10</First>
+                      <Next>https://api.xero.com/practicemanager/3.1/client.api/paged-list?pageToken=bGlnaHQgd29y&pageSize=10</Next>
+                    </Links>
+                    <Tokens>
+                      <NextToken>eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZS</NextToken>
+                    </Tokens>
+                  </Pagination>
+                </Response>
+        '400':
+          description: Bad Request - page outside allowed range.
+        '403':
+          description: Forbidden - cannot find account.
+        '404':
+          description: Not Found - endpoint not found.
+components:
+  schemas:
+    Clients:
+      type: object
+      description: Detailed simple information for a client.
+      properties:
+        UUID:
+          type: string
+          format: uuid
+          description: Unique identifier for the client.
+        Name:
+          type: string
+          description: The client's name.
+        Title:
+          type: string
+          description: The client's title.
+        Gender:
+          type: string
+          description: The client's gender.
+        FirstName:
+          type: string
+          description: The client's first name.
+        LastName:
+          type: string
+          description: The client's last name.
+        OtherName:
+          type: string
+          description: The client's other name.
+        Email:
+          type: string
+          format: email
+          description: The client's email address.
+        DateOfBirth:
+          type: string
+          format: date-time
+          description: The client's date of birth.
+        Phone:
+          type: string
+          description: The client's phone number.
+        Fax:
+          type: string
+          description: The client's fax number.
+        Website:
+          type: string
+          description: The client's website.
+        Address:
+          type: string
+          description: The client's address.
+        City:
+          type: string
+          description: The client's city.
+        Region:
+          type: string
+          description: The client's region.
+        PostCode:
+          type: string
+          description: The client's postal code.
+        Country:
+          type: string
+          description: The client's country.
+        PostalAddress:
+          type: string
+          description: The client's postal address.
+        PostalCity:
+          type: string
+          description: The client's postal city.
+        PostalRegion:
+          type: string
+          description: The client's postal region.
+        PostalPostCode:
+          type: string
+          description: The client's postal post code.
+        PostalCountry:
+          type: string
+          description: The client's postal country.
+        ReferralSource:
+          type: string
+          description: The client's referral source.
+        ExportCode:
+          type: string
+          description: The client's export code.
+        IsArchivedString:
+          type: string
+          description: String representation of the archived status.
+        IsArchived:
+          type: string
+          enum: [Yes, No]
+          description: Indicates if the client is archived.
+        IsDeletedString:
+          type: string
+          description: String representation of the deleted status.
+        IsDeleted:
+          type: string
+          enum: [Yes, No]
+          description: Indicates if the client is deleted.
+        AccountManager:
+          oneOf:
+            - $ref: '#/components/schemas/AccountManager'
+            - type: string
+              description: Information about AccountManager.
+        ClientReferenceCode:
+          type: string
+          description: Reference code for the client.
+        Type:
+          oneOf:
+            - $ref: '#/components/schemas/ClientType'
+            - type: string
+              description: Information about client type.
+        BillingClient:
+          oneOf:
+            - $ref: '#/components/schemas/BillingClient'
+            - type: string
+              description: Information about billing client.
+    AccountManager:
+      type: object
+      description: Summary for account manager.
+      properties:
+        UID:
+          type: string
+          description: Unique identifier for account manager.
+        Name:
+          type: string
+          description: Account manager name.        
+    ClientType:
+      type: object
+      description: Details for client type.
+      properties:
+        UUID:
+          type: string
+          format: uuid
+          description: Unique identifier for the client type.
+        Name:
+          type: string
+          description: Name of the client type.
+        CostMarkup:
+          type: number
+          format: float
+          description: Cost markup value.
+        PaymentTerm:
+          type: string
+          description: Payment term.
+        PaymentDay:
+          type: integer
+          description: Payment day.
+    BillingClient:
+      type: object
+      description: Summary for the billing client.
+      properties:
+        UUID:
+          type: string
+          format: uuid
+          description: Unique identifier for the billing client.
+        Name:
+          type: string
+          description: The billing client's name.
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      description: For more information
+      flows:
+        authorizationCode:
+          authorizationUrl: "https://login.xero.com/identity/connect/authorize"
+          tokenUrl: "https://identity.xero.com/connect/token"
+          scopes:
+            email: "Grant read-only access to your email"
+            openid: "Grant read-only access to your open id"
+            profile: "Access your profile information"
