@@ -580,7 +580,14 @@ paths:
           python: start_date
           ruby: start_date
           object: employment
-          is_last: true 
+          is_last: true
+        - niCategories:
+          key: niCategories
+          keyPascal: NICategories
+          keySnake: ni_categories
+          is_object: true
+          object: employment
+          default: A
       summary: Creates employment detail for a specific employee using a unique employee ID
       parameters:
         - $ref: '#/components/parameters/idempotencyKey'
@@ -6053,23 +6060,14 @@ components:
           type: string
           example: 007
         niCategory:
-          description: The NI Category of the employee
-          type: string
-          enum:
-          - A
-          - B
-          - C
-          - F
-          - H
-          - I
-          - J
-          - L
-          - M
-          - S
-          - V
-          - X
-          - Z
-          example: A
+          $ref: '#/components/schemas/NICategoryLetter'
+          deprecated: true
+        niCategories:
+          description: The employee's NI categories
+          type: array
+          items:
+            $ref: '#/components/schemas/NICategory'
+
     EmployeeTaxObject:
       type: object
       properties:
