@@ -7864,3 +7864,49 @@ components:
           description: The Xero identifier for Timesheet tracking category.
           type: string
           format: uuid
+    NICategoryLetter:
+      description: The employee's NI Category letter.
+      type: string
+      example: I
+      enum:
+      - A
+      - B
+      - C
+      - F
+      - H
+      - I
+      - J
+      - L
+      - M
+      - S
+      - V
+      - X
+      - Z
+    NICategory:
+      type: object
+      required:
+        - niCategory
+        - workplacePostcode
+      properties:
+        startDate:
+          description: The start date of the NI category (YYYY-MM-DD)
+          type: string
+          format: date
+          example: 2024-12-02  
+          x-is-date: true 
+        niCategory:
+          $ref: '#/components/schemas/NICategoryLetter'
+        niCategoryID:
+          description: Xero unique identifier for the NI category
+          type: number
+          example: 15
+        dateFirstEmployedAsCivilian:
+          description: The date in which the employee was first employed as a civilian (YYYY-MM-DD)
+          type: string
+          format: date
+          example: 2024-12-02
+          x-is-date: true 
+        workplacePostcode:
+          description: The workplace postcode
+          type: string
+          example: SW1A 1AA
