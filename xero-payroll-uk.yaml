@@ -1,9 +1,9 @@
 openapi: 3.0.0
 info:
-  version: 6.3.0
-  title: Xero Payroll UK
-  description: This is the Xero Payroll API for orgs in the UK region.
-  termsOfService: https://developer.xero.com/xero-developer-platform-terms-conditions/
+  version: 8.1.0
+  title: 'Xero Payroll UK'
+  description: 'This is the Xero Payroll API for orgs in the UK region.'
+  termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
   contact:
     name: Xero Platform Team
     email: api@xero.com
@@ -311,35 +311,52 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmployeeObject'
-              example:
-                id: 9414291b-a8c6-08fa-b165-9b30b1e6aab5
-                providerName: '!YLT5Y'
-                dateTimeUTC: 2018-04-09T05:15:18.1011141
-                httpStatusCode: OK
-                pagination: null
-                problem: null
-                employee:
-                  employeeID: d17e008e-3381-45c0-b50c-2fab7757e503
-                  title: Mr.
-                  firstName: Edgar
-                  lastName: Allan Po
-                  dateOfBirth: 1985-03-24T00:00:00
-                  gender: M
-                  email: tester1@gmail.com
-                  phoneNumber: "0400123456"
-                  nationalInsuranceNumber: AB123456C
-                  isOffPayrollWorker: false
-                  address:
-                    addressLine1: 171 Midsummer
-                    addressLine2: null
-                    city: Milton Keyness
-                    county: null
-                    countryName: UNITED KINGDOM
-                    postCode: MK9 1EB
-                  payrollCalendarID: 216d80e6-af55-47b1-b718-9457c3f5d2fe
-                  updatedDateUTC: 2017-05-12T10:00:24
-                  createdDateUTC: 2017-05-12T10:00:24
-                  endDate: null
+              example: '{
+                          "id": "9414291b-a8c6-08fa-b165-9b30b1e6aab5",
+                          "providerName": "!YLT5Y",
+                          "dateTimeUTC": "2018-04-09T05:15:18.1011141",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null,
+                          "employee": {
+                              "employeeID": "d17e008e-3381-45c0-b50c-2fab7757e503",
+                              "title": "Mr.",
+                              "firstName": "Edgar",
+                              "lastName": "Allan Po",
+                              "dateOfBirth": "1985-03-24T00:00:00",
+                              "gender": "M",
+                              "email": "tester1@gmail.com",
+                              "phoneNumber": "0400123456",
+                              "nationalInsuranceNumber": null,
+                              "isOffPayrollWorker": false,
+                              "address": {
+                                  "addressLine1": "171 Midsummer",
+                                  "addressLine2": null,
+                                  "city": "Milton Keyness",
+                                  "county": null,
+                                  "countryName": null,
+                                  "postCode": "MK9 1EB"
+                              },
+                              "payrollCalendarID": null,
+                              "updatedDateUTC": "2017-05-12T10:00:24",
+                              "createdDateUTC": "2017-05-12T10:00:24",
+                              "niCategories": [
+                                {
+                                  "startDate": "2020-05-01T00:00:00",
+                                  "niCategory": "A"
+                                },
+                                {
+                                  "startDate": null,
+                                  "niCategory": "F",
+                                  "niCategoryID": 1,
+                                  "dateFirstEmployedAsCivilian": null,
+                                  "workplacePostcode": "SW1A 1AA"
+                                }
+                              ],
+                              "employeeNumber": "2",
+                              "endDate": null
+                          }
+                        }'
     put:
       security:
         - OAuth2:
@@ -553,6 +570,13 @@ paths:
           ruby: start_date
           object: employment
           is_last: true
+        - niCategories:
+          key: niCategories
+          keyPascal: NICategories
+          keySnake: ni_categories
+          is_object: true
+          object: employment
+          default: A
       summary: Creates employment detail for a specific employee using a unique employee ID
       parameters:
         - $ref: '#/components/parameters/idempotencyKey'
@@ -572,19 +596,29 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/EmploymentObject'
-              example:
-                id: 0160a355-1e6d-4fdc-9532-c0857feaa515
-                providerName: provider-name
-                dateTimeUTC: 2020-03-26T18:09:11.6235442
-                httpStatusCode: OK
-                pagination: null
-                problem: null
-                employment:
-                  payrollCalendarID: 216d80e6-af55-47b1-b718-9457c3f5d2fe
-                  startDate: 2020-04-01T00:00:00
-                  niCategory: A
-                  employeeNumber: 123ABC
-        "400":
+              example: '{
+                          "id": "0160a355-1e6d-4fdc-9532-c0857feaa515",
+                          "providerName": "provider-name",
+                          "dateTimeUTC": "2020-03-26T18:09:11.6235442",
+                          "httpStatusCode": "OK",
+                          "pagination": null,
+                          "problem": null,
+                          "employment": {
+                            "payrollCalendarID": "216d80e6-af55-47b1-b718-9457c3f5d2fe",
+                            "startDate": "2020-04-01T00:00:00",
+                            "niCategories": [
+                              {
+                                "niCategory": "A",
+                                "startDate": "2020-05-01",
+                                "niCategoryID": 594,
+                                "dateFirstEmployedAsCivilian": null,
+                                "workplacePostcode": null
+                              }
+                            ],
+                            "employeeNumber": "123ABC"
+                          }
+                        }'
+        '400':
           description: validation error for a bad request
           content:
             application/json:
@@ -596,11 +630,17 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Employment'
-            example:
-              PayrollCalendarID: 216d80e6-af55-47b1-b718-9457c3f5d2fe
-              StartDate: "2020-04-01"
-              EmployeeNumber: 123ABC
-              NICategory: A
+            example: '{
+                        "PayrollCalendarID": "216d80e6-af55-47b1-b718-9457c3f5d2fe",
+                        "StartDate": "2020-04-01",
+                        "NICategories": [
+                          {
+                            "NICategory": "A",
+                            "StartDate": "2020-05-01"
+                          }
+                        ],
+                        "EmployeeNumber": "123ABC"
+                      }'
   /Employees/{EmployeeID}/Tax:
     parameters:
       - $ref: '#/components/parameters/requiredHeader'
@@ -5730,6 +5770,14 @@ components:
           type: string
           format: date-time
           x-is-datetime: true
+        niCategory:
+          $ref: '#/components/schemas/NICategoryLetter'
+          deprecated: true
+        niCategories:
+          description: The employee's NI categories
+          type: array
+          items:
+            $ref: '#/components/schemas/NICategory'
         nationalInsuranceNumber:
           description: National insurance number of the employee
           type: string
@@ -5749,10 +5797,10 @@ components:
     Employment:
       type: object
       required:
-        - payrollCalendarID
-        - startDate
-        - employeeNumber
-        - niCategory
+        - PayrollCalendarID
+        - StartDate
+        - EmployeeNumber
+        - NICategories
       properties:
         payrollCalendarID:
           description: Xero unique identifier for the payroll calendar of the employee
@@ -5768,23 +5816,14 @@ components:
           type: string
           example: 007
         niCategory:
-          description: The NI Category of the employee
-          type: string
-          enum:
-            - A
-            - B
-            - C
-            - F
-            - H
-            - I
-            - J
-            - L
-            - M
-            - S
-            - V
-            - X
-            - Z
-          example: A
+          $ref: '#/components/schemas/NICategoryLetter'
+          deprecated: true
+        niCategories:
+          description: The employee's NI categories
+          type: array
+          items:
+            $ref: '#/components/schemas/NICategory'
+
     EmployeeTaxObject:
       type: object
       properties:
@@ -6644,6 +6683,8 @@ components:
             - TipsNonDirect
             - TipsDirect
             - TerminationPay
+            - StatutoryNeonatalCarePay
+            - StatutoryNeonatalCarePayNonPensionable
         rateType:
           description: Indicates the type of the earning rate
           type: string
@@ -7597,3 +7638,73 @@ components:
           description: The Xero identifier for Timesheet tracking category.
           type: string
           format: uuid
+    NICategoryLetter:
+      description: The employee's NI Category letter.
+      type: string
+      example: I
+      enum:
+      - A
+      - B
+      - C
+      - F
+      - H
+      - I
+      - J
+      - L
+      - M
+      - S
+      - V
+      - X
+      - Z
+      - D
+      - E
+      - K
+      - N
+    NICategory:
+      type: object
+      required:
+        - niCategory
+        - workplacePostcode
+      properties:
+        startDate:
+          description: The start date of the NI category (YYYY-MM-DD)
+          type: string
+          format: date
+          example: 2024-12-02  
+          x-is-date: true 
+        niCategory:
+          $ref: '#/components/schemas/NICategoryLetter'
+        niCategoryID:
+          description: Xero unique identifier for the NI category
+          type: number
+          example: 15
+        dateFirstEmployedAsCivilian:
+          description: The date in which the employee was first employed as a civilian (YYYY-MM-DD)
+          type: string
+          format: date
+          example: 2024-12-02
+          x-is-date: true 
+        workplacePostcode:
+          description: The workplace postcode
+          type: string
+          example: SW1A 1AA
+      oneOf:
+        - required:
+          - workplacePostcode
+          properties:
+            niCategory:
+              enum: 
+                - F
+                - I
+                - L
+                - S
+                - N
+                - E
+                - D
+                - K
+        - required:
+          - dateFirstEmployedAsCivilian
+          properties:
+            niCategory:
+              enum:
+                - V
