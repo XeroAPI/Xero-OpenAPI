@@ -1,0 +1,120 @@
+rules:
+  # Custom rules specific to Xero APIs
+  xero-info-required-fields:
+    description: "Ensure required info fields are present"
+    given: "$.info"
+    severity: error
+    then:
+      - field: "title"
+        function: truthy
+      - field: "version"
+        function: truthy
+      - field: "termsOfService"
+        function: truthy
+      - field: "contact"
+        function: truthy
+
+  xero-contact-required-fields:
+    description: "Ensure contact has required fields"
+    given: "$.info.contact"
+    severity: error
+    then:
+      - field: "name"
+        function: truthy
+      - field: "email"
+        function: truthy
+      - field: "url"
+        function: truthy
+
+  xero-servers-required:
+    description: "Ensure servers are defined"
+    given: "$"
+    severity: error
+    then:
+      field: "servers"
+      function: truthy
+
+  xero-server-description:
+    description: "Each server should have a description"
+    given: "$.servers[*]"
+    severity: warn
+    then:
+      field: "description"
+      function: truthy
+
+  xero-operation-summary:
+    description: "Operations should have summaries"
+    given: "$.paths[*][get,post,put,patch,delete,head,options,trace]"
+    severity: warn
+    then:
+      field: "summary"
+      function: truthy
+
+  xero-operation-id:
+    description: "Operations must have operationId"
+    given: "$.paths[*][get,post,put,patch,delete,head,options,trace]"
+    severity: error
+    then:
+      field: "operationId"
+      function: truthy
+
+  xero-operation-tags:
+    description: "Operations should have tags"
+    given: "$.paths[*][get,post,put,patch,delete,head,options,trace]"
+    severity: warn
+    then:
+      field: "tags"
+      function: truthy
+
+  xero-operation-security:
+    description: "Operations should have security defined"
+    given: "$.paths[*][get,post,put,patch,delete,head,options,trace]"
+    severity: info
+    then:
+      field: "security"
+      function: truthy
+
+  xero-response-200-description:
+    description: "200 responses should have descriptions"
+    given: "$.paths[*][get,post,put,patch,delete,head,options,trace].responses.200"
+    severity: warn
+    then:
+      field: "description"
+      function: truthy
+
+  xero-schema-properties-description:
+    description: "Schema properties should have descriptions for better documentation"
+    given: "$.components.schemas[*].properties[*]"
+    severity: info
+    then:
+      field: "description"
+      function: truthy
+
+  xero-openapi-version:
+    description: "Should use OpenAPI 3.0.0 or higher"
+    given: "$.openapi"
+    severity: error
+    then:
+      function: pattern
+      functionOptions:
+        match: "^3\\.[0-9]+\\.[0-9]+$"
+
+  xero-path-parameters:
+    description: "Path parameters should be properly defined"
+    given: "$.paths[*][get,post,put,patch,delete,head,options,trace].parameters[?(@.in === 'path')]"
+    severity: error
+    then:
+      - field: "name"
+        function: truthy
+      - field: "required"
+        function: truthy
+      - field: "schema"
+        function: truthy
+
+  xero-consistent-error-responses:
+    description: "Should have consistent error response structure"
+    given: "$.paths[*][get,post,put,patch,delete,head,options,trace].responses[?(@property >= '400')]"
+    severity: info
+    then:
+      field: "description"
+      function: truthy
