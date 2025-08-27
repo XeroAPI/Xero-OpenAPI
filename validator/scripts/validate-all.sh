@@ -10,6 +10,7 @@ ruleset="./validator/spectral.yaml"
 
 # Array of all YAML files
 files=(
+    "xero-finance.yaml"
     "xero-identity.yaml"
     "xero-projects.yaml"
     "xero-app-store.yaml"
