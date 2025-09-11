@@ -4,7 +4,13 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-      - name: spectral-lint
-        run: ./validator/scripts/validate-all.sh
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+    - name: Install yarn
+      run: npm install -g yarn
+    - name: yarn
+      working-directory: ./validator
+      run: yarn install --immutable
+    - name: spectral-lint
+      working-directory: ./validator
+      run: yarn lint
