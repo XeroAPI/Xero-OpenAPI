@@ -514,7 +514,6 @@ paths:
       tags:
         - PayrollAu
       operationId: getEarningsRates
-      x-hasPayrollUkProblem: true
       servers: 
       - url: https://api.xero.com/payroll.xro/2.0
       summary: Allows you to retrieve all payroll earnings rates in a Xero organisation
@@ -522,7 +521,7 @@ paths:
         - in: query
           name: page
           description: Page number which specifies the set of records to retrieve. By default the number of the records per set is 100. When page value is not a number or a negative number, by default, the first set of records is returned
-          example: https://api.xero.com/payroll.xro/2.0/earningsRates?page=2 to get the second set of the records.
+          example: https://api.xero.com/payroll.xro/2.0/earningsRates?page=1
           schema:
             type: integer
       responses:
@@ -531,7 +530,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EarningsRateObject'
+                $ref: '#/components/schemas/EarningsRates'
               example:
                 id: 00000000-0000-0000-0000-000000000000
                 providerName: provider-name
@@ -588,7 +587,25 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Problem'
+                description: The object returned for a bad request
+                type: object
+                properties:
+                  type:
+                    description: The type of error format
+                    type: string
+                    example: application/problem+json
+                  title:
+                    description: The type of the error
+                    type: string
+                    example: InvalidRequest
+                  status:
+                    description: The error status code
+                    type: string
+                    example: 400
+                  detail:
+                    description: A description of the error
+                    type: string
+                    example: Requested page does not exist.
     post:
       security:
         - OAuth2:
@@ -596,7 +613,6 @@ paths:
       tags:
         - PayrollAu
       operationId: createEarningsRate
-      x-hasPayrollUkProblem: true
       servers: 
       - url: https://api.xero.com/payroll.xro/2.0
       x-example:
@@ -614,11 +630,11 @@ paths:
           key: earningsType
           keyPascal: EarningsType
           keySnake: earnings_type
-          php: XeroAPI\XeroPHP\Models\PayrollNz\EarningsRate\EarningsTypeEnum.RegularEarnings
+          php: XeroAPI\XeroPHP\Models\PayrollAu\EarningsRate\EarningsTypeEnum.RegularEarnings
           node: EarningsRate.EarningsTypeEnum.REGULAREARNINGS
-          ruby: XeroRuby::PayrollNz::EarningsRate::EarningsTypeEnum::REGULAREARNINGS
+          ruby: XeroRuby::PayrollAu::EarningsRate::EarningsTypeEnum::REGULAREARNINGS
           python_string: REGULAREARNINGS
-          java: com.xero.models.payrollnz.EarningsRate.EarningsTypeEnum.RegularEarnings
+          java: com.xero.models.PayrollAu.EarningsRate.EarningsTypeEnum.RegularEarnings
           csharp: EarningsRate.EarningsTypeEnum.RegularEarnings
           default: RegularEarnings
           nonString: true
@@ -627,11 +643,11 @@ paths:
           key: rateType
           keyPascal: RateType
           keySnake: rate_type
-          php: XeroAPI\XeroPHP\Models\PayrollNz\EarningsRate\RateTypeEnum.RatePerUnit
+          php: XeroAPI\XeroPHP\Models\PayrollAu\EarningsRate\RateTypeEnum.RatePerUnit
           node: EarningsRate.RateTypeEnum.RatePerUnit
-          ruby: XeroRuby::PayrollNz::EarningsRate::RateTypeEnum::ACCPAYCREDIT
+          ruby: XeroRuby::PayrollAu::EarningsRate::RateTypeEnum::ACCPAYCREDIT
           python_string: RATEPERUNIT
-          java: com.xero.models.payrollnz.EarningsRate.RateTypeEnum.RATEPERUNIT
+          java: com.xero.models.PayrollAu.EarningsRate.RateTypeEnum.RATEPERUNIT
           csharp: EarningsRate.RateTypeEnum.RatePerUnit
           default: RatePerUnit
           object: earningsRate
@@ -666,7 +682,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EarningsRateObject'
+                $ref: '#/components/schemas/EarningsRates'
               example:
                 id: 00000000-0000-0000-0000-000000000000
                 providerName: provider-name
@@ -727,7 +743,6 @@ paths:
       operationId: getEarningsRate
       servers: 
       - url: https://api.xero.com/payroll.xro/2.0
-      x-hasPayrollUkProblem: true
       summary: Allows you to retrieve details of an earnings rate in a Xero organisation by using a unique earnings rate id
       parameters:
         - in: path
@@ -744,7 +759,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EarningsRateObject'
+                $ref: '#/components/schemas/EarningsRates'
               example:
                 id: 00000000-0000-0000-0000-000000000000
                 providerName: provider-name
@@ -4621,11 +4636,11 @@ components:
         name:
           description: The name of the field that caused the error
           type: string
-          example: isExemptFromSuper
+          example: isSubjectToSuper
         reason:
           description: The reason the error occurred
           type: string
-          example: The property isExemptFromSuper is required.
+          example: The property isSubjectToSuper is required.
     EarningsRateV2:
       type: object
       description: Earnings Rate for https://api.xero.com/payroll.xro/2.0 Xero Payroll AU API (v2)
@@ -4709,15 +4724,6 @@ components:
           description: For allowances using RatePerUnit only,  whether it contributes towards the overtime rate.
           type: boolean
           example: false
-    EarningsRateObject:
-      type: object
-      properties:
-        pagination:
-          $ref: '#/components/schemas/Pagination'
-        problem:
-          $ref: '#/components/schemas/Problem'
-        earningsRate:
-          $ref: '#/components/schemas/EarningsRateV2' 
     DeductionType:
       type: object
       properties:
