@@ -6502,10 +6502,12 @@ components:
           example: developer@me.com
         gender:
           description: The employee’s gender
-          type: string
-          enum:
-            - M
-            - F
+          anyOf:
+            - type: string
+              enum:
+              - M
+              - F
+            - type: string
           example: F
         phoneNumber:
           description: Employee phone number
@@ -6636,14 +6638,15 @@ components:
           example: 1.0
         kiwiSaverContributions:
           description: Contribution Option which can be 'MakeContributions' 'OptOut', 'OnAContributionsHoliday', 'OnASavingsSuspension', 'NotCurrentlyAKiwiSaverMember' for employees without a KiwiSaver membership
-          type: string
-          example: MakeContributions
-          enum:
-            - MakeContributions
-            - OptOut
-            - OnAContributionsHoliday
-            - OnASavingsSuspension
-            - NotCurrentlyAKiwiSaverMember
+          anyOf:
+            - type: string
+              enum:
+              - MakeContributions
+              - OptOut
+              - OnAContributionsHoliday
+              - OnASavingsSuspension
+              - NotCurrentlyAKiwiSaverMember
+            - type: string
         kiwiSaverEmployeeContributionRatePercentage:
           description: Employee Contribution percentage.
           type: number
@@ -6690,7 +6693,7 @@ components:
           format: date
           x-is-date: true
           example: 2020-07-01T00:00:00
-    TaxCode:
+    TaxCodeClosed:
       description: Tax codes used for employee tax
       type: string
       enum:
@@ -6713,6 +6716,11 @@ components:
         - NSW
         - STC
         - STCSL
+    TaxCode:
+      description: Tax codes used for employee tax
+      anyOf:
+        - $ref: '#/components/schemas/TaxCodeClosed'
+        - type: string
     EmployeeOpeningBalancesObject:
       type: object
       properties:
@@ -6900,13 +6908,15 @@ components:
       properties:
         leaveType:
           description: The type of statutory leave
-          type: string
-          enum:
-            - Sick
-            - Adoption
-            - Maternity
-            - Paternity
-            - Sharedparental
+          anyOf:
+            - type: string
+              enum:
+              - Sick
+              - Adoption
+              - Maternity
+              - Paternity
+              - Sharedparental
+            - type: string
         balanceRemaining:
           description: The balance remaining for the corresponding leave type as of specified date.
           type: number
@@ -6914,9 +6924,11 @@ components:
           x-is-money: true
         units:
           description: The units will be "Hours"
-          type: string
-          enum:
-            - Hours
+          anyOf:
+            - type: string
+              enum:
+              - Hours
+            - type: string
     EmployeeStatutoryLeavesSummaries:
       type: object
       properties:
@@ -6941,13 +6953,15 @@ components:
           format: uuid
         type:
           description: The category of statutory leave
-          type: string
-          enum:
-            - Sick
-            - Adoption
-            - Maternity
-            - Paternity
-            - Sharedparental
+          anyOf:
+            - type: string
+              enum:
+              - Sick
+              - Adoption
+              - Maternity
+              - Paternity
+              - Sharedparental
+            - type: string
         startDate:
           description: The date when the leave starts
           type: string
@@ -6963,11 +6977,13 @@ components:
           type: boolean
         status:
           description: The status of the leave
-          type: string
-          enum:
-            - Pending
-            - In-Progress
-            - Completed
+          anyOf:
+            - type: string
+              enum:
+              - Pending
+              - In-Progress
+              - Completed
+            - type: string
     EmployeeStatutorySickLeaves:
       type: object
       properties:
@@ -7182,12 +7198,14 @@ components:
           format: uuid
         scheduleOfAccrual:
           description: The schedule of accrual
-          type: string
-          enum:
-            - AnnuallyAfter6Months
-            - OnAnniversaryDate
-            - PercentageOfGrossEarnings
-            - NoAccruals
+          anyOf:
+            - type: string
+              enum:
+              - AnnuallyAfter6Months
+              - OnAnniversaryDate
+              - PercentageOfGrossEarnings
+              - NoAccruals
+            - type: string
         hoursAccruedAnnually:
           description: Deprecated use UnitsAccruedAnnually
           type: number
@@ -7360,11 +7378,13 @@ components:
           type: string
         category:
           description: Superannuations Category type
-          type: string
-          enum:
-            - KiwiSaver
-            - ComplyingFund
-            - Other
+          anyOf:
+            - type: string
+              enum:
+              - KiwiSaver
+              - ComplyingFund
+              - Other
+            - type: string
         liabilityAccountId:
           description: Xero identifier for Liability Account
           type: string
@@ -7375,10 +7395,12 @@ components:
           format: uuid
         calculationTypeNZ:
           description: Calculation Type of the superannuation either FixedAmount or PercentageOfTaxableEarnings
-          type: string
-          enum:
-            - FixedAmount
-            - PercentageOfTaxableEarnings
+          anyOf:
+            - type: string
+              enum:
+              - FixedAmount
+              - PercentageOfTaxableEarnings
+            - type: string
         standardAmount:
           description: Standard amount of the superannuation
           type: number
@@ -7433,12 +7455,14 @@ components:
           type: string
         deductionCategory:
           description: Deduction Category type
-          type: string
-          enum:
-            - PayrollGiving
-            - KiwiSaverVoluntaryContributions
-            - Superannuation
-            - NzOther
+          anyOf:
+            - type: string
+              enum:
+              - PayrollGiving
+              - KiwiSaverVoluntaryContributions
+              - Superannuation
+              - NzOther
+            - type: string
         liabilityAccountId:
           description: Xero identifier for Liability Account
           type: string
@@ -7490,7 +7514,7 @@ components:
         currentRecord:
           description: Identifier of a record is active or not.
           type: boolean
-    StatutoryDeductionCategory:
+    StatutoryDeductionCategoryClosed:
       description: Statutory Deduction Category
       type: string
       enum:
@@ -7505,6 +7529,11 @@ components:
         - AdditionalStudentLoan
         - VoluntaryStudentLoan
         - KiwiSaver
+    StatutoryDeductionCategory:
+      description: Statutory Deduction Category
+      anyOf:
+        - $ref: '#/components/schemas/StatutoryDeductionCategoryClosed'
+        - type: string
     EarningsOrders:
       type: object
       properties:
@@ -7585,30 +7614,34 @@ components:
           type: string
         earningsType:
           description: Indicates how an employee will be paid when taking this type of earning
-          type: string
-          enum:
-            - Allowance
-            - Backpay
-            - Bonus
-            - Commission
-            - DiscretionaryPayments
-            - HolidayPay
-            - LumpSum
-            - OtherEarnings
-            - OtherGrossEarnings
-            - OvertimeEarnings
-            - RegularEarnings
-            - SalarySacrificeForKiwiSaver
-            - Tips(Direct)
-            - Tips(Non-Direct)
-            - WithholdingIncome
+          anyOf:
+            - type: string
+              enum:
+              - Allowance
+              - Backpay
+              - Bonus
+              - Commission
+              - DiscretionaryPayments
+              - HolidayPay
+              - LumpSum
+              - OtherEarnings
+              - OtherGrossEarnings
+              - OvertimeEarnings
+              - RegularEarnings
+              - SalarySacrificeForKiwiSaver
+              - Tips(Direct)
+              - Tips(Non-Direct)
+              - WithholdingIncome
+            - type: string
         rateType:
           description: Indicates the type of the earning rate
-          type: string
-          enum:
-            - RatePerUnit
-            - MultipleOfOrdinaryEarningsRate
-            - FixedAmount
+          anyOf:
+            - type: string
+              enum:
+              - RatePerUnit
+              - MultipleOfOrdinaryEarningsRate
+              - FixedAmount
+            - type: string
         typeOfUnits:
           description: The type of units used to record earnings
           type: string
@@ -7730,27 +7763,33 @@ components:
           type: boolean
         reimbursementCategory:
           description: See Reimbursement Categories
-          type: string
-          enum:
-            - GST
-            - NoGST
-            - GSTInclusive
+          anyOf:
+            - type: string
+              enum:
+              - GST
+              - NoGST
+              - GSTInclusive
+            - type: string
         calculationType:
           description: See Calculation Types
-          type: string
-          enum:
-            - Unknown
-            - FixedAmount
-            - RatePerUnit
+          anyOf:
+            - type: string
+              enum:
+              - Unknown
+              - FixedAmount
+              - RatePerUnit
+            - type: string
         standardAmount:
           description: Optional Fixed Rate Amount. Applicable when calculation type is Fixed Amount
           type: string
         standardTypeOfUnits:
           description: Optional Type Of Units. Applicable when calculation type is Rate Per Unit
-          type: string
-          enum:
-            - Hours
-            - km
+          anyOf:
+            - type: string
+              enum:
+              - Hours
+              - km
+            - type: string
         standardRatePerUnit:
           description: Optional Rate Per Unit. Applicable when calculation type is Rate Per Unit
           type: number
@@ -7808,12 +7847,14 @@ components:
           x-is-date: true
         status:
           description: Status of the timesheet
-          type: string
-          enum:
-            - Draft
-            - Approved
-            - Completed
-            - Requested
+          anyOf:
+            - type: string
+              enum:
+              - Draft
+              - Approved
+              - Completed
+              - Requested
+            - type: string
         totalHours:
           description: The Total Hours of the Timesheet
           type: number
@@ -7939,11 +7980,13 @@ components:
       properties:
         paymentMethod:
           description: The payment method code
-          type: string
-          enum:
-            - Cheque
-            - Electronically
-            - Manual
+          anyOf:
+            - type: string
+              enum:
+              - Cheque
+              - Electronically
+              - Manual
+            - type: string
         bankAccounts:
           type: array
           items:
@@ -8019,23 +8062,29 @@ components:
           x-is-money: true
         status:
           description: The current status of the corresponding salary and wages
-          type: string
-          enum:
-            - Active
-            - Pending
-            - History
+          anyOf:
+            - type: string
+              enum:
+              - Active
+              - Pending
+              - History
+            - type: string
         paymentType:
           description: The type of the payment of the corresponding salary and wages
-          type: string
-          enum:
-            - Salary
-            - Hourly
+          anyOf:
+            - type: string
+              enum:
+              - Salary
+              - Hourly
+            - type: string
         workPatternType:
           description: The type of the Working Pattern of the corresponding salary and wages
-          type: string
-          enum:
-            - DaysAndHours
-            - RegularWeek
+          anyOf:
+            - type: string
+              enum:
+              - DaysAndHours
+              - RegularWeek
+            - type: string
     PayRuns:
       type: object
       properties:
@@ -8094,10 +8143,12 @@ components:
           x-is-money: true
         payRunStatus:
           description: Pay run status
-          type: string
-          enum:
-            - Draft
-            - Posted
+          anyOf:
+            - type: string
+              enum:
+              - Draft
+              - Posted
+            - type: string
         payRunType:
           description: Pay run type
           type: string
@@ -8116,7 +8167,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/PaySlip'
-    CalendarType:
+    CalendarTypeClosed:
       description: Calendar type of the pay run
       type: string
       enum:
@@ -8127,6 +8178,11 @@ components:
         - Annual
         - Quarterly
         - TwiceMonthly
+    CalendarType:
+      description: Calendar type of the pay run
+      anyOf:
+        - $ref: '#/components/schemas/CalendarTypeClosed'
+        - type: string
     PaySlipObject:
       type: object
       properties:
@@ -8223,11 +8279,13 @@ components:
           type: string
         paymentMethod:
           description: The payment method code
-          type: string
-          enum:
-            - Cheque
-            - Electronically
-            - Manual
+          anyOf:
+            - type: string
+              enum:
+              - Cheque
+              - Electronically
+              - Manual
+            - type: string
         earningsLines:
           $ref: '#/components/schemas/EarningsLines'
         leaveEarningsLines:
@@ -8583,10 +8641,12 @@ components:
           x-is-money: true
         periodType:
           description: The type of period ("weeks" or "months")
-          type: string
-          enum:
-            - weeks
-            - months
+          anyOf:
+            - type: string
+              enum:
+              - weeks
+              - months
+            - type: string
           example: weeks
         taxCode:
           $ref: '#/components/schemas/TaxCode'
@@ -8635,12 +8695,14 @@ components:
           format: uuid
         type:
           description: The assigned AccountType
-          type: string
-          enum:
-            - PAYELIABILITY
-            - WAGESPAYABLE
-            - WAGESEXPENSE
-            - BANK
+          anyOf:
+            - type: string
+              enum:
+              - PAYELIABILITY
+              - WAGESPAYABLE
+              - WAGESEXPENSE
+              - BANK
+            - type: string
         code:
           description: A unique 3 digit number for each Account
           type: string
@@ -8714,10 +8776,12 @@ components:
           type: string
         calculationType:
           description: Calculation type for the transaction can be 'Fixed Amount' or 'Balance'
-          type: string
-          enum:
-            - FixedAmount
-            - Balance
+          anyOf:
+            - type: string
+              enum:
+              - FixedAmount
+              - Balance
+            - type: string
     TrackingCategories:
       type: object
       properties:
