@@ -20172,6 +20172,343 @@ components:
       schema:
         type: string
         format: uuid
+    TaxTypeClosed:
+      required: true
+      in: path
+      name: TaxType
+      description: A valid TaxType code
+      example: INPUT2
+      schema:
+        type: string
+  responses:
+    400Error:
+      description: A failed request due to validation error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    HistoryRecordCreated:
+      description: Success - return response of type HistoryRecords array of HistoryRecord objects
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HistoryRecords'
+          example:
+            Id: d7525479-3392-44c0-bb37-ff4a0b5df5bd
+            Status: OK
+            ProviderName: Xero API Partner
+            DateTimeUTC: /Date(1550899400362)/
+            HistoryRecords:
+              - DateUTCString: 2019-02-23T05:23:20
+                DateUTC: /Date(1550899400362)/
+                Details: Hello World
+                ValidationErrors: []
+    HistoryRetrieved:
+      description: Success - return response of HistoryRecords array of 0 to N HistoryRecord
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HistoryRecords'
+          example:
+            Id: cd54cc7b-b721-4207-b11d-7d13c7902f91
+            Status: OK
+            ProviderName: Xero API Partner
+            DateTimeUTC: /Date(1551311321819)/
+            HistoryRecords:
+              - Changes: Attached a file
+                DateUTCString: 2018-11-08T15:01:21
+                DateUTC: /Date(1541689281470+0000)/
+                User: System Generated
+                Details: Attached the file sample2.jpg through the Xero API using Xero API Partner
+              - Changes: Credit Applied
+                DateUTCString: 2016-10-17T20:46:01
+                DateUTC: /Date(1476737161173+0000)/
+                User: System Generated
+                Details: Bank transfer from Business Wells Fargo to My Savings on November 12, 2016 for 20.00.
+  schemas:
+    AddressForOrganisation:
+      externalDocs:
+        url: http://developer.xero.com/documentation/api/types
+      properties:
+        AddressType:
+          description: define the type of address
+          anyOf:
+            - type: string
+              enum:
+              - POBOX
+              - STREET
+              - DELIVERY
+            - type: string
+        AddressLine1:
+          description: max length = 500
+          maxLength: 500
+          type: string
+        AddressLine2:
+          description: max length = 500
+          maxLength: 500
+          type: string
+        AddressLine3:
+          description: max length = 500
+          maxLength: 500
+          type: string
+        AddressLine4:
+          description: max length = 500
+          maxLength: 500
+          type: string
+        City:
+          description: max length = 255
+          maxLength: 255
+          type: string
+        Region:
+          description: max length = 255
+          maxLength: 255
+          type: string
+        PostalCode:
+          description: max length = 50
+          maxLength: 50
+          type: string
+        Country:
+          description: max length = 50, [A-Z], [a-z] only
+          maxLength: 50
+          type: string
+        AttentionTo:
+          description: max length = 255
+          maxLength: 255
+          type: string
+      type: object
+    Address:
+      externalDocs:
+        url: http://developer.xero.com/documentation/api/types
+      properties:
+        AddressType:
+          description: define the type of address
+          anyOf:
+            - type: string
+              enum:
+              - POBOX
+              - STREET
+            - type: string
+        AddressLine1:
+          description: max length = 500
+          maxLength: 500
+          type: string
+        AddressLine2:
+          description: max length = 500
+          maxLength: 500
+          type: string
+        AddressLine3:
+          description: max length = 500
+          maxLength: 500
+          type: string
+        AddressLine4:
+          description: max length = 500
+          maxLength: 500
+          type: string
+        City:
+          description: max length = 255
+          maxLength: 255
+          type: string
+        Region:
+          description: max length = 255
+          maxLength: 255
+          type: string
+        PostalCode:
+          description: max length = 50
+          maxLength: 50
+          type: string
+        Country:
+          description: max length = 50, [A-Z], [a-z] only
+          maxLength: 50
+          type: string
+        AttentionTo:
+          description: max length = 255
+          maxLength: 255
+          type: string
+      type: object
+    Phone:
+      externalDocs:
+        url: http://developer.xero.com/documentation/api/types
+      properties:
+        PhoneType:
+          anyOf:
+            - type: string
+              enum:
+              - DEFAULT
+              - DDI
+              - MOBILE
+              - FAX
+              - OFFICE
+            - type: string
+        PhoneNumber:
+          description: max length = 50
+          maxLength: 50
+          type: string
+        PhoneAreaCode:
+          description: max length = 10
+          maxLength: 10
+          type: string
+        PhoneCountryCode:
+          description: max length = 20
+          maxLength: 20
+          type: string
+      type: object
+    Accounts:
+      type: object
+      x-objectArrayKey: accounts
+      properties:
+        Accounts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Account'
+    Account:
+      type: object
+      externalDocs:
+        url: http://developer.xero.com/documentation/api/accounts/
+      properties:
+        Code:
+          description: Customer defined alpha numeric account code e.g 200 or SALES (max length = 10)
+          type: string
+          example: 4400
+        Name:
+          description: Name of account (max length = 150)
+          maxLength: 150
+          type: string
+          example: Food Sales
+        AccountID:
+          description: The Xero identifier for an account – specified as a string following  the endpoint name   e.g. /297c2dc5-cc47-4afd-8ec8-74990b8761e9
+          type: string
+          format: uuid
+          example: 00000000-0000-0000-0000-000000000000
+        Type:
+          $ref: '#/components/schemas/AccountType'
+          type: string
+        BankAccountNumber:
+          description: For bank accounts only (Account Type BANK)
+          type: string
+        Status:
+          description: Accounts with a status of ACTIVE can be updated to ARCHIVED. See Account Status Codes
+          anyOf:
+            - type: string
+              enum:
+              - ACTIVE
+              - ARCHIVED
+              - DELETED
+            - type: string
+        Description:
+          description: Description of the Account. Valid for all types of accounts except bank accounts (max length = 4000)
+          type: string
+        BankAccountType:
+          description: For bank accounts only. See Bank Account types
+          anyOf:
+            - type: string
+              enum:
+              - BANK
+              - CREDITCARD
+              - PAYPAL
+              - NONE
+              - ""
+            - type: string
+        CurrencyCode:
+          $ref: '#/components/schemas/CurrencyCode'
+          type: string
+        TaxType:
+          description: The tax type from taxRates
+          type: string
+        EnablePaymentsToAccount:
+          description: Boolean – describes whether account can have payments applied to it
+          type: boolean
+        ShowInExpenseClaims:
+          description: Boolean – describes whether account code is available for use with expense claims
+          type: boolean
+        Class:
+          description: See Account Class Types
+          readOnly: true
+          anyOf:
+            - type: string
+              enum:
+              - ASSET
+              - EQUITY
+              - EXPENSE
+              - LIABILITY
+              - REVENUE
+            - type: string
+        SystemAccount:
+          description: If this is a system account then this element is returned. See System Account types. Note that non-system accounts may have this element set as either “” or null.
+          readOnly: true
+          anyOf:
+            - type: string
+              enum:
+              - DEBTORS
+              - CREDITORS
+              - BANKCURRENCYGAIN
+              - GST
+              - GSTONIMPORTS
+              - HISTORICAL
+              - REALISEDCURRENCYGAIN
+              - RETAINEDEARNINGS
+              - ROUNDING
+              - TRACKINGTRANSFERS
+              - UNPAIDEXPCLM
+              - UNREALISEDCURRENCYGAIN
+              - WAGEPAYABLES
+              - CISASSETS
+              - CISASSET
+              - CISLABOUR
+              - CISLABOUREXPENSE
+              - CISLABOURINCOME
+              - CISLIABILITY
+              - CISMATERIALS
+              - ""
+            - type: string
+        ReportingCode:
+          description: Shown if set
+          type: string
+        ReportingCodeName:
+          description: Shown if set
+          readOnly: true
+          type: string
+        HasAttachments:
+          description: boolean to indicate if an account has an attachment (read only)
+          readOnly: true
+          type: boolean
+          default: "false"
+          example: "false"
+        UpdatedDateUTC:
+          description: Last modified date UTC format
+          type: string
+          x-is-msdate-time: true
+          example: /Date(1573755038314)/
+          readOnly: true
+        AddToWatchlist:
+          description: Boolean – describes whether the account is shown in the watchlist widget on the dashboard
+          type: boolean
+        ValidationErrors:
+          description: Displays array of validation error messages from the API
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+    AccountTypeClosed:
+      description: See Account Types
+      type: string
+      enum:
+        - BANK
+        - CURRENT
+        - CURRLIAB
+        - DEPRECIATN
+        - DIRECTCOSTS
+        - EQUITY
+        - EXPENSE
+        - FIXED
+        - INVENTORY
+        - LIABILITY
+        - NONCURRENT
+        - OTHERINCOME
+        - OVERHEADS
+        - PREPAYMENT
+        - REVENUE
+        - SALES
+        - TERMLIAB
+        - PAYG
     TaxType:
       required: true
       in: path
@@ -20232,11 +20569,13 @@ components:
       properties:
         AddressType:
           description: define the type of address
-          type: string
-          enum:
-            - POBOX
-            - STREET
-            - DELIVERY
+          anyOf:
+            - type: string
+              enum:
+              - POBOX
+              - STREET
+              - DELIVERY
+            - type: string
         AddressLine1:
           description: max length = 500
           maxLength: 500
@@ -20280,10 +20619,12 @@ components:
       properties:
         AddressType:
           description: define the type of address
-          type: string
-          enum:
-            - POBOX
-            - STREET
+          anyOf:
+            - type: string
+              enum:
+              - POBOX
+              - STREET
+            - type: string
         AddressLine1:
           description: max length = 500
           maxLength: 500
@@ -20326,13 +20667,15 @@ components:
         url: http://developer.xero.com/documentation/api/types
       properties:
         PhoneType:
-          type: string
-          enum:
-            - DEFAULT
-            - DDI
-            - MOBILE
-            - FAX
-            - OFFICE
+          anyOf:
+            - type: string
+              enum:
+              - DEFAULT
+              - DDI
+              - MOBILE
+              - FAX
+              - OFFICE
+            - type: string
         PhoneNumber:
           description: max length = 50
           maxLength: 50
@@ -20381,23 +20724,27 @@ components:
           type: string
         Status:
           description: Accounts with a status of ACTIVE can be updated to ARCHIVED. See Account Status Codes
-          type: string
-          enum:
-            - ACTIVE
-            - ARCHIVED
-            - DELETED
+          anyOf:
+            - type: string
+              enum:
+              - ACTIVE
+              - ARCHIVED
+              - DELETED
+            - type: string
         Description:
           description: Description of the Account. Valid for all types of accounts except bank accounts (max length = 4000)
           type: string
         BankAccountType:
           description: For bank accounts only. See Bank Account types
-          type: string
-          enum:
-            - BANK
-            - CREDITCARD
-            - PAYPAL
-            - NONE
-            - ""
+          anyOf:
+            - type: string
+              enum:
+              - BANK
+              - CREDITCARD
+              - PAYPAL
+              - NONE
+              - ""
+            - type: string
         CurrencyCode:
           $ref: '#/components/schemas/CurrencyCode'
           type: string
@@ -20413,39 +20760,43 @@ components:
         Class:
           description: See Account Class Types
           readOnly: true
-          type: string
-          enum:
-            - ASSET
-            - EQUITY
-            - EXPENSE
-            - LIABILITY
-            - REVENUE
+          anyOf:
+            - type: string
+              enum:
+              - ASSET
+              - EQUITY
+              - EXPENSE
+              - LIABILITY
+              - REVENUE
+            - type: string
         SystemAccount:
           description: If this is a system account then this element is returned. See System Account types. Note that non-system accounts may have this element set as either “” or null.
           readOnly: true
-          type: string
-          enum:
-            - DEBTORS
-            - CREDITORS
-            - BANKCURRENCYGAIN
-            - GST
-            - GSTONIMPORTS
-            - HISTORICAL
-            - REALISEDCURRENCYGAIN
-            - RETAINEDEARNINGS
-            - ROUNDING
-            - TRACKINGTRANSFERS
-            - UNPAIDEXPCLM
-            - UNREALISEDCURRENCYGAIN
-            - WAGEPAYABLES
-            - CISASSETS
-            - CISASSET
-            - CISLABOUR
-            - CISLABOUREXPENSE
-            - CISLABOURINCOME
-            - CISLIABILITY
-            - CISMATERIALS
-            - ""
+          anyOf:
+            - type: string
+              enum:
+              - DEBTORS
+              - CREDITORS
+              - BANKCURRENCYGAIN
+              - GST
+              - GSTONIMPORTS
+              - HISTORICAL
+              - REALISEDCURRENCYGAIN
+              - RETAINEDEARNINGS
+              - ROUNDING
+              - TRACKINGTRANSFERS
+              - UNPAIDEXPCLM
+              - UNREALISEDCURRENCYGAIN
+              - WAGEPAYABLES
+              - CISASSETS
+              - CISASSET
+              - CISLABOUR
+              - CISLABOUREXPENSE
+              - CISLABOURINCOME
+              - CISLIABILITY
+              - CISMATERIALS
+              - ""
+            - type: string
         ReportingCode:
           description: Shown if set
           type: string
@@ -20473,28 +20824,16 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ValidationError'
+    AccountTypeClosed:
+      description: See Account Types
+      anyOf:
+        - $ref: '#/components/schemas/TaxTypeClosed'
+        - type: string
     AccountType:
       description: See Account Types
-      type: string
-      enum:
-        - BANK
-        - CURRENT
-        - CURRLIAB
-        - DEPRECIATN
-        - DIRECTCOSTS
-        - EQUITY
-        - EXPENSE
-        - FIXED
-        - INVENTORY
-        - LIABILITY
-        - NONCURRENT
-        - OTHERINCOME
-        - OVERHEADS
-        - PREPAYMENT
-        - REVENUE
-        - SALES
-        - TERMLIAB
-        - PAYG
+      anyOf:
+        - $ref: '#/components/schemas/AccountTypeClosed'
+        - type: string
     Attachments:
       type: object
       x-objectArrayKey: attachments
@@ -20552,16 +20891,18 @@ components:
       properties:
         Type:
           description: See Bank Transaction Types
-          type: string
-          enum:
-            - RECEIVE
-            - RECEIVE-OVERPAYMENT
-            - RECEIVE-PREPAYMENT
-            - SPEND
-            - SPEND-OVERPAYMENT
-            - SPEND-PREPAYMENT
-            - RECEIVE-TRANSFER
-            - SPEND-TRANSFER
+          anyOf:
+            - type: string
+              enum:
+              - RECEIVE
+              - RECEIVE-OVERPAYMENT
+              - RECEIVE-PREPAYMENT
+              - SPEND
+              - SPEND-OVERPAYMENT
+              - SPEND-PREPAYMENT
+              - RECEIVE-TRANSFER
+              - SPEND-TRANSFER
+            - type: string
         Contact:
           $ref: '#/components/schemas/Contact'
         LineItems:
@@ -20594,11 +20935,13 @@ components:
           type: string
         Status:
           description: See Bank Transaction Status Codes
-          type: string
-          enum:
-            - AUTHORISED
-            - DELETED
-            - VOIDED
+          anyOf:
+            - type: string
+              enum:
+              - AUTHORISED
+              - DELETED
+              - VOIDED
+            - type: string
         LineAmountTypes:
           $ref: '#/components/schemas/LineAmountTypes'
           type: string
@@ -20659,13 +21002,18 @@ components:
         - LineItems
         - BankAccount
       type: object
-    LineAmountTypes:
+    LineAmountTypesClosed:
       description: Line amounts are exclusive of tax by default if you don’t specify this element. See Line Amount Types
       type: string
       enum:
         - Exclusive
         - Inclusive
         - NoTax
+    LineAmountTypes:
+      description: Line amounts are exclusive of tax by default if you don’t specify this element. See Line Amount Types
+      anyOf:
+        - $ref: '#/components/schemas/LineAmountTypesClosed'
+        - type: string
     LineItem:
       externalDocs:
         url: https://developer.xero.com/documentation/api/invoices#post
@@ -20736,13 +21084,15 @@ components:
           format: uuid
         Taxability:
           description: The type of taxability
-          type: string
-          enum:
-            - TAXABLE
-            - NON_TAXABLE
-            - EXEMPT
-            - PART_TAXABLE
-            - NOT_APPLICABLE
+          anyOf:
+            - type: string
+              enum:
+              - TAXABLE
+              - NON_TAXABLE
+              - EXEMPT
+              - PART_TAXABLE
+              - NOT_APPLICABLE
+            - type: string
         SalesTaxCodeId:
           description: The ID of the sales tax code
           type: number
@@ -20929,17 +21279,21 @@ components:
         Type:
           description: PAYBATCH for bill payments or RECBATCH for sales invoice payments (read-only)
           readOnly: true
-          type: string
-          enum:
-            - PAYBATCH
-            - RECBATCH
+          anyOf:
+            - type: string
+              enum:
+              - PAYBATCH
+              - RECBATCH
+            - type: string
         Status:
           description: AUTHORISED or DELETED (read-only). New batch payments will have a status of AUTHORISED. It is not possible to delete batch payments via the API.
           readOnly: true
-          type: string
-          enum:
-            - AUTHORISED
-            - DELETED
+          anyOf:
+            - type: string
+              enum:
+              - AUTHORISED
+              - DELETED
+            - type: string
         TotalAmount:
           description: The total of the payments that make up the batch (read-only)
           type: number
@@ -21040,9 +21394,11 @@ components:
           type: string
         Type:
           description: Always INVOICE
-          type: string
-          enum:
-            - INVOICE
+          anyOf:
+            - type: string
+              enum:
+              - INVOICE
+            - type: string
         SortOrder:
           description: Integer – ranked order of branding theme. The default branding theme has a value of 0
           type: integer
@@ -21123,11 +21479,13 @@ components:
           type: string
         ContactStatus:
           description: Current status of a contact – see contact status types
-          type: string
-          enum:
-            - ACTIVE
-            - ARCHIVED
-            - GDPRREQUEST
+          anyOf:
+            - type: string
+              enum:
+              - ACTIVE
+              - ARCHIVED
+              - GDPRREQUEST
+            - type: string
         Name:
           description: Full name of contact/organisation (max length = 255)
           maxLength: 255
@@ -21184,18 +21542,22 @@ components:
           type: boolean
         SalesDefaultLineAmountType:
           description: The default sales line amount type for a contact. Only available when summaryOnly parameter or paging is used, or when fetch by ContactId or ContactNumber.
-          type: string
-          enum:
-            - INCLUSIVE
-            - EXCLUSIVE
-            - NONE
+          anyOf:
+            - type: string
+              enum:
+              - INCLUSIVE
+              - EXCLUSIVE
+              - NONE
+            - type: string
         PurchasesDefaultLineAmountType:
           description: The default purchases line amount type for a contact Only available when summaryOnly parameter or paging is used, or when fetch by ContactId or ContactNumber.
-          type: string
-          enum:
-            - INCLUSIVE
-            - EXCLUSIVE
-            - NONE
+          anyOf:
+            - type: string
+              enum:
+              - INCLUSIVE
+              - EXCLUSIVE
+              - NONE
+            - type: string
         DefaultCurrency:
           $ref: '#/components/schemas/CurrencyCode'
           type: string
@@ -21296,10 +21658,12 @@ components:
           format: uuid
         Type:
           description: Type of Budget. OVERALL or TRACKING
-          type: string
-          enum:
-            - OVERALL
-            - TRACKING
+          anyOf:
+            - type: string
+              enum:
+              - OVERALL
+              - TRACKING
+            - type: string
         Description:
           description: The Budget description
           maxLength: 255
@@ -21465,10 +21829,12 @@ components:
           type: string
         Status:
           description: The Status of a contact group. To delete a contact group update the status to DELETED. Only contact groups with a status of ACTIVE are returned on GETs.
-          type: string
-          enum:
-            - ACTIVE
-            - DELETED
+          anyOf:
+            - type: string
+              enum:
+              - ACTIVE
+              - DELETED
+            - type: string
         ContactGroupID:
           description: The Xero identifier for an contact group – specified as a string following the endpoint name. e.g. /297c2dc5-cc47-4afd-8ec8-74990b8761e9
           type: string
@@ -21508,10 +21874,12 @@ components:
       properties:
         Type:
           description: See Credit Note Types
-          type: string
-          enum:
-            - ACCPAYCREDIT
-            - ACCRECCREDIT
+          anyOf:
+            - type: string
+              enum:
+              - ACCPAYCREDIT
+              - ACCRECCREDIT
+            - type: string
         Contact:
           $ref: '#/components/schemas/Contact'
         Date:
@@ -21524,14 +21892,16 @@ components:
           x-is-msdate: true
         Status:
           description: See Credit Note Status Codes
-          type: string
-          enum:
-            - DRAFT
-            - SUBMITTED
-            - DELETED
-            - AUTHORISED
-            - PAID
-            - VOIDED
+          anyOf:
+            - type: string
+              enum:
+              - DRAFT
+              - SUBMITTED
+              - DELETED
+              - AUTHORISED
+              - PAID
+              - VOIDED
+            - type: string
         LineAmountTypes:
           $ref: '#/components/schemas/LineAmountTypes'
           type: string
@@ -21723,7 +22093,7 @@ components:
           description: Name of Currency
           type: string
       type: object
-    CurrencyCode:
+    CurrencyCodeClosed:
       description: 3 letter alpha code for the currency – see list of currency codes
       type: string
       x-enum-varnames:
@@ -22065,6 +22435,11 @@ components:
         - ZMW
         - ZMK
         - ZWD
+    CurrencyCode:
+      description: 3 letter alpha code for the currency – see list of currency codes
+      anyOf:
+        - $ref: '#/components/schemas/CurrencyCodeClosed'
+        - type: string
     Employees:
       type: object
       x-objectArrayKey: employees
@@ -22083,12 +22458,14 @@ components:
           format: uuid
         Status:
           description: Current status of an employee – see contact status types
-          type: string
-          enum:
-            - ACTIVE
-            - ARCHIVED
-            - GDPRREQUEST
-            - DELETED
+          anyOf:
+            - type: string
+              enum:
+              - ACTIVE
+              - ARCHIVED
+              - GDPRREQUEST
+              - DELETED
+            - type: string
         FirstName:
           description: First name of an employee (max length = 255)
           maxLength: 255
@@ -22132,13 +22509,15 @@ components:
           format: uuid
         Status:
           description: Current status of an expense claim – see status types
-          type: string
-          enum:
-            - SUBMITTED
-            - AUTHORISED
-            - PAID
-            - VOIDED
-            - DELETED
+          anyOf:
+            - type: string
+              enum:
+              - SUBMITTED
+              - AUTHORISED
+              - PAID
+              - VOIDED
+              - DELETED
+            - type: string
         Payments:
           description: See Payments
           type: array
@@ -22238,16 +22617,18 @@ components:
       properties:
         Type:
           description: See Invoice Types
-          type: string
-          enum:
-            - ACCPAY
-            - ACCPAYCREDIT
-            - APOVERPAYMENT
-            - APPREPAYMENT
-            - ACCREC
-            - ACCRECCREDIT
-            - AROVERPAYMENT
-            - ARPREPAYMENT
+          anyOf:
+            - type: string
+              enum:
+              - ACCPAY
+              - ACCPAYCREDIT
+              - APOVERPAYMENT
+              - APPREPAYMENT
+              - ACCREC
+              - ACCRECCREDIT
+              - AROVERPAYMENT
+              - ARPREPAYMENT
+            - type: string
         Contact:
           $ref: '#/components/schemas/Contact'
         LineItems:
@@ -22290,14 +22671,16 @@ components:
           x-is-money: true
         Status:
           description: See Invoice Status Codes
-          type: string
-          enum:
-            - DRAFT
-            - SUBMITTED
-            - DELETED
-            - AUTHORISED
-            - PAID
-            - VOIDED
+          anyOf:
+            - type: string
+              enum:
+              - DRAFT
+              - SUBMITTED
+              - DELETED
+              - AUTHORISED
+              - PAID
+              - VOIDED
+            - type: string
         SentToContact:
           description: Boolean to set whether the invoice in the Xero app should be marked as “sent”. This can be set only on invoices that have been approved
           type: boolean
@@ -22614,33 +22997,35 @@ components:
           format: uuid
         SourceType:
           description: The journal source type. The type of transaction that created the journal
-          type: string
-          enum:
-            - ACCREC
-            - ACCPAY
-            - ACCRECCREDIT
-            - ACCPAYCREDIT
-            - ACCRECPAYMENT
-            - ACCPAYPAYMENT
-            - ARCREDITPAYMENT
-            - APCREDITPAYMENT
-            - CASHREC
-            - CASHPAID
-            - TRANSFER
-            - ARPREPAYMENT
-            - APPREPAYMENT
-            - AROVERPAYMENT
-            - APOVERPAYMENT
-            - EXPCLAIM
-            - EXPPAYMENT
-            - MANJOURNAL
-            - PAYSLIP
-            - WAGEPAYABLE
-            - INTEGRATEDPAYROLLPE
-            - INTEGRATEDPAYROLLPT
-            - EXTERNALSPENDMONEY
-            - INTEGRATEDPAYROLLPTPAYMENT
-            - INTEGRATEDPAYROLLCN
+          anyOf:
+            - type: string
+              enum:
+              - ACCREC
+              - ACCPAY
+              - ACCRECCREDIT
+              - ACCPAYCREDIT
+              - ACCRECPAYMENT
+              - ACCPAYPAYMENT
+              - ARCREDITPAYMENT
+              - APCREDITPAYMENT
+              - CASHREC
+              - CASHPAID
+              - TRANSFER
+              - ARPREPAYMENT
+              - APPREPAYMENT
+              - AROVERPAYMENT
+              - APOVERPAYMENT
+              - EXPCLAIM
+              - EXPPAYMENT
+              - MANJOURNAL
+              - PAYSLIP
+              - WAGEPAYABLE
+              - INTEGRATEDPAYROLLPE
+              - INTEGRATEDPAYROLLPT
+              - EXTERNALSPENDMONEY
+              - INTEGRATEDPAYROLLPTPAYMENT
+              - INTEGRATEDPAYROLLCN
+            - type: string
         JournalLines:
           description: See JournalLines
           type: array
@@ -22746,18 +23131,22 @@ components:
           format: uuid
         Status:
           description: Filter by the combination of ContactID and Status. Get all the linked transactions that have been assigned to a particular customer and have a particular status e.g. GET /LinkedTransactions?ContactID=4bb34b03-3378-4bb2-a0ed-6345abf3224e&Status=APPROVED.
-          type: string
-          enum:
-            - APPROVED
-            - DRAFT
-            - ONDRAFT
-            - BILLED
-            - VOIDED
+          anyOf:
+            - type: string
+              enum:
+              - APPROVED
+              - DRAFT
+              - ONDRAFT
+              - BILLED
+              - VOIDED
+            - type: string
         Type:
           description: This will always be BILLABLEEXPENSE. More types may be added in future.
-          type: string
-          enum:
-            - BILLABLEEXPENSE
+          anyOf:
+            - type: string
+              enum:
+              - BILLABLEEXPENSE
+            - type: string
         UpdatedDateUTC:
           description: The last modified date in UTC format
           type: string
@@ -22766,10 +23155,12 @@ components:
           readOnly: true
         SourceTransactionTypeCode:
           description: The Type of the source tranasction. This will be ACCPAY if the linked transaction was created from an invoice and SPEND if it was created from a bank transaction.
-          type: string
-          enum:
-            - ACCPAY
-            - SPEND
+          anyOf:
+            - type: string
+              enum:
+              - ACCPAY
+              - SPEND
+            - type: string
         ValidationErrors:
           description: Displays array of validation error messages from the API
           type: array
@@ -22812,13 +23203,15 @@ components:
           type: string
         Status:
           description: See Manual Journal Status Codes
-          type: string
-          enum:
-            - DRAFT
-            - POSTED
-            - DELETED
-            - VOIDED
-            - ARCHIVED
+          anyOf:
+            - type: string
+              enum:
+              - DRAFT
+              - POSTED
+              - DELETED
+              - VOIDED
+              - ARCHIVED
+            - type: string
         Url:
           description: Url link to a source document – shown as “Go to [appName]” in the Xero app
           type: string
@@ -22922,10 +23315,12 @@ components:
           example: UseMulticurrency
         Status:
           description: Status of the action for this organisation
-          type: string
-          enum:
-            - ALLOWED
-            - NOT-ALLOWED
+          anyOf:
+            - type: string
+              enum:
+              - ALLOWED
+              - NOT-ALLOWED
+            - type: string
     Organisations:
       type: object
       x-objectArrayKey: organisations
@@ -22957,35 +23352,39 @@ components:
           type: boolean
         Version:
           description: See Version Types
-          type: string
-          enum:
-            - AU
-            - NZ
-            - GLOBAL
-            - UK
-            - US
-            - AUONRAMP
-            - NZONRAMP
-            - GLOBALONRAMP
-            - UKONRAMP
-            - USONRAMP
+          anyOf:
+            - type: string
+              enum:
+              - AU
+              - NZ
+              - GLOBAL
+              - UK
+              - US
+              - AUONRAMP
+              - NZONRAMP
+              - GLOBALONRAMP
+              - UKONRAMP
+              - USONRAMP
+            - type: string
         OrganisationType:
           description: Organisation Type
-          type: string
-          enum:
-            - ACCOUNTING_PRACTICE
-            - COMPANY
-            - CHARITY
-            - CLUB_OR_SOCIETY
-            - INDIVIDUAL
-            - LOOK_THROUGH_COMPANY
-            - NOT_FOR_PROFIT
-            - PARTNERSHIP
-            - S_CORPORATION
-            - SELF_MANAGED_SUPERANNUATION_FUND
-            - SOLE_TRADER
-            - SUPERANNUATION_FUND
-            - TRUST
+          anyOf:
+            - type: string
+              enum:
+              - ACCOUNTING_PRACTICE
+              - COMPANY
+              - CHARITY
+              - CLUB_OR_SOCIETY
+              - INDIVIDUAL
+              - LOOK_THROUGH_COMPANY
+              - NOT_FOR_PROFIT
+              - PARTNERSHIP
+              - S_CORPORATION
+              - SELF_MANAGED_SUPERANNUATION_FUND
+              - SOLE_TRADER
+              - SUPERANNUATION_FUND
+              - TRUST
+            - type: string
         BaseCurrency:
           $ref: '#/components/schemas/CurrencyCode'
           type: string
@@ -23015,35 +23414,39 @@ components:
           type: integer
         SalesTaxBasis:
           description: The accounting basis used for tax returns. See Sales Tax Basis
-          type: string
-          enum:
-            - PAYMENTS
-            - INVOICE
-            - NONE
-            - CASH
-            - ACCRUAL
-            - FLATRATECASH
-            - FLATRATEACCRUAL
-            - ACCRUALS
+          anyOf:
+            - type: string
+              enum:
+              - PAYMENTS
+              - INVOICE
+              - NONE
+              - CASH
+              - ACCRUAL
+              - FLATRATECASH
+              - FLATRATEACCRUAL
+              - ACCRUALS
+            - type: string
         SalesTaxPeriod:
           description: The frequency with which tax returns are processed. See Sales Tax Period
-          type: string
-          enum:
-            - MONTHLY
-            - QUARTERLY1
-            - QUARTERLY2
-            - QUARTERLY3
-            - ANNUALLY
-            - ONEMONTHS
-            - TWOMONTHS
-            - SIXMONTHS
-            - 1MONTHLY
-            - 2MONTHLY
-            - 3MONTHLY
-            - 6MONTHLY
-            - QUARTERLY
-            - YEARLY
-            - NONE
+          anyOf:
+            - type: string
+              enum:
+              - MONTHLY
+              - QUARTERLY1
+              - QUARTERLY2
+              - QUARTERLY3
+              - ANNUALLY
+              - ONEMONTHS
+              - TWOMONTHS
+              - SIXMONTHS
+              - 1MONTHLY
+              - 2MONTHLY
+              - 3MONTHLY
+              - 6MONTHLY
+              - QUARTERLY
+              - YEARLY
+              - NONE
+            - type: string
         DefaultSalesTax:
           description: The default for LineAmountTypes on sales transactions
           type: string
@@ -23069,21 +23472,23 @@ components:
           type: string
         OrganisationEntityType:
           description: Organisation Entity Type
-          type: string
-          enum:
-            - ACCOUNTING_PRACTICE
-            - COMPANY
-            - CHARITY
-            - CLUB_OR_SOCIETY
-            - INDIVIDUAL
-            - LOOK_THROUGH_COMPANY
-            - NOT_FOR_PROFIT
-            - PARTNERSHIP
-            - S_CORPORATION
-            - SELF_MANAGED_SUPERANNUATION_FUND
-            - SOLE_TRADER
-            - SUPERANNUATION_FUND
-            - TRUST
+          anyOf:
+            - type: string
+              enum:
+              - ACCOUNTING_PRACTICE
+              - COMPANY
+              - CHARITY
+              - CLUB_OR_SOCIETY
+              - INDIVIDUAL
+              - LOOK_THROUGH_COMPANY
+              - NOT_FOR_PROFIT
+              - PARTNERSHIP
+              - S_CORPORATION
+              - SELF_MANAGED_SUPERANNUATION_FUND
+              - SOLE_TRADER
+              - SUPERANNUATION_FUND
+              - TRUST
+            - type: string
         ShortCode:
           description: A unique identifier for the organisation. Potential uses.
           type: string
@@ -23139,7 +23544,7 @@ components:
         PaymentTerms:
           $ref: '#/components/schemas/PaymentTerm'
       type: object
-    CountryCode:
+    CountryCodeClosed:
       type: string
       enum:
         - AD
@@ -23382,7 +23787,11 @@ components:
         - ZA
         - ZM
         - ZW
-    TimeZone:
+    CountryCode:
+      anyOf:
+        - $ref: '#/components/schemas/CountryCodeClosed'
+        - type: string
+    TimeZoneClosed:
       description: Timezone specifications
       type: string
       enum:
@@ -23527,6 +23936,11 @@ components:
         - WMONGOLIASTANDARDTIME
         - YAKUTSKSTANDARDTIME
         - YUKONSTANDARDTIME
+    TimeZone:
+      description: Timezone specifications
+      anyOf:
+        - $ref: '#/components/schemas/TimeZoneClosed'
+        - type: string
     PaymentTerm:
       externalDocs:
         url: http://developer.xero.com/documentation/api/organisation/
@@ -23536,26 +23950,32 @@ components:
         Sales:
           $ref: '#/components/schemas/Bill'
       type: object
-    PaymentTermType:
+    PaymentTermTypeClosed:
       type: string
       enum:
         - DAYSAFTERBILLDATE
         - DAYSAFTERBILLMONTH
         - OFCURRENTMONTH
         - OFFOLLOWINGMONTH
+    PaymentTermType:
+      anyOf:
+        - $ref: '#/components/schemas/PaymentTermTypeClosed'
+        - type: string
     ExternalLink:
       externalDocs:
         url: http://developer.xero.com/documentation/api/organisation/
       properties:
         LinkType:
           description: See External link types
-          type: string
-          enum:
-            - Facebook
-            - GooglePlus
-            - LinkedIn
-            - Twitter
-            - Website
+          anyOf:
+            - type: string
+              enum:
+              - Facebook
+              - GooglePlus
+              - LinkedIn
+              - Twitter
+              - Website
+            - type: string
         Url:
           description: URL for service e.g. http://twitter.com/xeroapi
           type: string
@@ -23593,11 +24013,13 @@ components:
       properties:
         Type:
           description: See Overpayment Types
-          type: string
-          enum:
-            - RECEIVE-OVERPAYMENT
-            - SPEND-OVERPAYMENT
-            - AROVERPAYMENT
+          anyOf:
+            - type: string
+              enum:
+              - RECEIVE-OVERPAYMENT
+              - SPEND-OVERPAYMENT
+              - AROVERPAYMENT
+            - type: string
         Contact:
           $ref: '#/components/schemas/Contact'
         Date:
@@ -23606,11 +24028,13 @@ components:
           x-is-msdate: true
         Status:
           description: See Overpayment Status Codes
-          type: string
-          enum:
-            - AUTHORISED
-            - PAID
-            - VOIDED
+          anyOf:
+            - type: string
+              enum:
+              - AUTHORISED
+              - PAID
+              - VOIDED
+            - type: string
         LineAmountTypes:
           $ref: '#/components/schemas/LineAmountTypes'
           type: string
@@ -23762,23 +24186,27 @@ components:
           type: boolean
         Status:
           description: The status of the payment.
-          type: string
-          enum:
-            - AUTHORISED
-            - DELETED
+          anyOf:
+            - type: string
+              enum:
+              - AUTHORISED
+              - DELETED
+            - type: string
         PaymentType:
           description: See Payment Types.
           readOnly: true
-          type: string
-          enum:
-            - ACCRECPAYMENT
-            - ACCPAYPAYMENT
-            - ARCREDITPAYMENT
-            - APCREDITPAYMENT
-            - AROVERPAYMENTPAYMENT
-            - ARPREPAYMENTPAYMENT
-            - APPREPAYMENTPAYMENT
-            - APOVERPAYMENTPAYMENT
+          anyOf:
+            - type: string
+              enum:
+              - ACCRECPAYMENT
+              - ACCPAYPAYMENT
+              - ARCREDITPAYMENT
+              - APCREDITPAYMENT
+              - AROVERPAYMENTPAYMENT
+              - ARPREPAYMENTPAYMENT
+              - APPREPAYMENTPAYMENT
+              - APOVERPAYMENTPAYMENT
+            - type: string
         UpdatedDateUTC:
           description: UTC timestamp of last update to the payment
           type: string
@@ -23849,12 +24277,14 @@ components:
       properties:
         Type:
           description: See Prepayment Types
-          type: string
-          enum:
-            - RECEIVE-PREPAYMENT
-            - SPEND-PREPAYMENT
-            - ARPREPAYMENT
-            - APPREPAYMENT
+          anyOf:
+            - type: string
+              enum:
+              - RECEIVE-PREPAYMENT
+              - SPEND-PREPAYMENT
+              - ARPREPAYMENT
+              - APPREPAYMENT
+            - type: string
         Contact:
           $ref: '#/components/schemas/Contact'
         Date:
@@ -23863,11 +24293,13 @@ components:
           x-is-msdate: true
         Status:
           description: See Prepayment Status Codes
-          type: string
-          enum:
-            - AUTHORISED
-            - PAID
-            - VOIDED
+          anyOf:
+            - type: string
+              enum:
+              - AUTHORISED
+              - PAID
+              - VOIDED
+            - type: string
         LineAmountTypes:
           $ref: '#/components/schemas/LineAmountTypes'
           type: string
@@ -23997,13 +24429,15 @@ components:
           type: string
         Status:
           description: See Purchase Order Status Codes
-          type: string
-          enum:
-            - DRAFT
-            - SUBMITTED
-            - AUTHORISED
-            - BILLED
-            - DELETED
+          anyOf:
+            - type: string
+              enum:
+              - DRAFT
+              - SUBMITTED
+              - AUTHORISED
+              - BILLED
+              - DELETED
+            - type: string
         SentToContact:
           description: Boolean to set whether the purchase order should be marked as “sent”. This can be set only on purchase orders that have been approved or billed
           type: boolean
@@ -24213,14 +24647,19 @@ components:
           items:
             $ref: '#/components/schemas/ValidationError'
       type: object
-    QuoteLineAmountTypes:
+    QuoteLineAmountTypesClosed:
       description: Line amounts are exclusive of tax by default if you don’t specify this element. See Line Amount Types
       type: string
       enum:
         - EXCLUSIVE
         - INCLUSIVE
         - NOTAX
-    QuoteStatusCodes:
+    QuoteLineAmountTypes:
+      description: Line amounts are exclusive of tax by default if you don’t specify this element. See Line Amount Types
+      anyOf:
+        - $ref: '#/components/schemas/QuoteLineAmountTypesClosed'
+        - type: string
+    QuoteStatusCodesClosed:
       description: The status of the quote.
       type: string
       enum:
@@ -24230,6 +24669,11 @@ components:
         - ACCEPTED
         - INVOICED
         - DELETED
+    QuoteStatusCodes:
+      description: The status of the quote.
+      anyOf:
+        - $ref: '#/components/schemas/QuoteStatusCodesClosed'
+        - type: string
     Receipts:
       type: object
       x-objectArrayKey: receipts
@@ -24281,13 +24725,15 @@ components:
           format: uuid
         Status:
           description: Current status of receipt – see status types
-          type: string
-          enum:
-            - DRAFT
-            - SUBMITTED
-            - AUTHORISED
-            - DECLINED
-            - VOIDED
+          anyOf:
+            - type: string
+              enum:
+              - DRAFT
+              - SUBMITTED
+              - AUTHORISED
+              - DECLINED
+              - VOIDED
+            - type: string
         ReceiptNumber:
           description: Xero generated sequence number for receipt in current claim for a given user
           readOnly: true
@@ -24338,10 +24784,12 @@ components:
       properties:
         Type:
           description: See Invoice Types
-          type: string
-          enum:
-            - ACCPAY
-            - ACCREC
+          anyOf:
+            - type: string
+              enum:
+              - ACCPAY
+              - ACCREC
+            - type: string
         Contact:
           $ref: '#/components/schemas/Contact'
         Schedule:
@@ -24366,11 +24814,13 @@ components:
           type: string
         Status:
           description: One of the following - DRAFT or AUTHORISED – See Invoice Status Codes
-          type: string
-          enum:
-            - DRAFT
-            - AUTHORISED
-            - DELETED
+          anyOf:
+            - type: string
+              enum:
+              - DRAFT
+              - AUTHORISED
+              - DELETED
+            - type: string
         SubTotal:
           description: Total of invoice excluding taxes
           type: number
@@ -24486,13 +24936,17 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ReportRow'
-    RowType:
+    RowTypeClosed:
       type: string
       enum:
         - Header
         - Section
         - Row
         - SummaryRow
+    RowType:
+      anyOf:
+        - $ref: '#/components/schemas/RowTypeClosed'
+        - type: string
     ReportRow:
       type: object
       properties:
@@ -24547,9 +25001,11 @@ components:
           type: string
         ReportType:
           description: See Prepayment Types
-          type: string
-          enum:
-            - AgedPayablesByContact
+          anyOf:
+            - type: string
+              enum:
+              - AgedPayablesByContact
+            - type: string
         ReportTitle:
           description: See Prepayment Types
           type: string
@@ -24669,15 +25125,17 @@ components:
           type: string
         FederalTaxClassification:
           description: Contact federal tax classification
-          type: string
-          enum:
-            - SOLE_PROPRIETOR
-            - PARTNERSHIP
-            - TRUST_OR_ESTATE
-            - NONPROFIT
-            - C_CORP
-            - S_CORP
-            - OTHER
+          anyOf:
+            - type: string
+              enum:
+              - SOLE_PROPRIETOR
+              - PARTNERSHIP
+              - TRUST_OR_ESTATE
+              - NONPROFIT
+              - C_CORP
+              - S_CORP
+              - OTHER
+            - type: string
     Schedule:
       externalDocs:
         url: http://developer.xero.com/documentation/api/repeating-invoices/
@@ -24687,23 +25145,27 @@ components:
           type: integer
         Unit:
           description: One of the following - WEEKLY or MONTHLY
-          type: string
-          enum:
-            - WEEKLY
-            - MONTHLY
+          anyOf:
+            - type: string
+              enum:
+              - WEEKLY
+              - MONTHLY
+            - type: string
         DueDate:
           description: Integer used with due date type e.g 20 (of following month), 31 (of current month)
           type: integer
         DueDateType:
           description: the payment terms
-          type: string
-          enum:
-            - DAYSAFTERBILLDATE
-            - DAYSAFTERBILLMONTH
-            - DAYSAFTERINVOICEDATE
-            - DAYSAFTERINVOICEMONTH
-            - OFCURRENTMONTH
-            - OFFOLLOWINGMONTH
+          anyOf:
+            - type: string
+              enum:
+              - DAYSAFTERBILLDATE
+              - DAYSAFTERBILLMONTH
+              - DAYSAFTERINVOICEDATE
+              - DAYSAFTERINVOICEMONTH
+              - OFCURRENTMONTH
+              - OFFOLLOWINGMONTH
+            - type: string
         StartDate:
           description: Date the first invoice of the current version of the repeating schedule was generated (changes when repeating invoice is edited)
           type: string
@@ -24986,115 +25448,119 @@ components:
             $ref: '#/components/schemas/TaxComponent'
         Status:
           description: See Status Codes
-          type: string
-          enum:
-            - ACTIVE
-            - DELETED
-            - ARCHIVED
-            - PENDING
+          anyOf:
+            - type: string
+              enum:
+              - ACTIVE
+              - DELETED
+              - ARCHIVED
+              - PENDING
+            - type: string
         ReportTaxType:
           description: See ReportTaxTypes
-          type: string
-          enum:
-            - AVALARA
-            - BASEXCLUDED
-            - CAPITALSALESOUTPUT
-            - CAPITALEXPENSESINPUT
-            - ECOUTPUT
-            - ECOUTPUTSERVICES
-            - ECINPUT
-            - ECACQUISITIONS
-            - EXEMPTEXPENSES
-            - EXEMPTINPUT
-            - EXEMPTOUTPUT
-            - GSTONIMPORTS
-            - INPUT
-            - INPUTTAXED
-            - MOSSSALES
-            - NONE
-            - NONEOUTPUT
-            - OUTPUT
-            - PURCHASESINPUT
-            - SALESOUTPUT
-            - EXEMPTCAPITAL
-            - EXEMPTEXPORT
-            - CAPITALEXINPUT
-            - GSTONCAPIMPORTS
-            - GSTONCAPITALIMPORTS
-            - REVERSECHARGES
-            - PAYMENTS
-            - INVOICE
-            - CASH
-            - ACCRUAL
-            - FLATRATECASH
-            - FLATRATEACCRUAL
-            - ACCRUALS
-            - TXCA
-            - SRCAS
-            - DSOUTPUT
-            - BLINPUT2
-            - EPINPUT
-            - IMINPUT2
-            - MEINPUT
-            - IGDSINPUT2
-            - ESN33OUTPUT
-            - OPINPUT
-            - OSOUTPUT
-            - TXN33INPUT
-            - TXESSINPUT
-            - TXREINPUT
-            - TXPETINPUT
-            - NRINPUT
-            - ES33OUTPUT
-            - ZERORATEDINPUT
-            - ZERORATEDOUTPUT
-            - DRCHARGESUPPLY
-            - DRCHARGE
-            - CAPINPUT
-            - CAPIMPORTS
-            - IMINPUT
-            - INPUT2
-            - CIUINPUT
-            - SRINPUT
-            - OUTPUT2
-            - SROUTPUT
-            - CAPOUTPUT
-            - SROUTPUT2
-            - CIUOUTPUT
-            - ZROUTPUT
-            - ZREXPORT
-            - ACC28PLUS
-            - ACCUPTO28
-            - OTHEROUTPUT
-            - SHOUTPUT
-            - ZRINPUT
-            - BADDEBT
-            - OTHERINPUT
-            - BADDEBTRELIEF
-            - IGDSINPUT3
-            - SROVR
-            - TOURISTREFUND
-            - TXRCN33
-            - TXRCRE
-            - TXRCESS
-            - TXRCTS
-            - CAPEXINPUT
-            - UNDEFINED
-            - CAPEXOUTPUT
-            - ZEROEXPOUTPUT
-            - GOODSIMPORT
-            - NONEINPUT
-            - NOTREPORTED
-            - SROVRRS
-            - SROVRLVG
-            - SRLVG
-            - IM
-            - IMESS
-            - IMN33
-            - IMRE
-            - BADDEBTRECOVERY
-            - USSALESTAX
-            - BLINPUT3
+          anyOf:
+            - type: string
+              enum:
+              - AVALARA
+              - BASEXCLUDED
+              - CAPITALSALESOUTPUT
+              - CAPITALEXPENSESINPUT
+              - ECOUTPUT
+              - ECOUTPUTSERVICES
+              - ECINPUT
+              - ECACQUISITIONS
+              - EXEMPTEXPENSES
+              - EXEMPTINPUT
+              - EXEMPTOUTPUT
+              - GSTONIMPORTS
+              - INPUT
+              - INPUTTAXED
+              - MOSSSALES
+              - NONE
+              - NONEOUTPUT
+              - OUTPUT
+              - PURCHASESINPUT
+              - SALESOUTPUT
+              - EXEMPTCAPITAL
+              - EXEMPTEXPORT
+              - CAPITALEXINPUT
+              - GSTONCAPIMPORTS
+              - GSTONCAPITALIMPORTS
+              - REVERSECHARGES
+              - PAYMENTS
+              - INVOICE
+              - CASH
+              - ACCRUAL
+              - FLATRATECASH
+              - FLATRATEACCRUAL
+              - ACCRUALS
+              - TXCA
+              - SRCAS
+              - DSOUTPUT
+              - BLINPUT2
+              - EPINPUT
+              - IMINPUT2
+              - MEINPUT
+              - IGDSINPUT2
+              - ESN33OUTPUT
+              - OPINPUT
+              - OSOUTPUT
+              - TXN33INPUT
+              - TXESSINPUT
+              - TXREINPUT
+              - TXPETINPUT
+              - NRINPUT
+              - ES33OUTPUT
+              - ZERORATEDINPUT
+              - ZERORATEDOUTPUT
+              - DRCHARGESUPPLY
+              - DRCHARGE
+              - CAPINPUT
+              - CAPIMPORTS
+              - IMINPUT
+              - INPUT2
+              - CIUINPUT
+              - SRINPUT
+              - OUTPUT2
+              - SROUTPUT
+              - CAPOUTPUT
+              - SROUTPUT2
+              - CIUOUTPUT
+              - ZROUTPUT
+              - ZREXPORT
+              - ACC28PLUS
+              - ACCUPTO28
+              - OTHEROUTPUT
+              - SHOUTPUT
+              - ZRINPUT
+              - BADDEBT
+              - OTHERINPUT
+              - BADDEBTRELIEF
+              - IGDSINPUT3
+              - SROVR
+              - TOURISTREFUND
+              - TXRCN33
+              - TXRCRE
+              - TXRCESS
+              - TXRCTS
+              - CAPEXINPUT
+              - UNDEFINED
+              - CAPEXOUTPUT
+              - ZEROEXPOUTPUT
+              - GOODSIMPORT
+              - NONEINPUT
+              - NOTREPORTED
+              - SROVRRS
+              - SROVRLVG
+              - SRLVG
+              - IM
+              - IMESS
+              - IMN33
+              - IMRE
+              - BADDEBTRECOVERY
+              - USSALESTAX
+              - BLINPUT3
+            - type: string
         CanApplyToAssets:
           description: Boolean to describe if tax rate can be used for asset accounts i.e.  true,false
           readOnly: true
@@ -25177,11 +25643,13 @@ components:
           type: string
         Status:
           description: The status of a tracking category
-          type: string
-          enum:
-            - ACTIVE
-            - ARCHIVED
-            - DELETED
+          anyOf:
+            - type: string
+              enum:
+              - ACTIVE
+              - ARCHIVED
+              - DELETED
+            - type: string
         Options:
           description: See Tracking Options
           type: array
@@ -25210,11 +25678,13 @@ components:
           type: string
         Status:
           description: The status of a tracking option
-          type: string
-          enum:
-            - ACTIVE
-            - ARCHIVED
-            - DELETED
+          anyOf:
+            - type: string
+              enum:
+              - ACTIVE
+              - ARCHIVED
+              - DELETED
+            - type: string
         TrackingCategoryID:
           description: Filter by a tracking category e.g. 297c2dc5-cc47-4afd-8ec8-74990b8761e9
           type: string
@@ -25267,16 +25737,18 @@ components:
           type: boolean
         OrganisationRole:
           description: User role that defines permissions in Xero and via API (READONLY, INVOICEONLY, STANDARD, FINANCIALADVISER, etc)
-          type: string
-          enum:
-            - READONLY
-            - INVOICEONLY
-            - STANDARD
-            - FINANCIALADVISER
-            - MANAGEDCLIENT
-            - CASHBOOKCLIENT
-            - UNKNOWN
-            - REMOVED
+          anyOf:
+            - type: string
+              enum:
+              - READONLY
+              - INVOICEONLY
+              - STANDARD
+              - FINANCIALADVISER
+              - MANAGEDCLIENT
+              - CASHBOOKCLIENT
+              - UNKNOWN
+              - REMOVED
+            - type: string
       type: object
     Error:
       externalDocs:
@@ -25341,10 +25813,12 @@ components:
       properties:
         InvoiceAddressType:
           description: Indicates whether the address is defined as origin (FROM) or destination (TO)
-          type: string
-          enum:
-            - FROM
-            - TO
+          anyOf:
+            - type: string
+              enum:
+              - FROM
+              - TO
+            - type: string
         AddressLine1:
           description: First line of a physical address
           type: string
@@ -25378,13 +25852,15 @@ components:
           format: uuid
         Type:
           description: The type of the jurisdiction
-          type: string
-          enum:
-            - SYSGST/USCOUNTRY
-            - SYSGST/USSTATE
-            - SYSGST/USCOUNTY
-            - SYSGST/USCITY
-            - SYSGST/USSPECIAL
+          anyOf:
+            - type: string
+              enum:
+              - SYSGST/USCOUNTRY
+              - SYSGST/USSTATE
+              - SYSGST/USCOUNTY
+              - SYSGST/USCITY
+              - SYSGST/USSPECIAL
+            - type: string
         Name:
           description: The name of the jurisdiction
           type: string
