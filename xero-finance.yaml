@@ -1358,7 +1358,8 @@ components:
         detail:
           type: string
       additionalProperties: false
-    ProblemType:
+    ProblemTypeClosed:
+      type: string
       enum:
         - NotSet
         - bank-account-not-found
@@ -1371,7 +1372,10 @@ components:
         - service-unavailable
         - unauthorized
         - rate-limit-error
-      type: string
+    ProblemType:
+      anyOf:
+        - $ref: '#/components/schemas/ProblemTypeClosed'
+        - type: string
     ReportHistoryModel:
       type: object
       properties:
