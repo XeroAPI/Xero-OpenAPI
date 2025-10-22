@@ -46,20 +46,24 @@ paths:
           name: sort
           description: values to sort by
           schema:
-            type: string
-            enum:
-              - Name
-              - Size
-              - CreatedDateUTC
+            anyOf:
+              - type: string
+                enum:
+                  - Name
+                  - Size
+                  - CreatedDateUTC
+              - type: string
             example: CreatedDateUTC
         - in: query
           name: direction
           description: sort direction
           schema:
-            type: string
-            enum: 
-            - ASC
-            - DESC
+            anyOf:
+              - type: string
+                enum: 
+                  - ASC
+                  - DESC
+              - type: string
             example: ASC
       responses:
         "200":
@@ -412,19 +416,23 @@ paths:
           name: sort
           description: values to sort by
           schema:
-            type: string
-            enum:
-              - Name
-              - CreatedDateUTC
+            anyOf:
+              - type: string
+                enum:
+                  - Name
+                  - CreatedDateUTC
+              - type: string
             example: Associations/{ObjectId}?sort=CreatedDateUtc
         - in: query
           name: direction
           description: direction to sort by
           schema:
-            type: string
-            enum:
-              - ASC
-              - DESC
+            anyOf:
+              - type: string
+                enum:
+                  - ASC
+                  - DESC
+              - type: string
             example: Associations/{ObjectId}?sort=CreatedDateUtc&direction=DESC
       responses:
         "200":
@@ -486,11 +494,13 @@ paths:
           name: sort
           description: values to sort by
           schema:
-            type: string
-            enum:
-              - Name
-              - Size
-              - CreatedDateUTC
+            anyOf:
+              - type: string
+                enum:
+                  - Name
+                  - Size
+                  - CreatedDateUTC
+              - type: string
             example: CreatedDateUTC DESC
       responses:
         "200":
@@ -840,7 +850,7 @@ components:
           $ref: '#/components/schemas/ObjectGroup'
         ObjectType:
           $ref: '#/components/schemas/ObjectType'
-    ObjectGroup:
+    ObjectGroupClosed:
       description: The Object Group that the object is in. These roughly correlate to the endpoints that can be used to retrieve the object via the core accounting API.
       type: string
       enum:
@@ -856,7 +866,12 @@ components:
         - Prepayment
         - Quote
         - Receipt
-    ObjectType:
+    ObjectGroup:
+      description: The Object Group that the object is in. These roughly correlate to the endpoints that can be used to retrieve the object via the core accounting API.
+      anyOf:
+        - $ref: '#/components/schemas/ObjectGroupClosed'
+        - type: string
+    ObjectTypeClosed:
       description: The Object Type
       type: string
       enum:
@@ -916,3 +931,8 @@ components:
         - Termliab
         - NonCurrent
         - SalesQuote
+    ObjectType:
+      description: The Object Type
+      anyOf:
+        - $ref: '#/components/schemas/ObjectTypeClosed'
+        - type: string
