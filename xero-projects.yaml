@@ -1206,14 +1206,20 @@ components:
           format: double
           x-is-money: true
           example: 1.00
-    ProjectStatus:
+    ProjectStatusClosed:
       description: Status for project
-      example: INPROGRESS
       type: string
       enum:
         - INPROGRESS
         - CLOSED
-    CurrencyCode:
+      example: INPROGRESS
+    ProjectStatus:
+      description: Status for project
+      anyOf:
+        - $ref: '#/components/schemas/ProjectStatusClosed'
+        - type: string
+      example: INPROGRESS
+    CurrencyCodeClosed:
       description: 3 letter alpha code for the ISO-4217 currency code, e.g. USD, AUD.
       example: AUD
       type: string
@@ -1381,6 +1387,12 @@ components:
         - ZMW
         - ZMK
         - ZWD
+    CurrencyCode:
+      description: 3 letter alpha code for the ISO-4217 currency code, e.g. USD, AUD.
+      anyOf:
+        - $ref: '#/components/schemas/CurrencyCodeClosed'
+        - type: string
+      example: AUD
     Error:
       externalDocs:
         url: https://developer.xero.com/documentation/projects/projects-response-codes
@@ -1455,19 +1467,26 @@ components:
           $ref: '#/components/schemas/Amount'
           type: number
         status:
-          type: string
-          enum:
-            - ACTIVE
-            - INVOICED
-            - LOCKED
+          anyOf:
+            - type: string
+              enum:
+                - ACTIVE
+                - INVOICED
+                - LOCKED
+            - type: string
           description: Status of the task. When a task of ChargeType is `FIXED` and the rate amount is invoiced the status will be set to `INVOICED` and can't be modified. A task with ChargeType of `TIME` or `NON_CHARGEABLE` cannot have a status of `INVOICED`. A `LOCKED` state indicates that the task is currently changing state (for example being invoiced) and can't be modified.
-    ChargeType:
+    ChargeTypeClosed:
       description: Can be `TIME`, `FIXED` or `NON_CHARGEABLE`, defines how the task will be charged. Use `TIME` when you want to charge per hour and `FIXED` to charge as a fixed amount. If the task will not be charged use `NON_CHARGEABLE`.
       type: string
       enum:
         - TIME
         - FIXED
         - NON_CHARGEABLE
+    ChargeType:
+      description: Can be `TIME`, `FIXED` or `NON_CHARGEABLE`, defines how the task will be charged. Use `TIME` when you want to charge per hour and `FIXED` to charge as a fixed amount. If the task will not be charged use `NON_CHARGEABLE`.
+      anyOf:
+        - $ref: '#/components/schemas/ChargeTypeClosed'
+        - type: string
     TaskCreateOrUpdate:
       externalDocs:
         url: https://developer.xero.com/documentation/projects/projects
@@ -1541,11 +1560,13 @@ components:
           type: string
           description: A description of the time entry.
         status:
-          type: string
-          enum:
-            - ACTIVE
-            - LOCKED
-            - INVOICED
+          anyOf:
+            - type: string
+              enum:
+                - ACTIVE
+                - LOCKED
+                - INVOICED
+            - type: string
           description: Status of the time entry. By default a time entry is created with status of `ACTIVE`. A `LOCKED` state indicates that the time entry is currently changing state (for example being invoiced). Updates are not allowed when in this state. It will have a status of INVOICED once it is invoiced.
     TimeEntryCreateOrUpdate:
       externalDocs:
