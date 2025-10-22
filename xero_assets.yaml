@@ -53,25 +53,29 @@ paths:
           in: query
           description: Requests can be ordered by AssetType, AssetName, AssetNumber, PurchaseDate and PurchasePrice. If the asset status is DISPOSED it also allows DisposalDate and DisposalPrice.
           schema:
-            type: string
-            enum:
-              - AssetType
-              - AssetName
-              - AssetNumber
-              - PurchaseDate
-              - PurchasePrice
-              - DisposalDate
-              - DisposalPrice
+            anyOf:
+              - type: string
+                enum:
+                  - AssetType
+                  - AssetName
+                  - AssetNumber
+                  - PurchaseDate
+                  - PurchasePrice
+                  - DisposalDate
+                  - DisposalPrice
+              - type: string
             example: AssetName
         - name: sortDirection
           x-snake: sort_direction
           in: query
           description: ASC or DESC
           schema:
-            type: string
-            enum:
-              - asc
-              - desc
+            anyOf:
+              - type: string
+                enum:
+                  - asc
+                  - desc
+              - type: string
             example: ASC
         - name: filterBy
           x-snake: filter_by
@@ -711,22 +715,34 @@ components:
           type: boolean
           description: Boolean to indicate whether delete is enabled
           example: true
-    AssetStatus:
+    AssetStatusClosed:
       type: string
       description: See Asset Status Codes.
-      example: Draft
       enum:
         - Draft
         - Registered
         - Disposed
-    AssetStatusQueryParam:
+      example: Draft
+    AssetStatus:
+      description: See Asset Status Codes.
+      anyOf:
+        - $ref: '#/components/schemas/AssetStatusClosed'
+        - type: string
+      example: Draft
+    AssetStatusQueryParamClosed:
       type: string
       description: See Asset Status Codes.
-      example: DRAFT
       enum:
         - DRAFT
         - REGISTERED
         - DISPOSED
+      example: DRAFT
+    AssetStatusQueryParam:
+      description: See Asset Status Codes.
+      anyOf:
+        - $ref: '#/components/schemas/AssetStatusQueryParamClosed'
+        - type: string
+      example: DRAFT
     AssetType:
       type: object
       x-snake: asset_type
@@ -767,21 +783,25 @@ components:
     BookDepreciationSetting:
       properties:
         depreciationMethod:
-          type: string
-          enum:
-            - NoDepreciation
-            - StraightLine
-            - DiminishingValue100
-            - DiminishingValue150
-            - DiminishingValue200
-            - FullDepreciation
+          anyOf:
+            - type: string
+              enum:
+                - NoDepreciation
+                - StraightLine
+                - DiminishingValue100
+                - DiminishingValue150
+                - DiminishingValue200
+                - FullDepreciation
+            - type: string
           example: StraightLine
           description: The method of depreciation applied to this asset. See Depreciation Methods
         averagingMethod:
-          type: string
-          enum:
-            - FullMonth
-            - ActualDays
+          anyOf:
+            - type: string
+              enum:
+                - FullMonth
+                - ActualDays
+            - type: string
           example: ActualDays
           description: The method of averaging applied to this asset. See Averaging Methods
         depreciationRate:
@@ -795,11 +815,13 @@ components:
           example: 5
           description: Effective life of the asset in years (e.g. 5)
         depreciationCalculationMethod:
-          type: string
-          enum:
-            - Rate
-            - Life
-            - None
+          anyOf:
+            - type: string
+              enum:
+                - Rate
+                - Life
+                - None
+            - type: string
           example: None
           description: See Depreciation Calculation Methods
         depreciableObjectId:
