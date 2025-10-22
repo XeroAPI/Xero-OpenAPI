@@ -5707,10 +5707,12 @@ components:
           example: developer@me.com
         gender:
           description: The employee’s gender
-          type: string
-          enum:
-            - M
-            - F
+          anyOf:
+            - type: string
+              enum:
+              - M
+              - F
+            - type: string
           example: F
         phoneNumber:
           description: Employee phone number
@@ -5982,10 +5984,12 @@ components:
           format: double
         periodStatus:
           description: Period Status
-          type: string
-          enum:
-            - Approved
-            - Completed
+          anyOf:
+            - type: string
+              enum:
+              - Approved
+              - Completed
+            - type: string
     EmployeeLeaveBalances:
       type: object
       properties:
@@ -6030,24 +6034,28 @@ components:
       properties:
         leaveType:
           description: The type of statutory leave
-          type: string
-          enum:
-            - Sick
-            - Adoption
-            - Maternity
-            - Paternity
-            - Sharedparental
-            - Bereavement
-            - NeonatalCare
+          anyOf:
+            - type: string
+              enum:
+              - Sick
+              - Adoption
+              - Maternity
+              - Paternity
+              - Sharedparental
+              - Bereavement
+              - NeonatalCare
+            - type: string
         balanceRemaining:
           description: The balance remaining for the corresponding leave type as of specified date.
           type: number
           format: double
         units:
           description: The units will be "Hours"
-          type: string
-          enum:
-            - Hours
+          anyOf:
+            - type: string
+              enum:
+              - Hours
+            - type: string
     EmployeeStatutoryLeavesSummaries:
       type: object
       properties:
@@ -6072,15 +6080,17 @@ components:
           format: uuid
         type:
           description: The category of statutory leave
-          type: string
-          enum:
-            - Sick
-            - Adoption
-            - Maternity
-            - Paternity
-            - Sharedparental
-            - Bereavement
-            - NeonatalCare
+          anyOf:
+            - type: string
+              enum:
+              - Sick
+              - Adoption
+              - Maternity
+              - Paternity
+              - Sharedparental
+              - Bereavement
+              - NeonatalCare
+            - type: string
         startDate:
           description: The date when the leave starts
           type: string
@@ -6096,11 +6106,13 @@ components:
           type: boolean
         status:
           description: The status of the leave
-          type: string
-          enum:
-            - Pending
-            - In-Progress
-            - Completed
+          anyOf:
+            - type: string
+              enum:
+              - Pending
+              - In-Progress
+              - Completed
+            - type: string
     EmployeeStatutorySickLeaves:
       type: object
       properties:
@@ -6235,12 +6247,14 @@ components:
           format: uuid
         scheduleOfAccrual:
           description: The schedule of accrual
-          type: string
-          enum:
-            - BeginningOfCalendarYear
-            - OnAnniversaryDate
-            - EachPayPeriod
-            - OnHourWorked
+          anyOf:
+            - type: string
+              enum:
+              - BeginningOfCalendarYear
+              - OnAnniversaryDate
+              - EachPayPeriod
+              - OnHourWorked
+            - type: string
         hoursAccruedAnnually:
           description: The number of hours accrued for the leave annually. This is 0 when the scheduleOfAccrual chosen is "OnHourWorked"
           type: number
@@ -6373,10 +6387,12 @@ components:
           type: string
         category:
           description: Category type of the employer pension
-          type: string
-          enum:
-            - StakeholderPension
-            - Other
+          anyOf:
+            - type: string
+              enum:
+              - StakeholderPension
+              - Other
+            - type: string
         liabilityAccountId:
           description: Xero identifier for Liability Account
           type: string
@@ -6397,10 +6413,12 @@ components:
           x-is-money: true
         calculationType:
           description: Calculation Type of the employer pension (FixedAmount or PercentageOfGross).
-          type: string
-          enum:
-            - FixedAmount
-            - PercentageOfGross
+          anyOf:
+            - type: string
+              enum:
+              - FixedAmount
+              - PercentageOfGross
+            - type: string
         currentRecord:
           description: Identifier of a record is active or not.
           type: boolean
@@ -6454,18 +6472,20 @@ components:
           type: string
         deductionCategory:
           description: Deduction Category type
-          type: string
-          enum:
-            - CapitalContributions
-            - ChildCareVoucher
-            - MakingGood
-            - PostgraduateLoanDeductions
-            - PrivateUsePayments
-            - SalarySacrifice
-            - StakeholderPension
-            - StakeholderPensionPostTax
-            - StudentLoanDeductions
-            - UkOther
+          anyOf:
+            - type: string
+              enum:
+              - CapitalContributions
+              - ChildCareVoucher
+              - MakingGood
+              - PostgraduateLoanDeductions
+              - PrivateUsePayments
+              - SalarySacrifice
+              - StakeholderPension
+              - StakeholderPensionPostTax
+              - StudentLoanDeductions
+              - UkOther
+            - type: string
         liabilityAccountId:
           description: Xero identifier for Liability Account
           type: string
@@ -6486,10 +6506,12 @@ components:
           type: boolean
         calculationType:
           description: determine the calculation type whether fixed amount or percentage of gross
-          type: string
-          enum:
-            - FixedAmount
-            - PercentageOfGross
+          anyOf:
+            - type: string
+              enum:
+              - FixedAmount
+              - PercentageOfGross
+            - type: string
         percentage:
           description: Percentage of gross
           type: number
@@ -6536,10 +6558,15 @@ components:
         currentRecord:
           description: Identifier of a record is active or not.
           type: boolean
-    StatutoryDeductionCategory:
+    StatutoryDeductionCategoryClosed:
       description: Statutory Deduction Category
       type: string
       enum:
+    StatutoryDeductionCategory:
+      description: Statutory Deduction Category
+      anyOf:
+        - $ref: '#/components/schemas/StatutoryDeductionCategoryClosed'
+        - type: string
         - AdditionalStudentLoan
         - ChildSupport
         - CourtFines
@@ -6634,40 +6661,44 @@ components:
           type: string
         earningsType:
           description: Indicates how an employee will be paid when taking this type of earning
-          type: string
-          enum:
-            - Allowance
-            - BackPay
-            - Bonus
-            - Commission
-            - LumpSum
-            - OtherEarnings
-            - OvertimeEarnings
-            - RegularEarnings
-            - StatutoryAdoptionPay
-            - StatutoryAdoptionPayNonPensionable
-            - StatutoryBereavementPay
-            - StatutoryMaternityPay
-            - StatutoryMaternityPayNonPensionable
-            - StatutoryPaternityPay
-            - StatutoryPaternityPayNonPensionable
-            - StatutoryParentalBereavementPayNonPensionable
-            - StatutorySharedParentalPay
-            - StatutorySharedParentalPayNonPensionable
-            - StatutorySickPay
-            - StatutorySickPayNonPensionable
-            - TipsNonDirect
-            - TipsDirect
-            - TerminationPay
-            - StatutoryNeonatalCarePay
-            - StatutoryNeonatalCarePayNonPensionable
+          anyOf:
+            - type: string
+              enum:
+              - Allowance
+              - BackPay
+              - Bonus
+              - Commission
+              - LumpSum
+              - OtherEarnings
+              - OvertimeEarnings
+              - RegularEarnings
+              - StatutoryAdoptionPay
+              - StatutoryAdoptionPayNonPensionable
+              - StatutoryBereavementPay
+              - StatutoryMaternityPay
+              - StatutoryMaternityPayNonPensionable
+              - StatutoryPaternityPay
+              - StatutoryPaternityPayNonPensionable
+              - StatutoryParentalBereavementPayNonPensionable
+              - StatutorySharedParentalPay
+              - StatutorySharedParentalPayNonPensionable
+              - StatutorySickPay
+              - StatutorySickPayNonPensionable
+              - TipsNonDirect
+              - TipsDirect
+              - TerminationPay
+              - StatutoryNeonatalCarePay
+              - StatutoryNeonatalCarePayNonPensionable
+            - type: string
         rateType:
           description: Indicates the type of the earning rate
-          type: string
-          enum:
-            - RatePerUnit
-            - MultipleOfOrdinaryEarningsRate
-            - FixedAmount
+          anyOf:
+            - type: string
+              enum:
+              - RatePerUnit
+              - MultipleOfOrdinaryEarningsRate
+              - FixedAmount
+            - type: string
         typeOfUnits:
           description: The type of units used to record earnings
           type: string
@@ -6840,11 +6871,13 @@ components:
           x-is-date: true
         status:
           description: Status of the timesheet
-          type: string
-          enum:
-            - Draft
-            - Approved
-            - Completed
+          anyOf:
+            - type: string
+              enum:
+              - Draft
+              - Approved
+              - Completed
+            - type: string
         totalHours:
           description: The Total Hours of the Timesheet
           type: number
@@ -6934,14 +6967,16 @@ components:
           type: string
         calendarType:
           description: Type of the calendar
-          type: string
-          enum:
-            - Weekly
-            - Fortnightly
-            - FourWeekly
-            - Monthly
-            - Annual
-            - Quarterly
+          anyOf:
+            - type: string
+              enum:
+              - Weekly
+              - Fortnightly
+              - FourWeekly
+              - Monthly
+              - Annual
+              - Quarterly
+            - type: string
         periodStartDate:
           description: Period start date of the calendar
           type: string
@@ -6978,11 +7013,13 @@ components:
       properties:
         paymentMethod:
           description: The payment method code
-          type: string
-          enum:
-            - Cheque
-            - Electronically
-            - Manual
+          anyOf:
+            - type: string
+              enum:
+              - Cheque
+              - Electronically
+              - Manual
+            - type: string
         bankAccounts:
           type: array
           items:
@@ -7048,17 +7085,21 @@ components:
           format: double
         status:
           description: The current status of the corresponding salary and wages
-          type: string
-          enum:
-            - Active
-            - Pending
-            - History
+          anyOf:
+            - type: string
+              enum:
+              - Active
+              - Pending
+              - History
+            - type: string
         paymentType:
           description: The type of the payment of the corresponding salary and wages
-          type: string
-          enum:
-            - Salary
-            - Hourly
+          anyOf:
+            - type: string
+              enum:
+              - Salary
+              - Hourly
+            - type: string
     PayRuns:
       type: object
       properties:
@@ -7115,27 +7156,33 @@ components:
           format: double
         payRunStatus:
           description: Pay run status
-          type: string
-          enum:
-            - Draft
-            - Posted
+          anyOf:
+            - type: string
+              enum:
+              - Draft
+              - Posted
+            - type: string
         payRunType:
           description: Pay run type
-          type: string
-          enum:
-            - Scheduled
-            - Unscheduled
-            - EarlierYearUpdate
+          anyOf:
+            - type: string
+              enum:
+              - Scheduled
+              - Unscheduled
+              - EarlierYearUpdate
+            - type: string
         calendarType:
           description: Calendar type of the pay run
-          type: string
-          enum:
-            - Weekly
-            - Fortnightly
-            - FourWeekly
-            - Monthly
-            - Annual
-            - Quarterly
+          anyOf:
+            - type: string
+              enum:
+              - Weekly
+              - Fortnightly
+              - FourWeekly
+              - Monthly
+              - Annual
+              - Quarterly
+            - type: string
         postedDateTime:
           description: Posted date time of the pay run
           type: string
@@ -7232,11 +7279,13 @@ components:
           type: string
         paymentMethod:
           description: The payment method code
-          type: string
-          enum:
-            - Cheque
-            - Electronically
-            - Manual
+          anyOf:
+            - type: string
+              enum:
+              - Cheque
+              - Electronically
+              - Manual
+            - type: string
         earningsLines:
           $ref: '#/components/schemas/EarningsLines'
         leaveEarningsLines:
@@ -7532,15 +7581,17 @@ components:
           format: uuid
         type:
           description: The assigned AccountType
-          type: string
-          enum:
-            - BANK
-            - EMPLOYERSNIC
-            - NICLIABILITY
-            - PAYEECONTRIBUTION
-            - PAYELIABILITY
-            - WAGESPAYABLE
-            - WAGESEXPENSE
+          anyOf:
+            - type: string
+              enum:
+              - BANK
+              - EMPLOYERSNIC
+              - NICLIABILITY
+              - PAYEECONTRIBUTION
+              - PAYELIABILITY
+              - WAGESPAYABLE
+              - WAGESEXPENSE
+            - type: string
         code:
           description: A unique 3 digit number for each Account
           type: string
@@ -7614,7 +7665,7 @@ components:
           description: The Xero identifier for Timesheet tracking category.
           type: string
           format: uuid
-    NICategoryLetter:
+    NICategoryLetterClosed:
       description: The employee's NI Category letter.
       type: string
       example: I
@@ -7636,6 +7687,11 @@ components:
       - E
       - K
       - N
+    NICategoryLetter:
+      description: The employee's NI Category letter.
+      anyOf:
+        - $ref: '#/components/schemas/NICategoryLetterClosed'
+        - type: string
     NICategory:
       type: object
       required:
