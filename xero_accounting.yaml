@@ -20176,7 +20176,7 @@ components:
       schema:
         type: string
         format: uuid
-    TaxTypeClosed:
+    TaxType:
       required: true
       in: path
       name: TaxType
@@ -20532,326 +20532,6 @@ components:
         - SALES
         - TERMLIAB
         - PAYG
-    TaxType:
-      required: true
-      in: path
-      name: TaxType
-      description: A valid TaxType code
-      example: INPUT2
-      schema:
-        type: string
-  responses:
-    400Error:
-      description: A failed request due to validation error
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    HistoryRecordCreated:
-      description: Success - return response of type HistoryRecords array of HistoryRecord objects
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/HistoryRecords'
-          example:
-            Id: d7525479-3392-44c0-bb37-ff4a0b5df5bd
-            Status: OK
-            ProviderName: Xero API Partner
-            DateTimeUTC: /Date(1550899400362)/
-            HistoryRecords:
-              - DateUTCString: 2019-02-23T05:23:20
-                DateUTC: /Date(1550899400362)/
-                Details: Hello World
-                ValidationErrors: []
-    HistoryRetrieved:
-      description: Success - return response of HistoryRecords array of 0 to N HistoryRecord
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/HistoryRecords'
-          example:
-            Id: cd54cc7b-b721-4207-b11d-7d13c7902f91
-            Status: OK
-            ProviderName: Xero API Partner
-            DateTimeUTC: /Date(1551311321819)/
-            HistoryRecords:
-              - Changes: Attached a file
-                DateUTCString: 2018-11-08T15:01:21
-                DateUTC: /Date(1541689281470+0000)/
-                User: System Generated
-                Details: Attached the file sample2.jpg through the Xero API using Xero API Partner
-              - Changes: Credit Applied
-                DateUTCString: 2016-10-17T20:46:01
-                DateUTC: /Date(1476737161173+0000)/
-                User: System Generated
-                Details: Bank transfer from Business Wells Fargo to My Savings on November 12, 2016 for 20.00.
-  schemas:
-    AddressForOrganisation:
-      externalDocs:
-        url: http://developer.xero.com/documentation/api/types
-      properties:
-        AddressType:
-          description: define the type of address
-          anyOf:
-            - type: string
-              enum:
-              - POBOX
-              - STREET
-              - DELIVERY
-            - type: string
-        AddressLine1:
-          description: max length = 500
-          maxLength: 500
-          type: string
-        AddressLine2:
-          description: max length = 500
-          maxLength: 500
-          type: string
-        AddressLine3:
-          description: max length = 500
-          maxLength: 500
-          type: string
-        AddressLine4:
-          description: max length = 500
-          maxLength: 500
-          type: string
-        City:
-          description: max length = 255
-          maxLength: 255
-          type: string
-        Region:
-          description: max length = 255
-          maxLength: 255
-          type: string
-        PostalCode:
-          description: max length = 50
-          maxLength: 50
-          type: string
-        Country:
-          description: max length = 50, [A-Z], [a-z] only
-          maxLength: 50
-          type: string
-        AttentionTo:
-          description: max length = 255
-          maxLength: 255
-          type: string
-      type: object
-    Address:
-      externalDocs:
-        url: http://developer.xero.com/documentation/api/types
-      properties:
-        AddressType:
-          description: define the type of address
-          anyOf:
-            - type: string
-              enum:
-              - POBOX
-              - STREET
-            - type: string
-        AddressLine1:
-          description: max length = 500
-          maxLength: 500
-          type: string
-        AddressLine2:
-          description: max length = 500
-          maxLength: 500
-          type: string
-        AddressLine3:
-          description: max length = 500
-          maxLength: 500
-          type: string
-        AddressLine4:
-          description: max length = 500
-          maxLength: 500
-          type: string
-        City:
-          description: max length = 255
-          maxLength: 255
-          type: string
-        Region:
-          description: max length = 255
-          maxLength: 255
-          type: string
-        PostalCode:
-          description: max length = 50
-          maxLength: 50
-          type: string
-        Country:
-          description: max length = 50, [A-Z], [a-z] only
-          maxLength: 50
-          type: string
-        AttentionTo:
-          description: max length = 255
-          maxLength: 255
-          type: string
-      type: object
-    Phone:
-      externalDocs:
-        url: http://developer.xero.com/documentation/api/types
-      properties:
-        PhoneType:
-          anyOf:
-            - type: string
-              enum:
-              - DEFAULT
-              - DDI
-              - MOBILE
-              - FAX
-              - OFFICE
-            - type: string
-        PhoneNumber:
-          description: max length = 50
-          maxLength: 50
-          type: string
-        PhoneAreaCode:
-          description: max length = 10
-          maxLength: 10
-          type: string
-        PhoneCountryCode:
-          description: max length = 20
-          maxLength: 20
-          type: string
-      type: object
-    Accounts:
-      type: object
-      x-objectArrayKey: accounts
-      properties:
-        Accounts:
-          type: array
-          items:
-            $ref: '#/components/schemas/Account'
-    Account:
-      type: object
-      externalDocs:
-        url: http://developer.xero.com/documentation/api/accounts/
-      properties:
-        Code:
-          description: Customer defined alpha numeric account code e.g 200 or SALES (max length = 10)
-          type: string
-          example: 4400
-        Name:
-          description: Name of account (max length = 150)
-          maxLength: 150
-          type: string
-          example: Food Sales
-        AccountID:
-          description: The Xero identifier for an account – specified as a string following  the endpoint name   e.g. /297c2dc5-cc47-4afd-8ec8-74990b8761e9
-          type: string
-          format: uuid
-          example: 00000000-0000-0000-0000-000000000000
-        Type:
-          $ref: '#/components/schemas/AccountType'
-          type: string
-        BankAccountNumber:
-          description: For bank accounts only (Account Type BANK)
-          type: string
-        Status:
-          description: Accounts with a status of ACTIVE can be updated to ARCHIVED. See Account Status Codes
-          anyOf:
-            - type: string
-              enum:
-              - ACTIVE
-              - ARCHIVED
-              - DELETED
-            - type: string
-        Description:
-          description: Description of the Account. Valid for all types of accounts except bank accounts (max length = 4000)
-          type: string
-        BankAccountType:
-          description: For bank accounts only. See Bank Account types
-          anyOf:
-            - type: string
-              enum:
-              - BANK
-              - CREDITCARD
-              - PAYPAL
-              - NONE
-              - ""
-            - type: string
-        CurrencyCode:
-          $ref: '#/components/schemas/CurrencyCode'
-          type: string
-        TaxType:
-          description: The tax type from taxRates
-          type: string
-        EnablePaymentsToAccount:
-          description: Boolean – describes whether account can have payments applied to it
-          type: boolean
-        ShowInExpenseClaims:
-          description: Boolean – describes whether account code is available for use with expense claims
-          type: boolean
-        Class:
-          description: See Account Class Types
-          readOnly: true
-          anyOf:
-            - type: string
-              enum:
-              - ASSET
-              - EQUITY
-              - EXPENSE
-              - LIABILITY
-              - REVENUE
-            - type: string
-        SystemAccount:
-          description: If this is a system account then this element is returned. See System Account types. Note that non-system accounts may have this element set as either “” or null.
-          readOnly: true
-          anyOf:
-            - type: string
-              enum:
-              - DEBTORS
-              - CREDITORS
-              - BANKCURRENCYGAIN
-              - GST
-              - GSTONIMPORTS
-              - HISTORICAL
-              - REALISEDCURRENCYGAIN
-              - RETAINEDEARNINGS
-              - ROUNDING
-              - TRACKINGTRANSFERS
-              - UNPAIDEXPCLM
-              - UNREALISEDCURRENCYGAIN
-              - WAGEPAYABLES
-              - CISASSETS
-              - CISASSET
-              - CISLABOUR
-              - CISLABOUREXPENSE
-              - CISLABOURINCOME
-              - CISLIABILITY
-              - CISMATERIALS
-              - ""
-            - type: string
-        ReportingCode:
-          description: Shown if set
-          type: string
-        ReportingCodeName:
-          description: Shown if set
-          readOnly: true
-          type: string
-        HasAttachments:
-          description: boolean to indicate if an account has an attachment (read only)
-          readOnly: true
-          type: boolean
-          default: "false"
-          example: "false"
-        UpdatedDateUTC:
-          description: Last modified date UTC format
-          type: string
-          x-is-msdate-time: true
-          example: /Date(1573755038314)/
-          readOnly: true
-        AddToWatchlist:
-          description: Boolean – describes whether the account is shown in the watchlist widget on the dashboard
-          type: boolean
-        ValidationErrors:
-          description: Displays array of validation error messages from the API
-          type: array
-          items:
-            $ref: '#/components/schemas/ValidationError'
-    AccountTypeClosed:
-      description: See Account Types
-      anyOf:
-        - $ref: '#/components/schemas/TaxTypeClosed'
-        - type: string
     AccountType:
       description: See Account Types
       anyOf:
@@ -25628,9 +25308,133 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/TaxRate'
-    TaxType:
+    TaxTypeClosed:
       description: See Tax Types – can only be used on update calls
       type: string
+      x-enum-varnames:
+        - Output
+        - Input
+        - Capexinput
+        - Exemptexport
+        - Exemptexpenses
+        - Exemptcapital
+        - Exemptoutput
+        - Inputtaxed
+        - Basexcluded
+        - Gstoncapimports
+        - Gstonimports
+        - None
+        - Input2
+        - Zerorated
+        - Output2
+        - Capexinput2
+        - Capexoutput
+        - Capexoutput2
+        - Capexsrinput
+        - Capexsroutput
+        - Ecacquisitions
+        - Eczrinput
+        - Eczroutput
+        - Eczroutputservices
+        - Exemptinput
+        - Reversecharges
+        - Rrinput
+        - Rroutput
+        - Srinput
+        - Sroutput
+        - Zeroratedinput
+        - Zeroratedoutput
+        - Blinput
+        - Dsoutput
+        - Epinput
+        - Es33output
+        - Esn33output
+        - Igdsinput2
+        - Iminput2
+        - Meinput
+        - Nrinput
+        - Opinput
+        - Osoutput
+        - Txessinput
+        - Txn33input
+        - Txpetinput
+        - Txreinput
+        - Input3
+        - Input4
+        - Output3
+        - Output4
+        - Sroutput2
+        - Txca
+        - Srcas
+        - Blinput2
+        - Drchargesupply20
+        - Drcharge20
+        - Drchargesupply5
+        - Drcharge5
+        - Baddebtrelief
+        - Igdsinput3
+        - Srovr
+        - Touristrefund
+        - Txrcn33
+        - Txrcre
+        - Txrcess
+        - Txrcts
+        - Outputy23
+        - Dsoutputy23
+        - Inputy23
+        - Iminput2y23
+        - Igdsinput2y23
+        - Txpetinputy23
+        - Txessinputy23
+        - Txn33inputy23
+        - Txreinputy23
+        - Txcay23
+        - Baddebtreliefy23
+        - Igdsinput3y23
+        - Srovrrsy23
+        - Srovrlvgy23
+        - Srlvgy23
+        - Txrcn33y23
+        - Txrcrey23
+        - Txrcessy23
+        - Txrctsy23
+        - Im
+        - Imy23
+        - Imess
+        - Imessy23
+        - Imn33
+        - Imn33y23
+        - Imre
+        - Imrey23
+        - Baddebtrecovery
+        - Baddebtrecoveryy23
+        - Outputy24
+        - Dsoutputy24
+        - Inputy24
+        - Igdsinput2y24
+        - Txpetinputy24
+        - Txessinputy24
+        - Txn33inputy24
+        - Txreinputy24
+        - Txcay24
+        - Baddebtreliefy24
+        - Igdsinput3y24
+        - Srovrrsy24
+        - Srovrlvgy24
+        - Srlvgy24
+        - Txrctsy24
+        - Txrcessy24
+        - Txrcn33y24
+        - Txrcrey24
+        - Imy24
+        - Imessy24
+        - Imn33y24
+        - Imrey24
+        - Baddebtrecoveryy24
+        - Osoutput2
+        - Blinput3
+        - Blinput3y23
+        - Blinput3y24
       enum:
         - OUTPUT
         - INPUT
@@ -25755,6 +25559,11 @@ components:
         - BLINPUT3
         - BLINPUT3Y23
         - BLINPUT3Y24
+    TaxType:
+      description: See Tax Types – can only be used on update calls
+      anyOf:
+        - $ref: '#/components/schemas/TaxTypeClosed'
+        - type: string
     Setup:
       externalDocs:
         url: https://developer.xero.com/documentation/api-guides/conversions
