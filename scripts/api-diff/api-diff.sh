@@ -16,11 +16,14 @@ BASE_BRANCH="${BASE_BRANCH:-origin/master}"
 
 FAIL_ON_BREAKING=false
 TARGET_FILE=""
+DRY_RUN=false
 
 # Parse arguments
 for arg in "$@"; do
     if [ "$arg" = "--fail-on-breaking" ]; then
         FAIL_ON_BREAKING=true
+    elif [ "$arg" = "--dry-run" ]; then
+        DRY_RUN=true
     elif [[ "$arg" == *.yaml ]]; then
         TARGET_FILE="$arg"
     fi
@@ -28,7 +31,7 @@ done
 
 # If --fail-on-breaking not explicitly set, determine based on branch name
 if [ "$FAIL_ON_BREAKING" = false ]; then
-    CURRENT_BRANCH=$(git branch --show-current 2>/dev/null || echo "")
+    CURRENT_BRANCH=${CURRENT_BRANCH:-$(git branch --show-current 2>/dev/null || echo "")}
     if [[ "$CURRENT_BRANCH" == *breaking* ]]; then
         echo "Branch '$CURRENT_BRANCH' contains 'breaking', allowing breaking changes"
         FAIL_ON_BREAKING=false
@@ -36,6 +39,16 @@ if [ "$FAIL_ON_BREAKING" = false ]; then
         echo "Branch '$CURRENT_BRANCH' does not contain 'breaking', failing on breaking changes"
         FAIL_ON_BREAKING=true
     fi
+fi
+
+if [ "$DRY_RUN" = true ]; then
+    if [ "$FAIL_ON_BREAKING" = true ]; then
+        echo "Mode: Failing on breaking changes"
+    else
+        echo "Mode: Allowing breaking changes"
+    fi
+    echo "Dry run mode, exiting after branch check"
+    exit 0
 fi
 
 echo "Starting API diff check..."
