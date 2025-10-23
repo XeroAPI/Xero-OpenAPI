@@ -81,7 +81,7 @@ jobs:
                   return token
 
             - name: Trigger all SDK workflow
-              uses: codex-/return-dispatch@v2
+              uses: codex-/return-dispatch@v1
               id: return_dispatch
               with:
                 token: ${{ steps.get_access_token.outputs.result }}
@@ -89,7 +89,6 @@ jobs:
                 owner: xero-internal
                 workflow: pr.yml
                 ref: refs/heads/master
-                distinct: false
                 workflow_inputs: >
                   {
                     "branch_name": "${{ github.event_name == 'pull_request' && github.head_ref || 'master' }}"
