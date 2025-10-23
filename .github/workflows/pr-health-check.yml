@@ -81,18 +81,31 @@ jobs:
                   return token
 
             - name: Trigger all SDK workflow
-              uses: codex-/return-dispatch@v1
               id: return_dispatch
-              with:
-                token: ${{ steps.get_access_token.outputs.result }}
-                repo: xeroapi-sdk-codegen
-                owner: xero-internal
-                workflow: pr.yml
-                ref: refs/heads/master
-                workflow_inputs: >
-                  {
-                    "branch_name": "${{ github.event_name == 'pull_request' && github.head_ref || 'master' }}"
-                  }
+              env:
+                GH_TOKEN: ${{ steps.get_access_token.outputs.result }}
+              run: |
+                BRANCH_NAME="${{ github.event_name == 'pull_request' && github.head_ref || 'master' }}"
+                
+                # Trigger the workflow and capture the response
+                gh workflow run pr.yml \
+                  --repo xero-internal/xeroapi-sdk-codegen \
+                  --ref master \
+                  --field branch_name="$BRANCH_NAME"
+                
+                # Wait a moment for the run to be created
+                sleep 5
+                
+                # Get the latest run ID for the workflow
+                RUN_ID=$(gh run list \
+                  --repo xero-internal/xeroapi-sdk-codegen \
+                  --workflow=pr.yml \
+                  --limit 1 \
+                  --json databaseId \
+                  --jq '.[0].databaseId')
+                
+                echo "run_id=$RUN_ID" >> $GITHUB_OUTPUT
+                echo "Triggered workflow run ID: $RUN_ID"
             
             - name: Checking SDK health status
               uses: Codex-/await-remote-run@v1.12.2
