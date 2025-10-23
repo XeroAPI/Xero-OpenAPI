@@ -124,27 +124,4 @@ jobs:
               env:
                 GH_TOKEN: ${{steps.get_access_token.outputs.result}}
 
-            - name: Find PR number to merge
-              id: identify_PR_number
-              run: |
-               BRANCH_NAME=${{steps.identify_branch_name.outputs.branchName}} 
-               PR_NUMBER=$(gh pr list --head "$BRANCH_NAME" --json number --jq '. [0].number')
-               echo "PR number: $PR_NUMBER"
-               echo "PR_NUMBER=$PR_NUMBER" >> $GITHUB_OUTPUT
-              env:
-                GH_TOKEN: ${{steps.get_access_token.outputs.result}}
-
-            - name: Verify PR is merged
-              run: |
-               pr_state=$(gh pr view ${{steps.identify_PR_number.outputs.PR_NUMBER}} --json state --jq '.state')
-
-               echo "pr state: $pr_state"
-
-               if [ $pr_state == "MERGED" ]; then
-                echo "PR ${{steps.identify_PR_number.outputs.PR_NUMBER}} has been merged"
-               else 
-                echo "PR ${{steps.identify_PR_number.outputs.PR_NUMBER}} is not merged"
-                exit 1
-               fi
-              env:
-                GH_TOKEN: ${{steps.get_access_token.outputs.result}}
+           
