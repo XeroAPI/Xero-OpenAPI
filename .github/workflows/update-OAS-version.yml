@@ -134,22 +134,6 @@ jobs:
               env:
                 GH_TOKEN: ${{steps.get_access_token.outputs.result}}
 
-
-            - name: Auto Merge PR & delete branch
-              run: |
-
-                if [ -z "${{steps.identify_PR_number.outputs.PR_NUMBER}}" ]; then
-                 echo "No PR found for branch: ${{steps.identify_branch_name.outputs.branchName}}"
-                 exit 1
-                fi
-
-                echo "Merging the PR: ${{steps.identify_PR_number.outputs.PR_NUMBER}}....."
-                
-                gh pr merge ${{steps.identify_PR_number.outputs.PR_NUMBER}} --merge --admin --delete-branch --repo ${{github.repository}}
-
-              env:
-                GH_TOKEN: ${{steps.get_access_token.outputs.result}}
-
             - name: Verify PR is merged
               run: |
                pr_state=$(gh pr view ${{steps.identify_PR_number.outputs.PR_NUMBER}} --json state --jq '.state')
