@@ -26,6 +26,18 @@ for arg in "$@"; do
     fi
 done
 
+# If --fail-on-breaking not explicitly set, determine based on branch name
+if [ "$FAIL_ON_BREAKING" = false ]; then
+    CURRENT_BRANCH=$(git branch --show-current 2>/dev/null || echo "")
+    if [[ "$CURRENT_BRANCH" == *breaking* ]]; then
+        echo "Branch '$CURRENT_BRANCH' contains 'breaking', allowing breaking changes"
+        FAIL_ON_BREAKING=false
+    else
+        echo "Branch '$CURRENT_BRANCH' does not contain 'breaking', failing on breaking changes"
+        FAIL_ON_BREAKING=true
+    fi
+fi
+
 echo "Starting API diff check..."
 
 # Ensure we're in the repo root
