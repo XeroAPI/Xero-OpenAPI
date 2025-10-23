@@ -19,15 +19,13 @@ In Release (used for one or more SDKs)
 
 ## Contribution guide
 
-:loudspeaker: **Announcement for all active contributors for Xero-OpenAPI repo** :loudspeaker:
-
-We have enabled [commit linting](https://github.com/conventional-changelog/commitlint/#what-is-commitlint) in this repo to ensure that all commit messages follow the conventional commits standards. Please make sure your commit messages are properly formatted or the PR checks will fail. :no_entry_sign:
+This repo has [commit linting](https://github.com/conventional-changelog/commitlint/#what-is-commitlint) to ensure that all commit messages follow the conventional commits standards. Please make sure your commit messages are properly formatted or the PR checks will fail. :no_entry_sign:
 
 You can refer to the [conventional commits documentation](https://www.conventionalcommits.org/en/v1.0.0/#summary) for better understanding. 
 
 **Context:**
 
-We have automated the release process in xero-OpenAPI using [semantic-release package](https://github.com/semantic-release/semantic-release). In brief this package analyses all the commits in the repo to determine the next version number, generate the release notes and publish the package, hence the commit message is important for the release to happen successfully. Please read more on the conventional commit [documentation](https://www.conventionalcommits.org/en/v1.0.0/#summary) before landing your commits, each commit message will determine the release notes ! 
+The release process in xero-OpenAPI has been automated using [semantic-release package](https://github.com/semantic-release/semantic-release). In brief this package analyses all the commits in the repo to determine the next version number, generate the release notes and publish the package, hence the commit message is important for the release to happen successfully. Please read more on the conventional commit [documentation](https://www.conventionalcommits.org/en/v1.0.0/#summary) before landing your commits, each commit message will determine the release notes ! 
 
 
 **Example:**
