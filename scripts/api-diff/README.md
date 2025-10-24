@@ -1,6 +1,6 @@
 # API Diff Scripts
 
-This directory contains scripts for detecting and reporting API changes using [oasdiff](https://github.com/oasdiff/oasdiff).
+This directory contains scripts for detecting and reporting API changes using [openapi-diff](https://github.com/OpenAPITools/openapi-diff).
 
 ## Files
 
@@ -23,7 +23,7 @@ Main script that compares OpenAPI specifications against the master branch.
 ```
 
 **Environment Variables:**
-- `OASDIFF_DOCKER_IMAGE` - Docker image to use (default: `tufin/oasdiff:latest`)
+- `OPENAPI_DIFF_DOCKER_IMAGE` - Docker image to use (default: `openapitools/openapi-diff:latest`)
 - `BASE_BRANCH` - Branch to compare against (default: `origin/master`)
 
 ### `api-diff.test.sh`
@@ -58,12 +58,3 @@ The GitHub Actions workflow automatically adjusts its behavior based on branch n
 - Build will fail if breaking changes are detected
 
 This allows developers to explicitly signal when they're working on breaking changes by including `breaking` in their branch name.
-
-## Known Limitations
-
-The oasdiff tool has some non-deterministic behavior due to unordered map iteration in Go:
-- **Error counts** (breaking changes) are consistent and reliable
-- **Warning counts** may vary by ~2-3% between runs on identical inputs
-- This is acceptable for CI purposes as breaking change detection remains accurate
-
-For more details, see the [oasdiff documentation](https://github.com/oasdiff/oasdiff).

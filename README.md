@@ -30,7 +30,7 @@ Once you sign up or login, you can create a new API under your account and impor
 If you find something missing or incorrect please [open an issue](https://github.com/XeroAPI/Xero-OpenAPI/issues/new) or send us a pull request.
 
 ## API Diff Checking
-This repository includes automated API diff checking using [oasdiff](https://github.com/oasdiff/oasdiff) to detect breaking changes and modifications to the OpenAPI specifications.
+This repository includes automated API diff checking using [openapi-diff](https://github.com/OpenAPITools/openapi-diff) to detect breaking changes and modifications to the OpenAPI specifications.
 
 ### Quick Start
 ```bash
