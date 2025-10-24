@@ -1,4 +1,4 @@
-name: OAS PR health check
+name: PR Codegen Validation
 
 on:
     pull_request:
@@ -27,17 +27,13 @@ jobs:
               uses: actions/setup-node@v4
               with:
                 node-version: 20
-                registry-url: 'https://registry.npmjs.org'
   
-            - name: Install dependencies
-              timeout-minutes: 5
-              run: |
-                npm config set registry https://registry.npmjs.org
-                npm ci --verbose
+            - name: Install commitlint dependencies
+              run: npm ci
               working-directory: ${{ github.workspace }}/.github/commitlint
 
-            - name: Install octokit dependencies
-              run: npm i
+            - name: Install get-access-token dependencies
+              run: npm ci
               working-directory: ${{ github.workspace }}/.github/get-access-token
       
             - name: Get github app access token
@@ -53,8 +49,8 @@ jobs:
                   const token = await getAccessToken()
                   return token
 
-            - name: Trigger all SDK workflow
-              id: return_dispatch
+            - name: Trigger validation workflow in codegen repo
+              id: codegen_workflow
               env:
                 GH_TOKEN: ${{ steps.get_access_token.outputs.result }}
               run: |
@@ -80,13 +76,11 @@ jobs:
                 echo "run_id=$RUN_ID" >> $GITHUB_OUTPUT
                 echo "Triggered workflow run ID: $RUN_ID"
             
-            - name: Checking SDK health status
-              uses: Codex-/await-remote-run@v1.12.2
+            - name: Check status of codegen validation workflow
+              uses: Codex-/await-remote-run@v1.13.0
               with:
                 token: ${{ steps.get_access_token.outputs.result }}
                 repo: xeroapi-sdk-codegen
                 owner: xero-internal
-                run_id: ${{ steps.return_dispatch.outputs.run_id }}
-                workflow_time_minimum: 60
-                max_timeout: 3600
+                run_id: ${{ steps.codegen_workflow.outputs.run_id }}
               
