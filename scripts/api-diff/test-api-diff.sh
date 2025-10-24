@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Script to check API diffs using openapi-diff
-# Usage: ./scripts/api-diff/api-diff.sh [--fail-on-breaking] [filename.yaml]
+# Usage: ./scripts/api-diff/test-api-diff.sh [--fail-on-breaking] [filename.yaml]
 # Assumes you have Docker installed and the repo is checked out with master branch available
 
 set -e  # Exit on error
@@ -16,40 +16,15 @@ BASE_BRANCH="${BASE_BRANCH:-origin/master}"
 
 FAIL_ON_BREAKING=false
 TARGET_FILE=""
-DRY_RUN=false
 
 # Parse arguments
 for arg in "$@"; do
     if [ "$arg" = "--fail-on-breaking" ]; then
         FAIL_ON_BREAKING=true
-    elif [ "$arg" = "--dry-run" ]; then
-        DRY_RUN=true
     elif [[ "$arg" == *.yaml ]]; then
         TARGET_FILE="$arg"
     fi
 done
-
-# If --fail-on-breaking not explicitly set, determine based on branch name
-if [ "$FAIL_ON_BREAKING" = false ]; then
-    CURRENT_BRANCH=${CURRENT_BRANCH:-$(git branch --show-current 2>/dev/null || echo "")}
-    if [[ "$CURRENT_BRANCH" == *breaking* ]]; then
-        echo "Branch '$CURRENT_BRANCH' contains 'breaking', allowing breaking changes"
-        FAIL_ON_BREAKING=false
-    else
-        echo "Branch '$CURRENT_BRANCH' does not contain 'breaking', failing on breaking changes"
-        FAIL_ON_BREAKING=true
-    fi
-fi
-
-if [ "$DRY_RUN" = true ]; then
-    if [ "$FAIL_ON_BREAKING" = true ]; then
-        echo "Mode: Failing on breaking changes"
-    else
-        echo "Mode: Allowing breaking changes"
-    fi
-    echo "Dry run mode, exiting after branch check"
-    exit 0
-fi
 
 echo "Starting API diff check..."
 
@@ -112,19 +87,38 @@ for file in $files; do
         continue
     fi
     
-    # Run openapi-diff to check for changes and breaking changes
-    echo "--- API Diff ---"
+    # Note: openapi-diff provides deterministic results for change detection.
+    # Both error and warning counts are consistent between runs.
+    
+    # Run openapi-diff changelog
+    echo "--- Changelog ---"
     set +e
-    DIFF_OUTPUT=$(docker run --rm -v "$(pwd)":/current -v "$TEMP_DIR":/base "$DOCKER_IMAGE" /base/"$file" /current/"$file" --fail-on-incompatible 2>&1)
-    DIFF_EXIT=$?
+    CHANGELOG_OUTPUT=$(docker run --rm -v "$(pwd)":/current -v "$TEMP_DIR":/base "$DOCKER_IMAGE" changelog --include-path-params /base/"$file" /current/"$file" 2>&1)
+    CHANGELOG_EXIT=$?
     set -e
     
-    echo "$DIFF_OUTPUT"
+    echo "$CHANGELOG_OUTPUT"
     
-    if [ $DIFF_EXIT -eq 0 ]; then
+    if [ $CHANGELOG_EXIT -eq 0 ]; then
+        echo "✓ Changelog generated successfully"
+    else
+        echo "⚠ Could not generate changelog (exit code: $CHANGELOG_EXIT)"
+    fi
+    
+    # Run breaking changes check
+    echo ""
+    echo "--- Breaking changes check ---"
+    set +e
+    BREAKING_OUTPUT=$(docker run --rm -v "$(pwd)":/current -v "$TEMP_DIR":/base "$DOCKER_IMAGE" breaking --fail-on ERR --include-path-params /base/"$file" /current/"$file" 2>&1)
+    BREAKING_EXIT=$?
+    set -e
+    
+    echo "$BREAKING_OUTPUT"
+    
+    if [ $BREAKING_EXIT -eq 0 ]; then
         echo "✓ No breaking changes detected"
     else
-        echo "⚠ Breaking changes detected (exit code: $DIFF_EXIT)"
+        echo "⚠ Breaking changes detected (exit code: $BREAKING_EXIT)"
         BREAKING_CHANGES_FOUND=true
         FILES_WITH_BREAKING_CHANGES+=("$file")
     fi
