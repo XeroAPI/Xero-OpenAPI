@@ -29,6 +29,38 @@ Main script that compares OpenAPI specifications against the master branch.
 - `OPENAPI_CHANGES_DOCKER_IMAGE` - Docker image to use (default: `pb33f/openapi-changes:latest`)
 - `BASE_BRANCH` - Branch to compare against (default: `origin/master`)
 
+### Comparing Different Branches
+
+By default, `api-diff.sh` compares your current branch against `origin/master`. You can compare against any other branch by setting the `BASE_BRANCH` environment variable:
+
+**Compare current branch against a different target branch:**
+```bash
+# Compare against origin/develop
+BASE_BRANCH=origin/develop ./scripts/api-diff/api-diff.sh
+
+# Compare against origin/main
+BASE_BRANCH=origin/main ./scripts/api-diff/api-diff.sh
+
+# Compare against a feature branch
+BASE_BRANCH=origin/feature/new-api ./scripts/api-diff/api-diff.sh
+
+# Compare specific file against different branch
+BASE_BRANCH=origin/v2-api ./scripts/api-diff/api-diff.sh xero-webhooks.yaml
+```
+
+**Compare two specific branches (advanced usage):**
+If you need to compare two arbitrary branches, you can temporarily switch to one branch and set BASE_BRANCH to the other:
+
+```bash
+# Compare feature-branch against develop
+git checkout feature-branch
+BASE_BRANCH=origin/develop ./scripts/api-diff/api-diff.sh
+
+# Compare main against a tag
+git checkout main
+BASE_BRANCH=v1.0.0 ./scripts/api-diff/api-diff.sh
+```
+
 ### `api-diff.test.sh`
 Unit tests for the branch logic pattern matching used in GitHub Actions.
 
@@ -40,6 +72,8 @@ Unit tests for the branch logic pattern matching used in GitHub Actions.
 Tests validate that:
 - Branches containing `breaking` anywhere in the name are correctly identified
 - Other branches are handled with breaking change enforcement
+- All command-line flags (`--fail-on-breaking`, `--allow-breaking`, `--dry-run`, `--html-report`) are parsed correctly
+- Flag precedence and override behavior works as expected
 
 ## Integration
 

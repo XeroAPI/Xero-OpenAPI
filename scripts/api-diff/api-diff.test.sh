@@ -81,6 +81,36 @@ else
 fi
 echo
 
+echo "--- Test --dry-run flag ---"
+# Test that --dry-run exits early without doing actual work
+echo "Testing: --dry-run flag exits early"
+output=$("$SCRIPT_PATH" --dry-run 2>&1)
+if echo "$output" | grep -q "Dry run mode, exiting after branch check" && ! echo "$output" | grep -q "Starting API diff check"; then
+    echo "  ✓ PASS: --dry-run exits early without starting diff check"
+    TESTS_PASSED=$((TESTS_PASSED + 1))
+else
+    echo "  ✗ FAIL: --dry-run did not exit early, output:"
+    echo "$output"
+    TESTS_FAILED=$((TESTS_FAILED + 1))
+fi
+echo
+
+echo "--- Test --html-report flag parsing ---"
+# Test that --html-report flag is parsed correctly (basic parsing test)
+echo "Testing: --html-report flag parsing"
+# We'll test this by checking that the script doesn't immediately fail with unknown argument
+# and that it would proceed to the repo root check (which will fail since we're not in repo root)
+output=$("$SCRIPT_PATH" --html-report --dry-run 2>&1)
+if echo "$output" | grep -q "Dry run mode, exiting after branch check"; then
+    echo "  ✓ PASS: --html-report flag parsed correctly"
+    TESTS_PASSED=$((TESTS_PASSED + 1))
+else
+    echo "  ✗ FAIL: --html-report flag not parsed correctly, output:"
+    echo "$output"
+    TESTS_FAILED=$((TESTS_FAILED + 1))
+fi
+echo
+
 echo "========================================"
 echo "Test Results:"
 echo "  Passed: $TESTS_PASSED"
