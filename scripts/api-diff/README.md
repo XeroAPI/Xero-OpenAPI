@@ -1,6 +1,6 @@
 # API Diff Scripts
 
-This directory contains scripts for detecting and reporting API changes using [openapi-diff](https://github.com/OpenAPITools/openapi-diff).
+This directory contains scripts for detecting and reporting API changes using [openapi-changes](https://pb33f.io/openapi-changes/).
 
 ## Files
 
@@ -10,7 +10,7 @@ Main script that compares OpenAPI specifications against the master branch.
 **Usage:**
 ```bash
 # From the repo root
-./scripts/api-diff/api-diff.sh [--fail-on-breaking] [filename.yaml]
+./scripts/api-diff/api-diff.sh [--fail-on-breaking] [--html-report] [filename.yaml]
 
 # Check all xero*.yaml files
 ./scripts/api-diff/api-diff.sh
@@ -20,10 +20,13 @@ Main script that compares OpenAPI specifications against the master branch.
 
 # Fail on breaking changes (CI mode)
 ./scripts/api-diff/api-diff.sh --fail-on-breaking
+
+# Generate HTML reports
+./scripts/api-diff/api-diff.sh --html-report
 ```
 
 **Environment Variables:**
-- `OPENAPI_DIFF_DOCKER_IMAGE` - Docker image to use (default: `openapitools/openapi-diff:latest`)
+- `OPENAPI_CHANGES_DOCKER_IMAGE` - Docker image to use (default: `pb33f/openapi-changes:latest`)
 - `BASE_BRANCH` - Branch to compare against (default: `origin/master`)
 
 ### `api-diff.test.sh`
@@ -43,6 +46,7 @@ Tests validate that:
 These scripts are integrated into the GitHub Actions workflow at `.github/workflows/api-diff.yml`:
 - **test-branch-logic** job - Runs unit tests
 - **api-diff** job - Runs API diff checks with conditional breaking change enforcement
+- **html-reports** job - Generates HTML reports and uploads them as artifacts
 
 ### Branch Naming Convention
 The GitHub Actions workflow automatically adjusts its behavior based on branch names:

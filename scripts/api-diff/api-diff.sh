@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Script to check API diffs using openapi-diff
-# Usage: ./scripts/api-diff/api-diff.sh [--fail-on-breaking] [filename.yaml]
+# Script to check API diffs using openapi-changes
+# Usage: ./scripts/api-diff/api-diff.sh [--fail-on-breaking] [--html-report] [filename.yaml]
 # Assumes you have Docker installed and the repo is checked out with master branch available
 
 set -e  # Exit on error
@@ -11,12 +11,13 @@ set -o pipefail  # Catch errors in pipes
 cd "$(dirname "$0")/../.."
 
 # Configuration
-DOCKER_IMAGE="${OPENAPI_DIFF_DOCKER_IMAGE:-openapitools/openapi-diff:latest}"
+DOCKER_IMAGE="${OPENAPI_CHANGES_DOCKER_IMAGE:-pb33f/openapi-changes:latest}"
 BASE_BRANCH="${BASE_BRANCH:-origin/master}"
 
 FAIL_ON_BREAKING=false
 TARGET_FILE=""
 DRY_RUN=false
+HTML_REPORT=false
 
 # Parse arguments
 for arg in "$@"; do
@@ -24,6 +25,8 @@ for arg in "$@"; do
         FAIL_ON_BREAKING=true
     elif [ "$arg" = "--dry-run" ]; then
         DRY_RUN=true
+    elif [ "$arg" = "--html-report" ]; then
+        HTML_REPORT=true
     elif [[ "$arg" == *.yaml ]]; then
         TARGET_FILE="$arg"
     fi
@@ -112,21 +115,30 @@ for file in $files; do
         continue
     fi
     
-    # Run openapi-diff to check for changes and breaking changes
-    echo "--- API Diff ---"
-    set +e
-    DIFF_OUTPUT=$(docker run --rm -v "$(pwd)":/current -v "$TEMP_DIR":/base "$DOCKER_IMAGE" /base/"$file" /current/"$file" --fail-on-incompatible 2>&1)
-    DIFF_EXIT=$?
-    set -e
-    
-    echo "$DIFF_OUTPUT"
-    
-    if [ $DIFF_EXIT -eq 0 ]; then
-        echo "✓ No breaking changes detected"
+    # Run openapi-changes
+    if [ "$HTML_REPORT" = true ]; then
+        echo "--- Generating HTML Report ---"
+        # Create reports directory if it doesn't exist
+        mkdir -p reports
+        REPORT_FILE="reports/${file%.yaml}-diff.html"
+        docker run --rm -v "$(pwd)":/current -v "$TEMP_DIR":/base "$DOCKER_IMAGE" html-report /base/"$file" /current/"$file" > "$REPORT_FILE"
+        echo "✓ HTML report generated: $REPORT_FILE"
     else
-        echo "⚠ Breaking changes detected (exit code: $DIFF_EXIT)"
-        BREAKING_CHANGES_FOUND=true
-        FILES_WITH_BREAKING_CHANGES+=("$file")
+        echo "--- API Diff ---"
+        set +e
+        DIFF_OUTPUT=$(docker run --rm -v "$(pwd)":/current -v "$TEMP_DIR":/base "$DOCKER_IMAGE" summary --no-logo --no-color /base/"$file" /current/"$file" 2>&1)
+        DIFF_EXIT=$?
+        set -e
+        
+        echo "$DIFF_OUTPUT"
+        
+        if [ $DIFF_EXIT -eq 0 ]; then
+            echo "✓ No breaking changes detected"
+        else
+            echo "⚠ Breaking changes detected (exit code: $DIFF_EXIT)"
+            BREAKING_CHANGES_FOUND=true
+            FILES_WITH_BREAKING_CHANGES+=("$file")
+        fi
     fi
     
     PROCESSED_FILES=$((PROCESSED_FILES + 1))
@@ -139,7 +151,15 @@ echo "Processed: $PROCESSED_FILES/$TOTAL_FILES files"
 echo "========================================"
 
 # Summary
-if [ "$BREAKING_CHANGES_FOUND" = true ]; then
+if [ "$HTML_REPORT" = true ]; then
+    echo ""
+    echo "📊 HTML reports generated:"
+    if [ -d "reports" ]; then
+        ls -la reports/
+    else
+        echo "No reports directory found"
+    fi
+elif [ "$BREAKING_CHANGES_FOUND" = true ]; then
     echo ""
     echo "❌ Breaking changes detected in the following files:"
     for file in "${FILES_WITH_BREAKING_CHANGES[@]}"; do

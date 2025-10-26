@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Script to check API diffs using openapi-diff
+# Script to check API diffs using openapi-changes
 # Usage: ./scripts/api-diff/test-api-diff.sh [--fail-on-breaking] [filename.yaml]
 # Assumes you have Docker installed and the repo is checked out with master branch available
 
@@ -11,7 +11,7 @@ set -o pipefail  # Catch errors in pipes
 cd "$(dirname "$0")/../.."
 
 # Configuration
-DOCKER_IMAGE="${OPENAPI_DIFF_DOCKER_IMAGE:-openapitools/openapi-diff:latest}"
+DOCKER_IMAGE="${OPENAPI_CHANGES_DOCKER_IMAGE:-pb33f/openapi-changes:latest}"
 BASE_BRANCH="${BASE_BRANCH:-origin/master}"
 
 FAIL_ON_BREAKING=false
@@ -87,38 +87,22 @@ for file in $files; do
         continue
     fi
     
-    # Note: openapi-diff provides deterministic results for change detection.
+    # Note: openapi-changes provides deterministic results for change detection.
     # Both error and warning counts are consistent between runs.
     
-    # Run openapi-diff changelog
-    echo "--- Changelog ---"
+    # Run openapi-changes summary
+    echo "--- API Diff Summary ---"
     set +e
-    CHANGELOG_OUTPUT=$(docker run --rm -v "$(pwd)":/current -v "$TEMP_DIR":/base "$DOCKER_IMAGE" changelog --include-path-params /base/"$file" /current/"$file" 2>&1)
-    CHANGELOG_EXIT=$?
+    SUMMARY_OUTPUT=$(docker run --rm -v "$(pwd)":/current -v "$TEMP_DIR":/base "$DOCKER_IMAGE" summary /base/"$file" /current/"$file" 2>&1)
+    SUMMARY_EXIT=$?
     set -e
     
-    echo "$CHANGELOG_OUTPUT"
+    echo "$SUMMARY_OUTPUT"
     
-    if [ $CHANGELOG_EXIT -eq 0 ]; then
-        echo "✓ Changelog generated successfully"
-    else
-        echo "⚠ Could not generate changelog (exit code: $CHANGELOG_EXIT)"
-    fi
-    
-    # Run breaking changes check
-    echo ""
-    echo "--- Breaking changes check ---"
-    set +e
-    BREAKING_OUTPUT=$(docker run --rm -v "$(pwd)":/current -v "$TEMP_DIR":/base "$DOCKER_IMAGE" breaking --fail-on ERR --include-path-params /base/"$file" /current/"$file" 2>&1)
-    BREAKING_EXIT=$?
-    set -e
-    
-    echo "$BREAKING_OUTPUT"
-    
-    if [ $BREAKING_EXIT -eq 0 ]; then
+    if [ $SUMMARY_EXIT -eq 0 ]; then
         echo "✓ No breaking changes detected"
     else
-        echo "⚠ Breaking changes detected (exit code: $BREAKING_EXIT)"
+        echo "⚠ Breaking changes detected (exit code: $SUMMARY_EXIT)"
         BREAKING_CHANGES_FOUND=true
         FILES_WITH_BREAKING_CHANGES+=("$file")
     fi
