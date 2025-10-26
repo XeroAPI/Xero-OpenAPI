@@ -1,0 +1,69 @@
+name: OpenAPI Spec Diff Check
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Run branch logic unit tests
+      run: ./scripts/api-diff/api-diff.test.sh
+  
+  api-diff:
+    runs-on: ubuntu-latest
+    needs: test
+    permissions:
+      contents: read
+      pull-requests: write
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    
+    - name: Make script executable
+      run: chmod +x scripts/api-diff/api-diff.sh
+    
+    - name: Run API diff check
+      run: ./scripts/api-diff/api-diff.sh
+
+  html-reports:
+    runs-on: ubuntu-latest
+    needs: test
+    permissions:
+      contents: read
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    
+    - name: Make script executable
+      run: chmod +x scripts/api-diff/api-diff.sh
+    
+    - name: Generate HTML reports
+      run: ./scripts/api-diff/api-diff.sh --html-report
+    
+    - name: Upload HTML reports
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: openapi-diff-reports
+        path: reports/
+        retention-days: 30

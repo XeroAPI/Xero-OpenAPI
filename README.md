@@ -29,6 +29,26 @@ Once you sign up or login, you can create a new API under your account and impor
 ## Updates
 If you find something missing or incorrect please [open an issue](https://github.com/XeroAPI/Xero-OpenAPI/issues/new) or send us a pull request.
 
+## API Diff Checking
+This repository includes automated API diff checking using [openapi-diff](https://github.com/OpenAPITools/openapi-diff) to detect breaking changes and modifications to the OpenAPI specifications.
+
+### Quick Start
+```bash
+# Check all xero*.yaml files against master branch
+./scripts/api-diff/api-diff.sh
+
+# Check a single file
+./scripts/api-diff/api-diff.sh xero_accounting.yaml
+```
+
+### Branch Naming Convention
+Branches containing `breaking` anywhere in the name will allow breaking changes without failing the build. All other branches will fail if breaking changes are detected.
+
+**Examples:** `breaking-api-v2`, `feature-breaking-change`, `api-breaking-update`
+
+### Full Documentation
+For detailed usage, configuration options, environment variables, and integration details, see [scripts/api-diff/README.md](scripts/api-diff/README.md).
+
 ## License
 
 This software is published under the [MIT License](http://en.wikipedia.org/wiki/MIT_License).
