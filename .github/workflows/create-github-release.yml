@@ -12,24 +12,20 @@ jobs:
       pull-requests: write
 
     steps:
-
-       - name: Checkout Repository
-         uses: actions/checkout@v4
-         with:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
           fetch-depth: 0
 
-       - name: Set up Node environment
-         uses: actions/setup-node@v4
-         with:
+      - name: Set up Node environment
+        uses: actions/setup-node@v4
+        with:
           node-version: 20
 
-       - name: install node package
-         run: npm i
-         working-directory: ${{ github.workspace }}/.github/semantic-release
+      - name: Install semantic-release dependencies
+        run: npm ci
+        working-directory: ${{ github.workspace }}/.github/semantic-release
 
-       - name: Perform release
-         run: |
-          npx semantic-release
-         env:
-           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-         working-directory: ${{ github.workspace }}/.github/semantic-release
+      - name: Perform release
+        run: npx semantic-release --dry-run
+        working-directory: ${{ github.workspace }}/.github/semantic-release
