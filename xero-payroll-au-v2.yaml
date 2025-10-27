@@ -1,0 +1,548 @@
+openapi: 3.0.0
+info:
+  version: 9.1.1
+  title: Xero Payroll AU API (v2)
+  description: This is the v2 for the Xero Payroll API for orgs in Australia region.
+  termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
+  contact:
+    name: Xero Platform Team
+    email: api@xero.com
+    url: https://developer.xero.com
+  license:
+    name: MIT
+    url: https://github.com/XeroAPI/Xero-OpenAPI/blob/master/LICENSE
+servers:
+  - description: Xero Payroll AU API (v2)
+    url: https://api.xero.com/payroll.xro/2.0
+tags:
+
+  - name: PayrollAu
+    description: Operations available to regular developers
+paths:
+  /EarningsRates:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    get:
+      security:
+        - OAuth2:
+            - payroll.settings
+            - payroll.settings.read
+      tags:
+        - PayrollAu
+      operationId: getEarningsRates
+      x-hasPayrollAuProblem: true
+      servers: 
+      - url: https://api.xero.com/payroll.xro/2.0
+      summary: Allows you to retrieve all payroll earnings rates in a Xero organisation
+      parameters:
+        - in: query
+          name: page
+          description: Page number which specifies the set of records to retrieve. By default the number of the records per set is 100. When page value is not a number or a negative number, by default, the first set of records is returned
+          example: https://api.xero.com/payroll.xro/2.0/earningsRates?page=1
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EarningsRates'
+              example:
+                id: 00000000-0000-0000-0000-000000000000
+                providerName: provider-name
+                dateTimeUTC: 2025-08-28T18:25:57.0647738
+                httpStatusCode: OK
+                pagination:
+                  page: 1
+                  pageSize: 100
+                  pageCount: 1
+                  itemCount: 2
+                problem: null
+                earningsRates:
+                  - earningsRateID: e061a3ee-2f13-4cdb-adb2-f8e50128759b
+                    name: Ordinary Hours
+                    earningsType: OrdinaryTimeEarnings
+                    rateType: RatePerUnit
+                    typeOfUnits: Hours
+                    currentRecord: true
+                    expenseAccountID: 2c01577b-d2d7-42b6-a7a3-1a38f5c8c454
+                    fixedAmount: null
+                    ratePerUnit: null
+                    multipleOfOrdinaryEarningsRate: null
+                    isSubjectToTax: true
+                    isSubjectToSuper: true
+                    isReportableAsW1: null
+                    accrueLeave: false
+                    employmentTerminationPaymentType: null
+                    allowanceType: null
+                    allowanceCategory: null
+                    allowanceContributesToAnnualLeaveRate: null
+                    allowanceContributesToOvertimeRate: null
+                  - earningsRateID: 69d7bd2a-7a8c-4b86-b1e2-686484f234e6
+                    name: Salary
+                    earningsType: RegularEarnings
+                    rateType: RatePerUnit
+                    typeOfUnits: hours
+                    currentRecord: true 
+                    expenseAccountID: f30eb980-23b1-4e3e-b707-a15fe4be1182
+                    fixedAmount: null
+                    ratePerUnit: 2500.011
+                    multipleOfOrdinaryEarningsRate: null           
+                    isSubjectToTax: true
+                    isSubjectToSuper: true
+                    isReportableAsW1: true
+                    accrueLeave: false
+                    employmentTerminationPaymentType: null
+                    allowanceType: null
+                    allowanceCategory: null
+                    allowanceContributesToAnnualLeaveRate: null
+                    allowanceContributesToOvertimeRate: null
+
+        "400":
+          description: validation error for a bad request
+          content:
+            application/json:
+              schema:
+                description: The object returned for a bad request
+                type: object
+                properties:
+                  type:
+                    description: The type of error format
+                    type: string
+                    example: application/problem+json
+                  title:
+                    description: The type of the error
+                    type: string
+                    example: InvalidRequest
+                  status:
+                    description: The error status code
+                    type: string
+                    example: 400
+                  detail:
+                    description: A description of the error
+                    type: string
+                    example: Requested page does not exist.
+    post:
+      security:
+        - OAuth2:
+            - payroll.settings
+      tags:
+        - PayrollAu
+      operationId: createEarningsRate
+      x-hasPayrollAuProblem: true
+      servers: 
+      - url: https://api.xero.com/payroll.xro/2.0
+      x-example:
+        - earningsRate:
+          key: earningsRate
+          keyPascal: EarningsRate
+          keySnake: earnings_rate
+          is_object: true
+        - name:
+          key: name
+          keyPascal: Name
+          keySnake: name
+          object: earningsRate
+        - earningsType:
+          key: earningsType
+          keyPascal: EarningsType
+          keySnake: earnings_type
+          php: XeroAPI\XeroPHP\Models\PayrollAu\EarningsRate\EarningsTypeEnum.RegularEarnings
+          node: EarningsRate.EarningsTypeEnum.REGULAREARNINGS
+          ruby: XeroRuby::PayrollAu::EarningsRate::EarningsTypeEnum::REGULAREARNINGS
+          python_string: REGULAREARNINGS
+          java: com.xero.models.PayrollAu.EarningsRate.EarningsTypeEnum.RegularEarnings
+          csharp: EarningsRate.EarningsTypeEnum.RegularEarnings
+          default: RegularEarnings
+          nonString: true
+          object: earningsRate
+        - rateType:
+          key: rateType
+          keyPascal: RateType
+          keySnake: rate_type
+          php: XeroAPI\XeroPHP\Models\PayrollAu\EarningsRate\RateTypeEnum.RatePerUnit
+          node: EarningsRate.RateTypeEnum.RatePerUnit
+          ruby: XeroRuby::PayrollAu::EarningsRate::RateTypeEnum::ACCPAYCREDIT
+          python_string: RATEPERUNIT
+          java: com.xero.models.PayrollAu.EarningsRate.RateTypeEnum.RATEPERUNIT
+          csharp: EarningsRate.RateTypeEnum.RatePerUnit
+          default: RatePerUnit
+          object: earningsRate
+          nonString: true
+        - expenseAccountId:
+          key: expenseAccountID
+          keyPascal: ExpenseAccountID
+          keySnake: expense_account_ID
+          is_uuid: true
+          default: 00000000-0000-0000-0000-000000000000
+          object: earningsRate
+          is_last: true
+        - isSubjectToTax:
+          key: isSubjectToTax
+          keyPascal: isSubjectToTax
+          keySnake: is_subject_to_tax
+          object: earningsRate
+          nonString: true
+        - isSubjectToSuper:
+          key: isSubjectToSuper
+          keyPascal: isSubjectToSuper
+          keySnake: is_subject_to_super
+          object: earningsRate
+          nonString: true
+
+      summary: Allows you to add an earnings rate in a Xero organisation
+      parameters:
+        - $ref: '#/components/parameters/idempotencyKey'
+      responses:
+        "200":
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EarningsRates'
+              example:
+                id: 00000000-0000-0000-0000-000000000000
+                providerName: provider-name
+                dateTimeUTC: 2020-08-28T18:25:57.8141393
+                httpStatusCode: OK
+                pagination: null
+                problem: null
+                earningsRates:
+                    - earningsRateID: e0f7095a-8522-4d83-88ea-35d5e8953b96
+                      name: MyRate
+                      earningsType: ORDINARYTIMEEARNINGS
+                      rateType: RatePerUnit
+                      typeOfUnits: Hours
+                      currentRecord: true
+                      expenseAccountID: 2c01577b-d2d7-42b6-a7a3-1a38f5c8c454
+                      fixedAmount: null
+                      ratePerUnit: null
+                      multipleOfOrdinaryEarningsRate: null
+                      isSubjectToTax: true
+                      isSubjectToSuper: true
+                      isReportableAsW1: null
+                      accrueLeave: false
+                      employmentTerminationPaymentType: null
+                      allowanceType: null
+                      allowanceCategory: null
+                      allowanceContributesToAnnualLeaveRate: null
+                      allowanceContributesToOvertimeRate: null
+        "400":
+          description: validation error for a bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EarningsRate'
+            example:
+                - name: MyRate
+                  earningsType: OrdinaryTimeEarnings
+                  rateType: RatePerUnit
+                  typeOfUnits: Hours
+                  expenseAccountID: 2c01577b-d2d7-42b6-a7a3-1a38f5c8c454
+                  isSubjectToTax: true
+                  isSubjectToSuper: true
+  /EarningsRates/{EarningsRateID}:
+    parameters:
+      - $ref: '#/components/parameters/requiredHeader'
+    get:
+      security:
+        - OAuth2:
+            - payroll.settings
+            - payroll.settings.read
+      tags:
+        - PayrollAu
+      operationId: getEarningsRate
+      x-hasPayrollAuProblem: true
+      servers: 
+      - url: https://api.xero.com/payroll.xro/2.0
+      summary: Allows you to retrieve details of an earnings rate in a Xero organisation by using a unique earnings rate id
+      parameters:
+        - in: path
+          name: EarningsRateID
+          x-snake: earnings_rate_id
+          required: true
+          description: Identifier for the earnings rate
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EarningsRates'
+              example:
+                id: 00000000-0000-0000-0000-000000000000
+                providerName: provider-name
+                dateTimeUTC: 2020-08-28T18:25:57.8191994
+                httpStatusCode: OK
+                pagination: null
+                problem: null
+                earningsRate:
+                  earningsRateID: e061a3ee-2f13-4cdb-adb2-f8e50128759b
+                  name: Ordinary Hours
+                  earningsType: OrdinaryTimeEarnings
+                  rateType: RatePerUnit
+                  typeOfUnits: Hours
+                  currentRecord: true
+                  expenseAccountID: 2c01577b-d2d7-42b6-a7a3-1a38f5c8c454
+                  fixedAmount: null
+                  ratePerUnit: null
+                  multipleOfOrdinaryEarningsRate: null
+                  isSubjectToTax: true
+                  isSubjectToSuper: true
+                  isReportableAsW1: false
+                  accrueLeave: false
+                  employmentTerminationPaymentType: null
+                  allowanceType: null
+                  allowanceCategory: null
+                  allowanceContributesToAnnualLeaveRate: false
+                  allowanceContributesToOvertimeRate: false
+components:
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      description: For more information visit https://developer.xero.com/documentation/oauth2/overview
+      flows:
+        authorizationCode:
+          authorizationUrl: https://login.xero.com/identity/connect/authorize
+          tokenUrl: https://identity.xero.com/connect/token
+          scopes:
+            email: Grant read-only access to your email
+            openid: Grant read-only access to your open id
+            profile: your profile information
+            payroll.employees: Grant read-write access to payroll employees
+            payroll.employees.read: Grant read-only access to payroll employees
+            payroll.payruns: Grant read-write access to payroll payruns
+            payroll.payruns.read: Grant read-only access to payroll payruns
+            payroll.payslip: Grant read-write access to payroll payslips
+            payroll.payslip.read: Grant read-only access to payroll payslips
+            payroll.settings: Grant read-write access to payroll settings
+            payroll.settings.read: Grant read-only access to payroll settings
+            payroll.timesheets: Grant read-write access to payroll timesheets
+            payroll.timesheets.read: Grant read-only access to payroll timesheets
+  parameters:
+    requiredHeader:
+      in: header
+      name: Xero-Tenant-Id
+      x-snake: xero_tenant_id
+      description: Xero identifier for Tenant
+      schema:
+            type: string
+            format: uuid
+            example: 4ff1e5cc-9835-40d5-bb18-09fdb118db9c
+      required: true
+    idempotencyKey:
+      in: header
+      name: Idempotency-Key
+      x-snake: idempotency_key
+      description: This allows you to safely retry requests without the risk of duplicate processing. 128 character max.
+      example: KEY_VALUE
+      schema:
+        type: string
+  schemas:
+  
+ 
+    EarningsRates:
+      type: object
+      properties:
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+        problem:
+          $ref: '#/components/schemas/Problem'
+        earningsRates:
+          type: array
+          items:
+            $ref: '#/components/schemas/EarningsRate'
+    Pagination:
+      properties:
+        page:
+          type: integer
+          example: 1
+        pageSize:
+          type: integer
+          example: 10
+        pageCount:
+          type: integer
+          example: 1
+        itemCount:
+          type: integer
+          example: 2
+    Problem:
+      description: The object returned for a bad request
+      type: object
+      properties:
+        type:
+          description: The type of error format
+          type: string
+          example: application/problem+json
+        title:
+          description: The type of the error
+          type: string
+          example: BadRequest
+        status:
+          description: The error status code
+          type: string
+          example: 400
+        detail:
+          description: A description of the error
+          type: string
+          example: Validation error occurred.
+        instance:
+          type: string
+        invalidFields:
+          type: array
+          items:
+            $ref: '#/components/schemas/InvalidField'
+    InvalidField:
+      type: object
+      properties:
+        name:
+          description: The name of the field that caused the error
+          type: string
+          example: isSubjectToSuper
+        reason:
+          description: The reason the error occurred
+          type: string
+          example: The property isSubjectToSuper is required.
+    EarningsRate:
+      type: object
+      description: Earnings Rate for https://api.xero.com/payroll.xro/2.0 Xero Payroll AU API (v2)
+      properties:
+        EarningsRateID:
+          description: Xero unique identifier for an earnings rate
+          type: string
+          format: uuid
+          example: e0eb6747-7c17-4075-b804-989f8d4e5d39
+        Name:
+          description: Name of the earnings rate (max length = 100)
+          type: string
+          example: PTO
+          maxLength: 100
+        EarningsType:
+          description: Indicates how an employee will be paid when taking this type of earning
+          $ref: '#/components/schemas/EarningsType'
+        RateType:
+          description: Indicates the type of the earnings rate
+          $ref: '#/components/schemas/RateType'
+        TypeOfUnits:
+          description: Type of units used to record earnings (max length = 50). Only When RateType is RATEPERUNIT
+          type: string
+          example: Fixed
+          maxLength: 50
+        CurrentRecord:
+          description: Indicates whether an earnings type is active
+          type: boolean
+          example: true
+        ExpenseAccountID:
+          description:  The account that will be used for the earnings rate
+          type: string
+          format: uuid
+          example: 2c01577b-d2d7-42b6-a7a3-1a38f5c8c454
+        RatePerUnit:
+          description: Default rate per unit (optional). Only applicable if RateType is RATEPERUNIT.
+          type: string
+          example: 10
+        MultipleOfOrdinaryEarningsRate:
+          description: This is the multiplier used to calculate the rate per unit, based on the employee’s ordinary earnings rate. For example, for time and a half enter 1.5. Only applicable if RateType is MULTIPLEOFORDINARYEARNINGSRATE
+          type: number
+          format: double
+          x-is-money: true
+          example: 1.5
+        FixedAmount:
+          description: Optional Fixed Rate Amount. Applicable only if RateType is FixedAmount
+          type: number
+          format: double
+          x-is-money: true
+          example: 50.30
+        IsSubjectToTax:
+          description: Payments of this type are subject to PAYG withholding
+          type: boolean
+          example: false
+        IsSubjectToSuper:
+          description: Payments of this type are subject to Superannuation Guarantee Contribution
+          type: boolean
+          example: false
+        IsReportableAsW1:
+          description: Whether the earnings rate is reportable or exempt from W1
+          type: boolean
+          example: false
+        AccrueLeave:
+          description:  Indicates that this earnings rate should affect accruing of leave. Only applicable if RateType is MULTIPLEOFORDINARYEARNINGSRATE
+          type: boolean
+          example: false
+        EmploymentTerminationPaymentType:
+          description: How the earnings should be treated for termination payments
+          $ref: '#/components/schemas/EmploymentTerminationPaymentType'
+        AllowanceType:
+          description: For allowances only, determines the type of allowance
+          $ref: '#/components/schemas/AllowanceType'
+        AllowanceCategory:
+          description: For allowances only, determines the category of allowance
+          $ref: '#/components/schemas/AllowanceCategory'
+        AllowanceContributesToAnnualLeaveRate:
+          description: For allowances using RatePerUnit only, whether it contributes towards the annual leave rate. Only applicable if EarningsType is ALLOWANCE and RateType is RATEPERUNIT
+          type: boolean
+          example: false
+        AllowanceContributesToOvertimeRate:
+          description: For allowances using RatePerUnit only,  whether it contributes towards the overtime rate.
+          type: boolean
+          example: false
+    RateType:
+      type: string
+      enum:
+        - FIXEDAMOUNT
+        - MULTIPLEOFORDINARYEARNINGSRATE #Multiple of Employee’s Ordinary Earnings Rate - an earnings rate which is derived from an employee’s ordinary earnings rate  
+        - RATEPERUNIT #An earnings rate allowing entry of a rate per unit
+    EarningsType:
+      type: string
+      enum:
+        - FIXED
+        - ORDINARYTIMEEARNINGS
+        - OVERTIMEEARNINGS
+        - ALLOWANCE
+        - LUMPSUMD
+        - EMPLOYMENTTERMINATIONPAYMENT
+        - LUMPSUMA
+        - LUMPSUMB
+        - BONUSESANDCOMMISSIONS
+        - LUMPSUME
+        - LUMPSUMW
+        - DIRECTORSFEES
+        - PAIDPARENTALLEAVE
+        - WORKERSCOMPENSATION
+    EmploymentTerminationPaymentType:
+      type: string
+      enum:
+        - O
+        - R
+    AllowanceType:
+      type: string
+      enum:
+        - CAR
+        - TRANSPORT
+        - LAUNDRY
+        - MEALS
+        - TRAVEL
+        - OTHER
+        - TOOLS
+        - TASKS
+        - QUALIFICATIONS
+    AllowanceCategory:
+      type: string
+      enum:
+        - NONDEDUCTIBLE
+        - UNIFORM
+        - PRIVATEVEHICLE
+        - HOMEOFFICE
+        - TRANSPORT
+        - GENERAL
+        - OTHER
