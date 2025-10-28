@@ -1,8 +1,9 @@
 extends:
-  - "spectral:oas"
-  - "@stoplight/spectral-owasp-ruleset"
+  - "spectral:oas"                      # Base OpenAPI validation
+  - "@stoplight/spectral-owasp-ruleset" # OWASP API security ruleset
 
 rules:
+  # Custom rules specific to Xero APIs
   xero-info-required-fields:
     description: "Ensure required info fields are present"
     given: "$.info"
@@ -16,6 +17,7 @@ rules:
         function: truthy
       - field: "contact"
         function: truthy
+
   xero-contact-required-fields:
     description: "Ensure contact has required fields"
     given: "$.info.contact"
@@ -27,6 +29,7 @@ rules:
         function: truthy
       - field: "url"
         function: truthy
+
   xero-servers-required:
     description: "Ensure servers are defined"
     given: "$"
@@ -34,6 +37,7 @@ rules:
     then:
       field: "servers"
       function: truthy
+
   xero-server-description:
     description: "Each server should have a description"
     given: "$.servers[*]"
@@ -41,6 +45,7 @@ rules:
     then:
       field: "description"
       function: truthy
+
   xero-operation-summary:
     description: "Operations should have summaries"
     given: "$.paths[*][get,post,put,patch,delete,head,options,trace]"
@@ -48,6 +53,7 @@ rules:
     then:
       field: "summary"
       function: truthy
+
   xero-operation-id:
     description: "Operations must have operationId"
     given: "$.paths[*][get,post,put,patch,delete,head,options,trace]"
@@ -55,6 +61,7 @@ rules:
     then:
       field: "operationId"
       function: truthy
+
   xero-operation-tags:
     description: "Operations should have tags"
     given: "$.paths[*][get,post,put,patch,delete,head,options,trace]"
@@ -62,6 +69,7 @@ rules:
     then:
       field: "tags"
       function: truthy
+
   xero-operation-security:
     description: "Operations should have security defined"
     given: "$.paths[*][get,post,put,patch,delete,head,options,trace]"
@@ -69,6 +77,7 @@ rules:
     then:
       field: "security"
       function: truthy
+
   xero-response-200-description:
     description: "200 responses should have descriptions"
     given: "$.paths[*][get,post,put,patch,delete,head,options,trace].responses.200"
@@ -76,6 +85,7 @@ rules:
     then:
       field: "description"
       function: truthy
+
   xero-schema-properties-description:
     description: "Schema properties should have descriptions for better documentation"
     given: "$.components.schemas[*].properties[*]"
@@ -83,6 +93,7 @@ rules:
     then:
       field: "description"
       function: truthy
+
   xero-openapi-version:
     description: "Should use OpenAPI 3.0.0 or higher"
     given: "$.openapi"
@@ -91,6 +102,7 @@ rules:
       function: pattern
       functionOptions:
         match: "^3\\.[0-9]+\\.[0-9]+$"
+
   xero-path-parameters:
     description: "Path parameters should be properly defined"
     given: "$.paths[*][get,post,put,patch,delete,head,options,trace].parameters[?(@.in === 'path')]"
@@ -102,6 +114,7 @@ rules:
         function: truthy
       - field: "schema"
         function: truthy
+
   xero-consistent-error-responses:
     description: "Should have consistent error response structure"
     given: "$.paths[*][get,post,put,patch,delete,head,options,trace].responses[?(@property >= '400')]"
@@ -109,37 +122,40 @@ rules:
     then:
       field: "description"
       function: truthy
-  operation-description: off
-  operation-tags: off
-  oas3-schema: warn
+  operation-description: off          # Disable operation description rule for now
+  operation-tags: off                 # Disable operation tags rule for now
+  oas3-schema: warn                  # Re-enable schema validation with reduced severity
   info-contact:
-    severity: warn
-    given: $.info.contact
+    severity: warn                    # Re-enabled with reduced severity
+    given: $.info.contact             # Scope: info.contact field
     then:
-      function: truthy
+      function: truthy               # Ensure the field is truthy
   info-license:
-    severity: warn
-    given: $.info.license
+    severity: warn                    # Re-enabled with reduced severity
+    given: $.info.license             # Scope: info.license field
     then:
-      function: truthy
-  owasp:api2:2023-no-http-basic: off
-  owasp:api4:2023-string-limit: off
-  owasp:api4:2023-array-limit: off
-  owasp:api4:2023-integer-limit-legacy: off
-  owasp:api4:2023-rate-limit: off
-  owasp:api2:2023-jwt-best-practices: off
-  owasp:api8:2023-define-error-responses-401: off
-  owasp:api8:2023-define-error-responses-500: off
-  owasp:api4:2023-rate-limit-responses-429: off
-  oas3-valid-media-example: off
-  owasp:api4:2023-integer-format: off
-  no-$ref-siblings: off
-  oas3-valid-schema-example: off
-  owasp:api9:2023-inventory-access: off
-  owasp:api9:2023-inventory-environment: off
-  owasp:api2:2023-short-lived-access-tokens: off
-  owasp:api8:2023-define-error-validation: off
-  operation-tag-defined: off
-  owasp:api4:2023-string-restricted: off
-  path-params: off
-  owasp:api8:2023-define-cors-origin: off
+      function: truthy               # Ensure the field is truthy
+
+
+  # OWASP Rules
+  owasp:api2:2023-no-http-basic: off  # Disable HTTP Basic authentication rule
+  owasp:api4:2023-string-limit: off   # Disable string length limit checks
+  owasp:api4:2023-array-limit: off    # Disable array size limit checks
+  owasp:api4:2023-integer-limit-legacy: off # Disable integer limit checks
+  owasp:api4:2023-rate-limit: off     # Disable rate limiting headers check
+  owasp:api2:2023-jwt-best-practices: off # Disable JWT best practices check
+  owasp:api8:2023-define-error-responses-401: off  # Disable missing 401 response rule
+  owasp:api8:2023-define-error-responses-500: off  # Disable missing 500 response rule
+  owasp:api4:2023-rate-limit-responses-429: off  # Disable missing 429 rate limit response rule
+  oas3-valid-media-example: off                 # Disable media example validation
+  owasp:api4:2023-integer-format: off           # Disable integer format validation
+  no-$ref-siblings: off                        # Disable $ref sibling validation
+  oas3-valid-schema-example: off               # Disable schema example validation
+  owasp:api9:2023-inventory-access: off          # Disable server audience declaration rule
+  owasp:api9:2023-inventory-environment: off   # Disable server environment declaration rule
+  owasp:api2:2023-short-lived-access-tokens: off # Disable short-lived access tokens rule
+  owasp:api8:2023-define-error-validation: off  # Disable missing error response validation rule
+  operation-tag-defined: off  # Disable operation tags defined in global tags rule
+  owasp:api4:2023-string-restricted: off  # Disable string restricted rule to address warnings
+  path-params: off  # Disable path parameter validation to address mapping key issues
+  owasp:api8:2023-define-cors-origin: off  # Disable CORS origin header requirement
