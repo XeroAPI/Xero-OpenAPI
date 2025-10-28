@@ -38,29 +38,6 @@ jobs:
         run: npm run lint
 
 
-  yaml-validation:
-    runs-on: ubuntu-latest
-    steps:
-      - name: YAML Lint
-        uses: ibiqlik/action-yamllint@v3
-        with:
-          file_or_dir: xero_accounting.yaml xero_assets.yaml xero_bankfeeds.yaml xero_files.yaml xero-app-store.yaml xero-identity.yaml xero-payroll-au.yaml xero-payroll-nz.yaml xero-payroll-uk.yaml xero-projects.yaml xero-webhooks.yaml
-          config_data: |
-            extends: default
-            rules:
-              line-length:
-                level: warning
-              trailing-spaces:
-                level: warning
-              indentation:
-                level: warning
-              colons:
-                level: warning
-              commas:
-                level: warning
-              new-line-at-end-of-file:
-                level: warning
-
   codegen-validation:
     runs-on: ubuntu-latest
     permissions:
@@ -131,3 +108,18 @@ jobs:
           owner: xero-internal
           run_id: ${{ steps.codegen_workflow.outputs.run_id }}
           run_timeout_seconds: 420 # 7 minutes
+
+  yaml-validation:
+    runs-on: ubuntu-latest
+    name: MegaLinter YAML
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: MegaLinter
+        uses: oxsecurity/megalinter@v9
+        env:
+          ENABLED_LINTERS: YAML_YAMLLINT
+          YAML_YAMLLINT_CONFIG_FILE: .yamllint.yml
+          APPLY_FIXES: none
+          LOG_LEVEL: INFO
