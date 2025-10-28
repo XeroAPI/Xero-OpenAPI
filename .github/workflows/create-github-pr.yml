@@ -23,16 +23,12 @@ jobs:
 
       - name: Get github app access token
         id: get_access_token
-        env:
-          GITHUB_APP_ID: ${{ secrets.XERO_GITHUB_APP_ID }}
-          GITHUB_APP_PRIVATE_KEY: ${{ secrets.XERO_GITHUB_APPLICATION_KEY }}
-        uses: actions/github-script@v7
+        uses: actions/create-github-app-token@v2
         with:
-          result-encoding: string
-          script: |
-            const { getAccessToken } = await import('${{ github.workspace }}/.github/get-access-token/index.js')
-            const token = await getAccessToken()
-            return token
+          app-id: ${{ secrets.XERO_PUBLIC_BOT_APP_ID}}
+          private-key: ${{ secrets.XERO_PUBLIC_BOT_KEY }}
+          owner: xero-internal
+          repositories: xeroapi-sdk-codegen
 
       - name: Fetch Latest release number
         id: get_latest_release_number
@@ -41,7 +37,7 @@ jobs:
           echo "Latest release version is - $latest_version"
           echo "releaseVersion=$latest_version" >> $GITHUB_OUTPUT
         env:
-          GH_TOKEN: ${{steps.get_access_token.outputs.result}}
+          GH_TOKEN: ${{steps.get_access_token.outputs.token}}
 
       - name: Set up branch name
         id: identify_branch_name
@@ -121,4 +117,4 @@ jobs:
             echo "PR is already up to date"
           fi
         env:
-          GH_TOKEN: ${{steps.get_access_token.outputs.result}}
+          GH_TOKEN: ${{steps.get_access_token.outputs.token}}
