@@ -1,0 +1,92 @@
+name: PR Validation
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+  push:
+    branches:
+      - master
+
+jobs:
+  linting:
+    runs-on: ubuntu-latest
+    name: MegaLinter Validation
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: MegaLinter
+        uses: oxsecurity/megalinter/flavors/documentation@v9
+
+  codegen-validation:
+    runs-on: ubuntu-latest
+    name: Codegen Repo Validation
+    permissions:
+      contents: write
+      pull-requests: write
+      actions: read
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install get-access-token dependencies
+        run: npm ci
+        working-directory: ${{ github.workspace }}/.github/get-access-token
+
+      - name: Get github app access token
+        id: get_access_token
+        env:
+          GITHUB_APP_ID: ${{ secrets.XERO_GITHUB_APP_ID }}
+          GITHUB_APP_PRIVATE_KEY: ${{ secrets.XERO_GITHUB_APPLICATION_KEY }}
+        uses: actions/github-script@v7
+        with:
+          result-encoding: string
+          script: |
+            const { getAccessToken } = await import('${{ github.workspace }}/.github/get-access-token/index.js')
+            const token = await getAccessToken()
+            return token
+
+      - name: Trigger validation workflow in codegen repo
+        id: codegen_workflow
+        env:
+          GH_TOKEN: ${{ steps.get_access_token.outputs.result }}
+        run: |
+          BRANCH_NAME="${{ github.event_name == 'pull_request' && github.head_ref || 'master' }}"
+
+          # Trigger the workflow and capture the response
+          gh workflow run pr.yml \
+            --repo xero-internal/xeroapi-sdk-codegen \
+            --ref master \
+            --field branch_name="$BRANCH_NAME"
+
+          # Wait a moment for the run to be created
+          sleep 5
+
+          # Get the latest run ID for the workflow
+          RUN_ID=$(gh run list \
+            --repo xero-internal/xeroapi-sdk-codegen \
+            --workflow=pr.yml \
+            --limit 1 \
+            --json databaseId \
+            --jq '.[0].databaseId')
+
+          echo "run_id=$RUN_ID" >> $GITHUB_OUTPUT
+          echo "Triggered workflow run ID: $RUN_ID"
+
+      - name: Check status of codegen validation workflow
+        uses: Codex-/await-remote-run@v1.13.0
+        with:
+          token: ${{ steps.get_access_token.outputs.result }}
+          repo: xeroapi-sdk-codegen
+          owner: xero-internal
+          run_id: ${{ steps.codegen_workflow.outputs.run_id }}
+          run_timeout_seconds: 420 # 7 minutes
+

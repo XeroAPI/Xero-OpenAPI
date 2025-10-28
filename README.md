@@ -16,6 +16,49 @@ In Release (used for one or more SDKs)
 * [Payroll NZ](https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/master/xero-payroll-nz.yaml)
 * [Files](https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/master/xero_files.yaml)
 
+
+## Contribution guide
+
+[Conventional commit](https://www.conventionalcommits.org/en/v1.0.0/#summary) format should be used when contributing to this repo.
+
+**Context:**
+
+Release notes are generated using [semantic-release](https://github.com/semantic-release/semantic-release). In brief this package analyses all the commits in the repo to determine the next version number, generate the release notes and publish the package, hence the commit message is important for the release to happen successfully. Please read more on the conventional commit [documentation](https://www.conventionalcommits.org/en/v1.0.0/#summary) before landing your commits, each commit message will determine the release notes.
+
+**Example:**
+
+If your commit message is - ``feat: added a new parameter in the get_account method`` - It will do a **minor version update**. 
+
+Following release notes will be generated -
+
+```
+Release notes 
+
+ Feature - 
+   - added a new parameter in the get_account method 
+```
+
+If your commit message is - ``fix: fixed the null issue with get_invoice method`` - It will do a **patch version update**. 
+
+Following release notes will be generated - 
+
+```
+Release notes 
+
+ Fix - 
+   - fixed the null issue with get_invoice method
+```
+
+
+if your commit message is as below it will do a **major version update** (Breaking change)
+
+```
+chore!: drop support for Node 6
+
+BREAKING CHANGE: use JavaScript features not available in Node 6
+```
+
+
 ## Code Generators
 We are using [OpenAPI generator](https://github.com/OpenAPITools/openapi-generator) along with these OAS yaml files to generate our new SDKs.
 
