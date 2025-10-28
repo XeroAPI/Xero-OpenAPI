@@ -8,36 +8,22 @@ on:
       - master
 
 jobs:
-  validation:
+  linting:
     runs-on: ubuntu-latest
-    name: Spectral and commitlint Validation
+    name: MegaLinter Validation
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
-      - name: Use Node.js 20
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: Install commitlint dependencies
-        working-directory: .github/commitlint
-        run: npm ci
-
-      - name: Install Spectral dependencies
-        working-directory: .github/spectral
-        run: npm ci
-
-      - name: Run commitlint
-        working-directory: .github/commitlint
-        run: npx commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }} --verbose
-
-      - name: Run Spectral (OpenAPI linting)
-        working-directory: .github/spectral
-        run: npm run lint
-
+      - name: MegaLinter
+        uses: oxsecurity/megalinter@v9
+        env:
+          ENABLE_LINTERS: YAML_YAMLLINT,ACTION_ACTIONLINT,API_SPECTRAL
+          YAML_YAMLLINT_CONFIG_FILE: .yamllint.yml
+          API_SPECTRAL_FILTER_REGEX_INCLUDE: xero.*\.yaml
+          API_SPECTRAL_RULES_PATH: .spectral/
+          APPLY_FIXES: none
+          LOG_LEVEL: INFO
 
   codegen-validation:
     runs-on: ubuntu-latest
@@ -111,17 +97,3 @@ jobs:
           run_id: ${{ steps.codegen_workflow.outputs.run_id }}
           run_timeout_seconds: 420 # 7 minutes
 
-  yaml-validation:
-    runs-on: ubuntu-latest
-    name: MegaLinter YAML
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: MegaLinter
-        uses: oxsecurity/megalinter@v9
-        env:
-          ENABLE_LINTERS: YAML_YAMLLINT
-          YAML_YAMLLINT_CONFIG_FILE: .yamllint.yml
-          APPLY_FIXES: none
-          LOG_LEVEL: INFO
