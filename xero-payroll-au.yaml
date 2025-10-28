@@ -3248,12 +3248,14 @@ components:
           example: developer@me.com
         Gender:
           description: The employee’s gender. See Employee Gender
-          type: string
-          enum:
-            - N
-            - M
-            - F
-            - I
+          anyOf:
+            - type: string
+              enum:
+              - N
+              - M
+              - F
+              - I
+            - type: string
           example: F
         Phone:
           description: Employee phone number
@@ -3316,15 +3318,17 @@ components:
             * `F` Dismissal - An employer-initiated termination of employment due to dismissal, inability to perform the required work, misconduct or inefficiency
             * `C` Contract cessation - The natural conclusion of a limited employment relationship due to contract/engagement duration or task completion, seasonal work completion, or to cease casuals that are no longer required
             * `T` Transfer - The administrative arrangements performed to transfer employees across payroll systems, move them temporarily to another employer (machinery of government for public servants), transfer of business, move them to outsourcing arrangements or other such technical activities.
-          type: string
-          enum:
-            - V
-            - I
-            - D
-            - R
-            - F
-            - C
-            - T
+          anyOf:
+            - type: string
+              enum:
+              - V
+              - I
+              - D
+              - R
+              - F
+              - C
+              - T
+            - type: string
           example: F
         BankAccounts:
           type: array
@@ -3459,13 +3463,22 @@ components:
           example: /Date(322560000000+0000)/
         LeavePeriodStatus:
           $ref: '#/components/schemas/LeavePeriodStatus'
-    LeavePeriodStatus:
+    LeavePeriodStatusClosed:
       type: string
+      x-enum-varnames:
+        - Scheduled #the default status
+        - Processed #a leaveperiod is set to the "processed" status when the payrun associated with the leaveperiod is "posted"
+        - Requested
+        - Rejected
       enum:
         - SCHEDULED #The default status  
         - PROCESSED #A LeavePeriod is set to the "Processed" status when the Payrun associated with the LeavePeriod is "POSTED"
         - REQUESTED
         - REJECTED
+    LeavePeriodStatus:
+      anyOf:
+        - $ref: '#/components/schemas/LeavePeriodStatusClosed'
+        - type: string
     PayItems:
       type: object
       x-objectArrayKey: pay_items
@@ -4327,11 +4340,13 @@ components:
           x-is-msdate-time: true
           example: /Date(1583967733054+0000)/
         DeductionCategory:
-          type: string
-          enum:
-            - NONE
-            - UNIONFEES
-            - WORKPLACEGIVING
+          anyOf:
+            - type: string
+              enum:
+              - NONE
+              - UNIONFEES
+              - WORKPLACEGIVING
+            - type: string
         CurrentRecord:
           description: Is the current record
           type: boolean
@@ -4880,14 +4895,37 @@ components:
         - JURYDUTYLEAVE
         - DEFENCERESERVELEAVE
       example: ANNUALLEAVE
-    RateType:
+    RateTypeClosed:
       type: string
+      x-enum-varnames:
+        - Fixedamount
+        - Multiple #multiple of employee’s ordinary earnings rate  an earnings rate which is derived from an employee’s ordinary earnings rate
+        - Rateperunit #an earnings rate allowing entry of a rate per unit
       enum:
         - FIXEDAMOUNT
         - MULTIPLE #Multiple of Employee’s Ordinary Earnings Rate - an earnings rate which is derived from an employee’s ordinary earnings rate  
         - RATEPERUNIT #An earnings rate allowing entry of a rate per unit
-    EarningsType:
+    RateType:
+      anyOf:
+        - $ref: '#/components/schemas/RateTypeClosed'
+        - type: string
+    EarningsTypeClosed:
       type: string
+      x-enum-varnames:
+        - Fixed
+        - Ordinarytimeearnings
+        - Overtimeearnings
+        - Allowance
+        - Lumpsumd
+        - Employmentterminationpayment
+        - Lumpsuma
+        - Lumpsumb
+        - Bonusesandcommissions
+        - Lumpsume
+        - Lumpsumw
+        - Directorsfees
+        - Paidparentalleave
+        - Workerscompensation
       enum:
         - FIXED
         - ORDINARYTIMEEARNINGS
@@ -4903,13 +4941,34 @@ components:
         - DIRECTORSFEES
         - PAIDPARENTALLEAVE
         - WORKERSCOMPENSATION
-    EmploymentTerminationPaymentType:
+    EarningsType:
+      anyOf:
+        - $ref: '#/components/schemas/EarningsTypeClosed'
+        - type: string
+    EmploymentTerminationPaymentTypeClosed:
       type: string
+      x-enum-varnames:
+        - O
+        - R
       enum:
         - O
         - R
-    AllowanceType:
+    EmploymentTerminationPaymentType:
+      anyOf:
+        - $ref: '#/components/schemas/EmploymentTerminationPaymentTypeClosed'
+        - type: string
+    AllowanceTypeClosed:
       type: string
+      x-enum-varnames:
+        - Car
+        - Transport
+        - Laundry
+        - Meals
+        - Travel
+        - Other
+        - Tools
+        - Tasks
+        - Qualifications
       enum:
         - CAR
         - TRANSPORT
@@ -4920,8 +4979,20 @@ components:
         - TOOLS
         - TASKS
         - QUALIFICATIONS
-    AllowanceCategory:
+    AllowanceType:
+      anyOf:
+        - $ref: '#/components/schemas/AllowanceTypeClosed'
+        - type: string
+    AllowanceCategoryClosed:
       type: string
+      x-enum-varnames:
+        - Nondeductible
+        - Uniform
+        - Privatevehicle
+        - Homeoffice
+        - Transport
+        - General
+        - Other
       enum:
         - NONDEDUCTIBLE
         - UNIFORM
@@ -4930,8 +5001,19 @@ components:
         - TRANSPORT
         - GENERAL
         - OTHER
-    CalendarType:
+    AllowanceCategory:
+      anyOf:
+        - $ref: '#/components/schemas/AllowanceCategoryClosed'
+        - type: string
+    CalendarTypeClosed:
       type: string
+      x-enum-varnames:
+        - Weekly
+        - Fortnightly
+        - Fourweekly
+        - Monthly
+        - Twicemonthly
+        - Quarterly
       enum:
         - WEEKLY
         - FORTNIGHTLY
@@ -4939,18 +5021,38 @@ components:
         - MONTHLY
         - TWICEMONTHLY
         - QUARTERLY
-    EarningsRateCalculationType:
+    CalendarType:
+      anyOf:
+        - $ref: '#/components/schemas/CalendarTypeClosed'
+        - type: string
+    EarningsRateCalculationTypeClosed:
       type: string
+      x-enum-varnames:
+        - Useearningsrate
+        - Enterearningsrate
+        - Annualsalary
       enum:
         - USEEARNINGSRATE
         - ENTEREARNINGSRATE
         - ANNUALSALARY
-    DeductionTypeCalculationType:
+    EarningsRateCalculationType:
+      anyOf:
+        - $ref: '#/components/schemas/EarningsRateCalculationTypeClosed'
+        - type: string
+    DeductionTypeCalculationTypeClosed:
       type: string
+      x-enum-varnames:
+        - Fixedamount
+        - Pretax
+        - Posttax
       enum:
         - FIXEDAMOUNT
         - PRETAX
         - POSTTAX
+    DeductionTypeCalculationType:
+      anyOf:
+        - $ref: '#/components/schemas/DeductionTypeCalculationTypeClosed'
+        - type: string
     LeaveLineCalculationType:
       description: Calculation type for leave line for Opening Balance on Employee
       type: string
@@ -4959,21 +5061,46 @@ components:
         - FIXEDAMOUNTEACHPERIOD
         - ENTERRATEINPAYTEMPLATE
         - BASEDONORDINARYEARNINGS
-    SuperannuationContributionType:
+    SuperannuationContributionTypeClosed:
       type: string
+      x-enum-varnames:
+        - Sgc
+        - Salarysacrifice
+        - Employeradditional
+        - Employee
       enum:
         - SGC
         - SALARYSACRIFICE
         - EMPLOYERADDITIONAL
         - EMPLOYEE
-    SuperannuationCalculationType:
+    SuperannuationContributionType:
+      anyOf:
+        - $ref: '#/components/schemas/SuperannuationContributionTypeClosed'
+        - type: string
+    SuperannuationCalculationTypeClosed:
       type: string
+      x-enum-varnames:
+        - Fixedamount
+        - Percentageofearnings
+        - Statutory
       enum:
         - FIXEDAMOUNT
         - PERCENTAGEOFEARNINGS
         - STATUTORY
-    PaymentFrequencyType:
+    SuperannuationCalculationType:
+      anyOf:
+        - $ref: '#/components/schemas/SuperannuationCalculationTypeClosed'
+        - type: string
+    PaymentFrequencyTypeClosed:
       type: string
+      x-enum-varnames:
+        - Weekly
+        - Monthly
+        - Fortnightly
+        - Quarterly
+        - Twicemonthly
+        - Fourweekly
+        - Yearly
       enum:
         - WEEKLY
         - MONTHLY
@@ -4982,25 +5109,59 @@ components:
         - TWICEMONTHLY
         - FOURWEEKLY
         - YEARLY
-    LeaveTypeContributionType:
+    PaymentFrequencyType:
+      anyOf:
+        - $ref: '#/components/schemas/PaymentFrequencyTypeClosed'
+        - type: string
+    LeaveTypeContributionTypeClosed:
       type: string
+      x-enum-varnames:
+        - Sgc
+        - Salarysacrifice
+        - Employeradditional
+        - Employee
       enum:
         - SGC
         - SALARYSACRIFICE
         - EMPLOYERADDITIONAL
         - EMPLOYEE
-    EntitlementFinalPayPayoutType:
+    LeaveTypeContributionType:
+      anyOf:
+        - $ref: '#/components/schemas/LeaveTypeContributionTypeClosed'
+        - type: string
+    EntitlementFinalPayPayoutTypeClosed:
       type: string
+      x-enum-varnames:
+        - Notpaidout
+        - Paidout
       enum:
         - NOTPAIDOUT
         - PAIDOUT
-    PayRunStatus:
+    EntitlementFinalPayPayoutType:
+      anyOf:
+        - $ref: '#/components/schemas/EntitlementFinalPayPayoutTypeClosed'
+        - type: string
+    PayRunStatusClosed:
       type: string
+      x-enum-varnames:
+        - Draft
+        - Posted
       enum:
         - DRAFT
         - POSTED
-    ManualTaxType:
+    PayRunStatus:
+      anyOf:
+        - $ref: '#/components/schemas/PayRunStatusClosed'
+        - type: string
+    ManualTaxTypeClosed:
       type: string
+      x-enum-varnames:
+        - Paygmanual
+        - Etpomanual
+        - Etprmanual
+        - Schedule5manual
+        - Schedule5stslmanual
+        - Schedule4manual
       enum:
         - PAYGMANUAL
         - ETPOMANUAL
@@ -5008,16 +5169,34 @@ components:
         - SCHEDULE5MANUAL
         - SCHEDULE5STSLMANUAL
         - SCHEDULE4MANUAL
-    SuperFundType:
+    ManualTaxType:
+      anyOf:
+        - $ref: '#/components/schemas/ManualTaxTypeClosed'
+        - type: string
+    SuperFundTypeClosed:
       type: string
+      x-enum-varnames:
+        - Regulated
+        - Smsf
       enum:
         - REGULATED
         - SMSF
-    EmploymentType:
+    SuperFundType:
+      anyOf:
+        - $ref: '#/components/schemas/SuperFundTypeClosed'
+        - type: string
+    EmploymentTypeClosed:
       type: string
+      x-enum-varnames:
+        - Employee
+        - Contractor
       enum:
         - EMPLOYEE
         - CONTRACTOR
+    EmploymentType:
+      anyOf:
+        - $ref: '#/components/schemas/EmploymentTypeClosed'
+        - type: string
     CountryOfResidence:
       description: Country of residence as a valid ISO 3166-1 alpha-2 country code e.g. "AU", "NZ", "CA". Only applicable, and mandatory if income type is WORKINGHOLIDAYMAKER.
       type: string
@@ -5273,16 +5452,33 @@ components:
         - CW
         - SX
         - SS
-    IncomeType:
+    IncomeTypeClosed:
       type: string
+      x-enum-varnames:
+        - Salaryandwages
+        - Workingholidaymaker
+        - Nonemployee
+        - Closelyheldpayees
+        - Labourhire
       enum:
         - SALARYANDWAGES
         - WORKINGHOLIDAYMAKER
         - NONEMPLOYEE
         - CLOSELYHELDPAYEES
         - LABOURHIRE
-    TaxScaleType:
+    IncomeType:
+      anyOf:
+        - $ref: '#/components/schemas/IncomeTypeClosed'
+        - type: string
+    TaxScaleTypeClosed:
       type: string
+      x-enum-varnames:
+        - Regular
+        - Actorsartistsentertainers
+        - Horticulturistorshearer
+        - Seniororpensioner
+        - Workingholidaymaker
+        - Foreign
       enum:
         - REGULAR
         - ACTORSARTISTSENTERTAINERS
@@ -5290,20 +5486,47 @@ components:
         - SENIORORPENSIONER
         - WORKINGHOLIDAYMAKER
         - FOREIGN
-    WorkCondition:
+    TaxScaleType:
+      anyOf:
+        - $ref: '#/components/schemas/TaxScaleTypeClosed'
+        - type: string
+    WorkConditionClosed:
       type: string
+      x-enum-varnames:
+        - Promotional
+        - Threelessperformancesperweek
+        - None
       enum:
         - PROMOTIONAL
         - THREELESSPERFORMANCESPERWEEK
         - NONE
-    SeniorMaritalStatus:
+    WorkCondition:
+      anyOf:
+        - $ref: '#/components/schemas/WorkConditionClosed'
+        - type: string
+    SeniorMaritalStatusClosed:
       type: string
+      x-enum-varnames:
+        - Memberofcouple
+        - Memberofillnessseparatedcouple
+        - Single
       enum:
         - MEMBEROFCOUPLE
         - MEMBEROFILLNESSSEPARATEDCOUPLE
         - SINGLE
-    EmploymentBasis:
+    SeniorMaritalStatus:
+      anyOf:
+        - $ref: '#/components/schemas/SeniorMaritalStatusClosed'
+        - type: string
+    EmploymentBasisClosed:
       type: string
+      x-enum-varnames:
+        - Fulltime
+        - Parttime
+        - Casual
+        - Labourhire
+        - Superincomestream # usage is deprecated
+        - Nonemployee
       enum:
         - FULLTIME
         - PARTTIME
@@ -5311,27 +5534,58 @@ components:
         - LABOURHIRE
         - SUPERINCOMESTREAM # Usage is deprecated.
         - NONEMPLOYEE
-    TFNExemptionType:
+    EmploymentBasis:
+      anyOf:
+        - $ref: '#/components/schemas/EmploymentBasisClosed'
+        - type: string
+    TFNExemptionTypeClosed:
       type: string
+      x-enum-varnames:
+        - Notquoted
+        - Pending
+        - Pensioner
+        - Under18
       enum:
         - NOTQUOTED
         - PENDING
         - PENSIONER
         - UNDER18
-    ResidencyStatus:
+    TFNExemptionType:
+      anyOf:
+        - $ref: '#/components/schemas/TFNExemptionTypeClosed'
+        - type: string
+    ResidencyStatusClosed:
       type: string
+      x-enum-varnames:
+        - Australianresident
+        - Foreignresident
+        - Workingholidaymaker # usage is deprecated
       enum:
         - AUSTRALIANRESIDENT
         - FOREIGNRESIDENT
         - WORKINGHOLIDAYMAKER # Usage is deprecated.
-    TimesheetStatus:
+    ResidencyStatus:
+      anyOf:
+        - $ref: '#/components/schemas/ResidencyStatusClosed'
+        - type: string
+    TimesheetStatusClosed:
       type: string
+      x-enum-varnames:
+        - Draft
+        - Processed
+        - Approved
+        - Rejected
+        - Requested
       enum:
         - DRAFT
         - PROCESSED
         - APPROVED
         - REJECTED
         - REQUESTED
+    TimesheetStatus:
+      anyOf:
+        - $ref: '#/components/schemas/TimesheetStatusClosed'
+        - type: string
     EmployeeStatus:
       type: string
       description: Employee Status Types

@@ -558,9 +558,12 @@ components:
           example: 079a88ea-276d-41fb-a1f1-366ef3e22921
           description: Xero identifier for a bank account in Xero. Must be included if AccountNumber is not specified.
         accountType:
-          enum:
-            - BANK
-            - CREDITCARD
+          anyOf:
+            - enum:
+                - BANK
+                - CREDITCARD
+              type: string
+            - type: string
           example: BANK
           description: High level bank account type - BANK CREDITCARD BANK encompasses all bank account types other than credit cards.
         currency:
@@ -568,10 +571,12 @@ components:
         country:
           $ref: '#/components/schemas/CountryCode'
         status:
-          type: string
-          enum:
-            - PENDING
-            - REJECTED
+          anyOf:
+            - type: string
+              enum:
+                - PENDING
+                - REJECTED
+            - type: string
           example: REJECTED
           description: the current status of the feed connection
         error:
@@ -620,10 +625,13 @@ components:
           example: 87cb0dc8-fa32-409c-b622-19f8de8dcc83
           description: The Xero generated feed connection Id that identifies the Xero Bank Account Container into which the statement should be delivered. This is obtained by calling GET FeedConnections.
         status:
-          enum:
-            - PENDING
-            - REJECTED
-            - DELIVERED
+          anyOf:
+            - enum:
+                - PENDING
+                - REJECTED
+                - DELIVERED
+              type: string
+            - type: string
           example: PENDING
           description: Current status of statements
         startDate:
@@ -741,21 +749,23 @@ components:
           description: Human readable detailed error description.
           example: The application has not been configured to use these API endpoints.
         type:
-          type: string
+          anyOf:
+            - type: string
+              enum:
+                - invalid-request
+                - invalid-application
+                - invalid-feed-connection
+                - duplicate-statement
+                - invalid-end-balance
+                - invalid-start-and-end-date
+                - invalid-start-date
+                - internal-error
+                - feed-already-connected-in-current-organisation
+                - invalid-end-date
+                - statement-not-found
+                - feed-connected-in-different-organisation
+            - type: string
           description: Identifies the type of error.
-          enum:
-            - invalid-request
-            - invalid-application
-            - invalid-feed-connection
-            - duplicate-statement
-            - invalid-end-balance
-            - invalid-start-and-end-date
-            - invalid-start-date
-            - internal-error
-            - feed-already-connected-in-current-organisation
-            - invalid-end-date
-            - statement-not-found
-            - feed-connected-in-different-organisation
             - feed-already-connected-in-different-organisation
             - bank-feed-not-found
             - invalid-country-specified
@@ -766,16 +776,188 @@ components:
             - account-not-valid
             - feed-not-found-or-already-deleted
           example: invalid-application
-    CreditDebitIndicator:
+    CreditDebitIndicatorClosed:
       type: string
+      x-enum-varnames:
+        - Credit
+        - Debit
       description: If the statement balances are credit or debit, the CreditDebitIndicator should be specified from the perspective of the Customer.
       enum:
         - CREDIT
         - DEBIT
-    CurrencyCode:
+    CreditDebitIndicator:
+      description: If the statement balances are credit or debit, the CreditDebitIndicator should be specified from the perspective of the Customer.
+      anyOf:
+        - $ref: '#/components/schemas/CreditDebitIndicatorClosed'
+        - type: string
+    CurrencyCodeClosed:
       description: 3 letter alpha code for the ISO-4217 currency code, e.g. USD, AUD.
       example: AUD
       type: string
+      x-enum-varnames:
+        - Aed
+        - Afn
+        - All
+        - Amd
+        - Ang
+        - Aoa
+        - Ars
+        - Aud
+        - Awg
+        - Azn
+        - Bam
+        - Bbd
+        - Bdt
+        - Bgn
+        - Bhd
+        - Bif
+        - Bmd
+        - Bnd
+        - Bob
+        - Brl
+        - Bsd
+        - Btn
+        - Bwp
+        - Byn
+        - Bzd
+        - Cad
+        - Cdf
+        - Chf
+        - Clp
+        - Cny
+        - Cop
+        - Crc
+        - Cuc
+        - Cup
+        - Cve
+        - Czk
+        - Djf
+        - Dkk
+        - Dop
+        - Dzd
+        - Egp
+        - Ern
+        - Etb
+        - Eur
+        - Fjd
+        - Fkp
+        - Gbp
+        - Gel
+        - Ggp
+        - Ghs
+        - Gip
+        - Gmd
+        - Gnf
+        - Gtq
+        - Gyd
+        - Hkd
+        - Hnl
+        - Hrk
+        - Htg
+        - Huf
+        - Idr
+        - Ils
+        - Imp
+        - Inr
+        - Iqd
+        - Irr
+        - Isk
+        - Jep
+        - Jmd
+        - Jod
+        - Jpy
+        - Kes
+        - Kgs
+        - Khr
+        - Kmf
+        - Kpw
+        - Krw
+        - Kwd
+        - Kyd
+        - Kzt
+        - Lak
+        - Lbp
+        - Lkr
+        - Lrd
+        - Lsl
+        - Lyd
+        - Mad
+        - Mdl
+        - Mga
+        - Mkd
+        - Mmk
+        - Mnt
+        - Mop
+        - Mru
+        - Mur
+        - Mvr
+        - Mwk
+        - Mxn
+        - Myr
+        - Mzn
+        - Nad
+        - Ngn
+        - Nio
+        - Nok
+        - Npr
+        - Nzd
+        - Omr
+        - Pab
+        - Pen
+        - Pgk
+        - Php
+        - Pkr
+        - Pln
+        - Pyg
+        - Qar
+        - Ron
+        - Rsd
+        - Rub
+        - Rwf
+        - Sar
+        - Sbd
+        - Scr
+        - Sdg
+        - Sek
+        - Sgd
+        - Shp
+        - Sll
+        - Sos
+        - Spl
+        - Srd
+        - Stn
+        - Svc
+        - Syp
+        - Szl
+        - Thb
+        - Tjs
+        - Tmt
+        - Tnd
+        - Top
+        - Try
+        - Ttd
+        - Tvd
+        - Twd
+        - Tzs
+        - Uah
+        - Ugx
+        - Usd
+        - Uyu
+        - Uzs
+        - Vef
+        - Vnd
+        - Vuv
+        - Wst
+        - Xaf
+        - Xcd
+        - Xdr
+        - Xof
+        - Xpf
+        - Yer
+        - Zar
+        - Zmw
+        - Zmk
+        - Zwd
       enum:
         - AED
         - AFN
@@ -940,8 +1122,255 @@ components:
         - ZMW
         - ZMK
         - ZWD
-    CountryCode:
+    CurrencyCode:
+      description: 3 letter alpha code for the ISO-4217 currency code, e.g. USD, AUD.
+      anyOf:
+        - $ref: '#/components/schemas/CurrencyCodeClosed'
+        - type: string
+      example: AUD
+    CountryCodeClosed:
       type: string
+      x-enum-varnames:
+        - Ad
+        - Ae
+        - Af
+        - Ag
+        - Ai
+        - Al
+        - Am
+        - An
+        - Ao
+        - Aq
+        - Ar
+        - As
+        - At
+        - Au
+        - Aw
+        - Az
+        - Ba
+        - Bb
+        - Bd
+        - Be
+        - Bf
+        - Bg
+        - Bh
+        - Bi
+        - Bj
+        - Bl
+        - Bm
+        - Bn
+        - Bo
+        - Br
+        - Bs
+        - Bt
+        - Bw
+        - By
+        - Bz
+        - Ca
+        - Cc
+        - Cd
+        - Cf
+        - Cg
+        - Ch
+        - Ci
+        - Ck
+        - Cl
+        - Cm
+        - Cn
+        - Co
+        - Cr
+        - Cu
+        - Cv
+        - Cw
+        - Cx
+        - Cy
+        - Cz
+        - De
+        - Dj
+        - Dk
+        - Dm
+        - Do
+        - Dz
+        - Ec
+        - Ee
+        - Eg
+        - Eh
+        - Er
+        - Es
+        - Et
+        - Fi
+        - Fj
+        - Fk
+        - Fm
+        - Fo
+        - Fr
+        - Ga
+        - Gb
+        - Gd
+        - Ge
+        - Gg
+        - Gh
+        - Gi
+        - Gl
+        - Gm
+        - Gn
+        - Gq
+        - Gr
+        - Gt
+        - Gu
+        - Gw
+        - Gy
+        - Hk
+        - Hn
+        - Hr
+        - Ht
+        - Hu
+        - Id
+        - Ie
+        - Il
+        - Im
+        - In
+        - Io
+        - Iq
+        - Ir
+        - Is
+        - It
+        - Je
+        - Jm
+        - Jo
+        - Jp
+        - Ke
+        - Kg
+        - Kh
+        - Ki
+        - Km
+        - Kn
+        - Kp
+        - Kr
+        - Kw
+        - Ky
+        - Kz
+        - La
+        - Lb
+        - Lc
+        - Li
+        - Lk
+        - Lr
+        - Ls
+        - Lt
+        - Lu
+        - Lv
+        - Ly
+        - Ma
+        - Mc
+        - Md
+        - Me
+        - Mf
+        - Mg
+        - Mh
+        - Mk
+        - Ml
+        - Mm
+        - Mn
+        - Mo
+        - Mp
+        - Mr
+        - Ms
+        - Mt
+        - Mu
+        - Mv
+        - Mw
+        - Mx
+        - My
+        - Mz
+        - Na
+        - Nc
+        - Ne
+        - Ng
+        - Ni
+        - Nl
+        - No
+        - Np
+        - Nr
+        - Nu
+        - Nz
+        - Om
+        - Pa
+        - Pe
+        - Pf
+        - Pg
+        - Ph
+        - Pk
+        - Pl
+        - Pm
+        - Pn
+        - Pr
+        - Ps
+        - Pt
+        - Pw
+        - Py
+        - Qa
+        - Re
+        - Ro
+        - Rs
+        - Ru
+        - Rw
+        - Sa
+        - Sb
+        - Sc
+        - Sd
+        - Se
+        - Sg
+        - Sh
+        - Si
+        - Sj
+        - Sk
+        - Sl
+        - Sm
+        - Sn
+        - So
+        - Sr
+        - Ss
+        - St
+        - Sv
+        - Sx
+        - Sy
+        - Sz
+        - Tc
+        - Td
+        - Tg
+        - Th
+        - Tj
+        - Tk
+        - Tl
+        - Tm
+        - Tn
+        - To
+        - Tr
+        - Tt
+        - Tv
+        - Tw
+        - Tz
+        - Ua
+        - Ug
+        - Us
+        - Uy
+        - Uz
+        - Va
+        - Vc
+        - Ve
+        - Vg
+        - Vi
+        - Vn
+        - Vu
+        - Wf
+        - Ws
+        - Xk
+        - Ye
+        - Yt
+        - Za
+        - Zm
+        - Zw
       example: GB
       description: ISO-3166 alpha-2 country code, e.g. US, AU This element is required only when the Application supports multi-region. Talk to your Partner Manager to confirm if this is the case.
       enum:
@@ -1185,3 +1614,9 @@ components:
         - ZA
         - ZM
         - ZW
+    CountryCode:
+      description: ISO-3166 alpha-2 country code, e.g. US, AU This element is required only when the Application supports multi-region. Talk to your Partner Manager to confirm if this is the case.
+      anyOf:
+        - $ref: '#/components/schemas/CountryCodeClosed'
+        - type: string
+      example: GB

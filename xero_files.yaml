@@ -46,20 +46,24 @@ paths:
           name: sort
           description: values to sort by
           schema:
-            type: string
-            enum:
-              - Name
-              - Size
-              - CreatedDateUTC
+            anyOf:
+              - type: string
+                enum:
+                  - Name
+                  - Size
+                  - CreatedDateUTC
+              - type: string
             example: CreatedDateUTC
         - in: query
           name: direction
           description: sort direction
           schema:
-            type: string
-            enum: 
-            - ASC
-            - DESC
+            anyOf:
+              - type: string
+                enum: 
+                  - ASC
+                  - DESC
+              - type: string
             example: ASC
       responses:
         "200":
@@ -412,19 +416,23 @@ paths:
           name: sort
           description: values to sort by
           schema:
-            type: string
-            enum:
-              - Name
-              - CreatedDateUTC
+            anyOf:
+              - type: string
+                enum:
+                  - Name
+                  - CreatedDateUTC
+              - type: string
             example: Associations/{ObjectId}?sort=CreatedDateUtc
         - in: query
           name: direction
           description: direction to sort by
           schema:
-            type: string
-            enum:
-              - ASC
-              - DESC
+            anyOf:
+              - type: string
+                enum:
+                  - ASC
+                  - DESC
+              - type: string
             example: Associations/{ObjectId}?sort=CreatedDateUtc&direction=DESC
       responses:
         "200":
@@ -486,11 +494,13 @@ paths:
           name: sort
           description: values to sort by
           schema:
-            type: string
-            enum:
-              - Name
-              - Size
-              - CreatedDateUTC
+            anyOf:
+              - type: string
+                enum:
+                  - Name
+                  - Size
+                  - CreatedDateUTC
+              - type: string
             example: CreatedDateUTC DESC
       responses:
         "200":
@@ -840,9 +850,22 @@ components:
           $ref: '#/components/schemas/ObjectGroup'
         ObjectType:
           $ref: '#/components/schemas/ObjectType'
-    ObjectGroup:
+    ObjectGroupClosed:
       description: The Object Group that the object is in. These roughly correlate to the endpoints that can be used to retrieve the object via the core accounting API.
       type: string
+      x-enum-varnames:
+        - Account
+        - Banktransaction
+        - Contact
+        - Creditnote
+        - Invoice
+        - Item
+        - Manualjournal
+        - Overpayment
+        - Payment
+        - Prepayment
+        - Quote
+        - Receipt
       enum:
         - Account
         - BankTransaction
@@ -856,9 +879,71 @@ components:
         - Prepayment
         - Quote
         - Receipt
-    ObjectType:
+    ObjectGroup:
+      description: The Object Group that the object is in. These roughly correlate to the endpoints that can be used to retrieve the object via the core accounting API.
+      anyOf:
+        - $ref: '#/components/schemas/ObjectGroupClosed'
+        - type: string
+    ObjectTypeClosed:
       description: The Object Type
       type: string
+      x-enum-varnames:
+        - Unknown
+        - Accpay
+        - Accpaycredit
+        - Accpaypayment
+        - Accrec
+        - Accreccredit
+        - Accrecpayment
+        - Adjustment
+        - Apcreditpayment
+        - Apoverpayment
+        - Apoverpaymentpayment
+        - Apoverpaymentsourcepayment
+        - Apprepayment
+        - Apprepaymentpayment
+        - Apprepaymentsourcepayment
+        - Arcreditpayment
+        - Aroverpayment
+        - Aroverpaymentpayment
+        - Aroverpaymentsourcepayment
+        - Arprepayment
+        - Arprepaymentpayment
+        - Arprepaymentsourcepayment
+        - Cashpaid
+        - Cashrec
+        - Exppayment
+        - Manjournal
+        - Purchaseorder
+        - Receipt
+        - Transfer
+        - Account
+        - Contact
+        - Business
+        - Employee
+        - Person
+        - User
+        - Org
+        - Fixedasset
+        - Payrun
+        - Pricelistitem
+        - Bank
+        - Current
+        - Equity
+        - Expense
+        - Fixed
+        - Liability
+        - Prepayment
+        - Revenue
+        - Sales
+        - Overheads
+        - Depreciatn
+        - Otherincome
+        - Directcosts
+        - Currliab
+        - Termliab
+        - Noncurrent
+        - Salesquote
       enum:
         - Unknown
         - Accpay
@@ -916,3 +1001,8 @@ components:
         - Termliab
         - NonCurrent
         - SalesQuote
+    ObjectType:
+      description: The Object Type
+      anyOf:
+        - $ref: '#/components/schemas/ObjectTypeClosed'
+        - type: string

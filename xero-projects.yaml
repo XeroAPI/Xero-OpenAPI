@@ -1206,17 +1206,190 @@ components:
           format: double
           x-is-money: true
           example: 1.00
-    ProjectStatus:
+    ProjectStatusClosed:
       description: Status for project
-      example: INPROGRESS
       type: string
+      x-enum-varnames:
+        - Inprogress
+        - Closed
       enum:
         - INPROGRESS
         - CLOSED
-    CurrencyCode:
+      example: INPROGRESS
+    ProjectStatus:
+      description: Status for project
+      anyOf:
+        - $ref: '#/components/schemas/ProjectStatusClosed'
+        - type: string
+      example: INPROGRESS
+    CurrencyCodeClosed:
       description: 3 letter alpha code for the ISO-4217 currency code, e.g. USD, AUD.
       example: AUD
       type: string
+      x-enum-varnames:
+        - Aed
+        - Afn
+        - All
+        - Amd
+        - Ang
+        - Aoa
+        - Ars
+        - Aud
+        - Awg
+        - Azn
+        - Bam
+        - Bbd
+        - Bdt
+        - Bgn
+        - Bhd
+        - Bif
+        - Bmd
+        - Bnd
+        - Bob
+        - Brl
+        - Bsd
+        - Btn
+        - Bwp
+        - Byn
+        - Bzd
+        - Cad
+        - Cdf
+        - Chf
+        - Clp
+        - Cny
+        - Cop
+        - Crc
+        - Cuc
+        - Cup
+        - Cve
+        - Czk
+        - Djf
+        - Dkk
+        - Dop
+        - Dzd
+        - Egp
+        - Ern
+        - Etb
+        - Eur
+        - Fjd
+        - Fkp
+        - Gbp
+        - Gel
+        - Ggp
+        - Ghs
+        - Gip
+        - Gmd
+        - Gnf
+        - Gtq
+        - Gyd
+        - Hkd
+        - Hnl
+        - Hrk
+        - Htg
+        - Huf
+        - Idr
+        - Ils
+        - Imp
+        - Inr
+        - Iqd
+        - Irr
+        - Isk
+        - Jep
+        - Jmd
+        - Jod
+        - Jpy
+        - Kes
+        - Kgs
+        - Khr
+        - Kmf
+        - Kpw
+        - Krw
+        - Kwd
+        - Kyd
+        - Kzt
+        - Lak
+        - Lbp
+        - Lkr
+        - Lrd
+        - Lsl
+        - Lyd
+        - Mad
+        - Mdl
+        - Mga
+        - Mkd
+        - Mmk
+        - Mnt
+        - Mop
+        - Mru
+        - Mur
+        - Mvr
+        - Mwk
+        - Mxn
+        - Myr
+        - Mzn
+        - Nad
+        - Ngn
+        - Nio
+        - Nok
+        - Npr
+        - Nzd
+        - Omr
+        - Pab
+        - Pen
+        - Pgk
+        - Php
+        - Pkr
+        - Pln
+        - Pyg
+        - Qar
+        - Ron
+        - Rsd
+        - Rub
+        - Rwf
+        - Sar
+        - Sbd
+        - Scr
+        - Sdg
+        - Sek
+        - Sgd
+        - Shp
+        - Sll
+        - Sos
+        - Spl
+        - Srd
+        - Stn
+        - Svc
+        - Syp
+        - Szl
+        - Thb
+        - Tjs
+        - Tmt
+        - Tnd
+        - Top
+        - Try
+        - Ttd
+        - Tvd
+        - Twd
+        - Tzs
+        - Uah
+        - Ugx
+        - Usd
+        - Uyu
+        - Uzs
+        - Vef
+        - Vnd
+        - Vuv
+        - Wst
+        - Xaf
+        - Xcd
+        - Xdr
+        - Xof
+        - Xpf
+        - Yer
+        - Zar
+        - Zmw
+        - Zmk
+        - Zwd
       enum:
         - AED
         - AFN
@@ -1381,6 +1554,12 @@ components:
         - ZMW
         - ZMK
         - ZWD
+    CurrencyCode:
+      description: 3 letter alpha code for the ISO-4217 currency code, e.g. USD, AUD.
+      anyOf:
+        - $ref: '#/components/schemas/CurrencyCodeClosed'
+        - type: string
+      example: AUD
     Error:
       externalDocs:
         url: https://developer.xero.com/documentation/projects/projects-response-codes
@@ -1455,19 +1634,30 @@ components:
           $ref: '#/components/schemas/Amount'
           type: number
         status:
-          type: string
-          enum:
-            - ACTIVE
-            - INVOICED
-            - LOCKED
+          anyOf:
+            - type: string
+              enum:
+                - ACTIVE
+                - INVOICED
+                - LOCKED
+            - type: string
           description: Status of the task. When a task of ChargeType is `FIXED` and the rate amount is invoiced the status will be set to `INVOICED` and can't be modified. A task with ChargeType of `TIME` or `NON_CHARGEABLE` cannot have a status of `INVOICED`. A `LOCKED` state indicates that the task is currently changing state (for example being invoiced) and can't be modified.
-    ChargeType:
+    ChargeTypeClosed:
       description: Can be `TIME`, `FIXED` or `NON_CHARGEABLE`, defines how the task will be charged. Use `TIME` when you want to charge per hour and `FIXED` to charge as a fixed amount. If the task will not be charged use `NON_CHARGEABLE`.
       type: string
+      x-enum-varnames:
+        - Time
+        - Fixed
+        - NonChargeable
       enum:
         - TIME
         - FIXED
         - NON_CHARGEABLE
+    ChargeType:
+      description: Can be `TIME`, `FIXED` or `NON_CHARGEABLE`, defines how the task will be charged. Use `TIME` when you want to charge per hour and `FIXED` to charge as a fixed amount. If the task will not be charged use `NON_CHARGEABLE`.
+      anyOf:
+        - $ref: '#/components/schemas/ChargeTypeClosed'
+        - type: string
     TaskCreateOrUpdate:
       externalDocs:
         url: https://developer.xero.com/documentation/projects/projects
@@ -1541,11 +1731,13 @@ components:
           type: string
           description: A description of the time entry.
         status:
-          type: string
-          enum:
-            - ACTIVE
-            - LOCKED
-            - INVOICED
+          anyOf:
+            - type: string
+              enum:
+                - ACTIVE
+                - LOCKED
+                - INVOICED
+            - type: string
           description: Status of the time entry. By default a time entry is created with status of `ACTIVE`. A `LOCKED` state indicates that the time entry is currently changing state (for example being invoiced). Updates are not allowed when in this state. It will have a status of INVOICED once it is invoiced.
     TimeEntryCreateOrUpdate:
       externalDocs:
