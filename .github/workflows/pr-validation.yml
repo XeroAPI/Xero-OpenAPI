@@ -32,32 +32,19 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set up Node environment
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: Install get-access-token dependencies
-        run: npm ci
-        working-directory: ${{ github.workspace }}/.github/get-access-token
-
       - name: Get github app access token
         id: get_access_token
-        env:
-          GITHUB_APP_ID: ${{ secrets.XERO_GITHUB_APP_ID }}
-          GITHUB_APP_PRIVATE_KEY: ${{ secrets.XERO_GITHUB_APPLICATION_KEY }}
-        uses: actions/github-script@v7
+        uses: actions/create-github-app-token@v2
         with:
-          result-encoding: string
-          script: |
-            const { getAccessToken } = await import('${{ github.workspace }}/.github/get-access-token/index.js')
-            const token = await getAccessToken()
-            return token
+          app-id: ${{ secrets.XERO_GITHUB_APP_ID }}
+          private-key: ${{ secrets.XERO_GITHUB_APPLICATION_KEY }}
+          owner: xero-internal
+          repositories: xeroapi-sdk-codegen
 
       - name: Trigger validation workflow in codegen repo
         id: codegen_workflow
         env:
-          GH_TOKEN: ${{ steps.get_access_token.outputs.result }}
+          GH_TOKEN: ${{ steps.get_access_token.outputs.token }}
         run: |
           BRANCH_NAME="${{ github.event_name == 'pull_request' && github.head_ref || 'master' }}"
 
@@ -84,7 +71,7 @@ jobs:
       - name: Check status of codegen validation workflow
         uses: Codex-/await-remote-run@v1.13.0
         with:
-          token: ${{ steps.get_access_token.outputs.result }}
+          token: ${{ steps.get_access_token.outputs.token }}
           repo: xeroapi-sdk-codegen
           owner: xero-internal
           run_id: ${{ steps.codegen_workflow.outputs.run_id }}
