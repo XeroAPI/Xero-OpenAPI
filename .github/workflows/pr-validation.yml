@@ -1,16 +1,67 @@
-name: PR Codegen Validation
+name: PR Validation
 
 on:
   pull_request:
     types: [opened, reopened, synchronize]
-    branches:
-      - master
   push:
     branches:
       - master
 
 jobs:
-  pr-health-check:
+  validation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Use Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install commitlint dependencies
+        working-directory: .github/commitlint
+        run: npm ci
+
+      - name: Install Spectral dependencies
+        working-directory: .github/spectral
+        run: npm ci
+
+      - name: Run commitlint
+        working-directory: .github/commitlint
+        run: npx commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }} --verbose
+
+      - name: Run Spectral (OpenAPI linting)
+        working-directory: .github/spectral
+        run: npm run lint
+
+
+  yaml-validation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: YAML Lint
+        uses: ibiqlik/action-yamllint@v3
+        with:
+          file_or_dir: xero_accounting.yaml xero_assets.yaml xero_bankfeeds.yaml xero_files.yaml xero-app-store.yaml xero-identity.yaml xero-payroll-au.yaml xero-payroll-nz.yaml xero-payroll-uk.yaml xero-projects.yaml xero-webhooks.yaml
+          config_data: |
+            extends: default
+            rules:
+              line-length:
+                level: warning
+              trailing-spaces:
+                level: warning
+              indentation:
+                level: warning
+              colons:
+                level: warning
+              commas:
+                level: warning
+              new-line-at-end-of-file:
+                level: warning
+
+  codegen-validation:
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -27,10 +78,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-
-      - name: Install commitlint dependencies
-        run: npm ci
-        working-directory: ${{ github.workspace }}/.github/commitlint
 
       - name: Install get-access-token dependencies
         run: npm ci
@@ -84,4 +131,3 @@ jobs:
           owner: xero-internal
           run_id: ${{ steps.codegen_workflow.outputs.run_id }}
           run_timeout_seconds: 420 # 7 minutes
-
