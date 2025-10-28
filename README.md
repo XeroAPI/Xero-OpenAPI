@@ -19,9 +19,7 @@ In Release (used for one or more SDKs)
 
 ## Contribution guide
 
-This repo has [commit linting](https://github.com/conventional-changelog/commitlint/#what-is-commitlint) to ensure that all commit messages follow the conventional commits standards. Please make sure your commit messages are properly formatted or the PR checks will fail. :no_entry_sign:
-
-You can refer to the [conventional commits documentation](https://www.conventionalcommits.org/en/v1.0.0/#summary) for better understanding. 
+[Conventional commit](https://www.conventionalcommits.org/en/v1.0.0/#summary) format should be used when contributing to this repo.
 
 **Context:**
 
