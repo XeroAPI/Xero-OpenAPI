@@ -35,12 +35,14 @@ jobs:
           GH_TOKEN: ${{ steps.get_access_token.outputs.token }}
         run: |
           BRANCH_NAME="${{ github.event.pull_request.head.sha }}"
+          OAS_REPO="${{ github.event.pull_request.head.repo.full_name }}"
 
           # Trigger the workflow and capture the response
           gh workflow run pr.yml \
             --repo xero-internal/xeroapi-sdk-codegen \
             --ref master \
-            --field branch_name="$BRANCH_NAME"
+            --field branch_name="$BRANCH_NAME" \
+            --field oas_repo="$OAS_REPO"
 
           # Wait a moment for the run to be created
           sleep 5
