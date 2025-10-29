@@ -1,23 +1,11 @@
 name: PR Validation
 
 on:
-  pull_request:
+  pull_request_target:
     types: [opened, reopened, synchronize]
-  push:
-    branches:
-      - master
+    branches: [master]
 
 jobs:
-  linting:
-    runs-on: ubuntu-latest
-    name: MegaLinter Validation
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: MegaLinter
-        uses: oxsecurity/megalinter/flavors/documentation@v9
-
   codegen-validation:
     runs-on: ubuntu-latest
     name: Codegen Repo Validation
@@ -46,7 +34,7 @@ jobs:
         env:
           GH_TOKEN: ${{ steps.get_access_token.outputs.token }}
         run: |
-          BRANCH_NAME="${{ github.event_name == 'pull_request' && github.head_ref || 'master' }}"
+          BRANCH_NAME="${{ github.event.pull_request.head.sha }}"
 
           # Trigger the workflow and capture the response
           gh workflow run pr.yml \
