@@ -1,0 +1,69 @@
+name: PR Validation
+
+on:
+  pull_request_target:
+    types: [opened, reopened, synchronize]
+    branches: [master]
+
+jobs:
+  codegen-validation:
+    runs-on: ubuntu-latest
+    name: Codegen Repo Validation
+    permissions:
+      contents: write
+      pull-requests: write
+      actions: read
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get github app access token
+        id: get_access_token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ vars.XERO_CODEGEN_APP_ID }}
+          private-key: ${{ secrets.XERO_GITHUB_APPLICATION_KEY }}
+          owner: xero-internal
+          repositories: xeroapi-sdk-codegen
+
+      - name: Trigger validation workflow in codegen repo
+        id: codegen_workflow
+        env:
+          GH_TOKEN: ${{ steps.get_access_token.outputs.token }}
+        run: |
+          BRANCH_NAME="${{ github.event.pull_request.head.sha }}"
+          OAS_REPO="${{ github.event.pull_request.head.repo.full_name }}"
+
+          # Trigger the workflow and capture the response
+          gh workflow run pr.yml \
+            --repo xero-internal/xeroapi-sdk-codegen \
+            --ref master \
+            --field branch_name="$BRANCH_NAME" \
+            --field oas_repo="$OAS_REPO"
+
+          # Wait a moment for the run to be created
+          sleep 5
+
+          # Get the latest run ID for the workflow
+          RUN_ID=$(gh run list \
+            --repo xero-internal/xeroapi-sdk-codegen \
+            --workflow=pr.yml \
+            --limit 1 \
+            --json databaseId \
+            --jq '.[0].databaseId')
+
+          echo "run_id=$RUN_ID" >> $GITHUB_OUTPUT
+          echo "Triggered workflow run ID: $RUN_ID"
+
+      - name: Check status of codegen validation workflow
+        uses: Codex-/await-remote-run@v1.13.0
+        with:
+          token: ${{ steps.get_access_token.outputs.token }}
+          repo: xeroapi-sdk-codegen
+          owner: xero-internal
+          run_id: ${{ steps.codegen_workflow.outputs.run_id }}
+          run_timeout_seconds: 420 # 7 minutes
+

@@ -1,0 +1,16 @@
+name: PR Linting
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+jobs:
+  linting:
+    runs-on: ubuntu-latest
+    name: MegaLinter Validation
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: MegaLinter
+        uses: oxsecurity/megalinter/flavors/documentation@v9
