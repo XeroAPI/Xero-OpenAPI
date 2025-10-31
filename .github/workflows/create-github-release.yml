@@ -22,7 +22,14 @@ jobs:
         with:
           node-version: 20
 
+      - name: Get github app access token
+        id: get_access_token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ vars.XERO_PUBLIC_APP_ID }}
+          private-key: ${{ secrets.XERO_PUBLIC_BOT_KEY }}
+
       - name: Perform release
-        run: npx semantic-release
+        run: npx --package @semantic-release/exec semantic-release
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ steps.get_access_token.outputs.token }}
