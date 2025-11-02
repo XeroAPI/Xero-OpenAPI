@@ -3,6 +3,11 @@
 versionNumber=${1:?Version number is required as first argument}
 branchName=${2:-master}
 
+if [ "${GITHUB_ACTIONS:-}" = "true" ]; then
+    git config --global user.name "GitHub Actions"
+    git config --global user.email "actions@github.com"
+fi
+
 git checkout "$branchName"
 
 for file in xero*.yaml; do
