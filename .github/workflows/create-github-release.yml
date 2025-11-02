@@ -12,22 +12,23 @@ jobs:
       pull-requests: write
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Set up Node environment
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
       - name: Get github app access token
         id: get_access_token
         uses: actions/create-github-app-token@v2
         with:
           app-id: ${{ vars.XERO_PUBLIC_APP_ID }}
           private-key: ${{ secrets.XERO_PUBLIC_BOT_KEY }}
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ steps.get_access_token.outputs.token }}
+
+      - name: Set up Node environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
 
       - name: Perform release
         run: npx --package @semantic-release/exec semantic-release
