@@ -2,7 +2,7 @@ openapi: 3.1.1
 info:
   description: The Xero Webhooks API exposes event notifications relating to entities in the Xero Public API and can be used for a variety of purposes.
   title: Xero Webhooks API
-  version: 9.1.1
+  version: 9.2.0
   termsOfService: https://developer.xero.com/xero-developer-platform-terms-conditions/
   contact:
     name: Xero Platform Team
@@ -22,14 +22,13 @@ webhooks:
       requestBody:
         content:
           application/json:
-           schema:
-             $ref: '#/components/schemas/WebhookEvent'
+            schema:
+              $ref: '#/components/schemas/WebhookEvent'
       responses:
         "200":
           $ref: '#/components/responses/200WebhookDataReceivedOk'
         "401":
           $ref: '#/components/responses/401InvalidWebhookData'
-
   subscriptions:
     post:
       summary: Subscriptions Webhook Endpoint
@@ -40,14 +39,13 @@ webhooks:
       requestBody:
         content:
           application/json:
-           schema:
-             $ref: '#/components/schemas/WebhookEvent'
+            schema:
+              $ref: '#/components/schemas/WebhookEvent'
       responses:
         "200":
           $ref: '#/components/responses/200WebhookDataReceivedOk'
         "401":
           $ref: '#/components/responses/401InvalidWebhookData'
-
   contacts:
     post:
       summary: Contacts Webhook Endpoint
@@ -58,22 +56,20 @@ webhooks:
       requestBody:
         content:
           application/json:
-           schema:
-             $ref: '#/components/schemas/WebhookEvent'
+            schema:
+              $ref: '#/components/schemas/WebhookEvent'
       responses:
         "200":
           $ref: '#/components/responses/200WebhookDataReceivedOk'
         "401":
           $ref: '#/components/responses/401InvalidWebhookData'
-
 components:
   headers:
     x-xero-signature:
       description: A hashed signature of the payload is passed along in the headers of each request as x-xero-signature
       schema:
         type: string
-      example: "<Base_64_HMAC_SHA_256>"
-
+      example: <Base_64_HMAC_SHA_256>
   schemas:
     WebhookEvent:
       required:
@@ -137,7 +133,6 @@ components:
   responses:
     401InvalidWebhookData:
       description: Return a 401 status to indicate that the webhook subscription failed
-
     200WebhookDataReceivedOk:
       description: Return a 200 status to indicate that the webhook subscription succeeded
       headers:
@@ -148,19 +143,14 @@ components:
           schema:
             $ref: '#/components/schemas/WebhookEvent'
             example:
-              {
-                "events": [
-                    {
-                      "resourceUrl": "https://api.xero.com/api.xro/2.0/Contacts/717f2bfc-c6d4-41fd-b238-3f2f0c0cf777",
-                      "resourceId": "717f2bfc-c6d4-41fd-b238-3f2f0c0cf777",
-                      "eventDateUtc": "2024-06-21T01:15:39.902",
-                      "eventType": "UPDATE",
-                      "eventCategory": "CONTACT",
-                      "tenantId": "c2cc9b6e-9458-4c7d-93cc-f02b81b0594f",
-                      "tenantType": "ORGANISATION"
-                    }
-                ],
-                "lastEventSequence": 1,
-                "firstEventSequence": 1,
-                "entropy": "S0m3r4Nd0mt3xt"
-              }
+              events:
+                - resourceUrl: https://api.xero.com/api.xro/2.0/Contacts/717f2bfc-c6d4-41fd-b238-3f2f0c0cf777
+                  resourceId: 717f2bfc-c6d4-41fd-b238-3f2f0c0cf777
+                  eventDateUtc: 2024-06-21T01:15:39.902
+                  eventType: UPDATE
+                  eventCategory: CONTACT
+                  tenantId: c2cc9b6e-9458-4c7d-93cc-f02b81b0594f
+                  tenantType: ORGANISATION
+              lastEventSequence: 1
+              firstEventSequence: 1
+              entropy: S0m3r4Nd0mt3xt
