@@ -1,9 +1,9 @@
 openapi: 3.0.0
 info:
-  version: 9.2.0
-  title: Xero Payroll UK
-  description: This is the Xero Payroll API for orgs in the UK region.
-  termsOfService: https://developer.xero.com/xero-developer-platform-terms-conditions/
+  version: 9.1.1
+  title: "Xero Payroll UK"
+  description: "This is the Xero Payroll API for orgs in the UK region."
+  termsOfService: "https://developer.xero.com/xero-developer-platform-terms-conditions/"
   contact:
     name: Xero Platform Team
     email: api@xero.com
@@ -16,7 +16,7 @@ servers:
 paths:
   /Employees:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     get:
       security:
         - OAuth2:
@@ -46,7 +46,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Employees'
+                $ref: "#/components/schemas/Employees"
               example:
                 id: 1a14e877-773d-4cd3-b253-f559a4b4be65
                 providerName: provider-name
@@ -118,7 +118,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Problem'
+                $ref: "#/components/schemas/Problem"
     post:
       security:
         - OAuth2:
@@ -140,9 +140,9 @@ paths:
           java: LocalDate.of(2000, Month.OCTOBER, 28)
           csharp: new DateTime(2000, 10, 10)
           php: new DateTime('2000-10-28')
-          node: '''2000-10-28'''
+          node: "'2000-10-28'"
           python: dateutil.parser.parse('2000-10-28T00:00:00Z')
-          ruby: '''YYYY-MM-DD'''
+          ruby: "'YYYY-MM-DD'"
         - Address:
           key: address
           keyPascal: Address
@@ -211,14 +211,14 @@ paths:
           object: employee
       summary: Creates employees
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
+        - $ref: "#/components/parameters/idempotencyKey"
       responses:
         "200":
           description: search results matching criteria
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EmployeeObject'
+                $ref: "#/components/schemas/EmployeeObject"
               example:
                 id: 660ff206-fc4a-42f5-8f7d-de886bc2a3d3
                 providerName: provider-name
@@ -254,13 +254,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Problem'
+                $ref: "#/components/schemas/Problem"
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Employee'
+              $ref: "#/components/schemas/Employee"
             example:
               title: Mr
               firstName: Mike
@@ -275,7 +275,7 @@ paths:
                 postCode: MK9 1EB
   /Employees/{EmployeeID}:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     get:
       security:
         - OAuth2:
@@ -302,11 +302,11 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EmployeeObject'
+                $ref: "#/components/schemas/EmployeeObject"
               example:
                 id: 9414291b-a8c6-08fa-b165-9b30b1e6aab5
-                providerName: '!YLT5Y'
-                dateTimeUTC: 2018-04-09T05:15:18.1011141
+                providerName: "!YLT5Y"
+                dateTimeUTC: "2018-04-09T05:15:18.1011141"
                 httpStatusCode: OK
                 pagination: null
                 employee:
@@ -318,7 +318,7 @@ paths:
                   gender: M
                   email: tester1@gmail.com
                   phoneNumber: "0400123456"
-                  nationalInsuranceNumber: AB123456C
+                  nationalInsuranceNumber: "AB123456C"
                   isOffPayrollWorker: false
                   address:
                     addressLine1: 171 Midsummer
@@ -361,9 +361,9 @@ paths:
           java: LocalDate.of(2000, Month.OCTOBER, 28)
           csharp: new DateTime(2000, 10, 10)
           php: new DateTime('2000-10-28')
-          node: '''2000-10-28'''
+          node: "'2000-10-28'"
           python: dateutil.parser.parse('2000-10-28T00:00:00Z')
-          ruby: '''YYYY-MM-DD'''
+          ruby: "'YYYY-MM-DD'"
         - Address:
           key: address
           keyPascal: Address
@@ -431,7 +431,7 @@ paths:
           ruby: address
           object: employee
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
+        - $ref: "#/components/parameters/idempotencyKey"
         - name: EmployeeID
           x-snake: employee_id
           in: path
@@ -447,10 +447,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EmployeeObject'
+                $ref: "#/components/schemas/EmployeeObject"
               example:
                 id: 9414291b-a8c6-08fa-b165-9b30b1e6aab5
-                providerName: '!YLT5Y'
+                providerName: "!YLT5Y"
                 dateTimeUTC: 2018-04-09T05:10:51.3504472
                 httpStatusCode: OK
                 pagination: null
@@ -481,13 +481,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Problem'
+                $ref: "#/components/schemas/Problem"
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Employee'
+              $ref: "#/components/schemas/Employee"
             example:
               title: Mr.
               firstName: TestDataUK
@@ -503,7 +503,7 @@ paths:
                 postCode: MK9 1EB
   /Employees/{EmployeeID}/Employment:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     post:
       security:
         - OAuth2:
@@ -524,9 +524,9 @@ paths:
           java: LocalDate.of(2020, Month.OCTOBER, 28)
           csharp: new DateTime(2020, 10, 10)
           php: new DateTime('2020-10-28')
-          node: '''2020-10-28'''
+          node: "'2020-10-28'"
           python: dateutil.parser.parse('2020-10-28T00:00:00Z')
-          ruby: '''YYYY-MM-DD'''
+          ruby: "'YYYY-MM-DD'"
         - employment:
           key: employment
           keyPascal: Employment
@@ -559,7 +559,7 @@ paths:
           default: A
       summary: Creates employment detail for a specific employee using a unique employee ID
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
+        - $ref: "#/components/parameters/idempotencyKey"
         - name: EmployeeID
           x-snake: employee_id
           in: path
@@ -575,17 +575,17 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EmploymentObject'
+                $ref: "#/components/schemas/EmploymentObject"
               example:
                 id: 0160a355-1e6d-4fdc-9532-c0857feaa515
                 providerName: provider-name
-                dateTimeUTC: 2020-03-26T18:09:11.6235442
+                dateTimeUTC: "2020-03-26T18:09:11.6235442"
                 httpStatusCode: OK
                 pagination:
                 problem:
                 employment:
                   payrollCalendarID: 216d80e6-af55-47b1-b718-9457c3f5d2fe
-                  startDate: 2020-04-01T00:00:00
+                  startDate: "2020-04-01T00:00:00"
                   niCategories:
                     - niCategory: I
                       startDate: "2020-05-01"
@@ -598,13 +598,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Problem'
+                $ref: "#/components/schemas/Problem"
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Employment'
+              $ref: "#/components/schemas/Employment"
             example:
               payrollCalendarID: cdfb8371-0b21-4b8a-8903-1024df6c391e
               startDate: "2024-04-01"
@@ -615,7 +615,7 @@ paths:
               employeeNumber: 123ABC
   /Employees/{EmployeeID}/Tax:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     get:
       security:
         - OAuth2:
@@ -642,7 +642,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EmployeeTaxObject'
+                $ref: "#/components/schemas/EmployeeTaxObject"
               example:
                 id: a8577248-393a-4e7a-8a03-b43b90800b69
                 providerName: provider-name
@@ -664,7 +664,7 @@ paths:
                   nicCalculationMethod: null
   /Employees/{EmployeeID}/ukopeningbalances:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     get:
       security:
         - OAuth2:
@@ -691,7 +691,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EmployeeOpeningBalancesObject'
+                $ref: "#/components/schemas/EmployeeOpeningBalancesObject"
               example:
                 id: ab1c33de-1927-4210-bf4f-2a55965cb4a9
                 providerName: provider-name
@@ -763,7 +763,7 @@ paths:
           is_last: true
       summary: Creates an opening balance for a specific employee
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
+        - $ref: "#/components/parameters/idempotencyKey"
         - name: EmployeeID
           x-snake: employee_id
           in: path
@@ -779,7 +779,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EmployeeOpeningBalancesObject'
+                $ref: "#/components/schemas/EmployeeOpeningBalancesObject"
               example:
                 id: 0d30ef37-2fb4-4925-b563-faaee361c9cd
                 providerName: provider-name
@@ -793,13 +793,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Problem'
+                $ref: "#/components/schemas/Problem"
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/EmployeeOpeningBalances'
+              $ref: "#/components/schemas/EmployeeOpeningBalances"
             example:
               statutoryAdoptionPay: 10
               statutoryMaternityPay: 10
@@ -864,7 +864,7 @@ paths:
           is_last: true
       summary: Updates a specific employee's opening balances
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
+        - $ref: "#/components/parameters/idempotencyKey"
         - name: EmployeeID
           x-snake: employee_id
           in: path
@@ -880,7 +880,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EmployeeOpeningBalancesObject'
+                $ref: "#/components/schemas/EmployeeOpeningBalancesObject"
               example:
                 id: 21953776-783c-426c-bf15-cbde997839c4
                 providerName: provider-name
@@ -894,13 +894,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Problem'
+                $ref: "#/components/schemas/Problem"
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/EmployeeOpeningBalances'
+              $ref: "#/components/schemas/EmployeeOpeningBalances"
             example:
               statutoryAdoptionPay: 20
               statutoryMaternityPay: 20
@@ -910,7 +910,7 @@ paths:
               priorEmployeeNumber: 20
   /Employees/{EmployeeID}/Leave:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     get:
       security:
         - OAuth2:
@@ -937,7 +937,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EmployeeLeaves'
+                $ref: "#/components/schemas/EmployeeLeaves"
               example:
                 id: e4d42712-4876-4b32-987d-1f62538089de
                 providerName: provider-name
@@ -977,9 +977,9 @@ paths:
           java: LocalDate.of(2020, Month.OCTOBER, 28)
           csharp: new DateTime(2020, 10, 10)
           php: new DateTime('2020-10-28')
-          node: '''2020-10-28'''
+          node: "'2020-10-28'"
           python: dateutil.parser.parse('2020-10-28T00:00:00Z')
-          ruby: '''YYYY-MM-DD'''
+          ruby: "'YYYY-MM-DD'"
         - endDateValue:
           key: endDate
           keyPascal: EndDate
@@ -991,9 +991,9 @@ paths:
           java: LocalDate.of(2020, Month.OCTOBER, 30)
           csharp: new DateTime(2020, 10, 12)
           php: new DateTime('2020-10-30')
-          node: '''2020-10-30'''
+          node: "'2020-10-30'"
           python: dateutil.parser.parse('2020-10-30T00:00:00Z')
-          ruby: '''YYYY-MM-DD'''
+          ruby: "'YYYY-MM-DD'"
         - employeeLeave:
           key: employeeLeave
           keyPascal: EmployeeLeave
@@ -1029,7 +1029,7 @@ paths:
           object: employeeLeave
       summary: Creates leave records for a specific employee
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
+        - $ref: "#/components/parameters/idempotencyKey"
         - name: EmployeeID
           x-snake: employee_id
           in: path
@@ -1045,7 +1045,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EmployeeLeaveObject'
+                $ref: "#/components/schemas/EmployeeLeaveObject"
               example:
                 id: ef91410a-2be1-42cc-86db-e625344a82e9
                 providerName: provider-name
@@ -1070,13 +1070,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Problem'
+                $ref: "#/components/schemas/Problem"
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/EmployeeLeave'
+              $ref: "#/components/schemas/EmployeeLeave"
             example:
               leaveTypeID: 1d2778ee-86ea-45c0-bbf8-1045485f6b3f
               description: Creating a Description
@@ -1084,7 +1084,7 @@ paths:
               endDate: "2020-03-26"
   /Employees/{EmployeeID}/Leave/{LeaveID}:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     get:
       security:
         - OAuth2:
@@ -1120,7 +1120,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EmployeeLeaveObject'
+                $ref: "#/components/schemas/EmployeeLeaveObject"
               example:
                 id: 6ae25805-fef3-4c9b-9e69-9ccc71a6a8da
                 providerName: provider-name
@@ -1160,9 +1160,9 @@ paths:
           java: LocalDate.of(2020, Month.OCTOBER, 28)
           csharp: new DateTime(2020, 10, 10)
           php: new DateTime('2020-10-28')
-          node: '''2020-10-28'''
+          node: "'2020-10-28'"
           python: dateutil.parser.parse('2020-10-28T00:00:00Z')
-          ruby: '''YYYY-MM-DD'''
+          ruby: "'YYYY-MM-DD'"
         - endDateValue:
           key: endDate
           keyPascal: EndDate
@@ -1174,9 +1174,9 @@ paths:
           java: LocalDate.of(2020, Month.OCTOBER, 30)
           csharp: new DateTime(2020, 10, 12)
           php: new DateTime('2020-10-30')
-          node: '''2020-10-30'''
+          node: "'2020-10-30'"
           python: dateutil.parser.parse('2020-10-30T00:00:00Z')
-          ruby: '''YYYY-MM-DD'''
+          ruby: "'YYYY-MM-DD'"
         - employeeLeave:
           key: employeeLeave
           keyPascal: EmployeeLeave
@@ -1212,7 +1212,7 @@ paths:
           object: employeeLeave
       summary: Updates a specific employee's leave records
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
+        - $ref: "#/components/parameters/idempotencyKey"
         - name: EmployeeID
           x-snake: employee_id
           in: path
@@ -1237,7 +1237,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EmployeeLeaveObject'
+                $ref: "#/components/schemas/EmployeeLeaveObject"
               example:
                 id: ea115d89-61a0-4a2d-ad77-e3c63a2b401f
                 providerName: provider-name
@@ -1262,13 +1262,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Problem'
+                $ref: "#/components/schemas/Problem"
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/EmployeeLeave'
+              $ref: "#/components/schemas/EmployeeLeave"
             example:
               leaveTypeID: ed08dffe-788e-4b24-9630-f0fa2f4d164c
               description: Creating a Description
@@ -1313,7 +1313,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EmployeeLeaveObject'
+                $ref: "#/components/schemas/EmployeeLeaveObject"
               example:
                 id: b0ab87f6-bbca-4c81-b616-c545592f6988
                 providerName: provider-name
@@ -1323,7 +1323,7 @@ paths:
                 problem: null
   /Employees/{EmployeeID}/LeaveBalances:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     get:
       security:
         - OAuth2:
@@ -1350,7 +1350,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EmployeeLeaveBalances'
+                $ref: "#/components/schemas/EmployeeLeaveBalances"
               example:
                 id: a9b96d49-fc15-4e25-8b62-818462ea6dbd
                 providerName: provider-name
@@ -1373,7 +1373,7 @@ paths:
                     typeOfUnits: Hours
   /Employees/{EmployeeID}/StatutoryLeaveBalance:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     get:
       security:
         - OAuth2:
@@ -1414,7 +1414,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EmployeeStatutoryLeaveBalanceObject'
+                $ref: "#/components/schemas/EmployeeStatutoryLeaveBalanceObject"
               example:
                 id: ee863df3-c394-4102-bb91-2b14de404c1c
                 providerName: provider-name
@@ -1428,7 +1428,7 @@ paths:
                   units: Hours
   /StatutoryLeaves/Summary/{EmployeeID}:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     get:
       security:
         - OAuth2:
@@ -1461,7 +1461,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EmployeeStatutoryLeavesSummaries'
+                $ref: "#/components/schemas/EmployeeStatutoryLeavesSummaries"
               example:
                 id: 1908f4d1-b85d-4d6d-a885-6b6e2922ad03
                 providerName: provider-name
@@ -1479,7 +1479,7 @@ paths:
                     status: Pending
   /StatutoryLeaves/Sick:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     post:
       security:
         - OAuth2:
@@ -1500,9 +1500,9 @@ paths:
           java: LocalDate.of(2020, Month.OCTOBER, 28)
           csharp: new DateTime(2020, 10, 10)
           php: new DateTime('2020-10-28')
-          node: '''2020-10-28'''
+          node: "'2020-10-28'"
           python: dateutil.parser.parse('2020-10-28T00:00:00Z')
-          ruby: '''YYYY-MM-DD'''
+          ruby: "'YYYY-MM-DD'"
         - endDateValue:
           key: endDate
           keyPascal: EndDate
@@ -1514,9 +1514,9 @@ paths:
           java: LocalDate.of(2020, Month.OCTOBER, 30)
           csharp: new DateTime(2020, 10, 12)
           php: new DateTime('2020-10-30')
-          node: '''2020-10-30'''
+          node: "'2020-10-30'"
           python: dateutil.parser.parse('2020-10-30T00:00:00Z')
-          ruby: '''YYYY-MM-DD'''
+          ruby: "'YYYY-MM-DD'"
         - employeeStatutorySickLeave:
           key: employeeStatutorySickLeave
           keyPascal: EmployeeStatutorySickLeave
@@ -1559,14 +1559,14 @@ paths:
           object: employeeStatutorySickLeave
       summary: Creates statutory sick leave records
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
+        - $ref: "#/components/parameters/idempotencyKey"
       responses:
         "200":
           description: search results matching criteria
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EmployeeStatutorySickLeaveObject'
+                $ref: "#/components/schemas/EmployeeStatutorySickLeaveObject"
               example:
                 id: 35c840a3-04aa-43f1-9171-f7eaf4fd4454
                 providerName: provider-name
@@ -1600,13 +1600,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Problem'
+                $ref: "#/components/schemas/Problem"
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/EmployeeStatutorySickLeave'
+              $ref: "#/components/schemas/EmployeeStatutorySickLeave"
             example:
               employeeID: aad6b292-7b94-408b-93f6-e489867e3fb0
               leaveTypeID: aab78802-e9d3-4bbd-bc87-df858054988f
@@ -1622,7 +1622,7 @@ paths:
               sufficientNotice: true
   /StatutoryLeaves/Sick/{StatutorySickLeaveID}:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     get:
       security:
         - OAuth2:
@@ -1649,7 +1649,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EmployeeStatutorySickLeaveObject'
+                $ref: "#/components/schemas/EmployeeStatutorySickLeaveObject"
               example:
                 id: c484213d-6225-4ede-bc5e-e81ef350af41
                 providerName: provider-name
@@ -1680,7 +1680,7 @@ paths:
                     - AweLowerThanLel
   /Employees/{EmployeeID}/LeavePeriods:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     get:
       security:
         - OAuth2:
@@ -1721,7 +1721,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/LeavePeriods'
+                $ref: "#/components/schemas/LeavePeriods"
               example:
                 id: 00000000-0000-0000-0000-000000000000
                 providerName: provider-name
@@ -1743,10 +1743,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Problem'
+                $ref: "#/components/schemas/Problem"
   /Employees/{EmployeeID}/LeaveTypes:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     get:
       security:
         - OAuth2:
@@ -1773,7 +1773,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EmployeeLeaveTypes'
+                $ref: "#/components/schemas/EmployeeLeaveTypes"
               example:
                 id: d86959c6-94f5-437a-9367-581cb145fc4f
                 providerName: provider-name
@@ -1794,7 +1794,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Problem'
+                $ref: "#/components/schemas/Problem"
     post:
       security:
         - OAuth2:
@@ -1847,7 +1847,7 @@ paths:
           is_last: true
       summary: Creates employee leave type records
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
+        - $ref: "#/components/parameters/idempotencyKey"
         - name: EmployeeID
           x-snake: employee_id
           in: path
@@ -1863,7 +1863,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EmployeeLeaveTypeObject'
+                $ref: "#/components/schemas/EmployeeLeaveTypeObject"
               example:
                 id: 3245e4c9-1ec5-4f3e-b659-fdb722733060
                 providerName: provider-name
@@ -1883,20 +1883,20 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Problem'
+                $ref: "#/components/schemas/Problem"
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/EmployeeLeaveType'
+              $ref: "#/components/schemas/EmployeeLeaveType"
             example:
               leaveTypeID: 4918f233-bd31-43f9-9633-bcc6de1178f2
               scheduleOfAccrual: BeginningOfCalendarYear
               hoursAccruedAnnually: 10
   /Employees/{EmployeeID}/PaymentMethods:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     get:
       security:
         - OAuth2:
@@ -1923,7 +1923,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PaymentMethodObject'
+                $ref: "#/components/schemas/PaymentMethodObject"
               example:
                 id: 33c27fe9-de53-4114-8455-a6392add88b8
                 providerName: provider-name
@@ -1942,7 +1942,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Problem'
+                $ref: "#/components/schemas/Problem"
     post:
       security:
         - OAuth2:
@@ -2010,7 +2010,7 @@ paths:
           object: paymentMethod
       summary: Creates an employee payment method
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
+        - $ref: "#/components/parameters/idempotencyKey"
         - name: EmployeeID
           x-snake: employee_id
           in: path
@@ -2026,7 +2026,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PaymentMethodObject'
+                $ref: "#/components/schemas/PaymentMethodObject"
               example:
                 id: 6c5eab91-8f3c-4569-a5ce-ab4eec112d35
                 providerName: provider-name
@@ -2045,13 +2045,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Problem'
+                $ref: "#/components/schemas/Problem"
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PaymentMethod'
+              $ref: "#/components/schemas/PaymentMethod"
             example:
               paymentMethod: Electronically
               bankAccounts:
@@ -2060,7 +2060,7 @@ paths:
                   sortCode: "287654"
   /Employees/{EmployeeID}/PayTemplates:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     get:
       security:
         - OAuth2:
@@ -2087,7 +2087,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EmployeePayTemplateObject'
+                $ref: "#/components/schemas/EmployeePayTemplateObject"
               example:
                 id: 3138be2b-96d9-44d0-a01e-80fd527555c8
                 providerName: provider-name
@@ -2113,11 +2113,11 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Problem'
+                $ref: "#/components/schemas/Problem"
   # 503
   /Employees/{EmployeeID}/PayTemplates/earnings:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     post:
       security:
         - OAuth2:
@@ -2196,7 +2196,7 @@ paths:
           object: earningsTemplate
       summary: Creates an earnings template records for a specific employee
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
+        - $ref: "#/components/parameters/idempotencyKey"
         - name: EmployeeID
           x-snake: employee_id
           in: path
@@ -2212,22 +2212,22 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EarningsTemplateObject'
+                $ref: "#/components/schemas/EarningsTemplateObject"
         "400":
           description: validation error for a bad request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Problem'
+                $ref: "#/components/schemas/Problem"
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/EarningsTemplate'
+              $ref: "#/components/schemas/EarningsTemplate"
   /Employees/{EmployeeID}/PayTemplates/earnings/{PayTemplateEarningID}:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     put:
       security:
         - OAuth2:
@@ -2306,7 +2306,7 @@ paths:
           object: earningsTemplate
       summary: Updates a specific employee's earnings template records
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
+        - $ref: "#/components/parameters/idempotencyKey"
         - name: EmployeeID
           x-snake: employee_id
           in: path
@@ -2331,7 +2331,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EarningsTemplateObject'
+                $ref: "#/components/schemas/EarningsTemplateObject"
               example:
                 id: 39603f09-e06f-4cd4-8291-e3ad1df8b35b
                 providerName: provider-name
@@ -2351,13 +2351,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Problem'
+                $ref: "#/components/schemas/Problem"
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/EarningsTemplate'
+              $ref: "#/components/schemas/EarningsTemplate"
             example:
               ratePerUnit: 30
               numberOfUnits: 4
@@ -2394,7 +2394,7 @@ paths:
           description: deletion successful
   /Employees/{EmployeeID}/paytemplateearnings:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     post:
       security:
         - OAuth2:
@@ -2473,7 +2473,7 @@ paths:
           object: earningsTemplate
       summary: Creates multiple earnings template records for a specific employee using a unique employee ID
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
+        - $ref: "#/components/parameters/idempotencyKey"
         - name: EmployeeID
           x-snake: employee_id
           in: path
@@ -2489,7 +2489,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EmployeePayTemplates'
+                $ref: "#/components/schemas/EmployeePayTemplates"
               example:
                 id: 1c08b529-0827-4e91-a6a1-c479765aa65f
                 providerName: provider-name
@@ -2515,17 +2515,17 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Problem'
+                $ref: "#/components/schemas/Problem"
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/EarningsTemplates'
+              $ref: "#/components/schemas/EarningsTemplates"
             example: '[ { "ratePerUnit":20.0, "numberOfUnits":8.0, "earningsRateID":"87f5b43a-cf51-4b74-92de-94c819e82d27" }, { "ratePerUnit":20.0, "numberOfUnits":8.0, "earningsRateID":"973365f3-66b2-4c33-8ae6-14b75f78f68b" } ]'
   /Benefits:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     get:
       security:
         - OAuth2:
@@ -2548,7 +2548,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Benefits'
+                $ref: "#/components/schemas/Benefits"
               example:
                 id: 079865dc-f3df-4783-98a9-67db747ab82c
                 providerName: provider-name
@@ -2585,7 +2585,7 @@ paths:
       x-hasPayrollUkProblem: true
       summary: Creates a new employee benefit
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
+        - $ref: "#/components/parameters/idempotencyKey"
       x-example:
         - benefit:
           key: benefit
@@ -2626,7 +2626,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BenefitObject'
+                $ref: "#/components/schemas/BenefitObject"
               example:
                 id: 95352407-6477-42f1-bd9c-bab28af8b0d9
                 providerName: provider-name
@@ -2654,13 +2654,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Problem'
+                $ref: "#/components/schemas/Problem"
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Benefit'
+              $ref: "#/components/schemas/Benefit"
             example:
               name: My Big Bennie
               category: StakeholderPension
@@ -2671,7 +2671,7 @@ paths:
               calculationType: PercentageOfGross
   /Benefits/{id}:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     get:
       security:
         - OAuth2:
@@ -2696,7 +2696,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BenefitObject'
+                $ref: "#/components/schemas/BenefitObject"
               example:
                 id: e7959d7b-370d-47e5-bb15-4b68f136ddae
                 providerName: provider-name
@@ -2721,7 +2721,7 @@ paths:
                   isCalculatingOnQualifyingEarnings: null
   /Deductions:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     get:
       security:
         - OAuth2:
@@ -2744,7 +2744,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Deductions'
+                $ref: "#/components/schemas/Deductions"
               example:
                 id: 846b81f3-7192-4a78-a05c-ae5d2c402546
                 providerName: provider-name
@@ -2845,14 +2845,14 @@ paths:
           is_last: true
       summary: Creates a new deduction
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
+        - $ref: "#/components/parameters/idempotencyKey"
       responses:
         "200":
           description: search results matching criteria
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DeductionObject'
+                $ref: "#/components/schemas/DeductionObject"
               example:
                 id: 26cf94f5-6b62-4f76-8e89-44e4d0062566
                 providerName: provider-name
@@ -2882,13 +2882,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Problem'
+                $ref: "#/components/schemas/Problem"
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Deduction'
+              $ref: "#/components/schemas/Deduction"
             example:
               deductionName: My new deduction
               deductionCategory: SalarySacrifice
@@ -2896,7 +2896,7 @@ paths:
               calculationType: FixedAmount
   /Deductions/{deductionId}:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     get:
       security:
         - OAuth2:
@@ -2922,7 +2922,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DeductionObject'
+                $ref: "#/components/schemas/DeductionObject"
               example:
                 id: addf44c5-5a3b-4d25-a61c-4e9e85cb27b3
                 providerName: provider-name
@@ -2998,7 +2998,7 @@ paths:
   #               $ref: '#/components/schemas/Benefit'
   /EarningsOrders:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     get:
       security:
         - OAuth2:
@@ -3021,7 +3021,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EarningsOrders'
+                $ref: "#/components/schemas/EarningsOrders"
               example:
                 id: 5bf85b65-c2de-4632-8e5e-cc0ab3d18ff0
                 providerName: provider-name
@@ -3076,7 +3076,7 @@ paths:
                     currentRecord: true
   /EarningsOrders/{id}:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     get:
       security:
         - OAuth2:
@@ -3101,7 +3101,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EarningsOrderObject'
+                $ref: "#/components/schemas/EarningsOrderObject"
               example:
                 id: e0fd1c57-e9d0-4c3f-9a1a-0355ddf7c060
                 providerName: provider-name
@@ -3117,7 +3117,7 @@ paths:
                   currentRecord: true
   /EarningsRates:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     get:
       security:
         - OAuth2:
@@ -3140,7 +3140,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EarningsRates'
+                $ref: "#/components/schemas/EarningsRates"
               example:
                 id: fbe7a960-fad3-4293-8de9-0fabfbea615f
                 providerName: provider-name
@@ -3183,7 +3183,7 @@ paths:
       x-hasPayrollUkProblem: true
       summary: Creates a new earnings rate
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
+        - $ref: "#/components/parameters/idempotencyKey"
       x-example:
         - earningsRate:
           key: earningsRate
@@ -3236,7 +3236,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EarningsRateObject'
+                $ref: "#/components/schemas/EarningsRateObject"
               example:
                 id: cc5341dd-c652-47f0-b8a3-67a22617ca7b
                 providerName: provider-name
@@ -3260,13 +3260,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Problem'
+                $ref: "#/components/schemas/Problem"
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/EarningsRate'
+              $ref: "#/components/schemas/EarningsRate"
             example:
               name: My Earnings Rate
               earningsType: RegularEarnings
@@ -3275,7 +3275,7 @@ paths:
               expenseAccountID: 4b03500d-32fd-4616-8d70-e1e56e0519c6
   /EarningsRates/{EarningsRateID}:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     get:
       security:
         - OAuth2:
@@ -3301,7 +3301,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EarningsRateObject'
+                $ref: "#/components/schemas/EarningsRateObject"
               example:
                 id: 85375ff5-6ccf-4d8c-a976-0531c94597de
                 providerName: provider-name
@@ -3322,7 +3322,7 @@ paths:
                   multipleOfOrdinaryEarningsRate: null
   /LeaveTypes:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     get:
       security:
         - OAuth2:
@@ -3351,7 +3351,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/LeaveTypes'
+                $ref: "#/components/schemas/LeaveTypes"
               example:
                 id: cb429b37-78d3-4b15-9788-83cbd1fd3f72
                 providerName: provider-name
@@ -3415,14 +3415,14 @@ paths:
           is_last: true
       summary: Creates a new leave type
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
+        - $ref: "#/components/parameters/idempotencyKey"
       responses:
         "200":
           description: search results matching criteria
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/LeaveTypeObject'
+                $ref: "#/components/schemas/LeaveTypeObject"
               example:
                 id: 89aeb982-d6e8-45dd-a853-fcaee4fc99cc
                 providerName: provider-name
@@ -3443,20 +3443,20 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Problem'
+                $ref: "#/components/schemas/Problem"
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/LeaveType'
+              $ref: "#/components/schemas/LeaveType"
             example:
               name: My opebvwbfxf Leave
               isPaidLeave: false
               showOnPayslip: true
   /LeaveTypes/{LeaveTypeID}:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     get:
       security:
         - OAuth2:
@@ -3482,7 +3482,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/LeaveTypeObject'
+                $ref: "#/components/schemas/LeaveTypeObject"
               example:
                 id: 684454f6-d808-46e0-b83d-5593a560b9d0
                 providerName: provider-name
@@ -3500,7 +3500,7 @@ paths:
                   isActive: true
   /Reimbursements:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     get:
       security:
         - OAuth2:
@@ -3523,7 +3523,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Reimbursements'
+                $ref: "#/components/schemas/Reimbursements"
               example:
                 id: eea19a1d-a714-41c0-8730-94b6d4fbac84
                 providerName: provider-name
@@ -3574,14 +3574,14 @@ paths:
           is_last: true
       summary: Creates a new reimbursement
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
+        - $ref: "#/components/parameters/idempotencyKey"
       responses:
         "200":
           description: search results matching criteria
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ReimbursementObject'
+                $ref: "#/components/schemas/ReimbursementObject"
               example:
                 id: 310ecff7-8577-4e05-98a3-3ce7ecb2868a
                 providerName: provider-name
@@ -3599,19 +3599,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Problem'
+                $ref: "#/components/schemas/Problem"
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Reimbursement'
+              $ref: "#/components/schemas/Reimbursement"
             example:
               name: My new Reimburse
               accountID: 9ee28149-32a9-4661-8eab-a28738696983
   /Reimbursements/{ReimbursementID}:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     get:
       security:
         - OAuth2:
@@ -3637,7 +3637,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ReimbursementObject'
+                $ref: "#/components/schemas/ReimbursementObject"
               example:
                 id: 9c727a87-a96b-4998-b7e7-6b79347915cc
                 providerName: provider-name
@@ -3652,7 +3652,7 @@ paths:
                   currentRecord: true
   /Timesheets:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     get:
       security:
         - OAuth2:
@@ -3708,7 +3708,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Timesheets'
+                $ref: "#/components/schemas/Timesheets"
               example:
                 id: d81c2087-3ecb-4d91-b775-73d85f593370
                 providerName: provider-name
@@ -3749,9 +3749,9 @@ paths:
           java: LocalDate.of(2020, Month.OCTOBER, 28)
           csharp: new DateTime(2020, 10, 10)
           php: new DateTime('2020-10-28')
-          node: '''2020-10-28'''
+          node: "'2020-10-28'"
           python: dateutil.parser.parse('2020-10-28T00:00:00Z')
-          ruby: '''YYYY-MM-DD'''
+          ruby: "'YYYY-MM-DD'"
         - endDateValue:
           key: endDate
           keyPascal: EndDate
@@ -3763,9 +3763,9 @@ paths:
           java: LocalDate.of(2020, Month.OCTOBER, 30)
           csharp: new DateTime(2020, 10, 12)
           php: new DateTime('2020-10-30')
-          node: '''2020-10-30'''
+          node: "'2020-10-30'"
           python: dateutil.parser.parse('2020-10-30T00:00:00Z')
-          ruby: '''YYYY-MM-DD'''
+          ruby: "'YYYY-MM-DD'"
         - timesheet:
           key: timesheet
           keyPascal: Timesheet
@@ -3808,14 +3808,14 @@ paths:
           object: timesheet
       summary: Creates a new timesheet
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
+        - $ref: "#/components/parameters/idempotencyKey"
       responses:
         "200":
           description: search results matching criteria
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TimesheetObject'
+                $ref: "#/components/schemas/TimesheetObject"
               example:
                 id: ef0aa7e2-6f7f-43f6-9186-af670dce7c69
                 providerName: provider-name
@@ -3848,13 +3848,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Problem'
+                $ref: "#/components/schemas/Problem"
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Timesheet'
+              $ref: "#/components/schemas/Timesheet"
             example:
               payrollCalendarID: 216d80e6-af55-47b1-b718-9457c3f5d2fe
               employeeID: aad6b292-7b94-408b-93f6-e489867e3fb0
@@ -3869,7 +3869,7 @@ paths:
                   numberOfUnits: 6
   /Timesheets/{TimesheetID}:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     get:
       security:
         - OAuth2:
@@ -3895,7 +3895,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TimesheetObject'
+                $ref: "#/components/schemas/TimesheetObject"
               example:
                 id: 504259ac-df26-482e-bd0a-d792d96453bb
                 providerName: provider-name
@@ -3946,16 +3946,16 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TimesheetLine'
+                $ref: "#/components/schemas/TimesheetLine"
         "400":
           description: validation error for a bad request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Problem'
+                $ref: "#/components/schemas/Problem"
   /Timesheets/{TimesheetID}/Lines:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     post:
       security:
         - OAuth2:
@@ -3976,9 +3976,9 @@ paths:
           java: LocalDate.of(2020, Month.OCTOBER, 28)
           csharp: new DateTime(2020, 10, 10)
           php: new DateTime('2020-10-28')
-          node: '''2020-10-28'''
+          node: "'2020-10-28'"
           python: dateutil.parser.parse('2020-10-28T00:00:00Z')
-          ruby: '''YYYY-MM-DD'''
+          ruby: "'YYYY-MM-DD'"
         - timesheetLine:
           key: timesheetLine
           keyPascal: TimesheetLine
@@ -4025,7 +4025,7 @@ paths:
           is_last: true
       summary: Creates a new timesheet line for a specific timesheet using a unique timesheet ID
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
+        - $ref: "#/components/parameters/idempotencyKey"
         - in: path
           name: TimesheetID
           x-snake: timesheet_id
@@ -4040,7 +4040,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TimesheetLineObject'
+                $ref: "#/components/schemas/TimesheetLineObject"
               example:
                 id: cf701261-529e-47cd-8156-5ec9ab3394ff
                 providerName: provider-name
@@ -4059,20 +4059,20 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Problem'
+                $ref: "#/components/schemas/Problem"
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TimesheetLine'
+              $ref: "#/components/schemas/TimesheetLine"
             example:
               date: "2020-04-14"
               earningsRateID: 87f5b43a-cf51-4b74-92de-94c819e82d27
               numberOfUnits: 1
   /Timesheets/{TimesheetID}/Approve:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     post:
       security:
         - OAuth2:
@@ -4083,7 +4083,7 @@ paths:
       x-hasPayrollUkProblem: true
       summary: Approves a specific timesheet
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
+        - $ref: "#/components/parameters/idempotencyKey"
         - in: path
           name: TimesheetID
           x-snake: timesheet_id
@@ -4098,7 +4098,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TimesheetObject'
+                $ref: "#/components/schemas/TimesheetObject"
               example:
                 id: 94c27148-2749-4d85-bc1a-986e6de230ae
                 providerName: provider-name
@@ -4136,10 +4136,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Problem'
+                $ref: "#/components/schemas/Problem"
   /Timesheets/{TimesheetID}/RevertToDraft:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     post:
       security:
         - OAuth2:
@@ -4150,7 +4150,7 @@ paths:
       x-hasPayrollUkProblem: true
       summary: Reverts a specific timesheet to draft
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
+        - $ref: "#/components/parameters/idempotencyKey"
         - in: path
           name: TimesheetID
           x-snake: timesheet_id
@@ -4165,7 +4165,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TimesheetObject'
+                $ref: "#/components/schemas/TimesheetObject"
               example:
                 id: a774530a-a50c-4480-a094-358cf80a7d98
                 providerName: provider-name
@@ -4203,10 +4203,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Problem'
+                $ref: "#/components/schemas/Problem"
   /Timesheets/{TimesheetID}/Lines/{TimesheetLineID}:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     put:
       security:
         - OAuth2:
@@ -4227,9 +4227,9 @@ paths:
           java: LocalDate.of(2020, Month.OCTOBER, 28)
           csharp: new DateTime(2020, 10, 10)
           php: new DateTime('2020-10-28')
-          node: '''2020-10-28'''
+          node: "'2020-10-28'"
           python: dateutil.parser.parse('2020-10-28T00:00:00Z')
-          ruby: '''YYYY-MM-DD'''
+          ruby: "'YYYY-MM-DD'"
         - timesheetLine:
           key: timesheetLine
           keyPascal: TimesheetLine
@@ -4276,7 +4276,7 @@ paths:
           is_last: true
       summary: Updates a specific timesheet line for a specific timesheet
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
+        - $ref: "#/components/parameters/idempotencyKey"
         - in: path
           name: TimesheetID
           x-snake: timesheet_id
@@ -4299,7 +4299,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TimesheetLineObject'
+                $ref: "#/components/schemas/TimesheetLineObject"
               example:
                 id: 582b87a6-14f3-409b-be89-f9b9c49db983
                 providerName: provider-name
@@ -4318,13 +4318,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Problem'
+                $ref: "#/components/schemas/Problem"
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TimesheetLine'
+              $ref: "#/components/schemas/TimesheetLine"
             example:
               date: "2020-04-14"
               earningsRateID: 87f5b43a-cf51-4b74-92de-94c819e82d27
@@ -4360,16 +4360,16 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TimesheetLine'
+                $ref: "#/components/schemas/TimesheetLine"
         "400":
           description: validation error for a bad request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Problem'
+                $ref: "#/components/schemas/Problem"
   /PayRunCalendars:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     get:
       security:
         - OAuth2:
@@ -4392,7 +4392,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PayRunCalendars'
+                $ref: "#/components/schemas/PayRunCalendars"
               example:
                 id: f66c8da6-06c1-47c7-a415-366cb3991858
                 providerName: provider-name
@@ -4406,21 +4406,21 @@ paths:
                 problem: null
                 payRunCalendars:
                   - payrollCalendarID: 216d80e6-af55-47b1-b718-9457c3f5d2fe
-                    name: 'Weekly '
+                    name: "Weekly "
                     calendarType: Weekly
                     periodStartDate: 2020-02-10T00:00:00
                     periodEndDate: 2020-02-16T00:00:00
                     paymentDate: 2020-02-17T00:00:00
                     updatedDateUTC: 2020-02-13T16:53:54
                   - payrollCalendarID: d45bc68f-59d6-4000-929d-1058dcfa79e1
-                    name: 'Fortnightly '
+                    name: "Fortnightly "
                     calendarType: Fortnightly
                     periodStartDate: 2020-02-03T00:00:00
                     periodEndDate: 2020-02-16T00:00:00
                     paymentDate: 2020-02-10T00:00:00
                     updatedDateUTC: 2020-02-10T10:02:09
                   - payrollCalendarID: 5e813d9e-949c-461f-8a89-e9ee8955a254
-                    name: 'Monthly '
+                    name: "Monthly "
                     calendarType: Monthly
                     periodStartDate: 2020-03-03T00:00:00
                     periodEndDate: 2020-04-02T00:00:00
@@ -4446,9 +4446,9 @@ paths:
           java: LocalDate.of(2020, Month.OCTOBER, 28)
           csharp: new DateTime(2020, 10, 10)
           php: new DateTime('2020-10-28')
-          node: '''2020-10-28'''
+          node: "'2020-10-28'"
           python: dateutil.parser.parse('2020-10-28T00:00:00Z')
-          ruby: '''YYYY-MM-DD'''
+          ruby: "'YYYY-MM-DD'"
         - paymentDateValue:
           key: paymentDate
           keyPascal: PaymentDate
@@ -4460,9 +4460,9 @@ paths:
           java: LocalDate.of(2020, Month.OCTOBER, 30)
           csharp: new DateTime(2020, 10, 12)
           php: new DateTime('2020-10-30')
-          node: '''2020-10-30'''
+          node: "'2020-10-30'"
           python: dateutil.parser.parse('2020-10-30T00:00:00Z')
-          ruby: '''YYYY-MM-DD'''
+          ruby: "'YYYY-MM-DD'"
         - payRunCalendar:
           key: payRunCalendar
           keyPascal: PayRunCalendar
@@ -4504,14 +4504,14 @@ paths:
           object: payRunCalendar
       summary: Creates a new payrun calendar
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
+        - $ref: "#/components/parameters/idempotencyKey"
       responses:
         "200":
           description: search results matching criteria
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PayRunCalendarObject'
+                $ref: "#/components/schemas/PayRunCalendarObject"
               example:
                 id: ef25e7f2-b5d6-454c-8147-396c373565dd
                 providerName: provider-name
@@ -4532,13 +4532,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Problem'
+                $ref: "#/components/schemas/Problem"
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PayRunCalendar'
+              $ref: "#/components/schemas/PayRunCalendar"
             example:
               name: My Weekly Cal
               calendarType: Weekly
@@ -4546,7 +4546,7 @@ paths:
               paymentDate: "2020-05-15"
   /PayRunCalendars/{PayRunCalendarID}:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     get:
       security:
         - OAuth2:
@@ -4572,7 +4572,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PayRunCalendarObject'
+                $ref: "#/components/schemas/PayRunCalendarObject"
               example:
                 id: dae942a3-b4fb-4b24-839b-14e1073f8cca
                 providerName: provider-name
@@ -4582,7 +4582,7 @@ paths:
                 problem: null
                 payRunCalendar:
                   payrollCalendarID: 216d80e6-af55-47b1-b718-9457c3f5d2fe
-                  name: 'Weekly '
+                  name: "Weekly "
                   calendarType: Weekly
                   periodStartDate: 2020-02-10T00:00:00
                   periodEndDate: 2020-02-16T00:00:00
@@ -4590,7 +4590,7 @@ paths:
                   updatedDateUTC: 2020-02-13T16:53:54
   /Employees/{EmployeeID}/SalaryAndWages:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     get:
       security:
         - OAuth2:
@@ -4622,7 +4622,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SalaryAndWages'
+                $ref: "#/components/schemas/SalaryAndWages"
               example:
                 id: 56273e64-dff0-4542-96f3-54ad3ac27431
                 providerName: provider-name
@@ -4650,7 +4650,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Problem'
+                $ref: "#/components/schemas/Problem"
     post:
       security:
         - OAuth2:
@@ -4715,7 +4715,7 @@ paths:
           is_last: true
       summary: Creates a salary and wage record for a specific employee
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
+        - $ref: "#/components/parameters/idempotencyKey"
         - name: EmployeeID
           x-snake: employee_id
           in: path
@@ -4731,7 +4731,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SalaryAndWageObject'
+                $ref: "#/components/schemas/SalaryAndWageObject"
               example:
                 id: a15f15ec-a8ed-420b-82f6-1546a9bf6d57
                 providerName: provider-name
@@ -4755,13 +4755,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Problem'
+                $ref: "#/components/schemas/Problem"
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SalaryAndWage'
+              $ref: "#/components/schemas/SalaryAndWage"
             example:
               earningsRateID: 87f5b43a-cf51-4b74-92de-94c819e82d27
               numberOfUnitsPerWeek: 2
@@ -4773,7 +4773,7 @@ paths:
               paymentType: Salary
   /Employees/{EmployeeID}/SalaryAndWages/{SalaryAndWagesID}:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     get:
       security:
         - OAuth2:
@@ -4809,7 +4809,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SalaryAndWages'
+                $ref: "#/components/schemas/SalaryAndWages"
               example:
                 id: cd4f35e7-5062-494a-96c4-f81e9083b0b9
                 providerName: provider-name
@@ -4892,7 +4892,7 @@ paths:
           is_last: true
       summary: Updates salary and wages record for a specific employee
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
+        - $ref: "#/components/parameters/idempotencyKey"
         - name: EmployeeID
           x-snake: employee_id
           in: path
@@ -4917,7 +4917,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SalaryAndWageObject'
+                $ref: "#/components/schemas/SalaryAndWageObject"
               example:
                 id: d12a31ee-e094-4e67-9092-0d5e1d7569a6
                 providerName: provider-name
@@ -4941,13 +4941,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Problem'
+                $ref: "#/components/schemas/Problem"
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SalaryAndWage'
+              $ref: "#/components/schemas/SalaryAndWage"
             example:
               earningsRateID: 87f5b43a-cf51-4b74-92de-94c819e82d27
               numberOfUnitsPerWeek: 3
@@ -4988,7 +4988,7 @@ paths:
           description: deletion successful
   /PayRuns:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     get:
       security:
         - OAuth2:
@@ -5019,7 +5019,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PayRuns'
+                $ref: "#/components/schemas/PayRuns"
               example:
                 id: d748445b-fd11-4832-a85a-905fbfcf3d7c
                 providerName: provider-name
@@ -5058,7 +5058,7 @@ paths:
                     payslipMessage: null
   /PayRuns/{PayRunID}:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     get:
       security:
         - OAuth2:
@@ -5084,7 +5084,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PayRunObject'
+                $ref: "#/components/schemas/PayRunObject"
               example:
                 id: 84471d62-74b6-4b21-845c-6d1e6f031172
                 providerName: provider-name
@@ -5125,7 +5125,7 @@ paths:
                   invalidPayeeIDs: null
   /Payslips:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     get:
       security:
         - OAuth2:
@@ -5156,7 +5156,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Payslips'
+                $ref: "#/components/schemas/Payslips"
               example:
                 id: c07aa280-478b-48b5-a778-499cf95c9781
                 providerName: provider-name
@@ -5230,7 +5230,7 @@ paths:
                     courtOrderLines: []
   /Payslips/{PayslipID}:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     get:
       security:
         - OAuth2:
@@ -5256,7 +5256,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PayslipObject'
+                $ref: "#/components/schemas/PayslipObject"
               example:
                 id: 80c558c3-bc7a-48d0-91b2-20b8ec784f0d
                 providerName: provider-name
@@ -5326,7 +5326,7 @@ paths:
                   courtOrderLines: []
   /Settings:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     get:
       security:
         - OAuth2:
@@ -5343,7 +5343,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Settings'
+                $ref: "#/components/schemas/Settings"
               example:
                 id: 3cb41871-980a-47e4-878f-7c576b0d3677
                 providerName: provider-name
@@ -5383,7 +5383,7 @@ paths:
                       name: Wages Payable - Payroll
   /Settings/trackingCategories:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     get:
       security:
         - OAuth2:
@@ -5400,7 +5400,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TrackingCategories'
+                $ref: "#/components/schemas/TrackingCategories"
               example:
                 id: e56628f7-a25e-4d23-88c5-56e2895e2143
                 providerName: provider-name
@@ -5488,7 +5488,7 @@ components:
         invalidFields:
           type: array
           items:
-            $ref: '#/components/schemas/InvalidField'
+            $ref: "#/components/schemas/InvalidField"
     InvalidField:
       type: object
       properties:
@@ -5504,22 +5504,22 @@ components:
       type: object
       properties:
         pagination:
-          $ref: '#/components/schemas/Pagination'
+          $ref: "#/components/schemas/Pagination"
         problem:
-          $ref: '#/components/schemas/Problem'
+          $ref: "#/components/schemas/Problem"
         employees:
           type: array
           items:
-            $ref: '#/components/schemas/Employee'
+            $ref: "#/components/schemas/Employee"
     EmployeeObject:
       type: object
       properties:
         pagination:
-          $ref: '#/components/schemas/Pagination'
+          $ref: "#/components/schemas/Pagination"
         employee:
-          $ref: '#/components/schemas/Employee'
+          $ref: "#/components/schemas/Employee"
         problem:
-          $ref: '#/components/schemas/Problem'
+          $ref: "#/components/schemas/Problem"
     Employee:
       type: object
       required:
@@ -5554,7 +5554,7 @@ components:
           example: 2019-01-02
           x-is-date: true
         address:
-          $ref: '#/components/schemas/Address'
+          $ref: "#/components/schemas/Address"
         email:
           description: The email address for the employee
           type: string
@@ -5597,13 +5597,13 @@ components:
           format: date-time
           x-is-datetime: true
         niCategory:
-          $ref: '#/components/schemas/NICategoryLetter'
+          $ref: "#/components/schemas/NICategoryLetter"
           deprecated: true
         niCategories:
           description: The employee's NI categories
           type: array
           items:
-            $ref: '#/components/schemas/NICategory'
+            $ref: "#/components/schemas/NICategory"
         nationalInsuranceNumber:
           description: National insurance number of the employee
           type: string
@@ -5615,11 +5615,11 @@ components:
       type: object
       properties:
         pagination:
-          $ref: '#/components/schemas/Pagination'
+          $ref: "#/components/schemas/Pagination"
         problem:
-          $ref: '#/components/schemas/Problem'
+          $ref: "#/components/schemas/Problem"
         employment:
-          $ref: '#/components/schemas/Employment'
+          $ref: "#/components/schemas/Employment"
     Employment:
       type: object
       required:
@@ -5642,22 +5642,23 @@ components:
           type: string
           example: 007
         niCategory:
-          $ref: '#/components/schemas/NICategoryLetter'
+          $ref: "#/components/schemas/NICategoryLetter"
           deprecated: true
         niCategories:
           description: The employee's NI categories
           type: array
           items:
-            $ref: '#/components/schemas/NICategory'
+            $ref: "#/components/schemas/NICategory"
+
     EmployeeTaxObject:
       type: object
       properties:
         pagination:
-          $ref: '#/components/schemas/Pagination'
+          $ref: "#/components/schemas/Pagination"
         problem:
-          $ref: '#/components/schemas/Problem'
+          $ref: "#/components/schemas/Problem"
         employeeTax:
-          $ref: '#/components/schemas/EmployeeTax'
+          $ref: "#/components/schemas/EmployeeTax"
     EmployeeTax:
       type: object
       properties:
@@ -5709,11 +5710,11 @@ components:
       type: object
       properties:
         pagination:
-          $ref: '#/components/schemas/Pagination'
+          $ref: "#/components/schemas/Pagination"
         problem:
-          $ref: '#/components/schemas/Problem'
+          $ref: "#/components/schemas/Problem"
         openingBalances:
-          $ref: '#/components/schemas/EmployeeOpeningBalances'
+          $ref: "#/components/schemas/EmployeeOpeningBalances"
     EmployeeOpeningBalances:
       type: object
       properties:
@@ -5750,22 +5751,22 @@ components:
       type: object
       properties:
         pagination:
-          $ref: '#/components/schemas/Pagination'
+          $ref: "#/components/schemas/Pagination"
         problem:
-          $ref: '#/components/schemas/Problem'
+          $ref: "#/components/schemas/Problem"
         leave:
           type: array
           items:
-            $ref: '#/components/schemas/EmployeeLeave'
+            $ref: "#/components/schemas/EmployeeLeave"
     EmployeeLeaveObject:
       type: object
       properties:
         pagination:
-          $ref: '#/components/schemas/Pagination'
+          $ref: "#/components/schemas/Pagination"
         problem:
-          $ref: '#/components/schemas/Problem'
+          $ref: "#/components/schemas/Problem"
         leave:
-          $ref: '#/components/schemas/EmployeeLeave'
+          $ref: "#/components/schemas/EmployeeLeave"
     EmployeeLeave:
       type: object
       required:
@@ -5799,7 +5800,7 @@ components:
           description: The leave period information. The StartDate, EndDate and NumberOfUnits needs to be specified when you do not want to calculate NumberOfUnits automatically. Using incorrect period StartDate and EndDate will result in automatic computation of the NumberOfUnits.
           type: array
           items:
-            $ref: '#/components/schemas/LeavePeriod'
+            $ref: "#/components/schemas/LeavePeriod"
         updatedDateUTC:
           description: UTC timestamp of last update to the leave type note
           type: string
@@ -5809,13 +5810,13 @@ components:
       type: object
       properties:
         pagination:
-          $ref: '#/components/schemas/Pagination'
+          $ref: "#/components/schemas/Pagination"
         problem:
-          $ref: '#/components/schemas/Problem'
+          $ref: "#/components/schemas/Problem"
         periods:
           type: array
           items:
-            $ref: '#/components/schemas/LeavePeriod'
+            $ref: "#/components/schemas/LeavePeriod"
     LeavePeriod:
       type: object
       properties:
@@ -5843,13 +5844,13 @@ components:
       type: object
       properties:
         pagination:
-          $ref: '#/components/schemas/Pagination'
+          $ref: "#/components/schemas/Pagination"
         problem:
-          $ref: '#/components/schemas/Problem'
+          $ref: "#/components/schemas/Problem"
         leaveBalances:
           type: array
           items:
-            $ref: '#/components/schemas/EmployeeLeaveBalance'
+            $ref: "#/components/schemas/EmployeeLeaveBalance"
     EmployeeLeaveBalance:
       type: object
       properties:
@@ -5873,11 +5874,11 @@ components:
       type: object
       properties:
         pagination:
-          $ref: '#/components/schemas/Pagination'
+          $ref: "#/components/schemas/Pagination"
         problem:
-          $ref: '#/components/schemas/Problem'
+          $ref: "#/components/schemas/Problem"
         leaveBalance:
-          $ref: '#/components/schemas/EmployeeStatutoryLeaveBalance'
+          $ref: "#/components/schemas/EmployeeStatutoryLeaveBalance"
     EmployeeStatutoryLeaveBalance:
       type: object
       properties:
@@ -5905,13 +5906,13 @@ components:
       type: object
       properties:
         pagination:
-          $ref: '#/components/schemas/Pagination'
+          $ref: "#/components/schemas/Pagination"
         problem:
-          $ref: '#/components/schemas/Problem'
+          $ref: "#/components/schemas/Problem"
         statutoryLeaves:
           type: array
           items:
-            $ref: '#/components/schemas/EmployeeStatutoryLeaveSummary'
+            $ref: "#/components/schemas/EmployeeStatutoryLeaveSummary"
     EmployeeStatutoryLeaveSummary:
       type: object
       properties:
@@ -5958,22 +5959,22 @@ components:
       type: object
       properties:
         pagination:
-          $ref: '#/components/schemas/Pagination'
+          $ref: "#/components/schemas/Pagination"
         problem:
-          $ref: '#/components/schemas/Problem'
+          $ref: "#/components/schemas/Problem"
         statutorySickLeave:
           type: array
           items:
-            $ref: '#/components/schemas/EmployeeStatutorySickLeave'
+            $ref: "#/components/schemas/EmployeeStatutorySickLeave"
     EmployeeStatutorySickLeaveObject:
       type: object
       properties:
         pagination:
-          $ref: '#/components/schemas/Pagination'
+          $ref: "#/components/schemas/Pagination"
         problem:
-          $ref: '#/components/schemas/Problem'
+          $ref: "#/components/schemas/Problem"
         statutorySickLeave:
-          $ref: '#/components/schemas/EmployeeStatutorySickLeave'
+          $ref: "#/components/schemas/EmployeeStatutorySickLeave"
     EmployeeStatutorySickLeave:
       type: object
       required:
@@ -6060,22 +6061,22 @@ components:
       type: object
       properties:
         pagination:
-          $ref: '#/components/schemas/Pagination'
+          $ref: "#/components/schemas/Pagination"
         problem:
-          $ref: '#/components/schemas/Problem'
+          $ref: "#/components/schemas/Problem"
         leaveTypes:
           type: array
           items:
-            $ref: '#/components/schemas/EmployeeLeaveType'
+            $ref: "#/components/schemas/EmployeeLeaveType"
     EmployeeLeaveTypeObject:
       type: object
       properties:
         pagination:
-          $ref: '#/components/schemas/Pagination'
+          $ref: "#/components/schemas/Pagination"
         problem:
-          $ref: '#/components/schemas/Problem'
+          $ref: "#/components/schemas/Problem"
         leaveType:
-          $ref: '#/components/schemas/EmployeeLeaveType'
+          $ref: "#/components/schemas/EmployeeLeaveType"
     EmployeeLeaveType:
       type: object
       required:
@@ -6120,20 +6121,20 @@ components:
       type: object
       properties:
         pagination:
-          $ref: '#/components/schemas/Pagination'
+          $ref: "#/components/schemas/Pagination"
         problem:
-          $ref: '#/components/schemas/Problem'
+          $ref: "#/components/schemas/Problem"
         payTemplate:
-          $ref: '#/components/schemas/EmployeePayTemplate'
+          $ref: "#/components/schemas/EmployeePayTemplate"
     EmployeePayTemplates:
       type: object
       properties:
         pagination:
-          $ref: '#/components/schemas/Pagination'
+          $ref: "#/components/schemas/Pagination"
         problem:
-          $ref: '#/components/schemas/Problem'
+          $ref: "#/components/schemas/Problem"
         earningTemplates:
-          $ref: '#/components/schemas/EarningsTemplates'
+          $ref: "#/components/schemas/EarningsTemplates"
     EmployeePayTemplate:
       type: object
       required:
@@ -6144,20 +6145,20 @@ components:
           type: string
           format: uuid
         earningTemplates:
-          $ref: '#/components/schemas/EarningsTemplates'
+          $ref: "#/components/schemas/EarningsTemplates"
     EarningsTemplates:
       type: array
       items:
-        $ref: '#/components/schemas/EarningsTemplate'
+        $ref: "#/components/schemas/EarningsTemplate"
     EarningsTemplateObject:
       type: object
       properties:
         pagination:
-          $ref: '#/components/schemas/Pagination'
+          $ref: "#/components/schemas/Pagination"
         problem:
-          $ref: '#/components/schemas/Problem'
+          $ref: "#/components/schemas/Problem"
         earningTemplate:
-          $ref: '#/components/schemas/EarningsTemplate'
+          $ref: "#/components/schemas/EarningsTemplate"
     EarningsTemplate:
       type: object
       properties:
@@ -6191,22 +6192,22 @@ components:
       type: object
       properties:
         pagination:
-          $ref: '#/components/schemas/Pagination'
+          $ref: "#/components/schemas/Pagination"
         problem:
-          $ref: '#/components/schemas/Problem'
+          $ref: "#/components/schemas/Problem"
         benefits:
           type: array
           items:
-            $ref: '#/components/schemas/Benefit'
+            $ref: "#/components/schemas/Benefit"
     BenefitObject:
       type: object
       properties:
         pagination:
-          $ref: '#/components/schemas/Pagination'
+          $ref: "#/components/schemas/Pagination"
         problem:
-          $ref: '#/components/schemas/Problem'
+          $ref: "#/components/schemas/Problem"
         benefit:
-          $ref: '#/components/schemas/Benefit'
+          $ref: "#/components/schemas/Benefit"
     Benefit:
       type: object
       required:
@@ -6276,22 +6277,22 @@ components:
       type: object
       properties:
         pagination:
-          $ref: '#/components/schemas/Pagination'
+          $ref: "#/components/schemas/Pagination"
         problem:
-          $ref: '#/components/schemas/Problem'
+          $ref: "#/components/schemas/Problem"
         deductions:
           type: array
           items:
-            $ref: '#/components/schemas/Deduction'
+            $ref: "#/components/schemas/Deduction"
     DeductionObject:
       type: object
       properties:
         pagination:
-          $ref: '#/components/schemas/Pagination'
+          $ref: "#/components/schemas/Pagination"
         problem:
-          $ref: '#/components/schemas/Problem'
+          $ref: "#/components/schemas/Problem"
         deduction:
-          $ref: '#/components/schemas/Deduction'
+          $ref: "#/components/schemas/Deduction"
     Deduction:
       type: object
       required:
@@ -6369,7 +6370,7 @@ components:
     StatutoryDeductions:
       type: array
       items:
-        $ref: '#/components/schemas/StatutoryDeduction'
+        $ref: "#/components/schemas/StatutoryDeduction"
     StatutoryDeduction:
       type: object
       properties:
@@ -6381,7 +6382,7 @@ components:
           description: Name of the earnings order
           type: string
         statutoryDeductionCategory:
-          $ref: '#/components/schemas/StatutoryDeductionCategory'
+          $ref: "#/components/schemas/StatutoryDeductionCategory"
         liabilityAccountId:
           description: Xero identifier for Liability Account
           type: string
@@ -6411,22 +6412,22 @@ components:
       type: object
       properties:
         pagination:
-          $ref: '#/components/schemas/Pagination'
+          $ref: "#/components/schemas/Pagination"
         problem:
-          $ref: '#/components/schemas/Problem'
+          $ref: "#/components/schemas/Problem"
         statutoryDeductions:
           type: array
           items:
-            $ref: '#/components/schemas/EarningsOrder'
+            $ref: "#/components/schemas/EarningsOrder"
     EarningsOrderObject:
       type: object
       properties:
         pagination:
-          $ref: '#/components/schemas/Pagination'
+          $ref: "#/components/schemas/Pagination"
         problem:
-          $ref: '#/components/schemas/Problem'
+          $ref: "#/components/schemas/Problem"
         statutoryDeduction:
-          $ref: '#/components/schemas/EarningsOrder'
+          $ref: "#/components/schemas/EarningsOrder"
     EarningsOrder:
       type: object
       required:
@@ -6440,7 +6441,7 @@ components:
           description: Name of the earning order
           type: string
         statutoryDeductionCategory:
-          $ref: '#/components/schemas/StatutoryDeductionCategory'
+          $ref: "#/components/schemas/StatutoryDeductionCategory"
         liabilityAccountId:
           description: Xero identifier for Liability Account
           type: string
@@ -6453,22 +6454,22 @@ components:
       type: object
       properties:
         pagination:
-          $ref: '#/components/schemas/Pagination'
+          $ref: "#/components/schemas/Pagination"
         problem:
-          $ref: '#/components/schemas/Problem'
+          $ref: "#/components/schemas/Problem"
         earningsRates:
           type: array
           items:
-            $ref: '#/components/schemas/EarningsRate'
+            $ref: "#/components/schemas/EarningsRate"
     EarningsRateObject:
       type: object
       properties:
         pagination:
-          $ref: '#/components/schemas/Pagination'
+          $ref: "#/components/schemas/Pagination"
         problem:
-          $ref: '#/components/schemas/Problem'
+          $ref: "#/components/schemas/Problem"
         earningsRate:
-          $ref: '#/components/schemas/EarningsRate'
+          $ref: "#/components/schemas/EarningsRate"
     EarningsRate:
       type: object
       required:
@@ -6550,22 +6551,22 @@ components:
       type: object
       properties:
         pagination:
-          $ref: '#/components/schemas/Pagination'
+          $ref: "#/components/schemas/Pagination"
         problem:
-          $ref: '#/components/schemas/Problem'
+          $ref: "#/components/schemas/Problem"
         leaveTypes:
           type: array
           items:
-            $ref: '#/components/schemas/LeaveType'
+            $ref: "#/components/schemas/LeaveType"
     LeaveTypeObject:
       type: object
       properties:
         pagination:
-          $ref: '#/components/schemas/Pagination'
+          $ref: "#/components/schemas/Pagination"
         problem:
-          $ref: '#/components/schemas/Problem'
+          $ref: "#/components/schemas/Problem"
         leaveType:
-          $ref: '#/components/schemas/LeaveType'
+          $ref: "#/components/schemas/LeaveType"
     LeaveType:
       type: object
       required:
@@ -6605,22 +6606,22 @@ components:
       type: object
       properties:
         pagination:
-          $ref: '#/components/schemas/Pagination'
+          $ref: "#/components/schemas/Pagination"
         problem:
-          $ref: '#/components/schemas/Problem'
+          $ref: "#/components/schemas/Problem"
         reimbursements:
           type: array
           items:
-            $ref: '#/components/schemas/Reimbursement'
+            $ref: "#/components/schemas/Reimbursement"
     ReimbursementObject:
       type: object
       properties:
         pagination:
-          $ref: '#/components/schemas/Pagination'
+          $ref: "#/components/schemas/Pagination"
         problem:
-          $ref: '#/components/schemas/Problem'
+          $ref: "#/components/schemas/Problem"
         reimbursement:
-          $ref: '#/components/schemas/Reimbursement'
+          $ref: "#/components/schemas/Reimbursement"
     Reimbursement:
       type: object
       required:
@@ -6645,22 +6646,22 @@ components:
       type: object
       properties:
         pagination:
-          $ref: '#/components/schemas/Pagination'
+          $ref: "#/components/schemas/Pagination"
         problem:
-          $ref: '#/components/schemas/Problem'
+          $ref: "#/components/schemas/Problem"
         timesheets:
           type: array
           items:
-            $ref: '#/components/schemas/Timesheet'
+            $ref: "#/components/schemas/Timesheet"
     TimesheetObject:
       type: object
       properties:
         pagination:
-          $ref: '#/components/schemas/Pagination'
+          $ref: "#/components/schemas/Pagination"
         problem:
-          $ref: '#/components/schemas/Problem'
+          $ref: "#/components/schemas/Problem"
         timesheet:
-          $ref: '#/components/schemas/Timesheet'
+          $ref: "#/components/schemas/Timesheet"
     Timesheet:
       type: object
       required:
@@ -6708,20 +6709,20 @@ components:
           format: date-time
           x-is-datetime: true
         timesheetLines:
-          $ref: '#/components/schemas/TimesheetLines'
+          $ref: "#/components/schemas/TimesheetLines"
     TimesheetLines:
       type: array
       items:
-        $ref: '#/components/schemas/TimesheetLine'
+        $ref: "#/components/schemas/TimesheetLine"
     TimesheetLineObject:
       type: object
       properties:
         pagination:
-          $ref: '#/components/schemas/Pagination'
+          $ref: "#/components/schemas/Pagination"
         problem:
-          $ref: '#/components/schemas/Problem'
+          $ref: "#/components/schemas/Problem"
         timesheetLine:
-          $ref: '#/components/schemas/TimesheetLine'
+          $ref: "#/components/schemas/TimesheetLine"
     TimesheetLine:
       type: object
       required:
@@ -6754,22 +6755,22 @@ components:
       type: object
       properties:
         pagination:
-          $ref: '#/components/schemas/Pagination'
+          $ref: "#/components/schemas/Pagination"
         problem:
-          $ref: '#/components/schemas/Problem'
+          $ref: "#/components/schemas/Problem"
         payRunCalendars:
           type: array
           items:
-            $ref: '#/components/schemas/PayRunCalendar'
+            $ref: "#/components/schemas/PayRunCalendar"
     PayRunCalendarObject:
       type: object
       properties:
         pagination:
-          $ref: '#/components/schemas/Pagination'
+          $ref: "#/components/schemas/Pagination"
         problem:
-          $ref: '#/components/schemas/Problem'
+          $ref: "#/components/schemas/Problem"
         payRunCalendar:
-          $ref: '#/components/schemas/PayRunCalendar'
+          $ref: "#/components/schemas/PayRunCalendar"
     PayRunCalendar:
       type: object
       required:
@@ -6819,11 +6820,11 @@ components:
       type: object
       properties:
         pagination:
-          $ref: '#/components/schemas/Pagination'
+          $ref: "#/components/schemas/Pagination"
         problem:
-          $ref: '#/components/schemas/Problem'
+          $ref: "#/components/schemas/Problem"
         paymentMethod:
-          $ref: '#/components/schemas/PaymentMethod'
+          $ref: "#/components/schemas/PaymentMethod"
     PaymentMethod:
       type: object
       required:
@@ -6839,27 +6840,27 @@ components:
         bankAccounts:
           type: array
           items:
-            $ref: '#/components/schemas/BankAccount'
+            $ref: "#/components/schemas/BankAccount"
     SalaryAndWages:
       type: object
       properties:
         pagination:
-          $ref: '#/components/schemas/Pagination'
+          $ref: "#/components/schemas/Pagination"
         problem:
-          $ref: '#/components/schemas/Problem'
+          $ref: "#/components/schemas/Problem"
         salaryAndWages:
           type: array
           items:
-            $ref: '#/components/schemas/SalaryAndWage'
+            $ref: "#/components/schemas/SalaryAndWage"
     SalaryAndWageObject:
       type: object
       properties:
         pagination:
-          $ref: '#/components/schemas/Pagination'
+          $ref: "#/components/schemas/Pagination"
         problem:
-          $ref: '#/components/schemas/Problem'
+          $ref: "#/components/schemas/Problem"
         salaryAndWages:
-          $ref: '#/components/schemas/SalaryAndWage'
+          $ref: "#/components/schemas/SalaryAndWage"
     SalaryAndWage:
       type: object
       required:
@@ -6916,22 +6917,22 @@ components:
       type: object
       properties:
         pagination:
-          $ref: '#/components/schemas/Pagination'
+          $ref: "#/components/schemas/Pagination"
         problem:
-          $ref: '#/components/schemas/Problem'
+          $ref: "#/components/schemas/Problem"
         payRuns:
           type: array
           items:
-            $ref: '#/components/schemas/PayRun'
+            $ref: "#/components/schemas/PayRun"
     PayRunObject:
       type: object
       properties:
         pagination:
-          $ref: '#/components/schemas/Pagination'
+          $ref: "#/components/schemas/Pagination"
         problem:
-          $ref: '#/components/schemas/Problem'
+          $ref: "#/components/schemas/Problem"
         payRun:
-          $ref: '#/components/schemas/PayRun'
+          $ref: "#/components/schemas/PayRun"
     PayRun:
       type: object
       properties:
@@ -6997,27 +6998,27 @@ components:
         paySlips:
           type: array
           items:
-            $ref: '#/components/schemas/Payslip'
+            $ref: "#/components/schemas/Payslip"
     PayslipObject:
       type: object
       properties:
         pagination:
-          $ref: '#/components/schemas/Pagination'
+          $ref: "#/components/schemas/Pagination"
         problem:
-          $ref: '#/components/schemas/Problem'
+          $ref: "#/components/schemas/Problem"
         paySlip:
-          $ref: '#/components/schemas/Payslip'
+          $ref: "#/components/schemas/Payslip"
     Payslips:
       type: object
       properties:
         pagination:
-          $ref: '#/components/schemas/Pagination'
+          $ref: "#/components/schemas/Pagination"
         problem:
-          $ref: '#/components/schemas/Problem'
+          $ref: "#/components/schemas/Problem"
         paySlips:
           type: array
           items:
-            $ref: '#/components/schemas/Payslip'
+            $ref: "#/components/schemas/Payslip"
     Payslip:
       type: object
       properties:
@@ -7091,31 +7092,31 @@ components:
             - Electronically
             - Manual
         earningsLines:
-          $ref: '#/components/schemas/EarningsLines'
+          $ref: "#/components/schemas/EarningsLines"
         leaveEarningsLines:
-          $ref: '#/components/schemas/LeaveEarningsLines'
+          $ref: "#/components/schemas/LeaveEarningsLines"
         timesheetEarningsLines:
-          $ref: '#/components/schemas/TimesheetEarningsLines'
+          $ref: "#/components/schemas/TimesheetEarningsLines"
         deductionLines:
-          $ref: '#/components/schemas/DeductionLines'
+          $ref: "#/components/schemas/DeductionLines"
         reimbursementLines:
-          $ref: '#/components/schemas/ReimbursementLines'
+          $ref: "#/components/schemas/ReimbursementLines"
         leaveAccrualLines:
-          $ref: '#/components/schemas/LeaveAccrualLines'
+          $ref: "#/components/schemas/LeaveAccrualLines"
         benefitLines:
-          $ref: '#/components/schemas/BenefitLines'
+          $ref: "#/components/schemas/BenefitLines"
         paymentLines:
-          $ref: '#/components/schemas/PaymentLines'
+          $ref: "#/components/schemas/PaymentLines"
         employeeTaxLines:
-          $ref: '#/components/schemas/TaxLines'
+          $ref: "#/components/schemas/TaxLines"
         employerTaxLines:
-          $ref: '#/components/schemas/TaxLines'
+          $ref: "#/components/schemas/TaxLines"
         courtOrderLines:
-          $ref: '#/components/schemas/CourtOrderLines'
+          $ref: "#/components/schemas/CourtOrderLines"
     EarningsLines:
       type: array
       items:
-        $ref: '#/components/schemas/EarningsLine'
+        $ref: "#/components/schemas/EarningsLine"
     EarningsLine:
       type: object
       properties:
@@ -7155,7 +7156,7 @@ components:
     LeaveEarningsLines:
       type: array
       items:
-        $ref: '#/components/schemas/LeaveEarningsLine'
+        $ref: "#/components/schemas/LeaveEarningsLine"
     LeaveEarningsLine:
       type: object
       properties:
@@ -7185,7 +7186,7 @@ components:
     TimesheetEarningsLines:
       type: array
       items:
-        $ref: '#/components/schemas/TimesheetEarningsLine'
+        $ref: "#/components/schemas/TimesheetEarningsLine"
     TimesheetEarningsLine:
       type: object
       properties:
@@ -7215,7 +7216,7 @@ components:
     DeductionLines:
       type: array
       items:
-        $ref: '#/components/schemas/DeductionLine'
+        $ref: "#/components/schemas/DeductionLine"
     DeductionLine:
       type: object
       properties:
@@ -7237,7 +7238,7 @@ components:
     ReimbursementLines:
       type: array
       items:
-        $ref: '#/components/schemas/ReimbursementLine'
+        $ref: "#/components/schemas/ReimbursementLine"
     ReimbursementLine:
       type: object
       properties:
@@ -7256,7 +7257,7 @@ components:
     LeaveAccrualLines:
       type: array
       items:
-        $ref: '#/components/schemas/LeaveAccrualLine'
+        $ref: "#/components/schemas/LeaveAccrualLine"
     LeaveAccrualLine:
       type: object
       properties:
@@ -7271,7 +7272,7 @@ components:
     BenefitLines:
       type: array
       items:
-        $ref: '#/components/schemas/BenefitLine'
+        $ref: "#/components/schemas/BenefitLine"
     BenefitLine:
       type: object
       properties:
@@ -7297,7 +7298,7 @@ components:
     PaymentLines:
       type: array
       items:
-        $ref: '#/components/schemas/PaymentLine'
+        $ref: "#/components/schemas/PaymentLine"
     PaymentLine:
       type: object
       properties:
@@ -7321,7 +7322,7 @@ components:
     TaxLines:
       type: array
       items:
-        $ref: '#/components/schemas/TaxLine'
+        $ref: "#/components/schemas/TaxLine"
     TaxLine:
       type: object
       properties:
@@ -7348,7 +7349,7 @@ components:
     CourtOrderLines:
       type: array
       items:
-        $ref: '#/components/schemas/CourtOrderLine'
+        $ref: "#/components/schemas/CourtOrderLine"
     CourtOrderLine:
       type: object
       properties:
@@ -7364,18 +7365,18 @@ components:
       type: object
       properties:
         pagination:
-          $ref: '#/components/schemas/Pagination'
+          $ref: "#/components/schemas/Pagination"
         problem:
-          $ref: '#/components/schemas/Problem'
+          $ref: "#/components/schemas/Problem"
         settings:
-          $ref: '#/components/schemas/Accounts'
+          $ref: "#/components/schemas/Accounts"
     Accounts:
       type: object
       properties:
         accounts:
           type: array
           items:
-            $ref: '#/components/schemas/Account'
+            $ref: "#/components/schemas/Account"
     Account:
       type: object
       properties:
@@ -7430,7 +7431,7 @@ components:
     BankAccounts:
       type: array
       items:
-        $ref: '#/components/schemas/BankAccount'
+        $ref: "#/components/schemas/BankAccount"
     BankAccount:
       type: object
       required:
@@ -7451,11 +7452,11 @@ components:
       type: object
       properties:
         pagination:
-          $ref: '#/components/schemas/Pagination'
+          $ref: "#/components/schemas/Pagination"
         problem:
-          $ref: '#/components/schemas/Problem'
+          $ref: "#/components/schemas/Problem"
         trackingCategories:
-          $ref: '#/components/schemas/TrackingCategory'
+          $ref: "#/components/schemas/TrackingCategory"
     TrackingCategory:
       type: object
       properties:
@@ -7502,7 +7503,7 @@ components:
           example: 2024-12-02
           x-is-date: true
         niCategory:
-          $ref: '#/components/schemas/NICategoryLetter'
+          $ref: "#/components/schemas/NICategoryLetter"
         niCategoryID:
           description: Xero unique identifier for the NI category
           type: number
