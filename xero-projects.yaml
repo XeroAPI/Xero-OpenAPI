@@ -17,7 +17,7 @@ servers:
 paths:
   /Projects:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     get:
       security:
         - OAuth2:
@@ -78,7 +78,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Projects'
+                $ref: "#/components/schemas/Projects"
               example:
                 pagination:
                   page: 1
@@ -134,7 +134,7 @@ paths:
                       value: 99.99
                     status: INPROGRESS
         "400":
-          $ref: '#/components/responses/400Error'
+          $ref: "#/components/responses/400Error"
     post:
       security:
         - OAuth2:
@@ -143,7 +143,7 @@ paths:
         - Project
       summary: Create one or more new projects
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
+        - $ref: "#/components/parameters/idempotencyKey"
       operationId: createProject
       requestBody:
         required: true
@@ -151,7 +151,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ProjectCreateOrUpdate'
+              $ref: "#/components/schemas/ProjectCreateOrUpdate"
             example: '{ "contactId": "00000000-0000-0000-000-000000000000", "name": "New Kitchen", "deadlineUtc": "2019-12-10T12:59:59Z", "estimateAmount": "99.99" }'
       responses:
         "201":
@@ -159,7 +159,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Project'
+                $ref: "#/components/schemas/Project"
               example:
                 projectId: ed957eee-bc6f-4f52-a663-aa42e6af9620
                 contactId: 216830cb-9a68-487e-928b-c1a7ccc4fc81
@@ -209,10 +209,10 @@ paths:
                   value: 99.99
                 status: INPROGRESS
         "400":
-          $ref: '#/components/responses/400Error'
+          $ref: "#/components/responses/400Error"
   /Projects/{projectId}:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     get:
       security:
         - OAuth2:
@@ -238,7 +238,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Project'
+                $ref: "#/components/schemas/Project"
               example:
                 projectId: b021e7cb-1903-4292-b48b-5b27b4271e3e
                 contactId: 216830cb-9a68-487e-928b-c1a7ccc4fc81
@@ -288,7 +288,7 @@ paths:
                   value: 99.99
                 status: INPROGRESS
         "400":
-          $ref: '#/components/responses/400Error'
+          $ref: "#/components/responses/400Error"
     put:
       security:
         - OAuth2:
@@ -299,7 +299,7 @@ paths:
       operationId: updateProject
       description: Allows you to update a specific projects.
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
+        - $ref: "#/components/parameters/idempotencyKey"
         - name: projectId
           x-snake: project_id
           in: path
@@ -314,14 +314,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ProjectCreateOrUpdate'
+              $ref: "#/components/schemas/ProjectCreateOrUpdate"
             example: '{ "name": "New Kitchen", "deadlineUtc": "2017-04-23T18:25:43.511Z", "estimateAmount": 99.99 }'
       responses:
         "204":
           description: Success - return response 204 no content
           x-isEmpty: true
         "400":
-          $ref: '#/components/responses/400Error'
+          $ref: "#/components/responses/400Error"
     patch:
       security:
         - OAuth2:
@@ -332,7 +332,7 @@ paths:
       operationId: patchProject
       description: Allows you to update a specific projects.
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
+        - $ref: "#/components/parameters/idempotencyKey"
         - name: projectId
           x-snake: project_id
           in: path
@@ -347,17 +347,17 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ProjectPatch'
+              $ref: "#/components/schemas/ProjectPatch"
             example: '{ "status": "INPROGRESS" }'
       responses:
         "204":
           description: Success - return response 204 no content
           x-isEmpty: true
         "400":
-          $ref: '#/components/responses/400Error'
+          $ref: "#/components/responses/400Error"
   /ProjectsUsers:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     get:
       security:
         - OAuth2:
@@ -394,7 +394,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProjectUsers'
+                $ref: "#/components/schemas/ProjectUsers"
               example:
                 pagination:
                   page: 1
@@ -409,10 +409,10 @@ paths:
                     name: API Team
                     email: api@xero.com
         "400":
-          $ref: '#/components/responses/400Error'
+          $ref: "#/components/responses/400Error"
   /Projects/{projectId}/Tasks:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     get:
       security:
         - OAuth2:
@@ -452,14 +452,14 @@ paths:
           schema:
             type: string
         - name: chargeType
-          $ref: '#/components/parameters/chargeType'
+          $ref: "#/components/parameters/chargeType"
       responses:
         "200":
           description: OK/success, returns a list of task objects
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Tasks'
+                $ref: "#/components/schemas/Tasks"
               example:
                 pagination:
                   page: 1
@@ -491,7 +491,7 @@ paths:
                       currency: AUD
                       value: 0.0
         "400":
-          $ref: '#/components/responses/400Error'
+          $ref: "#/components/responses/400Error"
     post:
       security:
         - OAuth2:
@@ -502,7 +502,7 @@ paths:
       operationId: createTask
       description: Allows you to create a specific task
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
+        - $ref: "#/components/parameters/idempotencyKey"
         - name: projectId
           x-snake: project_id
           in: path
@@ -517,7 +517,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TaskCreateOrUpdate'
+              $ref: "#/components/schemas/TaskCreateOrUpdate"
             example: '{ "status": "INPROGRESS" }'
       responses:
         "201":
@@ -525,7 +525,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Task'
+                $ref: "#/components/schemas/Task"
               example:
                 name: Demolition
                 rate:
@@ -551,10 +551,10 @@ paths:
                   currency: AUD
                   value: 0
         "400":
-          $ref: '#/components/responses/400Error'
+          $ref: "#/components/responses/400Error"
   /Projects/{projectId}/Tasks/{taskId}:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     get:
       security:
         - OAuth2:
@@ -588,7 +588,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Task'
+                $ref: "#/components/schemas/Task"
               example:
                 name: Demolition
                 rate:
@@ -614,7 +614,7 @@ paths:
                   currency: AUD
                   value: 0
         "400":
-          $ref: '#/components/responses/400Error'
+          $ref: "#/components/responses/400Error"
     put:
       security:
         - OAuth2:
@@ -625,7 +625,7 @@ paths:
       operationId: updateTask
       description: Allows you to update a specific task
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
+        - $ref: "#/components/parameters/idempotencyKey"
         - name: projectId
           x-snake: project_id
           in: path
@@ -648,14 +648,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TaskCreateOrUpdate'
+              $ref: "#/components/schemas/TaskCreateOrUpdate"
             example: ""
       responses:
         "204":
           description: OK/Success - return response 204 no content
           x-isEmpty: true
         "400":
-          $ref: '#/components/responses/400Error'
+          $ref: "#/components/responses/400Error"
     delete:
       security:
         - OAuth2:
@@ -687,10 +687,10 @@ paths:
           description: Success - return response 204 no content
           x-isEmpty: true
         "400":
-          $ref: '#/components/responses/400Error'
+          $ref: "#/components/responses/400Error"
   /Projects/{projectId}/Time:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     get:
       security:
         - OAuth2:
@@ -784,7 +784,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TimeEntries'
+                $ref: "#/components/schemas/TimeEntries"
               example:
                 pagination:
                   page: 1
@@ -811,7 +811,7 @@ paths:
                     description: My description
                     status: ACTIVE
         "400":
-          $ref: '#/components/responses/400Error'
+          $ref: "#/components/responses/400Error"
     post:
       security:
         - OAuth2:
@@ -822,7 +822,7 @@ paths:
       operationId: createTimeEntry
       description: Allows you to create a specific task
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
+        - $ref: "#/components/parameters/idempotencyKey"
         - name: projectId
           x-snake: project_id
           in: path
@@ -837,7 +837,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TimeEntryCreateOrUpdate'
+              $ref: "#/components/schemas/TimeEntryCreateOrUpdate"
             example:
               userId: 00000000-0000-0000-0000-000000000000
               taskId: 00000000-0000-0000-0000-000000000000
@@ -850,7 +850,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TimeEntry'
+                $ref: "#/components/schemas/TimeEntry"
               example:
                 timeEntryId: c6539534-f1d2-43a6-80df-3bd1f8aca24d
                 userId: c6539534-f1d2-43a6-80df-3bd1f8aca24d
@@ -862,10 +862,10 @@ paths:
                 description: My description
                 status: ACTIVE
         "400":
-          $ref: '#/components/responses/400Error'
+          $ref: "#/components/responses/400Error"
   /Projects/{projectId}/Time/{timeEntryId}:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     get:
       security:
         - OAuth2:
@@ -899,7 +899,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TimeEntry'
+                $ref: "#/components/schemas/TimeEntry"
               example:
                 timeEntryId: 3cd35eca-704f-4bca-b258-236028ae8ed1
                 userId: 740add2a-a703-4b8a-a670-1093919c2040
@@ -911,7 +911,7 @@ paths:
                 description: My description
                 status: ACTIVE
         "400":
-          $ref: '#/components/responses/400Error'
+          $ref: "#/components/responses/400Error"
     put:
       security:
         - OAuth2:
@@ -922,7 +922,7 @@ paths:
       operationId: updateTimeEntry
       description: Allows you to update time entry in a project
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
+        - $ref: "#/components/parameters/idempotencyKey"
         - name: projectId
           x-snake: project_id
           in: path
@@ -945,7 +945,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TimeEntryCreateOrUpdate'
+              $ref: "#/components/schemas/TimeEntryCreateOrUpdate"
             example:
               userId: 00000000-0000-0000-0000-000000000000
               taskId: 00000000-0000-0000-0000-000000000000
@@ -957,7 +957,7 @@ paths:
           description: Success - return response 204 no content
           x-isEmpty: true
         "400":
-          $ref: '#/components/responses/400Error'
+          $ref: "#/components/responses/400Error"
     delete:
       security:
         - OAuth2:
@@ -989,7 +989,7 @@ paths:
           description: Success - return response 204 no content
           x-isEmpty: true
         "400":
-          $ref: '#/components/responses/400Error'
+          $ref: "#/components/responses/400Error"
 components:
   securitySchemes:
     OAuth2:
@@ -1019,7 +1019,7 @@ components:
       name: chargeType
       x-snake: charge_type
       schema:
-        $ref: '#/components/schemas/ChargeType'
+        $ref: "#/components/schemas/ChargeType"
     idempotencyKey:
       in: header
       name: Idempotency-Key
@@ -1035,11 +1035,11 @@ components:
       type: object
       properties:
         pagination:
-          $ref: '#/components/schemas/Pagination'
+          $ref: "#/components/schemas/Pagination"
         items:
           type: array
           items:
-            $ref: '#/components/schemas/Project'
+            $ref: "#/components/schemas/Project"
     ProjectCreateOrUpdate:
       externalDocs:
         url: https://developer.xero.com/documentation/projects/projects
@@ -1074,7 +1074,7 @@ components:
       type: object
       properties:
         status:
-          $ref: '#/components/schemas/ProjectStatus'
+          $ref: "#/components/schemas/ProjectStatus"
           type: string
       required:
         - status
@@ -1100,52 +1100,52 @@ components:
           example: New Kitchen
           description: Name of the project.
         currencyCode:
-          $ref: '#/components/schemas/CurrencyCode'
+          $ref: "#/components/schemas/CurrencyCode"
           type: string
         minutesLogged:
           type: integer
           example: 0
           description: A total of minutes logged against all tasks on the Project.
         totalTaskAmount:
-          $ref: '#/components/schemas/Amount'
+          $ref: "#/components/schemas/Amount"
         totalExpenseAmount:
-          $ref: '#/components/schemas/Amount'
+          $ref: "#/components/schemas/Amount"
         estimateAmount:
-          $ref: '#/components/schemas/Amount'
+          $ref: "#/components/schemas/Amount"
         minutesToBeInvoiced:
           type: integer
           example: 0
           description: Minutes which have not been invoiced across all chargeable tasks in the project.
         taskAmountToBeInvoiced:
-          $ref: '#/components/schemas/Amount'
+          $ref: "#/components/schemas/Amount"
         taskAmountInvoiced:
-          $ref: '#/components/schemas/Amount'
+          $ref: "#/components/schemas/Amount"
         expenseAmountToBeInvoiced:
-          $ref: '#/components/schemas/Amount'
+          $ref: "#/components/schemas/Amount"
         expenseAmountInvoiced:
-          $ref: '#/components/schemas/Amount'
+          $ref: "#/components/schemas/Amount"
         projectAmountInvoiced:
-          $ref: '#/components/schemas/Amount'
+          $ref: "#/components/schemas/Amount"
         deposit:
-          $ref: '#/components/schemas/Amount'
+          $ref: "#/components/schemas/Amount"
         depositApplied:
-          $ref: '#/components/schemas/Amount'
+          $ref: "#/components/schemas/Amount"
         creditNoteAmount:
-          $ref: '#/components/schemas/Amount'
+          $ref: "#/components/schemas/Amount"
         deadlineUtc:
           type: string
           format: date-time
           example: "2019-12-10T12:59:59Z"
           description: Deadline for the project. UTC Date Time in ISO-8601 format.
         totalInvoiced:
-          $ref: '#/components/schemas/Amount'
+          $ref: "#/components/schemas/Amount"
         totalToBeInvoiced:
-          $ref: '#/components/schemas/Amount'
+          $ref: "#/components/schemas/Amount"
         estimate:
-          $ref: '#/components/schemas/Amount'
+          $ref: "#/components/schemas/Amount"
         status:
           type: string
-          $ref: '#/components/schemas/ProjectStatus'
+          $ref: "#/components/schemas/ProjectStatus"
       required:
         - name
     Pagination:
@@ -1172,11 +1172,11 @@ components:
       type: object
       properties:
         pagination:
-          $ref: '#/components/schemas/Pagination'
+          $ref: "#/components/schemas/Pagination"
         items:
           type: array
           items:
-            $ref: '#/components/schemas/ProjectUser'
+            $ref: "#/components/schemas/ProjectUser"
     ProjectUser:
       externalDocs:
         url: https://developer.xero.com/documentation/projects/users
@@ -1199,7 +1199,7 @@ components:
       type: object
       properties:
         currency:
-          $ref: '#/components/schemas/CurrencyCode'
+          $ref: "#/components/schemas/CurrencyCode"
           type: string
         value:
           type: number
@@ -1398,11 +1398,11 @@ components:
       type: object
       properties:
         pagination:
-          $ref: '#/components/schemas/Pagination'
+          $ref: "#/components/schemas/Pagination"
         items:
           type: array
           items:
-            $ref: '#/components/schemas/Task'
+            $ref: "#/components/schemas/Task"
     Task:
       externalDocs:
         url: https://developer.xero.com/documentation/projects/projects
@@ -1417,10 +1417,10 @@ components:
           type: string
           description: Name of the task.
         rate:
-          $ref: '#/components/schemas/Amount'
+          $ref: "#/components/schemas/Amount"
           type: number
         chargeType:
-          $ref: '#/components/schemas/ChargeType'
+          $ref: "#/components/schemas/ChargeType"
           type: string
         estimateMinutes:
           type: integer
@@ -1434,7 +1434,7 @@ components:
           type: integer
           description: Total minutes which have been logged against the task. Logged by assigning a time entry to a task
         totalAmount:
-          $ref: '#/components/schemas/Amount'
+          $ref: "#/components/schemas/Amount"
           type: number
         minutesInvoiced:
           type: integer
@@ -1449,10 +1449,10 @@ components:
           type: integer
           description: Minutes logged against this task if its charge type is `NON_CHARGEABLE`.
         amountToBeInvoiced:
-          $ref: '#/components/schemas/Amount'
+          $ref: "#/components/schemas/Amount"
           type: number
         amountInvoiced:
-          $ref: '#/components/schemas/Amount'
+          $ref: "#/components/schemas/Amount"
           type: number
         status:
           type: string
@@ -1478,10 +1478,10 @@ components:
           description: Name of the task. Max length 100 characters.
           maximum: 100
         rate:
-          $ref: '#/components/schemas/Amount'
+          $ref: "#/components/schemas/Amount"
           type: number
         chargeType:
-          $ref: '#/components/schemas/ChargeType'
+          $ref: "#/components/schemas/ChargeType"
           type: string
         estimateMinutes:
           type: integer
@@ -1496,11 +1496,11 @@ components:
       type: object
       properties:
         pagination:
-          $ref: '#/components/schemas/Pagination'
+          $ref: "#/components/schemas/Pagination"
         items:
           type: array
           items:
-            $ref: '#/components/schemas/TimeEntry'
+            $ref: "#/components/schemas/TimeEntry"
     TimeEntry:
       externalDocs:
         url: https://developer.xero.com/documentation/projects/time
@@ -1583,4 +1583,4 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Error'
+            $ref: "#/components/schemas/Error"

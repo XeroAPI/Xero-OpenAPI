@@ -17,7 +17,7 @@ tags:
 paths:
   /Files:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     get:
       security:
         - OAuth2:
@@ -57,9 +57,9 @@ paths:
           description: sort direction
           schema:
             type: string
-            enum: 
-            - ASC
-            - DESC
+            enum:
+              - ASC
+              - DESC
             example: ASC
       responses:
         "200":
@@ -67,7 +67,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Files'
+                $ref: "#/components/schemas/Files"
               example: '{ "TotalCount": 100, "Page": 1, "PerPage": 2, "Items": [ { "Name": "helo-heros.jpg", "MimeType": "application/jpg", "Size": 2878711, "CreatedDateUtc": "2021-02-10T16:02:54.9930000", "UpdatedDateUtc": "2021-02-10T16:02:54.9930000", "User": { "Name": "sid.maestre@xero.com", "FirstName": "Sidney", "LastName": "Maestre", "FullName": "Sidney Maestre", "Id": "740add2a-a703-4b8a-a670-1093919c2040" }, "FolderId": "bf924975-7097-46f2-a143-1ecfbab3c8c3", "Id": "3d413bfe-f40f-4807-b953-9a42f834ff15" }, { "Name": "helo-heros.jpg", "MimeType": "application/jpg", "Size": 2878711, "CreatedDateUtc": "2021-02-09T21:16:00.6130000", "UpdatedDateUtc": "2021-02-09T21:16:00.6130000", "User": { "Name": "sid.maestre@xero.com", "FirstName": "Sidney", "LastName": "Maestre", "FullName": "Sidney Maestre", "Id": "740add2a-a703-4b8a-a670-1093919c2040" }, "FolderId": "bf924975-7097-46f2-a143-1ecfbab3c8c3", "Id": "22f87409-cdfd-4813-a868-559481bcb052" } ] }'
     post:
       security:
@@ -77,7 +77,7 @@ paths:
         - Files
       summary: Uploads a File to the inbox
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
+        - $ref: "#/components/parameters/idempotencyKey"
       operationId: uploadFile
       responses:
         "201":
@@ -85,7 +85,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/FileObject'
+                $ref: "#/components/schemas/FileObject"
               example: '{ "Name": "helo-heros.jpg", "MimeType": "application/jpg", "Size": 2878711, "CreatedDateUtc": "2021-02-10T23:17:50.1930000", "UpdatedDateUtc": "2021-02-10T23:17:50.1930000", "User": { "Name": "sid.maestre@xero.com", "FirstName": "Sidney", "LastName": "Maestre", "FullName": "Sidney Maestre", "Id": "740add2a-a703-4b8a-a670-1093919c2040" }, "FolderId": "bf924975-7097-46f2-a143-1ecfbab3c8c3", "Id": "22f87409-cdfd-4813-a868-559481bcb052" }'
         "400":
           description: invalid input, object invalid
@@ -97,10 +97,10 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/UploadObject'
+              $ref: "#/components/schemas/UploadObject"
   /Files/{FileId}:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     get:
       security:
         - OAuth2:
@@ -126,7 +126,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/FileObject'
+                $ref: "#/components/schemas/FileObject"
               example: '{ "Name": "helo-heros.jpg", "MimeType": "application/jpg", "Size": 2878711, "CreatedDateUtc": "2021-02-10T23:17:50.1930000", "UpdatedDateUtc": "2021-02-10T23:17:50.1930000", "User": { "Name": "sid.maestre@xero.com", "FirstName": "Sidney", "LastName": "Maestre", "FullName": "Sidney Maestre", "Id": "740add2a-a703-4b8a-a670-1093919c2040" }, "FolderId": "bf924975-7097-46f2-a143-1ecfbab3c8c3", "Id": "efd77bfc-7018-4da1-b251-7aa2d438382c" }'
     put:
       security:
@@ -138,7 +138,7 @@ paths:
       operationId: updateFile
       description: Updates file properties of a single file
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
+        - $ref: "#/components/parameters/idempotencyKey"
         - name: FileId
           x-snake: file_id
           in: path
@@ -154,7 +154,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/FileObject'
+                $ref: "#/components/schemas/FileObject"
               example: '{ "Name": "helo-heros.jpg", "MimeType": "application/jpg", "Size": 2878711, "CreatedDateUtc": "2021-02-10T23:17:50.1930000", "UpdatedDateUtc": "2021-02-10T23:58:54.1000000", "User": { "Name": "sid.maestre@xero.com", "FirstName": "Sidney", "LastName": "Maestre", "FullName": "Sidney Maestre", "Id": "740add2a-a703-4b8a-a670-1093919c2040" }, "FolderId": "bf924975-7097-46f2-a143-1ecfbab3c8c3", "Id": "efd77bfc-7018-4da1-b251-7aa2d438382c" }'
         "400":
           description: invalid input, object invalid
@@ -166,7 +166,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/FileObject'
+              $ref: "#/components/schemas/FileObject"
             example: '{ "FolderId": "bf924975-7097-46f2-a143-1ecfbab3c8c3" }'
     delete:
       security:
@@ -193,7 +193,7 @@ paths:
           x-isEmpty: true
   /Files/{FolderId}:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     post:
       security:
         - OAuth2:
@@ -203,7 +203,7 @@ paths:
       summary: Uploads a File to a specific folder
       operationId: uploadFileToFolder
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
+        - $ref: "#/components/parameters/idempotencyKey"
         - in: path
           x-snake: folder_id
           name: FolderId
@@ -219,7 +219,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/FileObject'
+                $ref: "#/components/schemas/FileObject"
               example: '{ "Name": "helo-heros.jpg", "MimeType": "application/jpg", "Size": 2878711, "CreatedDateUtc": "2021-02-10T23:17:50.1930000", "UpdatedDateUtc": "2021-02-10T23:17:50.1930000", "User": { "Name": "sid.maestre@xero.com", "FirstName": "Sidney", "LastName": "Maestre", "FullName": "Sidney Maestre", "Id": "740add2a-a703-4b8a-a670-1093919c2040" }, "FolderId": "bf924975-7097-46f2-a143-1ecfbab3c8c3", "Id": "22f87409-cdfd-4813-a868-559481bcb052" }'
         "400":
           description: invalid input, object invalid
@@ -231,10 +231,10 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/UploadObject'
+              $ref: "#/components/schemas/UploadObject"
   /Files/{FileId}/Content:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     get:
       security:
         - OAuth2:
@@ -265,7 +265,7 @@ paths:
                 format: binary
   /Files/{FileId}/Associations:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     get:
       security:
         - OAuth2:
@@ -294,7 +294,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Association'
+                  $ref: "#/components/schemas/Association"
               example: '[ { "FileId":"6beccb4a-0d7d-4518-93f3-e0cd1dccb254", "ObjectId":"1270bf7c-5d18-473a-9231-1e36c4bd33ed", "ObjectType":"Business", "ObjectGroup":"Contact" } ]'
     post:
       security:
@@ -306,7 +306,7 @@ paths:
       operationId: createFileAssociation
       description: By passing in the appropriate options, you can create a new folder
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
+        - $ref: "#/components/parameters/idempotencyKey"
         - name: FileId
           x-snake: file_id
           in: path
@@ -322,7 +322,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Association'
+                $ref: "#/components/schemas/Association"
               example: '{ "FileId": "6beccb4a-0d7d-4518-93f3-e0cd1dccb254", "ObjectId": "1270bf7c-5d18-473a-9231-1e36c4bd33ed", "ObjectType": "Business", "ObjectGroup": "Contact" }'
         "400":
           description: invalid input, object invalid
@@ -334,11 +334,11 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Association'
+              $ref: "#/components/schemas/Association"
             example: '{ "ObjectId": "1270bf7c-5d18-473a-9231-1e36c4bd33ed", "ObjectGroup": "Contact", "ObjectType": "Business" }'
   /Files/{FileId}/Associations/{ObjectId}:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     delete:
       security:
         - OAuth2:
@@ -373,7 +373,7 @@ paths:
           x-isEmpty: true
   /Associations/{ObjectId}:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     get:
       security:
         - OAuth2:
@@ -434,11 +434,11 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Association'
+                  $ref: "#/components/schemas/Association"
               example: '[ { "SendWithObject":false, "Name":"testfile.pdf", "Size":12357, "FileId":"6beccb4a-0d7d-4518-93f3-e0cd1dccb254", "ObjectId":"1270bf7c-5d18-473a-9231-1e36c4bd33ed", "ObjectType":"Business", "ObjectGroup":"Contact" } ]'
   /Associations/Count:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     get:
       security:
         - OAuth2:
@@ -470,7 +470,7 @@ paths:
                 example: '{ "19d4fc59-e799-410f-912b-03d4ab294d73": 2, "82195976-5175-45d4-926e-807ff10892e7": 1, "a8547af2-2900-4879-98b8-f1a780c78feb": 0}'
   /Folders:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     get:
       security:
         - OAuth2:
@@ -500,7 +500,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Folder'
+                  $ref: "#/components/schemas/Folder"
               example: '[ { "Name":"Inbox", "FileCount":14, "Email":"xero.inbox.jpf4.6oo29retajkhtfus@xerofiles.com", "IsInbox":true, "Id":"bf924975-7097-46f2-a143-1ecfbab3c8c3" }, { "Name":"Contracts", "FileCount":7, "IsInbox":false, "Id":"554ff1ad-4b94-4266-9b45-e29bcb75e6bf" } ]'
     post:
       security:
@@ -510,7 +510,7 @@ paths:
         - Files
       summary: Creates a new folder
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
+        - $ref: "#/components/parameters/idempotencyKey"
       operationId: createFolder
       description: By passing in the appropriate properties, you can create a new folder
       responses:
@@ -519,7 +519,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Folder'
+                $ref: "#/components/schemas/Folder"
               example: '{ "Name": "My Docs", "FileCount": 0, "IsInbox": false, "Id": "913970ad-8c8e-4666-8294-35b9cac23206" }'
         "400":
           description: invalid input, object invalid
@@ -531,11 +531,11 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Folder'
+              $ref: "#/components/schemas/Folder"
             example: '{ "Name": "My Docs" }'
   /Folders/{FolderId}:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     get:
       security:
         - OAuth2:
@@ -562,7 +562,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Folder'
+                $ref: "#/components/schemas/Folder"
               example: '{ "Name": "My Docs", "FileCount": 0, "IsInbox": false, "Id": "4c5f3fe4-2516-4863-ac88-3029351773bf" }'
     put:
       security:
@@ -574,7 +574,7 @@ paths:
       operationId: updateFolder
       description: By passing in the appropriate ID and properties, you can update a folder
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
+        - $ref: "#/components/parameters/idempotencyKey"
         - name: FolderId
           x-snake: folder_id
           in: path
@@ -590,7 +590,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Folder'
+                $ref: "#/components/schemas/Folder"
               example: '{ "Name": "Your Docs", "FileCount": 0, "IsInbox": false, "Id": "4c5f3fe4-2516-4863-ac88-3029351773bf" }'
         "400":
           description: invalid input, object invalid
@@ -602,7 +602,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Folder'
+              $ref: "#/components/schemas/Folder"
             example: '{ "Name": "Your Docs" }'
     delete:
       security:
@@ -629,7 +629,7 @@ paths:
           x-isEmpty: true
   /Inbox:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     get:
       security:
         - OAuth2:
@@ -646,7 +646,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Folder'
+                $ref: "#/components/schemas/Folder"
               example: '{ "Name": "Inbox", "FileCount": 14, "Email": "xero.inbox.jpf4.6oo29retajkhtfus@xerofiles.com", "IsInbox": true, "Id": "bf924975-7097-46f2-a143-1ecfbab3c8c3" }'
 components:
   securitySchemes:
@@ -697,7 +697,7 @@ components:
         Items:
           type: array
           items:
-            $ref: '#/components/schemas/FileObject'
+            $ref: "#/components/schemas/FileObject"
     FileObject:
       type: object
       required:
@@ -727,7 +727,7 @@ components:
           type: string
           example: 2020-12-03T19:04:58.6970000
         User:
-          $ref: '#/components/schemas/User'
+          $ref: "#/components/schemas/User"
         Id:
           description: File object's UUID
           type: string
@@ -787,7 +787,7 @@ components:
         Folders:
           type: array
           items:
-            $ref: '#/components/schemas/Folder'
+            $ref: "#/components/schemas/Folder"
     Folder:
       required:
         - name
@@ -837,9 +837,9 @@ components:
           type: string
           format: uuid
         ObjectGroup:
-          $ref: '#/components/schemas/ObjectGroup'
+          $ref: "#/components/schemas/ObjectGroup"
         ObjectType:
-          $ref: '#/components/schemas/ObjectType'
+          $ref: "#/components/schemas/ObjectType"
     ObjectGroup:
       description: The Object Group that the object is in. These roughly correlate to the endpoints that can be used to retrieve the object via the core accounting API.
       type: string

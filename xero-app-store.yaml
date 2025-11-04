@@ -22,14 +22,14 @@ paths:
       operationId: getSubscription
       summary: Retrieves a subscription for a given subscriptionId
       parameters:
-        - $ref: '#/components/parameters/subscriptionId'
+        - $ref: "#/components/parameters/subscriptionId"
       responses:
         "200":
           description: Success - return response of unique Subscription object
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Subscription'
+                $ref: "#/components/schemas/Subscription"
               example:
                 currentPeriodEnd: 2021-07-20T03:13:48
                 endDate: 2021-07-20T03:13:48
@@ -72,7 +72,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: "#/components/schemas/ProblemDetails"
           description: When a failure occurs in the endpoint
       security:
         - OAuth2:
@@ -84,16 +84,16 @@ paths:
       operationId: postUsageRecords
       summary: Send metered usage belonging to this subscription and subscription item
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
-        - $ref: '#/components/parameters/subscriptionId'
-        - $ref: '#/components/parameters/subscriptionItemId'
+        - $ref: "#/components/parameters/idempotencyKey"
+        - $ref: "#/components/parameters/subscriptionId"
+        - $ref: "#/components/parameters/subscriptionItemId"
       responses:
         "200":
           description: Success - return response of the record submitted
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UsageRecord'
+                $ref: "#/components/schemas/UsageRecord"
               example:
                 usageRecordId: 2a90f7d9-4c10-4a23-9c34-b47225167a48
                 subscriptionId: 391be708-878a-4741-acfb-c0bc9a165bdb
@@ -107,7 +107,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: "#/components/schemas/ProblemDetails"
           description: When a failure occurs in the endpoint
       security:
         - OAuth2:
@@ -116,7 +116,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateUsageRecord'
+              $ref: "#/components/schemas/CreateUsageRecord"
             example:
               timestamp: 2022-01-21T13:01:00
               quantity: 10
@@ -129,17 +129,17 @@ paths:
       operationId: putUsageRecords
       summary: Update and existing metered usage belonging to this subscription and subscription item
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
-        - $ref: '#/components/parameters/subscriptionId'
-        - $ref: '#/components/parameters/subscriptionItemId'
-        - $ref: '#/components/parameters/usageRecordId'
+        - $ref: "#/components/parameters/idempotencyKey"
+        - $ref: "#/components/parameters/subscriptionId"
+        - $ref: "#/components/parameters/subscriptionItemId"
+        - $ref: "#/components/parameters/usageRecordId"
       responses:
         "200":
           description: Success - return response of the modified record
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UsageRecord'
+                $ref: "#/components/schemas/UsageRecord"
               example:
                 usageRecordId: 2a90f7d9-4c10-4a23-9c34-b47225167a48
                 subscriptionId: 391be708-878a-4741-acfb-c0bc9a165bdb
@@ -153,7 +153,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: "#/components/schemas/ProblemDetails"
           description: When a failure occurs in the endpoint
       security:
         - OAuth2:
@@ -162,7 +162,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UpdateUsageRecord'
+              $ref: "#/components/schemas/UpdateUsageRecord"
             example:
               quantity: 10
         description: Contains the quantity for the usage record to update
@@ -174,14 +174,14 @@ paths:
       operationId: getUsageRecords
       summary: Gets all usage records related to the subscription
       parameters:
-        - $ref: '#/components/parameters/subscriptionId'
+        - $ref: "#/components/parameters/subscriptionId"
       responses:
         "200":
           description: Success - return a list of all usage record submitted against this subscription for this subscription period
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UsageRecordsList'
+                $ref: "#/components/schemas/UsageRecordsList"
               example:
                 usageRecords:
                   - usageRecordId: 206100d3-e18b-4c59-9372-e98e4367a73f
@@ -204,7 +204,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProblemDetails'
+                $ref: "#/components/schemas/ProblemDetails"
           description: When a failure occurs in the endpoint
       security:
         - OAuth2:
@@ -228,7 +228,7 @@ components:
       description: Unique identifier for Subscription object
       example: 00000000-0000-0000-0000-000000000000
       x-example-java: UUID.fromString("00000000-0000-0000-0000-000000000000")
-      x-example-php: '&quot;00000000-0000-0000-0000-000000000000&quot;'
+      x-example-php: "&quot;00000000-0000-0000-0000-000000000000&quot;"
       x-example-csharp: Guid.Parse("00000000-0000-0000-0000-000000000000");
       schema:
         type: string
@@ -241,7 +241,7 @@ components:
       description: The unique identifier of the subscriptionItem
       example: 00000000-0000-0000-0000-000000000000
       x-example-java: UUID.fromString("00000000-0000-0000-0000-000000000000")
-      x-example-php: '&quot;00000000-0000-0000-0000-000000000000&quot;'
+      x-example-php: "&quot;00000000-0000-0000-0000-000000000000&quot;"
       x-example-csharp: Guid.Parse("00000000-0000-0000-0000-000000000000");
       schema:
         type: string
@@ -254,7 +254,7 @@ components:
       description: The unique identifier of the usage record
       example: 00000000-0000-0000-0000-000000000000
       x-example-java: UUID.fromString("00000000-0000-0000-0000-000000000000")
-      x-example-php: '&quot;00000000-0000-0000-0000-000000000000&quot;'
+      x-example-php: "&quot;00000000-0000-0000-0000-000000000000&quot;"
       x-example-csharp: Guid.Parse("00000000-0000-0000-0000-000000000000");
       schema:
         type: string
@@ -294,7 +294,7 @@ components:
           description: List of plans for the subscription.
           type: array
           items:
-            $ref: '#/components/schemas/Plan'
+            $ref: "#/components/schemas/Plan"
         startDate:
           description: Date when the subscription was first created.
           format: date-time
@@ -343,7 +343,7 @@ components:
             List of the subscription items belonging to the plan. It does not
             include cancelled subscription items.
           items:
-            $ref: '#/components/schemas/SubscriptionItem'
+            $ref: "#/components/schemas/SubscriptionItem"
           type: array
       required:
         - id
@@ -398,10 +398,10 @@ components:
           type: string
         price:
           description: The price of the product subscribed to.
-          $ref: '#/components/schemas/Price'
+          $ref: "#/components/schemas/Price"
         product:
           description: The product subscribed to.
-          $ref: '#/components/schemas/Product'
+          $ref: "#/components/schemas/Product"
         quantity:
           description: The quantity of the item. For a fixed product, it is 1. For a per-seat product, it is a positive integer. For metered products, it is always null.
           type: integer
@@ -508,7 +508,7 @@ components:
         usageRecords:
           description: A collection of usage records
           items:
-            $ref: '#/components/schemas/UsageRecord'
+            $ref: "#/components/schemas/UsageRecord"
           type: array
       required:
         - usageRecords
