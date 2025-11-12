@@ -1,6 +1,6 @@
 openapi: 3.1.1
 info:
-  description: The Xero Webhooks API exposes event notifications relating to entities in the Xero Public API and can be used for a variety of purposes.
+  description: The Xero Webhooks API exposes event notifications relating to entities in the Xero Public API and can be used for a variety of purposes
   title: Xero Webhooks API
   version: 9.2.0
   termsOfService: https://developer.xero.com/xero-developer-platform-terms-conditions/
@@ -9,8 +9,9 @@ info:
     email: api@xero.com
     url: https://developer.xero.com
 servers:
-  - description: The Xero Webhooks API exposes event notifications relating to entities in the Xero Public API and can be used for a variety of purposes.
+  - description: The Xero Webhooks API exposes event notifications relating to entities in the Xero Public API and can be used for a variety of purposes
     url: https://api.xero.com
+security: []
 webhooks:
   invoices:
     post:
@@ -97,17 +98,41 @@ components:
                 description: The date and time that event occurred (UTC time)
               eventType:
                 type: string
-                description: The type of event of that occurred (e.g. Update)
+                description: The type of event of that occurred (e.g. UPDATE)
+                oneOf:
+                  - type: string
+                    const: CREATE
+                    description: When a new resource is created
+                  - type: string
+                    const: UPDATE
+                    description: When an existing resource is updated (including when they are archived)
               eventCategory:
                 type: string
-                description: The category of event that occurred (e.g. CONTACT). You will only retrieve events from categories that your webhook is subscribed to.
+                description: The category of event that occurred (e.g. CONTACT). You will only retrieve events from categories that your webhook is subscribed to
+                oneOf:
+                  - type: string
+                    const: CONTACT
+                    description: For organisation contact-related events
+                  - type: string
+                    const: INVOICE
+                    description: For organisation invoice-related events
+                  - type: string
+                    const: SUBSCRIPTION
+                    description: For application subscription-related events
               tenantId:
                 type: string
                 format: uuid
                 description: The ID of the tenant that the event happened in relation to (OrganisationID or ApplicationID)
               tenantType:
                 type: string
-                description: The type of tenant, depending on the type of event it will be one of ORGANISATION (for Contact or Invoice events), or APPLICATION (for Subscription events)
+                description: The type of tenant
+                oneOf:
+                  - type: string
+                    const: ORGANISATION
+                    description: Represents a Xero organisation (for non-Subscription events)
+                  - type: string
+                    const: APPLICATION
+                    description: Represents a Xero application (for Subscription events)
             required:
               - resourceUrl
               - resourceId
@@ -116,20 +141,20 @@ components:
               - eventCategory
               - tenantId
               - tenantType
-          description: A list of events that have occurred.
+          description: A list of events that have occurred
         lastEventSequence:
           type: integer
           minimum: 1
           maximum: 2147483647
-          description: The sequence number of the last event in the list.
+          description: The sequence number of the last event in the list
         firstEventSequence:
           type: integer
           minimum: 1
           maximum: 2147483647
-          description: The sequence number of the first event in the list.
+          description: The sequence number of the first event in the list
         entropy:
           type: string
-          description: A random string used for security or validation purposes.
+          description: A random string used for security or validation purposes
   responses:
     401InvalidWebhookData:
       description: Return a 401 status to indicate that the webhook subscription failed
