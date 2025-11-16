@@ -17,7 +17,7 @@ servers:
 paths:
   /Assets:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     get:
       security:
         - OAuth2:
@@ -33,7 +33,7 @@ paths:
           in: query
           description: Required when retrieving a collection of assets. See Asset Status Codes
           schema:
-            $ref: '#/components/schemas/AssetStatusQueryParam'
+            $ref: "#/components/schemas/AssetStatusQueryParam"
           required: true
         - name: page
           in: query
@@ -86,7 +86,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Assets'
+                $ref: "#/components/schemas/Assets"
               example:
                 pagination:
                   page: 1
@@ -167,7 +167,7 @@ paths:
         - Asset
       summary: adds a fixed asset
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
+        - $ref: "#/components/parameters/idempotencyKey"
       operationId: createAsset
       x-hasAssetsValidationError: true
       x-example:
@@ -209,7 +209,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Asset'
+                $ref: "#/components/schemas/Asset"
               example:
                 assetId: 2257c64a-77ca-444c-a5ea-fa9a588c7039
                 assetName: Computer74863
@@ -260,7 +260,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Asset'
+              $ref: "#/components/schemas/Asset"
             example:
               assetName: Computer74863
               assetNumber: "123477544"
@@ -283,7 +283,7 @@ paths:
         description: Fixed asset you are creating
   /Assets/{id}:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     get:
       security:
         - OAuth2:
@@ -311,7 +311,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Asset'
+                $ref: "#/components/schemas/Asset"
               example:
                 assetId: 68f17094-af97-4f1b-b36b-013b45b6ad3c
                 assetName: Computer47822
@@ -348,7 +348,7 @@ paths:
           description: bad input parameter
   /AssetTypes:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     get:
       security:
         - OAuth2:
@@ -367,7 +367,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/AssetType'
+                  $ref: "#/components/schemas/AssetType"
               example:
                 - assetTypeId: 710255c6-d2ed-4463-b992-06c8685add5e
                   assetTypeName: Computer Equipment
@@ -411,7 +411,7 @@ paths:
         - Asset
       summary: adds a fixed asset type
       parameters:
-        - $ref: '#/components/parameters/idempotencyKey'
+        - $ref: "#/components/parameters/idempotencyKey"
       operationId: createAssetType
       x-example:
         - bookDepreciationSetting:
@@ -497,7 +497,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AssetType'
+                $ref: "#/components/schemas/AssetType"
               example:
                 assetTypeId: 85509b5d-308e-420d-9532-b85105058916
                 assetTypeName: Machinery11004
@@ -542,7 +542,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AssetType'
+              $ref: "#/components/schemas/AssetType"
             example:
               assetTypeName: Machinery11004
               fixedAssetAccountId: 3d8d063a-c148-4bb8-8b3c-a5e2ad3b1e82
@@ -556,7 +556,7 @@ paths:
         description: Asset type to add
   /Settings:
     parameters:
-      - $ref: '#/components/parameters/requiredHeader'
+      - $ref: "#/components/parameters/requiredHeader"
     get:
       security:
         - OAuth2:
@@ -573,7 +573,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Setting'
+                $ref: "#/components/schemas/Setting"
               example:
                 assetNumberPrefix: FA-
                 assetNumberSequence: "0007"
@@ -619,11 +619,11 @@ components:
       type: object
       properties:
         pagination:
-          $ref: '#/components/schemas/Pagination'
+          $ref: "#/components/schemas/Pagination"
         items:
           type: array
           items:
-            $ref: '#/components/schemas/Asset'
+            $ref: "#/components/schemas/Asset"
     Pagination:
       properties:
         page:
@@ -684,7 +684,7 @@ components:
           description: The price the asset was disposed at
           example: "1.0000"
         assetStatus:
-          $ref: '#/components/schemas/AssetStatus'
+          $ref: "#/components/schemas/AssetStatus"
         warrantyExpiryDate:
           type: string
           description: The date the asset’s warranty expires (if needed) YYYY-MM-DD
@@ -694,9 +694,9 @@ components:
           description: The asset's serial number
           example: ca4c6b39-4f4f-43e8-98da-5e1f350a6694
         bookDepreciationSetting:
-          $ref: '#/components/schemas/BookDepreciationSetting'
+          $ref: "#/components/schemas/BookDepreciationSetting"
         bookDepreciationDetail:
-          $ref: '#/components/schemas/BookDepreciationDetail'
+          $ref: "#/components/schemas/BookDepreciationDetail"
         canRollback:
           type: boolean
           description: Boolean to indicate whether depreciation can be rolled back for this asset individually. This is true if it doesn't have 'legacy' journal entries and if there is no lock period that would prevent this asset from rolling back.
@@ -759,7 +759,7 @@ components:
           example: ca4c6b39-4f4f-43e8-98da-5e1f350a6694
           description: The account for accumulated depreciation of fixed assets of this type
         bookDepreciationSetting:
-          $ref: '#/components/schemas/BookDepreciationSetting'
+          $ref: "#/components/schemas/BookDepreciationSetting"
         locks:
           type: integer
           example: 33
@@ -933,12 +933,12 @@ components:
           description: Array of elements of resource validation errors
           type: array
           items:
-            $ref: '#/components/schemas/ResourceValidationErrorsElement'
+            $ref: "#/components/schemas/ResourceValidationErrorsElement"
         fieldValidationErrors:
           description: Array of elements of field validation errors
           type: array
           items:
-            $ref: '#/components/schemas/FieldValidationErrorsElement'
+            $ref: "#/components/schemas/FieldValidationErrorsElement"
         type:
           description: The internal type of error, not accessible externally
           type: string
