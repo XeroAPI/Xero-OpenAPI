@@ -63,11 +63,26 @@ BREAKING CHANGE: use JavaScript features not available in Node 6
 We are using [OpenAPI generator](https://github.com/OpenAPITools/openapi-generator) along with these OAS yaml files to generate our new SDKs.
 
 ## Preview
+### Online
 There are lots of tools available for viewing and editing OpenAPI descriptions in a nicely formatted way. A popular tool is SwaggerHub - a version of which is [hosted here](https://app.swaggerhub.com/home). 
 
 Once you sign up or login, you can create a new API under your account and import a Xero API spec.
 
 ![SwaggerUI Example](images/import-api.png)
+
+### Local
+
+#### Node.js
+If you have Node.js you can use the Swagger UI via an NPM package (it will open a webpage in your default browser):
+`npx -y open-swagger-ui --open ./xero_accounting.yaml`
+
+#### Docker
+To view a local file via Docker, run:
+`docker run -p 8080:8080 -e SWAGGER_JSON=/local/xero_accounting.yaml -v $PWD:/local docker.swagger.io/swaggerapi/swagger-ui`
+
+To view a hosted file via Docker, run:
+`docker run -p 8080:8080 -e SWAGGER_JSON_URL=https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/refs/heads/master/xero_accounting.yaml docker.swagger.io/swaggerapi/swagger-ui`
+
 
 ## Updates
 If you find something missing or incorrect please [open an issue](https://github.com/XeroAPI/Xero-OpenAPI/issues/new) or send us a pull request.
