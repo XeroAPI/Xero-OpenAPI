@@ -77,6 +77,7 @@ paths:
                     updatedDateUTC: 2020-02-13T16:23:31
                     createdDateUTC: 2020-02-10T10:00:24
                     isOffPayrollWorker: false
+                    contracts: []
                   - employeeID: 67e545d4-e8a6-4f98-9f63-85c2383dfe12
                     firstName: Charlotte
                     lastName: Danes
@@ -95,6 +96,13 @@ paths:
                     updatedDateUTC: 2020-02-13T16:48:51
                     createdDateUTC: 2020-02-13T16:32:12
                     isOffPayrollWorker: false
+                    contracts:
+                      - publicKey: b4d71548-2800-4fb9-be6c-d496a617428c
+                        isFixedTerm: false
+                        employmentStatus: Employee
+                        contractType: PartTime
+                        startDate: 2020-02-03T00:00:00
+                        fixedTermEndDate: null
                   - employeeID: eb4a0c3b-b0d6-440d-bccc-348b7dc92321
                     firstName: Chelsea
                     lastName: Serati
@@ -102,7 +110,7 @@ paths:
                     gender: F
                     email: null
                     phoneNumber: null
-                    startDate: 2019-07-02T00:00:00
+                    startDate: 2019-07-01T00:00:00
                     address:
                       addressLine1: 171 Midsummer Boulevard
                       city: Milton Keynes
@@ -113,6 +121,24 @@ paths:
                     updatedDateUTC: 2020-02-13T16:53:12
                     createdDateUTC: 2020-02-13T16:46:41
                     isOffPayrollWorker: false
+                    contracts:
+                      - publicKey: 3a8243d5-a14a-4c06-a71b-930194928ee9
+                        isFixedTerm: false
+                        employmentStatus: Worker
+                        contractType: PartTime
+                        startDate: 2019-07-01T00:00:00
+                        fixedTermEndDate: null
+                      - publicKey: ce4fe24d-bb85-4b17-a461-3e56917457d6
+                        isFixedTerm: true
+                        employmentStatus: Employee
+                        contractType: FullTime
+                        startDate: 2020-07-01T00:00:00
+                        fixedTermEndDate: 2026-08-01T00:00:00
+                        developmentalRoleDetails:
+                          developmentalRolePublicKey: 05bceb91-89c0-4ecc-864c-32a874143770
+                          startDate: 2020-07-01T00:00:00
+                          endDate: 2026-06-30T00:00:00
+                          developmentalRole: Apprentice
         "400":
           description: validation error for a bad request
           content:
@@ -339,6 +365,13 @@ paths:
                       dateFirstEmployedAsCivilian: "2020-05-01"
                       workplacePostcode: SW1A 1AA
                   employeeNumber: "2"
+                  contracts:
+                    - publicKey: a3d71548-2800-4fb9-be6c-d496a617428c
+                      isFixedTerm: false
+                      employmentStatus: Employee
+                      contractType: PartTime
+                      startDate: 2020-05-01T00:00:00
+                      fixedTermEndDate: null
     put:
       security:
         - OAuth2:
@@ -593,6 +626,13 @@ paths:
                       dateFirstEmployedAsCivilian: "2020-05-01"
                       workplacePostcode: SW1A 1AA
                   employeeNumber: 123ABC
+                  contracts:
+                    - publicKey: ddd71548-2800-4fb9-be6c-d496a617428c
+                      isFixedTerm: false
+                      employmentStatus: Employee
+                      contractType: FullTime
+                      startDate: 2020-04-01T00:00:00
+                      fixedTermEndDate: null
         "400":
           description: validation error for a bad request
           content:
@@ -5611,6 +5651,11 @@ components:
         isOffPayrollWorker:
           description: Whether the employee is an off payroll worker
           type: boolean
+        contracts:
+          description: The employee's contracts
+          type: array
+          items:
+            $ref: '#/components/schemas/Contracts'
     EmploymentObject:
       type: object
       properties:
@@ -5648,7 +5693,12 @@ components:
           description: The employee's NI categories
           type: array
           items:
-            $ref: "#/components/schemas/NICategory"
+            $ref: '#/components/schemas/NICategory'
+        contracts:
+          description: The employee's contracts
+          type: array
+          items:
+            $ref: '#/components/schemas/Contracts'
     EmployeeTaxObject:
       type: object
       properties:
@@ -7537,3 +7587,79 @@ components:
             niCategory:
               enum:
                 - V
+    EmploymentStatus:
+      description: The employment status of the employee.
+      type: string
+      example: Employee
+      enum:
+        - Employee
+        - Worker
+        - Unspecified
+    ContractType:
+      description: The contract type of the employee.
+      type: string
+      example: FullTime
+      enum:
+        - FullTime
+        - PartTime
+        - ZeroHour
+        - Unspecified
+    DevelopmentalRoleDetails:
+      type: object
+      required:
+        - startDate
+        - endDate
+        - developmentalRole
+      properties:
+        startDate:
+          description: The start date of the developmental role
+          type: string
+          format: date
+          example: 2024-12-02
+          x-is-date: true
+        endDate:
+          description: The end date of the developmental role
+          type: string
+          format: date
+          example: 2024-12-02
+          x-is-date: true
+        developmentalRole:
+          description: The developmental role type - "Apprentice" is the only supported role currently
+          type: string
+          example: Apprentice
+        publicKey:
+          description: The public key of the developmental role. Public key is required if the intention is to edit an existing developmental role. If no key is supplied a new developmental role will be created
+          type: string
+          format: uuid
+    Contracts:
+      type: object
+      required:
+        - startDate
+        - employmentStatus
+        - contractType
+      properties:
+        startDate:
+          description: The contract start date of the employee. This will be locked once an employee has been paid and cannot be changed (YYYY-MM-DD)
+          type: string
+          format: date
+          example: 2024-12-02
+          x-is-date: true
+        employmentStatus:
+          $ref: '#/components/schemas/EmploymentStatus'
+        contractType:
+          $ref: '#/components/schemas/ContractType'
+        publicKey:
+          description: The public key of the contract. Public key is required if the intention is to edit an existing contract. If no key is supplied a new contract will be created
+          type: string
+          format: uuid
+        isFixedTerm:
+          description: describes whether the contract is fixed term (required if trying to create Fixed term contract)
+          type: boolean
+        fixedTermEndDate:
+          description: The fixed term end date of the employee. Not required if isFixedTerm is false or not provided (required if trying to create Fixed term contract)
+          type: string
+          format: date
+          example: 2025-11-01
+          x-is-date: true
+        developmentalRoleDetails:
+          $ref: '#/components/schemas/DevelopmentalRoleDetails'
