@@ -1520,18 +1520,18 @@ paths:
           default: 25.89
           is_money: true   
           object: employeeLeaveSetup
-        - sickLeaveHoursToAccrueAnnually:
-          key: sickLeaveHoursToAccrueAnnually
-          keyPascal: SickLeaveHoursToAccrueAnnually
-          keySnake: sick_leave_hours_to_accrue_annually
+        - sickLeaveToAccrueAnnually:
+          key: sickLeaveToAccrueAnnually
+          keyPascal: sickLeaveToAccrueAnnually
+          keySnake: sick_leave_to_accrue_annually
           nonString: true 
           default: 100.0
           is_money: true 
           object: employeeLeaveSetup
-        - sickLeaveMaximumHoursToAccrue:
-          key: sickLeaveMaximumHoursToAccrue
-          keyPascal: SickLeaveMaximumHoursToAccrue
-          keySnake: sick_leave_maximum_hours_to_accrue
+        - sickLeaveMaximumToAccrue:
+          key: sickLeaveMaximumToAccrue
+          keyPascal: sickLeaveMaximumToAccrue
+          keySnake: sick_leave_maximum_to_accrue
           is_money: true
           nonString: true
           default: 200.0
@@ -1576,8 +1576,8 @@ paths:
                             "holidayPayOpeningBalance": 10,
                             "annualLeaveOpeningBalance": 100,
                             "negativeAnnualLeaveBalancePaidAmount": null,
-                            "sickLeaveHoursToAccrueAnnually": 20,
-                            "sickLeaveMaximumHoursToAccrue": null,
+                            "sickLeaveToAccrueAnnually": 20,
+                            "sickLeaveMaximumToAccrue": null,
                             "sickLeaveOpeningBalance": 10
                           }
                         }'
@@ -1596,7 +1596,7 @@ paths:
             example: '{
                         "holidayPayOpeningBalance": 10,
                         "annualLeaveOpeningBalance": 100,
-                        "sickLeaveHoursToAccrueAnnually": 20,
+                        "sickLeaveToAccrueAnnually": 20,
                         "sickLeaveOpeningBalance": 10
                       }'
   /Employees/{EmployeeID}/LeaveTypes:
@@ -1638,7 +1638,7 @@ paths:
                             {
                               "leaveTypeID": "0441497f-5dc7-4cd3-a90d-f2e07e21b2a6",
                               "scheduleOfAccrual": "PercentageOfGrossEarnings",
-                              "hoursAccruedAnnually": 0,
+                              "unitsAccruedAnnually": 0,
                               "maximumToAccrue": 0,
                               "openingBalance": 0,
                               "rateAccruedHourly": null,
@@ -1726,7 +1726,7 @@ paths:
                           "leaveType": {
                             "leaveTypeID": "35da97ae-05b9-427f-9a98-69157ba42cec",
                             "scheduleOfAccrual": "AnnuallyAfter6Months",
-                            "hoursAccruedAnnually": 10,
+                            "unitsAccruedAnnually": 10,
                             "maximumToAccrue": 80,
                             "openingBalance": 100,
                             "rateAccruedHourly": null,
@@ -1751,7 +1751,7 @@ paths:
             example: '{
                         "leaveTypeID": "35da97ae-05b9-427f-9a98-69157ba42cec",
                         "scheduleOfAccrual": "AnnuallyAfter6Months",
-                        "hoursAccruedAnnually": 10,
+                        "unitsAccruedAnnually": 10,
                         "maximumToAccrue": 80,
                         "openingBalance": 100,
                         "rateAccruedHourly": 3.5
@@ -7263,14 +7263,14 @@ components:
           format: double
           x-is-money: true
           example: 10.0
-        sickLeaveHoursToAccrueAnnually:
-          description: Number of hours accrued annually for sick leave. Multiply the number of days they're entitled to by the hours worked per day
+        sickLeaveToAccrueAnnually:
+          description: Number of units accrued annually for sick leave. The type of units is determined by the property TypeOfUnitsToAccrue on the Sick Leave leave type
           type: number
           format: double
           x-is-money: true
           example: 100.5
-        sickLeaveMaximumHoursToAccrue:
-          description: Maximum number of hours accrued annually for sick leave. Multiply the maximum days they can accrue by the hours worked per day
+        sickLeaveMaximumToAccrue:
+          description: Maximum number of units accrued annually for sick leave. The type of units is determined by the property TypeOfUnitsToAccrue on the Sick Leave leave type
           type: number
           format: double
           x-is-money: true
@@ -7305,23 +7305,23 @@ components:
             - OnAnniversaryDate
             - PercentageOfGrossEarnings  
             - NoAccruals
-        hoursAccruedAnnually:
-          description: The number of hours accrued for the leave annually. This is 0 when the scheduleOfAccrual chosen is "OnHourWorked"
+        unitsAccruedAnnually:
+          description: The number of units accrued for the leave annually. This is 0 when the scheduleOfAccrual chosen is "NoAccruals"
           type: number
           format: double
           x-is-money: true
         maximumToAccrue:
-          description: The maximum number of hours that can be accrued for the leave  
+          description: The maximum number of units that can be accrued for the leave  
           type: number
           format: double
           x-is-money: true
         openingBalance:
-          description: The initial number of hours assigned when the leave was added to the employee  
+          description: The initial number of units assigned when the leave was added to the employee  
           type: number
           format: double
           x-is-money: true
         rateAccruedHourly:
-          description: The number of hours added to the leave balance for every hour worked by the employee. This is normally 0, unless the scheduleOfAccrual chosen is "OnHourWorked"
+          description: not supported in Payroll NZ
           type: number
           format: double
           x-is-money: true
