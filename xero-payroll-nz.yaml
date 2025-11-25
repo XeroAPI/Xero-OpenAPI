@@ -1565,22 +1565,6 @@ paths:
           default: 25.89
           is_money: true
           object: employeeLeaveSetup
-        - sickLeaveHoursToAccrueAnnually:
-          key: sickLeaveHoursToAccrueAnnually
-          keyPascal: SickLeaveHoursToAccrueAnnually
-          keySnake: sick_leave_hours_to_accrue_annually
-          nonString: true
-          default: 100.0
-          is_money: true
-          object: employeeLeaveSetup
-        - sickLeaveMaximumHoursToAccrue:
-          key: sickLeaveMaximumHoursToAccrue
-          keyPascal: SickLeaveMaximumHoursToAccrue
-          keySnake: sick_leave_maximum_hours_to_accrue
-          is_money: true
-          nonString: true
-          default: 200.0
-          object: employeeLeaveSetup
         - sickLeaveOpeningBalance:
           key: sickLeaveOpeningBalance
           keyPascal: SickLeaveOpeningBalance
@@ -1659,9 +1643,7 @@ paths:
                   holidayPayOpeningBalance: 10
                   annualLeaveOpeningBalance: 100
                   negativeAnnualLeaveBalancePaidAmount: null
-                  sickLeaveHoursToAccrueAnnually: 20
                   sickLeaveToAccrueAnnually: 20
-                  sickLeaveMaximumHoursToAccrue: null
                   sickLeaveMaximumToAccrue: null
                   sickLeaveOpeningBalance: 10
                   sickLeaveScheduleOfAccrual: OnAnniversaryDate
@@ -1682,7 +1664,6 @@ paths:
             example:
               holidayPayOpeningBalance: 10
               annualLeaveOpeningBalance: 100
-              sickLeaveHoursToAccrueAnnually: 20
               sickLeaveToAccrueAnnually: 20
               sickLeaveOpeningBalance: 10
               sickLeaveScheduleOfAccrual: OnAnniversaryDate
@@ -1728,7 +1709,6 @@ paths:
                 leaveTypes:
                   - leaveTypeID: 0441497f-5dc7-4cd3-a90d-f2e07e21b2a6
                     scheduleOfAccrual: PercentageOfGrossEarnings
-                    hoursAccruedAnnually: 0
                     maximumToAccrue: 0
                     openingBalance: 0
                     rateAccruedHourly: null
@@ -1825,7 +1805,6 @@ paths:
                 leaveType:
                   leaveTypeID: 35da97ae-05b9-427f-9a98-69157ba42cec
                   scheduleOfAccrual: AnnuallyAfter6Months
-                  hoursAccruedAnnually: 10
                   maximumToAccrue: 80
                   openingBalance: 100
                   rateAccruedHourly: null
@@ -1852,13 +1831,12 @@ paths:
             example:
               leaveTypeID: 35da97ae-05b9-427f-9a98-69157ba42cec
               scheduleOfAccrual: AnnuallyAfter6Months
-              hoursAccruedAnnually: 10
               unitsAccruedAnnually: 10
               typeOfUnitsToAccrue: Hours
               openingBalanceTypeOfUnits: Hours
               maximumToAccrue: 80
               openingBalance: 100
-              rateAccruedHourly: 3.5
+              rateAccruedHourly: null
   /Employees/{EmployeeID}/PaymentMethods:
     parameters:
       - $ref: "#/components/parameters/requiredHeader"
@@ -6892,18 +6870,6 @@ components:
           format: double
           x-is-money: true
           example: 10.0
-        sickLeaveHoursToAccrueAnnually:
-          description: Deprecated use SickLeaveToAccrueAnnually
-          type: number
-          format: double
-          x-is-money: true
-          example: 100.5
-        sickLeaveMaximumHoursToAccrue:
-          description: Deprecated use SickLeaveMaximumToAccrue
-          type: number
-          format: double
-          x-is-money: true
-          example: 200.5
         SickLeaveToAccrueAnnually:
           description: Number of units accrued annually for sick leave. The type of units is determined by the property "TypeOfUnitsToAccrue" on the "Sick Leave" leave type
           type: number
@@ -6962,12 +6928,7 @@ components:
             - OnAnniversaryDate
             - PercentageOfGrossEarnings
             - NoAccruals
-        hoursAccruedAnnually:
-          description: Deprecated use UnitsAccruedAnnually
-          type: number
-          format: double
-          x-is-money: true
-        UnitsAccruedAnnually:
+        unitsAccruedAnnually:
           description: The number of units accrued for the leave annually. This is 0 when the ScheduleOfAccrual chosen is "NoAccruals"
           type: number
           format: double
@@ -6989,7 +6950,7 @@ components:
           description: The type of units for the opening balance
           type: string
         rateAccruedHourly:
-          description: The number of hours added to the leave balance for every hour worked by the employee. This is normally 0, unless the scheduleOfAccrual chosen is "OnHourWorked"
+          description: not supported in Payroll NZ
           type: number
           format: double
           x-is-money: true
