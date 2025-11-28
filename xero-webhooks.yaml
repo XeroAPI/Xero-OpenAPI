@@ -64,6 +64,25 @@ webhooks:
           $ref: "#/components/responses/200WebhookDataReceivedOk"
         "401":
           $ref: "#/components/responses/401InvalidWebhookData"
+  creditNotes:
+    post:
+      summary: Credit Notes Webhook Endpoint
+      description: Credit Note (Create, Update)
+      operationId: publishCreditNoteEvent
+      tags:
+        - Events
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreditNoteWebhookEvent"
+      responses:
+        "200":
+          $ref: "#/components/responses/200WebhookDataReceivedOk"
+        "401":
+          $ref: "#/components/responses/401InvalidWebhookData"
+
+
 components:
   headers:
     x-xero-signature:
@@ -155,6 +174,53 @@ components:
         entropy:
           type: string
           description: A random string used for security or validation purposes
+    CreditNoteWebhookEvent:
+      allOf:
+        - $ref: "#/components/schemas/WebhookEvent"
+        - type: object
+          properties:
+            data:
+              type: object
+              required:
+                - Type
+                - Status
+              properties:
+                Type:
+                  type: string
+                  description: The type of credit note
+                  externalDocs:
+                    url: https://developer.xero.com/documentation/api/accounting/types#credit-notes
+                  oneOf:
+                    - type: string
+                      const: ACCPAYCREDIT
+                      description: An Accounts Payable(supplier) Credit Note
+                    - type: string
+                      const: ACCRECCREDIT
+                      description: An Account Receivable(customer) Credit Note
+                Status:
+                  type: string
+                  description: The status of the credit note
+                  externalDocs:
+                    url: https://developer.xero.com/documentation/api/accounting/types#invoice-status-codes
+                  oneOf:
+                    - type: string
+                      const: DRAFT
+                      description: Draft credit note
+                    - type: string
+                      const: SUBMITTED
+                      description: Submitted credit note
+                    - type: string
+                      const: DELETED
+                      description: Deleted credit note
+                    - type: string
+                      const: AUTHORISED
+                      description: Authorised credit note
+                    - type: string
+                      const: PAID
+                      description: Paid credit note
+                    - type: string
+                      const: VOIDED
+                      description: Voided credit note
   responses:
     401InvalidWebhookData:
       description: Return a 401 status to indicate that the webhook subscription failed
