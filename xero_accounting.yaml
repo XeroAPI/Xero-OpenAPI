@@ -11129,6 +11129,20 @@ paths:
             type: integer
         - $ref: "#/components/parameters/unitdp"
         - $ref: "#/components/parameters/pageSize"
+        - in: query
+          name: References
+          x-snake: references
+          description: Filter by a comma-separated list of References
+          style: form
+          explode: false
+          example: "&quot;Ref1&quot;, &quot;Ref2&quot;"
+          x-example-java: Arrays.asList("Ref1","Ref2")
+          x-example-php: "&quot;Ref1&quot;, &quot;Ref2&quot;"
+          x-example-csharp: new List&lt;string&gt;{&quot;Ref1&quot;,&quot;Ref2&quot;}
+          schema:
+            type: array
+            items:
+              type: string
       responses:
         "200":
           description: Success - return response of type Overpayments array with all Overpayments
@@ -11150,6 +11164,7 @@ paths:
                   - OverpaymentID: 098b4dcb-5622-4699-87f8-9d40c4ccceb3
                     ID: 098b4dcb-5622-4699-87f8-9d40c4ccceb3
                     Type: SPEND-OVERPAYMENT
+                    Reference: Reference for payment1
                     RemainingCredit: 500.00
                     Allocations: []
                     Payments: []
@@ -11175,6 +11190,7 @@ paths:
                   - OverpaymentID: 2a8bda49-8908-473b-8bcf-1f90990460eb
                     ID: 2a8bda49-8908-473b-8bcf-1f90990460eb
                     Type: RECEIVE-OVERPAYMENT
+                    Reference: Reference for payment2
                     RemainingCredit: 20.00
                     Allocations: []
                     Payments: []
@@ -11200,6 +11216,7 @@ paths:
                   - OverpaymentID: ed7f6041-c915-4667-bd1d-54c48e92161e
                     ID: ed7f6041-c915-4667-bd1d-54c48e92161e
                     Type: SPEND-OVERPAYMENT
+                    Reference: Reference for payment3
                     RemainingCredit: 3000.00
                     Allocations: []
                     Payments: []
@@ -11225,6 +11242,7 @@ paths:
                   - OverpaymentID: 0859adbc-ea00-40cd-a877-258cf8644975
                     ID: 0859adbc-ea00-40cd-a877-258cf8644975
                     Type: RECEIVE-OVERPAYMENT
+                    Reference: Reference for payment4
                     RemainingCredit: 20.00
                     Allocations: []
                     Payments: []
@@ -11250,6 +11268,7 @@ paths:
                   - OverpaymentID: 687b877f-634a-415d-92b2-74e62977de30
                     ID: 687b877f-634a-415d-92b2-74e62977de30
                     Type: RECEIVE-OVERPAYMENT
+                    Reference: Reference for payment5
                     RemainingCredit: 20.00
                     Allocations: []
                     Payments: []
@@ -11303,6 +11322,7 @@ paths:
                     ID: ed7f6041-c915-4667-bd1d-54c48e92161e
                     CurrencyRate: 1.000000
                     Type: SPEND-OVERPAYMENT
+                    Reference: Reference for payment
                     RemainingCredit: 2999.00
                     Allocations:
                       - Amount: 1.00
@@ -23691,6 +23711,10 @@ components:
           type: boolean
           default: "false"
           example: "false"
+        Reference:
+          description: An optional description for Overpayment
+          type: string
+          example: "Ref for payment"
         Attachments:
           description: See Attachments
           type: array
