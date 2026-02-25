@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: 10.1.0
+  version: 11.0.0
   title: Xero Payroll AU API
   description: This is the Xero Payroll API for orgs in Australia region.
   termsOfService: https://developer.xero.com/xero-developer-platform-terms-conditions/
@@ -313,6 +313,7 @@ paths:
                       UpdatedDateUTC: /Date(1573623306000+0000)/
                       HasStudentStartupLoan: false
                       ResidencyStatus: AUSTRALIANRESIDENT
+                      IncludeLeaveLoadingInQualifyingEarnings: false
                     BankAccounts: []
                     OpeningBalances:
                       OpeningBalanceDate: /Date(1573603200000+0000)/
@@ -348,6 +349,7 @@ paths:
                           CalculationType: FIXEDAMOUNTEACHPERIOD
                           AnnualNumberOfUnits: 4
                           EntitlementFinalPayPayoutType: NOTPAIDOUT
+                          IsQualifyingEarnings: false
                     SuperMemberships: []
                     LeaveBalances:
                       - LeaveName: Carer Leave (unpaid)
@@ -1219,10 +1221,11 @@ paths:
                       AccountCode: "477"
                       TypeOfUnits: Hours
                       RatePerUnit: 3
-                      IsExemptFromTax: true
-                      IsExemptFromSuper: true
-                      IsReportableAsW1: true
-                      AllowanceContributesToAnnualLeaveRate: false
+                      IsExemptFromTax: false
+                      IsExemptFromSuper: false
+                      IsReportableAsW1: false
+                      IsQualifyingEarnings: true
+                      AllowanceContributesToAnnualLeaveRate: true
                       AllowanceContributesToOvertimeRate: false
                       UpdatedDateUTC: /Date(1573620821000+0000)/
                       CurrentRecord: true
@@ -1235,6 +1238,7 @@ paths:
                       IsExemptFromTax: false
                       IsExemptFromSuper: true
                       IsReportableAsW1: false
+                      IsQualifyingEarnings: false
                       AllowanceContributesToAnnualLeaveRate: false
                       AllowanceContributesToOvertimeRate: false
                       UpdatedDateUTC: /Date(1547500330000+0000)/
@@ -1247,6 +1251,7 @@ paths:
                       IsExemptFromTax: true
                       IsExemptFromSuper: true
                       IsReportableAsW1: true
+                      IsQualifyingEarnings: false
                       AllowanceContributesToAnnualLeaveRate: false
                       AllowanceContributesToOvertimeRate: false
                       UpdatedDateUTC: /Date(1547500330000+0000)/
@@ -1260,6 +1265,7 @@ paths:
                       IsExemptFromTax: false
                       IsExemptFromSuper: true
                       IsReportableAsW1: true
+                      IsQualifyingEarnings: false
                       AllowanceContributesToAnnualLeaveRate: false
                       AllowanceContributesToOvertimeRate: false
                       UpdatedDateUTC: /Date(1573620791000+0000)/
@@ -1305,6 +1311,8 @@ paths:
                       ShowOnPayslip: true
                       UpdatedDateUTC: /Date(1573620853000+0000)/
                       CurrentRecord: true
+                      SGCExempt: false
+                      IsQualifyingEarnings: true
                     - LeaveTypeID: 74195ab2-1f2b-4136-8ddc-20387a0b1027
                       Name: Long Service Leave
                       TypeOfUnits: Hours
@@ -1312,6 +1320,8 @@ paths:
                       ShowOnPayslip: false
                       UpdatedDateUTC: /Date(1547500330000+0000)/
                       CurrentRecord: true
+                      SGCExempt: false
+                      IsQualifyingEarnings: true
                     - LeaveTypeID: ff4d16da-ae8a-4f57-acb3-9ee593996bce
                       Name: Parental Leave (unpaid)
                       TypeOfUnits: Hours
@@ -1319,6 +1329,8 @@ paths:
                       ShowOnPayslip: false
                       UpdatedDateUTC: /Date(1547500330000+0000)/
                       CurrentRecord: true
+                      SGCExempt: false
+                      IsQualifyingEarnings: false
         "400":
           description: validation error for a bad request
           content:
@@ -1372,6 +1384,13 @@ paths:
           keySnake: is_exempt_from_super
           object: earningsRate
           default: true
+          nonString: true
+        - isQualifyingEarnings:
+          key: isQualifyingEarnings
+          keyPascal: IsQualifyingEarnings
+          keySnake: is_qualifying_earnings
+          object: earningsRate
+          default: false
           nonString: true
         - earningsType:
           key: earningsType
@@ -1594,6 +1613,7 @@ paths:
                       IsExemptFromSuper: true
                       AccrueLeave: false
                       IsReportableAsW1: false
+                      IsQualifyingEarnings: false
                       AllowanceContributesToAnnualLeaveRate: false
                       AllowanceContributesToOvertimeRate: false
                       UpdatedDateUTC: /Date(1593448963210+0000)/
@@ -1606,6 +1626,7 @@ paths:
                       IsExemptFromTax: true
                       IsExemptFromSuper: true
                       IsReportableAsW1: true
+                      IsQualifyingEarnings: false
                       AllowanceContributesToAnnualLeaveRate: false
                       AllowanceContributesToOvertimeRate: false
                       UpdatedDateUTC: /Date(1476729649000+0000)/
@@ -1619,13 +1640,14 @@ paths:
                       IsExemptFromTax: false
                       IsExemptFromSuper: true
                       IsReportableAsW1: true
+                      IsQualifyingEarnings: false
                       AllowanceContributesToAnnualLeaveRate: false
                       AllowanceContributesToOvertimeRate: false
                       UpdatedDateUTC: /Date(1520900705000+0000)/
                       EmploymentTerminationPaymentType: O
                       CurrentRecord: true
         "400":
-          description: invalid input, object invalid - TODO
+          description: invalid input, object invalid - When IsQualifyingEarnings supplied it will be validated against the IsExemptFromSuper and other fields.
       requestBody:
         required: true
         content:
@@ -1637,9 +1659,10 @@ paths:
                 - Name: MyRate
                   AccountCode: "400"
                   TypeOfUnits: "4.00"
-                  IsExemptFromTax: true
+                  IsExemptFromTax: false
                   IsExemptFromSuper: true
                   IsReportableAsW1: false
+                  IsQualifyingEarnings: true
                   AllowanceContributesToAnnualLeaveRate: false
                   AllowanceContributesToOvertimeRate: false
                   EarningsType: ORDINARYTIMEEARNINGS
@@ -3350,10 +3373,6 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/LeaveBalance"
-        LeaveLines:
-          type: array
-          items:
-            $ref: "#/components/schemas/LeaveLine"
         SuperMemberships:
           type: array
           items:
@@ -4238,6 +4257,10 @@ components:
           description: Boolean to determine if the earnings rate is reportable or exempt from W1
           type: boolean
           example: false
+        IsQualifyingEarnings:
+          description: Optional Boolean to determine if the earnings rate is considered as qualifying earnings for superannuation guarantee calculations. When not specified value is calculated based on earnings type and superannuation settings
+          type: boolean
+          example: true
         AllowanceContributesToAnnualLeaveRate:
           description: Boolean to determine if the allowance earnings rate contributes towards annual leave rate. Only applicable if EarningsType is ALLOWANCE and RateType is RATEPERUNIT
           type: boolean
@@ -4387,6 +4410,10 @@ components:
           description: Set this to indicate that the leave type is exempt from superannuation guarantee contribution
           type: boolean
           example: true
+        IsQualifyingEarnings:
+          description: Optional Boolean to determine if the earnings rate is considered as qualifying earnings for superannuation guarantee calculations. When not specified value is calculated based on earnings type and superannuation settings
+          type: boolean
+          example: true
     ReimbursementType:
       type: object
       properties:
@@ -4521,6 +4548,10 @@ components:
           readOnly: true
           x-is-msdate-time: true
           example: /Date(1583967733054+0000)/
+        IncludeLeaveLoadingInQualifyingEarnings:
+          description: Optional Boolean to determine if leave loading is considered as qualifying earnings for superannuation guarantee calculations
+          type: boolean
+          example: true
       type: object
     BankAccount:
       type: object
@@ -4755,6 +4786,10 @@ components:
           description: amount of leave line
           type: boolean
           example: true
+        IsQualifyingEarnings:
+          description: Optional Boolean to determine if the earnings rate is considered as qualifying earnings for superannuation guarantee calculations. When not specified value is calculated based on superannuation settings
+          type: boolean
+          example: true
         NumberOfUnits:
           description: Number of units for leave line.
           type: number
@@ -4806,6 +4841,20 @@ components:
           description: Reset the STP categorisations for the leave type. *Only applicable for Leave Types with Annual Leave Categories
           type: boolean
           example: true
+    OpeningBalanceLeaveLine:
+      type: object
+      properties:
+        LeaveTypeID:
+          description: Xero leave type identifier
+          type: string
+          format: uuid
+          example: 742998cb-7584-4ecf-aa88-d694f59c50f9
+        NumberOfUnits:
+          description: Number of units for leave line.
+          type: number
+          format: double
+          x-is-money: true
+          example: 2.5
     OpeningBalances:
       type: object
       properties:
@@ -4837,7 +4886,7 @@ components:
         LeaveLines:
           type: array
           items:
-            $ref: "#/components/schemas/LeaveLine"
+            $ref: "#/components/schemas/OpeningBalanceLeaveLine"
         PaidLeaveEarningsLines:
           type: array
           items:
