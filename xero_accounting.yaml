@@ -12577,6 +12577,20 @@ paths:
             type: integer
         - $ref: "#/components/parameters/unitdp"
         - $ref: "#/components/parameters/pageSize"
+        - in: query
+          name: InvoiceNumbers
+          x-snake: invoice_numbers
+          description: Filter by a comma-separated list of InvoiceNumbers
+          style: form
+          explode: false
+          example: "&quot;INV-001&quot;, &quot;INV-002&quot;"
+          x-example-java: Arrays.asList("INV-001","INV-002")
+          x-example-php: "&quot;INV-001&quot;, &quot;INV-002&quot;"
+          x-example-csharp: new List&lt;string&gt;{&quot;INV-001&quot;,&quot;INV-002&quot;}
+          schema:
+            type: array
+            items:
+              type: string
       responses:
         "200":
           description: Success - return response of type Prepayments array for all Prepayment
@@ -12599,6 +12613,7 @@ paths:
                     ID: ce0cddef-cf5a-4e59-b638-f225679115a7
                     Type: RECEIVE-PREPAYMENT
                     Reference: INV-0011
+                    InvoiceNumber: INV-0011
                     RemainingCredit: 3450.00
                     Allocations: []
                     Payments: []
@@ -12653,6 +12668,7 @@ paths:
                     CurrencyRate: 1.000000
                     Type: RECEIVE-PREPAYMENT
                     Reference: INV-0011
+                    InvoiceNumber: INV-0011
                     RemainingCredit: 3449.00
                     Allocations:
                       - Amount: 1.00
@@ -23930,6 +23946,10 @@ components:
           x-is-money: true
         Reference:
           description: Returns Invoice number field. Reference field isn't available.
+          type: string
+          readOnly: true
+        InvoiceNumber:
+          description: Returns Invoice number for prepayment receive document only.
           type: string
           readOnly: true
         UpdatedDateUTC:
