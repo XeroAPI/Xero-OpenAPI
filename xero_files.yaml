@@ -415,7 +415,10 @@ paths:
             type: string
             enum:
               - Name
-              - CreatedDateUTC
+              - Size
+              - CreatedDateUtc
+              - AssociationDateUtc
+            default: CreatedDateUtc
             example: Associations/{ObjectId}?sort=CreatedDateUtc
         - in: query
           name: direction
@@ -435,7 +438,7 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Association"
-              example: '[ { "SendWithObject":false, "Name":"testfile.pdf", "Size":12357, "FileId":"6beccb4a-0d7d-4518-93f3-e0cd1dccb254", "ObjectId":"1270bf7c-5d18-473a-9231-1e36c4bd33ed", "ObjectType":"Business", "ObjectGroup":"Contact" } ]'
+              example: '[ { "SendWithObject":false, "Name":"testfile.pdf", "Size":12357, "CreatedDateUtc":"2020-12-10T01:22:00.0000000", "AssociationDateUtc":"2020-12-10T01:22:00.0000000", "FileId":"6beccb4a-0d7d-4518-93f3-e0cd1dccb254", "ObjectId":"1270bf7c-5d18-473a-9231-1e36c4bd33ed", "ObjectType":"Business", "ObjectGroup":"Contact" } ]'
   /Associations/Count:
     parameters:
       - $ref: "#/components/parameters/requiredHeader"
@@ -828,6 +831,16 @@ components:
           description: The size of the associated file in bytes. Note- The Size element is only returned when using /Associations/{ObjectId} endpoint.
           type: integer
           example: 12357
+        CreatedDateUtc:
+          description: The date the file was created (UTC). Note- The CreatedDateUtc element is only returned when using /Associations/{ObjectId} endpoint.
+          type: string
+          format: date-time
+          example: "2020-12-10T01:22:00.0000000"
+        AssociationDateUtc:
+          description: The date the file was associated with the object (UTC). Note- The AssociationDateUtc element is only returned when using /Associations/{ObjectId} endpoint.
+          type: string
+          format: date-time
+          example: "2020-12-10T01:22:00.0000000"
         FileId:
           description: The unique identifier of the file
           type: string
