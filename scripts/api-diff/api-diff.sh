@@ -12,7 +12,15 @@ cd "$(dirname "$0")/../.."
 
 # Configuration
 DOCKER_IMAGE="${OASDIFF_DOCKER_IMAGE:-tufin/oasdiff:latest}"
-BASE_BRANCH="${BASE_BRANCH:-origin/master}"
+
+# Detect base branch from GitHub Actions environment or fallback to local defaults
+if [ -n "$GITHUB_BASE_REF" ]; then
+    # In GitHub Actions PR, use the base ref (e.g., "master")
+    BASE_BRANCH="${BASE_BRANCH:-origin/$GITHUB_BASE_REF}"
+else
+    # Local development: default to origin/master
+    BASE_BRANCH="${BASE_BRANCH:-origin/master}"
+fi
 
 FAIL_ON_BREAKING=false
 TARGET_FILE=""
@@ -29,9 +37,21 @@ for arg in "$@"; do
     fi
 done
 
+# Detect current branch: GitHub Actions PR branch, or local git branch
+# Allow CURRENT_BRANCH env var to override for testing
+if [ -n "$CURRENT_BRANCH" ]; then
+    # Use explicitly set CURRENT_BRANCH (for testing)
+    :
+elif [ -n "$GITHUB_HEAD_REF" ]; then
+    # Use GitHub Actions PR branch
+    CURRENT_BRANCH="$GITHUB_HEAD_REF"
+else
+    # Use local git branch
+    CURRENT_BRANCH=$(git branch --show-current 2>/dev/null || echo "")
+fi
+
 # If --fail-on-breaking not explicitly set, determine based on branch name
 if [ "$FAIL_ON_BREAKING" = false ]; then
-    CURRENT_BRANCH=${CURRENT_BRANCH:-$(git branch --show-current 2>/dev/null || echo "")}
     if [[ "$CURRENT_BRANCH" == *breaking* ]]; then
         echo "Branch '$CURRENT_BRANCH' contains 'breaking', allowing breaking changes"
         FAIL_ON_BREAKING=false
@@ -135,7 +155,7 @@ for file in $files; do
     echo ""
     echo "--- Breaking changes check ---"
     set +e
-    BREAKING_OUTPUT=$(docker run --rm -v "$(pwd)":/current -v "$TEMP_DIR":/base "$DOCKER_IMAGE" breaking --fail-on ERR --include-path-params /base/"$file" /current/"$file" 2>&1)
+    BREAKING_OUTPUT=$(docker run --rm -v "$(pwd)":/current -v "$TEMP_DIR":/base "$DOCKER_IMAGE" breaking --fail-on WARN --include-path-params /base/"$file" /current/"$file" 2>&1)
     BREAKING_EXIT=$?
     set -e
     
