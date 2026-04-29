@@ -160,3 +160,10 @@ rules:
   path-params: off  # Disable path parameter validation to address mapping key issues
   owasp:api8:2023-define-cors-origin: off  # Disable CORS origin header requirement
   oas3-operation-security-defined: error # Ensure all scopes are listed in schema
+
+overrides:
+  - files:
+      - "xero-practicemanager-v3-1.yaml#/paths/~1v3.1~1client.api~1paged-list/get/parameters/3"
+      - "xero-practicemanager-v3-1.yaml#/paths/~1v3.1~1client.api~1contacts/get/parameters/3"
+    rules:
+      owasp:api2:2023-no-credentials-in-url: off  # pageToken is a pagination token, not a credential
