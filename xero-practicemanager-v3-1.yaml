@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  title: XPM Public API
+  title: Xero Practice Manager API V3.1
   description: Xero Practice Manager Public API v3.1
   termsOfService: https://developer.xero.com/xero-developer-platform-terms-conditions/
   contact:
@@ -9,15 +9,15 @@ info:
     email: api@xero.com
   version: 13.0.0
 servers:
-  - url: https://api.xero.com/practicemanager/
+  - url: https://api.xero.com/practicemanager/3.1
     description: Xero Practice Manager API
 paths:
-  /v3.1/category.api/list:
+  /category.api/list:
     get:
       tags:
         - CategoryV31
       summary: Return a list of all categories
-      operationId: CategoryV31_List
+      operationId: listCategories
       parameters:
         - name: Xero-Features
           in: header
@@ -46,12 +46,12 @@ paths:
         - OAuth2:
             - practicemanager
             - practicemanager.read
-  /v3.1/client.api/list:
+  /client.api/list:
     get:
       tags:
         - ClientV31
       summary: Return a list of all clients
-      operationId: ClientV31_List
+      operationId: listClients
       parameters:
         - name: Xero-Features
           in: header
@@ -92,12 +92,12 @@ paths:
             - practicemanager.read
             - practicemanager.client
             - practicemanager.client.read
-  /v3.1/client.api/paged-list:
+  /client.api/paged-list:
     get:
       tags:
         - ClientV31
-      summary: Return a paginated subset of non-archived and non-deleted clients.
-      operationId: ClientV31_PagedList
+      summary: Return a paginated subset of non-archived and non-deleted clients
+      operationId: listClientsPaged
       parameters:
         - name: Xero-Features
           in: header
@@ -153,12 +153,12 @@ paths:
             - practicemanager.read
             - practicemanager.client
             - practicemanager.client.read
-  /v3.1/client.api/search:
+  /client.api/search:
     get:
       tags:
         - ClientV31
       summary: Return a list of all clients matching search query
-      operationId: ClientV31_Search
+      operationId: searchClients
       parameters:
         - name: Xero-Features
           in: header
@@ -199,12 +199,12 @@ paths:
             - practicemanager.read
             - practicemanager.client
             - practicemanager.client.read
-  /v3.1/client.api/get/{identifier}:
+  /client.api/get/{identifier}:
     get:
       tags:
         - ClientV31
       summary: Detailed information for a specific client
-      operationId: ClientV31_GetByIdentifier
+      operationId: getClient
       parameters:
         - name: Xero-Features
           in: header
@@ -241,12 +241,12 @@ paths:
             - practicemanager.read
             - practicemanager.client
             - practicemanager.client.read
-  /v3.1/client.api/add:
+  /client.api/add:
     post:
       tags:
         - ClientV31
       summary: Create a new client and add new contacts to it
-      operationId: ClientV31_Add
+      operationId: createClient
       parameters:
         - name: Xero-Features
           in: header
@@ -281,12 +281,12 @@ paths:
         - OAuth2:
             - practicemanager
             - practicemanager.client
-  /v3.1/client.api/update:
+  /client.api/update:
     put:
       tags:
         - ClientV31
       summary: Update a client's details
-      operationId: ClientV31_Update
+      operationId: updateClient
       parameters:
         - name: Xero-Features
           in: header
@@ -327,12 +327,12 @@ paths:
         - OAuth2:
             - practicemanager
             - practicemanager.client
-  /v3.1/client.api/contacts:
+  /client.api/contacts:
     get:
       tags:
         - ClientV31
-      summary: Return a paginated subset of non-deleted contacts.
-      operationId: ClientV31_Contacts
+      summary: Return a paginated subset of non-deleted contacts
+      operationId: listContacts
       parameters:
         - name: Xero-Features
           in: header
@@ -394,12 +394,12 @@ paths:
             - practicemanager.read
             - practicemanager.client
             - practicemanager.client.read
-  /v3.1/client.api/contact:
+  /client.api/contact:
     post:
       tags:
         - ClientV31
       summary: Create a new contact and add it to a client
-      operationId: ClientV31_ContactPost
+      operationId: createContact
       parameters:
         - name: Xero-Features
           in: header
@@ -440,12 +440,12 @@ paths:
         - OAuth2:
             - practicemanager
             - practicemanager.client
-  /v3.1/client.api/contact/{identifier}:
+  /client.api/contact/{identifier}:
     get:
       tags:
         - ClientV31
       summary: Detailed information for a specific contact
-      operationId: ClientV31_ContactGet
+      operationId: getContact
       parameters:
         - name: Xero-Features
           in: header
@@ -498,7 +498,7 @@ paths:
       tags:
         - ClientV31
       summary: Update a contact
-      operationId: ClientV31_ContactPut
+      operationId: updateContact
       parameters:
         - name: Xero-Features
           in: header
@@ -555,7 +555,7 @@ paths:
       tags:
         - ClientV31
       summary: Delete a contact
-      operationId: ClientV31_ContactDelete
+      operationId: deleteContact
       parameters:
         - name: Xero-Features
           in: header
@@ -602,12 +602,12 @@ paths:
         - OAuth2:
             - practicemanager
             - practicemanager.client
-  /v3.1/client.api/client/{identifier}/contacts:
+  /client.api/client/{identifier}/contacts:
     post:
       tags:
         - ClientV31
       summary: Add contacts to a client. Up to 10 contacts can be added to a client per request.
-      operationId: ClientV31_ClientContact
+      operationId: addContactsToClient
       parameters:
         - name: Xero-Features
           in: header
@@ -667,12 +667,12 @@ paths:
         - OAuth2:
             - practicemanager
             - practicemanager.client
-  /v3.1/client.api/archive:
+  /client.api/archive:
     put:
       tags:
         - ClientV31
       summary: Archive a client
-      operationId: ClientV31_Archive
+      operationId: archiveClient
       parameters:
         - name: Xero-Features
           in: header
@@ -713,12 +713,12 @@ paths:
         - OAuth2:
             - practicemanager
             - practicemanager.client
-  /v3.1/client.api/delete:
+  /client.api/delete:
     post:
       tags:
         - ClientV31
       summary: Delete a client
-      operationId: ClientV31_Delete
+      operationId: deleteClient
       parameters:
         - name: Xero-Features
           in: header
@@ -759,12 +759,12 @@ paths:
         - OAuth2:
             - practicemanager
             - practicemanager.client
-  /v3.1/client.api/document:
+  /client.api/document:
     post:
       tags:
         - ClientV31
       summary: Add a document to a client
-      operationId: ClientV31_Document
+      operationId: addClientDocument
       parameters:
         - name: Xero-Features
           in: header
@@ -799,12 +799,12 @@ paths:
         - OAuth2:
             - practicemanager
             - practicemanager.client
-  /v3.1/client.api/documents/{identifier}:
+  /client.api/documents/{identifier}:
     get:
       tags:
         - ClientV31
       summary: Return a list of documents for a client
-      operationId: ClientV31_Documents
+      operationId: listClientDocuments
       parameters:
         - name: Xero-Features
           in: header
@@ -841,12 +841,12 @@ paths:
             - practicemanager.read
             - practicemanager.client
             - practicemanager.client.read
-  /v3.1/client.api/addrelationship:
+  /client.api/addrelationship:
     post:
       tags:
         - ClientV31
       summary: Add a relationship between clients
-      operationId: ClientV31_AddRelationship
+      operationId: addClientRelationship
       parameters:
         - name: Xero-Features
           in: header
@@ -881,12 +881,12 @@ paths:
         - OAuth2:
             - practicemanager
             - practicemanager.client
-  /v3.1/client.api/updaterelationship:
+  /client.api/updaterelationship:
     put:
       tags:
         - ClientV31
       summary: Update the relationship details between clients
-      operationId: ClientV31_UpdateRelationship
+      operationId: updateClientRelationship
       parameters:
         - name: Xero-Features
           in: header
@@ -921,12 +921,12 @@ paths:
         - OAuth2:
             - practicemanager
             - practicemanager.client
-  /v3.1/client.api/deleterelationship:
+  /client.api/deleterelationship:
     post:
       tags:
         - ClientV31
       summary: Delete the relationship between clients
-      operationId: ClientV31_DeleteRelationship
+      operationId: deleteClientRelationship
       parameters:
         - name: Xero-Features
           in: header
@@ -961,12 +961,12 @@ paths:
         - OAuth2:
             - practicemanager
             - practicemanager.client
-  /v3.1/clientgroup.api/get/{identifier}:
+  /clientgroup.api/get/{identifier}:
     get:
       tags:
         - ClientGroupV31
       summary: Detailed information for a specific client group
-      operationId: ClientGroupV31_GetByIdentifier
+      operationId: getClientGroup
       parameters:
         - name: Xero-Features
           in: header
@@ -1003,12 +1003,12 @@ paths:
             - practicemanager.read
             - practicemanager.client
             - practicemanager.client.read
-  /v3.1/clientgroup.api/list:
+  /clientgroup.api/list:
     get:
       tags:
         - ClientGroupV31
       summary: Return a list of all client groups
-      operationId: ClientGroupV31_List
+      operationId: listClientGroups
       parameters:
         - name: Xero-Features
           in: header
@@ -1039,12 +1039,12 @@ paths:
             - practicemanager.read
             - practicemanager.client
             - practicemanager.client.read
-  /v3.1/clientgroup.api/add:
+  /clientgroup.api/add:
     post:
       tags:
         - ClientGroupV31
       summary: Add a client group
-      operationId: ClientGroupV31_Add
+      operationId: createClientGroup
       parameters:
         - name: Xero-Features
           in: header
@@ -1079,12 +1079,12 @@ paths:
         - OAuth2:
             - practicemanager
             - practicemanager.client
-  /v3.1/clientgroup.api/members:
+  /clientgroup.api/members:
     put:
       tags:
         - ClientGroupV31
       summary: Manage the members of a client group
-      operationId: ClientGroupV31_Members
+      operationId: updateClientGroupMembers
       parameters:
         - name: Xero-Features
           in: header
@@ -1119,12 +1119,12 @@ paths:
         - OAuth2:
             - practicemanager
             - practicemanager.client
-  /v3.1/clientgroup.api/delete:
+  /clientgroup.api/delete:
     post:
       tags:
         - ClientGroupV31
       summary: Delete a client group
-      operationId: ClientGroupV31_Delete
+      operationId: deleteClientGroup
       parameters:
         - name: Xero-Features
           in: header
@@ -1159,12 +1159,12 @@ paths:
         - OAuth2:
             - practicemanager
             - practicemanager.client
-  /v3.1/cost.api/get/{identifier}:
+  /cost.api/get/{identifier}:
     get:
       tags:
         - CostV31
       summary: Detailed information for a specific cost
-      operationId: CostV31_GetByIdentifier
+      operationId: getCost
       parameters:
         - name: Xero-Features
           in: header
@@ -1199,12 +1199,12 @@ paths:
         - OAuth2:
             - practicemanager
             - practicemanager.read
-  /v3.1/cost.api/delete:
+  /cost.api/delete:
     post:
       tags:
         - CostV31
       summary: Delete a cost
-      operationId: CostV31_Delete
+      operationId: deleteCost
       parameters:
         - name: Xero-Features
           in: header
@@ -1238,12 +1238,12 @@ paths:
       security:
         - OAuth2:
             - practicemanager
-  /v3.1/cost.api/deleteall:
+  /cost.api/deleteall:
     post:
       tags:
         - CostV31
       summary: Delete all costs
-      operationId: CostV31_DeleteAll
+      operationId: deleteAllCosts
       parameters:
         - name: Xero-Features
           in: header
@@ -1277,12 +1277,12 @@ paths:
       security:
         - OAuth2:
             - practicemanager
-  /v3.1/cost.api/add:
+  /cost.api/add:
     post:
       tags:
         - CostV31
       summary: Add a cost
-      operationId: CostV31_Add
+      operationId: createCost
       parameters:
         - name: Xero-Features
           in: header
@@ -1316,12 +1316,12 @@ paths:
       security:
         - OAuth2:
             - practicemanager
-  /v3.1/cost.api/update:
+  /cost.api/update:
     put:
       tags:
         - CostV31
       summary: Update a cost
-      operationId: CostV31_Update
+      operationId: updateCost
       parameters:
         - name: Xero-Features
           in: header
@@ -1355,12 +1355,12 @@ paths:
       security:
         - OAuth2:
             - practicemanager
-  /v3.1/cost.api/list:
+  /cost.api/list:
     get:
       tags:
         - CostV31
       summary: Return a list of all costs
-      operationId: CostV31_List
+      operationId: listCosts
       parameters:
         - name: Xero-Features
           in: header
@@ -1396,12 +1396,12 @@ paths:
         - OAuth2:
             - practicemanager
             - practicemanager.read
-  /v3.1/client.api/get/{identifier}/customfield:
+  /client.api/get/{identifier}/customfield:
     get:
       tags:
         - CustomFieldV31
       summary: Retrieve custom field data for a specific client
-      operationId: CustomFieldV31_GetClientByIdentifier
+      operationId: getClientCustomFields
       parameters:
         - name: Xero-Features
           in: header
@@ -1438,12 +1438,12 @@ paths:
             - practicemanager.read
             - practicemanager.client
             - practicemanager.client.read
-  /v3.1/client.api/update/{identifier}/customfield:
+  /client.api/update/{identifier}/customfield:
     put:
       tags:
         - CustomFieldV31
       summary: Update custom field data for a specific client
-      operationId: CustomFieldV31_UpdateClientByIdentifier
+      operationId: updateClientCustomFields
       parameters:
         - name: Xero-Features
           in: header
@@ -1484,12 +1484,12 @@ paths:
         - OAuth2:
             - practicemanager
             - practicemanager.client
-  /v3.1/client.api/contact/{identifier}/customfield:
+  /client.api/contact/{identifier}/customfield:
     get:
       tags:
         - CustomFieldV31
       summary: Retrieve custom field data for a specific contact
-      operationId: CustomFieldV31_GetContactByIdentifier
+      operationId: getContactCustomFields
       parameters:
         - name: Xero-Features
           in: header
@@ -1530,7 +1530,7 @@ paths:
       tags:
         - CustomFieldV31
       summary: Update custom field data for a specific contact
-      operationId: CustomFieldV31_UpdateContactByIdentifier
+      operationId: updateContactCustomFields
       parameters:
         - name: Xero-Features
           in: header
@@ -1571,12 +1571,12 @@ paths:
         - OAuth2:
             - practicemanager
             - practicemanager.client
-  /v3.1/job.api/get/{jobNumber}/customfield:
+  /job.api/get/{jobNumber}/customfield:
     get:
       tags:
         - CustomFieldV31
       summary: Retrieve custom field data for a specific job
-      operationId: CustomFieldV31_GetJob
+      operationId: getJobCustomFields
       parameters:
         - name: Xero-Features
           in: header
@@ -1613,12 +1613,12 @@ paths:
             - practicemanager.read
             - practicemanager.job
             - practicemanager.job.read
-  /v3.1/job.api/update/{jobNumber}/customfield:
+  /job.api/update/{jobNumber}/customfield:
     put:
       tags:
         - CustomFieldV31
       summary: Update custom field data for a specific job
-      operationId: CustomFieldV31_UpdateJob
+      operationId: updateJobCustomFields
       parameters:
         - name: Xero-Features
           in: header
@@ -1659,12 +1659,12 @@ paths:
         - OAuth2:
             - practicemanager
             - practicemanager.job
-  /v3.1/time.api/get/{identifier}/customfield:
+  /time.api/get/{identifier}/customfield:
     get:
       tags:
         - CustomFieldV31
       summary: Retrieve custom field data for a specific time entry
-      operationId: CustomFieldV31_GetTimeByIdentifier
+      operationId: getTimeEntryCustomFields
       parameters:
         - name: Xero-Features
           in: header
@@ -1701,12 +1701,12 @@ paths:
             - practicemanager.read
             - practicemanager.time
             - practicemanager.time.read
-  /v3.1/time.api/update/{identifier}/customfield:
+  /time.api/update/{identifier}/customfield:
     put:
       tags:
         - CustomFieldV31
       summary: Update custom field data for a specific time entry
-      operationId: CustomFieldV31_UpdateTimeByIdentifier
+      operationId: updateTimeEntryCustomFields
       parameters:
         - name: Xero-Features
           in: header
@@ -1747,12 +1747,12 @@ paths:
         - OAuth2:
             - practicemanager
             - practicemanager.time
-  /v3.1/job.api/task/{identifier}/customfield:
+  /job.api/task/{identifier}/customfield:
     get:
       tags:
         - CustomFieldV31
       summary: Retrieve custom field data for a specific job task
-      operationId: CustomFieldV31_GetJobTaskByIdentifier
+      operationId: getJobTaskCustomFields
       parameters:
         - name: Xero-Features
           in: header
@@ -1793,7 +1793,7 @@ paths:
       tags:
         - CustomFieldV31
       summary: Update custom field data for a specific job task
-      operationId: CustomFieldV31_UpdateJobTaskByIdentifier
+      operationId: updateJobTaskCustomFields
       parameters:
         - name: Xero-Features
           in: header
@@ -1834,12 +1834,12 @@ paths:
         - OAuth2:
             - practicemanager
             - practicemanager.job
-  /v3.1/job.api/cost/{identifier}/customfield:
+  /job.api/cost/{identifier}/customfield:
     get:
       tags:
         - CustomFieldV31
       summary: Retrieve custom field data for a specific job cost
-      operationId: CustomFieldV31_GetJobCostByIdentifier
+      operationId: getJobCostCustomFields
       parameters:
         - name: Xero-Features
           in: header
@@ -1880,7 +1880,7 @@ paths:
       tags:
         - CustomFieldV31
       summary: Update custom field data for a specific job cost
-      operationId: CustomFieldV31_UpdateJobCostByIdentifier
+      operationId: updateJobCostCustomFields
       parameters:
         - name: Xero-Features
           in: header
@@ -1921,12 +1921,12 @@ paths:
         - OAuth2:
             - practicemanager
             - practicemanager.job
-  /v3.1/customfield.api/definition:
+  /customfield.api/definition:
     get:
       tags:
         - CustomFieldV31
       summary: Return a list of all the custom fields
-      operationId: CustomFieldV31_Definition
+      operationId: listCustomFieldDefinitions
       parameters:
         - name: Xero-Features
           in: header
@@ -1955,12 +1955,12 @@ paths:
         - OAuth2:
             - practicemanager
             - practicemanager.read
-  /v3.1/customfield.api/get/{identifier}:
+  /customfield.api/get/{identifier}:
     get:
       tags:
         - CustomFieldV31
       summary: Detailed information for a specific custom field
-      operationId: CustomFieldV31_GetByIdentifier
+      operationId: getCustomField
       parameters:
         - name: Xero-Features
           in: header
@@ -1995,12 +1995,12 @@ paths:
         - OAuth2:
             - practicemanager
             - practicemanager.read
-  /v3.1/customfield.api/add:
+  /customfield.api/add:
     post:
       tags:
         - CustomFieldV31
       summary: Add a new custom field
-      operationId: CustomFieldV31_Add
+      operationId: createCustomField
       parameters:
         - name: Xero-Features
           in: header
@@ -2034,12 +2034,12 @@ paths:
       security:
         - OAuth2:
             - practicemanager
-  /v3.1/customfield.api/update:
+  /customfield.api/update:
     put:
       tags:
         - CustomFieldV31
       summary: Update data for a specific custom field
-      operationId: CustomFieldV31_Update
+      operationId: updateCustomField
       parameters:
         - name: Xero-Features
           in: header
@@ -2073,12 +2073,12 @@ paths:
       security:
         - OAuth2:
             - practicemanager
-  /v3.1/customfield.api/delete:
+  /customfield.api/delete:
     post:
       tags:
         - CustomFieldV31
       summary: Delete a custom field
-      operationId: CustomFieldV31_Delete
+      operationId: deleteCustomField
       parameters:
         - name: Xero-Features
           in: header
@@ -2112,12 +2112,12 @@ paths:
       security:
         - OAuth2:
             - practicemanager
-  /v3.1/invoice.api/current:
+  /invoice.api/current:
     get:
       tags:
         - InvoiceV31
       summary: Return a list of current invoices
-      operationId: InvoiceV31_Current
+      operationId: listCurrentInvoices
       parameters:
         - name: Xero-Features
           in: header
@@ -2151,12 +2151,12 @@ paths:
         - OAuth2:
             - practicemanager
             - practicemanager.read
-  /v3.1/invoice.api/draft:
+  /invoice.api/draft:
     get:
       tags:
         - InvoiceV31
       summary: Return a list of draft invoices
-      operationId: InvoiceV31_Draft
+      operationId: listDraftInvoices
       parameters:
         - name: Xero-Features
           in: header
@@ -2190,12 +2190,12 @@ paths:
         - OAuth2:
             - practicemanager
             - practicemanager.read
-  /v3.1/invoice.api/list:
+  /invoice.api/list:
     get:
       tags:
         - InvoiceV31
       summary: Return a list of current and archived invoices
-      operationId: InvoiceV31_List
+      operationId: listInvoices
       parameters:
         - name: Xero-Features
           in: header
@@ -2241,12 +2241,12 @@ paths:
         - OAuth2:
             - practicemanager
             - practicemanager.read
-  /v3.1/invoice.api/job/{jobNumber}:
+  /invoice.api/job/{jobNumber}:
     get:
       tags:
         - InvoiceV31
       summary: Returns a list of invoices for a specific job
-      operationId: InvoiceV31_Job
+      operationId: listInvoicesByJob
       parameters:
         - name: Xero-Features
           in: header
@@ -2281,12 +2281,12 @@ paths:
         - OAuth2:
             - practicemanager
             - practicemanager.read
-  /v3.1/invoice.api/get/{invoiceNumber}:
+  /invoice.api/get/{invoiceNumber}:
     get:
       tags:
         - InvoiceV31
       summary: Detailed information for a specific invoice
-      operationId: InvoiceV31_Get
+      operationId: getInvoice
       parameters:
         - name: Xero-Features
           in: header
@@ -2321,12 +2321,12 @@ paths:
         - OAuth2:
             - practicemanager
             - practicemanager.read
-  /v3.1/invoice.api/payments/{invoiceNumber}:
+  /invoice.api/payments/{invoiceNumber}:
     get:
       tags:
         - InvoiceV31
       summary: Return a list of payments for an invoice
-      operationId: InvoiceV31_Payments
+      operationId: listInvoicePayments
       parameters:
         - name: Xero-Features
           in: header
@@ -2361,12 +2361,12 @@ paths:
         - OAuth2:
             - practicemanager
             - practicemanager.read
-  /v3.1/job.api/current:
+  /job.api/current:
     get:
       tags:
         - JobV31
       summary: Returns a list of current jobs
-      operationId: JobV31_Current
+      operationId: listCurrentJobs
       parameters:
         - name: Xero-Features
           in: header
@@ -2402,12 +2402,12 @@ paths:
             - practicemanager.read
             - practicemanager.job
             - practicemanager.job.read
-  /v3.1/job.api/list:
+  /job.api/list:
     get:
       tags:
         - JobV31
       summary: Return a list of all jobs
-      operationId: JobV31_List
+      operationId: listJobs
       parameters:
         - name: Xero-Features
           in: header
@@ -2455,12 +2455,12 @@ paths:
             - practicemanager.read
             - practicemanager.job
             - practicemanager.job.read
-  /v3.1/job.api/client/{identifier}:
+  /job.api/client/{identifier}:
     get:
       tags:
         - JobV31
       summary: Return a list of all jobs assigned for a specific client
-      operationId: JobV31_ClientByIdentifier
+      operationId: listJobsByClient
       parameters:
         - name: Xero-Features
           in: header
@@ -2502,12 +2502,12 @@ paths:
             - practicemanager.read
             - practicemanager.job
             - practicemanager.job.read
-  /v3.1/job.api/get/{jobNumber}:
+  /job.api/get/{jobNumber}:
     get:
       tags:
         - JobV31
       summary: Detailed information for a specific job
-      operationId: JobV31_Get
+      operationId: getJob
       parameters:
         - name: Xero-Features
           in: header
@@ -2544,12 +2544,12 @@ paths:
             - practicemanager.read
             - practicemanager.job
             - practicemanager.job.read
-  /v3.1/job.api/state:
+  /job.api/state:
     put:
       tags:
         - JobV31
       summary: Update the state of a specific job
-      operationId: JobV31_State
+      operationId: updateJobState
       parameters:
         - name: Xero-Features
           in: header
@@ -2584,12 +2584,12 @@ paths:
         - OAuth2:
             - practicemanager
             - practicemanager.job
-  /v3.1/job.api/add:
+  /job.api/add:
     post:
       tags:
         - JobV31
       summary: Add a job
-      operationId: JobV31_Add
+      operationId: createJob
       parameters:
         - name: Xero-Features
           in: header
@@ -2624,12 +2624,12 @@ paths:
         - OAuth2:
             - practicemanager
             - practicemanager.job
-  /v3.1/job.api/update:
+  /job.api/update:
     put:
       tags:
         - JobV31
       summary: Update a job
-      operationId: JobV31_Update
+      operationId: updateJob
       parameters:
         - name: Xero-Features
           in: header
@@ -2664,12 +2664,12 @@ paths:
         - OAuth2:
             - practicemanager
             - practicemanager.job
-  /v3.1/job.api/reordertasks:
+  /job.api/reordertasks:
     put:
       tags:
         - JobV31
       summary: Reorder the tasks on a job
-      operationId: JobV31_ReOrderTasks
+      operationId: reorderJobTasks
       parameters:
         - name: Xero-Features
           in: header
@@ -2704,12 +2704,12 @@ paths:
         - OAuth2:
             - practicemanager
             - practicemanager.job
-  /v3.1/job.api/note:
+  /job.api/note:
     post:
       tags:
         - JobV31
       summary: Add a note to a job
-      operationId: JobV31_Note
+      operationId: addJobNote
       parameters:
         - name: Xero-Features
           in: header
@@ -2744,12 +2744,12 @@ paths:
         - OAuth2:
             - practicemanager
             - practicemanager.job
-  /v3.1/job.api/document:
+  /job.api/document:
     post:
       tags:
         - JobV31
       summary: Add a document to a job
-      operationId: JobV31_Document
+      operationId: addJobDocument
       parameters:
         - name: Xero-Features
           in: header
@@ -2784,12 +2784,12 @@ paths:
         - OAuth2:
             - practicemanager
             - practicemanager.job
-  /v3.1/job.api/tasks:
+  /job.api/tasks:
     get:
       tags:
         - JobV31
       summary: Return a list of jobs and their tasks matching the specified criteria
-      operationId: JobV31_Tasks
+      operationId: listJobTasks
       parameters:
         - name: Xero-Features
           in: header
@@ -2835,12 +2835,12 @@ paths:
             - practicemanager.read
             - practicemanager.job
             - practicemanager.job.read
-  /v3.1/job.api/assign:
+  /job.api/assign:
     put:
       tags:
         - JobV31
       summary: Assign staff to a job
-      operationId: JobV31_Assign
+      operationId: assignStaffToJob
       parameters:
         - name: Xero-Features
           in: header
@@ -2875,12 +2875,12 @@ paths:
         - OAuth2:
             - practicemanager
             - practicemanager.job
-  /v3.1/job.api/delete:
+  /job.api/delete:
     post:
       tags:
         - JobV31
       summary: Delete a job
-      operationId: JobV31_Delete
+      operationId: deleteJob
       parameters:
         - name: Xero-Features
           in: header
@@ -2915,12 +2915,12 @@ paths:
         - OAuth2:
             - practicemanager
             - practicemanager.job
-  /v3.1/job.api/task:
+  /job.api/task:
     post:
       tags:
         - JobV31
       summary: Add a task to a job
-      operationId: JobV31_TaskAdd
+      operationId: addJobTask
       parameters:
         - name: Xero-Features
           in: header
@@ -2959,7 +2959,7 @@ paths:
       tags:
         - JobV31
       summary: Update a task on a job
-      operationId: JobV31_TaskUpdate
+      operationId: updateJobTask
       parameters:
         - name: Xero-Features
           in: header
@@ -2994,12 +2994,12 @@ paths:
         - OAuth2:
             - practicemanager
             - practicemanager.job
-  /v3.1/job.api/costs/{jobNumber}:
+  /job.api/costs/{jobNumber}:
     get:
       tags:
         - JobV31
       summary: Return a list of costs for a job
-      operationId: JobV31_Costs
+      operationId: listJobCosts
       parameters:
         - name: Xero-Features
           in: header
@@ -3036,12 +3036,12 @@ paths:
             - practicemanager.read
             - practicemanager.job
             - practicemanager.job.read
-  /v3.1/job.api/cost:
+  /job.api/cost:
     post:
       tags:
         - JobV31
       summary: Add a cost to a job
-      operationId: JobV31_CostAdd
+      operationId: addJobCost
       parameters:
         - name: Xero-Features
           in: header
@@ -3080,7 +3080,7 @@ paths:
       tags:
         - JobV31
       summary: Update a cost on a job
-      operationId: JobV31_CostUpdate
+      operationId: updateJobCost
       parameters:
         - name: Xero-Features
           in: header
@@ -3115,12 +3115,12 @@ paths:
         - OAuth2:
             - practicemanager
             - practicemanager.job
-  /v3.1/job.api/applytemplate:
+  /job.api/applytemplate:
     post:
       tags:
         - JobV31
       summary: Apply an additional template to a job
-      operationId: JobV31_ApplyTemplate
+      operationId: applyTemplateToJob
       parameters:
         - name: Xero-Features
           in: header
@@ -3155,12 +3155,12 @@ paths:
         - OAuth2:
             - practicemanager
             - practicemanager.job
-  /v3.1/job.api/documents/{id}:
+  /job.api/documents/{id}:
     get:
       tags:
         - JobV31
       summary: Return a list of documents for a job
-      operationId: JobV31_Documents
+      operationId: listJobDocuments
       parameters:
         - name: Xero-Features
           in: header
@@ -3197,12 +3197,12 @@ paths:
             - practicemanager.read
             - practicemanager.job
             - practicemanager.job.read
-  /v3.1/job.api/task/{identifier}/complete:
+  /job.api/task/{identifier}/complete:
     put:
       tags:
         - JobV31
       summary: Complete a task on a job
-      operationId: JobV31_CompleteTask
+      operationId: completeJobTask
       parameters:
         - name: Xero-Features
           in: header
@@ -3237,12 +3237,12 @@ paths:
         - OAuth2:
             - practicemanager
             - practicemanager.job
-  /v3.1/job.api/task/{identifier}/reopen:
+  /job.api/task/{identifier}/reopen:
     put:
       tags:
         - JobV31
       summary: Re-open a task on a job
-      operationId: JobV31_ReOpenTask
+      operationId: reopenJobTask
       parameters:
         - name: Xero-Features
           in: header
@@ -3277,12 +3277,12 @@ paths:
         - OAuth2:
             - practicemanager
             - practicemanager.job
-  /v3.1/job.api/createquote/{jobNumber}:
+  /job.api/createquote/{jobNumber}:
     post:
       tags:
         - JobV31
       summary: Create a quote based on the job
-      operationId: JobV31_CreateQuote
+      operationId: createQuoteFromJob
       parameters:
         - name: Xero-Features
           in: header
@@ -3317,12 +3317,12 @@ paths:
         - OAuth2:
             - practicemanager
             - practicemanager.job
-  /v3.1/job.api/createestimate/{jobNumber}:
+  /job.api/createestimate/{jobNumber}:
     post:
       tags:
         - JobV31
       summary: Create an estimate based on the job
-      operationId: JobV31_CreateEstimate
+      operationId: createEstimateFromJob
       parameters:
         - name: Xero-Features
           in: header
@@ -3357,12 +3357,12 @@ paths:
         - OAuth2:
             - practicemanager
             - practicemanager.job
-  /v3.1/job.api/staff/{identifier}:
+  /job.api/staff/{identifier}:
     get:
       tags:
         - Job2V31
       summary: Return a list of all current jobs assigned to a staff member
-      operationId: Job2V31_StaffByIdentifier
+      operationId: listJobsByStaff
       parameters:
         - name: Xero-Features
           in: header
@@ -3397,12 +3397,12 @@ paths:
         - OAuth2:
             - practicemanager.job
             - practicemanager.job.read
-  /v3.1/jobstate.api/list:
+  /jobstate.api/list:
     get:
       tags:
         - JobStateV31
       summary: Return a list of all job states
-      operationId: JobStateV31_List
+      operationId: listJobStates
       parameters:
         - name: Xero-Features
           in: header
@@ -3433,12 +3433,12 @@ paths:
             - practicemanager.read
             - practicemanager.job
             - practicemanager.job.read
-  /v3.1/quote.api/current:
+  /quote.api/current:
     get:
       tags:
         - QuoteV31
       summary: Return a list of current quotes
-      operationId: QuoteV31_Current
+      operationId: listCurrentQuotes
       parameters:
         - name: Xero-Features
           in: header
@@ -3473,12 +3473,12 @@ paths:
         - OAuth2:
             - practicemanager
             - practicemanager.read
-  /v3.1/quote.api/draft:
+  /quote.api/draft:
     get:
       tags:
         - QuoteV31
       summary: Return a list of draft quotes
-      operationId: QuoteV31_Draft
+      operationId: listDraftQuotes
       parameters:
         - name: Xero-Features
           in: header
@@ -3513,12 +3513,12 @@ paths:
         - OAuth2:
             - practicemanager
             - practicemanager.read
-  /v3.1/quote.api/list:
+  /quote.api/list:
     get:
       tags:
         - QuoteV31
       summary: Return a list of current and archived quotes
-      operationId: QuoteV31_List
+      operationId: listQuotes
       parameters:
         - name: Xero-Features
           in: header
@@ -3564,12 +3564,12 @@ paths:
         - OAuth2:
             - practicemanager
             - practicemanager.read
-  /v3.1/quote.api/get/{quoteNumber}:
+  /quote.api/get/{quoteNumber}:
     get:
       tags:
         - QuoteV31
       summary: Detailed information for a specific quote
-      operationId: QuoteV31_Get
+      operationId: getQuote
       parameters:
         - name: Xero-Features
           in: header
@@ -3604,12 +3604,12 @@ paths:
         - OAuth2:
             - practicemanager
             - practicemanager.read
-  /v3.1/staff.api/list:
+  /staff.api/list:
     get:
       tags:
         - StaffV31
       summary: Return a list of all staff members
-      operationId: StaffV31_List
+      operationId: listStaff
       parameters:
         - name: Xero-Features
           in: header
@@ -3640,12 +3640,12 @@ paths:
             - practicemanager.read
             - practicemanager.staff
             - practicemanager.staff.read
-  /v3.1/staff.api/get/{identifier}:
+  /staff.api/get/{identifier}:
     get:
       tags:
         - StaffV31
       summary: Details for a specific staff member
-      operationId: StaffV31_GetByUuid
+      operationId: getStaffMember
       parameters:
         - name: Xero-Features
           in: header
@@ -3682,12 +3682,12 @@ paths:
             - practicemanager.read
             - practicemanager.staff
             - practicemanager.staff.read
-  /v3.1/staff.api/add:
+  /staff.api/add:
     post:
       tags:
         - StaffV31
       summary: Add a staff member
-      operationId: StaffV31_Add
+      operationId: createStaffMember
       parameters:
         - name: Xero-Features
           in: header
@@ -3722,12 +3722,12 @@ paths:
         - OAuth2:
             - practicemanager
             - practicemanager.staff
-  /v3.1/staff.api/update:
+  /staff.api/update:
     put:
       tags:
         - StaffV31
       summary: Update a staff member's details
-      operationId: StaffV31_Update
+      operationId: updateStaffMember
       parameters:
         - name: Xero-Features
           in: header
@@ -3762,12 +3762,12 @@ paths:
         - OAuth2:
             - practicemanager
             - practicemanager.staff
-  /v3.1/staff.api/delete:
+  /staff.api/delete:
     post:
       tags:
         - StaffV31
       summary: Delete a staff member
-      operationId: StaffV31_Delete
+      operationId: deleteStaffMember
       parameters:
         - name: Xero-Features
           in: header
@@ -3802,12 +3802,12 @@ paths:
         - OAuth2:
             - practicemanager
             - practicemanager.staff
-  /v3.1/staff.api/enable:
+  /staff.api/enable:
     post:
       tags:
         - StaffV31
       summary: Enable a staff member so they can log into Practice Manager
-      operationId: StaffV31_Enable
+      operationId: enableStaffMember
       parameters:
         - name: Xero-Features
           in: header
@@ -3842,12 +3842,12 @@ paths:
         - OAuth2:
             - practicemanager
             - practicemanager.staff
-  /v3.1/staff.api/disable:
+  /staff.api/disable:
     post:
       tags:
         - StaffV31
       summary: Disable a staff member so they can no longer log into Practice Manager
-      operationId: StaffV31_Disable
+      operationId: disableStaffMember
       parameters:
         - name: Xero-Features
           in: header
@@ -3882,12 +3882,12 @@ paths:
         - OAuth2:
             - practicemanager
             - practicemanager.staff
-  /v3.1/staff.api/forgottenpassword:
+  /staff.api/forgottenpassword:
     post:
       tags:
         - StaffV31
       summary: Reset a staff member's password
-      operationId: StaffV31_ForgottenPassword
+      operationId: resetStaffPassword
       parameters:
         - name: Xero-Features
           in: header
@@ -3922,12 +3922,12 @@ paths:
         - OAuth2:
             - practicemanager
             - practicemanager.staff
-  /v3.1/task.api/list:
+  /task.api/list:
     get:
       tags:
         - TaskV31
       summary: Return a list of all tasks
-      operationId: TaskV31_List
+      operationId: listTasks
       parameters:
         - name: Xero-Features
           in: header
@@ -3956,12 +3956,12 @@ paths:
         - OAuth2:
             - practicemanager
             - practicemanager.read
-  /v3.1/task.api/get/{identifier}:
+  /task.api/get/{identifier}:
     get:
       tags:
         - TaskV31
       summary: Details for a specific task
-      operationId: TaskV31_Get
+      operationId: getTask
       parameters:
         - name: Xero-Features
           in: header
@@ -3996,12 +3996,12 @@ paths:
         - OAuth2:
             - practicemanager
             - practicemanager.read
-  /v3.1/template.api/list:
+  /template.api/list:
     get:
       tags:
         - TemplateV31
       summary: Return a list of all templates
-      operationId: TemplateV31_List
+      operationId: listTemplates
       parameters:
         - name: Xero-Features
           in: header
@@ -4030,12 +4030,12 @@ paths:
         - OAuth2:
             - practicemanager
             - practicemanager.read
-  /v3.1/time.api/job/{jobNumber}:
+  /time.api/job/{jobNumber}:
     get:
       tags:
         - TimeV31
       summary: Returns a list of time sheet entries for a specific job
-      operationId: TimeV31_Job
+      operationId: listTimeEntriesByJob
       parameters:
         - name: Xero-Features
           in: header
@@ -4072,12 +4072,12 @@ paths:
             - practicemanager.read
             - practicemanager.time
             - practicemanager.time.read
-  /v3.1/time.api/list:
+  /time.api/list:
     get:
       tags:
         - TimeV31
       summary: Return a list of time sheet entries
-      operationId: TimeV31_List
+      operationId: listTimeEntries
       parameters:
         - name: Xero-Features
           in: header
@@ -4126,12 +4126,12 @@ paths:
             - practicemanager.read
             - practicemanager.time
             - practicemanager.time.read
-  /v3.1/time.api/staff/{identifier}:
+  /time.api/staff/{identifier}:
     get:
       tags:
         - TimeV31
       summary: Return a list of time sheet entries for a specific staff member
-      operationId: TimeV31_Staff
+      operationId: listTimeEntriesByStaff
       parameters:
         - name: Xero-Features
           in: header
@@ -4186,12 +4186,12 @@ paths:
             - practicemanager.read
             - practicemanager.time
             - practicemanager.time.read
-  /v3.1/time.api/get/{identifier}:
+  /time.api/get/{identifier}:
     get:
       tags:
         - TimeV31
       summary: Detailed information for a specific time entry
-      operationId: TimeV31_Get
+      operationId: getTimeEntry
       parameters:
         - name: Xero-Features
           in: header
@@ -4228,12 +4228,12 @@ paths:
             - practicemanager.read
             - practicemanager.time
             - practicemanager.time.read
-  /v3.1/time.api/add:
+  /time.api/add:
     post:
       tags:
         - TimeV31
       summary: Add a time sheet entry to a job
-      operationId: TimeV31_Add
+      operationId: createTimeEntry
       parameters:
         - name: Xero-Features
           in: header
@@ -4268,12 +4268,12 @@ paths:
         - OAuth2:
             - practicemanager
             - practicemanager.time
-  /v3.1/time.api/update:
+  /time.api/update:
     put:
       tags:
         - TimeV31
       summary: Update a time sheet entry on a job
-      operationId: TimeV31_Update
+      operationId: updateTimeEntry
       parameters:
         - name: Xero-Features
           in: header
@@ -4308,12 +4308,12 @@ paths:
         - OAuth2:
             - practicemanager
             - practicemanager.time
-  /v3.1/time.api/delete/{identifier}:
+  /time.api/delete/{identifier}:
     delete:
       tags:
         - TimeV31
       summary: Delete a specific time sheet entry
-      operationId: TimeV31_Delete
+      operationId: deleteTimeEntry
       parameters:
         - name: Xero-Features
           in: header
