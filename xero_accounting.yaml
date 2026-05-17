@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Xero Accounting API
-  version: 11.0.0
+  version: 13.0.0
   termsOfService: https://developer.xero.com/xero-developer-platform-terms-conditions/
   contact:
     name: Xero Platform Team
@@ -6535,272 +6535,6 @@ paths:
             example:
               Code: USD
               Description: United States Dollar
-  /Employees:
-    parameters:
-      - $ref: "#/components/parameters/requiredHeader"
-    get:
-      deprecated: true
-      security:
-        - OAuth2:
-            - accounting.settings
-            - accounting.settings.read
-      tags:
-        - Accounting
-      operationId: getEmployees
-      summary: Retrieves employees used in Xero payrun
-      description: This endpoint is deprecated and will be removed April 28, 2026
-      parameters:
-        - $ref: "#/components/parameters/ifModifiedSince"
-        - in: query
-          name: where
-          description: Filter by an any element
-          example: Status=="ACTIVE"
-          x-example-csharp: Status==\"ACTIVE\"
-          x-example-java: Status==&quot;&apos; + Employee.StatusEnum.ACTIVE + &apos;&quot;
-          x-example-php: Status==&quot;&apos; . \XeroAPI\XeroPHP\Models\Accounting\Employee::STATUS_ACTIVE . &apos;&quot;
-          x-example-ruby: Status==#{XeroRuby::Accounting::Employee::ACTIVE}
-          schema:
-            type: string
-        - in: query
-          name: order
-          description: Order by an any element
-          example: LastName ASC
-          schema:
-            type: string
-      responses:
-        "200":
-          description: Success - return response of type Employees array with all Employee
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Employees"
-              example:
-                Id: 593cbccc-5cd2-4cd2-be5e-150f0843709e
-                Status: OK
-                ProviderName: Provider Name Example
-                DateTimeUTC: /Date(1552325082775)/
-                Employees:
-                  - EmployeeID: 972615c5-ad3d-47a0-b579-20370d374578
-                    Status: ACTIVE
-                    FirstName: Tony
-                    LastName: Stark
-                    ExternalLink:
-                      Url: http://twitter.com/#!/search/Stark+Industries
-                      Description: Go to external link
-                    UpdatedDateUTC: /Date(1552324681593+0000)/
-                  - EmployeeID: ad3db144-6362-459c-8c36-5d31d196e629
-                    Status: ACTIVE
-                    FirstName: Bruce
-                    LastName: Banner
-                    ExternalLink:
-                      Url: http://twitter.com/#!/search/Nick+Fury
-                      Description: Go to external link
-                    UpdatedDateUTC: /Date(1552325081303+0000)/
-                  - EmployeeID: e1ada26b-a10e-4065-a941-af34b53740e3
-                    Status: ACTIVE
-                    FirstName: Nick
-                    LastName: Fury
-                    ExternalLink:
-                      Url: http://twitter.com/#!/search/Nick+Fury
-                      Description: Go to external link
-                    UpdatedDateUTC: /Date(1552324737990+0000)/
-    put:
-      deprecated: true
-      security:
-        - OAuth2:
-            - accounting.settings
-      tags:
-        - Accounting
-      operationId: createEmployees
-      summary: Creates new employees used in Xero payrun
-      description: This endpoint is deprecated and will be removed April 28, 2026
-      x-hasAccountingValidationError: true
-      x-example:
-        - employee:
-          is_object: true
-          key: employee
-          keyPascal: Employee
-        - firstName:
-          key: firstName
-          keyPascal: FirstName
-          keySnake: first_name
-          default: Nick
-          object: employee
-        - lastName:
-          is_last: true
-          key: lastName
-          keyPascal: LastName
-          keySnake: last_name
-          default: Fury
-          object: employee
-        - employees:
-          is_object: true
-          key: employees
-          keyPascal: Employees
-        - add_employee:
-          is_last: true
-          is_array_add: true
-          key: employees
-          keyPascal: Employees
-          java: Employees
-          csharp: Employee
-          object: employee
-      parameters:
-        - $ref: "#/components/parameters/summarizeErrors"
-        - $ref: "#/components/parameters/idempotencyKey"
-      responses:
-        "200":
-          description: Success - return response of type Employees array with new Employee
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Employees"
-              example:
-                Id: 0d6a08e7-6936-4828-a1bc-e4595e0ef778
-                Status: OK
-                ProviderName: Provider Name Example
-                DateTimeUTC: /Date(1552324736508)/
-                Employees:
-                  - EmployeeID: e1ada26b-a10e-4065-a941-af34b53740e3
-                    Status: ACTIVE
-                    FirstName: Nick
-                    LastName: Fury
-                    ExternalLink:
-                      Url: http://twitter.com/#!/search/Nick+Fury
-                      Description: Go to external link
-                    UpdatedDateUTC: /Date(1552324736463+0000)/
-        "400":
-          $ref: "#/components/responses/400Error"
-      requestBody:
-        required: true
-        description: Employees with array of Employee object in body of request
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Employees"
-            example:
-              Employees:
-                - FirstName: Nick
-                  LastName: Fury
-                  ExternalLink:
-                    Url: http://twitter.com/#!/search/Nick+Fury
-    post:
-      deprecated: true
-      security:
-        - OAuth2:
-            - accounting.settings
-      tags:
-        - Accounting
-      operationId: updateOrCreateEmployees
-      summary: Creates a single new employees used in Xero payrun
-      description: This endpoint is deprecated and will be removed April 28, 2026
-      x-hasAccountingValidationError: true
-      x-example:
-        - employee:
-          is_object: true
-          key: employee
-          keyPascal: Employee
-        - firstName:
-          key: firstName
-          keyPascal: FirstName
-          keySnake: first_name
-          default: Nick
-          object: employee
-        - lastName:
-          is_last: true
-          key: lastName
-          keyPascal: LastName
-          keySnake: last_name
-          default: Fury
-          object: employee
-        - employees:
-          is_object: true
-          key: employees
-          keyPascal: Employees
-        - add_employee:
-          is_last: true
-          is_array_add: true
-          key: employees
-          keyPascal: Employees
-          java: Employees
-          csharp: Employee
-          object: employee
-      parameters:
-        - $ref: "#/components/parameters/summarizeErrors"
-        - $ref: "#/components/parameters/idempotencyKey"
-      responses:
-        "200":
-          description: Success - return response of type Employees array with new Employee
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Employees"
-              example:
-                Id: 0d6a08e7-6936-4828-a1bc-e4595e0ef778
-                Status: OK
-                ProviderName: Provider Name Example
-                DateTimeUTC: /Date(1552324736508)/
-                Employees:
-                  - EmployeeID: e1ada26b-a10e-4065-a941-af34b53740e3
-                    Status: ACTIVE
-                    FirstName: Nick
-                    LastName: Fury
-                    ExternalLink:
-                      Url: http://twitter.com/#!/search/Nick+Fury
-                      Description: Go to external link
-                    UpdatedDateUTC: /Date(1552324736463+0000)/
-        "400":
-          $ref: "#/components/responses/400Error"
-      requestBody:
-        required: true
-        description: Employees with array of Employee object in body of request
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Employees"
-            example:
-              Employees:
-                - FirstName: Nick
-                  LastName: Fury
-                  ExternalLink:
-                    Url: http://twitter.com/#!/search/Nick+Fury
-  /Employees/{EmployeeID}:
-    parameters:
-      - $ref: "#/components/parameters/requiredHeader"
-    get:
-      deprecated: true
-      security:
-        - OAuth2:
-            - accounting.settings
-            - accounting.settings.read
-      tags:
-        - Accounting
-      operationId: getEmployee
-      summary: Retrieves a specific employee used in Xero payrun using a unique employee Id
-      description: This endpoint is deprecated and will be removed April 28, 2026
-      parameters:
-        - $ref: "#/components/parameters/EmployeeID"
-      responses:
-        "200":
-          description: Success - return response of type Employees array with specified Employee
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Employees"
-              example:
-                Id: 417a529e-4f8d-4b1a-8816-7100245cf8b2
-                Status: OK
-                ProviderName: Provider Name Example
-                DateTimeUTC: /Date(1552325084085)/
-                Employees:
-                  - EmployeeID: 972615c5-ad3d-47a0-b579-20370d374578
-                    Status: ACTIVE
-                    FirstName: Tony
-                    LastName: Stark
-                    ExternalLink:
-                      Url: http://twitter.com/#!/search/Stark+Industries
-                      Description: Go to external link
-                    UpdatedDateUTC: /Date(1552324681593+0000)/
   /ExpenseClaims:
     parameters:
       - $ref: "#/components/parameters/requiredHeader"
@@ -12577,6 +12311,20 @@ paths:
             type: integer
         - $ref: "#/components/parameters/unitdp"
         - $ref: "#/components/parameters/pageSize"
+        - in: query
+          name: InvoiceNumbers
+          x-snake: invoice_numbers
+          description: Filter by a comma-separated list of InvoiceNumbers
+          style: form
+          explode: false
+          example: "&quot;INV-001&quot;, &quot;INV-002&quot;"
+          x-example-java: Arrays.asList("INV-001","INV-002")
+          x-example-php: "&quot;INV-001&quot;, &quot;INV-002&quot;"
+          x-example-csharp: new List&lt;string&gt;{&quot;INV-001&quot;,&quot;INV-002&quot;}
+          schema:
+            type: array
+            items:
+              type: string
       responses:
         "200":
           description: Success - return response of type Prepayments array for all Prepayment
@@ -12599,6 +12347,7 @@ paths:
                     ID: ce0cddef-cf5a-4e59-b638-f225679115a7
                     Type: RECEIVE-PREPAYMENT
                     Reference: INV-0011
+                    InvoiceNumber: INV-0011
                     RemainingCredit: 3450.00
                     Allocations: []
                     Payments: []
@@ -12652,7 +12401,9 @@ paths:
                     ID: ce0cddef-cf5a-4e59-b638-f225679115a7
                     CurrencyRate: 1.000000
                     Type: RECEIVE-PREPAYMENT
+                    BrandingThemeID: 414d4a87-46d6-4cfc-ab42-4e29d22e5076
                     Reference: INV-0011
+                    InvoiceNumber: INV-0011
                     RemainingCredit: 3449.00
                     Allocations:
                       - Amount: 1.00
@@ -23019,6 +22770,14 @@ components:
             - SOLE_TRADER
             - SUPERANNUATION_FUND
             - TRUST
+            - PERSONAL
+            - SINGLEMEMBERLLC
+            - CCORPORATIONLLC
+            - PARTNERSHIPLLC
+            - SCORPORATIONLLC
+            - LLC
+            - NOTLLC
+            - UNSPECIFIED
         BaseCurrency:
           $ref: "#/components/schemas/CurrencyCode"
           type: string
@@ -23117,6 +22876,14 @@ components:
             - SOLE_TRADER
             - SUPERANNUATION_FUND
             - TRUST
+            - PERSONAL
+            - SINGLEMEMBERLLC
+            - CCORPORATIONLLC
+            - PARTNERSHIPLLC
+            - SCORPORATIONLLC
+            - LLC
+            - NOTLLC
+            - UNSPECIFIED
         ShortCode:
           description: A unique identifier for the organisation. Potential uses.
           type: string
@@ -23145,6 +22912,7 @@ components:
             - GROW
             - COMPREHENSIVE
             - SIMPLE
+            - BASICLITE
         Edition:
           description: BUSINESS or PARTNER. Partner edition organisations are sold exclusively through accounting partners and have restricted functionality (e.g. no access to invoicing)
           type: string
@@ -23932,6 +23700,10 @@ components:
           description: Returns Invoice number field. Reference field isn't available.
           type: string
           readOnly: true
+        InvoiceNumber:
+          description: Returns Invoice number for prepayment receive document only.
+          type: string
+          readOnly: true
         UpdatedDateUTC:
           description: UTC timestamp of last update to the prepayment
           type: string
@@ -23945,6 +23717,11 @@ components:
           description: Xero generated unique identifier
           type: string
           format: uuid
+        BrandingThemeID:
+          description: The unique identifier of the branding template applied to a receive prepayment
+          type: string
+          format: uuid
+          readOnly: true
         CurrencyRate:
           description: The currency rate for a multicurrency prepayment. If no rate is specified, the XE.com day rate is used
           type: number
