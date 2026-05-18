@@ -26,6 +26,40 @@ FAIL_ON_BREAKING=false
 TARGET_FILE=""
 DRY_RUN=false
 
+detect_breaking_commit_marker() {
+    local commits="$1"
+
+    # Conventional Commits breaking indicators:
+    # 1) An exclamation mark in the type/scope header, e.g. feat!: ... or feat(api)!: ...
+    # 2) A BREAKING CHANGE footer in the commit body
+    if echo "$commits" | grep -Eiq '^[[:space:]]*[a-z]+(\([^)]+\))?!:'; then
+        return 0
+    fi
+
+    if echo "$commits" | grep -Eiq 'BREAKING[ -]CHANGE:'; then
+        return 0
+    fi
+
+    return 1
+}
+
+get_commit_messages() {
+    # For tests and local overrides
+    if [ -n "$COMMIT_MESSAGES" ]; then
+        echo "$COMMIT_MESSAGES"
+        return 0
+    fi
+
+    # In GitHub Actions PRs, scan all commit subjects + bodies in the PR range.
+    if [ -n "$GITHUB_BASE_REF" ]; then
+        git log --format='%s%n%b%n----' "origin/$GITHUB_BASE_REF..HEAD" 2>/dev/null || true
+        return 0
+    fi
+
+    # Local default: inspect HEAD commit only.
+    git log -1 --format='%s%n%b' 2>/dev/null || true
+}
+
 # Parse arguments
 for arg in "$@"; do
     if [ "$arg" = "--fail-on-breaking" ]; then
@@ -37,26 +71,14 @@ for arg in "$@"; do
     fi
 done
 
-# Detect current branch: GitHub Actions PR branch, or local git branch
-# Allow CURRENT_BRANCH env var to override for testing
-if [ -n "$CURRENT_BRANCH" ]; then
-    # Use explicitly set CURRENT_BRANCH (for testing)
-    :
-elif [ -n "$GITHUB_HEAD_REF" ]; then
-    # Use GitHub Actions PR branch
-    CURRENT_BRANCH="$GITHUB_HEAD_REF"
-else
-    # Use local git branch
-    CURRENT_BRANCH=$(git branch --show-current 2>/dev/null || echo "")
-fi
-
-# If --fail-on-breaking not explicitly set, determine based on branch name
+# If --fail-on-breaking not explicitly set, determine based on conventional commit markers.
 if [ "$FAIL_ON_BREAKING" = false ]; then
-    if [[ "$CURRENT_BRANCH" == *breaking* ]]; then
-        echo "Branch '$CURRENT_BRANCH' contains 'breaking', allowing breaking changes"
+    COMMIT_TEXT=$(get_commit_messages)
+    if detect_breaking_commit_marker "$COMMIT_TEXT"; then
+        echo "Detected conventional commit breaking marker ('!' in header or 'BREAKING CHANGE:' footer), allowing breaking changes"
         FAIL_ON_BREAKING=false
     else
-        echo "Branch '$CURRENT_BRANCH' does not contain 'breaking', failing on breaking changes"
+        echo "No conventional commit breaking marker found, failing on breaking changes"
         FAIL_ON_BREAKING=true
     fi
 fi
@@ -67,7 +89,7 @@ if [ "$DRY_RUN" = true ]; then
     else
         echo "Mode: Allowing breaking changes"
     fi
-    echo "Dry run mode, exiting after branch check"
+    echo "Dry run mode, exiting after commit message check"
     exit 0
 fi
 
@@ -119,38 +141,38 @@ for file in $files; do
     TOTAL_FILES=$((TOTAL_FILES + 1))
     echo ""
     echo "========== $file =========="
-    
+
     # Get the file from master branch
     if ! git show "$BASE_BRANCH:$file" > "$TEMP_DIR/$file" 2>/dev/null; then
         echo "ℹ️  New file (does not exist in master branch)"
         continue
     fi
-    
+
     # Verify the temp file was created
     if [ ! -f "$TEMP_DIR/$file" ]; then
         echo "❌ Failed to create temp file"
         continue
     fi
-    
+
     # Note: oasdiff has some non-deterministic behavior in change counts due to
     # unordered map iteration in Go. Error counts are consistent, but warning
     # counts may vary by ~2-3% between runs. This is a known limitation.
-    
+
     # Run oasdiff changelog
     echo "--- Changelog ---"
     set +e
     CHANGELOG_OUTPUT=$(docker run --rm -v "$(pwd)":/current -v "$TEMP_DIR":/base "$DOCKER_IMAGE" changelog --include-path-params /base/"$file" /current/"$file" 2>&1)
     CHANGELOG_EXIT=$?
     set -e
-    
+
     echo "$CHANGELOG_OUTPUT"
-    
+
     if [ $CHANGELOG_EXIT -eq 0 ]; then
         echo "✓ Changelog generated successfully"
     else
         echo "⚠ Could not generate changelog (exit code: $CHANGELOG_EXIT)"
     fi
-    
+
     # Run breaking changes check
     echo ""
     echo "--- Breaking changes check ---"
@@ -158,9 +180,9 @@ for file in $files; do
     BREAKING_OUTPUT=$(docker run --rm -v "$(pwd)":/current -v "$TEMP_DIR":/base "$DOCKER_IMAGE" breaking --fail-on WARN --include-path-params /base/"$file" /current/"$file" 2>&1)
     BREAKING_EXIT=$?
     set -e
-    
+
     echo "$BREAKING_OUTPUT"
-    
+
     if [ $BREAKING_EXIT -eq 0 ]; then
         echo "✓ No breaking changes detected"
     else
@@ -168,7 +190,7 @@ for file in $files; do
         BREAKING_CHANGES_FOUND=true
         FILES_WITH_BREAKING_CHANGES+=("$file")
     fi
-    
+
     PROCESSED_FILES=$((PROCESSED_FILES + 1))
 done
 
@@ -189,7 +211,7 @@ if [ "$BREAKING_CHANGES_FOUND" = true ]; then
             echo "::warning file=${file}::Breaking changes detected in this API spec file"
         fi
     done
-    
+
     if [ "$FAIL_ON_BREAKING" = true ]; then
         echo ""
         echo "Exiting with error due to breaking changes"

@@ -2,7 +2,7 @@
 An OpenAPI (Swagger) specification for the Xero API with OAuth 2.0 security schema.
 
 ## Description
-This repository holds the official Xero [OpenAPI](https://www.openapis.org/) descriptions.   
+This repository holds the official Xero [OpenAPI](https://www.openapis.org/) descriptions.
 
 OpenAPI spec 3.0
 In Release (used for one or more SDKs)
@@ -19,43 +19,33 @@ In Release (used for one or more SDKs)
 
 ## Contribution guide
 
-[Conventional commit](https://www.conventionalcommits.org/en/v1.0.0/#summary) format should be used when contributing to this repo.
+Use [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/#summary) for all commits.
 
-**Context:**
+Why this matters:
 
-Release notes are generated using [semantic-release](https://github.com/semantic-release/semantic-release). In brief this package analyses all the commits in the repo to determine the next version number, generate the release notes and publish the package, hence the commit message is important for the release to happen successfully. Please read more on the conventional commit [documentation](https://www.conventionalcommits.org/en/v1.0.0/#summary) before landing your commits, each commit message will determine the release notes.
+- We use [semantic-release](https://github.com/semantic-release/semantic-release) to calculate versions automatically.
+- Consistent commit formatting keeps versioning predictable and release notes accurate.
 
-**Example:**
+Versioning rules:
 
-If your commit message is - ``feat: added a new parameter in the get_account method`` - It will do a **minor version update**. 
+- `feat:` -> minor version bump
+- `fix:` -> patch version bump
+- `!` in the header or `BREAKING CHANGE:` footer -> major version bump
 
-Following release notes will be generated -
+Examples:
 
-```
-Release notes 
-
- Feature - 
-   - added a new parameter in the get_account method 
-```
-
-If your commit message is - ``fix: fixed the null issue with get_invoice method`` - It will do a **patch version update**. 
-
-Following release notes will be generated - 
-
-```
-Release notes 
-
- Fix - 
-   - fixed the null issue with get_invoice method
+```text
+feat(accounting): add includeArchived query parameter to GET /Accounts
 ```
 
-
-if your commit message is as below it will do a **major version update** (Breaking change)
-
+```text
+fix(files): correct nullable schema for File.ContentLength
 ```
-chore!: drop support for Node 6
 
-BREAKING CHANGE: use JavaScript features not available in Node 6
+```text
+feat(payroll-nz)!: remove deprecated EarningsRateID field from Payslip response
+
+BREAKING CHANGE: clients must use EarningsRateIdentifier instead of EarningsRateID.
 ```
 
 
@@ -64,7 +54,7 @@ We are using [OpenAPI generator](https://github.com/OpenAPITools/openapi-generat
 
 ## Preview
 ### Online
-There are lots of tools available for viewing and editing OpenAPI descriptions in a nicely formatted way. A popular tool is SwaggerHub - a version of which is [hosted here](https://app.swaggerhub.com/home). 
+There are lots of tools available for viewing and editing OpenAPI descriptions in a nicely formatted way. A popular tool is SwaggerHub - a version of which is [hosted here](https://app.swaggerhub.com/home).
 
 Once you sign up or login, you can create a new API under your account and import a Xero API spec.
 
@@ -99,10 +89,13 @@ This repository includes automated API diff checking using [oasdiff](https://git
 ./scripts/api-diff/api-diff.sh xero_accounting.yaml
 ```
 
-### Branch Naming Convention
-Branches containing `breaking` anywhere in the name will allow breaking changes without failing the build. All other branches will fail if breaking changes are detected.
+### Breaking Change Enforcement
+By default, API diff checks fail when breaking changes are detected.
 
-**Examples:** `breaking-api-v2`, `feature-breaking-change`, `api-breaking-update`
+Breaking changes are allowed only when commit messages include a Conventional Commits breaking marker:
+
+- `!` in the commit header, for example `feat!: remove deprecated endpoint`
+- `BREAKING CHANGE:` in the commit body/footer
 
 ### Full Documentation
 For detailed usage, configuration options, environment variables, and integration details, see [scripts/api-diff/README.md](scripts/api-diff/README.md).

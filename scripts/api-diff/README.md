@@ -27,7 +27,7 @@ Main script that compares OpenAPI specifications against the master branch.
 - `BASE_BRANCH` - Branch to compare against (default: `origin/master`)
 
 ### `api-diff.test.sh`
-Unit tests for the branch logic pattern matching used in GitHub Actions.
+Unit tests for conventional commit breaking marker detection used in GitHub Actions.
 
 **Usage:**
 ```bash
@@ -35,29 +35,31 @@ Unit tests for the branch logic pattern matching used in GitHub Actions.
 ```
 
 Tests validate that:
-- Branches containing `breaking` anywhere in the name are correctly identified
-- Other branches are handled with breaking change enforcement
+- Commits with `!` in the conventional commit header are correctly identified
+- Commits with `BREAKING CHANGE:` footer are correctly identified
+- Other commits are handled with breaking change enforcement
 
 ## Integration
 
 These scripts are integrated into the GitHub Actions workflow at `.github/workflows/api-diff.yml`:
-- **test-branch-logic** job - Runs unit tests
+- **test-conventional-commit-logic** job - Runs unit tests
 - **api-diff** job - Runs API diff checks with conditional breaking change enforcement
 
-### Branch Naming Convention
-The GitHub Actions workflow automatically adjusts its behavior based on branch names:
+### Conventional Commit Breaking Markers
+The API diff script automatically adjusts behavior based on commit messages:
 
 **Allow Breaking Changes:**
-- Any branch containing `breaking` in the name
-- Examples: `breaking-api-v2`, `feature-breaking-change`, `api-breaking-update`
+- Commit header with `!`, for example: `feat!: remove deprecated endpoint`
+- Commit header with scope and `!`, for example: `feat(api)!: remove deprecated endpoint`
+- Commit body/footer containing `BREAKING CHANGE: ...`
 - The `--fail-on-breaking` flag is NOT passed to the script
 
 **Fail on Breaking Changes:**
-- All other branches (main, master, develop, feature branches, etc.)
+- Commits without these conventional commit breaking markers
 - The `--fail-on-breaking` flag IS passed to the script
 - Build will fail if breaking changes are detected
 
-This allows developers to explicitly signal when they're working on breaking changes by including `breaking` in their branch name.
+This keeps enforcement aligned with [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/#summary) and semantic-release expectations.
 
 ## Known Limitations
 
