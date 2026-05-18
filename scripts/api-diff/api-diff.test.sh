@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# Unit test for api-diff.sh branch logic
-# Tests the script's branch detection and FAIL_ON_BREAKING setting
+# Unit test for api-diff.sh conventional commit logic
+# Tests commit message detection and FAIL_ON_BREAKING setting
 
 set -e
 
-echo "=== Unit Test: api-diff.sh Branch Logic ==="
+echo "=== Unit Test: api-diff.sh Conventional Commit Logic ==="
 echo
 
 TESTS_PASSED=0
@@ -13,20 +13,19 @@ TESTS_FAILED=0
 
 SCRIPT_PATH="scripts/api-diff/api-diff.sh"
 
-# Helper function to test script with branch
-test_branch() {
-    local branch_name="$1"
-    local expected_mode="$2"  # "allow" or "fail"
+# Helper function to test script with commit messages
+test_commit_messages() {
+    local commit_messages="$1"
+    local expected_mode="$2"  # "allow-breaking-changes" or "block-breaking-changes"
     local test_name="$3"
-    
-    echo "Testing: $test_name (branch: $branch_name)"
-    
-    # Run the script in dry-run mode with CURRENT_BRANCH set
+
+    echo "Testing: $test_name (commit: $commit_messages)"
+
+    # Run the script in dry-run mode with COMMIT_MESSAGES set
     local output
-    output=$(CURRENT_BRANCH="$branch_name" "$SCRIPT_PATH" --dry-run 2>&1)
-    
-    # Check the output for the expected message
-    if [[ "$expected_mode" == "allow" ]]; then
+    output=$(COMMIT_MESSAGES="$commit_messages" "$SCRIPT_PATH" --dry-run 2>&1)
+
+    if [[ "$expected_mode" == "allow-breaking-changes" ]]; then
         if echo "$output" | grep -q "Mode: Allowing breaking changes"; then
             echo "  ✓ PASS: Correctly allows breaking changes"
             TESTS_PASSED=$((TESTS_PASSED + 1))
@@ -35,7 +34,7 @@ test_branch() {
             echo "$output"
             TESTS_FAILED=$((TESTS_FAILED + 1))
         fi
-    elif [[ "$expected_mode" == "fail" ]]; then
+    elif [[ "$expected_mode" == "block-breaking-changes" ]]; then
         if echo "$output" | grep -q "Mode: Failing on breaking changes"; then
             echo "  ✓ PASS: Correctly fails on breaking changes"
             TESTS_PASSED=$((TESTS_PASSED + 1))
@@ -48,31 +47,27 @@ test_branch() {
     echo
 }
 
-# Test cases: test_branch "branch-name" "expected-mode" "description"
-# expected-mode: "allow" = allows breaking changes, "fail" = fails on breaking
+# Test cases: test_commit_messages "commit_messages" "expected_mode" "test_name"
+# expected_mode: "allow-breaking-changes" = allows breaking changes, "block-breaking-changes" = fails on breaking
 
-echo "--- Branches that SHOULD allow breaking changes ---"
-test_branch "breaking-api-changes" "allow" "Branch with 'breaking' at start"
-test_branch "feature-breaking-change" "allow" "Branch with 'breaking' in middle"
-test_branch "fix-breaking-bug" "allow" "Branch with 'breaking' in middle"
-test_branch "api-breaking-changes" "allow" "Branch with 'breaking' in middle"
-test_branch "update-breaking-endpoint" "allow" "Branch with 'breaking' in middle"
+echo "--- Commit messages that SHOULD allow breaking changes ---"
+test_commit_messages "feat!: remove deprecated endpoint" "allow-breaking-changes" "Header with ! marker"
+test_commit_messages "feat(api)!: remove deprecated endpoint" "allow-breaking-changes" "Header with scope and ! marker"
+test_commit_messages "feat: refactor API\n\nBREAKING CHANGE: response schema updated" "allow-breaking-changes" "BREAKING CHANGE footer"
+test_commit_messages "fix: patch bug\n\nSome details\nBREAKING CHANGE: removed old field" "allow-breaking-changes" "BREAKING CHANGE footer after body"
 
-echo "--- Branches that SHOULD fail on breaking changes ---"
-test_branch "feature-new-endpoint" "fail" "Normal feature branch"
-test_branch "main" "fail" "Main branch"
-test_branch "master" "fail" "Master branch"
-test_branch "develop" "fail" "Develop branch"
-test_branch "add-openapi-diff-tool" "fail" "Current branch name"
-test_branch "fix-api-bug" "fail" "Bug fix branch"
-test_branch "feature-v2" "fail" "Version feature branch"
+echo "--- Commit messages that SHOULD fail on breaking changes ---"
+test_commit_messages "feat: add optional field" "block-breaking-changes" "Normal feature commit"
+test_commit_messages "fix: resolve null issue" "block-breaking-changes" "Normal fix commit"
+test_commit_messages "chore: update docs" "block-breaking-changes" "Chore commit"
+test_commit_messages "docs: mention breaking behaviour in description" "block-breaking-changes" "Contains word breaking but no marker"
 
 echo "--- Test override with --fail-on-breaking ---"
-# Test that --fail-on-breaking overrides branch logic
-echo "Testing override: breaking branch with --fail-on-breaking"
-output=$(CURRENT_BRANCH="breaking-test" "$SCRIPT_PATH" --dry-run --fail-on-breaking 2>&1)
+# Test that --fail-on-breaking overrides commit message logic
+echo "Testing override: commit with breaking marker and --fail-on-breaking"
+output=$(COMMIT_MESSAGES="feat!: breaking api update" "$SCRIPT_PATH" --dry-run --fail-on-breaking 2>&1)
 if echo "$output" | grep -q "Mode: Failing on breaking changes"; then
-    echo "  ✓ PASS: --fail-on-breaking overrides branch logic"
+    echo "  ✓ PASS: --fail-on-breaking overrides commit logic"
     TESTS_PASSED=$((TESTS_PASSED + 1))
 else
     echo "  ✗ FAIL: --fail-on-breaking did not override, output:"
