@@ -7605,6 +7605,7 @@ paths:
         - $ref: "#/components/parameters/summarizeErrors"
         - $ref: "#/components/parameters/unitdp"
         - $ref: "#/components/parameters/idempotencyKey"
+        - $ref: "#/components/parameters/allowBackorders"
       responses:
         "200":
           description: Success - return response of type Invoices array with newly created Invoice
@@ -7917,6 +7918,7 @@ paths:
         - $ref: "#/components/parameters/summarizeErrors"
         - $ref: "#/components/parameters/unitdp"
         - $ref: "#/components/parameters/idempotencyKey"
+        - $ref: "#/components/parameters/allowBackorders"
       responses:
         "200":
           description: Success - return response of type Invoices array with newly created Invoice
@@ -8217,6 +8219,7 @@ paths:
         - $ref: "#/components/parameters/InvoiceID"
         - $ref: "#/components/parameters/unitdp"
         - $ref: "#/components/parameters/idempotencyKey"
+        - $ref: "#/components/parameters/allowBackorders"
       responses:
         "200":
           description: Success - return response of type Invoices array with updated Invoice
@@ -8730,6 +8733,28 @@ paths:
                     IsTrackedAsInventory: false
                     IsSold: true
                     IsPurchased: true
+                  - ItemID: 5a70a272-a481-4bcf-a8ca-efffd923ab48
+                    Code: fg78Ac
+                    Description: Fender Stratocaster Sunburst
+                    PurchaseDescription: Fender Stratocaster Sunburst
+                    UpdatedDateUTC: /Date(1552331874000+0000)/
+                    PurchaseDetails:
+                      UnitPrice: 1500.0000
+                      COGSAccountCode: "500"
+                      TaxType: ""
+                    SalesDetails:
+                      UnitPrice: 5000.0000
+                      AccountCode: "200"
+                      TaxType: OUTPUT2
+                    Name: Fender Stratocaster
+                    IsTrackedAsInventory: true
+                    InventoryAssetAccountCode: "140"
+                    TotalCostPool: 0.00
+                    QuantityOnHand: 0.0000
+                    QuantityAvailable: 0.0000
+                    QuantityOnBackOrder: 0.0000
+                    IsSold: true
+                    IsPurchased: true
     put:
       security:
         - OAuth2:
@@ -8977,6 +9002,8 @@ paths:
                     InventoryAssetAccountCode: "630"
                     TotalCostPool: 25000.00
                     QuantityOnHand: 10.0000
+                    QuantityAvailable: 10.0000
+                    QuantityOnBackOrder: 0.0000
                     IsSold: true
                     IsPurchased: true
                     ValidationErrors: []
@@ -19577,6 +19604,14 @@ components:
       example: KEY_VALUE
       schema:
         type: string
+    allowBackorders:
+      in: query
+      name: allowBackorders
+      x-snake: allow_backorders
+      description: Allows an invoice to be created even when one or more line items contain tracked inventory where the invoice quantity would cause the available quantity to go negative
+      example: true
+      schema:
+        type: boolean
     includeOnline:
       in: query
       name: IncludeOnline
