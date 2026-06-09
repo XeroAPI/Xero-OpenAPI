@@ -2559,6 +2559,14 @@ paths:
           example: Amount ASC
           schema:
             type: string
+        - in: query
+          name: includeDeleted
+          x-snake: include_deleted
+          description: e.g. includeDeleted=true - Bank transfers with a status of DELETED will be included in the response
+          example: true
+          x-example-python: "True"
+          schema:
+            type: boolean
       responses:
         "200":
           description: Success - return response of BankTransfers array of 0 to N BankTransfer
@@ -2577,6 +2585,7 @@ paths:
                     CreatedDateUTC: /Date(1476737161140+0000)/
                     DateString: 2016-11-12T21:10:00
                     Date: /Date(1478985000000+0000)/
+                    Status: AUTHORISED
                     FromBankAccount:
                       AccountID: 6f7594f2-f059-4d56-9e67-47ac9733bfe9
                       Name: Business Wells Fargo
@@ -2590,11 +2599,22 @@ paths:
                     ToIsReconciled: true
                     Reference: Sub 098801
                     HasAttachments: true
+                    FromTracking:
+                      - TrackingCategoryID: e2f2f732-e92a-4f3a-9c4d-ee4da0182a13
+                        TrackingOptionID: cd0a4b7e-3c6b-4b3c-8e2a-1f2d3c4b5a69
+                        Name: Region
+                        Option: North
+                    ToTracking:
+                      - TrackingCategoryID: e2f2f732-e92a-4f3a-9c4d-ee4da0182a13
+                        TrackingOptionID: 9f8e7d6c-5b4a-3c2d-1e0f-a9b8c7d6e5f4
+                        Name: Region
+                        Option: South
                   - BankTransferID: 9f0153d5-617c-4903-887b-3875807aa27a
                     CreatedDateUTCString: 2016-10-21T23:28:42
                     CreatedDateUTC: /Date(1477092522333+0000)/
                     DateString: 2016-10-19T20:10:00
                     Date: /Date(1476907800000+0000)/
+                    Status: AUTHORISED
                     FromBankAccount:
                       AccountID: 6f7594f2-f059-4d56-9e67-47ac9733bfe9
                       Name: Business Wells Fargo
@@ -2704,6 +2724,7 @@ paths:
                   - BankTransferID: 76eea4b6-f026-464c-b6f3-5fb39a196145
                     DateString: 2019-02-27T00:00:00
                     Date: /Date(1551225600000+0000)/
+                    Status: AUTHORISED
                     FromBankAccount:
                       AccountID: 7e5e243b-9fcd-4aef-8e3a-c70be1e39bfa
                       Code: "090"
@@ -2719,6 +2740,16 @@ paths:
                     ToIsReconciled: true
                     Reference: Sub 098801
                     CurrencyRate: 1.000000
+                    FromTracking:
+                      - TrackingCategoryID: e2f2f732-e92a-4f3a-9c4d-ee4da0182a13
+                        TrackingOptionID: cd0a4b7e-3c6b-4b3c-8e2a-1f2d3c4b5a69
+                        Name: Region
+                        Option: North
+                    ToTracking:
+                      - TrackingCategoryID: e2f2f732-e92a-4f3a-9c4d-ee4da0182a13
+                        TrackingOptionID: 9f8e7d6c-5b4a-3c2d-1e0f-a9b8c7d6e5f4
+                        Name: Region
+                        Option: South
                     ValidationErrors: []
         "400":
           $ref: "#/components/responses/400Error"
@@ -2769,6 +2800,95 @@ paths:
                   FromIsReconciled: true
                   ToIsReconciled: true
                   Reference: Sub 098801
+                  FromTracking:
+                    - TrackingCategoryID: e2f2f732-e92a-4f3a-9c4d-ee4da0182a13
+                      TrackingOptionID: cd0a4b7e-3c6b-4b3c-8e2a-1f2d3c4b5a69
+                  ToTracking:
+                    - TrackingCategoryID: e2f2f732-e92a-4f3a-9c4d-ee4da0182a13
+                      TrackingOptionID: 9f8e7d6c-5b4a-3c2d-1e0f-a9b8c7d6e5f4
+    post:
+      security:
+        - OAuth2:
+            - accounting.transactions
+      tags:
+        - Accounting
+      operationId: deleteBankTransfers
+      summary: Deletes one or more bank transfers
+      x-hasAccountingValidationError: true
+      x-example:
+        - bankTransferDelete:
+          is_object: true
+          key: bankTransferDelete
+          keyPascal: BankTransferDelete
+        - bankTransferID:
+          is_uuid: true
+          key: bankTransferID
+          keyPascal: BankTransferID
+          keySnake: bank_transfer_id
+          default: 00000000-0000-0000-0000-000000000000
+          object: bankTransferDelete
+        - status:
+          is_last: true
+          key: status
+          keyPascal: Status
+          default: DELETED
+          object: bankTransferDelete
+        - bankTransfers:
+          is_object: true
+          key: bankTransfers
+          keyPascal: BankTransfers
+        - add_bankTransferDelete:
+          is_last: true
+          is_array_add: true
+          key: bankTransfers
+          keyPascal: BankTransfers
+          keySnake: bank_transfers
+          java: BankTransfers
+          python: bank_transfer
+          ruby: bank_transfer
+          csharp: BankTransfer
+          object: bankTransferDelete
+      parameters:
+        - $ref: "#/components/parameters/summarizeErrors"
+        - $ref: "#/components/parameters/idempotencyKey"
+      responses:
+        "200":
+          description: Success - return response of BankTransfers array of deleted BankTransfer
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BankTransfers"
+              example:
+                Id: dfc0d130-9007-4a98-a5ef-6f01700f18e2
+                Status: OK
+                ProviderName: Xero API Partner
+                DateTimeUTC: /Date(1551311318988)/
+                BankTransfers:
+                  - BankTransferID: 6221458a-ef7a-4d5f-9b1c-1b96ce03833c
+                    Status: DELETED
+                    FromBankAccount:
+                      AccountID: 6f7594f2-f059-4d56-9e67-47ac9733bfe9
+                      Name: Business Wells Fargo
+                    ToBankAccount:
+                      AccountID: 7e5e243b-9fcd-4aef-8e3a-c70be1e39bfa
+                      Name: My Savings
+                    Amount: 20.00
+                    ValidationErrors: []
+        "400":
+          $ref: "#/components/responses/400Error"
+      requestBody:
+        required: true
+        description: BankTransfers with array of BankTransfer objects in request body
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BankTransfersDelete"
+            example:
+              BankTransfers:
+                - BankTransferID: 6221458a-ef7a-4d5f-9b1c-1b96ce03833c
+                  Status: DELETED
+                - BankTransferID: 9f0153d5-617c-4903-887b-3875807aa27a
+                  Status: DELETED
   /BankTransfers/{BankTransferID}:
     parameters:
       - $ref: "#/components/parameters/requiredHeader"
@@ -2801,6 +2921,7 @@ paths:
                     CreatedDateUTC: /Date(1476737161140+0000)/
                     DateString: 2016-11-12T21:10:00
                     Date: /Date(1478985000000+0000)/
+                    Status: AUTHORISED
                     FromBankAccount:
                       AccountID: 6f7594f2-f059-4d56-9e67-47ac9733bfe9
                       Code: "088"
@@ -2817,12 +2938,81 @@ paths:
                     Reference: Sub 098801
                     CurrencyRate: 1.000000
                     HasAttachments: true
+                    FromTracking:
+                      - TrackingCategoryID: e2f2f732-e92a-4f3a-9c4d-ee4da0182a13
+                        TrackingOptionID: cd0a4b7e-3c6b-4b3c-8e2a-1f2d3c4b5a69
+                        Name: Region
+                        Option: North
+                    ToTracking:
+                      - TrackingCategoryID: e2f2f732-e92a-4f3a-9c4d-ee4da0182a13
+                        TrackingOptionID: 9f8e7d6c-5b4a-3c2d-1e0f-a9b8c7d6e5f4
+                        Name: Region
+                        Option: South
                     Attachments:
                       - AttachmentID: e05a6fd8-0e47-47a9-9799-b809c8267260
                         FileName: HelloWorld.jpg
                         Url: https://api.xero.com/api.xro/2.0/banktransfer/6221458a-ef7a-4d5f-9b1c-1b96ce03833c/Attachments/HelloWorld.jpg
                         MimeType: image/jpg
                         ContentLength: 2878711
+    post:
+      security:
+        - OAuth2:
+            - accounting.transactions
+      tags:
+        - Accounting
+      operationId: deleteBankTransfer
+      summary: Deletes a specific bank transfer
+      x-hasAccountingValidationError: true
+      x-example:
+        - bankTransferDelete:
+          is_object: true
+          key: bankTransferDelete
+          keyPascal: BankTransferDelete
+        - status:
+          is_last: true
+          key: status
+          keyPascal: Status
+          default: DELETED
+          object: bankTransferDelete
+      parameters:
+        - $ref: "#/components/parameters/idempotencyKey"
+        - $ref: "#/components/parameters/BankTransferID"
+      responses:
+        "200":
+          description: Success - return response of BankTransfers array with one deleted BankTransfer
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BankTransfers"
+              example:
+                Id: 1a5fa46d-5ece-4ef2-89b1-77c293b5d833
+                Status: OK
+                ProviderName: Xero API Partner
+                DateTimeUTC: /Date(1551311320368)/
+                BankTransfers:
+                  - BankTransferID: 6221458a-ef7a-4d5f-9b1c-1b96ce03833c
+                    Status: DELETED
+                    FromBankAccount:
+                      AccountID: 6f7594f2-f059-4d56-9e67-47ac9733bfe9
+                      Code: "088"
+                      Name: Business Wells Fargo
+                    ToBankAccount:
+                      AccountID: 7e5e243b-9fcd-4aef-8e3a-c70be1e39bfa
+                      Code: "090"
+                      Name: My Savings
+                    Amount: 20.00
+                    Reference: Sub 098801
+                    ValidationErrors: []
+        "400":
+          $ref: "#/components/responses/400Error"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BankTransferDelete"
+            example:
+              Status: DELETED
   /BankTransfers/{BankTransferID}/Attachments:
     parameters:
       - $ref: "#/components/parameters/requiredHeader"
@@ -20637,6 +20827,20 @@ components:
           x-is-msdate-time: true
           example: /Date(1573755038314)/
           readOnly: true
+        Status:
+          description: AUTHORISED or DELETED
+          readOnly: true
+          type: string
+        FromTracking:
+          description: Optional Tracking Category for the source account – see Tracking. A bank transfer can have a maximum of 2 tracking categories per account.
+          type: array
+          items:
+            $ref: "#/components/schemas/TrackingReference"
+        ToTracking:
+          description: Optional Tracking Category for the destination account – see Tracking. A bank transfer can have a maximum of 2 tracking categories per account.
+          type: array
+          items:
+            $ref: "#/components/schemas/TrackingReference"
         ValidationErrors:
           description: Displays array of validation error messages from the API
           type: array
@@ -20646,6 +20850,51 @@ components:
         - FromBankAccount
         - ToBankAccount
         - Amount
+      type: object
+    BankTransferDelete:
+      externalDocs:
+        url: http://developer.xero.com/documentation/api/bank-transfers/
+      properties:
+        BankTransferID:
+          description: The Xero identifier for a bank transfer
+          type: string
+          format: uuid
+        Status:
+          description: The status of the bank transfer.
+          type: string
+          default: DELETED
+      required:
+        - Status
+      type: object
+    BankTransfersDelete:
+      type: object
+      x-objectArrayKey: bank_transfers
+      properties:
+        BankTransfers:
+          type: array
+          items:
+            $ref: "#/components/schemas/BankTransferDelete"
+    TrackingReference:
+      externalDocs:
+        url: http://developer.xero.com/documentation/api/bank-transfers/
+      properties:
+        TrackingCategoryID:
+          description: The Xero identifier for a tracking category
+          type: string
+          format: uuid
+        TrackingOptionID:
+          description: The Xero identifier for a tracking category option
+          type: string
+          format: uuid
+        Name:
+          description: The name of the tracking category
+          maxLength: 100
+          type: string
+          readOnly: true
+        Option:
+          description: See Tracking Options
+          type: string
+          readOnly: true
       type: object
     BatchPayments:
       type: object
