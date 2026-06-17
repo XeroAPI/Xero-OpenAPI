@@ -2966,16 +2966,16 @@ paths:
       summary: Deletes a specific bank transfer
       x-hasAccountingValidationError: true
       x-example:
-        - bankTransferDelete:
+        - bankTransferDeleteByUrlParam:
           is_object: true
-          key: bankTransferDelete
-          keyPascal: BankTransferDelete
+          key: bankTransferDeleteByUrlParam
+          keyPascal: BankTransferDeleteByUrlParam
         - status:
           is_last: true
           key: status
           keyPascal: Status
           default: DELETED
-          object: bankTransferDelete
+          object: bankTransferDeleteByUrlParam
       parameters:
         - $ref: "#/components/parameters/idempotencyKey"
         - $ref: "#/components/parameters/BankTransferID"
@@ -3012,7 +3012,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/BankTransferDelete"
+              $ref: "#/components/schemas/BankTransferDeleteByUrlParam"
             example:
               Status: DELETED
   /BankTransfers/{BankTransferID}/Attachments:
@@ -20870,6 +20870,18 @@ components:
           default: DELETED
       required:
         - Status
+        - BankTransferID
+      type: object
+    BankTransferDeleteByUrlParam:
+      externalDocs:
+        url: http://developer.xero.com/documentation/api/bank-transfers/
+      properties:
+        Status:
+          description: The status of the bank transfer.
+          type: string
+          default: DELETED
+      required:
+        - Status
       type: object
     BankTransfersDelete:
       type: object
@@ -20900,6 +20912,9 @@ components:
           description: See Tracking Options
           type: string
           readOnly: true
+      required:
+        - TrackingCategoryID
+        - TrackingOptionID
       type: object
     BatchPayments:
       type: object
