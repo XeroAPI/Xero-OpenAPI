@@ -99,6 +99,42 @@ webhooks:
           $ref: "#/components/responses/200WebhookDataReceivedOk"
         "401":
           $ref: "#/components/responses/401InvalidWebhookData"
+  prepayments:
+    post:
+      summary: Prepayments Webhook Endpoint
+      description: Prepayment (Create, Update)
+      operationId: publishPrepaymentEvent
+      tags:
+        - Events
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PrepaymentWebhookEvent"
+            examples:
+              prepaymentCreate:
+                summary: Prepayment Create Event
+                value:
+                  events:
+                    - resourceUrl: https://api.xero.com/api.xro/2.0/Prepayments/717f2bfc-c6d4-41fd-b238-3f2f0c0cf777
+                      resourceId: 717f2bfc-c6d4-41fd-b238-3f2f0c0cf777
+                      tenantId: c2cc9b6e-9458-4c7d-93cc-f02b81b0594f
+                      tenantType: ORGANISATION
+                      eventCategory: PREPAYMENT
+                      eventType: CREATE
+                      eventDateUtc: 2025-10-21T01:15:39.902
+                      data:
+                        Type: RECEIVE-PREPAYMENT
+                        Status: AUTHORISED
+                        UpdatedDateUTCString: 2025-10-21T01:15:39Z
+                  firstEventSequence: 76
+                  lastEventSequence: 76
+                  entropy: FXNGWLCCGVANWHKILRUB
+      responses:
+        "200":
+          $ref: "#/components/responses/200WebhookDataReceivedOk"
+        "401":
+          $ref: "#/components/responses/401InvalidWebhookData"
 components:
   headers:
     x-xero-signature:
@@ -157,6 +193,9 @@ components:
                   - type: string
                     const: CREDITNOTE
                     description: For organisation credit note-related events
+                  - type: string
+                    const: PREPAYMENT
+                    description: For organisation prepayment-related events
               tenantId:
                 type: string
                 format: uuid
@@ -250,6 +289,61 @@ components:
                               - type: string
                                 const: VOIDED
                                 description: Voided credit note
+                    required:
+                      - data
+    PrepaymentWebhookEvent:
+      allOf:
+        - $ref: "#/components/schemas/WebhookEvent"
+        - type: object
+          properties:
+            events:
+              type: array
+              items:
+                allOf:
+                  - $ref: "#/components/schemas/WebhookEvent/properties/events/items"
+                  - type: object
+                    properties:
+                      eventCategory:
+                        const: PREPAYMENT
+                      data:
+                        type: object
+                        description: Prepayment document lifecycle events for customer advance payments
+                        required:
+                          - Type
+                          - Status
+                          - UpdatedDateUTCString
+                        properties:
+                          Type:
+                            type: string
+                            description: The specific type of prepayment
+                            externalDocs:
+                              url: https://developer.xero.com/documentation/api/accounting/types#prepayments
+                            oneOf:
+                              - type: string
+                                const: RECEIVE-PREPAYMENT
+                                description: A customer prepayment
+                              - type: string
+                                const: SPEND-PREPAYMENT
+                                description: A supplier prepayment
+                          Status:
+                            type: string
+                            description: The current lifecycle status of the prepayment
+                            externalDocs:
+                              url: https://developer.xero.com/documentation/api/accounting/types#prepayment-status-codes
+                            oneOf:
+                              - type: string
+                                const: AUTHORISED
+                                description: Authorised prepayment
+                              - type: string
+                                const: PAID
+                                description: Paid prepayment
+                              - type: string
+                                const: VOIDED
+                                description: Voided prepayment
+                          UpdatedDateUTCString:
+                            type: string
+                            format: date-time
+                            description: The date and time the prepayment was last updated in UTC ISO format
                     required:
                       - data
   responses:
