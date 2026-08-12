@@ -23,8 +23,10 @@ Main script that compares OpenAPI specifications against the master branch.
 ```
 
 **Environment Variables:**
-- `OASDIFF_DOCKER_IMAGE` - Docker image to use (default: `tufin/oasdiff:latest`)
+- `OASDIFF_DOCKER_IMAGE` - Docker image to use (default: oasdiff 1.28.0 pinned by image digest in `api-diff.sh`)
 - `BASE_BRANCH` - Branch to compare against (default: `origin/master`)
+
+When updating oasdiff, verify the release tag and the image manifest digest from the publisher, then update both the tag and digest together. Do not replace the default with a mutable tag such as `latest`.
 
 ### `api-diff.test.sh`
 Unit tests for conventional commit breaking marker detection used in GitHub Actions.
