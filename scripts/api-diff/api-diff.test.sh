@@ -27,7 +27,8 @@ run_check() {
     shift 2
 
     set +e
-    PATH="$FAKE_BIN:$PATH" \
+    env -u GITHUB_ACTIONS \
+        PATH="$FAKE_BIN:$PATH" \
         BASE_BRANCH=origin/master \
         FAKE_DOCKER_MODE="$mode" \
         OASDIFF_DOCKER_IMAGE=test-image \

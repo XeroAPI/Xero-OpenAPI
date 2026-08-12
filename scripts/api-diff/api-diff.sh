@@ -153,7 +153,7 @@ if [ "$BREAKING_CHANGES_FOUND" = true ]; then
     for file in "${FILES_WITH_BREAKING_CHANGES[@]}"; do
         echo "   - $file"
         # Output GitHub Actions annotation
-        if [ -n "$GITHUB_ACTIONS" ]; then
+        if [ -n "${GITHUB_ACTIONS:-}" ]; then
             echo "::warning file=${file}::Breaking changes detected in this API spec file"
         fi
     done
