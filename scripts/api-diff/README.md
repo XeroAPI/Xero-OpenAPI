@@ -10,17 +10,22 @@ Main script that compares OpenAPI specifications against the master branch.
 **Usage:**
 ```bash
 # From the repo root
-./scripts/api-diff/api-diff.sh [--fail-on-breaking] [filename.yaml]
+./scripts/api-diff/api-diff.sh [filename.yaml]
 
 # Check all xero*.yaml files
 ./scripts/api-diff/api-diff.sh
 
 # Check a single file
 ./scripts/api-diff/api-diff.sh xero_accounting.yaml
-
-# Fail on breaking changes (CI mode)
-./scripts/api-diff/api-diff.sh --fail-on-breaking
 ```
+
+The script always fails on breaking changes. There is no flag to waive that, and
+any unrecognised argument is rejected with exit code 2.
+
+**Exit Codes:**
+- `0` - No breaking changes detected
+- `1` - Breaking changes detected, or the check could not be completed
+- `2` - Unsupported argument
 
 **Environment Variables:**
 - `OASDIFF_DOCKER_IMAGE` - Docker image to use (default: oasdiff 1.28.0 pinned by image digest in `api-diff.sh`)
@@ -29,7 +34,8 @@ Main script that compares OpenAPI specifications against the master branch.
 When updating oasdiff, verify the release tag and the image manifest digest from the publisher, then update both the tag and digest together. Do not replace the default with a mutable tag such as `latest`.
 
 ### `api-diff.test.sh`
-Unit tests for conventional commit breaking marker detection used in GitHub Actions.
+Fail-closed tests for `api-diff.sh`. They stub `docker` on `PATH` so the script's
+exit codes can be checked without running oasdiff.
 
 **Usage:**
 ```bash
@@ -37,31 +43,32 @@ Unit tests for conventional commit breaking marker detection used in GitHub Acti
 ```
 
 Tests validate that:
-- Commits with `!` in the conventional commit header are correctly identified
-- Commits with `BREAKING CHANGE:` footer are correctly identified
-- Other commits are handled with breaking change enforcement
+- A clean comparison exits `0`
+- A breaking change reported by oasdiff exits `1`
+- A changelog generation failure exits `1` instead of being ignored
+- An unsupported argument exits `2`
 
 ## Integration
 
-These scripts are integrated into the GitHub Actions workflow at `.github/workflows/api-diff.yml`:
-- **test-conventional-commit-logic** job - Runs unit tests
-- **api-diff** job - Runs API diff checks with conditional breaking change enforcement
+These scripts run in the GitHub Actions workflow at `.github/workflows/api-diff.yml`:
+- **api-diff** job - Runs the fail-closed tests, then the API diff check
 
-### Conventional Commit Breaking Markers
-The API diff script automatically adjusts behavior based on commit messages:
+### Fail-Closed Behaviour
+The check is built so that no failure mode is reported as a pass:
 
-**Allow Breaking Changes:**
-- Commit header with `!`, for example: `feat!: remove deprecated endpoint`
-- Commit header with scope and `!`, for example: `feat(api)!: remove deprecated endpoint`
-- Commit body/footer containing `BREAKING CHANGE: ...`
-- The `--fail-on-breaking` flag is NOT passed to the script
+- Breaking changes always fail the build. Conventional Commit markers such as
+  `feat!:` in the header or a `BREAKING CHANGE:` footer no longer waive the
+  check, and the `--fail-on-breaking` flag has been removed.
+- A spec deleted or renamed in the pull request counts as a breaking change.
+  Specs are enumerated from the union of the base ref and the working tree, so
+  removing a file cannot skip the comparison.
+- A base ref that cannot be fetched or resolved aborts the run rather than
+  comparing against nothing.
+- A changelog that cannot be generated fails the run rather than logging a
+  warning and continuing.
 
-**Fail on Breaking Changes:**
-- Commits without these conventional commit breaking markers
-- The `--fail-on-breaking` flag IS passed to the script
-- Build will fail if breaking changes are detected
-
-This keeps enforcement aligned with [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/#summary) and semantic-release expectations.
+If a breaking change is intentional, coordinate the major version bump and the
+release notes. There is no in-repo way to waive the check.
 
 ## Known Limitations
 

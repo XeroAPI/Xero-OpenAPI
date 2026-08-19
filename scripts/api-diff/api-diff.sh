@@ -43,7 +43,11 @@ fi
 
 # Refresh and verify the exact base. A missing or stale base must not turn this
 # compatibility check into a pass.
-git fetch "${BASE_BRANCH%%/*}" "${BASE_BRANCH##*/}"
+# Strip only the remote prefix: a base such as origin/feature/prism-changes
+# must fetch "feature/prism-changes", not just the last path segment.
+BASE_REMOTE="${BASE_BRANCH%%/*}"
+BASE_REF="${BASE_BRANCH#"$BASE_REMOTE"/}"
+git fetch "$BASE_REMOTE" "$BASE_REF"
 git rev-parse --verify "${BASE_BRANCH}^{commit}" >/dev/null
 
 # Create temp directory for master branch files (outside repo to avoid overlap with /current mount)
@@ -60,8 +64,14 @@ if [ -n "$TARGET_FILE" ]; then
     files="$TARGET_FILE"
     echo "Running diff for single file: $TARGET_FILE"
 else
-    # All xero*.yaml files
-    files=$(ls xero*.yaml 2>/dev/null | grep -v "^master_")
+    # Union of the specs present in the base ref and in the working tree.
+    # Enumerating the working tree alone would silently skip a spec deleted or
+    # renamed in this PR, so the removal of an entire API would never be
+    # compared and the check would pass.
+    files=$( {
+        ls xero*.yaml 2>/dev/null || true
+        git ls-tree -r --name-only "$BASE_BRANCH" 2>/dev/null || true
+    } | grep -E '^xero[^/]*\.yaml$' | grep -v "^master_" | sort -u || true )
     if [ -z "$files" ]; then
         echo "No xero*.yaml files found"
         exit 1
@@ -84,6 +94,17 @@ for file in $files; do
     TOTAL_FILES=$((TOTAL_FILES + 1))
     echo ""
     echo "========== $file =========="
+
+    # A spec present in the base but absent at head removes the entire API
+    # surface it described. That is the most breaking change possible and must
+    # never be reported as a pass.
+    if [ ! -f "$file" ]; then
+        echo "❌ Spec removed (present in $BASE_BRANCH, absent at HEAD)"
+        BREAKING_CHANGES_FOUND=true
+        FILES_WITH_BREAKING_CHANGES+=("$file")
+        PROCESSED_FILES=$((PROCESSED_FILES + 1))
+        continue
+    fi
 
     # Get the file from master branch
     if ! git cat-file -e "$BASE_BRANCH:$file" 2>/dev/null; then
