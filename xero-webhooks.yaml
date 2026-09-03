@@ -2,7 +2,7 @@ openapi: 3.1.1
 info:
   description: The Xero Webhooks API exposes event notifications relating to entities in the Xero Public API and can be used for a variety of purposes
   title: Xero Webhooks API
-  version: 17.0.0
+  version: 18.0.0
   termsOfService: https://developer.xero.com/xero-developer-platform-terms-conditions/
   contact:
     name: Xero Platform Team
@@ -135,6 +135,42 @@ webhooks:
           $ref: "#/components/responses/200WebhookDataReceivedOk"
         "401":
           $ref: "#/components/responses/401InvalidWebhookData"
+  overpayments:
+    post:
+      summary: Overpayments Webhook Endpoint
+      description: Overpayment (Create, Update)
+      operationId: publishOverpaymentEvent
+      tags:
+        - Events
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OverpaymentWebhookEvent"
+            examples:
+              overpaymentCreate:
+                summary: Overpayment Create Event
+                value:
+                  events:
+                    - resourceUrl: https://api.xero.com/api.xro/2.0/Overpayments/717f2bfc-c6d4-41fd-b238-3f2f0c0cf777
+                      resourceId: 717f2bfc-c6d4-41fd-b238-3f2f0c0cf777
+                      tenantId: c2cc9b6e-9458-4c7d-93cc-f02b81b0594f
+                      tenantType: ORGANISATION
+                      eventCategory: OVERPAYMENT
+                      eventType: CREATE
+                      eventDateUtc: 2025-10-21T01:15:39.902
+                      data:
+                        Type: RECEIVE-OVERPAYMENT
+                        Status: AUTHORISED
+                        UpdatedDateUTCString: 2025-10-21T01:15:39Z
+                  firstEventSequence: 76
+                  lastEventSequence: 76
+                  entropy: FXNGWLCCGVANWHKILRUB
+      responses:
+        "200":
+          $ref: "#/components/responses/200WebhookDataReceivedOk"
+        "401":
+          $ref: "#/components/responses/401InvalidWebhookData"
 components:
   headers:
     x-xero-signature:
@@ -196,6 +232,9 @@ components:
                   - type: string
                     const: PREPAYMENT
                     description: For organisation prepayment-related events
+                  - type: string
+                    const: OVERPAYMENT
+                    description: For organisation overpayment-related events
               tenantId:
                 type: string
                 format: uuid
@@ -344,6 +383,61 @@ components:
                             type: string
                             format: date-time
                             description: The date and time the prepayment was last updated in UTC ISO format
+                    required:
+                      - data
+    OverpaymentWebhookEvent:
+      allOf:
+        - $ref: "#/components/schemas/WebhookEvent"
+        - type: object
+          properties:
+            events:
+              type: array
+              items:
+                allOf:
+                  - $ref: "#/components/schemas/WebhookEvent/properties/events/items"
+                  - type: object
+                    properties:
+                      eventCategory:
+                        const: OVERPAYMENT
+                      data:
+                        type: object
+                        description: Overpayment document lifecycle events for excess customer/supplier payments
+                        required:
+                          - Type
+                          - Status
+                          - UpdatedDateUTCString
+                        properties:
+                          Type:
+                            type: string
+                            description: The specific type of overpayment
+                            externalDocs:
+                              url: https://developer.xero.com/documentation/api/accounting/types#overpayments
+                            oneOf:
+                              - type: string
+                                const: RECEIVE-OVERPAYMENT
+                                description: A customer overpayment
+                              - type: string
+                                const: SPEND-OVERPAYMENT
+                                description: A supplier overpayment
+                          Status:
+                            type: string
+                            description: The current lifecycle status of the overpayment
+                            externalDocs:
+                              url: https://developer.xero.com/documentation/api/accounting/types#overpayment-status-codes
+                            oneOf:
+                              - type: string
+                                const: AUTHORISED
+                                description: Authorised overpayment
+                              - type: string
+                                const: PAID
+                                description: Paid overpayment
+                              - type: string
+                                const: VOIDED
+                                description: Voided overpayment
+                          UpdatedDateUTCString:
+                            type: string
+                            format: date-time
+                            description: The date and time the overpayment was last updated in UTC ISO format
                     required:
                       - data
   responses:
