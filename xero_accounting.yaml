@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Xero Accounting API
-  version: 16.0.0
+  version: 18.0.0
   termsOfService: https://developer.xero.com/xero-developer-platform-terms-conditions/
   contact:
     name: Xero Platform Team
@@ -1254,6 +1254,20 @@ paths:
             type: integer
         - $ref: "#/components/parameters/unitdp"
         - $ref: "#/components/parameters/pageSize"
+        - in: query
+          name: References
+          x-snake: references
+          description: Filter by a comma-separated list of References
+          style: form
+          explode: false
+          example: "&quot;Ref1&quot;, &quot;Ref2&quot;"
+          x-example-java: Arrays.asList("Ref1","Ref2")
+          x-example-php: "&quot;Ref1&quot;, &quot;Ref2&quot;"
+          x-example-csharp: new List&lt;string&gt;{&quot;Ref1&quot;,&quot;Ref2&quot;}
+          schema:
+            type: array
+            items:
+              type: string
       responses:
         "200":
           description: Success - return response of type BankTransactions array with 0 to n BankTransaction
@@ -2558,6 +2572,14 @@ paths:
           example: Amount ASC
           schema:
             type: string
+        - in: query
+          name: includeDeleted
+          x-snake: include_deleted
+          description: e.g. includeDeleted=true - Bank transfers with a status of DELETED will be included in the response
+          example: true
+          x-example-python: "True"
+          schema:
+            type: boolean
       responses:
         "200":
           description: Success - return response of BankTransfers array of 0 to N BankTransfer
@@ -2576,6 +2598,7 @@ paths:
                     CreatedDateUTC: /Date(1476737161140+0000)/
                     DateString: 2016-11-12T21:10:00
                     Date: /Date(1478985000000+0000)/
+                    Status: AUTHORISED
                     FromBankAccount:
                       AccountID: 6f7594f2-f059-4d56-9e67-47ac9733bfe9
                       Name: Business Wells Fargo
@@ -2589,11 +2612,22 @@ paths:
                     ToIsReconciled: true
                     Reference: Sub 098801
                     HasAttachments: true
+                    FromTracking:
+                      - TrackingCategoryID: e2f2f732-e92a-4f3a-9c4d-ee4da0182a13
+                        TrackingOptionID: cd0a4b7e-3c6b-4b3c-8e2a-1f2d3c4b5a69
+                        Name: Region
+                        Option: North
+                    ToTracking:
+                      - TrackingCategoryID: e2f2f732-e92a-4f3a-9c4d-ee4da0182a13
+                        TrackingOptionID: 9f8e7d6c-5b4a-3c2d-1e0f-a9b8c7d6e5f4
+                        Name: Region
+                        Option: South
                   - BankTransferID: 9f0153d5-617c-4903-887b-3875807aa27a
                     CreatedDateUTCString: 2016-10-21T23:28:42
                     CreatedDateUTC: /Date(1477092522333+0000)/
                     DateString: 2016-10-19T20:10:00
                     Date: /Date(1476907800000+0000)/
+                    Status: AUTHORISED
                     FromBankAccount:
                       AccountID: 6f7594f2-f059-4d56-9e67-47ac9733bfe9
                       Name: Business Wells Fargo
@@ -2607,6 +2641,8 @@ paths:
                     ToIsReconciled: false
                     Reference: Sub 098801
                     HasAttachments: false
+                    FromTracking: []
+                    ToTracking: []
     put:
       security:
         - OAuth2:
@@ -2703,6 +2739,7 @@ paths:
                   - BankTransferID: 76eea4b6-f026-464c-b6f3-5fb39a196145
                     DateString: 2019-02-27T00:00:00
                     Date: /Date(1551225600000+0000)/
+                    Status: AUTHORISED
                     FromBankAccount:
                       AccountID: 7e5e243b-9fcd-4aef-8e3a-c70be1e39bfa
                       Code: "090"
@@ -2718,6 +2755,16 @@ paths:
                     ToIsReconciled: true
                     Reference: Sub 098801
                     CurrencyRate: 1.000000
+                    FromTracking:
+                      - TrackingCategoryID: e2f2f732-e92a-4f3a-9c4d-ee4da0182a13
+                        TrackingOptionID: cd0a4b7e-3c6b-4b3c-8e2a-1f2d3c4b5a69
+                        Name: Region
+                        Option: North
+                    ToTracking:
+                      - TrackingCategoryID: e2f2f732-e92a-4f3a-9c4d-ee4da0182a13
+                        TrackingOptionID: 9f8e7d6c-5b4a-3c2d-1e0f-a9b8c7d6e5f4
+                        Name: Region
+                        Option: South
                     ValidationErrors: []
         "400":
           $ref: "#/components/responses/400Error"
@@ -2768,6 +2815,95 @@ paths:
                   FromIsReconciled: true
                   ToIsReconciled: true
                   Reference: Sub 098801
+                  FromTracking:
+                    - TrackingCategoryID: e2f2f732-e92a-4f3a-9c4d-ee4da0182a13
+                      TrackingOptionID: cd0a4b7e-3c6b-4b3c-8e2a-1f2d3c4b5a69
+                  ToTracking:
+                    - TrackingCategoryID: e2f2f732-e92a-4f3a-9c4d-ee4da0182a13
+                      TrackingOptionID: 9f8e7d6c-5b4a-3c2d-1e0f-a9b8c7d6e5f4
+    post:
+      security:
+        - OAuth2:
+            - accounting.transactions
+      tags:
+        - Accounting
+      operationId: deleteBankTransfers
+      summary: Deletes one or more bank transfers
+      x-hasAccountingValidationError: true
+      x-example:
+        - bankTransferDelete:
+          is_object: true
+          key: bankTransferDelete
+          keyPascal: BankTransferDelete
+        - bankTransferID:
+          is_uuid: true
+          key: bankTransferID
+          keyPascal: BankTransferID
+          keySnake: bank_transfer_id
+          default: 00000000-0000-0000-0000-000000000000
+          object: bankTransferDelete
+        - status:
+          is_last: true
+          key: status
+          keyPascal: Status
+          default: DELETED
+          object: bankTransferDelete
+        - bankTransfers:
+          is_object: true
+          key: bankTransfers
+          keyPascal: BankTransfers
+        - add_bankTransferDelete:
+          is_last: true
+          is_array_add: true
+          key: bankTransfers
+          keyPascal: BankTransfers
+          keySnake: bank_transfers
+          java: BankTransfers
+          python: bank_transfer
+          ruby: bank_transfer
+          csharp: BankTransfer
+          object: bankTransferDelete
+      parameters:
+        - $ref: "#/components/parameters/summarizeErrors"
+        - $ref: "#/components/parameters/idempotencyKey"
+      responses:
+        "200":
+          description: Success - return response of BankTransfers array of deleted BankTransfer
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BankTransfers"
+              example:
+                Id: dfc0d130-9007-4a98-a5ef-6f01700f18e2
+                Status: OK
+                ProviderName: Xero API Partner
+                DateTimeUTC: /Date(1551311318988)/
+                BankTransfers:
+                  - BankTransferID: 6221458a-ef7a-4d5f-9b1c-1b96ce03833c
+                    Status: DELETED
+                    FromBankAccount:
+                      AccountID: 6f7594f2-f059-4d56-9e67-47ac9733bfe9
+                      Name: Business Wells Fargo
+                    ToBankAccount:
+                      AccountID: 7e5e243b-9fcd-4aef-8e3a-c70be1e39bfa
+                      Name: My Savings
+                    Amount: 20.00
+                    ValidationErrors: []
+        "400":
+          $ref: "#/components/responses/400Error"
+      requestBody:
+        required: true
+        description: BankTransfers with array of BankTransfer objects in request body
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BankTransfersDelete"
+            example:
+              BankTransfers:
+                - BankTransferID: 6221458a-ef7a-4d5f-9b1c-1b96ce03833c
+                  Status: DELETED
+                - BankTransferID: 9f0153d5-617c-4903-887b-3875807aa27a
+                  Status: DELETED
   /BankTransfers/{BankTransferID}:
     parameters:
       - $ref: "#/components/parameters/requiredHeader"
@@ -2800,6 +2936,7 @@ paths:
                     CreatedDateUTC: /Date(1476737161140+0000)/
                     DateString: 2016-11-12T21:10:00
                     Date: /Date(1478985000000+0000)/
+                    Status: AUTHORISED
                     FromBankAccount:
                       AccountID: 6f7594f2-f059-4d56-9e67-47ac9733bfe9
                       Code: "088"
@@ -2816,12 +2953,81 @@ paths:
                     Reference: Sub 098801
                     CurrencyRate: 1.000000
                     HasAttachments: true
+                    FromTracking:
+                      - TrackingCategoryID: e2f2f732-e92a-4f3a-9c4d-ee4da0182a13
+                        TrackingOptionID: cd0a4b7e-3c6b-4b3c-8e2a-1f2d3c4b5a69
+                        Name: Region
+                        Option: North
+                    ToTracking:
+                      - TrackingCategoryID: e2f2f732-e92a-4f3a-9c4d-ee4da0182a13
+                        TrackingOptionID: 9f8e7d6c-5b4a-3c2d-1e0f-a9b8c7d6e5f4
+                        Name: Region
+                        Option: South
                     Attachments:
                       - AttachmentID: e05a6fd8-0e47-47a9-9799-b809c8267260
                         FileName: HelloWorld.jpg
                         Url: https://api.xero.com/api.xro/2.0/banktransfer/6221458a-ef7a-4d5f-9b1c-1b96ce03833c/Attachments/HelloWorld.jpg
                         MimeType: image/jpg
                         ContentLength: 2878711
+    post:
+      security:
+        - OAuth2:
+            - accounting.transactions
+      tags:
+        - Accounting
+      operationId: deleteBankTransfer
+      summary: Deletes a specific bank transfer
+      x-hasAccountingValidationError: true
+      x-example:
+        - bankTransferDeleteByUrlParam:
+          is_object: true
+          key: bankTransferDeleteByUrlParam
+          keyPascal: BankTransferDeleteByUrlParam
+        - status:
+          is_last: true
+          key: status
+          keyPascal: Status
+          default: DELETED
+          object: bankTransferDeleteByUrlParam
+      parameters:
+        - $ref: "#/components/parameters/idempotencyKey"
+        - $ref: "#/components/parameters/BankTransferID"
+      responses:
+        "200":
+          description: Success - return response of BankTransfers array with one deleted BankTransfer
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BankTransfers"
+              example:
+                Id: 1a5fa46d-5ece-4ef2-89b1-77c293b5d833
+                Status: OK
+                ProviderName: Xero API Partner
+                DateTimeUTC: /Date(1551311320368)/
+                BankTransfers:
+                  - BankTransferID: 6221458a-ef7a-4d5f-9b1c-1b96ce03833c
+                    Status: DELETED
+                    FromBankAccount:
+                      AccountID: 6f7594f2-f059-4d56-9e67-47ac9733bfe9
+                      Code: "088"
+                      Name: Business Wells Fargo
+                    ToBankAccount:
+                      AccountID: 7e5e243b-9fcd-4aef-8e3a-c70be1e39bfa
+                      Code: "090"
+                      Name: My Savings
+                    Amount: 20.00
+                    Reference: Sub 098801
+                    ValidationErrors: []
+        "400":
+          $ref: "#/components/responses/400Error"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BankTransferDeleteByUrlParam"
+            example:
+              Status: DELETED
   /BankTransfers/{BankTransferID}/Attachments:
     parameters:
       - $ref: "#/components/parameters/requiredHeader"
@@ -5106,6 +5312,7 @@ paths:
                     TotalTax: 4.50
                     Total: 34.50
                     UpdatedDateUTC: /Date(1551812346157+0000)/
+                    UpdatedDateUTCString: 2019-03-05T18:59:06Z
                     CurrencyCode: NZD
                   - CreditNoteID: f8021bd2-9a6a-4c19-8477-163da0b9290f
                     CreditNoteNumber: ""
@@ -5134,6 +5341,7 @@ paths:
                     TotalTax: 6.00
                     Total: 46.00
                     UpdatedDateUTC: /Date(1551812506153+0000)/
+                    UpdatedDateUTCString: 2019-03-05T19:01:46Z
                     CurrencyCode: NZD
     put:
       security:
@@ -5365,6 +5573,7 @@ paths:
                     TotalTax: 6.00
                     Total: 46.00
                     UpdatedDateUTC: /Date(1551812702650+0000)/
+                    UpdatedDateUTCString: 2019-03-05T19:05:02Z
                     CurrencyCode: NZD
                     StatusAttributeString: OK
                     ValidationErrors:
@@ -5620,6 +5829,7 @@ paths:
                     TotalTax: 6.00
                     Total: 46.00
                     UpdatedDateUTC: /Date(1551812702650+0000)/
+                    UpdatedDateUTCString: 2019-03-05T19:05:02Z
                     CurrencyCode: NZD
                     StatusAttributeString: OK
                     ValidationErrors:
@@ -5757,6 +5967,7 @@ paths:
                     TotalTax: 4.50
                     Total: 34.50
                     UpdatedDateUTC: /Date(1551812346157+0000)/
+                    UpdatedDateUTCString: 2019-03-05T18:59:06Z
                     CurrencyCode: NZD
     post:
       security:
@@ -6005,6 +6216,7 @@ paths:
                     TotalTax: 6.00
                     Total: 46.00
                     UpdatedDateUTC: /Date(1551812704223+0000)/
+                    UpdatedDateUTCString: 2019-03-05T19:05:04Z
                     CurrencyCode: NZD
         "400":
           $ref: "#/components/responses/400Error"
@@ -7300,6 +7512,7 @@ paths:
                     TotalTax: 0.00
                     Total: 40.00
                     UpdatedDateUTC: /Date(1541176290160+0000)/
+                    UpdatedDateUTCString: 2018-11-02T16:31:30Z
                     CurrencyCode: NZD
                   - Type: ACCREC
                     InvoiceID: 046d8a6d-1ae1-4b4d-9340-5601bdf41b87
@@ -7342,6 +7555,7 @@ paths:
                     TotalTax: 6.00
                     Total: 46.00
                     UpdatedDateUTC: /Date(1541176592690+0000)/
+                    UpdatedDateUTCString: 2018-11-02T16:36:32Z
                     CurrencyCode: NZD
                     FullyPaidOnDate: /Date(1543449600000+0000)/
                   - Type: ACCREC
@@ -7378,6 +7592,7 @@ paths:
                     TotalTax: 15.00
                     Total: 115.00
                     UpdatedDateUTC: /Date(1541176648927+0000)/
+                    UpdatedDateUTCString: 2018-11-02T16:37:28Z
                     CurrencyCode: NZD
     put:
       security:
@@ -7604,6 +7819,7 @@ paths:
         - $ref: "#/components/parameters/summarizeErrors"
         - $ref: "#/components/parameters/unitdp"
         - $ref: "#/components/parameters/idempotencyKey"
+        - $ref: "#/components/parameters/allowBackorders"
       responses:
         "200":
           description: Success - return response of type Invoices array with newly created Invoice
@@ -7705,6 +7921,7 @@ paths:
                     TotalTax: 0.00
                     Total: 40.00
                     UpdatedDateUTC: /Date(1552327126117+0000)/
+                    UpdatedDateUTCString: 2019-03-11T17:58:46Z
                     CurrencyCode: NZD
                     StatusAttributeString: OK
         "400":
@@ -7916,6 +8133,7 @@ paths:
         - $ref: "#/components/parameters/summarizeErrors"
         - $ref: "#/components/parameters/unitdp"
         - $ref: "#/components/parameters/idempotencyKey"
+        - $ref: "#/components/parameters/allowBackorders"
       responses:
         "200":
           description: Success - return response of type Invoices array with newly created Invoice
@@ -8017,6 +8235,7 @@ paths:
                     TotalTax: 0.00
                     Total: 40.00
                     UpdatedDateUTC: /Date(1552327126117+0000)/
+                    UpdatedDateUTCString: 2019-03-11T17:58:46Z
                     CurrencyCode: NZD
                     StatusAttributeString: OK
         "400":
@@ -8175,6 +8394,7 @@ paths:
                     TotalTax: 0.00
                     Total: 148062.76
                     UpdatedDateUTC: /Date(1551981568133+0000)/
+                    UpdatedDateUTCString: 2019-03-07T17:59:28Z
                     CurrencyCode: NZD
                     FullyPaidOnDate: /Date(1552953600000+0000)/
                     StatusAttributeString: ERROR
@@ -8216,6 +8436,7 @@ paths:
         - $ref: "#/components/parameters/InvoiceID"
         - $ref: "#/components/parameters/unitdp"
         - $ref: "#/components/parameters/idempotencyKey"
+        - $ref: "#/components/parameters/allowBackorders"
       responses:
         "200":
           description: Success - return response of type Invoices array with updated Invoice
@@ -8305,6 +8526,7 @@ paths:
                     TotalTax: 75.00
                     Total: 575.00
                     UpdatedDateUTC: /Date(1552329728987+0000)/
+                    UpdatedDateUTCString: 2019-03-11T18:42:08Z
                     CurrencyCode: NZD
         "400":
           $ref: "#/components/responses/400Error"
@@ -8729,6 +8951,28 @@ paths:
                     IsTrackedAsInventory: false
                     IsSold: true
                     IsPurchased: true
+                  - ItemID: 5a70a272-a481-4bcf-a8ca-efffd923ab48
+                    Code: fg78Ac
+                    Description: Fender Stratocaster Sunburst
+                    PurchaseDescription: Fender Stratocaster Sunburst
+                    UpdatedDateUTC: /Date(1552331874000+0000)/
+                    PurchaseDetails:
+                      UnitPrice: 1500.0000
+                      COGSAccountCode: "500"
+                      TaxType: ""
+                    SalesDetails:
+                      UnitPrice: 5000.0000
+                      AccountCode: "200"
+                      TaxType: OUTPUT2
+                    Name: Fender Stratocaster
+                    IsTrackedAsInventory: true
+                    InventoryAssetAccountCode: "140"
+                    TotalCostPool: 0.00
+                    QuantityOnHand: 0.0000
+                    QuantityAvailable: 0.0000
+                    QuantityOnBackOrder: 0.0000
+                    IsSold: true
+                    IsPurchased: true
     put:
       security:
         - OAuth2:
@@ -8976,6 +9220,8 @@ paths:
                     InventoryAssetAccountCode: "630"
                     TotalCostPool: 25000.00
                     QuantityOnHand: 10.0000
+                    QuantityAvailable: 10.0000
+                    QuantityOnBackOrder: 0.0000
                     IsSold: true
                     IsPurchased: true
                     ValidationErrors: []
@@ -10919,6 +11165,7 @@ paths:
                     TotalTax: 0.00
                     Total: 500.00
                     UpdatedDateUTC: /Date(1552428535123+0000)/
+                    UpdatedDateUTCString: 2019-03-12T22:08:55Z
                     CurrencyCode: NZD
                   - OverpaymentID: 2a8bda49-8908-473b-8bcf-1f90990460eb
                     ID: 2a8bda49-8908-473b-8bcf-1f90990460eb
@@ -10945,6 +11192,7 @@ paths:
                     TotalTax: 0.00
                     Total: 20.00
                     UpdatedDateUTC: /Date(1552428568250+0000)/
+                    UpdatedDateUTCString: 2019-03-12T22:09:28Z
                     CurrencyCode: NZD
                   - OverpaymentID: ed7f6041-c915-4667-bd1d-54c48e92161e
                     ID: ed7f6041-c915-4667-bd1d-54c48e92161e
@@ -10971,6 +11219,7 @@ paths:
                     TotalTax: 0.00
                     Total: 3000.00
                     UpdatedDateUTC: /Date(1552428781527+0000)/
+                    UpdatedDateUTCString: 2019-03-12T22:13:01Z
                     CurrencyCode: NZD
                   - OverpaymentID: 0859adbc-ea00-40cd-a877-258cf8644975
                     ID: 0859adbc-ea00-40cd-a877-258cf8644975
@@ -10997,6 +11246,7 @@ paths:
                     TotalTax: 0.00
                     Total: 20.00
                     UpdatedDateUTC: /Date(1552428842190+0000)/
+                    UpdatedDateUTCString: 2019-03-12T22:14:02Z
                     CurrencyCode: NZD
                   - OverpaymentID: 687b877f-634a-415d-92b2-74e62977de30
                     ID: 687b877f-634a-415d-92b2-74e62977de30
@@ -11023,6 +11273,7 @@ paths:
                     TotalTax: 0.00
                     Total: 20.00
                     UpdatedDateUTC: /Date(1552428950730+0000)/
+                    UpdatedDateUTCString: 2019-03-12T22:15:50Z
                     CurrencyCode: NZD
   /Overpayments/{OverpaymentID}:
     parameters:
@@ -11139,6 +11390,7 @@ paths:
                     TotalTax: 0.00
                     Total: 3000.00
                     UpdatedDateUTC: /Date(1552428952890+0000)/
+                    UpdatedDateUTCString: 2019-03-12T22:15:52Z
                     CurrencyCode: NZD
   /Overpayments/{OverpaymentID}/Allocations:
     parameters:
@@ -11449,6 +11701,7 @@ paths:
                     PaymentType: ACCRECPAYMENT
                     Status: AUTHORISED
                     UpdatedDateUTC: /Date(1541176592690+0000)/
+                    UpdatedDateUTCString: 2018-11-02T16:36:32Z
                     HasAccount: true
                     IsReconciled: false
                     Account:
@@ -11485,6 +11738,7 @@ paths:
                     PaymentType: ARCREDITPAYMENT
                     Status: AUTHORISED
                     UpdatedDateUTC: /Date(1551812346173+0000)/
+                    UpdatedDateUTCString: 2019-03-05T18:59:06Z
                     HasAccount: true
                     IsReconciled: false
                     Account:
@@ -11630,6 +11884,7 @@ paths:
                     PaymentType: ACCRECPAYMENT
                     Status: AUTHORISED
                     UpdatedDateUTC: /Date(1552432238623+0000)/
+                    UpdatedDateUTCString: 2019-03-12T23:10:38Z
                     HasAccount: true
                     IsReconciled: false
                     Account:
@@ -11675,6 +11930,7 @@ paths:
                       TotalTax: 30.00
                       Total: 230.00
                       UpdatedDateUTC: /Date(1552432238623+0000)/
+                      UpdatedDateUTCString: 2019-03-12T23:10:38Z
                       CurrencyCode: NZD
                     HasValidationErrors: true
                     ValidationErrors:
@@ -11814,6 +12070,7 @@ paths:
                     PaymentType: ACCRECPAYMENT
                     Status: AUTHORISED
                     UpdatedDateUTC: /Date(1552432238623+0000)/
+                    UpdatedDateUTCString: 2019-03-12T23:10:38Z
                     HasAccount: true
                     IsReconciled: false
                     Account:
@@ -11859,6 +12116,7 @@ paths:
                       TotalTax: 30.00
                       Total: 230.00
                       UpdatedDateUTC: /Date(1552432238623+0000)/
+                      UpdatedDateUTCString: 2019-03-12T23:10:38Z
                       CurrencyCode: NZD
                     HasValidationErrors: true
                     ValidationErrors:
@@ -11927,6 +12185,7 @@ paths:
                     PaymentType: ACCRECPAYMENT
                     Status: AUTHORISED
                     UpdatedDateUTC: /Date(1541176592690+0000)/
+                    UpdatedDateUTCString: 2018-11-02T16:36:32Z
                     HasAccount: true
                     IsReconciled: false
                     Account:
@@ -11979,6 +12238,7 @@ paths:
                       TotalTax: 6.00
                       Total: 46.00
                       UpdatedDateUTC: /Date(1541176592690+0000)/
+                      UpdatedDateUTCString: 2018-11-02T16:36:32Z
                       CurrencyCode: NZD
                       FullyPaidOnDate: /Date(1543449600000+0000)/
                     HasValidationErrors: false
@@ -12027,6 +12287,7 @@ paths:
                     PaymentType: APCREDITPAYMENT
                     Status: DELETED
                     UpdatedDateUTC: /Date(1583945852373+0000)/
+                    UpdatedDateUTCString: 2020-03-11T16:57:32Z
                     HasAccount: true
                     IsReconciled: false
                     Account:
@@ -12069,6 +12330,7 @@ paths:
                       TotalTax: 2.00
                       Total: 22.00
                       UpdatedDateUTC: /Date(1583945852363+0000)/
+                      UpdatedDateUTCString: 2020-03-11T16:57:32Z
                       CurrencyCode: AUD
                     HasValidationErrors: false
         "400":
@@ -12304,7 +12566,7 @@ paths:
             type: string
         - in: query
           name: page
-          description: e.g. page=1 – Up to 100 prepayments will be returned in a single API call with line items shown for each overpayment
+          description: e.g. page=1 – Up to 100 prepayments will be returned in a single API call with line items shown for each prepayment
           example: 1
           schema:
             type: integer
@@ -12320,6 +12582,20 @@ paths:
           x-example-java: Arrays.asList("INV-001","INV-002")
           x-example-php: "&quot;INV-001&quot;, &quot;INV-002&quot;"
           x-example-csharp: new List&lt;string&gt;{&quot;INV-001&quot;,&quot;INV-002&quot;}
+          schema:
+            type: array
+            items:
+              type: string
+        - in: query
+          name: References
+          x-snake: references
+          description: Filter by a comma-separated list of References
+          style: form
+          explode: false
+          example: "&quot;Ref1&quot;, &quot;Ref2&quot;"
+          x-example-java: Arrays.asList("Ref1","Ref2")
+          x-example-php: "&quot;Ref1&quot;, &quot;Ref2&quot;"
+          x-example-csharp: new List&lt;string&gt;{&quot;Ref1&quot;,&quot;Ref2&quot;}
           schema:
             type: array
             items:
@@ -12368,6 +12644,7 @@ paths:
                     TotalTax: 450.00
                     Total: 3450.00
                     UpdatedDateUTC: /Date(1552489187730+0000)/
+                    UpdatedDateUTCString: 2019-03-13T14:59:47Z
                     CurrencyCode: NZD
   /Prepayments/{PrepaymentID}:
     parameters:
@@ -12483,6 +12760,7 @@ paths:
                     TotalTax: 450.00
                     Total: 3450.00
                     UpdatedDateUTC: /Date(1552522424850+0000)/
+                    UpdatedDateUTCString: 2019-03-14T00:13:44Z
                     CurrencyCode: NZD
   /Prepayments/{PrepaymentID}/Allocations:
     parameters:
@@ -19576,6 +19854,14 @@ components:
       example: KEY_VALUE
       schema:
         type: string
+    allowBackorders:
+      in: query
+      name: allowBackorders
+      x-snake: allow_backorders
+      description: Allows an invoice to be created even when one or more line items contain tracked inventory where the invoice quantity would cause the available quantity to go negative
+      example: true
+      schema:
+        type: boolean
     includeOnline:
       in: query
       name: IncludeOnline
@@ -20636,6 +20922,23 @@ components:
           x-is-msdate-time: true
           example: /Date(1573755038314)/
           readOnly: true
+        Status:
+          description: AUTHORISED or DELETED (read-only). New bank transfers will have a status of AUTHORISED.
+          readOnly: true
+          type: string
+          enum:
+            - AUTHORISED
+            - DELETED
+        FromTracking:
+          description: Optional Tracking Category for the source account – see Tracking. A bank transfer can have a maximum of 2 tracking categories per account.
+          type: array
+          items:
+            $ref: "#/components/schemas/TrackingReference"
+        ToTracking:
+          description: Optional Tracking Category for the destination account – see Tracking. A bank transfer can have a maximum of 2 tracking categories per account.
+          type: array
+          items:
+            $ref: "#/components/schemas/TrackingReference"
         ValidationErrors:
           description: Displays array of validation error messages from the API
           type: array
@@ -20645,6 +20948,66 @@ components:
         - FromBankAccount
         - ToBankAccount
         - Amount
+      type: object
+    BankTransferDelete:
+      externalDocs:
+        url: http://developer.xero.com/documentation/api/bank-transfers/
+      properties:
+        BankTransferID:
+          description: The Xero identifier for a bank transfer
+          type: string
+          format: uuid
+        Status:
+          description: The status of the bank transfer.
+          type: string
+          default: DELETED
+      required:
+        - Status
+        - BankTransferID
+      type: object
+    BankTransferDeleteByUrlParam:
+      externalDocs:
+        url: http://developer.xero.com/documentation/api/bank-transfers/
+      properties:
+        Status:
+          description: The status of the bank transfer.
+          type: string
+          default: DELETED
+      required:
+        - Status
+      type: object
+    BankTransfersDelete:
+      type: object
+      x-objectArrayKey: bank_transfers
+      properties:
+        BankTransfers:
+          type: array
+          items:
+            $ref: "#/components/schemas/BankTransferDelete"
+    TrackingReference:
+      externalDocs:
+        url: http://developer.xero.com/documentation/api/tracking-categories/
+      properties:
+        TrackingCategoryID:
+          description: The Xero identifier for a tracking category
+          type: string
+          format: uuid
+        TrackingOptionID:
+          description: The Xero identifier for a tracking category option
+          type: string
+          format: uuid
+        Name:
+          description: The name of the tracking category
+          maxLength: 100
+          type: string
+          readOnly: true
+        Option:
+          description: See Tracking Options
+          type: string
+          readOnly: true
+      required:
+        - TrackingCategoryID
+        - TrackingOptionID
       type: object
     BatchPayments:
       type: object
@@ -21355,6 +21718,11 @@ components:
           type: string
           x-is-msdate-time: true
           example: /Date(1573755038314)/
+          readOnly: true
+        UpdatedDateUTCString:
+          description: UTC ISO-8601 formatted timestamp of last update to the credit note
+          type: string
+          example: 2019-11-14T18:10:38Z
           readOnly: true
         CurrencyCode:
           description: The specified currency code
@@ -22105,26 +22473,80 @@ components:
           readOnly: true
           x-is-money: true
         SubTotal:
-          description: Total of invoice excluding taxes
-          readOnly: true
+          description: >
+            Total of invoice excluding taxes. Calculated automatically by Xero from the
+            invoice's line items. Only for ACCPAY and ACCREC invoices, where this
+            opt-in capability is enabled for your organisation, can SubTotal be supplied
+            on write – on a SUBMITTED or AUTHORISED invoice supplied together with
+            TotalTax and Total, it is validated against the calculated line item totals
+            (see RoundingAmount); it is ignored in all other cases. This write behaviour,
+            and the returned value reflecting it, only applies to the Create and Update
+            endpoints (POST/PUT) and to retrieving a single invoice by ID (GET by ID) –
+            it does not apply when listing invoices (GET)
           type: number
           format: double
           x-is-money: true
         TotalTax:
-          description: Total tax on invoice
-          readOnly: true
+          description: >
+            Total tax on invoice. Calculated automatically by Xero from the invoice's
+            line items. Only for ACCPAY and ACCREC invoices, where this opt-in capability
+            is enabled for your organisation, can TotalTax be supplied on write – on a
+            SUBMITTED or AUTHORISED invoice supplied together with SubTotal and Total, it
+            is validated against the calculated line item totals (see RoundingAmount); it
+            is ignored in all other cases. This write behaviour, and the returned value
+            reflecting it, only applies to the Create and Update endpoints (POST/PUT) and
+            to retrieving a single invoice by ID (GET by ID) – it does not apply when
+            listing invoices (GET)
           type: number
           format: double
           x-is-money: true
         Total:
-          description: Total of Invoice tax inclusive (i.e. SubTotal + TotalTax). This will be ignored if it doesn’t equal the sum of the LineAmounts
-          readOnly: true
+          description: >
+            Total of Invoice tax inclusive (i.e. SubTotal + TotalTax + RoundingAmount).
+            Calculated automatically by Xero from the invoice's line items. Only for
+            ACCPAY and ACCREC invoices, where this opt-in capability is enabled for your
+            organisation, can Total be supplied on write – on a SUBMITTED or AUTHORISED
+            invoice supplied together with SubTotal and TotalTax, it is validated against
+            the calculated line item totals plus RoundingAmount; in all other cases this
+            will be ignored if it does not equal the sum of the LineAmounts. This write
+            behaviour, and the returned value reflecting it, only applies to the Create
+            and Update endpoints (POST/PUT) and to retrieving a single invoice by ID (GET
+            by ID) – it does not apply when listing invoices (GET)
           type: number
           format: double
           x-is-money: true
         TotalDiscount:
           description: Total of discounts applied on the invoice line items
           readOnly: true
+          type: number
+          format: double
+          x-is-money: true
+        RoundingAmount:
+          description: >
+            An optional rounding adjustment added to SubTotal + TotalTax to give Total
+            (i.e. Total = SubTotal + TotalTax + RoundingAmount). Only applies to ACCPAY
+            and ACCREC invoices, and only if this opt-in capability has been enabled for
+            your organisation. Not validated while the invoice is DRAFT. For SUBMITTED and
+            AUTHORISED invoices, RoundingAmount is only applied when SubTotal, TotalTax
+            and Total are all supplied together, and must be between -0.10 and 0.10 –
+            values outside this range are rejected with a validation error (on DRAFT
+            invoices, an out-of-range value is ignored instead). This field is only
+            settable and only returned via the Create and Update endpoints (POST/PUT) and
+            when retrieving a single invoice by ID (GET by ID) – it is not returned when
+            listing invoices (GET)
+          type: number
+          format: double
+          x-is-money: true
+        EnteredTotal:
+          description: >
+            The total amount as originally entered for the invoice, before any
+            RoundingAmount adjustment is applied. Only applies to ACCPAY and ACCREC
+            invoices, and only if this opt-in capability has been enabled for your
+            organisation. Can only be set while the invoice is DRAFT; once the invoice
+            is no longer DRAFT this reflects Total. This field is only settable and only
+            returned via the Create and Update endpoints (POST/PUT) and when retrieving a
+            single invoice by ID (GET by ID) – it is not returned when listing invoices
+            (GET)
           type: number
           format: double
           x-is-money: true
@@ -22188,10 +22610,15 @@ components:
           format: double
           x-is-money: true
         UpdatedDateUTC:
-          description: Last modified date UTC format
+          description: UTC timestamp of last update to the invoice
           type: string
           x-is-msdate-time: true
           example: /Date(1573755038314)/
+          readOnly: true
+        UpdatedDateUTCString:
+          description: UTC ISO-8601 formatted timestamp of last update to the invoice
+          type: string
+          example: 2019-11-14T18:10:38Z
           readOnly: true
         CreditNotes:
           description: Details of credit notes that have been applied to an invoice
@@ -22310,10 +22737,20 @@ components:
           format: double
           x-is-money: true
         QuantityOnHand:
-          description: The quantity of the item on hand
+          description: The quantity of the item on hand. This will be 0 if `QuantityOnBackOrder` is greater than 0.
           type: number
           format: double
           x-is-money: true
+        QuantityAvailable:
+          description: The quantity of the item available. This is equal to `QuantityOnHand` - `QuantityOnBackOrder`. This value will be negative if `QuantityOnBackOrder` is greater than 0.
+          type: number
+          format: double
+          readOnly: true
+        QuantityOnBackOrder:
+          description: The quantity of the item on backorder. This will be 0 if `QuantityOnHand` is greater than 0.
+          type: number
+          format: double
+          readOnly: true
         UpdatedDateUTC:
           description: Last modified date in UTC format
           type: string
@@ -23441,6 +23878,11 @@ components:
           x-is-msdate-time: true
           example: /Date(1573755038314)/
           readOnly: true
+        UpdatedDateUTCString:
+          description: UTC ISO-8601 formatted timestamp of last update to the overpayment
+          type: string
+          example: 2019-11-14T18:10:38Z
+          readOnly: true
         CurrencyCode:
           $ref: "#/components/schemas/CurrencyCode"
           type: string
@@ -23590,6 +24032,11 @@ components:
           x-is-msdate-time: true
           example: /Date(1573755038314)/
           readOnly: true
+        UpdatedDateUTCString:
+          description: UTC ISO-8601 formatted timestamp of last update to the payment
+          type: string
+          example: 2019-11-14T18:10:38Z
+          readOnly: true
         PaymentID:
           description: The Xero identifier for an Payment e.g. 297c2dc5-cc47-4afd-8ec8-74990b8761e9
           type: string
@@ -23709,6 +24156,11 @@ components:
           type: string
           x-is-msdate-time: true
           example: /Date(1573755038314)/
+          readOnly: true
+        UpdatedDateUTCString:
+          description: UTC ISO-8601 formatted timestamp of last update to the prepayment
+          type: string
+          example: 2019-11-14T18:10:38Z
           readOnly: true
         CurrencyCode:
           $ref: "#/components/schemas/CurrencyCode"
