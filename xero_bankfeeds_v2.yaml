@@ -21,13 +21,13 @@ info:
     name: MIT
     url: https://github.com/XeroAPI/Xero-OpenAPI/blob/master/LICENSE
 servers:
-- description: Xero Bank Feeds API v2 base url
-  url: https://api.xero.com/bankfeeds.xro/2.0
+  - description: Xero Bank Feeds API v2 base url
+    url: https://api.xero.com/bankfeeds.xro/2.0
 paths:
   /FeedConnections:
     get:
       tags:
-      - FeedConnections
+        - FeedConnections
       operationId: getFeedConnections
       summary: Retrieve the Feed Connections for an Organisation
       description: 'Returns the Feed Connections belonging to both the Organisation in `Xero-Tenant-Id` and the
@@ -41,23 +41,23 @@ paths:
 
         '
       parameters:
-      - $ref: '#/components/parameters/XeroTenantId'
-      - name: page
-        in: query
-        required: false
-        description: The page to return, counting from 1.
-        schema:
-          type: integer
-          format: int32
-          default: 1
-      - name: pageSize
-        in: query
-        required: false
-        description: How many Feed Connections to return per page. No maximum is enforced.
-        schema:
-          type: integer
-          format: int32
-          default: 10
+        - $ref: '#/components/parameters/XeroTenantId'
+        - name: page
+          in: query
+          required: false
+          description: The page to return, counting from 1.
+          schema:
+            type: integer
+            format: int32
+            default: 1
+        - name: pageSize
+          in: query
+          required: false
+          description: How many Feed Connections to return per page. No maximum is enforced.
+          schema:
+            type: integer
+            format: int32
+            default: 10
       responses:
         '200':
           description: The requested page of Feed Connections.
@@ -74,12 +74,12 @@ paths:
         '500':
           $ref: '#/components/responses/InternalError'
       security:
-      - OAuth2:
-        - bankfeedsv2
+        - OAuth2:
+            - bankfeedsv2
   /FeedConnections/{id}:
     get:
       tags:
-      - FeedConnections
+        - FeedConnections
       operationId: getFeedConnection
       summary: Retrieve a single Feed Connection
       description: 'Returns one Feed Connection, as a bare object rather than inside an envelope.
@@ -95,14 +95,14 @@ paths:
 
         '
       parameters:
-      - name: id
-        in: path
-        required: true
-        description: The Feed Connection identifier.
-        schema:
-          type: string
-          format: uuid
-      - $ref: '#/components/parameters/XeroTenantId'
+        - name: id
+          in: path
+          required: true
+          description: The Feed Connection identifier.
+          schema:
+            type: string
+            format: uuid
+        - $ref: '#/components/parameters/XeroTenantId'
       responses:
         '200':
           description: The Feed Connection.
@@ -130,12 +130,12 @@ paths:
         '500':
           $ref: '#/components/responses/InternalError'
       security:
-      - OAuth2:
-        - bankfeedsv2
+        - OAuth2:
+            - bankfeedsv2
   /FeedConnections/ExistingAccount:
     post:
       tags:
-      - FeedConnections
+        - FeedConnections
       operationId: createFeedConnectionsForExistingAccounts
       summary: Connect feeds to Xero Bank Accounts that already exist
       externalDocs:
@@ -159,7 +159,7 @@ paths:
 
         '
       parameters:
-      - $ref: '#/components/parameters/XeroTenantId'
+        - $ref: '#/components/parameters/XeroTenantId'
       requestBody:
         required: true
         content:
@@ -168,15 +168,15 @@ paths:
               $ref: '#/components/schemas/ExistingAccountFeedConnectionsRequest'
             example:
               items:
-              - accountId: 87d7b3b9-af8e-4f7e-a7e1-294e6e50b19a
-                accountToken: '10000123'
-                accountType: BANK
-                currency: AUD
-              - accountId: 2c1f0a7e-0c41-4a5e-9f6c-1f7b2b9a5d33
-                accountToken: '10000124'
-                accountType: CREDITCARD
-                currency: GBP
-                country: GB
+                - accountId: 87d7b3b9-af8e-4f7e-a7e1-294e6e50b19a
+                  accountToken: '10000123'
+                  accountType: BANK
+                  currency: AUD
+                - accountId: 2c1f0a7e-0c41-4a5e-9f6c-1f7b2b9a5d33
+                  accountToken: '10000124'
+                  accountType: CREDITCARD
+                  currency: GBP
+                  country: GB
       responses:
         '200':
           description: 'Every item is 2xx: each one reached its desired state and nothing is left for you to
@@ -195,27 +195,21 @@ paths:
                 $ref: '#/components/schemas/BulkFeedConnectionResponse'
               example:
                 items:
-                - id: ac231d36-e7bc-4eb2-ad0f-2ecf328305f1
-                  accountToken: '10000123'
-                  status: SUCCESS
-                  statusCode: 201
-                - id: 880600c2-d302-4b9c-a88a-e0253c926ab2
-                  accountToken: '10000124'
-                  status: SUCCESS
-                  statusCode: 201
+                  - id: ac231d36-e7bc-4eb2-ad0f-2ecf328305f1
+                    accountToken: '10000123'
+                    status: SUCCESS
+                    statusCode: 201
+                  - id: 880600c2-d302-4b9c-a88a-e0253c926ab2
+                    accountToken: '10000124'
+                    status: SUCCESS
+                    statusCode: 201
         '207':
           description: 'Some items did not reach their desired state. Every item has its own result, so read
 
             the `items` array rather than the envelope.
 
 
-            `207` means the item codes were neither all 2xx nor all 4xx. A
-            `PARTIAL_FAILURE` item carries `statusCode` `500`. On this endpoint, it can be
-            `partial-failure-migration-can-be-reattempted` (three titles) or
-            `partial-failure-connection-created-but-not-recorded` (one title). Some
-            cases allow resending the same item; others require checking the account first.
-            Match `error.type` and `error.title`, then follow the recovery table at
-            https://developer.xero.com/documentation/api/bankfeeds/feedconnections-2-0-errors/#partial-failures .
+            `207` means the item codes were neither all 2xx nor all 4xx. A `PARTIAL_FAILURE` item carries `statusCode` `500`. On this endpoint, it can be `partial-failure-migration-can-be-reattempted` (three titles) or `partial-failure-connection-created-but-not-recorded` (one title). Some cases allow resending the same item; others require checking the account first. Match `error.type` and `error.title`, then follow the recovery table at https://developer.xero.com/documentation/api/bankfeeds/feedconnections-2-0-errors/#partial-failures .
 
             '
           content:
@@ -224,29 +218,26 @@ paths:
                 $ref: '#/components/schemas/BulkFeedConnectionResponse'
               example:
                 items:
-                - id: ac231d36-e7bc-4eb2-ad0f-2ecf328305f1
-                  accountToken: '10000123'
-                  status: SUCCESS
-                  statusCode: 201
-                - accountToken: '10000124'
-                  status: REJECTED
-                  statusCode: 422
-                  error:
-                    type: account-not-valid
-                    title: Invalid Account
-                    status: 422
-                    detail: The account specified in the request is not valid.
-                - accountToken: '10000125'
-                  status: PARTIAL_FAILURE
-                  statusCode: 500
-                  error:
-                    type: partial-failure-migration-can-be-reattempted
-                    title: Migration Incomplete, Replacement Not Created
-                    status: 500
-                    detail: The account migration is only partially complete. The previous connection '880600c2-d302-4b9c-a88a-e0253c926ab2'
-                      on Xero bank account '9f2b1c44-7a0e-4d6e-b2d1-3c8e5a7f0b11' was removed and the replacement was not
-                      created, so the account now has no feed. Reattempt the create operation. If a reattempt keeps reporting
-                      this outcome, raise a Xero support issue quoting both ids above.
+                  - id: ac231d36-e7bc-4eb2-ad0f-2ecf328305f1
+                    accountToken: '10000123'
+                    status: SUCCESS
+                    statusCode: 201
+                  - accountToken: '10000124'
+                    status: REJECTED
+                    statusCode: 422
+                    error:
+                      type: account-not-valid
+                      title: Invalid Account
+                      status: 422
+                      detail: The account specified in the request is not valid.
+                  - accountToken: '10000125'
+                    status: PARTIAL_FAILURE
+                    statusCode: 500
+                    error:
+                      type: partial-failure-migration-can-be-reattempted
+                      title: Migration Incomplete, Replacement Not Created
+                      status: 500
+                      detail: The account migration is only partially complete. The previous connection '880600c2-d302-4b9c-a88a-e0253c926ab2' on Xero bank account '9f2b1c44-7a0e-4d6e-b2d1-3c8e5a7f0b11' was removed and the replacement was not created, so the account now has no feed. Reattempt the create operation. If a reattempt keeps reporting this outcome, raise a Xero support issue quoting both ids above.
         '400':
           description: 'Every item is 4xx: either the request wrote nothing at all, or the request itself
 
@@ -255,11 +246,9 @@ paths:
 
             `400` guarantees all item attempts failed completely.
 
-            Nothing survived for any item and no item
-            reached its desired state.
+            Nothing survived for any item and no item reached its desired state.
 
-            A batch in which anything partially
-            wrote has at least one `500` item code, so it is a `207`, never a `400`.
+            A batch in which anything partially wrote has at least one `500` item code, so it is a `207`, never a `400`.
 
 
             When the request itself was at fault — an unreadable body, an empty `items`
@@ -290,12 +279,12 @@ paths:
         '500':
           $ref: '#/components/responses/InternalErrorPartialWrite'
       security:
-      - OAuth2:
-        - bankfeedsv2
+        - OAuth2:
+            - bankfeedsv2
   /FeedConnections/NewAccount:
     post:
       tags:
-      - FeedConnections
+        - FeedConnections
       operationId: createFeedConnectionsForNewAccounts
       summary: Create Xero Bank Accounts and connect feeds to them
       externalDocs:
@@ -321,7 +310,7 @@ paths:
 
         '
       parameters:
-      - $ref: '#/components/parameters/XeroTenantId'
+        - $ref: '#/components/parameters/XeroTenantId'
       requestBody:
         required: true
         content:
@@ -330,16 +319,16 @@ paths:
               $ref: '#/components/schemas/NewAccountFeedConnectionsRequest'
             example:
               items:
-              - accountToken: '10000123'
-                accountNumber: '3809087654321500'
-                accountName: Joe's Savings Account
-                accountType: BANK
-                currency: AUD
-              - accountToken: '10000124'
-                accountNumber: '1234'
-                accountName: Sam's Credit Card
-                accountType: CREDITCARD
-                currency: AUD
+                - accountToken: '10000123'
+                  accountNumber: '3809087654321500'
+                  accountName: Joe's Savings Account
+                  accountType: BANK
+                  currency: AUD
+                - accountToken: '10000124'
+                  accountNumber: '1234'
+                  accountName: Sam's Credit Card
+                  accountType: CREDITCARD
+                  currency: AUD
       responses:
         '200':
           description: 'Every item is 2xx: each one reached its desired state and nothing is left for you to
@@ -358,55 +347,47 @@ paths:
                 $ref: '#/components/schemas/BulkFeedConnectionResponse'
               example:
                 items:
-                - id: ac231d36-e7bc-4eb2-ad0f-2ecf328305f1
-                  accountToken: '10000123'
-                  status: SUCCESS
-                  statusCode: 201
-                - id: 880600c2-d302-4b9c-a88a-e0253c926ab2
-                  accountToken: '10000124'
-                  status: SUCCESS
-                  statusCode: 201
+                  - id: ac231d36-e7bc-4eb2-ad0f-2ecf328305f1
+                    accountToken: '10000123'
+                    status: SUCCESS
+                    statusCode: 201
+                  - id: 880600c2-d302-4b9c-a88a-e0253c926ab2
+                    accountToken: '10000124'
+                    status: SUCCESS
+                    statusCode: 201
         '207':
           description: 'Some items did not reach their desired state. Every item has its own result, so read
 
             the `items` array rather than the envelope.
 
 
-            `207` means the item codes were neither all 2xx nor all 4xx. A
-            `PARTIAL_FAILURE` item carries `statusCode` `500`. On this endpoint, only
-            `partial-failure-account-created-but-not-connected` applies (three titles).
-            The account was created: do not resend the same NewAccount item. Find its
-            `accountId` in `error.detail`, then follow the matching recovery row at
-            https://developer.xero.com/documentation/api/bankfeeds/feedconnections-2-0-errors/#partial-failures .
-            '
+            `207` means the item codes were neither all 2xx nor all 4xx. A `PARTIAL_FAILURE` item carries `statusCode` `500`. On this endpoint, only `partial-failure-account-created-but-not-connected` applies (three titles). The account was created: do not resend the same NewAccount item. Find its `accountId` in `error.detail`, then follow the matching recovery row at https://developer.xero.com/documentation/api/bankfeeds/feedconnections-2-0-errors/#partial-failures . '
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/BulkFeedConnectionResponse'
               example:
                 items:
-                - id: ac231d36-e7bc-4eb2-ad0f-2ecf328305f1
-                  accountToken: '10000123'
-                  status: SUCCESS
-                  statusCode: 201
-                - accountToken: '10000124'
-                  status: REJECTED
-                  statusCode: 409
-                  error:
-                    type: account-name-already-exists
-                    title: Account Name Already Exists
-                    status: 409
-                    detail: An account named 'Sam's Credit Card' already exists in this organisation. Specify a different AccountName.
-                - accountToken: '10000125'
-                  status: PARTIAL_FAILURE
-                  statusCode: 500
-                  error:
-                    type: partial-failure-account-created-but-not-connected
-                    title: Account Created But Not Connected
-                    status: 500
-                    detail: 'The account creation was successful, the feed connection failed. Use accountId ''e0c0e2a6-2d19-4a6e-9f0e-6f9c2a7a1b44''
-                      with POST v2/FeedConnections/ExistingAccount to connect it. Do not retry this item unchanged: the AccountName
-                      ''Everyday'' is already taken and an identical retry will be refused.'
+                  - id: ac231d36-e7bc-4eb2-ad0f-2ecf328305f1
+                    accountToken: '10000123'
+                    status: SUCCESS
+                    statusCode: 201
+                  - accountToken: '10000124'
+                    status: REJECTED
+                    statusCode: 409
+                    error:
+                      type: account-name-already-exists
+                      title: Account Name Already Exists
+                      status: 409
+                      detail: An account named 'Sam's Credit Card' already exists in this organisation. Specify a different AccountName.
+                  - accountToken: '10000125'
+                    status: PARTIAL_FAILURE
+                    statusCode: 500
+                    error:
+                      type: partial-failure-account-created-but-not-connected
+                      title: Account Created But Not Connected
+                      status: 500
+                      detail: 'The account creation was successful, the feed connection failed. Use accountId ''e0c0e2a6-2d19-4a6e-9f0e-6f9c2a7a1b44'' with POST v2/FeedConnections/ExistingAccount to connect it. Do not retry this item unchanged: the AccountName ''Everyday'' is already taken and an identical retry will be refused.'
         '400':
           description: 'Every item is 4xx: either the request wrote nothing at all, or the request itself
 
@@ -415,11 +396,9 @@ paths:
 
             `400` guarantees all item attempts failed completely.
 
-            Nothing survived for any item and no item
-            reached its desired state.
+            Nothing survived for any item and no item reached its desired state.
 
-            A batch in which anything partially
-            wrote has at least one `500` item code, so it is a `207`, never a `400`.
+            A batch in which anything partially wrote has at least one `500` item code, so it is a `207`, never a `400`.
 
 
             When the request itself was at fault — an unreadable body, an empty `items`
@@ -446,12 +425,12 @@ paths:
         '500':
           $ref: '#/components/responses/InternalErrorPartialWrite'
       security:
-      - OAuth2:
-        - bankfeedsv2
+        - OAuth2:
+            - bankfeedsv2
   /FeedConnections/DeleteRequests:
     post:
       tags:
-      - FeedConnections
+        - FeedConnections
       operationId: deleteFeedConnections
       summary: Terminate Feed Connections
       externalDocs:
@@ -490,7 +469,7 @@ paths:
 
         '
       parameters:
-      - $ref: '#/components/parameters/XeroTenantId'
+        - $ref: '#/components/parameters/XeroTenantId'
       requestBody:
         required: true
         content:
@@ -499,8 +478,8 @@ paths:
               $ref: '#/components/schemas/DeleteFeedConnectionsRequest'
             example:
               items:
-              - id: ac231d36-e7bc-4eb2-ad0f-2ecf328305f1
-              - id: 880600c2-d302-4b9c-a88a-e0253c926ab2
+                - id: ac231d36-e7bc-4eb2-ad0f-2ecf328305f1
+                - id: 880600c2-d302-4b9c-a88a-e0253c926ab2
       responses:
         '200':
           description: 'Every item is 2xx: each one reached its desired state and nothing is left for you to
@@ -521,62 +500,48 @@ paths:
                 $ref: '#/components/schemas/BulkFeedConnectionResponse'
               example:
                 items:
-                - id: ac231d36-e7bc-4eb2-ad0f-2ecf328305f1
-                  status: SUCCESS
-                  statusCode: 204
-                - id: 880600c2-d302-4b9c-a88a-e0253c926ab2
-                  status: SUCCESS
-                  statusCode: 204
-                  error:
-                    type: feed-not-found-or-already-deleted
-                    title: Feed Connection not found or already deleted
-                    status: 204
-                    detail: This Feed Connection either never existed, or has already been deleted.
+                  - id: ac231d36-e7bc-4eb2-ad0f-2ecf328305f1
+                    status: SUCCESS
+                    statusCode: 204
+                  - id: 880600c2-d302-4b9c-a88a-e0253c926ab2
+                    status: SUCCESS
+                    statusCode: 204
+                    error:
+                      type: feed-not-found-or-already-deleted
+                      title: Feed Connection not found or already deleted
+                      status: 204
+                      detail: This Feed Connection either never existed, or has already been deleted.
         '207':
           description: 'Some items did not reach their desired state. Every item has its own result, so read
 
             the `items` array rather than the envelope.
 
 
-            `207` means the item codes were neither all 2xx nor all 4xx. A
-            `PARTIAL_FAILURE` item carries `statusCode` `500`. On this endpoint, only
-            `partial-failure-delete-can-be-reattempted` applies. The Feed Connection
-            no longer appears in GET or delivers statements, but may still appear connected in Xero. Resend the same
-            DeleteRequests item to check whether the connection remains and terminate it if
-            needed. The item has `statusCode` `204` after a successful retry or confirmation of
-            absence. If it keeps reporting `PARTIAL_FAILURE`, contact Xero support with
-            the connection id from `error.detail`. See
-            https://developer.xero.com/documentation/api/bankfeeds/feedconnections-2-0-errors/#partial-failures .
-            '
+            `207` means the item codes were neither all 2xx nor all 4xx. A `PARTIAL_FAILURE` item carries `statusCode` `500`. On this endpoint, only `partial-failure-delete-can-be-reattempted` applies. The Feed Connection no longer appears in GET or delivers statements, but may still appear connected in Xero. Resend the same DeleteRequests item to check whether the connection remains and terminate it if needed. The item has `statusCode` `204` after a successful retry or confirmation of absence. If it keeps reporting `PARTIAL_FAILURE`, contact Xero support with the connection id from `error.detail`. See https://developer.xero.com/documentation/api/bankfeeds/feedconnections-2-0-errors/#partial-failures . '
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/BulkFeedConnectionResponse'
               example:
                 items:
-                - id: ac231d36-e7bc-4eb2-ad0f-2ecf328305f1
-                  status: SUCCESS
-                  statusCode: 204
-                - status: REJECTED
-                  statusCode: 400
-                  error:
-                    type: missing-identifying-fields
-                    title: Request Is Missing Identifying Fields
-                    status: 400
-                    detail: The request did not include the mandatory 'Id' field.
-                - id: 40f0469d-8197-4477-9a0d-8dd7641cf1cc
-                  status: PARTIAL_FAILURE
-                  statusCode: 500
-                  error:
-                    type: partial-failure-delete-can-be-reattempted
-                    title: Feed Connection Only Partially Deleted
-                    status: 500
-                    detail: 'Deletion of feed connection ''40f0469d-8197-4477-9a0d-8dd7641cf1cc'' could not be confirmed.
-                      It no longer appears in GET v2/FeedConnections or delivers statements, but may still
-                      appear connected in Xero.
-                      Resend the same DeleteRequests item: the retry confirms whether the connection remains
-                      and terminates it if needed. If the retry keeps reporting PARTIAL_FAILURE, contact
-                      Xero support quoting the connection id above.'
+                  - id: ac231d36-e7bc-4eb2-ad0f-2ecf328305f1
+                    status: SUCCESS
+                    statusCode: 204
+                  - status: REJECTED
+                    statusCode: 400
+                    error:
+                      type: missing-identifying-fields
+                      title: Request Is Missing Identifying Fields
+                      status: 400
+                      detail: The request did not include the mandatory 'Id' field.
+                  - id: 40f0469d-8197-4477-9a0d-8dd7641cf1cc
+                    status: PARTIAL_FAILURE
+                    statusCode: 500
+                    error:
+                      type: partial-failure-delete-can-be-reattempted
+                      title: Feed Connection Only Partially Deleted
+                      status: 500
+                      detail: 'Deletion of feed connection ''40f0469d-8197-4477-9a0d-8dd7641cf1cc'' could not be confirmed. It no longer appears in GET v2/FeedConnections or delivers statements, but may still appear connected in Xero. Resend the same DeleteRequests item: the retry confirms whether the connection remains and terminates it if needed. If the retry keeps reporting PARTIAL_FAILURE, contact Xero support quoting the connection id above.'
         '400':
           description: 'Every item is 4xx: either the request wrote nothing at all, or the request itself
 
@@ -611,14 +576,13 @@ paths:
                 $ref: '#/components/schemas/BulkFeedConnectionResponse'
               example:
                 items:
-                - status: REJECTED
-                  statusCode: 400
-                  error:
-                    type: missing-identifying-fields
-                    title: Request Is Missing Identifying Fields
-                    status: 400
-                    detail: The request did not include the mandatory 'Id' field. It must be the GUID of an existing feed
-                      connection.
+                  - status: REJECTED
+                    statusCode: 400
+                    error:
+                      type: missing-identifying-fields
+                      title: Request Is Missing Identifying Fields
+                      status: 400
+                      detail: The request did not include the mandatory 'Id' field. It must be the GUID of an existing feed connection.
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/Problem'
@@ -636,8 +600,8 @@ paths:
         '500':
           $ref: '#/components/responses/InternalErrorPartialWrite'
       security:
-      - OAuth2:
-        - bankfeedsv2
+        - OAuth2:
+            - bankfeedsv2
 components:
   securitySchemes:
     OAuth2:
@@ -742,27 +706,27 @@ components:
           type: string
           description: Identifies the error.
           enum:
-          - invalid-request
-          - invalid-application
-          - suspended-or-terminated-application
-          - invalid-organisation-bank-feeds
-          - invalid-organisation-multi-currency
-          - invalid-feed-connection-for-organisation
-          - invalid-user-role
-          - invalid-account-token
-          - missing-identifying-fields
-          - invalid-country-specified
-          - account-not-valid
-          - feed-already-connected-in-current-organisation
-          - account-name-already-exists
-          - bank-feed-not-found
-          - feed-not-found-or-already-deleted
-          - partial-failure-account-created-but-not-connected
-          - partial-failure-migration-can-be-reattempted
-          - partial-failure-delete-can-be-reattempted
-          - partial-failure-connection-created-but-not-recorded
-          - too-many-requests
-          - internal-error
+            - invalid-request
+            - invalid-application
+            - suspended-or-terminated-application
+            - invalid-organisation-bank-feeds
+            - invalid-organisation-multi-currency
+            - invalid-feed-connection-for-organisation
+            - invalid-user-role
+            - invalid-account-token
+            - missing-identifying-fields
+            - invalid-country-specified
+            - account-not-valid
+            - feed-already-connected-in-current-organisation
+            - account-name-already-exists
+            - bank-feed-not-found
+            - feed-not-found-or-already-deleted
+            - partial-failure-account-created-but-not-connected
+            - partial-failure-migration-can-be-reattempted
+            - partial-failure-delete-can-be-reattempted
+            - partial-failure-connection-created-but-not-recorded
+            - too-many-requests
+            - internal-error
         title:
           type: string
           description: A short human-readable summary of the error.
@@ -806,8 +770,8 @@ components:
 
         '
       enum:
-      - BANK
-      - CREDITCARD
+        - BANK
+        - CREDITCARD
     FeedConnection:
       type: object
       description: A Feed Connection as Xero holds it.
@@ -850,7 +814,7 @@ components:
     ExistingAccountFeedConnectionsRequest:
       type: object
       required:
-      - items
+        - items
       properties:
         items:
           type: array
@@ -862,10 +826,10 @@ components:
     ExistingAccountFeedConnection:
       type: object
       required:
-      - accountId
-      - accountToken
-      - accountType
-      - currency
+        - accountId
+        - accountToken
+        - accountType
+        - currency
       properties:
         accountId:
           type: string
@@ -912,7 +876,7 @@ components:
     NewAccountFeedConnectionsRequest:
       type: object
       required:
-      - items
+        - items
       properties:
         items:
           type: array
@@ -924,11 +888,11 @@ components:
     NewAccountFeedConnection:
       type: object
       required:
-      - accountToken
-      - accountType
-      - accountNumber
-      - accountName
-      - currency
+        - accountToken
+        - accountType
+        - accountNumber
+        - accountName
+        - currency
       properties:
         accountToken:
           type: string
@@ -975,7 +939,7 @@ components:
     DeleteFeedConnectionsRequest:
       type: object
       required:
-      - items
+        - items
       properties:
         items:
           type: array
@@ -991,7 +955,7 @@ components:
     FeedConnectionToDelete:
       type: object
       required:
-      - id
+        - id
       properties:
         id:
           type: string
@@ -1079,9 +1043,9 @@ components:
 
             '
           enum:
-          - SUCCESS
-          - REJECTED
-          - PARTIAL_FAILURE
+            - SUCCESS
+            - REJECTED
+            - PARTIAL_FAILURE
         statusCode:
           type: integer
           format: int32
