@@ -7,11 +7,11 @@ info:
     approved app partners. For non-bank apps, it automates statement imports into Xero bank
     and credit card accounts; it does not create a direct bank feed.
 
-    Feed Connections version 2.0 is intended to replace version 1.0. The customer chooses
+    Feed Connections 2.0 is intended to replace 1.0. The customer chooses
     whether to connect an existing Xero account or create a new one. Use ExistingAccount with
     the chosen accountId, or NewAccount to create an account; Xero does not guess which
     account to connect or silently change an account name. The GET and delete operations
-    also use version 2.0. Statements continue to use version 1.0.
+    also use 2.0. Statements continue to use 1.0.
   termsOfService: https://developer.xero.com/xero-developer-platform-terms-conditions/
   contact:
     name: Xero Platform Team
@@ -140,7 +140,7 @@ paths:
       summary: Connect feeds to Xero Bank Accounts that already exist
       externalDocs:
         description: Partial-failure recovery by error title
-        url: https://developer.xero.com/documentation/api/bankfeeds/feedconnections-v2-errors/#partial-failures-in-version-20
+        url: https://developer.xero.com/documentation/api/bankfeeds/feedconnections-2-0-errors/#partial-failures
       description: 'Creates Feed Connections against Xero Bank Accounts the Organisation already holds. Every
 
         item must carry the `accountId` of the account it connects to. Xero performs no matching of
@@ -215,7 +215,7 @@ paths:
             `partial-failure-connection-created-but-not-recorded` (one title). Some
             cases allow resending the same item; others require checking the account first.
             Match `error.type` and `error.title`, then follow the recovery table at
-            https://developer.xero.com/documentation/api/bankfeeds/feedconnections-v2-errors/#partial-failures-in-version-20 .
+            https://developer.xero.com/documentation/api/bankfeeds/feedconnections-2-0-errors/#partial-failures .
 
             '
           content:
@@ -300,7 +300,7 @@ paths:
       summary: Create Xero Bank Accounts and connect feeds to them
       externalDocs:
         description: Partial-failure recovery by error title
-        url: https://developer.xero.com/documentation/api/bankfeeds/feedconnections-v2-errors/#partial-failures-in-version-20
+        url: https://developer.xero.com/documentation/api/bankfeeds/feedconnections-2-0-errors/#partial-failures
       description: 'Creates a new Xero Bank Account for each item and connects a feed to it.
 
 
@@ -377,7 +377,7 @@ paths:
             `partial-failure-account-created-but-not-connected` applies (three titles).
             The account was created: do not resend the same NewAccount item. Find its
             `accountId` in `error.detail`, then follow the matching recovery row at
-            https://developer.xero.com/documentation/api/bankfeeds/feedconnections-v2-errors/#partial-failures-in-version-20 .
+            https://developer.xero.com/documentation/api/bankfeeds/feedconnections-2-0-errors/#partial-failures .
             '
           content:
             application/json:
@@ -396,7 +396,7 @@ paths:
                     type: account-name-already-exists
                     title: Account Name Already Exists
                     status: 409
-                    detail: An account with the name provided already exists in this organisation.
+                    detail: An account named 'Sam's Credit Card' already exists in this organisation. Specify a different AccountName.
                 - accountToken: '10000125'
                   status: PARTIAL_FAILURE
                   statusCode: 500
@@ -456,7 +456,7 @@ paths:
       summary: Terminate Feed Connections
       externalDocs:
         description: Partial-failure recovery by error title
-        url: https://developer.xero.com/documentation/api/bankfeeds/feedconnections-v2-errors/#partial-failures-in-version-20
+        url: https://developer.xero.com/documentation/api/bankfeeds/feedconnections-2-0-errors/#partial-failures
       description: 'Terminates the Feed Connections named in the request. Terminating a Feed Connection
 
         discontinues the bank feed, and does not otherwise affect the customer''s data in Xero.
@@ -546,7 +546,7 @@ paths:
             needed. The item has `statusCode` `204` after a successful retry or confirmation of
             absence. If it keeps reporting `PARTIAL_FAILURE`, contact Xero support with
             the connection id from `error.detail`. See
-            https://developer.xero.com/documentation/api/bankfeeds/feedconnections-v2-errors/#partial-failures-in-version-20 .
+            https://developer.xero.com/documentation/api/bankfeeds/feedconnections-2-0-errors/#partial-failures .
             '
           content:
             application/json:
@@ -651,7 +651,7 @@ components:
             email: Grant read-only access to your email
             openid: Grant read-only access to your open id
             profile: your profile information
-            bankfeedsv2: Grant read-write access to Bank Feeds Feed Connections version 2.0
+            bankfeedsv2: Grant read-write access to Bank Feeds Feed Connections 2.0
   parameters:
     XeroTenantId:
       name: Xero-Tenant-Id
