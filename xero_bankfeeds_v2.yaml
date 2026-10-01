@@ -1,17 +1,11 @@
 openapi: 3.0.0
 info:
-  version: 2.0.0
+  version: 19.1.0
   title: Xero Bank Feeds API v2
   description: >-
-    The Bank Feeds API is available to financial institutions with a Xero partnership and
-    approved app partners. For non-bank apps, it automates statement imports into Xero bank
-    and credit card accounts; it does not create a direct bank feed.
+    The Bank Feeds API is available to financial institutions with a Xero partnership and approved app partners. For non-bank apps, it automates statement imports into Xero bank and credit card accounts; it does not create a direct bank feed.
 
-    Feed Connections 2.0 is intended to replace 1.0. The customer chooses
-    whether to connect an existing Xero account or create a new one. Use ExistingAccount with
-    the chosen accountId, or NewAccount to create an account; Xero does not guess which
-    account to connect or silently change an account name. The GET and delete operations
-    also use 2.0. Statements continue to use 1.0.
+    Feed Connections 2.0 is intended to replace 1.0. The customer chooses whether to connect an existing Xero account or create a new one. Use ExistingAccount with the chosen accountId, or NewAccount to create an account; Xero does not guess which account to connect or silently change an account name. The GET and delete operations also use 2.0. Statements continue to use 1.0.
   termsOfService: https://developer.xero.com/xero-developer-platform-terms-conditions/
   contact:
     name: Xero Platform Team
@@ -39,7 +33,7 @@ paths:
 
         A `page` beyond the end of the collection returns an empty `items` array rather than an error.
 
-        '
+'
       parameters:
         - $ref: '#/components/parameters/XeroTenantId'
         - name: page
@@ -93,7 +87,7 @@ paths:
 
         Application cannot use this endpoint to discover what another Application holds.
 
-        '
+'
       parameters:
         - name: id
           in: path
@@ -157,7 +151,7 @@ paths:
 
         request order.
 
-        '
+'
       parameters:
         - $ref: '#/components/parameters/XeroTenantId'
       requestBody:
@@ -188,7 +182,7 @@ paths:
 
             `207`, not a `200`.
 
-            '
+'
           content:
             application/json:
               schema:
@@ -211,7 +205,7 @@ paths:
 
             `207` means the item codes were neither all 2xx nor all 4xx. A `PARTIAL_FAILURE` item carries `statusCode` `500`. On this endpoint, it can be `partial-failure-migration-can-be-reattempted` (three titles) or `partial-failure-connection-created-but-not-recorded` (one title). Some cases allow resending the same item; others require checking the account first. Match `error.type` and `error.title`, then follow the recovery table at https://developer.xero.com/documentation/api/bankfeeds/feedconnections-2-0-errors/#partial-failures .
 
-            '
+'
           content:
             application/json:
               schema:
@@ -257,7 +251,7 @@ paths:
 
             and there is no `items` array at all.
 
-            '
+'
           content:
             application/json:
               schema:
@@ -308,7 +302,7 @@ paths:
 
         rejected with `account-name-already-exists` naming that account, and no account is created.
 
-        '
+'
       parameters:
         - $ref: '#/components/parameters/XeroTenantId'
       requestBody:
@@ -340,7 +334,7 @@ paths:
 
             `207`, not a `200`.
 
-            '
+'
           content:
             application/json:
               schema:
@@ -408,7 +402,7 @@ paths:
             and there is no `items` array at all.
 
 
-            '
+'
           content:
             application/json:
               schema:
@@ -467,7 +461,7 @@ paths:
 
         id in `error.detail`.
 
-        '
+'
       parameters:
         - $ref: '#/components/parameters/XeroTenantId'
       requestBody:
@@ -493,7 +487,7 @@ paths:
 
             A response that mixes these with rejected or partially failed items is a `207`.
 
-            '
+'
           content:
             application/json:
               schema:
@@ -569,7 +563,7 @@ paths:
 
             problem object with no `items` array.
 
-            '
+'
           content:
             application/json:
               schema:
@@ -641,13 +635,13 @@ components:
 
         required header is answered `400`, because headers are checked first.
 
-        '
+'
     Forbidden:
       description: 'The Application, the Organisation, or the user is not permitted to make this request. Read
 
         `type` to distinguish the cases.
 
-        '
+'
       content:
         application/problem+json:
           schema:
@@ -662,7 +656,7 @@ components:
 
         legacy Application; V2 does not.
 
-        '
+'
     InternalError:
       description: An error occurred inside Xero. The request should be retried.
       content:
@@ -688,7 +682,7 @@ components:
 
         processed.
 
-        '
+'
       content:
         application/problem+json:
           schema:
@@ -700,7 +694,7 @@ components:
 
         carried inside the `error` property of an item result when it describes one item.
 
-        '
+'
       properties:
         type:
           type: string
@@ -737,7 +731,7 @@ components:
 
             that item, which need not be the status of the response as a whole.
 
-            '
+'
         detail:
           type: string
           description: A human-readable explanation specific to this occurrence.
@@ -763,12 +757,12 @@ components:
 
             which is not returned.
 
-            '
+'
     AccountType:
       type: string
       description: 'The high-level type of the account. `BANK` covers every account type other than a credit card.
 
-        '
+'
       enum:
         - BANK
         - CREDITCARD
@@ -838,7 +832,7 @@ components:
 
             though the field were absent.
 
-            '
+'
         accountToken:
           type: string
           maxLength: 50
@@ -846,7 +840,7 @@ components:
 
             financial institute. Some financial institutes additionally constrain its format.
 
-            '
+'
         accountType:
           $ref: '#/components/schemas/AccountType'
         currency:
@@ -857,7 +851,7 @@ components:
 
             `accountId`, and must be a currency the Organisation holds.
 
-            '
+'
         country:
           type: string
           minLength: 2
@@ -866,7 +860,7 @@ components:
 
             regions. Talk to your Partner Manager to confirm whether this applies to you.
 
-            '
+'
         accountNumber:
           type: string
           description: Ignored. Taken from the Xero Bank Account named by `accountId`.
@@ -901,7 +895,7 @@ components:
 
             financial institute.
 
-            '
+'
         accountType:
           $ref: '#/components/schemas/AccountType'
         accountNumber:
@@ -913,7 +907,7 @@ components:
 
             digits, and digits only.
 
-            '
+'
         accountName:
           type: string
           maxLength: 30
@@ -921,7 +915,7 @@ components:
 
             holds an account with this name.
 
-            '
+'
         currency:
           type: string
           minLength: 3
@@ -935,7 +929,7 @@ components:
 
             regions.
 
-            '
+'
     DeleteFeedConnectionsRequest:
       type: object
       required:
@@ -949,7 +943,7 @@ components:
 
             may appear twice.
 
-            '
+'
           items:
             $ref: '#/components/schemas/FeedConnectionToDelete'
     FeedConnectionToDelete:
@@ -966,7 +960,7 @@ components:
 
             are not supported.
 
-            '
+'
     BulkFeedConnectionResponse:
       type: object
       description: One result per request item, in request order.
@@ -996,7 +990,7 @@ components:
 
         retry blindly.
 
-        '
+'
       properties:
         id:
           type: string
@@ -1010,14 +1004,14 @@ components:
 
             the item carried no usable identifier.
 
-            '
+'
         accountToken:
           type: string
           description: 'The `accountToken` supplied in the request, echoed back, including on a rejected item.
 
             Not returned on a termination.
 
-            '
+'
         status:
           type: string
           description: '`SUCCESS` means the item reached the state the request asked for — on a create the
@@ -1041,7 +1035,7 @@ components:
 
             it.
 
-            '
+'
           enum:
             - SUCCESS
             - REJECTED
@@ -1063,6 +1057,6 @@ components:
 
             inside 2xx, letting an all-partial-failure batch compute to a reassuring `200`.
 
-            '
+'
         error:
           $ref: '#/components/schemas/Problem'
