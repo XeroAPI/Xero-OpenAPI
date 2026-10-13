@@ -611,19 +611,20 @@ paths:
         `endDate` (all required), plus any optional filters.
 
         **Continuation calls:** supply only `token`, taken from the previous response's
-        `pagination.links.next`. Do not send any other query parameters — they are
+        `pagination.nextToken`. Do not send any other query parameters — they are
         ignored if present, since the original request is captured by the token.
 
         ### Pagination
 
         - Results are returned in pages of 200 lines.
-        - Use `pagination.links.next` from the response to fetch the next page. Send only the
-          `token` query parameter on continuation requests — all other query parameters are
+        - Use `pagination.nextToken` from the response as the `token` query parameter to fetch
+          the next page. Send only the `token` query parameter on continuation requests — all
+          other query parameters are
           ignored on a continuation call, since the original request's parameters are already
           captured by the token.
         - The `token` value is an opaque string. Treat it as an opaque string only — do not
           parse, modify, or construct it yourself. Tokens may expire.
-        - No `pagination.links.next` in the response means you've reached the last page, and `pagination` is `null`.
+        - When `pagination` is `null`, you've reached the last page.
         - The API captures a consistent snapshot at the time of the first request (via
           `maxJournalNumber`), so transactions added while you are paginating through a
           result set won't appear partway through, and won't cause duplicates or gaps.
@@ -778,7 +779,7 @@ paths:
           in: query
           required: false
           description: |
-            Continuation token from a previous response's `pagination.links.next`. When
+            Continuation token from a previous response's `pagination.nextToken`. When
             present, all other query parameters are ignored. Opaque — do not parse,
             modify, or construct it.
           schema:
@@ -790,7 +791,7 @@ paths:
             Success - returns account transactions with pagination.
 
             - `lines`: transaction lines for this page (max 200)
-            - `pagination.links.next`: URL for the next page (`pagination` is `null` on the last page)
+            - `pagination.nextToken`: token for the next page (`pagination` is `null` on the last page)
             - `currencyCode`: organisation's base currency
             - `maxJournalNumber`: the snapshot boundary used for pagination consistency
           content:
@@ -836,10 +837,9 @@ paths:
                           percentage: 10.0
                     pagination:
                       pageSize: 200
-                      links:
-                        next: /accountdata.xro/1.0/account-transactions?token=ZXhhbXBsZS1jb250aW51YXRpb24tdG9rZW4
+                      nextToken: ZXhhbXBsZS1jb250aW51YXRpb24tdG9rZW4
                 lastPage:
-                  summary: Last page (no next link)
+                  summary: Last page (no further pages)
                   value:
                     currencyCode: USD
                     maxJournalNumber: 546
@@ -1234,18 +1234,14 @@ components:
               type: integer
               format: int32
               example: 200
-            links:
-              type: object
-              properties:
-                next:
-                  type: string
-                  description: URL for the next page. Omitted on the last page.
-              required:
-                - next
+            nextToken:
+              type: string
+              description: Opaque continuation token for the next page. Send it as the `token` query parameter to retrieve the next page.
+              example: ZXhhbXBsZS1jb250aW51YXRpb24tdG9rZW4
           nullable: true
           required:
             - pageSize
-            - links
+            - nextToken
     AccountTransactionLine:
       type: object
       required:
