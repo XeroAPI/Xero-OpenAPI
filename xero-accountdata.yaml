@@ -21,7 +21,7 @@ paths:
   /account-balances:
     get:
       tags:
-        - Account Balances
+        - AccountData
       operationId: getAccountBalances
       summary: Get the balance of each general ledger account as at a given date
       description: |
@@ -212,7 +212,7 @@ paths:
                 $ref: '#/components/schemas/AccountBalancesResponse'
               example:
                 accountBalances:
-                  - accountId: 575bc777-f59f-47d1-a449-83dfbaf38770
+                  - accountId: 88ed287a-d039-4dca-b3e9-b5f7b125e39b
                     date: '2024-12-31'
                     balance:
                       value: 5230.0
@@ -269,7 +269,7 @@ paths:
                 Title: Forbidden
                 Status: 403
                 Detail: AuthenticationUnsuccessful
-                Instance: c6bbb61b-1ee9-4671-bd5b-9d8d57df00d1
+                Instance: 07b4c7cd-b60d-4d8b-bd03-96a1244d1d3d
                 Extensions: {}
         '404':
           description: |
@@ -292,7 +292,7 @@ paths:
   /account-movements:
     get:
       tags:
-        - Account Movements
+        - AccountData
       operationId: getAccountMovements
       summary: Get the net movement of each general ledger account over a date range
       description: |
@@ -498,7 +498,7 @@ paths:
                 $ref: '#/components/schemas/AccountMovementsResponse'
               example:
                 accountMovements:
-                  - accountId: 575bc777-f59f-47d1-a449-83dfbaf38770
+                  - accountId: 88ed287a-d039-4dca-b3e9-b5f7b125e39b
                     dateRange:
                       startDate: '2024-01-01'
                       endDate: '2024-12-31'
@@ -576,7 +576,7 @@ paths:
                 Title: Forbidden
                 Status: 403
                 Detail: AuthenticationUnsuccessful
-                Instance: c6bbb61b-1ee9-4671-bd5b-9d8d57df00d1
+                Instance: 07b4c7cd-b60d-4d8b-bd03-96a1244d1d3d
                 Extensions: {}
         '404':
           description: |
@@ -599,7 +599,7 @@ paths:
   /account-transactions:
     get:
       tags:
-        - Account Transactions
+        - AccountData
       operationId: getAccountTransactions
       summary: Get general ledger account transactions between two dates, with pagination and filtering
       description: |
@@ -808,7 +808,7 @@ paths:
                         journalDate: '2024-12-31'
                         description: Inventory Opening Balance
                         account:
-                          id: 575bc777-f59f-47d1-a449-83dfbaf38770
+                          id: 88ed287a-d039-4dca-b3e9-b5f7b125e39b
                           code: '630'
                           name: Inventory
                           class: ASSET
@@ -824,10 +824,10 @@ paths:
                           type: CREDIT
                         signedTaxAmount: 0.0
                         source:
-                          documentId: 3c0e6a9d-2b5f-4e7a-9d1c-7f8e6d5c4b3a
+                          documentId: 4dbbb217-b8a6-42c1-acef-dc35ba440683
                           documentType: PURCHASE_ORDER
                           eventType: CREATE
-                          contactId: 8a7c9d2e-3b1f-4e5a-9c8d-7f6e5d4c3b2a
+                          contactId: 1f2bdcdf-1c10-42b0-a6cc-f08ecd768a73
                           contactName: Acme Supplies
                           reference: PO-1042
                         taxRate:
@@ -837,7 +837,7 @@ paths:
                     pagination:
                       pageSize: 200
                       links:
-                        next: /accountdata.xro/1.0/account-transactions?token=eyJvcmdJZCI6ImIwNDRlNGVhLWEyOTAtNGYxMS04ZGY4LTQwMTc5ZGZhNmNhZSJ9
+                        next: /accountdata.xro/1.0/account-transactions?token=ZXhhbXBsZS1jb250aW51YXRpb24tdG9rZW4
                 lastPage:
                   summary: Last page (no next link)
                   value:
@@ -848,7 +848,7 @@ paths:
                         journalDate: '2024-01-15'
                         description: Initial Inventory Stock
                         account:
-                          id: 575bc777-f59f-47d1-a449-83dfbaf38770
+                          id: 88ed287a-d039-4dca-b3e9-b5f7b125e39b
                           code: '630'
                           name: Inventory
                           class: ASSET
@@ -919,7 +919,7 @@ paths:
                 Title: Forbidden
                 Status: 403
                 Detail: AuthenticationUnsuccessful
-                Instance: c6bbb61b-1ee9-4671-bd5b-9d8d57df00d1
+                Instance: 07b4c7cd-b60d-4d8b-bd03-96a1244d1d3d
                 Extensions: {}
         '404':
           description: |
@@ -961,7 +961,7 @@ components:
       schema:
         type: string
         format: uuid
-      example: b044e4ea-a290-4f11-8df8-40179dfa6cae
+      example: 2ae32d9e-4711-4201-9f2a-ac80e5318359
   responses:
     Unauthorised:
       description: |
@@ -988,7 +988,7 @@ components:
                 Title: Unauthorized
                 Status: 401
                 Detail: AuthenticationUnsuccessful
-                Instance: d4565502-8492-4406-9f14-8f4a4c8462cf
+                Instance: 76295f13-127d-4464-adde-18f181faf38c
                 Extensions: {}
             insufficientScope:
               summary: Token lacks the required scope
@@ -997,7 +997,7 @@ components:
                 Title: Unauthorized
                 Status: 401
                 Detail: AuthorizationUnsuccessful
-                Instance: 7014d105-6aa7-4600-8d7c-08a8d60ada66
+                Instance: 69b16318-fe7c-481e-9c4d-ad7d6286cc50
                 Extensions: {}
     TooManyRequests:
       description: |
