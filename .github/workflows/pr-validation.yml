@@ -7,7 +7,7 @@ on:
 
 jobs:
   codegen-validation:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     name: Codegen Repo Validation
     permissions:
       contents: write
@@ -16,13 +16,14 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
+          persist-credentials: false
           fetch-depth: 0
 
       - name: Get github app access token
         id: get_access_token
-        uses: actions/create-github-app-token@v2
+        uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
         with:
           app-id: ${{ vars.XERO_CODEGEN_APP_ID }}
           private-key: ${{ secrets.XERO_GITHUB_APPLICATION_KEY }}
@@ -55,11 +56,11 @@ jobs:
             --json databaseId \
             --jq '.[0].databaseId')
 
-          echo "run_id=$RUN_ID" >> $GITHUB_OUTPUT
+          echo "run_id=$RUN_ID" >> "$GITHUB_OUTPUT"
           echo "Triggered workflow run ID: $RUN_ID"
 
       - name: Check status of codegen validation workflow
-        uses: Codex-/await-remote-run@v1.13.0
+        uses: Codex-/await-remote-run@bb04140a0965ec5532845d826a74dc5f075f891b # v3.0.0
         with:
           token: ${{ steps.get_access_token.outputs.token }}
           repo: xeroapi-sdk-codegen
