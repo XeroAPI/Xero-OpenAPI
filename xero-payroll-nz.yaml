@@ -637,6 +637,7 @@ paths:
                   specialStudentLoanRatePercentage: null
                   specialTaxRatePercentage: null
                   kiwiSaverContributions: MakeContributions
+                  kiwiSaverStatus: ActiveKiwiSaverMember
                   kiwiSaverOptOutDate: null
                   kiwiSaverContributionHolidayEndDate: null
                   kiwiSaverEmployeeContributionRatePercentage: 3
@@ -645,6 +646,7 @@ paths:
                   hasStudentLoanBalance: false
                   studentLoanBalance: null
                   studentLoanAsAt: null
+                  registeredForGST: null
     post:
       security:
         - OAuth2:
@@ -693,13 +695,6 @@ paths:
           nonString: true
           default: 2
           object: employeeTax
-        - isEligibleForKiwiSaver:
-          key: isEligibleForKiwiSaver
-          keyPascal: IsEligibleForKiwiSaver
-          keySnake: is_eligible_for_kiwi_saver
-          nonString: true
-          default: true
-          object: employeeTax
         - esctRatePercentage:
           key: esctRatePercentage
           keyPascal: EsctRatePercentage
@@ -713,13 +708,26 @@ paths:
           keyPascal: KiwiSaverContributions
           keySnake: kiwi_saver_contributions
           nonString: true
-          default: DeductionCategory.NzOther
+          default: EmployeeTax.KiwiSaverContributionsEnum.MakeContributions
           php: XeroAPI\XeroPHP\Models\PayrollNz\EmployeeTax\KiwiSaverContributionsEnum.MakeContributions
           node: EmployeeTax.KiwiSaverContributionsEnum.MakeContributions
           ruby: XeroRuby::PayrollNz::EmployeeTax::kiwi_saver_contributions_enum::MAKECONTRIBUTIONS
           python: kiwi_saver_contributions_enum::MAKECONTRIBUTIONS
           java: com.xero.models.payrollnz.EmployeeTax.KiwiSaverContributionsEnum.MakeContributions
           csharp: EmployeeTax.KiwiSaverContributionsEnum.MakeContributions
+          object: employeeTax
+        - kiwiSaverStatus:
+          key: kiwiSaverStatus
+          keyPascal: KiwiSaverStatus
+          keySnake: kiwi_saver_status
+          nonString: true
+          default: EmployeeTax.KiwiSaverStatusEnum.ActiveKiwiSaverMember
+          php: XeroAPI\XeroPHP\Models\PayrollNz\EmployeeTax\KiwiSaverStatusEnum.ActiveKiwiSaverMember
+          node: EmployeeTax.KiwiSaverStatusEnum.ActiveKiwiSaverMember
+          ruby: XeroRuby::PayrollNz::EmployeeTax::kiwi_saver_status_enum::ACTIVEKIWISAVERMEMBER
+          python: kiwi_saver_status_enum::ACTIVEKIWISAVERMEMBER
+          java: com.xero.models.payrollnz.EmployeeTax.KiwiSaverStatusEnum.ActiveKiwiSaverMember
+          csharp: EmployeeTax.KiwiSaverStatusEnum.ActiveKiwiSaverMember
           object: employeeTax
         - kiwiSaverEmployeeContributionRatePercentage:
           key: kiwiSaverEmployeeContributionRatePercentage
@@ -776,6 +784,7 @@ paths:
           object: employeeTax
           is_last: true
       summary: Updates the tax records for a specific employee
+      description: Replaces the entire EmployeeTax record. This is not a partial update. Any field omitted from the request is treated as null and overwrites the stored value. To change individual fields, GET the current record, merge your changes, remove deprecated fields such as isEligibleForKiwiSaver, and POST the complete object.
       parameters:
         - $ref: "#/components/parameters/idempotencyKey"
         - name: EmployeeID
@@ -810,6 +819,7 @@ paths:
                   specialStudentLoanRatePercentage: null
                   specialTaxRatePercentage: null
                   kiwiSaverContributions: MakeContributions
+                  kiwiSaverStatus: ActiveKiwiSaverMember
                   kiwiSaverOptOutDate: null
                   kiwiSaverContributionHolidayEndDate: null
                   kiwiSaverEmployeeContributionRatePercentage: 3
@@ -818,6 +828,7 @@ paths:
                   hasStudentLoanBalance: false
                   studentLoanBalance: null
                   studentLoanAsAt: null
+                  registeredForGST: null
       requestBody:
         required: true
         content:
@@ -828,11 +839,11 @@ paths:
               irdNumber: "111111111"
               taxCode: M
               esctRatePercentage: 17.5
-              isEligibleForKiwiSaver: true
               hasSpecialStudentLoanRate: false
               specialStudentLoanRatePercentage: null
               specialTaxRatePercentage: null
               kiwiSaverContributions: MakeContributions
+              kiwiSaverStatus: ActiveKiwiSaverMember
               kiwiSaverOptOutDate: null
               kiwiSaverContributionHolidayEndDate: null
               kiwiSaverEmployeeContributionRatePercentage: 3
@@ -841,6 +852,7 @@ paths:
               hasStudentLoanBalance: false
               studentLoanBalance: null
               studentLoanAsAt: null
+              registeredForGST: null
   /Employees/{EmployeeID}/OpeningBalances:
     parameters:
       - $ref: "#/components/parameters/requiredHeader"
@@ -1753,7 +1765,7 @@ paths:
           keyPascal: ScheduleOfAccrual
           keySnake: schedule_of_accrual
           nonString: true
-          default: DeductionCategory.NzOther
+          default: EmployeeLeaveType.ScheduleOfAccrualEnum.PercentageOfGrossEarnings
           php: XeroAPI\XeroPHP\Models\PayrollNz\EmployeeLeaveType\ScheduleOfAccrualEnum.PercentageOfGrossEarnings
           node: EmployeeLeaveType.ScheduleOfAccrualEnum.PercentageOfGrossEarnings
           ruby: XeroRuby::PayrollNz::EmployeeLeaveType::schedule_of_accrual::PERCENTAGEOFGROSSEARNINGS
@@ -6367,7 +6379,7 @@ components:
           x-is-money: true
           example: 17.5
         hasSpecialStudentLoanRate:
-          description: Does the employee has a special student loan rate?
+          description: Does the employee have a special student loan rate?
           type: boolean
           example: true
         specialStudentLoanRatePercentage:
@@ -6377,8 +6389,9 @@ components:
           x-is-money: true
           example: 2.0
         isEligibleForKiwiSaver:
-          description: The employee eligibility for KiwiSaver.
+          description: The employee eligibility for KiwiSaver. Deprecated, replaced by kiwiSaverStatus. Omit this field from POST requests.
           type: boolean
+          deprecated: true
           example: true
         esctRatePercentage:
           description: Employer superannuation contribution tax rate.
@@ -6396,6 +6409,17 @@ components:
             - OnAContributionsHoliday
             - OnASavingsSuspension
             - NotCurrentlyAKiwiSaverMember
+        kiwiSaverStatus:
+          description: KiwiSaver eligibility. Required in POST requests for all tax codes except WT and NSW.
+          type: string
+          example: ActiveKiwiSaverMember
+          enum:
+            - ActiveKiwiSaverMember
+            - AutomaticallyEnrolledIntoKiwiSaver
+            - EmployedForLessThan28Days
+            - NotRequiredToBeAutomaticallyEnrolled
+            - OptedIntoKiwiSaver
+            - NotEligibleForKiwiSaver
         kiwiSaverEmployeeContributionRatePercentage:
           description: Employee Contribution percentage.
           type: number
@@ -6442,6 +6466,10 @@ components:
           format: date
           x-is-date: true
           example: 2020-07-01T00:00:00
+        registeredForGST:
+          description: Is the employee registered for GST? Required in POST requests when taxCode is WT.
+          type: boolean
+          example: true
     TaxCode:
       description: Tax codes used for employee tax
       type: string
