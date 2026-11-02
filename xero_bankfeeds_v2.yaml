@@ -1,33 +1,13 @@
 openapi: 3.0.0
 info:
-  version: 19.1.0
+  version: 20.0.0
   title: Xero Bank Feeds API v2
   description: >-
-    The Bank Feeds API is available to financial institutions with a Xero partnership and
-    approved app partners. For non-bank apps, it automates statement imports into Xero bank
-    and credit card accounts; it does not create a direct bank feed.
+    The Bank Feeds API is available to financial institutions with a Xero partnership and approved app partners. For non-bank apps, it automates statement imports into Xero bank and credit card accounts; it does not create a direct bank feed.
 
-    Feed Connections 2.0 is intended to replace 1.0. The customer chooses
-    whether to connect an existing Xero account or create a new one. Use ExistingAccount with
-    the chosen accountId, or NewAccount to create an account; Xero does not guess which
-    account to connect or silently change an account name. The GET and delete operations
-    also use 2.0. Statements continue to use 1.0.
+    Feed Connections 2.0 is intended to replace 1.0. The customer chooses whether to connect an existing Xero account or create a new one. Use ExistingAccount with the chosen accountId, or NewAccount to create an account; Xero does not guess which account to connect or silently change an account name. The GET and delete operations also use 2.0. Statements continue to use 1.0.
 
-    Partial failures are rare, and nearly all are recoverable by your app with no need to contact
-    Xero support. If an item in a write response has `status` `PARTIAL_FAILURE`, handle only that
-    item and read its `error.type`. For `partial-failure-new-account-creation`, do not resend the
-    NewAccount item: connect `error.accountId` with `POST /FeedConnections/ExistingAccount`. For
-    `partial-failure-new-account-existence-not-confirmed`, the account named in `error.accountName`
-    may or may not exist. Use the Accounting API to check whether an account with that name exists.
-    If it does, connect it with `POST /FeedConnections/ExistingAccount`. If it does not, resend the
-    NewAccount item. If your app has a user, you can show them this message instead: "Something went
-    wrong. Please check whether your chosen account name now exists. If it does, connect it. If not,
-    try creating the new one again." For any
-    other `partial-failure-*` type, resend the same item. If the recovery request for `partial-failure-new-account-creation`, `partial-failure-previous-connection-deletion` or `partial-failure-connection-creation` returns 409
-    `feed-already-connected-in-current-organisation`, the earlier attempt succeeded: treat the item
-    as created and use `GET /FeedConnections` to find its `id`. `error.subtype` is optional
-    diagnostics; do not branch on it, and never parse `title` or `detail`. Full detail:
-    https://developer.xero.com/documentation/api/bankfeeds/feedconnections-2-0-errors/#partial-failures
+    Partial failures are rare, and nearly all are recoverable by your app with no need to contact Xero support. If an item in a write response has `status` `PARTIAL_FAILURE`, handle only that item and read its `error.type`. For `partial-failure-new-account-creation`, do not resend the NewAccount item: connect `error.accountId` with `POST /FeedConnections/ExistingAccount`. For `partial-failure-new-account-existence-not-confirmed`, the account named in `error.accountName` may or may not exist. Use the Accounting API to check whether an account with that name exists. If it does, connect it with `POST /FeedConnections/ExistingAccount`. If it does not, resend the NewAccount item. If your app has a user, you can show them this message instead: "Something went wrong. Please check whether your chosen account name now exists. If it does, connect it. If not, try creating the new one again." For any other `partial-failure-*` type, resend the same item. If the recovery request for `partial-failure-new-account-creation`, `partial-failure-previous-connection-deletion` or `partial-failure-connection-creation` returns 409 `feed-already-connected-in-current-organisation`, the earlier attempt succeeded: treat the item as created and use `GET /FeedConnections` to find its `id`. `error.subtype` is optional diagnostics; do not branch on it, and never parse `title` or `detail`. Full detail: https://developer.xero.com/documentation/api/bankfeeds/feedconnections-2-0-errors/#partial-failures
   termsOfService: https://developer.xero.com/xero-developer-platform-terms-conditions/
   contact:
     name: Xero Platform Team
@@ -55,7 +35,7 @@ paths:
 
         A `page` beyond the end of the collection returns an empty `items` array rather than an error.
 
-        '
+'
       parameters:
         - $ref: '#/components/parameters/XeroTenantId'
         - name: page
@@ -109,7 +89,7 @@ paths:
 
         Application cannot use this endpoint to discover what another Application has.
 
-        '
+'
       parameters:
         - name: id
           in: path
@@ -173,7 +153,7 @@ paths:
 
         request order.
 
-        '
+'
       parameters:
         - $ref: '#/components/parameters/XeroTenantId'
       requestBody:
@@ -204,7 +184,7 @@ paths:
 
             `207`, not a `200`.
 
-            '
+'
           content:
             application/json:
               schema:
@@ -228,9 +208,9 @@ paths:
             Partial failures are rare, and nearly all are recoverable by your app. On this endpoint a partial failure is `partial-failure-previous-connection-deletion` or `partial-failure-connection-creation`: resend the same item. `error.accountId` and `error.connectionId` identify the account and connection; `error.subtype` is optional diagnostics. If the resend returns 409 `feed-already-connected-in-current-organisation`, the earlier attempt was recorded: treat the item as created. A connection an earlier attempt left in Xero without a feed connection never causes that 409: the resend replaces it. See https://developer.xero.com/documentation/api/bankfeeds/feedconnections-2-0-errors/#partial-failures .
 
 
-                        `207` means the item codes were neither all 2xx nor all 4xx. A `PARTIAL_FAILURE` item has `statusCode` `500`: the item did not complete, and the state it left behind needs attention or could not be confirmed. `error.subtype` says which. A `REJECTED` item whose error is `internal-error` or `too-many-requests` also has `statusCode` `500`, so it makes the response a `207` (as does a batch in which all items are like that): something unexpected went wrong for that item, and nothing was written, or Xero confirmed that nothing took effect, so resend that item as it is.
+            `207` means the item codes were neither all 2xx nor all 4xx. A `PARTIAL_FAILURE` item has `statusCode` `500`: the item did not complete, and the state it left behind needs attention or could not be confirmed. `error.subtype` says which. A `REJECTED` item whose error is `internal-error` or `too-many-requests` also has `statusCode` `500`, so it makes the response a `207` (as does a batch in which all items are like that): something unexpected went wrong for that item, and nothing was written, or Xero confirmed that nothing took effect, so resend that item as it is.
 
-                        '
+'
           content:
             application/json:
               schema:
@@ -275,7 +255,7 @@ paths:
 
             and there is no `items` array at all.
 
-            '
+'
           content:
             application/json:
               schema:
@@ -330,7 +310,7 @@ paths:
 
         has just taken.
 
-        '
+'
       parameters:
         - $ref: '#/components/parameters/XeroTenantId'
       requestBody:
@@ -362,7 +342,7 @@ paths:
 
             `207`, not a `200`.
 
-            '
+'
           content:
             application/json:
               schema:
@@ -388,7 +368,7 @@ paths:
 
             `207` means the item codes were neither all 2xx nor all 4xx. A `PARTIAL_FAILURE` item has `statusCode` `500`: the item did not complete, and the state it left behind needs attention or could not be confirmed. `error.subtype` says which. A `REJECTED` item whose error is `internal-error` or `too-many-requests` also has `statusCode` `500`, so it makes the response a `207` (as does a batch in which all items are like that): something unexpected went wrong for that item, and nothing was written, or Xero confirmed that nothing took effect, so resend that item as it is.
 
-            '
+'
           content:
             application/json:
               schema:
@@ -443,7 +423,7 @@ paths:
             and there is no `items` array at all.
 
 
-            '
+'
           content:
             application/json:
               schema:
@@ -502,7 +482,7 @@ paths:
 
         id in `error.connectionId`.
 
-        '
+'
       parameters:
         - $ref: '#/components/parameters/XeroTenantId'
       requestBody:
@@ -528,7 +508,7 @@ paths:
 
             A response that mixes these with rejected or partially failed items is a `207`.
 
-            '
+'
           content:
             application/json:
               schema:
@@ -556,7 +536,7 @@ paths:
 
             `207` means the item codes were neither all 2xx nor all 4xx. A `PARTIAL_FAILURE` item has `statusCode` `500`: the item did not complete, and the state it left behind needs attention or could not be confirmed. `error.subtype` says which. A `REJECTED` item whose error is `internal-error` or `too-many-requests` also has `statusCode` `500`, so it makes the response a `207`: something unexpected went wrong for that item before anything was deleted, so resending the item is safe. After a `partial-failure-connection-deletion`, the Feed Connection no longer appears in GET or delivers statements, but may still appear connected in Xero.
 
-            '
+'
           content:
             application/json:
               schema:
@@ -608,7 +588,7 @@ paths:
 
             problem object with no `items` array.
 
-            '
+'
           content:
             application/json:
               schema:
@@ -679,13 +659,13 @@ components:
 
         required header is answered `400`, because headers are checked first.
 
-        '
+'
     Forbidden:
       description: 'The Application, the Organisation, or the user is not permitted to make this request. Read
 
         `type` to distinguish the cases.
 
-        '
+'
       content:
         application/problem+json:
           schema:
@@ -700,7 +680,7 @@ components:
 
         legacy Application; V2 does not.
 
-        '
+'
     InternalError:
       description: An error occurred inside Xero. The request should be retried.
       content:
@@ -726,7 +706,7 @@ components:
 
         processed.
 
-        '
+'
       content:
         application/problem+json:
           schema:
@@ -738,7 +718,7 @@ components:
 
         The `error` of an item result is an `ItemError`, which has the same fields except `status`.
 
-        '
+'
       properties:
         type:
           type: string
@@ -774,7 +754,7 @@ components:
 
             which identifier fields are present, so branch on `type` and use `subtype` for diagnostics.
 
-            '
+'
           enum:
             - connection-phase-failed
             - deletion-phase-failed
@@ -793,7 +773,7 @@ components:
 
             result does not repeat it in its `error`: read the item''s `statusCode` instead.
 
-            '
+'
         detail:
           type: string
           description: A human-readable explanation specific to this occurrence.
@@ -812,7 +792,7 @@ components:
 
             `partial-failure-new-account-existence-not-confirmed`, where the account may not exist.
 
-            '
+'
         accountName:
           type: string
           description: 'Present only on a partial failure of type `partial-failure-new-account-creation` or
@@ -823,7 +803,7 @@ components:
 
             name of the account that may have been created.
 
-            '
+'
         connectionId:
           type: string
           format: uuid
@@ -845,14 +825,14 @@ components:
 
             `partial-failure-new-account-existence-not-confirmed`.
 
-                        '
+'
     ItemError:
       type: object
       description: 'The `error` of an item result. It has the same fields as `Problem`, except `status`: the
 
         item''s own `statusCode` is its HTTP status, so it is not repeated here.
 
-        '
+'
       properties:
         type:
           type: string
@@ -888,7 +868,7 @@ components:
 
             which identifier fields are present, so branch on `type` and use `subtype` for diagnostics.
 
-            '
+'
           enum:
             - connection-phase-failed
             - deletion-phase-failed
@@ -918,7 +898,7 @@ components:
 
             `partial-failure-new-account-existence-not-confirmed`, where the account may not exist.
 
-            '
+'
         accountName:
           type: string
           description: 'Present only on a partial failure of type `partial-failure-new-account-creation` or
@@ -929,7 +909,7 @@ components:
 
             name of the account that may have been created.
 
-            '
+'
         connectionId:
           type: string
           format: uuid
@@ -951,7 +931,7 @@ components:
 
             `partial-failure-new-account-existence-not-confirmed`.
 
-            '
+'
     Pagination:
       type: object
       properties:
@@ -974,12 +954,12 @@ components:
 
             which is not returned.
 
-            '
+'
     AccountType:
       type: string
       description: 'The high-level type of the account. `BANK` covers every account type other than a credit card.
 
-        '
+'
       enum:
         - BANK
         - CREDITCARD
@@ -1049,7 +1029,7 @@ components:
 
             though the field were absent.
 
-            '
+'
         accountToken:
           type: string
           maxLength: 50
@@ -1057,7 +1037,7 @@ components:
 
             financial institute. Some financial institutes additionally constrain its format.
 
-            '
+'
         accountType:
           $ref: '#/components/schemas/AccountType'
         currency:
@@ -1068,7 +1048,7 @@ components:
 
             `accountId`, and must be a currency the Organisation has.
 
-            '
+'
         country:
           type: string
           minLength: 2
@@ -1077,7 +1057,7 @@ components:
 
             regions. Talk to your Partner Manager to confirm whether this applies to you.
 
-            '
+'
         accountNumber:
           type: string
           description: Ignored. Taken from the Xero Bank Account named by `accountId`.
@@ -1112,7 +1092,7 @@ components:
 
             financial institute.
 
-            '
+'
         accountType:
           $ref: '#/components/schemas/AccountType'
         accountNumber:
@@ -1124,7 +1104,7 @@ components:
 
             digits, and digits only.
 
-            '
+'
         accountName:
           type: string
           maxLength: 30
@@ -1132,7 +1112,7 @@ components:
 
             has an account with this name.
 
-            '
+'
         currency:
           type: string
           minLength: 3
@@ -1146,7 +1126,7 @@ components:
 
             regions.
 
-            '
+'
     DeleteFeedConnectionsRequest:
       type: object
       required:
@@ -1160,7 +1140,7 @@ components:
 
             may appear twice.
 
-            '
+'
           items:
             $ref: '#/components/schemas/FeedConnectionToDelete'
     FeedConnectionToDelete:
@@ -1177,7 +1157,7 @@ components:
 
             are not supported.
 
-            '
+'
     BulkFeedConnectionResponse:
       type: object
       description: One result per request item, in request order.
@@ -1207,7 +1187,7 @@ components:
 
         retry blindly. The item''s `error` does not repeat the number as `status`.
 
-        '
+'
       properties:
         id:
           type: string
@@ -1221,14 +1201,14 @@ components:
 
             the item did not include a usable identifier.
 
-            '
+'
         accountToken:
           type: string
           description: 'The `accountToken` supplied in the request, echoed back, including on a rejected item.
 
             Not returned on a termination.
 
-            '
+'
         status:
           type: string
           description: '`SUCCESS` means the item reached the state the request asked for — on a create the
@@ -1254,7 +1234,7 @@ components:
 
             either of the other two would hide state that the partner has to act on.
 
-            '
+'
           enum:
             - SUCCESS
             - REJECTED
@@ -1276,6 +1256,6 @@ components:
 
             inside 2xx, so a batch of partial failures could be reported as `200`.
 
-            '
+'
         error:
           $ref: '#/components/schemas/ItemError'
