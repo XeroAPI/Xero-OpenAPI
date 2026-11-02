@@ -3498,6 +3498,7 @@ paths:
                 DateTimeUTC: /Date(1551399323399)/
                 Budgets:
                   - BudgetID: 847da917-9565-466c-a9cd-3ecf7eb9d094
+                    CreatedIn: BUDGETS_MANAGER
                     Status: APPROVED
                     Description: FY2021 budget
                     Type: TRACKING
@@ -3505,6 +3506,7 @@ paths:
                     BudgetLines: []
                     Tracking: []
                   - BudgetID: 93a4bab1-0021-4320-a2ec-c250528b4bc5
+                    CreatedIn: XERO_ANALYTICS
                     Status: APPROVED
                     Description: Overall Budget
                     Type: OVERALL
@@ -3554,6 +3556,7 @@ paths:
                 DateTimeUTC: /Date(1551399323399)/
                 Budgets:
                   BudgetID: c1d195d4-92aa-4abd-867a-7ac2f9d60500
+                  CreatedIn: BUDGETS_MANAGER
                   Type: TRACKING
                   Description: Daniels Northern Budget
                   UpdatedDateUTC: 2017-08-14T01:18:26.74
@@ -3572,25 +3575,19 @@ paths:
                       BudgetBalances:
                         - Period: 2019-08
                           Amount: "1000"
-                          Notes: Sample note
                         - Period: 2019-09
                           Amount: "1050"
-                          Notes: ""
                         - Period: 2019-10
                           Amount: "1102"
-                          Notes: ""
                     - AccountID: 385f90ae-e798-4990-9b1c-db8eb8b735c2
                       AccountCode: "420"
                       BudgetBalances:
                         - Period: 2019-08
                           Amount: "500"
-                          Notes: ""
                         - Period: 2019-09
                           Amount: "505"
-                          Notes: Special Month
                         - Period: 2019-10
                           Amount: "510"
-                          Notes: ""
   /Contacts:
     parameters:
       - $ref: "#/components/parameters/requiredHeader"
@@ -21441,6 +21438,12 @@ components:
           description: Xero identifier
           type: string
           format: uuid
+        CreatedIn:
+          description: The tool used to create the budget
+          type: string
+          enum:
+            - XERO_ANALYTICS
+            - BUDGETS_MANAGER
         Type:
           description: Type of Budget. OVERALL or TRACKING
           type: string
@@ -21494,15 +21497,6 @@ components:
           type: number
           format: double
           x-is-money: true
-        UnitAmount:
-          description: Budgeted amount
-          type: number
-          format: double
-          x-is-money: true
-        Notes:
-          description: Any footnotes associated with this balance
-          maxLength: 255
-          type: string
     Balances:
       type: object
       description: The raw AccountsReceivable(sales invoices) and AccountsPayable(bills) outstanding and overdue amounts, not converted to base currency (read only)
