@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: 19.1.0
+  version: 20.0.1
   title: Xero Account Data API (Beta)
   description: |
     **Beta:** this API is in beta. Endpoints, request parameters and response shapes may change before general availability.
@@ -247,12 +247,10 @@ paths:
                   value:
                     fieldValidationErrors:
                       - fieldName: ''
-                        detail: '''comparisonPeriodCount'' and ''comparisonPeriodSize'' must be provided
-                          together.'
+                        detail: '''comparisonPeriodCount'' and ''comparisonPeriodSize'' must be provided together.'
                     title: Invalid Request
                     status: 400
-                    detail: "Validation errors:\r\n'comparisonPeriodCount' and 'comparisonPeriodSize'\
-                      \ must be provided together.\r\n"
+                    detail: "Validation errors:\r\n'comparisonPeriodCount' and 'comparisonPeriodSize' must be provided together.\r\n"
         '401':
           $ref: '#/components/responses/Unauthorised'
         '403':
@@ -542,24 +540,19 @@ paths:
                   value:
                     fieldValidationErrors:
                       - fieldName: ''
-                        detail: The requested comparison periods overlap. Adjust the date range, 'comparisonPeriodSize',
-                          or 'comparisonPeriodCount' so the periods do not overlap.
+                        detail: The requested comparison periods overlap. Adjust the date range, 'comparisonPeriodSize', or 'comparisonPeriodCount' so the periods do not overlap.
                     title: Invalid Request
                     status: 400
-                    detail: "Validation errors:\r\nThe requested comparison periods overlap. Adjust the\
-                      \ date range, 'comparisonPeriodSize', or 'comparisonPeriodCount' so the periods\
-                      \ do not overlap.\r\n"
+                    detail: "Validation errors:\r\nThe requested comparison periods overlap. Adjust the date range, 'comparisonPeriodSize', or 'comparisonPeriodCount' so the periods do not overlap.\r\n"
                 missingPair:
                   summary: comparisonPeriodCount without comparisonPeriodSize
                   value:
                     fieldValidationErrors:
                       - fieldName: ''
-                        detail: '''comparisonPeriodCount'' and ''comparisonPeriodSize'' must be provided
-                          together.'
+                        detail: '''comparisonPeriodCount'' and ''comparisonPeriodSize'' must be provided together.'
                     title: Invalid Request
                     status: 400
-                    detail: "Validation errors:\r\n'comparisonPeriodCount' and 'comparisonPeriodSize'\
-                      \ must be provided together.\r\n"
+                    detail: "Validation errors:\r\n'comparisonPeriodCount' and 'comparisonPeriodSize' must be provided together.\r\n"
         '401':
           $ref: '#/components/responses/Unauthorised'
         '403':
@@ -1177,18 +1170,15 @@ components:
         taxDebits:
           type: number
           format: double
-          description: Total tax debits within the date range. Omitted from the response when tax values
-            are not available.
+          description: Total tax debits within the date range. Omitted from the response when tax values are not available.
         taxCredits:
           type: number
           format: double
-          description: Total tax credits within the date range. Omitted from the response when tax values
-            are not available.
+          description: Total tax credits within the date range. Omitted from the response when tax values are not available.
         signedTaxMovement:
           type: number
           format: double
-          description: Tax movement as a signed number (positive for debit, negative for credit). Omitted
-            from the response when tax values are not available.
+          description: Tax movement as a signed number (positive for debit, negative for credit). Omitted from the response when tax values are not available.
         account:
           $ref: '#/components/schemas/Account'
     AccountingDateRange:
@@ -1292,8 +1282,7 @@ components:
             $ref: '#/components/schemas/TrackingItemDetails'
     LineSource:
       type: object
-      description: The originating document/event for this transaction line. Always present; its fields
-        are null when the source is unknown.
+      description: The originating document/event for this transaction line. Always present; its fields are null when the source is unknown.
       properties:
         documentId:
           type: string
@@ -1317,8 +1306,7 @@ components:
           nullable: true
     LineTaxRate:
       type: object
-      description: The tax rate applied to this transaction line. Always present; its fields are null
-        when no tax rate applies.
+      description: The tax rate applied to this transaction line. Always present; its fields are null when no tax rate applies.
       properties:
         code:
           type: string
@@ -1391,8 +1379,7 @@ components:
         fieldName:
           type: string
           nullable: true
-          description: The name of the offending parameter, or an empty string when the failure is not
-            tied to one parameter.
+          description: The name of the offending parameter, or an empty string when the failure is not tied to one parameter.
         type:
           type: string
           nullable: true
@@ -1437,8 +1424,7 @@ components:
       required:
         - Title
         - Status
-      description: Error body produced by the Xero API gateway (authentication, authorisation and tenant
-        checks). Note the PascalCase property names.
+      description: Error body produced by the Xero API gateway (authentication, authorisation and tenant checks). Note the PascalCase property names.
       properties:
         Type:
           type: string
